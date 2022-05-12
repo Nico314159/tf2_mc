@@ -78,3 +78,5 @@ execute as @a run scoreboard players add @s trueFacing 180
 
 execute as @a[scores={class=4}] at @s run function tf:rocket_launcher
 tag @e[type=minecraft:firework_rocket,tag=!deflectable_projectile] add deflectable_projectile
+
+execute positioned 307.30 63.00 58.27 as @a[distance=..4] unless predicate tf:burning if score $allow_modded_commands tf2.main matches 0 run function tf:extinguish/vanilla_friendly/return
