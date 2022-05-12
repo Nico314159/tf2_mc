@@ -1,14 +1,10 @@
-clear @s minecraft:magma_cream 20
+clear @s minecraft:blaze_powder 20
 
-execute if entity @s[team=RED] positioned ^ ^ ^2 as @e[type=minecraft:wolf] run ext @a[team=RED,distance=0..2]
-execute if entity @s[team=BLU] positioned ^ ^ ^2 as @e[type=minecraft:wolf] run ext @a[team=BLU,distance=0..2]
-execute if entity @s[team=GRN] positioned ^ ^ ^2 as @e[type=minecraft:wolf] run ext @a[team=GRN,distance=0..2]
-execute if entity @s[team=YLW] positioned ^ ^ ^2 as @e[type=minecraft:wolf] run ext @a[team=YLW,distance=0..2]
+execute at @s if score $allow_modded_commands tf2.main matches 1 run function tf:extinguish/default
+execute at @s if score $allow_modded_commands tf2.main matches 0 run function tf:extinguish/vanilla_friendly
 
-execute if entity @s[team=RED] positioned ^ ^ ^2.5 run knockback @a[distance=0..2,team=!RED] 1.2 0.7 0
-execute if entity @s[team=BLU] positioned ^ ^ ^2.5 run knockback @a[distance=0..2,team=!BLU] 1.2 0.7 0
-execute if entity @s[team=GRN] positioned ^ ^ ^2.5 run knockback @a[distance=0..2,team=!GRN] 1.2 0.7 0
-execute if entity @s[team=YLW] positioned ^ ^ ^2.5 run knockback @a[distance=0..2,team=!YLW] 1.2 0.7 0
+execute at @s if score $allow_modded_commands tf2.main matches 1 run function tf:knockback/default/from_airblast
+execute at @s if score $allow_modded_commands tf2.main matches 0 run function tf:knockback/vanilla_friendly/from_airblast
 
 execute as @s at @s anchored eyes positioned ^ ^0.5 ^ anchored feet run function vdv_raycast:start_ray
 
