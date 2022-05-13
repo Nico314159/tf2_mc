@@ -19,11 +19,14 @@ execute as @a unless score @s class matches 5 run scoreboard players reset @s he
 execute as @e[type=!player] store result score @s entity_HP run data get entity @s Health 10
 
 execute as @a[tag=isPlaying] run function tf:reapply_attributes
+execute if entity @a[tag=isPlaying] run function tf:set_spawns
 execute as @a[tag=!canSprint] run function tf:prevent_speedhack
 
+execute as @a[scores={class=1}] at @s run function tf:spy
 execute as @a[scores={class=2}] at @s run function tf:sniper
 execute as @a[scores={class=5}] at @s run function tf:demoman
 execute as @a[scores={class=6}] at @s run function tf:heavy
+execute as @a[scores={class=7}] at @s run function tf:pyro
 execute as @a[scores={class=8}] at @s run function tf:engineer
 execute as @a[scores={class=9}] at @s run function tf:medic
 execute as @e[type=minecraft:arrow, nbt={Color:131328}] run kill @s
@@ -80,3 +83,12 @@ execute as @a[scores={class=4}] at @s run function tf:rocket_launcher
 tag @e[type=minecraft:firework_rocket,tag=!deflectable_projectile] add deflectable_projectile
 
 execute positioned 307.30 63.00 58.27 as @a[distance=..4] unless predicate tf:burning if score $allow_modded_commands tf2.main matches 0 run function tf:extinguish/vanilla_friendly/return
+
+execute as @e store result score @s converted-uuid0 run data get entity @s UUID[0]
+execute as @e store result score @s converted-uuid1 run data get entity @s UUID[1]
+execute as @e store result score @s converted-uuid2 run data get entity @s UUID[2]
+execute as @e store result score @s converted-uuid3 run data get entity @s UUID[3]
+execute as @e[type=!minecraft:player,type=!minecraft:marker,type=!minecraft:armor_stand] store result score @s pairedOwnerUUID run data get entity @s Owner[0]
+execute as @a store result score @s pairedOwnerUUID run data get entity @s UUID[0]
+
+execute as @e[type=arrow] unless entity @s[nbt={damage:0.3d}] run data modify entity @s pickup set value 2b
