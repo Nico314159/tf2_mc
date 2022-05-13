@@ -15,3 +15,6 @@ execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{is
 execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{isMedigun:1b}}}] at @s run function tf:medic/stock_heal
 
 execute if entity @s[nbt=!{ActiveEffects:[{Id:10b}]}] run effect give @s minecraft:regeneration 3 1 true 
+
+execute as @e[type=minecraft:arrow, nbt={Color:13421772, damage: 2.0d}] run data modify entity @s damage set value 0.5d
+
