@@ -1,4 +1,4 @@
-execute store result score @s FlameAmmo run clear @s minecraft:magma_cream 0
+execute store result score @s FlameAmmo run clear @s minecraft:blaze_powder 0
 
 execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:401}}},scores={FlameClicks=1..,FlameAmmo=1..}] at @s run function tf:fireshooter
 execute if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:401}}},scores={FlameClicks=1..}] run scoreboard players reset @s FlameClicks
