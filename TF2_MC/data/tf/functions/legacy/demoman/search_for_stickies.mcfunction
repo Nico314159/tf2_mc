@@ -2,8 +2,8 @@ scoreboard players operation #search pairedOwnerUUID = @s pairedOwnerUUID
 
 tag @s add stickybomb_shooter 
 
-execute as @e[type=armor_stand, tag=armed_stickybomb] at @s if score #search pairedOwnerUUID = @s pairedOwnerUUID run function tf:demoman/detonate_stickybomb
-execute as @e[type=armor_stand, tag=unarmed_stickybomb] at @s if score #search pairedOwnerUUID = @s pairedOwnerUUID run function tf:demoman/delete_stickybomb
+execute as @e[type=armor_stand, tag=armed_stickybomb] at @s if score #search pairedOwnerUUID = @s pairedOwnerUUID run function tf:legacy/demoman/detonate_stickybomb
+execute as @e[type=armor_stand, tag=unarmed_stickybomb] at @s if score #search pairedOwnerUUID = @s pairedOwnerUUID run function tf:legacy/demoman/delete_stickybomb
 
 tag @a remove stickybomb_shooter
 

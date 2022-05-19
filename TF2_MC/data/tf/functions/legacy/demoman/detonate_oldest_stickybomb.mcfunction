@@ -7,7 +7,7 @@ execute as @e[tag=force_explode] unless score @s timeExisted = $highest timeExis
 
 tag @s add stickybomb_shooter 
 
-execute as @e[tag=force_explode,limit=1,sort=random] at @s run function tf:demoman/detonate_stickybomb
+execute as @e[tag=force_explode,limit=1,sort=random] at @s run function tf:legacy/demoman/detonate_stickybomb
 execute as @e[tag=force_explode] run tag @s remove force_explode
 
 tag @a remove stickybomb_shooter 

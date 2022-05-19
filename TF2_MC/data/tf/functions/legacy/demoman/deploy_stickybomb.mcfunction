@@ -10,4 +10,4 @@ execute at @s run summon chicken ~ ~200 ~ {Age:-25000,AgeLocked:1b,PersistenceRe
 execute at @s positioned ~ ~200 ~ run scoreboard players operation @e[type=minecraft:chicken,tag=stickybomb_marker,sort=nearest,limit=1] team = @s team
 execute at @s positioned ~ ~200 ~ run tp @e[type=chicken,tag=stickybomb_marker, sort=nearest,limit=1] ~ ~-199 ~
 
-# execute as @e[tag=owner] function tf:demoman/recalculate_deployed_stickybombs
+# execute as @e[tag=owner] function tf:legacy/demoman/recalculate_deployed_stickybombs

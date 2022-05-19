@@ -4,7 +4,7 @@ execute as @a[advancements={tf:get_hurt=true},limit=1] run tag @s add backstab_v
 scoreboard players operation #difference trueFacing = @a[tag=backstabber,limit=1] trueFacing
 scoreboard players operation #difference trueFacing -= @a[tag=backstab_victim,limit=1] trueFacing
 
-execute unless score #difference trueFacing matches -269..-91 unless score #difference trueFacing matches 91..269 as @a[tag=backstab_victim,limit=1] run function tf:spy/do_backstab_damage
+execute unless score #difference trueFacing matches -269..-91 unless score #difference trueFacing matches 91..269 as @a[tag=backstab_victim,limit=1] run function tf:legacy/spy/do_backstab_damage
 
 execute as @a run tag @s remove backstabber
 execute as @a run tag @s remove backstab_victim

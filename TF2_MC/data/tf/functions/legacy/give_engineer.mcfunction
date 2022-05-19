@@ -24,4 +24,4 @@ item replace entity @s hotbar.3 with minecraft:warped_fungus_on_a_stick{display:
 
 effect give @s minecraft:instant_health 1 10 true
 tag @s remove keep_ammo
-function tf:engineer/fill_clip
+function tf:legacy/engineer/fill_clip
