@@ -14,7 +14,7 @@ scoreboard players set $blu_value timer 0
 scoreboard players set $koth_ended timer 1
 scoreboard players set $koth_overtime_eligible timer 0
 scoreboard players set $is_koth timer 0
-execute as @a run function tf:legacy/spawn
+execute as @a run function tf:spawn
 scoreboard players set $paused timer 0
 bossbar set minecraft:timer players @a
 bossbar set minecraft:timer visible true

@@ -1,4 +1,4 @@
-function tf:legacy/hand_swap
+function tf:hand_swap
 
 # sentry
 execute as @s if entity @s[team=RED] run item replace entity @s hotbar.0 with minecraft:warped_fungus_on_a_stick{display:{Name:'[{"text":"Sentry","italic": false}]'},CustomModelData:100110}

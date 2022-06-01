@@ -7,7 +7,7 @@ execute as @e[type=armor_stand, tag=unarmed_stickybomb] at @s if score #search p
 
 tag @a remove stickybomb_shooter
 
-execute if entity @s[nbt={Inventory: [{Slot: -106b, tag:{CustomModelData:601}}]}] run function tf:legacy/hand_swap
+execute if entity @s[nbt={Inventory: [{Slot: -106b, tag:{CustomModelData:601}}]}] run function tf:hand_swap
 scoreboard players set @s rightClicks 0
 scoreboard players set @s gracePeriod 0
 scoreboard players set @s detonate 0

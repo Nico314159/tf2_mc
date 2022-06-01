@@ -9,7 +9,7 @@ execute as @s at @s if entity @s[tag=!holding_primary] run scoreboard players se
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow"}]}, nbt={SelectedItem:{}}, nbt=!{SelectedItem:{id:"minecraft:arrow"}}] run scoreboard players set @s gracePeriod 0
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow"}]}, nbt={SelectedItem:{}}, nbt=!{SelectedItem:{id:"minecraft:arrow"}}] run item replace entity @s hotbar.0 from entity @s weapon.offhand 
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow"}]}, nbt={SelectedItem:{}}, nbt=!{SelectedItem:{id:"minecraft:arrow"}}] run item replace entity @s weapon.offhand with air
-execute as @s at @s if entity @s[nbt={SelectedItem:{id:"minecraft:crossbow"}},scores={gracePeriod=1..13}] run function tf:legacy/hand_swap
+execute as @s at @s if entity @s[nbt={SelectedItem:{id:"minecraft:crossbow"}},scores={gracePeriod=1..13}] run function tf:hand_swap
 # execute as @s at @s if entity @s[nbt={Inventory: [{Slot: 0b, id:"minecraft:arrow"}]}, nbt={SelectedItem:{}}, nbt=!{SelectedItem:{id:"minecraft:arrow"}}] run item replace entity @s hotbar.0 with minecraft:crossbow{Unbreakable:1,display:{Name:'[{"text":"Shotgun"}]'},HideFlags:4,Enchantments:[{id:"minecraft:multishot",lvl:3},{id:"minecraft:power",lvl:1},{id:"minecraft:quick_charge",lvl:1}]} 1
 
 # ammo display stuff
@@ -52,9 +52,9 @@ execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:bo
 
 
 # shotgun reload
-execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow"}]},scores={primaryClip=6}] run function tf:legacy/hand_swap
+execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow"}]},scores={primaryClip=6}] run function tf:hand_swap
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow"}]}] run tag @s add keep_ammo
-execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow", tag:{ChargedProjectiles:[{Count:1b}]}}]},scores={primaryClip=5}] run function tf:legacy/hand_swap
+execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow", tag:{ChargedProjectiles:[{Count:1b}]}}]},scores={primaryClip=5}] run function tf:hand_swap
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow"}]},scores={primaryAmmo=1..,primaryClip=..5}] run tag @s add reloading_shotgun
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:crossbow"}]}, scores={gracePeriod=..14}] run scoreboard players add @s gracePeriod 1
 execute as @s at @s if entity @s[tag=holding_primary, tag=reloading_shotgun, scores={gracePeriod=..14}] run scoreboard players add @s gracePeriod 1

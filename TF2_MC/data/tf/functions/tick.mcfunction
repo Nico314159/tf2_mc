@@ -19,8 +19,8 @@ execute as @a unless score @s class matches 5 run scoreboard players reset @s he
 execute as @e[type=!player] store result score @s entity_HP run data get entity @s Health 10
 
 execute as @a[tag=isPlaying] run function tf:legacy/reapply_attributes
-execute if entity @a[tag=isPlaying] run function tf:legacy/set_spawns
-execute as @a[tag=!canSprint] run function tf:legacy/prevent_speedhack
+execute if entity @a[tag=isPlaying] run function tf:set_spawns
+execute as @a[tag=!canSprint] run function tf:prevent_speedhack
 
 execute as @a[scores={class=1}] at @s run function tf:legacy/spy
 execute as @a[scores={class=2}] at @s run function tf:legacy/sniper
@@ -43,12 +43,12 @@ execute as @a[team=YLW] run scoreboard players set @s team 4
 execute as @e[type=#tf:projectiles] unless score @s projectileTeam matches 1..4 at @s run function tf:legacy/projectile_team_assign 
 
 scoreboard players enable @a[scores={fixdoors=0}] fixdoors
-execute as @a[scores={fixdoors=1..}] unless score $phase timer matches -2 run function tf:legacy/fix_doors
+execute as @a[scores={fixdoors=1..}] unless score $phase timer matches -2 run function tf:fix_doors
 execute as @a[scores={fixdoors=1..}] unless score $phase timer matches -2 run scoreboard players set @s fixdoors 0
 execute as @a unless score @s fixdoors matches 0.. run scoreboard players set @s fixdoors 0
-execute if score $is_koth timer matches 0 unless score $paused timer matches 1 run function tf:legacy/timer/timer_to_bossbar
-execute if score $is_koth timer matches 1 unless score $paused timer matches 1 run function tf:legacy/timer/koth_timer_to_bossbar
-execute unless score $paused timer matches 1 run function tf:legacy/timer/increment_all_timers 
+execute if score $is_koth timer matches 0 unless score $paused timer matches 1 run function tf:timer/timer_to_bossbar
+execute if score $is_koth timer matches 1 unless score $paused timer matches 1 run function tf:timer/koth_timer_to_bossbar
+execute unless score $paused timer matches 1 run function tf:timer/increment_all_timers 
 
 
 tag @a[tag=playingGrass] add isPlaying
@@ -67,8 +67,8 @@ execute as @e[type=chicken,tag=stickybomb_marker,tag=!tagged] unless score @s en
 execute as @e[type=chicken,tag=stickybomb_marker,tag=!tagged] unless score @s entity_HP matches 350.. store success entity @s Air byte 1 run data modify entity @s Air set value 1b
 execute as @e[type=chicken,tag=stickybomb_marker,tag=!tagged] unless score @s entity_HP matches 350.. run data modify entity @s Health set value 50.0f
 
-execute as @a[tag=respawned] at @s run function tf:legacy/spawn
-execute as @a[tag=respawned] at @s run function tf:legacy/resupply
+execute as @a[tag=respawned] at @s run function tf:spawn
+execute as @a[tag=respawned] at @s run function tf:resupply
 execute as @a[tag=respawned] run gamemode survival @s
 execute as @a[tag=respawned] run scoreboard players set @s isDead 0
 execute as @a[tag=respawned] run tag @s remove isDead
