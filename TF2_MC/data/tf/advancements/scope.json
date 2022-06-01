@@ -22,6 +22,6 @@
     }
   },
   "rewards": {
-    "function": "tf:scope"
+    "function": "tf2:scope"
   }
 }

@@ -10,7 +10,7 @@
             "predicate": {
               "equipment": {
                 "mainhand": {
-                  "tag": "tf:all",
+                  "tag": "tf2:all",
                   "nbt": "{canBackstab:1b}"
                 }
               }
@@ -21,6 +21,6 @@
     }
   },
   "rewards": {
-    "function": "tf:spy/check_for_backstab"
+    "function": "tf2:spy/check_for_backstab"
   }
 }

@@ -10,7 +10,7 @@ execute as @e[type=marker,tag=!paired] at @s store result score @s pairedOwnerUU
 execute as @e[type=marker,tag=!paired] at @s store result score @s pairedRocketUUID run scoreboard players get @e[type=minecraft:firework_rocket,limit=1,sort=nearest] converted-uuid0
 execute as @e[type=marker] at @s if score @s pairedRocketUUID = @e[type=minecraft:firework_rocket,limit=1,sort=nearest] converted-uuid0 run tag @s add paired
 execute as @e[type=marker,tag=rocket_marker] at @s unless entity @e[type=minecraft:firework_rocket,distance=..0.55] run tag @s add explode
-execute as @e[type=marker,tag=explode] at @s run function tf:legacy/find_pair
+execute as @e[type=marker,tag=explode] at @s run function tf2:legacy/find_pair
 execute as @e[type=marker,tag=explode] at @s run execute as @a[tag=tagged,distance=..4] at @s run knockback @s 0.33 1.45 3
 execute as @e[type=marker,tag=explode] at @s run tag @a[tag=tagged,distance=..4] remove tagged
 execute as @e[type=marker,tag=explode] run kill
@@ -30,7 +30,7 @@ execute as @s[tag=holding_primary,scores={class=4},tag=!reloading_rocket] unless
 execute as @a unless score @s class matches 4 run tag @s remove keep_rocket
 
 execute as @s store result score @s rocketsInHand run data get entity @s Inventory[{Slot:-106b}].Count
-execute as @s unless score @s rocketsInHand = @s primaryClip unless entity @s[tag=reloading_rocket] unless entity @s[nbt={Inventory: [{Slot: -106b, tag:{isRocketLauncher:1b}}]}] run function tf:legacy/fix_rocket_clip
+execute as @s unless score @s rocketsInHand = @s primaryClip unless entity @s[tag=reloading_rocket] unless entity @s[nbt={Inventory: [{Slot: -106b, tag:{isRocketLauncher:1b}}]}] run function tf2:legacy/fix_rocket_clip
 execute as @s if entity @s[scores={primaryClip=..-1}] run scoreboard players set @s primaryClip 0
 
 execute as @s if entity @s[nbt={Inventory: [{Slot: -106b, id:"minecraft:firework_rocket", tag:{fakeRocket:1b}}]}] unless entity @s[nbt={SelectedItem:{}}] run item replace entity @s weapon.mainhand from entity @s weapon.offhand

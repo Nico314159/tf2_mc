@@ -23,6 +23,6 @@
     }
   },
   "rewards": {
-    "function": "tf:demoman/check_stickybomb_team"
+    "function": "tf2:demoman/check_stickybomb_team"
   }
 }

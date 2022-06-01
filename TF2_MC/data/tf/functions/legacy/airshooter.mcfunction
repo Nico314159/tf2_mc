@@ -1,10 +1,10 @@
 clear @s minecraft:blaze_powder 20
 
-execute at @s if score $allow_modded_commands tf2.main matches 1 run function tf:legacy/extinguish/default
-execute at @s if score $allow_modded_commands tf2.main matches 0 run function tf:legacy/extinguish/vanilla_friendly
+execute at @s if score $allow_modded_commands tf2.settings matches 1 run function tf2:legacy/extinguish/default
+execute at @s if score $allow_modded_commands tf2.settings matches 0 run function tf2:legacy/extinguish/vanilla_friendly
 
-execute at @s if score $allow_modded_commands tf2.main matches 1 run function tf:legacy/knockback/default/from_airblast
-execute at @s if score $allow_modded_commands tf2.main matches 0 run function tf:legacy/knockback/vanilla_friendly/from_airblast
+execute at @s if score $allow_modded_commands tf2.settings matches 1 run function tf2:legacy/knockback/default/from_airblast
+execute at @s if score $allow_modded_commands tf2.settings matches 0 run function tf2:legacy/knockback/vanilla_friendly/from_airblast
 
 execute as @s at @s anchored eyes positioned ^ ^0.5 ^ anchored feet run function vdv_raycast:start_ray
 
@@ -26,8 +26,8 @@ scoreboard players reset $player team
 execute if entity @s[team=BLU] as @e[tag=airblasted_projectile,scores={team=1}] run scoreboard players set @s team 2
 
 
-data modify storage tf:projectile_uuid_storage projectile_owner set from entity @s UUID
-execute as @e[tag=airblasted_projectile,distance=..4] run data modify entity @s Owner set from storage tf:projectile_uuid_storage projectile_owner
+data modify storage tf2:projectile_uuid_storage projectile_owner set from entity @s UUID
+execute as @e[tag=airblasted_projectile,distance=..4] run data modify entity @s Owner set from storage tf2:projectile_uuid_storage projectile_owner
 
 # summon the temporary entity
 summon area_effect_cloud ^ ^ ^1 {Tags:["redirection"]}

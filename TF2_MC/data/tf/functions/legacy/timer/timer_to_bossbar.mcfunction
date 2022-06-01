@@ -25,7 +25,7 @@ execute if score $seconds timer matches 0..9 if score $phase timer matches -2 ru
 
 # end setup time
 # --------------
-execute if score $seconds timer matches ..1 if score $phase timer matches -2 run function tf:legacy/fix_doors
+execute if score $seconds timer matches ..1 if score $phase timer matches -2 run function tf2:legacy/fix_doors
 execute if score $phase timer matches -2 if score $value timer matches 0 run scoreboard players add $phase timer 1
 execute if score $phase timer matches -1 run scoreboard players operation $value timer = $start timer
 execute if score $phase timer matches -1 unless score $value timer matches 0 run scoreboard players add $phase timer 1

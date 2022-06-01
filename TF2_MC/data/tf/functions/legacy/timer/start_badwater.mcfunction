@@ -14,12 +14,12 @@ scoreboard players set $blu_value timer 0
 scoreboard players set $koth_ended timer 1
 scoreboard players set $koth_overtime_eligible timer 0
 scoreboard players set $is_koth timer 0
-execute as @a run function tf:legacy/spawn
+execute as @a run function tf2:legacy/spawn
 scoreboard players set $paused timer 0
 bossbar set minecraft:timer players @a
 bossbar set minecraft:timer visible true
-bossbar set tf:red_timer visible false
-bossbar set tf:blu_timer visible false
+bossbar set tf2:red_timer visible false
+bossbar set tf2:blu_timer visible false
 
 fill -792 64 -214 -794 65 -214 minecraft:air
 fill -768 68 -196 -770 66 -196 minecraft:iron_bars

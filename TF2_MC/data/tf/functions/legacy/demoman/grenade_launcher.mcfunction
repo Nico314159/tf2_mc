@@ -37,7 +37,7 @@ execute as @e[type=armor_stand,limit=1,tag=projectile] store result score @s pro
 
 execute as @e[type=armor_stand,limit=1,tag=projectile] at @s store result score @s pairedOwnerUUID run scoreboard players get @e[type=snowball,tag=projectile,limit=1,sort=nearest] pairedOwnerUUID
 
-execute as @s at @s run function tf:legacy/demoman/rotate_stand
+execute as @s at @s run function tf2:legacy/demoman/rotate_stand
 
 
 # apply motion to projectile
@@ -48,6 +48,6 @@ execute store result entity @e[type=snowball,tag=projectile,limit=1] Motion[2] d
 # clean up, ready for the next player
 scoreboard players set @s attack_cooldown 12
 scoreboard players remove @s primaryClip 1
-function tf:legacy/demoman/fill_clip
+function tf2:legacy/demoman/fill_clip
 tag @e[tag=projectile] remove projectile
 kill @e[tag=direction]

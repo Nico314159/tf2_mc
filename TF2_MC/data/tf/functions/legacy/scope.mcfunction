@@ -3,7 +3,7 @@ scoreboard players set @s gracePeriod 0
 tag @s add scopedIn
 tag @s add hide_dot
 execute anchored eyes positioned ^ ^ ^ run function retina:get_target
-# execute as @e[type=minecraft:marker, tag=retina.ray] run tellraw NicoWill314 "if you are seeing this, tf/scope has been run."
+# execute as @e[type=minecraft:marker, tag=retina.ray] run tellraw NicoWill314 "if you are seeing this, tf2/scope has been run."
 execute as @e[type=minecraft:marker, tag=retina.ray] run function retina:set_coordinates
 execute at @e[type=minecraft:marker, tag=retina.ray] if entity @s[team=RED] run particle dust 1.0 0.2 0.0 0.9 ^ ^ ^ 0 0 0 0 2 force @a[tag=!hide_dot,tag=!retina.target]
 execute at @e[type=minecraft:marker, tag=retina.ray] if entity @s[team=BLU] run particle dust 0.0 0.4 1.0 0.9 ^ ^ ^ 0 0 0 0 2 force @a[tag=!hide_dot,tag=!retina.target]
@@ -30,4 +30,4 @@ execute at @e[type=minecraft:marker, tag=retina.ray] if entity @s[team=BLU] run 
 execute at @e[type=minecraft:marker, tag=retina.ray] if entity @s[team=GRN] run particle dust 0.2 1.0 0.0 0.3 ^ ^ ^ 0 0 0 0 2 force @a[tag=retina.target]
 execute at @e[type=minecraft:marker, tag=retina.ray] if entity @s[team=YLW] run particle dust 1.0 0.8 0.0 0.3 ^ ^ ^ 0 0 0 0 2 force @a[tag=retina.target]
 
-advancement revoke @s only tf:scope requirement 
+advancement revoke @s only tf2:scope requirement 
