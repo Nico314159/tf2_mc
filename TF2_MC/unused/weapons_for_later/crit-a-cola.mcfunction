@@ -1,1 +1,0 @@
-scoreboard players set @a[nbt={ActiveEffects:[{Id:27b},{Id:5b}]}] damageMultiplier 35

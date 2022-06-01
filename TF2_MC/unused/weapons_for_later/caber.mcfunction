@@ -1,3 +1,0 @@
-execute as @a if entity @s[scores={damageS=1..},nbt={SelectedItem:{tag:{isBoomstick:1b}}}] at @s run summon minecraft:creeper ~ ~ ~ {Fuse:0}
-execute as @a if entity @s[scores={damageS=1..},nbt={SelectedItem:{tag:{isBoomstick:1b}}}] run item replace entity @s weapon.mainhand with minecraft:wheat{isBoomstick:0b, display:{Name:'[{"text":"Ullapool Caber"}]',Lore:['[{"text":"First hit causes a high-damage explosion","italic":false,"color":"#99ccff"}]','[{"text":"-10% Damage","italic":false,"color":"red"}]','[{"text":"-20% Attack Speed","italic":false,"color":"red"}]']},CustomModelData:102} 1
-execute as @a if entity @s[scores={damageS=1..},nbt={SelectedItem:{tag:{isBoomstick:0b}}}] run scoreboard players set @s damageS 0

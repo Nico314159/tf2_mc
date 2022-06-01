@@ -1,8 +1,0 @@
-execute as @s store result score @s rocketsInHand run clear @s firework_rocket 0
-execute as @s store result score @s rocketsInHand run clear @s firework_rocket 0
-item replace entity @s weapon.offhand with air
-execute as @s if entity @s[scores={primaryClip=4},nbt={SelectedItem:{tag:{isRocketLauncher:1b}}}] run item replace entity @s weapon.offhand with firework_rocket{Fireworks:{Flight:1,Explosions:[{Type:0,Flicker:0,Trail:0,Colors:[I;11250603],FadeColors:[I;1973019]},{Type:0,Flicker:0,Trail:0,Colors:[I;11250603],FadeColors:[I;1973019]}]}} 4
-execute as @s if entity @s[scores={primaryClip=3},nbt={SelectedItem:{tag:{isRocketLauncher:1b}}}] run item replace entity @s weapon.offhand with firework_rocket{Fireworks:{Flight:1,Explosions:[{Type:0,Flicker:0,Trail:0,Colors:[I;11250603],FadeColors:[I;1973019]},{Type:0,Flicker:0,Trail:0,Colors:[I;11250603],FadeColors:[I;1973019]}]}} 3
-execute as @s if entity @s[scores={primaryClip=2},nbt={SelectedItem:{tag:{isRocketLauncher:1b}}}] run item replace entity @s weapon.offhand with firework_rocket{Fireworks:{Flight:1,Explosions:[{Type:0,Flicker:0,Trail:0,Colors:[I;11250603],FadeColors:[I;1973019]},{Type:0,Flicker:0,Trail:0,Colors:[I;11250603],FadeColors:[I;1973019]}]}} 2
-execute as @s if entity @s[scores={primaryClip=1},nbt={SelectedItem:{tag:{isRocketLauncher:1b}}}] run item replace entity @s weapon.offhand with firework_rocket{Fireworks:{Flight:1,Explosions:[{Type:0,Flicker:0,Trail:0,Colors:[I;11250603],FadeColors:[I;1973019]},{Type:0,Flicker:0,Trail:0,Colors:[I;11250603],FadeColors:[I;1973019]}]}} 1
-execute as @s if entity @s[scores={primaryClip=0},nbt={SelectedItem:{tag:{isRocketLauncher:1b}}}] run item replace entity @s weapon.offhand with air

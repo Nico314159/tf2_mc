@@ -1,1 +1,0 @@
-say "Sorry, the vanilla-friendly knockback function is not done yet"
