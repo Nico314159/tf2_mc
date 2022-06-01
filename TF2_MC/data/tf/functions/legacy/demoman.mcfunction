@@ -114,7 +114,7 @@ execute as @s at @s if entity @s[tag=reloading_stickybomb] run tag @s remove rel
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, tag:{CustomModelData:601}}]}, nbt={SelectedItem:{}}] run scoreboard players set @s gracePeriod 0
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, tag:{CustomModelData:601}}]}, nbt={SelectedItem:{}}] run item replace entity @s hotbar.1 from entity @s weapon.offhand 
 execute as @s at @s if entity @s[nbt={Inventory: [{Slot: -106b, tag:{CustomModelData:601}}]}, nbt={SelectedItem:{}}] run item replace entity @s weapon.offhand with air
-execute as @s at @s if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:601}}},scores={gracePeriod=1..20}] run function tf:hand_swap
+execute as @s at @s if entity @s[nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:601}}},scores={gracePeriod=1..20}] run function tf:legacy/hand_swap
 
 
 # stickybomb launcher detonation
