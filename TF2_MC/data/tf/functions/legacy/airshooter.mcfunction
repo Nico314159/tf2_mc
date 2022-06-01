@@ -1,10 +1,10 @@
 clear @s minecraft:blaze_powder 20
 
-execute at @s if score $allow_modded_commands tf2.main matches 1 run function tf:extinguish/default
-execute at @s if score $allow_modded_commands tf2.main matches 0 run function tf:extinguish/vanilla_friendly
+execute at @s if score $allow_modded_commands tf2.main matches 1 run function tf:legacy/extinguish/default
+execute at @s if score $allow_modded_commands tf2.main matches 0 run function tf:legacy/extinguish/vanilla_friendly
 
-execute at @s if score $allow_modded_commands tf2.main matches 1 run function tf:knockback/default/from_airblast
-execute at @s if score $allow_modded_commands tf2.main matches 0 run function tf:knockback/vanilla_friendly/from_airblast
+execute at @s if score $allow_modded_commands tf2.main matches 1 run function tf:legacy/knockback/default/from_airblast
+execute at @s if score $allow_modded_commands tf2.main matches 0 run function tf:legacy/knockback/vanilla_friendly/from_airblast
 
 execute as @s at @s anchored eyes positioned ^ ^0.5 ^ anchored feet run function vdv_raycast:start_ray
 
