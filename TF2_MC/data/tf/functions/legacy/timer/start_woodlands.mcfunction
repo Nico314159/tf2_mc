@@ -13,7 +13,7 @@ scoreboard players set $team_in_control timer 0
 scoreboard players set $koth_setup_time timer 100
 scoreboard players set $is_koth timer 1
 scoreboard players set $koth_ended timer 0
-execute as @a run function tf:spawn
+execute as @a run function tf:legacy/spawn
 scoreboard players set $paused timer 0
 bossbar set tf:red_timer players @a
 bossbar set tf:red_timer visible true
