@@ -1,0 +1,1 @@
+kick @a Server maintenance

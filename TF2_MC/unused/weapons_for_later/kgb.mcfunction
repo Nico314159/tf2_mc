@@ -1,0 +1,2 @@
+execute as @a if entity @s[scores={killS=1..},nbt={SelectedItem:{id:"minecraft:clay_ball"}}] run effect give @s minecraft:strength 5 1 false
+execute as @a if entity @s[scores={killS=1..},nbt={SelectedItem:{id:"minecraft:clay_ball"}}] run scoreboard players set @s killS 0
