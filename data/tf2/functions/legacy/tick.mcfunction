@@ -29,10 +29,11 @@ execute as @a[scores={class=6}] at @s run function tf2:legacy/heavy
 execute as @a[scores={class=7}] at @s run function tf2:legacy/pyro
 execute as @a[scores={class=8}] at @s run function tf2:legacy/engineer
 execute as @a[scores={class=9}] at @s run function tf2:legacy/medic
-execute as @e[type=minecraft:arrow, nbt={Color:131328}] run kill @s
+execute as @e[tag=!processed,type=minecraft:arrow] unless entity @s[nbt=!{Color:131328}] run tag @s add processed
+kill @e[type=arrow,tag=!processed]
 
-execute as @a[nbt={Inventory: [{Slot: -106b, id: "minecraft:carrot_on_a_stick", tag:{CustomModelData:101}}]}] run function tf2:legacy/demoknight
-execute as @a[nbt={Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:301}}]}] run function tf2:legacy/display_cloak
+execute as @a if predicate tf2:shield_in_offhand run function tf2:legacy/demoknight
+# execute as @a[nbt={Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:301}}]}] run function tf2:legacy/display_cloak
 
 execute as @a[scores={custom_damage=1..}] run function custom_damage:apply 
 
@@ -63,16 +64,9 @@ execute as @a if entity @s[tag=isDead] run gamemode spectator @s
 execute as @a if score @s[tag=isDead,team=RED] time_dead >= $red_respawn_delay timer run tag @s add respawned
 execute as @a if score @s[tag=isDead,team=BLU] time_dead >= $blu_respawn_delay timer run tag @s add respawned
 
-execute as @e[type=chicken,tag=stickybomb_marker,tag=!tagged] unless score @s entity_HP matches 350.. run data modify entity @s Fire set value -20s
-execute as @e[type=chicken,tag=stickybomb_marker,tag=!tagged] unless score @s entity_HP matches 350.. store success entity @s Air byte 1 run data modify entity @s Air set value 1b
-execute as @e[type=chicken,tag=stickybomb_marker,tag=!tagged] unless score @s entity_HP matches 350.. run data modify entity @s Health set value 50.0f
+execute as @e[type=chicken,tag=stickybomb_marker,tag=!tagged] unless score @s entity_HP matches 350.. run function tf2:legacy/demoman/edit_stickybomb_data
 
-execute as @a[tag=respawned] at @s run function tf2:legacy/spawn
-execute as @a[tag=respawned] at @s run function tf2:legacy/resupply
-execute as @a[tag=respawned] run gamemode survival @s
-execute as @a[tag=respawned] run scoreboard players set @s isDead 0
-execute as @a[tag=respawned] run tag @s remove isDead
-execute as @a[tag=respawned] run tag @s remove respawned
+execute as @a[tag=respawned] at @s run function tf2:legacy/respawn_system
 scoreboard players set @a[tag=!isDead] time_dead 0
 
 execute as @a store result score @s facing run data get entity @s Rotation[0]
@@ -84,10 +78,7 @@ tag @e[type=minecraft:firework_rocket,tag=!deflectable_projectile] add deflectab
 
 execute positioned 307.30 63.00 58.27 as @a[distance=..4] unless predicate tf2:burning if score $allow_modded_commands tf2.settings matches 0 run function tf2:legacy/extinguish/vanilla_friendly/return
 
-execute as @e store result score @s converted-uuid0 run data get entity @s UUID[0]
-execute as @e store result score @s converted-uuid1 run data get entity @s UUID[1]
-execute as @e store result score @s converted-uuid2 run data get entity @s UUID[2]
-execute as @e store result score @s converted-uuid3 run data get entity @s UUID[3]
+execute as @e[tag=!uuid_converted] run function tf2:legacy/convert_uuid_to_score
 execute as @e[type=!minecraft:player,type=!minecraft:marker,type=!minecraft:armor_stand] store result score @s pairedOwnerUUID run data get entity @s Owner[0]
 execute as @a store result score @s pairedOwnerUUID run data get entity @s UUID[0]
 
