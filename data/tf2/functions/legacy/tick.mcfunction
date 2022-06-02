@@ -29,8 +29,8 @@ execute as @a[scores={class=6}] at @s run function tf2:legacy/heavy
 execute as @a[scores={class=7}] at @s run function tf2:legacy/pyro
 execute as @a[scores={class=8}] at @s run function tf2:legacy/engineer
 execute as @a[scores={class=9}] at @s run function tf2:legacy/medic
-execute as @e[tag=!processed,type=minecraft:arrow] unless entity @s[nbt=!{Color:131328}] run tag @s add processed
-kill @e[type=arrow,tag=!processed]
+
+execute as @e[type=arrow,tag=!processed] run function tf2:legacy/process/arrow
 
 execute as @a if predicate tf2:shield_in_offhand run function tf2:legacy/demoknight
 # execute as @a[nbt={Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:301}}]}] run function tf2:legacy/display_cloak
