@@ -9,4 +9,4 @@ scoreboard players operation @s tf2.ticks = #global tf2.ticks
 scoreboard players enable @s tf2.selected_mode
 scoreboard players set @s tf2.selected_mode 0
 tag @s remove tf2.waiting_room
-execute if entity @s[tag=!tf2.waiting_room] run say ARF
+tag @s remove tf2.allowed_to_sprint
