@@ -1,4 +1,5 @@
 scoreboard players enable @s tf2.selected_mode
+tag @s remove tf2.waiting_room
 execute if score #show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},"Player ",{"selector":"@s"}," has logged in at ",{"score":{"name":"#global","objective":"tf2.ticks"}}," ticks gametime."]
 tp @s 150 100 50
 clear @s
