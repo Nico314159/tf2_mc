@@ -9,4 +9,7 @@ scoreboard players operation @s tf2.ticks = $global tf2.ticks
 scoreboard players enable @s tf2.selected_mode
 scoreboard players set @s tf2.selected_mode 0
 tag @s remove tf2.waiting_room
+tag @s remove tf2.casual_queue
+tag @s remove tf2.chaos_queue
+tag @s remove tf2.comp_queue
 tag @s remove tf2.allowed_to_sprint
