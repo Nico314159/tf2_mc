@@ -6,5 +6,5 @@ scoreboard objectives add tf2.gamestate dummy
 scoreboard objectives add tf2.capture_progress dummy
 scoreboard objectives add tf2.sprinting dummy
 
-# remove this line later!
-scoreboard players set #show_debug_messages tf2.settings 1 
+# TODO remove this line
+scoreboard players set $show_debug_messages tf2.settings 1 
