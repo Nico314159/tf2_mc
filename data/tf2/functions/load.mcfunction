@@ -8,3 +8,6 @@ scoreboard objectives add tf2.sprinting dummy
 
 # TODO remove this line
 scoreboard players set $show_debug_messages tf2.settings 1 
+
+# TODO change this when voting is added
+execute unless score $choose_map_randomly tf2.settings = $choose_map_randomly tf2.settings run scoreboard players set $choose_map_randomly tf2.settings 1
