@@ -1,3 +1,2 @@
-execute store result score @s tf2.sprinting run attribute @s minecraft:generic.movement_speed modifier value get 662A6B8D-DA3E-4C1C-8813-96EA6097278D 10
-execute if score @s tf2.sprinting matches 1.. run attribute @s minecraft:generic.movement_speed modifier add 70726576-656e-7473-7072-696e74696e67 "preventsprinting" -0.23 multiply
-execute unless score @s tf2.sprinting matches 1.. run attribute @s minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67
+execute if predicate tf2:sprinting run attribute @s minecraft:generic.movement_speed modifier add 70726576-656e-7473-7072-696e74696e67 "preventsprinting" -0.23 multiply
+execute unless predicate tf2:sprinting run attribute @s minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67
