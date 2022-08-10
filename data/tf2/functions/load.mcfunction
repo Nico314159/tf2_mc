@@ -17,3 +17,4 @@ scoreboard players set $show_debug_messages tf2.settings 1
 execute unless score $choose_map_randomly tf2.settings = $choose_map_randomly tf2.settings run scoreboard players set $choose_map_randomly tf2.settings 1
 
 scoreboard players set $number_of_maps tf2.value 3
+
