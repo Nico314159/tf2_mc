@@ -18,8 +18,8 @@ execute as @a unless score @s class matches 5 run scoreboard players reset @s he
 # execute as @e store result score @s motion_Z run data get entity @s Motion[2] 20
 execute as @e[type=!player] store result score @s entity_HP run data get entity @s Health 10
 
-execute as @a[tag=isPlaying] run function tf2:legacy/reapply_attributes
-execute if entity @a[tag=isPlaying] run function tf2:legacy/set_spawns
+execute as @a[tag=tf2.is_playing] run function tf2:legacy/reapply_attributes
+execute if entity @a[tag=tf2.is_playing] run function tf2:legacy/set_spawns
 execute as @a[tag=!canSprint] run function tf2:legacy/prevent_speedhack
 
 execute as @a[scores={class=1}] at @s run function tf2:legacy/spy
@@ -52,11 +52,11 @@ execute if score $is_koth timer matches 1 unless score $paused timer matches 1 r
 execute unless score $paused timer matches 1 run function tf2:legacy/timer/increment_all_timers 
 
 
-tag @a[tag=playingGrass] add isPlaying
-tag @a[tag=playingBadwater] add isPlaying
-tag @a[tag=playingWoodlands] add isPlaying
+tag @a[tag=playingGrass] add tf2.is_playing
+tag @a[tag=playingBadwater] add tf2.is_playing
+tag @a[tag=playingWoodlands] add tf2.is_playing
 
-tag @a[scores={isDead=1..},tag=isPlaying,tag=!noRespawn] add isDead
+tag @a[scores={isDead=1..},tag=tf2.is_playing,tag=!noRespawn] add isDead
 scoreboard players add @a[tag=isDead] time_dead 1
 execute as @a if entity @s[tag=isDead] run gamemode spectator @s
 # execute as @a if entity @s[tag=isDead,scores={time_dead=..3}] run spectate @e[sort=random,type=player,limit=1]
