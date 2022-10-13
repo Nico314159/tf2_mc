@@ -1,0 +1,2 @@
+execute unless score $choose_map_randomly tf2.settings = $choose_map_randomly tf2.settings run scoreboard players set $choose_map_randomly tf2.settings 1
+scoreboard players set $initialization_complete tf2.settings 1

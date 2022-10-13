@@ -16,7 +16,7 @@ scoreboard objectives add tf2.batch_number dummy
 scoreboard players set $show_debug_messages tf2.settings 1 
 
 # TODO change this when voting is added
-execute unless score $choose_map_randomly tf2.settings = $choose_map_randomly tf2.settings run scoreboard players set $choose_map_randomly tf2.settings 1
+execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run function tf2:initial
 
 scoreboard players set $number_of_maps tf2.var 3
 
