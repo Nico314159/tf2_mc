@@ -1,3 +1,4 @@
+# TODO make compatible with parallel games
 tag @a remove isPlaying
 scoreboard players set @a tf2.selected_mode 0
 scoreboard players set $payload_progress tf2.gamestate 0
