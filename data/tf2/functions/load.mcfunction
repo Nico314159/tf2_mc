@@ -3,7 +3,7 @@ scoreboard objectives add tf2.ticks dummy
 scoreboard objectives add tf2.const dummy
 scoreboard objectives add tf2.var dummy
 scoreboard objectives add tf2.settings dummy
-scoreboard objectives add tf2.selected_mode trigger
+scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.gamestate dummy
 scoreboard objectives add tf2.capture_progress dummy
 scoreboard objectives add tf2.sprinting dummy
