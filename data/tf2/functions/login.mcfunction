@@ -1,5 +1,5 @@
 # TODO improve lobby build quality (in-world)
-execute if score #show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},"Player ",{"selector":"@s"}," has logged in at ",{"score":{"name":"#global","objective":"tf2.ticks"}}," ticks gametime."]
+execute if score #show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},"Player ",{"selector":"@s"}," has logged in at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime."]
 tp @s 150 100 50 90 0
 gamemode adventure @s
 
