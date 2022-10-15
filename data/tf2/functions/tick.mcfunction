@@ -12,8 +12,7 @@ execute store result score $chaos_queue_length tf2.var if entity @e[type=#tf2:pl
 
 scoreboard players set $enough_in_queue tf2.var 1
 execute unless score $comp_queue_length tf2.var matches 12.. unless score $casual_queue_length tf2.var matches 24.. unless score $chaos_queue_length tf2.var matches 40.. run scoreboard players set $enough_in_queue tf2.var 0
-execute if score $enough_in_queue tf2.var matches 1 run tag @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] add tf2.starting_game
-execute as @e[type=marker,tag=tf2.batch,tag=tf2.starting_game,sort=random,limit=1] run function tf2:start_game/as_marker
+execute if score $enough_in_queue tf2.var matches 1 as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run function tf2:start_game/as_marker
 
 
 
