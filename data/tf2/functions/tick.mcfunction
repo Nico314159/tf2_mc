@@ -15,7 +15,5 @@ execute unless score $comp_queue_length tf2.var matches 12.. unless score $casua
 execute if score $enough_in_queue tf2.var matches 1 run tag @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] add tf2.starting_game
 execute as @e[type=marker,tag=tf2.batch,tag=tf2.starting_game,sort=random,limit=1] run function tf2:start_game/as_marker
 
-#execute if score $comp_queue_length tf2.var matches 18.. run function tf2:start_game/competitive
-#execute if score $casual_queue_length tf2.var matches 24.. run function tf2:start_game/casual
-#execute if score $chaos_queue_length tf2.var matches 40.. run function tf2:start_game/chaos
+
 

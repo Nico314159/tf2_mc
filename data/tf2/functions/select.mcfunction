@@ -1,4 +1,3 @@
-#TODO make this more modular so it doesn't repeat itself three times
 execute if score @s tf2.queue_type matches 1 run function tf2:select/comp_mode
 execute if score @s tf2.queue_type matches 2 run function tf2:select/casual_mode
 execute if score @s tf2.queue_type matches 3 run function tf2:select/chaos_mode
