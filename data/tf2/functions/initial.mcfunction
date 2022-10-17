@@ -10,6 +10,7 @@ scoreboard players set $100 tf2.const 100
 #TODO replace line below when voting system is added
 scoreboard players set $choose_map_randomly tf2.settings 1
 scoreboard players set $random_crits tf2.settings 0
-scoreboard players set $random_spread_global tf2.settings 0
+scoreboard players set $random_spread tf2.settings 0
+scoreboard players set $server_mode tf2.settings 0
 scoreboard players set $chat_bot tf2.settings 0
 scoreboard players set $initialization_complete tf2.settings 1
