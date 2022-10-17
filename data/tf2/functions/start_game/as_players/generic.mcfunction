@@ -1,3 +1,4 @@
+say generic
 scoreboard players operation @s tf2.batch_number = $temp tf2.batch_number 
 tag @s remove tf2.in_queue
 tag @s add tf2.is_playing
