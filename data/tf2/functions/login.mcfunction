@@ -9,5 +9,11 @@ item replace entity @s hotbar.8 with written_book{pages:["[\"\",{\"text\":\"Welc
 scoreboard players operation @s tf2.ticks = $global tf2.ticks
 scoreboard players enable @s tf2.queue_type
 scoreboard players set @s tf2.queue_type 0
+# remove gameplay-specific tags
 tag @s remove tf2.in_queue
 tag @s remove tf2.allowed_to_sprint
+tag @s remove tf2.is_playing
+tag @s remove tf2.random_spread
+tag @s remove tf2.random_crits
+tag @s remove tf2.free_vote
+tag @s remove tf2.can_be_autobalanced
