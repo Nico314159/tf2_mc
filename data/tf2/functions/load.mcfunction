@@ -12,13 +12,13 @@ scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
 
-
-
 # TODO remove this line later
 scoreboard players set $show_debug_messages tf2.settings 1 
 
 # only runs the very first time datapack is loaded
 execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run function tf2:initial
 
+# constants
 scoreboard players set $number_of_maps tf2.var 3
+
 
