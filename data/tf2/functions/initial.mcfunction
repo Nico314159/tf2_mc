@@ -11,6 +11,7 @@ scoreboard players set $100 tf2.const 100
 scoreboard players set $choose_map_randomly tf2.settings 1
 scoreboard players set $random_crits tf2.settings 0
 scoreboard players set $random_spread tf2.settings 0
-scoreboard players set $server_mode tf2.settings 0
+scoreboard players set $use_server_mods tf2.settings 0
 scoreboard players set $chat_bot tf2.settings 0
+scoreboard players set $max_batches tf2.settings 3
 scoreboard players set $initialization_complete tf2.settings 1

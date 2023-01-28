@@ -18,7 +18,9 @@ scoreboard players set $show_debug_messages tf2.settings 1
 # only runs the very first time datapack is loaded
 execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run function tf2:initial
 
-# constants
+# system constants
 scoreboard players set $number_of_maps tf2.var 3
 
-
+# markers keep track of gamestate
+execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
+execute if score $batch_markers tf2.var <= $max_batches tf2.settings positioned 0 0 0 run function tf2:summon_markers
