@@ -4,6 +4,7 @@ execute as @a if score @s tf2.batch_number = $current tf2.batch_number unless sc
 
 # TODO make compatible with parallel games
 execute as @a if score @s tf2.batch_number = $current tf2.batch_number run tag @s remove tf2.is_playing
+# data remove entity @s data.Gamestate
 scoreboard players set @a tf2.queue_type 0
 scoreboard players set $payload_progress tf2.gamestate 0
 scoreboard players set $game_ended tf2.gamestate 0
