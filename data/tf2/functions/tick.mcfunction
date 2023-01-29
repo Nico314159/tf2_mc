@@ -1,3 +1,8 @@
+#> tf2:tick
+#
+# @handles #minecraft:tick
+# @context any
+
 scoreboard players add $global tf2.ticks 1
 scoreboard players add @a tf2.ticks 1
 execute if entity @a[tag=tf2.in_queue] run scoreboard players add $waiting_room tf2.ticks 1

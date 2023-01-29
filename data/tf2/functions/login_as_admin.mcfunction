@@ -1,3 +1,10 @@
+#> tf2:login_as_admin
+#
+# Resets the player's gameplay tags and allows them to queue for a game, but doesn't clear their inventory or teleport them to the lobby room
+# 
+# @within tf2:tick
+# @context a player
+
 # TODO improve lobby build quality (in-world)
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},"Admin ",{"selector":"@s"}," has logged in at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime."]
 gamemode creative @s

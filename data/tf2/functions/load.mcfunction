@@ -1,3 +1,10 @@
+#> tf2:load
+#
+# Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities
+#
+# @handles #minecraft:load
+# @context any
+
 # TODO expand this as time goes on
 scoreboard objectives add tf2.ticks dummy
 scoreboard objectives add tf2.const dummy

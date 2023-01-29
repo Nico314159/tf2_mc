@@ -1,3 +1,10 @@
+#> tf2:initial
+#
+# Sets up values of system constants and defaults for game settings
+#
+# @context any
+# @within tf2:load
+
 # TODO add more constants (for multiplication stuff)
 scoreboard players set $2 tf2.const 2
 scoreboard players set $3 tf2.const 3
