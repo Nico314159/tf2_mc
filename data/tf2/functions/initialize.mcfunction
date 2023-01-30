@@ -1,4 +1,4 @@
-#> tf2:initial
+#> tf2:initialize
 #
 # Sets up values of system constants and defaults for game settings
 #

@@ -23,7 +23,7 @@ scoreboard objectives add tf2.health dummy
 scoreboard players set $show_debug_messages tf2.settings 1 
 
 # only runs the very first time datapack is loaded
-execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run function tf2:initial
+execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run function tf2:initialize
 
 # system constants
 scoreboard players set $number_of_maps tf2.var 3
