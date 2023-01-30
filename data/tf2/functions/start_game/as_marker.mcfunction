@@ -1,3 +1,21 @@
+#> tf2:start_game/as_marker
+#
+# Starts a new running game with the players in the queue. 
+#
+# @within tf2:tick
+# @context a marker (position/rotation irrelevant)
+# @handles start of game
+# @input
+#   score $(casual|competitive|chaos)_queue_length tf2.var 
+#       The number of people queued for each game format
+# @output
+#   score @s tf2.batch_number
+#   score ⟨players⟩ tf2.batch_number
+#       Pairs the players in a queue to each other and to the storage marker
+# @writes
+#   score $break tf2.queue_type
+#       Prevents multiple queues from getting assigned to same game
+
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"]
 execute store result score @s tf2.batch_number run data get entity @s UUID[0]
 scoreboard players operation $temp tf2.batch_number = @s tf2.batch_number 
