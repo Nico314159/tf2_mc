@@ -29,6 +29,10 @@ scoreboard players set @s tf2.team 1
 execute if score $blu_count tf2.var < $red_count tf2.var run scoreboard players set @s tf2.team 2
 execute if score $blu_count tf2.var = $red_count tf2.var if predicate tf2:coin_flip run scoreboard players set @s tf2.team 2
 
+# show teams in-game
+execute if score @s tf2.team matches 1 run team join RED
+execute if score @s tf2.team matches 2 run team join BLU
+
 # gametype specific
 execute if score @s tf2.queue_type matches 1 run function tf2:start_game/as_players/competitive
 execute if score @s tf2.queue_type matches 2 run function tf2:start_game/as_players/casual

@@ -25,6 +25,16 @@ scoreboard players set $show_debug_messages tf2.settings 1
 # only runs the very first time datapack is loaded
 execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run function tf2:initialize
 
+# set up teams
+team add RED
+team modify RED color red
+team modify RED prefix "[RED] "
+team modify RED friendlyFire false
+team add BLU
+team modify BLU color blue
+team modify BLU prefix "[BLU] "
+team modify BLU friendlyFire false
+
 # markers keep track of gamestate
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $max_batches tf2.settings run function tf2:setup_markers
