@@ -18,7 +18,7 @@
 
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"]
 execute store result score @s tf2.batch_number run data get entity @s UUID[0]
-scoreboard players operation $temp tf2.batch_number = @s tf2.batch_number 
+execute store result score $temp tf2.batch_number run data get entity @s UUID[0]
 scoreboard players reset $break tf2.queue_type
 data modify entity @s data.map set from storage tf2:maps 0
 # TODO: replace random assignment with first come, first serve
