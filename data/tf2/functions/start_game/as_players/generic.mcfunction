@@ -34,4 +34,4 @@ execute if score @s tf2.queue_type matches 1 run function tf2:start_game/as_play
 execute if score @s tf2.queue_type matches 2 run function tf2:start_game/as_players/casual
 execute if score @s tf2.queue_type matches 3 run function tf2:start_game/as_players/chaos
 
-# function tf2:spawn/init
+function tf2:spawn/init
