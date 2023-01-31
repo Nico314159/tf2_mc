@@ -16,7 +16,7 @@
 #   score $break tf2.queue_type
 #       Prevents multiple queues from getting assigned to same game
 
-effect give @s glowing 100 1 true
+effect give @s glowing 1000 0 true
 execute if score $show_debug_messages tf2.settings matches 1 run say generic
 scoreboard players operation @s tf2.batch_number = $temp tf2.batch_number 
 tag @s remove tf2.in_queue
