@@ -27,8 +27,10 @@ execute if score $casual_queue_length tf2.var matches 24.. unless score $break t
 execute if score $chaos_queue_length tf2.var matches 40.. unless score $break tf2.queue_type matches 1 as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run function tf2:start_game/as_players/generic
 
 scoreboard players reset @e[tag=tf2.current_batch] tf2.team
-scoreboard players set $blu_count tf2.var 0
-scoreboard players set $red_count tf2.var 0
-execute as @e[tag=tf2.current_batch] run function tf2:start_game/as_players/team_assign
+scoreboard players set $team_temp tf2.var 0
+execute store result score $count tf2.var if entity @e[tag=tf2.current_batch]
+execute as @e[tag=tf2.current_batch,sort=random] run function tf2:team_assign
+scoreboard players operation $count tf2.var %= $2 tf2.const
+execute if score $count tf2.var matches 1 as @e[tag=tf2.current_batch,sort=random,limit=1,scores={tf2.team=1}] if predicate tf2:coin_flip run scoreboard players set @s tf2.team 2
 tag @s add tf2.in_use
 tag @e remove tf2.current_batch
