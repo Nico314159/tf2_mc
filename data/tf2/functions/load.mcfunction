@@ -18,6 +18,8 @@ scoreboard objectives add tf2.sprinting dummy
 scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
+scoreboard objectives add tf2.dead deathCount
+scoreboard objectives add tf2.respawn_timer dummy
 
 # TODO remove this line later
 scoreboard players set $show_debug_messages tf2.settings 1 
@@ -39,4 +41,4 @@ team modify BLU friendlyFire false
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $max_batches tf2.settings run function tf2:setup_markers
 
-data merge storage tf2:maps {0:{name: "test", gamemode: "test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, respawn_time: 5.0d}}
+data merge storage tf2:maps {0:{name: "test", gamemode: "test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0d],blu:[5.0d]}}}
