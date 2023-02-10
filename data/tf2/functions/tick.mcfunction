@@ -20,7 +20,7 @@ scoreboard players set $enough_in_queue tf2.var 1
 execute unless score $comp_queue_length tf2.var matches 12.. unless score $casual_queue_length tf2.var matches 24.. unless score $chaos_queue_length tf2.var matches 40.. run scoreboard players set $enough_in_queue tf2.var 0
 execute if score $enough_in_queue tf2.var matches 1 as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run function tf2:start_game/as_marker
 
-execute as @e[type=#tf2:player_like,tag=tf2.is_playing,scores={tf2.dead=1}] run function tf2:death
+execute as @e[type=#tf2:player_like,tag=tf2.is_playing,scores={tf2.dead=1..}] run function tf2:death
 execute as @e[type=#tf2:player_like,tag=tf2.dead] run scoreboard players remove @s tf2.respawn_timer 1
 execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run function tf2:spawn/init
 
