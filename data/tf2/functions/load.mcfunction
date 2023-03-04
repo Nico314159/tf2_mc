@@ -4,6 +4,8 @@
 #
 # @handles #minecraft:load
 # @context any
+#declare storage tf2:maps
+#declare storage tf2:temp
 
 # TODO expand this as time goes on
 scoreboard objectives add tf2.ticks dummy
