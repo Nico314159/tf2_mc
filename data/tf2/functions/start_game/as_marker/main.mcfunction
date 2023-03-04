@@ -24,8 +24,6 @@ scoreboard players reset $break tf2.queue_type
 data modify entity @s data.map set from storage tf2:maps 0
 
 data modify storage tf2:temp summon set from entity @s data.objectives
-scoreboard players set $index tf2.var 0
-execute store result score $length tf2.var if data storage tf2:temp summon[]
 function tf2:start_game/as_marker/loop
 
 # TODO: replace random assignment with first come, first serve
