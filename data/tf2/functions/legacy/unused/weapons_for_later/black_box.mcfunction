@@ -1,2 +1,0 @@
-execute as @a if entity @s[advancements={tf2:test=true},nbt={SelectedItem:{tag:{HealthOnHit:4b}}}] run effect give @s minecraft:instant_health 1 0 true
-execute as @a[advancements={tf2:test=true}] run advancement revoke @s only tf2:test 

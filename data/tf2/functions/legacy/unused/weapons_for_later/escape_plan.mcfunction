@@ -1,2 +1,0 @@
-execute as @a if entity @s[nbt=!{ActiveEffects:[{Id:27b}]},nbt=!{SelectedItem:{tag:{soldierPick:1b}}}] run scoreboard players set @s damageMultiplier 0
-execute as @a if entity @s[nbt={SelectedItem:{tag:{soldierPick:1b}}}] run scoreboard players set @s damageMultiplier 35

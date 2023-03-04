@@ -1,2 +1,0 @@
-execute if entity @s[team=RED] as @a[sort=nearest,limit=1,team=RED,distance=0.1..6] if entity @s[nbt=!{ActiveEffects:[{Id:10b}]}] run effect give @s minecraft:regeneration 3 1 false 
-execute if entity @s[team=BLU] as @a[sort=nearest,limit=1,team=BLU,distance=0.1..6] if entity @s[nbt=!{ActiveEffects:[{Id:10b}]}] run effect give @s minecraft:regeneration 3 1 false 
