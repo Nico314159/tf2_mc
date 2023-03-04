@@ -8,6 +8,8 @@
 # @input
 #   score $(casual|competitive|chaos)_queue_length tf2.var 
 #       The number of people queued for each game format
+#   storage tf2:maps 0
+#       The currently selected map and all its associated data
 # @output
 #   score @s tf2.batch_number
 #   score ⟨players⟩ tf2.batch_number
@@ -23,7 +25,7 @@ scoreboard players reset $break tf2.queue_type
 # TODO: make dynamic for selected maps instead of hardcoding
 data modify entity @s data.map set from storage tf2:maps 0
 
-data modify storage tf2:temp summon set from entity @s data.objectives
+data modify storage tf2.__temp__:summon objectives set from entity @s data.objectives
 function tf2:start_game/as_marker/loop
 
 # TODO: replace random assignment with first come, first serve

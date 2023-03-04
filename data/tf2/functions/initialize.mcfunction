@@ -1,6 +1,6 @@
 #> tf2:initialize
 #
-# Sets up values of system constants and defaults for game settings
+# Sets up values of system constants and defaults for game settings.
 #
 # @context any
 # @within tf2:load

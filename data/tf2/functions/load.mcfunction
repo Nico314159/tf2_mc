@@ -1,11 +1,11 @@
 #> tf2:load
 #
-# Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities
+# Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities.
 #
 # @handles #minecraft:load
 # @context any
 #declare storage tf2:maps
-#declare storage tf2:temp
+#declare storage tf2.__temp__:summon
 
 # TODO expand this as time goes on
 scoreboard objectives add tf2.ticks dummy
@@ -42,4 +42,4 @@ team modify BLU friendlyFire false
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $max_batches tf2.settings run function tf2:setup_markers
 
-data merge storage tf2:maps {0:{name: "test", gamemode: "cp", origin: [-500.0f, 1.0f, -500.0f], spawn:{red:[[-487.0f, 1.0f, -487.0f]], blu:[[-513.0f, 1.0f, -513.0f]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-500.0f, 1.0f, -500.0f], Tags:["tf2.objective","tf2.control_point"], data:{capture_progress:{RED:0, BLU:0}, locked: 0}}], gamestate:{}}}
+data merge storage tf2:maps {0:{name: "test", gamemode: "cp", origin: [-500.0f, 1.0f, -500.0f], spawn:{red:[[-487.0f, 1.0f, -487.0f]], blu:[[-513.0f, 1.0f, -513.0f]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-500.0f, 1.0f, -500.0f], Tags:["tf2.objective","tf2.control_point"], data:{capture_progress:{RED:0, BLU:0}, locked: false}}], gamestate:{}}}

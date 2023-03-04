@@ -1,6 +1,6 @@
 #> tf2:select
 #
-# Adds players to queues when they select them using /trigger
+# Adds players to queues when they select them using /trigger.
 #
 # @within tf2:tick
 # @context all players not already queued or playing
