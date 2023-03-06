@@ -24,5 +24,7 @@ execute as @e[type=#tf2:player_like,tag=tf2.is_playing,scores={tf2.dead=1..}] ru
 execute as @e[type=#tf2:player_like,tag=tf2.dead] run scoreboard players remove @s tf2.respawn_timer 1
 execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run function tf2:spawn/init
 
+execute as @e[type=marker,tag=tf2.control_point, scores={tf2.locked=0}] at @s run function tf2:objectives/control_point/check_for_players
+execute as @e[type=marker,tag=tf2.control_point, tag=!tf2.contested, scores={tf2.locked=0}] run function tf2:objectives/control_point/decay/init
 # execute as @e[type=marker,tag=tf2.batch,tag=tf2.in_use] if score
 
