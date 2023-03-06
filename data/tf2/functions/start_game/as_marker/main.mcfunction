@@ -27,6 +27,7 @@ data modify entity @s data.map set from storage tf2:maps 0
 
 data modify storage tf2.__temp__:summon objectives set from entity @s data.objectives
 function tf2:start_game/as_marker/loop
+data remove entity @s data.objectives
 
 # TODO: replace random assignment with first come, first serve
 execute if score $comp_queue_length tf2.var matches 12.. as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run function tf2:start_game/as_players/generic
