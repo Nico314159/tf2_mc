@@ -2,7 +2,7 @@
 #
 # Assigns players on teams and teleports them to the spawn
 #
-# @within tf2:start_game/as_marker
+# @within tf2:start_game/as_marker/main
 # @context all players in the current queue
 # @handles start of game
 # @input
