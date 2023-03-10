@@ -1,6 +1,8 @@
 #> tf2:objectives/control_point/capture_progress/blu
 # 
-# @within tf2:objectives/control_point/main
+# @within
+#   tf2:objectives/control_point/main
+#   tf2:objectives/control_point/decay/main
 # @context marker & position
 
 # RED progress must be reverted before adding BLU progress
