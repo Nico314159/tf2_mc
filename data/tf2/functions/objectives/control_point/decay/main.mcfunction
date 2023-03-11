@@ -3,7 +3,8 @@
 # @within tf2:objectives/control_point/decay/init
 
 scoreboard players operation $decay tf2.var = @s tf2.capture_threshold
-scoreboard players operation $decay tf2.var /= $1800 tf2.const
+scoreboard players operation $decay tf2.var /= $20 tf2.const
+scoreboard players operation $decay tf2.var /= $90 tf2.const
 execute as @s[tag=tf2.overtime] run scoreboard players operation $decay tf2.var *= $6 tf2.const
 scoreboard players operation $output tf2.var = $decay tf2.var
 
