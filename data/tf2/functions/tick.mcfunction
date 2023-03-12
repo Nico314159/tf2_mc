@@ -26,5 +26,6 @@ execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}]
 
 execute as @e[type=marker,tag=tf2.control_point, scores={tf2.locked=0}] at @s run function tf2:objectives/control_point/check_for_players
 execute as @e[type=marker,tag=tf2.control_point, tag=!tf2.contested, scores={tf2.locked=0}] run function tf2:objectives/control_point/decay/init
-# execute as @e[type=marker,tag=tf2.batch,tag=tf2.in_use] if score
+
+execute as @e[type=marker,tag=tf2.in_use] run function tf2:objectives/control_point/gamestate
 
