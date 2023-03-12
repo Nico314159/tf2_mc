@@ -13,14 +13,14 @@ scoreboard objectives add tf2.const dummy
 scoreboard objectives add tf2.var dummy
 scoreboard objectives add tf2.settings dummy
 
-scoreboard objectives add tf2.gamestate dummy
+scoreboard objectives add tf2.gamemode dummy
 scoreboard objectives add tf2.red_progress dummy
 scoreboard objectives add tf2.blu_progress dummy
 scoreboard objectives add tf2.capture_threshold dummy
 scoreboard objectives add tf2.locked dummy
 
-scoreboard objectives add tf2.batch_number dummy
 scoreboard objectives add tf2.queue_type trigger
+scoreboard objectives add tf2.batch_number dummy
 scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
@@ -47,5 +47,5 @@ team modify BLU friendlyFire false
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $max_batches tf2.settings run function tf2:setup_markers
 
-data merge storage tf2:maps {0:{name: "test", gamemode: "cp", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{locked: 0b, capture_threshold: 15.0f}}], gamestate:{}}}
+data merge storage tf2:maps {0:{name: "test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{locked: 0b, capture_threshold: 15.0f}}], gamestate:{}}}
 data merge storage tf2.__temp__:summon {}
