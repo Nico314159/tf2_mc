@@ -32,6 +32,9 @@ scoreboard objectives add tf2.health dummy
 scoreboard objectives add tf2.dead deathCount
 scoreboard objectives add tf2.respawn_timer dummy
 
+scoreboard objectives add tf2.permanent.games_won dummy
+scoreboard objectives add tf2.permanent.games_played dummy
+
 # TODO remove this line later
 scoreboard players set $show_debug_messages tf2.settings 1 
 

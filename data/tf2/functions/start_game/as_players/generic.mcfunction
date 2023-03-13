@@ -24,7 +24,7 @@ tag @s add tf2.is_playing
 scoreboard players set $break tf2.queue_type 1
 
 # used for team assignment
-tag @s add tf2.current_batch
+tag @s add tf2.current
 
 # gametype specific
 execute if score @s tf2.queue_type matches 1 run function tf2:start_game/as_players/competitive

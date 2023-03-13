@@ -6,7 +6,6 @@
 scoreboard players add $global tf2.ticks 1
 scoreboard players add @a tf2.ticks 1
 execute if entity @a[tag=tf2.in_queue] run scoreboard players add $waiting_room tf2.ticks 1
-execute as @a unless score @s tf2.ticks = $global tf2.ticks if entity @s[tag=tf2.admin] run function tf2:login_as_admin
 execute as @a unless score @s tf2.ticks = $global tf2.ticks run function tf2:login
 
 execute as @a[tag=!tf2.in_queue, tag=!tf2.is_playing] run function tf2:select

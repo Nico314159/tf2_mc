@@ -25,6 +25,7 @@ scoreboard players reset $break tf2.queue_type
 # TODO: make dynamic for selected maps instead of hardcoding
 data modify entity @s data.map set from storage tf2:maps 0
 
+execute store result score @s tf2.gamemode run data get entity @s data.map.gamemode
 data modify storage tf2.__temp__:summon objectives set from entity @s data.map.objectives
 function tf2:start_game/as_marker/loop
 data remove entity @s data.objectives
