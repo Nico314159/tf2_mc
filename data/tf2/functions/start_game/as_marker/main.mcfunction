@@ -34,6 +34,7 @@ data remove entity @s data.objectives
 execute if score $comp_queue_length tf2.var matches 12.. as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run function tf2:start_game/as_players/generic
 execute if score $casual_queue_length tf2.var matches 24.. unless score $break tf2.queue_type matches 1 as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2,tf2.batch_number=0},limit=24,sort=random] run function tf2:start_game/as_players/generic
 execute if score $chaos_queue_length tf2.var matches 40.. unless score $break tf2.queue_type matches 1 as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run function tf2:start_game/as_players/generic
+scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like, tag=tf2.current, limit=1] tf2.queue_type
 
 scoreboard players reset @e[tag=tf2.current] tf2.team
 scoreboard players set $team_temp tf2.var 0

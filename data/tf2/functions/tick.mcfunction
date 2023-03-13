@@ -8,7 +8,7 @@ scoreboard players add @a tf2.ticks 1
 execute if entity @a[tag=tf2.in_queue] run scoreboard players add $waiting_room tf2.ticks 1
 execute as @a unless score @s tf2.ticks = $global tf2.ticks run function tf2:login
 
-execute as @a[tag=!tf2.in_queue, tag=!tf2.is_playing] run function tf2:select
+execute as @e[type=#tf2:player_like,tag=!tf2.in_queue, tag=!tf2.is_playing] run function tf2:select
 execute as @a[tag=!tf2.allowed_to_sprint] run function tf2:disable_sprint
 
 execute store result score $comp_queue_length tf2.var if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}]
@@ -26,5 +26,5 @@ execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}]
 execute as @e[type=marker,tag=tf2.control_point, scores={tf2.locked=0}] at @s run function tf2:objectives/control_point/check_for_players
 execute as @e[type=marker,tag=tf2.control_point, tag=!tf2.contested, scores={tf2.locked=0}] run function tf2:objectives/control_point/decay/init
 
-execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.gamemode matches 1..5 run function tf2:objectives/control_point/gamestate
+execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/gamestate
 

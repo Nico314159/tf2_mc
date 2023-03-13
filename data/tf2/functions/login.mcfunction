@@ -32,5 +32,6 @@ tag @s remove tf2.dead
 scoreboard players reset @s tf2.class
 scoreboard players reset @s tf2.health
 scoreboard players reset @s tf2.team
+scoreboard players reset @s tf2.dead
 scoreboard players reset @s tf2.respawn_timer
 scoreboard players reset @s tf2.batch_number

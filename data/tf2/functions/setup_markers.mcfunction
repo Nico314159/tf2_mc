@@ -7,7 +7,7 @@
 #   tf2:load
 #   tf2:setup_markers
 
-execute if score $batch_markers tf2.var < $max_batches tf2.settings run summon minecraft:marker 0 0 0 {Tags:["tf2.batch"],data:{lastPos: [0.0d, 0.0d, 0.0d], queue_type: "", players:{RED:[], BLU:[]}, player_max: 0,  map: {}}}
+execute if score $batch_markers tf2.var < $max_batches tf2.settings run summon minecraft:marker 0 0 0 {Tags:["tf2.batch"],data:{lastPos: [0.0d, 0.0d, 0.0d],  map: {}}}
 execute if score $batch_markers tf2.var > $max_batches tf2.settings run kill @e[type=marker,tag=tf2.batch,sort=random,limit=1]
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $max_batches tf2.settings run function tf2:setup_markers

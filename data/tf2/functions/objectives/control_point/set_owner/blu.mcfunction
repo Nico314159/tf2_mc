@@ -7,7 +7,7 @@ scoreboard players set @s tf2.team 2
 scoreboard players operation @s tf2.blu_progress = @s tf2.capture_threshold
 
 # test purposes only
-setblock -500 0 -500 blue_stained_glass
+setblock ~ ~-1 ~ blue_stained_glass
 
 # if KOTH: start counting down BLU's timer (and pause RED's)
 # if 5CP & this is mid: unlock RED's 1st
