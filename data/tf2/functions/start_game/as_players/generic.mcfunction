@@ -1,17 +1,13 @@
 #> tf2:start_game/as_players/generic
 #
-# Assigns players on teams and teleports them to the spawn
+# Adds players to the game and gives them a tag so that other functions know.
 #
 # @within tf2:start_game/as_marker/main
 # @context all players in the current queue
 # @handles start of game
-# @input
-#   score $(casual|competitive|chaos)_queue_length tf2.var 
-#       The number of people queued for each game format
 # @output
 #   score @s tf2.batch_number
-#   score ⟨players⟩ tf2.batch_number
-#       Pairs the players in a queue to each other and to the storage marker
+#       Pairs the players in the queue to each other and to the storage marker
 # @writes
 #   score $break tf2.queue_type
 #       Prevents multiple queues from getting assigned to same game
