@@ -19,7 +19,6 @@
 #       Prevents multiple queues from getting assigned to same game
 
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"]
-execute store result score @s tf2.batch_number run data get entity @s UUID[0]
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 scoreboard players reset $break tf2.queue_type
 # TODO: make dynamic for selected maps instead of hardcoding
