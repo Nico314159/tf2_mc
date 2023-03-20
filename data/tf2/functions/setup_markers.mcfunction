@@ -6,6 +6,7 @@
 # @within
 #   tf2:load
 #   tf2:setup_markers
+#   tf2:reset/as_marker
 
 execute if score $batch_markers tf2.var < $max_batches tf2.settings run summon minecraft:marker 0 0 0 {Tags:["tf2.batch"],data:{lastPos: [0.0d, 0.0d, 0.0d],  map: {}}}
 execute if score $batch_markers tf2.var > $max_batches tf2.settings run kill @e[type=marker,tag=tf2.batch,sort=random,limit=1]

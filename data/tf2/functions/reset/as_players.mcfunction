@@ -10,3 +10,6 @@ scoreboard players add @s tf2.permanent.games_played 1
 
 tag @s remove tf2.current
 scoreboard players reset @s tf2.ticks
+
+# debug only
+kill @s[type=villager]

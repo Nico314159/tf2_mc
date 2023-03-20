@@ -4,6 +4,7 @@
 # @within tf2:tick
 # @handles game progress & win conditions
 
+tag @e remove tf2.current
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 

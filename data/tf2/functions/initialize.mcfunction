@@ -16,6 +16,8 @@ scoreboard players set $5 tf2.const 5
 scoreboard players set $6 tf2.const 5
 scoreboard players set $10 tf2.const 10
 scoreboard players set $20 tf2.const 20
+scoreboard players set $50 tf2.const 50
+scoreboard players set $60 tf2.const 60
 scoreboard players set $90 tf2.const 90
 scoreboard players set $100 tf2.const 100
 
