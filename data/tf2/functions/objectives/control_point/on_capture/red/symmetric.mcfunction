@@ -1,4 +1,4 @@
-#> tf2:objectives/control_point/set_owner/red/symmetric
+#> tf2:objectives/control_point/on_capture/red/symmetric
 # 
 # @within tf2:objectives/control_point/set_owner/red
 # @context marker & position

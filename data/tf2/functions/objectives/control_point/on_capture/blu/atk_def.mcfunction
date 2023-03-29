@@ -1,4 +1,4 @@
-#> tf2:objectives/control_point/set_owner/blu/atk_def
+#> tf2:objectives/control_point/on_capture/blu/atk_def
 # 
 # @within tf2:objectives/control_point/set_owner/blu
 # @context marker & position

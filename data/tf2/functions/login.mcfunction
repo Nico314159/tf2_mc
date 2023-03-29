@@ -19,6 +19,7 @@ scoreboard players enable @s tf2.queue_type
 scoreboard players set @s tf2.queue_type 0
 
 # remove gameplay-specific variables
+team leave @s
 tag @s remove tf2.in_queue
 tag @s remove tf2.allowed_to_sprint
 tag @s remove tf2.is_playing
