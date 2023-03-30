@@ -1,6 +1,6 @@
 #> tf2:timer/hide
 #
-# @within tf2:reset/as_marker
+# @within tf2:reset/announce_winner
 
 execute if score @s tf2.batch_number matches 1 run bossbar set tf2:timer_1 visible false
 execute if score @s tf2.batch_number matches 2 run bossbar set tf2:timer_2 visible false

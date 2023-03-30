@@ -16,4 +16,6 @@ execute if entity @s[tag=!tf2.multistage,tag=!tf2.overtime] run function tf2:tim
 #execute if entity @s[tag=tf2.multistage,tag=!tf2.overtime] run function tf2:timer/display/multistage
 execute if entity @s[tag=tf2.overtime] run function tf2:timer/display/overtime
 
-execute if score @s tf2.timer matches ..0 run function tf2:timer/zero
+execute if score @s tf2.timer matches ..1200 run function tf2:timer/chat
+execute if score @s tf2.timer matches 0 run function tf2:timer/zero
+execute if score @s tf2.timer matches -100 run function tf2:reset/as_marker

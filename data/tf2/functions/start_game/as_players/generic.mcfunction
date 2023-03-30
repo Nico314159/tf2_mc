@@ -13,7 +13,7 @@
 #       Prevents multiple queues from getting assigned to same game
 
 effect give @s glowing 1000 0 true
-execute if score $show_debug_messages tf2.settings matches 1 run say generic
+# execute if score $show_debug_messages tf2.settings matches 1 run say generic
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number 
 tag @s remove tf2.in_queue
 tag @s add tf2.is_playing
