@@ -23,7 +23,6 @@ scoreboard objectives add tf2.index dummy
 scoreboard objectives add tf2.red_progress dummy
 scoreboard objectives add tf2.blu_progress dummy
 scoreboard objectives add tf2.capture_threshold dummy
-scoreboard objectives add tf2.locked dummy
 
 scoreboard objectives add tf2.timer dummy
 scoreboard objectives add tf2.timer.min dummy
