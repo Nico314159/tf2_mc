@@ -2,7 +2,8 @@
     "providers": [
         {
             "type": "bitmap",
-            "file": "tf2:textures/font/square.png",
+            "file": "tf2:font/square.png",
+            "ascent": 13,
             "height": 13,
             "chars": [
                 "*"
@@ -10,11 +11,12 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:textures/font/outline.png",
+            "file": "tf2:font/outline.png",
+	        "ascent": 15,
             "height": 15,
             "chars": [
                 "0"
             ]
-        },
+        }
     ]
 }
