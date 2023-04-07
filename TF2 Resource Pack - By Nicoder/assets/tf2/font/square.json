@@ -1,0 +1,20 @@
+{
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "tf2:textures/font/square.png",
+            "height": 13,
+            "chars": [
+                "*"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:textures/font/outline.png",
+            "height": 15,
+            "chars": [
+                "0"
+            ]
+        },
+    ]
+}
