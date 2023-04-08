@@ -5,16 +5,24 @@
             "advances": {
                 " ": 4,
                 "\u200c": 0,
-                "0": -3,
-                "1": -4,
-                "2": -6,
-                "3": -10,
-                "4": -18,
-                ")": 3,
-                "!": 4,
-                "@": 6,
-                "#": 10,
-                "$": 18
+                "0": -1,
+                "1": -2,
+                "2": -4,
+                "3": -8,
+                "4": -16,
+                "5": -32,
+                "6": -64,
+                "7": -128,
+                "8": -256,
+                ")": 1,
+                "!": 2,
+                "@": 4,
+                "#": 8,
+                "$": 16,
+                "%": 32,
+                "^": 64,
+                "&": 128,
+                "*": 256
             }
         },
         {
@@ -33,6 +41,51 @@
             "height": 15,
             "chars": [
                 "["
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/slice_1.png",
+	        "ascent": -17,
+            "height": 1,
+            "chars": [
+                "a"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/slice_5.png",
+	        "ascent": -15,
+            "height": 5,
+            "chars": [
+                "b"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/slice_9.png",
+	        "ascent": -13,
+            "height": 9,
+            "chars": [
+                "c"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/slice_11.png",
+	        "ascent": -12,
+            "height": 11,
+            "chars": [
+                "d"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/slice_13.png",
+	        "ascent": -11,
+            "height": 13,
+            "chars": [
+                "e"
             ]
         }
     ]
