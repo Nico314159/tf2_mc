@@ -25,6 +25,15 @@
                 "*": 256
             }
         },
+	    {
+            "type": "bitmap",
+            "file": "tf2:font/lock.png",
+	        "ascent": -12,
+            "height": 11,
+            "chars": [
+                "L"
+            ]
+        },
         {
             "type": "bitmap",
             "file": "tf2:font/square.png",
@@ -41,6 +50,15 @@
             "height": 15,
             "chars": [
                 "["
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/corner.png",
+	        "ascent": -9,
+            "height": 6,
+            "chars": [
+                "]"
             ]
         },
         {
@@ -86,6 +104,15 @@
             "height": 13,
             "chars": [
                 "e"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/star.png",
+	        "ascent": -11,
+            "height": 13,
+            "chars": [
+                "S"
             ]
         }
     ]
