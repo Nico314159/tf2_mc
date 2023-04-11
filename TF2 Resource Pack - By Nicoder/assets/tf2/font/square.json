@@ -1,6 +1,15 @@
 {
     "providers": [
         {
+            "type": "bitmap",
+            "file": "tf2:font/new_layer.png",
+	        "ascent": -9999,
+            "height": -2,
+            "chars": [
+                "|"
+            ]
+        },
+        {
             "type": "space",
             "advances": {
                 " ": 4,
