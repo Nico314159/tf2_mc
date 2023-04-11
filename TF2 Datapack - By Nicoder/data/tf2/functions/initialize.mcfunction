@@ -29,3 +29,5 @@ scoreboard players set $use_server_mods tf2.settings 0
 scoreboard players set $chat_bot tf2.settings 0
 scoreboard players set $max_batches tf2.settings 3
 scoreboard players set $initialization_complete tf2.settings 1
+
+data merge storage tf2:control_points {data:[[],[{},{},{},{},{},{},{},{pre:'',post:''}],[{},{},{},{},{},{},{},{pre:'',post:''}],[{},{},{},{},{},{},{},{pre:'',post:''}],[{},{},{},{},{},{},{},{pre:'',post:''}],[{},{},{},{},{},{},{},{pre:'',post:''}]]}

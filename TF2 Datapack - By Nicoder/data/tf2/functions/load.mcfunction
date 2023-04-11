@@ -69,5 +69,4 @@ execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=t
 execute unless score $batch_markers tf2.var = $max_batches tf2.settings run function tf2:setup_markers
 
 data merge storage tf2:maps {0:{name: "test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-489.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{locked: 0b, capture_threshold: 15.0f, team: 1b, increment: 10.0f}},{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{locked: 1b, capture_threshold: 15.0f, team: 1b, increment: 10.0f}},{Pos:[-509.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{locked: 1b, capture_threshold: 15.0f, team: 1b, increment: 10.0f}}], gamemode: 1, timer: 360.0f}}
-data merge storage tf2:control_points {data:[[],[{},{},{},{},{},{},{},{pre:'',post:''}],[{},{},{},{},{},{},{},{pre:'',post:''}],[{},{},{},{},{},{},{},{pre:'',post:''}],[{},{},{},{},{},{},{},{pre:'',post:''}],[{},{},{},{},{},{},{},{pre:'',post:''}]]}
 data merge storage tf2.__temp__:summon {}
