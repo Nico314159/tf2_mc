@@ -123,6 +123,51 @@
             "chars": [
                 "S"
             ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/letters/a.png",
+            "ascent": -9.5,
+            "height": 6,
+            "chars": [
+                "A"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/letters/b.png",
+            "ascent": -9,
+            "height": 6,
+            "chars": [
+                "B"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/letters/c.png",
+            "ascent": -9,
+            "height": 6,
+            "chars": [
+                "C"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/letters/d.png",
+            "ascent": -9,
+            "height": 6,
+            "chars": [
+                "D"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/letters/e.png",
+            "ascent": -9,
+            "height": 6,
+            "chars": [
+                "E"
+            ]
         }
     ]
 }
