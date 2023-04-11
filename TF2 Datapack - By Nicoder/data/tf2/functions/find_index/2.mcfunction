@@ -1,0 +1,8 @@
+execute if score @s tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][0]
+execute if score @s tf2.index matches 1 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][1]
+execute if score @s tf2.index matches 2 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][2]
+execute if score @s tf2.index matches 3 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][3]
+execute if score @s tf2.index matches 4 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][4]
+execute if score @s tf2.index matches 5 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][5]
+execute if score @s tf2.index matches 6 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][6]
+execute if score @s tf2.index matches 7 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][7]
