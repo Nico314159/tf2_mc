@@ -33,8 +33,6 @@ scoreboard players remove $highest tf2.index 1
 function tf2:objectives/control_point/visuals/spacing
 function tf2:start_game/as_marker/loop
 data remove entity @s data.map.objectives
-execute store result score @s tf2.timer run data get entity @s data.map.timer 20
-execute if data entity @s data.map.timer run function tf2:timer/set_max
 
 execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.team matches 1 at @s run setblock ~ ~-1 ~ red_stained_glass
 execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.team matches 2 at @s run setblock ~ ~-1 ~ blue_stained_glass
@@ -44,7 +42,10 @@ execute if score $comp_queue_length tf2.var matches 12.. as @e[type=#tf2:player_
 execute if score $casual_queue_length tf2.var matches 24.. unless score $break tf2.queue_type matches 1 as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2,tf2.batch_number=0},limit=24,sort=random] run function tf2:start_game/as_players/generic
 execute if score $chaos_queue_length tf2.var matches 40.. unless score $break tf2.queue_type matches 1 as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run function tf2:start_game/as_players/generic
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like, tag=tf2.current, limit=1] tf2.queue_type
+execute store result score @s tf2.timer run data get entity @s data.map.timer 20
+execute if data entity @s data.map.timer run function tf2:timer/set_max
 execute if data entity @s data.map.timer run function tf2:timer/show
+execute if data entity @s data.map.setup_time run function tf2:timer/begin_setup
 function tf2:start_game/as_marker/tell_info
 
 scoreboard players reset @e[tag=tf2.current] tf2.team

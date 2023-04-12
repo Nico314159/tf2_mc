@@ -1,6 +1,8 @@
 #> tf2:timer/show
 #
-# @within tf2:start_game/as_marker/main
+# @within
+#   tf2:start_game/as_marker/main
+#   tf2:timer/exit_setup
 
 execute if score @s tf2.batch_number matches 1 run bossbar set tf2:timer_1 visible true
 execute if score @s tf2.batch_number matches 2 run bossbar set tf2:timer_2 visible true
