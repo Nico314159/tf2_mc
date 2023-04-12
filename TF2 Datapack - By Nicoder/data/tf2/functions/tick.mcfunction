@@ -25,7 +25,7 @@ execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}]
 
 execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.timer = @s tf2.timer run function tf2:timer/main
 
-execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1..}] at @s if block ~ ~-1 ~ glass run function tf2:objectives/control_point/init
+execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s if block ~ ~-1 ~ glass run function tf2:objectives/control_point/init
 execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run function tf2:objectives/control_point/check_for_players
 execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.contested,tag=!tf2.locked] run function tf2:objectives/control_point/decay/init
 

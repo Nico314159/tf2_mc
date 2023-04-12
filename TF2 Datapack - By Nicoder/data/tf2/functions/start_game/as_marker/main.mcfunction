@@ -30,6 +30,7 @@ data modify storage tf2.__temp__:summon objectives set from entity @s data.map.o
 scoreboard players set $temp tf2.index 0
 execute store result score $highest tf2.index if data storage tf2.__temp__:summon objectives[]
 scoreboard players remove $highest tf2.index 1
+function tf2:objectives/control_point/visuals/spacing
 function tf2:start_game/as_marker/loop
 data remove entity @s data.map.objectives
 execute store result score @s tf2.timer run data get entity @s data.map.timer 20

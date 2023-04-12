@@ -16,5 +16,9 @@ tag @e[type=marker,tag=tf2.current] remove tf2.current
 scoreboard players set @s tf2.team 1
 scoreboard players operation @s tf2.red_progress = @s tf2.capture_threshold
 
+function tf2:objectives/control_point/find_index/main
+data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"red"}]'
+function tf2:objectives/control_point/find_index/reinsert/main
+
 # test purposes only
 setblock ~ ~-1 ~ red_stained_glass
