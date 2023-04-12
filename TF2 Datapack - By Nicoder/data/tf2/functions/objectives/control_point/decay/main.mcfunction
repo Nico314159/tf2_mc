@@ -17,7 +17,7 @@ execute if score @s[tag=tf2.overtime,scores={tf2.team=1}] tf2.red_progress = @s 
 execute if score @s[tag=tf2.overtime,scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold as @e[tag=tf2.current,limit=1] run function tf2:timer/end_game
 
 # if unowned, revert towards zero
-scoreboard players operation @s[scores={tf2.team=0}] tf2.red_progress -= $sum tf2.var
-scoreboard players operation @s[scores={tf2.team=0}] tf2.blu_progress -= $sum tf2.var
+scoreboard players operation @s[scores={tf2.team=0,tf2.red_progress=1..}] tf2.red_progress -= $sum tf2.var
+scoreboard players operation @s[scores={tf2.team=0,tf2.blu_progress=1..}] tf2.blu_progress -= $sum tf2.var
 scoreboard players operation @s tf2.red_progress > $0 tf2.const
 scoreboard players operation @s tf2.blu_progress > $0 tf2.const
