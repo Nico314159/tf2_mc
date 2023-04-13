@@ -21,3 +21,5 @@ scoreboard players operation @s[scores={tf2.team=0,tf2.red_progress=1..}] tf2.re
 scoreboard players operation @s[scores={tf2.team=0,tf2.blu_progress=1..}] tf2.blu_progress -= $sum tf2.var
 scoreboard players operation @s tf2.red_progress > $0 tf2.const
 scoreboard players operation @s tf2.blu_progress > $0 tf2.const
+
+execute if score @s[scores={tf2.team=0}] tf2.red_progress matches 0 if score @s tf2.blu_progress matches 0 run tag @s remove tf2.said_dialogue
