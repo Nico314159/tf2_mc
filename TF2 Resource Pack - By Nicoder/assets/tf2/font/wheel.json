@@ -1,0 +1,58 @@
+{
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "tf2:font/new_layer.png",
+	        "ascent": -9999,
+            "height": -2,
+            "chars": [
+                "|"
+            ]
+        },
+        {
+            "type": "space",
+            "advances": {
+                " ": 4,
+                "\u200c": 0,
+                "0": -1,
+                "1": -2,
+                "2": -4,
+                "3": -8,
+                "4": -16,
+                "5": -32,
+                "6": -64,
+                "7": -128,
+                "8": -256,
+                "9": -512,
+                ")": 1,
+                "!": 2,
+                "@": 4,
+                "#": 8,
+                "$": 16,
+                "%": 32,
+                "^": 64,
+                "&": 128,
+                "*": 256,
+                "(": 512
+            }
+        },
+	    {
+            "type": "bitmap",
+            "file": "tf2:font/wheel_outline.png",
+	        "ascent": 60,
+            "height": 60,
+            "chars": [
+                "?"
+            ]
+        },
+	    {
+            "type": "bitmap",
+            "file": "tf2:font/wheel_fill.png",
+	        "ascent": 60,
+            "height": 60,
+            "chars": [
+                "="
+            ]
+        }
+    ]
+}
