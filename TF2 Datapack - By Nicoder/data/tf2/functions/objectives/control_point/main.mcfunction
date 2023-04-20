@@ -13,12 +13,6 @@ function tf2:math/calculate_harmonic_series/main
 execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run function tf2:objectives/control_point/capture_progress/red
 execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run function tf2:objectives/control_point/capture_progress/blu
 
-execute unless score @s tf2.team matches 1 if score @s tf2.red_progress >= @s tf2.capture_threshold run function tf2:objectives/control_point/set_owner/red
-execute unless score @s tf2.team matches 2 if score @s tf2.blu_progress >= @s tf2.capture_threshold run function tf2:objectives/control_point/set_owner/blu
-
-execute unless score @s tf2.team matches 1 if score @s tf2.red_progress < @s tf2.capture_threshold run function tf2:objectives/control_point/visuals/capture_progress/red/main
-execute unless score @s tf2.team matches 2 if score @s tf2.blu_progress < @s tf2.capture_threshold run function tf2:objectives/control_point/visuals/capture_progress/blu/main
-
-execute if score @s[scores={tf2.team=1}] tf2.red_progress >= @s tf2.capture_threshold run function tf2:objectives/control_point/visuals/capture_progress/red/solid
-execute if score @s[scores={tf2.team=2}] tf2.blu_progress >= @s tf2.capture_threshold run function tf2:objectives/control_point/visuals/capture_progress/blu/solid
+execute unless score @s tf2.team matches 1 if score @s tf2.red_progress < @s tf2.capture_threshold if score @s tf2.blu_progress < @s tf2.capture_threshold run function tf2:objectives/control_point/visuals/capture_progress/red/main
+execute unless score @s tf2.team matches 2 if score @s tf2.red_progress < @s tf2.capture_threshold if score @s tf2.blu_progress < @s tf2.capture_threshold run function tf2:objectives/control_point/visuals/capture_progress/blu/main
 
