@@ -38,7 +38,7 @@
         },
 	    {
             "type": "bitmap",
-            "file": "tf2:font/wheel_outline.png",
+            "file": "tf2:font/wheel/outline.png",
 	        "ascent": 60,
             "height": 60,
             "chars": [
@@ -47,7 +47,7 @@
         },
 	    {
             "type": "bitmap",
-            "file": "tf2:font/wheel_fill.png",
+            "file": "tf2:font/wheel/fill.png",
 	        "ascent": 60,
             "height": 60,
             "chars": [

@@ -36,7 +36,7 @@
         },
 	    {
             "type": "bitmap",
-            "file": "tf2:font/lock.png",
+            "file": "tf2:font/square/lock.png",
 	        "ascent": -12,
             "height": 11,
             "chars": [
@@ -45,7 +45,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/square.png",
+            "file": "tf2:font/square/fill.png",
             "ascent": -11,
             "height": 13,
             "chars": [
@@ -54,7 +54,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/outline.png",
+            "file": "tf2:font/square/outline.png",
 	        "ascent": -10,
             "height": 15,
             "chars": [
@@ -63,7 +63,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/corner.png",
+            "file": "tf2:font/square/corner.png",
 	        "ascent": -9,
             "height": 6,
             "chars": [
@@ -72,7 +72,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/slice_1.png",
+            "file": "tf2:font/square/slice_1.png",
 	        "ascent": -17,
             "height": 1,
             "chars": [
@@ -81,7 +81,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/slice_5.png",
+            "file": "tf2:font/square/slice_5.png",
 	        "ascent": -15,
             "height": 5,
             "chars": [
@@ -90,7 +90,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/slice_9.png",
+            "file": "tf2:font/square/slice_9.png",
 	        "ascent": -13,
             "height": 9,
             "chars": [
@@ -99,7 +99,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/slice_11.png",
+            "file": "tf2:font/square/slice_11.png",
 	        "ascent": -12,
             "height": 11,
             "chars": [
@@ -108,7 +108,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/slice_13.png",
+            "file": "tf2:font/square/slice_13.png",
 	        "ascent": -11,
             "height": 13,
             "chars": [
@@ -117,7 +117,7 @@
         },
         {
             "type": "bitmap",
-            "file": "tf2:font/star.png",
+            "file": "tf2:font/square/star.png",
 	        "ascent": -11,
             "height": 13,
             "chars": [
