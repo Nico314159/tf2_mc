@@ -28,15 +28,14 @@ execute store result score @s tf2.gamemode run data get entity @s data.map.gamem
 scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode
 data modify storage tf2.__temp__:summon objectives set from entity @s data.map.objectives
 scoreboard players set $temp tf2.index 0
-execute store result score $highest tf2.index if data storage tf2.__temp__:summon objectives[]
-scoreboard players remove $highest tf2.index 1
-scoreboard players operation $highest tf2.index *= $10 tf2.const
-function tf2:objectives/control_point/visuals/spacing
 function tf2:start_game/as_marker/loop
+execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
+scoreboard players operation $highest tf2.index > @e[type=marker,tag=tf2.objective] tf2.index
+execute as @e[type=marker,tag=tf2.objective] if score @s tf2.index = $highest tf2.index run tag @s add tf2.last
 data remove entity @s data.map.objectives
 
-execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.team matches 1 at @s run setblock ~ ~-1 ~ red_stained_glass
-execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.team matches 2 at @s run setblock ~ ~-1 ~ blue_stained_glass
+execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass
+execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass
 
 # TODO: replace random assignment with first come, first serve
 execute if score $comp_queue_length tf2.var matches 12.. as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run function tf2:start_game/as_players/generic
