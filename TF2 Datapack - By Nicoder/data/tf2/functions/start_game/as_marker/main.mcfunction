@@ -8,7 +8,7 @@
 # @input
 #   score $(casual|competitive|chaos)_queue_length tf2.var 
 #       The number of people queued for each game format
-#   storage tf2:maps 0
+#   storage tf2:maps (0|1)
 #       The currently selected map and all its associated data
 # @output
 #   score @s tf2.batch_number
@@ -22,7 +22,8 @@ execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWil
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 scoreboard players reset $break tf2.queue_type
 # TODO: make dynamic for selected maps instead of hardcoding
-data modify entity @s data.map set from storage tf2:maps 0
+data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0
+data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1
 
 execute store result score @s tf2.gamemode run data get entity @s data.map.gamemode
 scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode

@@ -20,6 +20,7 @@ scoreboard objectives add tf2.settings dummy
 # 9 = Payload, 10 = Payload Race, 11 / 12 = unused
 # 13 = VIP, 14 = VIP Race (lol), 15 = Misc.
 scoreboard objectives add tf2.gamemode dummy
+scoreboard objectives add tf2.map dummy
 
 scoreboard objectives add tf2.index dummy
 scoreboard objectives add tf2.red_progress dummy
@@ -68,5 +69,6 @@ bossbar add tf2:timer_5 ""
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $max_batches tf2.settings run function tf2:setup_markers
 
-data merge storage tf2:maps {0:{name: "test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-489.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{locked: 0b, capture_threshold: 15.0f, team: 1b, increment: 10.0f}},{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 1b, increment: 10.0f}},{Pos:[-509.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 1b, increment: 10.0f}}], gamemode: 1, timer: 360.0f, setup_time: 30.0f}}
+data merge storage tf2:maps {0:{name: "ad_test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-489.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-509.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 25.0f, team: 1b, increment: 60.0f}}], gamemode: 1, timer: 480.0f, setup_time: 30.0f}}
+data merge storage tf2:maps {1:{name: "cp_test", origin: [-300.0d, 1.0d, -300.0d], spawn:{red:[[-279.0d, 1.0d, -300.0d]], blu:[[-321.0d, 1.0d, -300.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-311.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 2b, increment: 600.0f}},{Pos:[-306.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 2b, increment: 600.0f}},{Pos:[-299.5d, 1.0d, -299.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 30.0f, team: 0b, increment: 600.0f}},{Pos:[-292.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 1b, increment: 600.0f}},{Pos:[-287.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 1b, increment: 600.0f}}], gamemode: 2, timer: 600.0f}}
 data merge storage tf2.__temp__:summon {}
