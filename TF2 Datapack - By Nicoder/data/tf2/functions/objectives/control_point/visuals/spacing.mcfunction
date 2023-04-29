@@ -16,5 +16,11 @@ execute if score $highest tf2.index matches 30 run data modify storage tf2.__tem
 
 execute if score $highest tf2.index matches 40 run data modify storage tf2.__temp__:lookup points[0].mid set value '740'
 execute if score $highest tf2.index matches 40 run data modify storage tf2.__temp__:lookup points[0].right set value '54210'
+
+execute if score $highest tf2.index matches 50 run data modify storage tf2.__temp__:lookup points[0].mid set value '7520'
+execute if score $highest tf2.index matches 50 run data modify storage tf2.__temp__:lookup points[0].right set value '6310'
+
+execute if score $highest tf2.index matches 60 run data modify storage tf2.__temp__:lookup points[0].mid set value '75430'
+execute if score $highest tf2.index matches 60 run data modify storage tf2.__temp__:lookup points[0].right set value '643210'
 function tf2:objectives/control_point/find_index/reinsert/main
 scoreboard players reset @s tf2.index

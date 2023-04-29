@@ -29,9 +29,8 @@ scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode
 data modify storage tf2.__temp__:summon objectives set from entity @s data.map.objectives
 scoreboard players set $temp tf2.index 0
 execute store result score $highest tf2.index if data storage tf2.__temp__:summon objectives[]
-scoreboard players remove $highest tf2.index 10
-scoreboard players operation $median tf2.index = $highest tf2.index
-scoreboard players operation $median tf2.index /= $2 tf2.const
+scoreboard players remove $highest tf2.index 1
+scoreboard players operation $highest tf2.index *= $10 tf2.const
 function tf2:objectives/control_point/visuals/spacing
 function tf2:start_game/as_marker/loop
 data remove entity @s data.map.objectives

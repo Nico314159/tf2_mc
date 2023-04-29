@@ -13,6 +13,7 @@ execute if score @s tf2.team matches 0 run data modify storage tf2.__temp__:look
 execute if score @s tf2.team matches 1 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]'
 execute if score @s tf2.team matches 2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]'
 data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]'
+execute if entity @s[tag=!tf2.locked,tag=!tf2.star] run data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]'
 execute if entity @s[tag=tf2.locked] run data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]'
 execute if entity @s[tag=tf2.star] run data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"321S!)","font":"tf2:square"}]'
 execute unless entity @s[tag=tf2.letter] run data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]'
