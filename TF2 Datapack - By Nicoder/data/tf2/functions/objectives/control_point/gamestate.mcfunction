@@ -13,7 +13,7 @@
 #       Amount of time remaining (negative values mean the game is already over but players haven't been relogged yet).
 #       Prevents the `tf2:reset/announce_winner` function from being called repeatedly.
 # @writes
-#   score $cp_count tf2.var
+#   score @s tf2.index
 #       Total number of control points in the current game.
 #   score $(red/blu)_cp_count tf2.var
 #       Number of control points owned by RED/BLU in the current game.
@@ -25,17 +25,16 @@ tag @e remove tf2.current
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 
-execute store result score $cp_count tf2.var if entity @e[type=marker,tag=tf2.current]
 execute store result score $red_cp_count tf2.var if entity @e[type=marker,tag=tf2.current,scores={tf2.team=1}]
 execute store result score $blu_cp_count tf2.var if entity @e[type=marker,tag=tf2.current,scores={tf2.team=2}]
 
 
 # Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom
 scoreboard players reset $winner tf2.team
-execute if score $red_cp_count tf2.var = $cp_count tf2.var if score @s tf2.gamemode matches 2 unless entity @s[tag=tf2.multistage] run scoreboard players set $winner tf2.team 1
-execute if score $blu_cp_count tf2.var = $cp_count tf2.var if score @s tf2.gamemode matches 1..2 unless entity @s[tag=tf2.multistage] run scoreboard players set $winner tf2.team 2
-# execute if score $red_cp_count tf2.var = $cp_count tf2.var if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage
-# execute if score $blu_cp_count tf2.var = $cp_count tf2.var if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage
-execute if score $winner tf2.team = $winner tf2.team if entity @e[type=marker,tag=tf2.current] unless score @s tf2.timer matches ..-1 run function tf2:reset/announce_winner
+execute if score $red_cp_count tf2.var = @s tf2.index if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run scoreboard players set $winner tf2.team 1
+execute if score $blu_cp_count tf2.var = @s tf2.index if score @s[tag=!tf2.multistage] tf2.gamemode matches 1..2 run scoreboard players set $winner tf2.team 2
+# execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage
+# execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage
+execute if score $winner tf2.team = $winner tf2.team unless score @s tf2.timer matches ..-1 run function tf2:reset/announce_winner
 
 tag @e[type=marker,tag=tf2.control_point,tag=tf2.current] remove tf2.current

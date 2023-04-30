@@ -31,7 +31,6 @@ data modify storage tf2.__temp__:summon objectives set from entity @s data.map.o
 scoreboard players set $temp tf2.index 0
 function tf2:start_game/as_marker/loop
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
-scoreboard players operation $highest tf2.index > @e[type=marker,tag=tf2.objective] tf2.index
 execute as @e[type=marker,tag=tf2.objective] if score @s tf2.index = $highest tf2.index run tag @s add tf2.last
 data remove entity @s data.map.objectives
 

@@ -15,12 +15,13 @@
 
 execute unless entity @s[tag=tf2.locked] run setblock ~ ~ ~ air
 execute if entity @s[tag=tf2.locked] run setblock ~ ~ ~ stone_slab
+execute if score @s tf2.team matches 0 run setblock ~ ~-1 ~ white_stained_glass
 execute if score @s tf2.team matches 1 run setblock ~ ~-1 ~ red_stained_glass
 execute if score @s tf2.team matches 2 run setblock ~ ~-1 ~ blue_stained_glass
 
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 function tf2:objectives/control_point/find_index/main
-execute if score @s tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"gray"}]'
+execute if score @s tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]'
 execute if score @s tf2.team matches 1 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]'
 execute if score @s tf2.team matches 2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]'
 data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]'

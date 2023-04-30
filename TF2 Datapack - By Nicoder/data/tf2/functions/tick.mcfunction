@@ -29,5 +29,5 @@ execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s run functio
 execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run function tf2:objectives/control_point/check_for_players
 execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.contested,tag=!tf2.locked] run function tf2:objectives/control_point/decay/init
 
-execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/gamestate
+execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run function tf2:objectives/control_point/gamestate
 

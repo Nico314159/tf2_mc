@@ -10,13 +10,13 @@
 #       Team-color wedge sector to show the amount of progress. (duh!)
 # @reads
 #   score @s tf2.team
-#       Which team owns the control point. Determines color of the background circle (unowned = gray, BLU-owned = #517AB8).
+#       Which team owns the control point. Determines color of the background circle (unowned = #A1A1A1, BLU-owned = #517AB8).
 
 scoreboard players operation $wheel_frame tf2.var *= $8 tf2.const
 scoreboard players operation $wheel_frame tf2.var *= $3 tf2.const
 scoreboard players operation $wheel_frame tf2.var /= @s tf2.capture_threshold
 function tf2:objectives/control_point/visuals/wheel_spacing
-execute if score @s tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"gray"}]'
+execute if score @s tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]'
 execute if score @s tf2.team matches 2 run data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#517AB8"}]'
 execute if score $wheel_frame tf2.var matches 0 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#D95A58"}]'
 execute if score $wheel_frame tf2.var matches 1 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}]'

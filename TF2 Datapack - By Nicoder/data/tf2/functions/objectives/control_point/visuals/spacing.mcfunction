@@ -40,4 +40,8 @@ execute if score $highest tf2.index matches 50 run data modify storage tf2.__tem
 execute if score $highest tf2.index matches 60 run data modify storage tf2.__temp__:lookup points[0].mid set value '75430'
 execute if score $highest tf2.index matches 60 run data modify storage tf2.__temp__:lookup points[0].right set value '643210'
 function tf2:objectives/control_point/find_index/reinsert/main
-scoreboard players reset @s tf2.index
+
+# repurposes the marker's `tf2.index` score to hold the total number of CPs.
+scoreboard players operation @s tf2.index = $highest tf2.index
+scoreboard players operation @s tf2.index /= $10 tf2.const
+scoreboard players add @s tf2.index 1
