@@ -1,3 +1,7 @@
+#> tf2:objectives/control_point/lock
+#
+# @within tf2:objectives/control_point/on_capture/**
+
 tag @s add tf2.locked
 scoreboard players operation @s[scores={tf2.team=1}] tf2.red_progress = @s tf2.capture_threshold
 scoreboard players operation @s[scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold

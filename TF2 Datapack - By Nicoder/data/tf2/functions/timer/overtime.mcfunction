@@ -1,6 +1,6 @@
 #> tf2:timer/overtime
 #
-# @context marker
+# @context game marker
 # @within tf2:timer/zero
 
 tag @s add tf2.overtime

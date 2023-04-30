@@ -1,7 +1,18 @@
 #> tf2:objectives/control_point/set_owner/red
 # 
 # @within tf2:objectives/control_point/capture_progress/red
-# @context marker & position
+# @context CP entity & position
+# @writes
+#   score $last tf2.team
+#       The team that *previously* controlled this point. (0 = unowned, 1 = RED, 2 = BLU)
+#   storage tf2.__temp__:lookup points[0].(owner/progress)
+#       Visual data relating to this point's state.
+# @reads
+#   score @s tf2.batch_number
+#   score ⟨marker⟩ tf2.batch_number
+#       Finds the game marker that this control point belongs to.
+#   score ⟨marker⟩ tf2.gamemode
+#       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.
 
 scoreboard players operation $last tf2.team = @s tf2.team
 scoreboard players set @s tf2.team 1

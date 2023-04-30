@@ -1,3 +1,20 @@
+#> tf2:objectives/control_point/visuals/spacing
+#
+# @within tf2:start_game/as_marker/main
+# @context game marker
+# @writes 
+#   score @s tf2.index
+#       Set to 70 so that `tf2:objectives/control_point/find_index/main` fetches `data[@s tf2.batch_number][7]`, which handles spacing.
+#   storage tf2.__temp__:lookup points[0].left
+#       Space to add at the very beginning, before the timer text.
+#   storage tf2.__temp__:lookup points[0].mid
+#       Space to add in between the timer text and the control points.
+#   storage tf2.__temp__:lookup points[0].right
+#       Space to add at the end of the control points row.
+# @reads
+#   score $highest tf2.index
+#       The highest CP index present in the game. Used to determine how many control points there are.
+
 scoreboard players set @s tf2.index 70
 function tf2:objectives/control_point/find_index/main
 execute if score $highest tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0].left set value '430'

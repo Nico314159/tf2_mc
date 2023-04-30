@@ -6,17 +6,17 @@
 # @context a marker (position/rotation irrelevant)
 # @handles start of game
 # @input
-#   score $(casual|competitive|chaos)_queue_length tf2.var 
-#       The number of people queued for each game format
-#   storage tf2:maps (0|1)
-#       The currently selected map and all its associated data
+#   score $(casual/competitive/chaos)_queue_length tf2.var 
+#       The number of people queued for each game format.
+#   storage tf2:maps <num>
+#       The currently selected map and all its associated data.
 # @output
 #   score @s tf2.batch_number
 #   score ⟨players⟩ tf2.batch_number
-#       Pairs the players in a queue to each other and to the storage marker
+#       Pairs the players in a queue to each other and to the storage marker.
 # @writes
 #   score $break tf2.queue_type
-#       Prevents multiple queues from getting assigned to same game
+#       Prevents multiple queues from getting assigned to same game.
 
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"]
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number

@@ -1,3 +1,7 @@
+#> tf2:objectives/control_point/visuals/wheel_spacing
+#
+# @within tf2:objectives/control_point/visuals/capture_progress/*/wheel
+
 tag @e remove tf2.current
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current

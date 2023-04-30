@@ -10,7 +10,7 @@
 # @reads
 #   score @s tf2.batch_number
 #   score ⟨marker⟩ tf2.batch_number
-#       Selects the game marker that matches the executing player
+#       Finds the game marker that matches the executing player.
 
 tag @s add tf2.temp
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number

@@ -1,3 +1,16 @@
+#> tf2:objectives/control_point/on_capture/add_time
+#
+# @within tf2:objectives/control_point/set_owner/*
+# @reads
+#   score @s tf2.increment
+#       Amount of time (in ticks) to add to the clock when the point is captured.
+#   score @s tf2.(red/blu)_progress
+#   score @s tf2.capture_threshold
+#       Used to determine which team made the capture. (Only relevant for dialogue lines)
+# @writes
+#   score ⟨marker⟩ tf2.timer
+#       Amount of time (in ticks) remaining on the clock.
+
 scoreboard players operation @e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1] tf2.timer += @s tf2.increment
 scoreboard players set @e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1,scores={tf2.gamemode=2}] tf2.timer 12000
 

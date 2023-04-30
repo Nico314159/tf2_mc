@@ -1,6 +1,6 @@
 #> tf2:timer/display/overtime
 #
-# @context marker
+# @context game marker
 # @within tf2:timer/main
 
 execute if entity @s[scores={tf2.batch_number=1,tf2.timer.sec=10..59}] run bossbar set tf2:timer_1 name [{"text":"","font":"minecraft:default"},{"text":"0","font":"tf2:square"},{"text":"Overtime! – "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"outlines","storage":"tf2:bossbar_1","interpret":true,"color":"#F5EACB","font":"tf2:square"}]

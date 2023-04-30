@@ -3,7 +3,18 @@
 # @within
 #   tf2:objectives/control_point/main
 #   tf2:objectives/control_point/decay/main
-# @context marker & position
+# @context CP entity & position
+# @input
+#   score $sum tf2.var
+#       Progress to add in BLU's direction (in milli-ticks).
+# @writes
+#   score @s tf2.(red/blu)_progress
+#       Current state of the control point.
+# @reads
+#   score @s tf2.capture_threshold
+#       Self-explanatory.
+#   predicate tf2:coin_flip
+#       50/50 chance to pick one of two dialogue lines.
 
 # RED progress must be reverted before adding BLU progress
 execute unless score @s tf2.red_progress matches 0 run scoreboard players operation @s tf2.red_progress -= $sum tf2.var

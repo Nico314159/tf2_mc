@@ -5,15 +5,15 @@
 # @input
 #   storage tf2.__temp__:summon objectives[0]
 #       Pos: double[]
-#           Coordinates where the objective is located on the map
+#           Coordinates where the objective is located on the map.
 #       Tags: string[]
-#           Tags specify what type of objective it is (control point, intelligence, payload cart)
+#           Tags specify what type of objective it is. (eg: control point, intelligence, payload cart)
 #       data.team: byte
-#           Which team starts out as the owner of the point (0 = unowned, 1 = red, 2 = blue)
-#       data.locked: byte/bool
-#           Whether or not the objective should start out locked
+#           Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).
+#       data.locked: bool
+#           (DEPRECATED) Whether or not the objective should start out locked.
 #       data.capture_threshold: float
-#           Amount of time to capture the objective in seconds (converted to milli-ticks when in score form)
+#           Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).
 
 data modify entity @s Pos set from storage tf2.__temp__:summon objectives[0].Pos 
 data modify entity @s Tags set from storage tf2.__temp__:summon objectives[0].Tags

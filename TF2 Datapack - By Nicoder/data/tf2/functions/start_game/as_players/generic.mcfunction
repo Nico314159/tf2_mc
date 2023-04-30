@@ -11,6 +11,8 @@
 # @writes
 #   score $break tf2.queue_type
 #       Prevents multiple queues from getting assigned to same game
+#   score @s tf2.respawn_timer 0
+#       Makes the players spawn in when the game starts.
 
 effect give @s glowing 1000 0 true
 # execute if score $show_debug_messages tf2.settings matches 1 run say generic

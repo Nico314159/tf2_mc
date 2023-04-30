@@ -1,8 +1,25 @@
 #> tf2:objectives/control_point/gamestate
 #
-# @context marker
+# @context game marker
 # @within tf2:tick
 # @handles game progress & win conditions
+# @reads
+#   score @s tf2.batch_number
+#   score ⟨control points⟩ tf2.batch_number
+#       Finds the control points that belong to this game marker.
+#   score @s tf2.gamemode
+#       Which gamemode is being played (see gamemode key below).
+#   score @s tf2.timer
+#       Amount of time remaining (negative values mean the game is already over but players haven't been relogged yet).
+#       Prevents the `tf2:reset/announce_winner` function from being called repeatedly.
+# @writes
+#   score $cp_count tf2.var
+#       Total number of control points in the current game.
+#   score $(red/blu)_cp_count tf2.var
+#       Number of control points owned by RED/BLU in the current game.
+# @output
+#   score $winner tf2.team
+#       Which team has won the current game (1 = RED, 2 = BLU). Null value if the game is still ongoing.
 
 tag @e remove tf2.current
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number

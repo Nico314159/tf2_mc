@@ -3,8 +3,8 @@
 # @within tf2:tick
 # @context marker & position
 # @output
-#   score $(red|blu)_on_point tf2.var
-#       The number of RED/BLU players on the control point 
+#   score $(red/blu)_on_point tf2.var
+#       The number of RED/BLU players on the control point.
 
 tag @s remove tf2.contested
 

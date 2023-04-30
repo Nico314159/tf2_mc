@@ -1,6 +1,13 @@
 #> tf2:timer/chat
 #
 # @within tf2:timer/main
+# @handles timer-related dialogue lines
+# @reads
+#   score @s tf2.batch_number
+#   score ⟨players⟩ tf2.batch_number
+#       Finds the players that belong to this game marker.
+#   predicate tf2:coin_flip
+#       50/50 chance to pick one of two dialogue lines.
 
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current

@@ -1,3 +1,17 @@
+#> tf2:objectives/control_point/visuals/capture_progress/blu/wheel
+#
+# @within tf2:objectives/control_point/visuals/capture_progress/blu/main
+# @writes
+#   score $wheel_frame tf2.var
+#       Frame of the title animation to display. Ranges from 0 - 47 based on how much capture progress has been made.
+#   storage tf2.__temp__:lookup points[0].wheel.owner
+#       Team-color background circle to show who controls the point.
+#   storage tf2.__temp__:lookup points[0].wheel.progress
+#       Team-color wedge sector to show the amount of progress. (duh!)
+# @reads
+#   score @s tf2.team
+#       Which team owns the control point. Determines color of the background circle (unowned = gray, RED-owned = #D95A58).
+
 scoreboard players operation $wheel_frame tf2.var *= $8 tf2.const
 scoreboard players operation $wheel_frame tf2.var *= $3 tf2.const
 scoreboard players operation $wheel_frame tf2.var /= @s tf2.capture_threshold

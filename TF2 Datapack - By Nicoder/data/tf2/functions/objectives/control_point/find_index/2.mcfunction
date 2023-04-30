@@ -1,3 +1,8 @@
+#> tf2:objectives/control_point/find_index/2
+#
+# @context CP entity
+# @within tf2:objectives/control_point/find_index/main
+
 execute if score @s tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][0]
 execute if score @s tf2.index matches 10 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][1]
 execute if score @s tf2.index matches 20 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points data[2][2]

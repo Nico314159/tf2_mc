@@ -1,6 +1,16 @@
 #> tf2:objectives/control_point/decay/main
 #
 # @within tf2:objectives/control_point/decay/init
+# @writes
+#   score @s tf2.red_progress
+#   score @s tf2.blu_progress
+#       Current state of the control point.
+#   score $sum tf2.var
+#       Progress to revert (in milli-ticks). Takes 90 seconds to fully revert progress. 
+# @reads
+#   score @s tf2.batch_number
+#   score ⟨marker⟩ tf2.batch_number
+#       Finds the game marker that the control point belongs to.
 
 scoreboard players operation $sum tf2.var = @s tf2.capture_threshold
 scoreboard players operation $sum tf2.var /= $20 tf2.const

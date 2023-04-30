@@ -8,18 +8,18 @@
 # @reads
 #   score @s tf2.batch_number
 #   score ⟨marker⟩ tf2.batch_number
-#       Selects the game marker that matches the executing player
+#       Selects the game marker that matches the executing player.
 # @writes
 #   score @s tf2.dead
-#       Boolean to prevent function from being called repeatedly
+#       Boolean to prevent function from being called repeatedly.
 # @input
 #   data entity ⟨marker⟩ data.map.spawn_time.(red|blu)[0]
-#       Current length of RED/BLU's respawn timer on this map (in SECONDS) 
+#       Current length of RED/BLU's respawn timer on this map. (in *seconds*) 
 #   score @s tf2.team
-#       Team of the executing player (1 = RED, 2 = BLU)
+#       Team of the executing player. (1 = RED, 2 = BLU)
 # @output
 #   score @s tf2.respawn_timer
-#       Length of time until the executing player respawns (in TICKS)
+#       Length of time until the executing player respawns. (in *ticks*)
 
 spawnpoint @s ~ ~ ~
 tag @s add tf2.dead

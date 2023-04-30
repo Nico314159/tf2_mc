@@ -1,6 +1,17 @@
-#> tf2:objectives/control_point/init
+#> tf2:objectives/control_point/visuals/init
 #
 # @within tf2:tick
+# @context all CP entities without tag tf2.init, & their positions
+# @writes 
+#   score $local tf2.batch_number
+#       The game marker that the control point belongs to. Used solely for `tf2:objectives/control_point/find_index/main`.
+#   storage tf2.__temp__:lookup points[0].(owner/progress/symbol/extra)
+#       All visual data relating to this point's state.
+# @reads
+#   score @s tf2.team
+#       Which team owns the control point (0 = unowned, 1 = RED, 2 = BLU). Used for background color in HUD and for beacon color (placeholder until model is added).
+#   score @s tf2.index
+#       Which control point this is. Used to determine the letter to show in the corner (0 = A, 10 = B, 20 = C, etc.).
 
 execute unless entity @s[tag=tf2.locked] run setblock ~ ~ ~ air
 execute if entity @s[tag=tf2.locked] run setblock ~ ~ ~ stone_slab

@@ -1,3 +1,7 @@
+#> tf2:timer/begin_setup
+#
+# @within tf2:start_game/as_marker/main
+
 tag @s add tf2.setup_time
 execute store result score @s tf2.timer run data get entity @s data.map.setup_time 20
 execute if score @s tf2.batch_number matches 1 run bossbar set tf2:timer_1 color green
