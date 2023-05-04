@@ -39,8 +39,8 @@
 	    {
             "type": "bitmap",
             "file": "tf2:font/wheel/outline.png",
-	        "ascent": 60,
-            "height": 60,
+	        "ascent": 16,
+            "height": 16,
             "chars": [
                 "?"
             ]
@@ -48,8 +48,8 @@
 	    {
             "type": "bitmap",
             "file": "tf2:font/wheel/fill.png",
-	        "ascent": 60,
-            "height": 60,
+	        "ascent": 16,
+            "height": 16,
             "chars": [
                 "="
             ]
@@ -57,8 +57,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_1.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "a"
             ]
@@ -66,8 +66,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_2.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "b"
             ]
@@ -75,8 +75,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_3.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "c"
             ]
@@ -84,8 +84,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_4.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "d"
             ]
@@ -93,8 +93,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_5.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "e"
             ]
@@ -102,8 +102,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_6.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "f"
             ]
@@ -111,8 +111,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_7.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "g"
             ]
@@ -120,8 +120,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_8.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "h"
             ]
@@ -129,8 +129,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_9.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "i"
             ]
@@ -138,8 +138,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_10.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "j"
             ]
@@ -147,8 +147,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_11.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "k"
             ]
@@ -156,8 +156,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_12.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "l"
             ]
@@ -165,8 +165,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_13.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "m"
             ]
@@ -174,8 +174,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_14.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "n"
             ]
@@ -183,8 +183,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_15.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "o"
             ]
@@ -192,8 +192,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_16.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "p"
             ]
@@ -201,8 +201,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_17.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "q"
             ]
@@ -210,8 +210,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_18.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "r"
             ]
@@ -219,8 +219,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_19.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "s"
             ]
@@ -228,8 +228,8 @@
         {
             "type": "bitmap",
             "file": "tf2:font/wheel/top_20.png",
-            "ascent": 60,
-            "height": 60,
+            "ascent": 16,
+            "height": 16,
             "chars": [
                 "t"
             ]
