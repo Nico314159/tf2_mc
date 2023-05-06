@@ -9,7 +9,7 @@
 #   score @s tf2.index
 #       Storage address of the current control point and the game it belongs to.
 # @reads
-#   storage tf2:control_points data[$local...][@s tf2.index]
+#   storage tf2:control_points info[$local...][@s tf2.index]
 #       owner: RawTextComponent (font = tf2:square)
 #           Team-color square to show who controls the point. Flickers when opponents are attacking the point.
 #       progress: RawTextComponent (font = tf2:square)
@@ -27,11 +27,6 @@
 #           Space characters used to make sure the wheel indicator points to the correct control point.
 # @output
 #   storage tf2.__temp__:lookup points[0]
-#       Dynamically-editable copy of all data in the `tf2:control_points data[$local...][@s tf2.index]` storage path.
+#       Dynamically-editable copy of all data in the `tf2:control_points info[$local...][@s tf2.index]` storage path.
 #       Can be copied back to the original path using `function tf2:objectives/control_point/find_index/reinsert/main`.
-
-execute if score $local tf2.batch_number matches 1 run function tf2:objectives/control_point/find_index/1
-execute if score $local tf2.batch_number matches 2 run function tf2:objectives/control_point/find_index/2
-execute if score $local tf2.batch_number matches 3 run function tf2:objectives/control_point/find_index/3
-execute if score $local tf2.batch_number matches 4 run function tf2:objectives/control_point/find_index/4
-execute if score $local tf2.batch_number matches 5 run function tf2:objectives/control_point/find_index/5
+function tf2:__private__/hardcode_switch/0

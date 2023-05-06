@@ -1,1 +1,5 @@
-{"values":["tf2:load"]}
+{
+    "values": [
+        "tf2:__load__"
+    ]
+}

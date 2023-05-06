@@ -8,7 +8,6 @@
 # @output
 #   score @s tf2.team 
 #       Which team the player will be assigned to (1 = RED, 2 = BLU)
-
 scoreboard players operation @s tf2.team = $team_temp tf2.var
 scoreboard players add @s tf2.team 1
 team join RED @s[scores={tf2.team=1}]

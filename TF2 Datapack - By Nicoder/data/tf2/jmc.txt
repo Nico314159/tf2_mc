@@ -1,0 +1,6 @@
+LOAD=__load__
+TICK=__tick__
+PRIVATE=__private__
+VAR=tf2.var
+INT=tf2.const
+STORAGE=__storage__

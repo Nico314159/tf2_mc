@@ -1,0 +1,1668 @@
+JMC.put("#> tf2:load");
+JMC.put("#");
+JMC.put("#Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities.");
+JMC.put("#");
+JMC.put("#@handles #minecraft:load");
+JMC.put("#@context any");
+
+JMC.put("#declare storage tf2:maps");
+JMC.put("#declare storage tf2:control_points");
+JMC.put("#declare storage tf2.__temp__:summon");
+JMC.put("#declare storage tf2.__temp__:lookup");
+
+JMC.put("# TODO expand this as time goes on");
+Scoreboard.add(tf2.ticks, dummy);
+Scoreboard.add(tf2.settings, dummy);
+
+JMC.put("# Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom,");
+JMC.put("# 5 = CTF A/D, 6 = CTF Standard, 7 = Invade CTF / Special Delivery, 8 = HTF, ");
+JMC.put("# 9 = Payload, 10 = Payload Race, 11 / 12 = unused,");
+JMC.put("# 13 = VIP, 14 = VIP Race (lol), 15 = Misc.");
+Scoreboard.add(tf2.gamemode, dummy);
+Scoreboard.add(tf2.map, dummy);
+
+Scoreboard.add(tf2.index, dummy);
+Scoreboard.add(tf2.red_progress, dummy);
+Scoreboard.add(tf2.blu_progress, dummy);
+Scoreboard.add(tf2.capture_threshold, dummy);
+
+Scoreboard.add(tf2.timer, dummy);
+Scoreboard.add(tf2.timer.min, dummy);
+Scoreboard.add(tf2.timer.sec, dummy);
+Scoreboard.add(tf2.increment, dummy);
+
+Scoreboard.add(tf2.queue_type, trigger);
+Scoreboard.add(tf2.batch_number, dummy);
+Scoreboard.add(tf2.class, dummy);
+Scoreboard.add(tf2.team, dummy);
+Scoreboard.add(tf2.health, dummy);
+Scoreboard.add(tf2.dead, deathCount);
+Scoreboard.add(tf2.respawn_timer, dummy);
+
+Scoreboard.add(tf2.permanent.games_won, dummy);
+Scoreboard.add(tf2.permanent.games_played, dummy);
+
+JMC.put("# TODO remove this line later");
+scoreboard players set $show_debug_messages tf2.settings 1;
+
+JMC.put("# only runs the very first time datapack is loaded");
+execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run initialize();
+
+JMC.put("# set up teams");
+Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
+Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
+
+Hardcode.repeat("_i_", ()=>{
+        Bossbar.add(tf2:timer__i_, "");
+    },
+    start=1,
+    stop=6
+);
+
+JMC.put("# markers keep track of gamestate");
+execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch];
+if ($batch_markers !== tf2.settings:$max_batches) {
+    setup_markers();
+}
+
+data merge storage tf2:maps {0:{name: "ad_test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-489.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-509.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 25.0f, team: 1b, increment: 60.0f}}], gamemode: 1, timer: 480.0f, setup_time: 30.0f}};
+data merge storage tf2:maps {1:{name: "cp_test", origin: [-300.0d, 1.0d, -300.0d], spawn:{red:[[-279.0d, 1.0d, -300.0d]], blu:[[-321.0d, 1.0d, -300.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-311.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 2b, increment: 600.0f}},{Pos:[-306.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 2b, increment: 600.0f}},{Pos:[-299.5d, 1.0d, -299.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 30.0f, team: 0b, increment: 600.0f}},{Pos:[-292.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 1b, increment: 600.0f}},{Pos:[-287.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 1b, increment: 600.0f}}], gamemode: 2, timer: 600.0f}};
+data merge storage tf2.__temp__:summon {};
+
+function initialize() {
+    JMC.put("#> tf2:initialize");
+    JMC.put("#");
+    JMC.put("# Sets up values of system constants and defaults for game settings.");
+    JMC.put("#");
+    JMC.put("# @context any");
+    JMC.put("# @within tf2:__load__");
+
+    JMC.put("# TODO add more constants (for mathy stuff)");
+    scoreboard players set -1 tf2.const -1;
+    scoreboard players set 0 tf2.const 0;
+    scoreboard players set 1 tf2.const 1;
+    scoreboard players set 2 tf2.const 2;
+    scoreboard players set 3 tf2.const 3;
+    scoreboard players set 4 tf2.const 4;
+    scoreboard players set 5 tf2.const 5;
+    scoreboard players set 6 tf2.const 6;
+    scoreboard players set 8 tf2.const 8;
+    scoreboard players set 10 tf2.const 10;
+    scoreboard players set 20 tf2.const 20;
+    scoreboard players set 50 tf2.const 50;
+    scoreboard players set 60 tf2.const 60;
+    scoreboard players set 90 tf2.const 90;
+    scoreboard players set 100 tf2.const 100;
+
+    JMC.put("# TODO replace line below when voting system is added");
+    scoreboard players set $choose_map_randomly tf2.settings 1;
+    scoreboard players set $random_crits tf2.settings 0;
+    scoreboard players set $random_spread tf2.settings 0;
+    scoreboard players set $use_server_mods tf2.settings 0;
+    scoreboard players set $chat_bot tf2.settings 0;
+    scoreboard players set $max_batches tf2.settings 3;
+    scoreboard players set $initialization_complete tf2.settings 1;
+
+    data merge storage tf2.__temp__:lookup {points:[{}]};
+    data merge storage tf2:control_points {info:[[],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}]]};
+
+    JMC.put("#this *could* all be part of the previous command but then it would be so long that it's a total PITA.");
+    Hardcode.repeat(
+        "_i_", ()=>{
+            Hardcode.repeat("_j_", ()=>{
+                data modify storage tf2:control_points info[_i_][_j_].main set value '[{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}]';
+                },
+                start=0,
+                stop=7
+            );
+        },
+        start=1,
+        stop=6
+    );
+} function setup_markers() {
+    JMC.put("#> tf2:setup_markers");
+    JMC.put("#");
+    JMC.put("# Summons new gamestate markers if there aren't enough, and kills extras if there are too many.");
+    JMC.put("#");
+    JMC.put("# @context any");
+    JMC.put("# @public");
+
+    if ($batch_markers < tf2.settings:$max_batches){
+        summon minecraft:marker 0 0 0 {Tags:["tf2.batch"],data:{lastPos: [0.0d, 0.0d, 0.0d],  map: {}}};
+    } 
+    if ($batch_markers > tf2.settings:$max_batches){
+        kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
+    } 
+    $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
+    scoreboard players reset $index tf2.batch_number;
+    execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run assign_id();
+    execute unless score $batch_markers tf2.var = $max_batches tf2.settings run setup_markers();
+} function assign_id() {
+    JMC.put("#> tf2:assign_id");
+    JMC.put("#");
+    JMC.put("# @within");
+    JMC.put("#   tf2:setup_markers");
+    JMC.put("#   tf2:assign_id");
+
+    scoreboard players set @s tf2.map 1;
+    scoreboard players add $index tf2.batch_number 1;
+    scoreboard players set $break tf2.batch_number 1;
+    execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $index tf2.batch_number run scoreboard players set $break tf2.batch_number 0;
+    execute unless score $break tf2.batch_number matches 1 run assign_id();
+    scoreboard players operation @s tf2.batch_number = $index tf2.batch_number;
+}
+
+class math {
+    function harmonic_series() {
+        JMC.put("#> tf2:math/harmonic_series");
+        JMC.put("#");
+        JMC.put("# Calculates the nth partial sum of the harmonic series. (1 + 1/2 + 1/3 + ... + 1/n)");
+        JMC.put("#");
+        JMC.put("# @public");
+        JMC.put("# @context any");
+        JMC.put("# @input");
+        JMC.put("#   score $bound tf2.var ");
+        JMC.put("#       The upper bound of summation (i.e. how many fractions to sum up).");
+        JMC.put("# @output");
+        JMC.put("#   score $sum tf2.var");
+        JMC.put("#       The result of the sum, scaled up by 1000. (ex: 1.5 becomes 1500)  ");
+        JMC.put("# @writes");
+        JMC.put("#   score $index tf2.var ");
+        JMC.put("#       Temporary variable for the index of summation (denominator of the current term).");
+        JMC.put("#   score $add tf2.var");
+        JMC.put("#       Temporary variable for the current term on this iteration of the loop. (equal to 1000 / $index) ");
+
+        
+        $sum = 0;
+        for($index = 1; $index <= $bound; $index++;) {
+            $add = 1000;
+            $add /= $index;
+            $sum += $add;
+        }
+    }
+}
+
+function __tick__() {
+    JMC.put("#> tf2:__tick__");
+    JMC.put("#");
+    JMC.put("# @handles #minecraft:tick");
+    JMC.put("# @context any");
+
+    scoreboard players add $global tf2.ticks 1;
+    scoreboard players add @a tf2.ticks 1;
+    execute if entity @a[tag=tf2.in_queue] run scoreboard players add $waiting_room tf2.ticks 1;
+    execute as @a unless score @s tf2.ticks = $global tf2.ticks run login();
+
+    execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run select();
+    execute as @a[tag=!tf2.allowed_to_sprint] run disable_sprint();
+
+    $comp_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}];
+    $casual_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2}];
+    $chaos_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3}];
+
+    scoreboard players set $enough_in_queue tf2.var 1;
+    execute unless score $comp_queue_length tf2.var matches 12.. unless score $casual_queue_length tf2.var matches 24.. unless score $chaos_queue_length tf2.var matches 40.. run scoreboard players set $enough_in_queue tf2.var 0;
+    if ($enough_in_queue = 1) {
+        execute as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run start_game.as_marker.main();
+    }
+    
+    execute as @e[type=#tf2:player_like,tag=tf2.is_playing,scores={tf2.dead=1..}] run death();
+    execute as @e[type=#tf2:player_like,tag=tf2.dead] run scoreboard players remove @s tf2.respawn_timer 1;
+    execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run spawn.init();
+
+    execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.timer = @s tf2.timer run timer.main();
+
+    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s run objectives.control_point.visuals.init();
+    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run objectives.control_point.check_for_players();
+    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.contested,tag=!tf2.locked] run objectives.control_point.decay.init();
+
+    execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run objectives.control_point.gamestate();
+}
+
+function login() {
+    JMC.put("#> tf2:login");
+    JMC.put("#");
+    JMC.put("# Teleports a newly joined player to the lobby room, clears their inventory, puts them in adventure mode, resets their gameplay tags, and allows them to join queues.");
+    JMC.put("# ");
+    JMC.put("# @within tf2:__tick__");
+    JMC.put("# @context a player");
+    JMC.put("# @handles server joining");
+
+    JMC.put("# TODO improve lobby build quality (in-world)");
+    execute if score $show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},"Player ",{"selector":"@s"}," has logged in at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime."];
+    tp @s[tag=!tf2.admin] 30 25 25 0 0;
+    gamemode adventure @s[tag=!tf2.admin];
+
+    clear @s[tag=!tf2.admin];
+    JMC.put('item replace entity @s[tag=!tf2.admin] hotbar.8 with written_book{pages:[\'["",{"text":"Welcome to Minecraft TF2!","bold":true,"underlined":true,"color":"gold"},"\\\\n","\\\\n",{"text":"[Start Playing] ","bold":true,"underlined":true,"color":"dark_gray","clickEvent":{"action":"change_page","value":"3"},"hoverEvent":{"action":"show_text","contents":["Choose a gamemode and jump right into the action!"]}},"\\\\n","\\\\n",{"text":"[Tutorial Missions] ","bold":true,"underlined":true,"color":"gray","clickEvent":{"action":"change_page","value":"2"},"hoverEvent":{"action":"show_text","contents":["A singleplayer experience to improve your skills with the various classes and weapons"]}},"\\\\n","\\\\n",{"text":"[Player Stats]","bold":true,"underlined":true,"color":"gray","hoverEvent":{"action":"show_text","contents":[{"text":"View global counters like total kills, captures, etc.","color":"white"}]}},"\\\\n"]\',\'["",{"text":"Select a Mission:","underlined":true},"\\\\n","\\\\n",{"text":"Heist (Spy)","hoverEvent":{"action":"show_text","contents":["Sneak into the base under cover of darkness! Manage your cloak carefully, or else you will be spotted by cameras."]}},"\\\\n",{"text":"Headhunt (Sniper)","hoverEvent":{"action":"show_text","contents":["Hit the floating heads in order to open pathways leading to the treasure room"]}},"\\\\n",{"text":"Racecourse (Scout)","hoverEvent":{"action":"show_text","contents":["Try to avoid the obstacles and get through the level as fast as possible. Hint: you\\\'ll need to use double jumps!"]}},"\\\\n",{"text":"Rocket Jump stuff","hoverEvent":{"action":"show_text","contents":[]}},"\\\\n",{"text":"Bullseye (any class)","hoverEvent":{"action":"show_text","contents":["Try to hit as many targets as you can before the timer runs out!"]}},"\\\\n",{"text":"Some other stuff idk","hoverEvent":{"action":"show_text","contents":[]}}]\',\'["",{"text":"Queue for a game:","underlined":true},"\\\\n","\\\\n","\\\\n",{"text":"[Competitive Mode]","bold":true,"color":"dark_green","clickEvent":{"action":"change_page","value":"6"},"hoverEvent":{"action":"show_text","contents":[{"text":"• Max players: 9 v 9 ","color":"dark_green"},"\\\\n",{"text":"• Random bullet spread: NO","color":"dark_green"},"\\\\n",{"text":"• Gamemode / map pool: LIMITED","color":"dark_green"},"\\\\n",{"text":"• Matchmaking system: YES","color":"dark_green"}]}},"\\\\n","\\\\n","\\\\n",{"text":"[Casual Mode]","bold":true,"color":"dark_aqua","clickEvent":{"action":"change_page","value":"9"},"hoverEvent":{"action":"show_text","contents":[{"text":"• Max players: 12 v 12","color":"dark_aqua"},"\\\\n",{"text":"• Random bullet spread: YES","color":"dark_aqua"},"\\\\n",{"text":"• Gamemode / map pool: ALL","color":"dark_aqua"},"\\\\n",{"text":"• Matchmaking system: YES","color":"dark_aqua"},"\\\\n",{"text":"• Team autobalance: YES","color":"dark_aqua"}]}},"\\\\n","\\\\n","\\\\n",{"text":"[Chaos Mode]","bold":true,"color":"dark_red","clickEvent":{"action":"change_page","value":"12"},"hoverEvent":{"action":"show_text","contents":[{"text":"• Max players: 20 v 20","color":"dark_red"},"\\\\n",{"text":"• Random bullet spread: YES","color":"dark_red"},"\\\\n",{"text":"• Gamemode / map pool: ALL","color":"dark_red"},"\\\\n",{"text":"• Matchmaking system: NO","color":"dark_red"},"\\\\n","• Team autobalance: NO"]}}]\',\'[""]\',\'[""]\',\'["","\\\\n",{"text":"You have selected:","underlined":true,"color":"dark_gray"},"\\\\n",{"text":"Competitive Mode","bold":true,"color":"dark_green"},"\\\\n","\\\\n",{"text":"Is this correct?","color":"black"},"\\\\n",{"text":"[Yup]","color":"dark_green","clickEvent":{"action":"run_command","value":"/trigger tf2.queue_type set 1"}},{"text":" [Nope]","color":"gray","clickEvent":{"action":"change_page","value":"3"}}]\',\'[""]\',\'[""]\',\'["","\\\\n",{"text":"You have selected:","underlined":true,"color":"dark_gray"},"\\\\n",{"text":"Casual Mode","bold":true,"color":"dark_aqua"},"\\\\n","\\\\n",{"text":"Is this correct?","color":"black"},"\\\\n",{"text":"[Yup]","color":"dark_aqua","clickEvent":{"action":"run_command","value":"/trigger tf2.queue_type set 2"}},{"text":" [Nope]","color":"gray","clickEvent":{"action":"change_page","value":"3"}}]\',\'[""]\',\'[""]\',\'["","\\\\n",{"text":"You have selected:","underlined":true,"color":"dark_gray"},"\\\\n",{"text":"Chaos Mode","bold":true,"color":"dark_red"},"\\\\n","\\\\n",{"text":"Is this correct?","color":"black"},"\\\\n",{"text":"[Yup]","color":"dark_red","clickEvent":{"action":"run_command","value":"/trigger tf2.queue_type set 3"}},{"text":" [Nope]","color":"gray","clickEvent":{"action":"change_page","value":"3"}}]\'],title:"Navigator",author:LazyHarpSeal}');
+
+    scoreboard players operation @s tf2.ticks = $global tf2.ticks;
+    scoreboard players enable @s tf2.queue_type;
+    scoreboard players set @s tf2.queue_type 0;
+
+    JMC.put("# remove gameplay-specific variables");
+    team leave @s;
+    tag @s remove tf2.in_queue;
+    tag @s remove tf2.allowed_to_sprint;
+    tag @s remove tf2.is_playing;
+    tag @s remove tf2.random_spread;
+    tag @s remove tf2.random_crits;
+    tag @s remove tf2.free_vote;
+    tag @s remove tf2.can_be_autobalanced;
+    tag @s remove tf2.on_point;
+    tag @s remove tf2.unable_to_cap;
+    tag @s remove tf2.dead;
+    scoreboard players reset @s tf2.class;
+    scoreboard players reset @s tf2.health;
+    scoreboard players reset @s tf2.team;
+    scoreboard players reset @s tf2.dead;
+    scoreboard players reset @s tf2.respawn_timer;
+    scoreboard players set @s tf2.batch_number 0;
+} function select() {
+    JMC.put("#> tf2:select");
+    JMC.put("#");
+    JMC.put("# Adds players to queues when they select them using /trigger.");
+    JMC.put("#");
+    JMC.put("# @within tf2:__tick__");
+    JMC.put("# @context all players not already queued or playing");
+    JMC.put("# @input");
+    JMC.put("#	score @s tf2.queue_type");
+    JMC.put("#		Which queue the player is in (1 = competitive, 2 = casual, 3 = chaos)");
+
+    clear @s written_book;
+    tag @s add tf2.in_queue;
+    execute if score @s tf2.queue_type matches 1 run tp @s 10 25 25 0 0;
+    execute if score @s tf2.queue_type matches 2 run tp @s -10 25 25 0 0;
+    execute if score @s tf2.queue_type matches 3 run tp @s -30 25 25 0 0;
+    execute unless score @s tf2.batch_number = @s tf2.batch_number run scoreboard players set @s tf2.batch_number 0;
+}
+
+function disable_sprint() {
+    JMC.put("#> tf2:disable_sprint");
+    JMC.put("#");
+    JMC.put("# Prevents players from sprinting by giving them an attribute modifier that cancels it out exactly.");
+    JMC.put("#");
+    JMC.put("# @within tf2:__tick__");
+    JMC.put("# @context all players without tf2.allowed_to_sprint tag (tag exists only for debugging)");
+    JMC.put("# @reads");
+    JMC.put("#	predicate tf2:sprinting");
+
+    attribute @s[predicate=tf2:sprinting] minecraft:generic.movement_speed modifier add 70726576-656e-7473-7072-696e74696e67 "preventsprinting" -0.23 multiply;
+    attribute @s[predicate=!tf2:sprinting] minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67;
+}
+
+function death() {
+    JMC.put("#> tf2:death");
+    JMC.put("#");
+    JMC.put("# Puts the dead player into spectator mode and starts their respawn timer.");
+    JMC.put("#");
+    JMC.put("# @within tf2:__tick__");
+    JMC.put("# @context a (dead) player");
+    JMC.put("# @handles death");
+    JMC.put("# @reads");
+    JMC.put("#   score @s tf2.batch_number");
+    JMC.put("#   score ⟨marker⟩ tf2.batch_number");
+    JMC.put("#       Selects the game marker that matches the executing player.");
+    JMC.put("# @writes");
+    JMC.put("#   score @s tf2.dead");
+    JMC.put("#       Boolean to prevent function from being called repeatedly.");
+    JMC.put("# @input");
+    JMC.put("#   data entity ⟨marker⟩ data.map.spawn_time.(red|blu)[0]");
+    JMC.put("#       Current length of RED/BLU's respawn timer on this map. (in *seconds*) ");
+    JMC.put("#   score @s tf2.team");
+    JMC.put("#       Team of the executing player. (1 = RED, 2 = BLU)");
+    JMC.put("# @output");
+    JMC.put("#   score @s tf2.respawn_timer");
+    JMC.put("#       Length of time until the executing player respawns. (in *ticks*)");
+
+    spawnpoint @s ~ ~ ~;
+    tag @s add tf2.dead;
+    gamemode spectator @s;
+    spectate @r[gamemode=!spectator];
+    scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+    execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.temp;
+    execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.red[0] 20;
+    execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.blu[0] 20;
+    tag @e[type=marker] remove tf2.temp;
+    scoreboard players set @s tf2.dead 0;
+} class spawn {
+    function init() {
+        JMC.put("#> tf2:spawn/init");
+        JMC.put("#");
+        JMC.put("# (Re)spawns a player and changes their gamemode back to adventure if applicable.");
+        JMC.put("#");
+        JMC.put("# @within");
+        JMC.put("#   tf2:__tick__");
+        JMC.put("#   tf2:team_assign");
+        JMC.put("# @context a player");
+        JMC.put("# @handles player spawning (both game start & respawn)");
+        JMC.put("# @reads");
+        JMC.put("#   score @s tf2.batch_number");
+        JMC.put("#   score ⟨marker⟩ tf2.batch_number");
+        JMC.put("#       Finds the game marker that matches the executing player.");
+
+        tag @s add tf2.temp;
+        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+        execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run spawn.tp();
+        tag @s remove tf2.temp;
+        gamemode adventure @s;
+        tag @s remove tf2.dead;
+    } function tp() {
+        JMC.put("#> tf2:spawn/tp");
+        JMC.put("#");
+        JMC.put("# Teleports the player to a spawn point.");
+        JMC.put("#");
+        JMC.put("# @within tf2:spawn/init");
+        JMC.put("# @context a marker that matches the tagged player's batch");
+        JMC.put("# @handles dynamic teleportation");
+        JMC.put("# @input");
+        JMC.put("#   score ⟨player⟩ tf2.team");
+        JMC.put("#       Team of the tagged player (1 = RED, 2 = BLU).");
+        JMC.put("#   data entity @s data.map.spawn.(red/blu)[0]");
+        JMC.put("#       Current spawn point of the RED/BLU team on the selected map.");
+        JMC.put("# @output");
+        JMC.put("#   data entity @s Pos");
+        JMC.put("#       Position to teleport the tagged player.");
+
+        data modify entity @s data.lastPos set from entity @s Pos;
+        execute if entity @e[type=#tf2:player_like,tag=tf2.temp,scores={tf2.team=1},limit=1] run data modify entity @s Pos set from entity @s data.map.spawn.red[0];
+        execute if entity @e[type=#tf2:player_like,tag=tf2.temp,scores={tf2.team=2},limit=1] run data modify entity @s Pos set from entity @s data.map.spawn.blu[0];
+        tp @e[type=#tf2:player_like,tag=tf2.temp,limit=1] @s;
+        data modify entity @s Pos set from entity @s data.lastPos;
+    }
+} function team_assign () {
+    JMC.put("#> tf2:team_assign");
+    JMC.put("#");
+    JMC.put("# @within tf2:start_game/as_marker/main");
+    JMC.put("# @context all players in the batch");
+    JMC.put("# @input");
+    JMC.put("#   score $team_temp tf2.var");
+    JMC.put("#       Alternates team of the next player in loop (without using randomization)");
+    JMC.put("# @output");
+    JMC.put("#   score @s tf2.team ");
+    JMC.put("#       Which team the player will be assigned to (1 = RED, 2 = BLU)");
+
+    $team_temp -> tf2.team:@s;
+    scoreboard players add @s tf2.team 1;
+    team join RED @s[scores={tf2.team=1}];
+    team join BLU @s[scores={tf2.team=2}];
+    $team_temp ?= execute if score $team_temp tf2.var matches 0;
+    spawn.init();
+}
+
+class start_game {
+    class as_marker {
+        function main() {
+            JMC.put("#> tf2:start_game/as_marker/main");
+            JMC.put("#");
+            JMC.put("# Starts a new running game with the players in the queue. ");
+            JMC.put("#");
+            JMC.put("# @within tf2:__tick__");
+            JMC.put("# @context a marker (position/rotation irrelevant)");
+            JMC.put("# @handles start of game");
+            JMC.put("# @input");
+            JMC.put("#   score $(casual/competitive/chaos)_queue_length tf2.var ");
+            JMC.put("#       The number of people queued for each game format.");
+            JMC.put("#   storage tf2:maps <num>");
+            JMC.put("#       The currently selected map and all its associated data.");
+            JMC.put("# @output");
+            JMC.put("#   score @s tf2.batch_number");
+            JMC.put("#   score ⟨players⟩ tf2.batch_number");
+            JMC.put("#       Pairs the players in a queue to each other and to the storage marker.");
+            JMC.put("# @writes");
+            JMC.put("#   score $break tf2.queue_type");
+            JMC.put("#       Prevents multiple queues from getting assigned to same game.");
+
+            execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
+            scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+            scoreboard players reset $break tf2.queue_type;
+            JMC.put("# TODO: make dynamic for selected maps instead of hardcoding");
+            data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0;
+            data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1;
+
+            execute store result score @s tf2.gamemode run data get entity @s data.map.gamemode;
+            scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode;
+            data modify storage tf2.__temp__:summon objectives set from entity @s data.map.objectives;
+            scoreboard players set $temp tf2.index 0;
+            while (data storage tf2.__temp__:summon objectives[]) {
+                summon marker ~ ~ ~ {Tags:["tf2.new"]};
+                execute as @e[tag=tf2.new,limit=1] run {
+                    JMC.put("#> tf2:start_game/as_marker/set_nbt");
+                    JMC.put("#");
+                    JMC.put("# @within tf2:start_game/as_marker");
+                    JMC.put("# @context marker summoned by the loop function");
+                    JMC.put("# @input");
+                    JMC.put("#   storage tf2.__temp__:summon objectives[0]");
+                    JMC.put("#       Pos: double[]");
+                    JMC.put("#           Coordinates where the objective is located on the map.");
+                    JMC.put("#       Tags: string[]");
+                    JMC.put("#           Tags specify what type of objective it is. (eg: control point, intelligence, payload cart)");
+                    JMC.put("#       data.team: byte");
+                    JMC.put("#           Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).");
+                    JMC.put("#       data.locked: bool");
+                    JMC.put("#           (DEPRECATED) Whether or not the objective should start out locked.");
+                    JMC.put("#       data.capture_threshold: float");
+                    JMC.put("#           Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
+
+                    data modify entity @s Pos set from storage tf2.__temp__:summon objectives[0].Pos;
+                    data modify entity @s Tags set from storage tf2.__temp__:summon objectives[0].Tags;
+                    execute store result score @s tf2.team run data get storage tf2.__temp__:summon objectives[0].data.team 1;
+                    execute store result score @s tf2.capture_threshold run data get storage tf2.__temp__:summon objectives[0].data.capture_threshold 20000;
+                    execute store result score @s tf2.increment run data get storage tf2.__temp__:summon objectives[0].data.increment 20;
+                    scoreboard players operation @s tf2.gamemode = $temp tf2.gamemode;
+                    scoreboard players operation @s tf2.index = $temp tf2.index;
+                    scoreboard players operation $highest tf2.index = @s tf2.index;
+                    scoreboard players operation @s tf2.batch_number = $local tf2.batch_number;
+                    scoreboard players operation @s[scores={tf2.team=1}] tf2.red_progress = @s tf2.capture_threshold;
+                    scoreboard players operation @s[scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold;
+                    tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
+                }
+                scoreboard players add $temp tf2.index 10;
+                data remove storage tf2.__temp__:summon objectives[0];
+            }
+            execute if score @s tf2.gamemode matches 1..4 run objectives.control_point.visuals.spacing();
+            execute as @e[type=marker,tag=tf2.objective] if score @s tf2.index = $highest tf2.index run tag @s add tf2.last;
+            data remove entity @s data.map.objectives;
+
+            execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass;
+            execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass;
+
+            JMC.put("# TODO: replace random assignment with first come, first serve");
+            if ($comp_queue_length >= 12) {
+                execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run start_game.as_players.generic();
+            }
+            else if ($casual_queue_length >= 24) {
+                execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2,tf2.batch_number=0},limit=24,sort=random] run start_game.as_players.generic();
+            }
+            else if ($chaos_queue_length >= 40) {
+                execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run start_game.as_players.generic();
+            }
+            scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type;
+            execute store result score @s tf2.timer run data get entity @s data.map.timer 20;
+            execute if data entity @s data.map.timer run timer.set_max();
+            execute if data entity @s data.map.timer run timer.show();
+            execute if data entity @s data.map.setup_time run timer.begin_setup();
+            start_game.as_marker.tell_info();
+
+            scoreboard players reset @e[tag=tf2.current] tf2.team;
+            $team_temp = 0;
+            $count = execute if entity @e[tag=tf2.current];
+            execute as @e[tag=tf2.current,sort=random] run team_assign();
+            $count %= 2;
+            if ($count = 1) {
+                execute if predicate tf2:coin_flip run scoreboard players set @e[tag=tf2.current,sort=random,limit=1,scores={tf2.team=1}] tf2.team 2;
+            }
+            tag @s add tf2.in_use;
+            tag @e remove tf2.current;
+        } function tell_info() {
+            JMC.put("#> tf2:start_game/as_marker/tell_info");
+            JMC.put("#");
+            JMC.put("# @within tf2:start_game/as_marker/main");
+            JMC.put("# @context game marker");
+            JMC.put("# @input");
+            JMC.put("#   score @s tf2.gamemode");
+            JMC.put("#       Which gamemode the players have been queued for (1 = A/D, 2 = 5CP, 3 = KOTH, etc).");
+
+            JMC.put("# WIP");
+            execute if score @s tf2.gamemode matches 1 run tellraw @a[tag=tf2.current] ["",{"text":"Gamemode:","bold":true,"underlined":true},{"text":" Attack / Defend","italic":true,"hoverEvent":{"action":"show_text","contents":["RED starts with all the control points, and BLU must capture all of them. Once a point is captured, it cannot be recaptured by RED. If the timer runs out, RED wins no matter how much progress BLU has made."]}}];
+            execute if score @s tf2.gamemode matches 2 run tellraw @a[tag=tf2.current] ["",{"text":"Gamemode:","bold":true,"underlined":true},{"text":" Symmetrical Control Points","italic":true,"hoverEvent":{"action":"show_text","contents":["Each team starts out owning half the control points; whichever team captures all of them wins. Stalemate if the timer runs out."]}}];
+        }
+    }
+    class as_players {
+        function generic(){
+            JMC.put("#> tf2:start_game/as_players/generic");
+            JMC.put("#");
+            JMC.put("# Adds players to the game and gives them a tag so that other functions know.");
+            JMC.put("#");
+            JMC.put("# @within tf2:start_game/as_marker/main");
+            JMC.put("# @context all players in the current queue");
+            JMC.put("# @handles start of game");
+            JMC.put("# @output");
+            JMC.put("#   score @s tf2.batch_number");
+            JMC.put("#       Pairs the players in the queue to each other and to the storage marker");
+            JMC.put("# @writes");
+            JMC.put("#   score $break tf2.queue_type");
+            JMC.put("#       Prevents multiple queues from getting assigned to same game");
+            JMC.put("#   score @s tf2.respawn_timer 0");
+            JMC.put("#       Makes the players spawn in when the game starts.");
+
+            effect give @s glowing 1000 0 true;
+            JMC.put("# execute if score $show_debug_messages tf2.settings matches 1 run say generic");
+            scoreboard players operation @s tf2.batch_number = $local tf2.batch_number;
+            tag @s remove tf2.in_queue;
+            tag @s add tf2.is_playing;
+            scoreboard players set $break tf2.queue_type 1;
+
+            JMC.put("# used for team assignment");
+            tag @s add tf2.current;
+            scoreboard players set @s tf2.respawn_timer 0;
+
+            JMC.put("# gametype specific");
+            execute if score @s tf2.queue_type matches 1 run start_game.as_players.competitive();
+            execute if score @s tf2.queue_type matches 2 run start_game.as_players.casual();
+            execute if score @s tf2.queue_type matches 3 run start_game.as_players.chaos();
+        } function casual() {
+            JMC.put("#> tf2:start_game/as_players/casual");
+            JMC.put("#");
+            JMC.put("# @within tf2:start_game/as_players/generic");
+
+            JMC.put("# execute if score $show_debug_messages tf2.settings matches 1 run say casual");
+            tag @s add tf2.random_spread;
+            tag @s remove tf2.random_crits;
+            tag @s add tf2.free_vote;
+            tag @s add tf2.can_be_autobalanced;
+        } function competitive() {
+            JMC.put("#> tf2:start_game/as_players/competitive");
+            JMC.put("#");
+            JMC.put("# @within tf2:start_game/as_players/generic");
+
+            JMC.put("# execute if score $show_debug_messages tf2.settings matches 1 run say competitive");
+            tag @s remove tf2.random_spread;
+            tag @s remove tf2.random_crits;
+            tag @s remove tf2.free_vote;
+            tag @s add tf2.can_be_autobalanced;
+        } function chaos() {
+            JMC.put("#> tf2:start_game/as_players/chaos");
+            JMC.put("#");
+            JMC.put("# @within tf2:start_game/as_players/generic");
+
+            JMC.put("# execute if score $show_debug_messages tf2.settings matches 1 run say chaos");
+            tag @s add tf2.random_spread;
+            tag @s add tf2.random_crits;
+            tag @s add tf2.free_vote;
+            tag @s remove tf2.can_be_autobalanced;
+        }
+    }
+}
+
+class objectives 
+{
+    class control_point
+    {
+        class find_index {
+            function main() {
+                JMC.put("#> tf2:objectives/control_point/find_index/main");
+                JMC.put("#");
+                JMC.put("# @within");
+                JMC.put("#   tf2:objectives/control_point/**");
+                JMC.put("#   tf2:reset/**");
+                JMC.put("# @context CP entity");
+                JMC.put("# @input");
+                JMC.put("#   score $local tf2.batch_number");
+                JMC.put("#   score @s tf2.index");
+                JMC.put("#       Storage address of the current control point and the game it belongs to.");
+                JMC.put("# @reads");
+                JMC.put("#   storage tf2:control_points info[$local...][@s tf2.index]");
+                JMC.put("#       owner: RawTextComponent (font = tf2:square)");
+                JMC.put("#           Team-color square to show who controls the point. Flickers when opponents are attacking the point.");
+                JMC.put("#       progress: RawTextComponent (font = tf2:square)");
+                JMC.put("#           Team-color triangle that shows how close is point is to being taken. Points left-to-right for BLU progress, and right-to-left for RED progress.");
+                JMC.put("#       symbol: RawTextComponent (font = tf2:square)");
+                JMC.put("#           Most commonly a locked indictator, but also includes the star for cp_steel's final point, and any other special symbols for specific maps.");
+                JMC.put("#       extra: RawTextComponent (font = tf2:square)");
+                JMC.put("#           Blank by default. If tf2.letter tag is present, displays the letter of the control point in sequence.");
+                JMC.put("#");
+                JMC.put("#       wheel.owner: RawTextComponent (font = tf2:wheel) ");
+                JMC.put("#           Team-color circle in title to show who controls the point. Only shown to players on the point.");
+                JMC.put("#       wheel.progress: RawTextComponent (font = tf2:wheel) ");
+                JMC.put("#           Team-color wedge sector in title to show how close is point is to being taken. Only shown to players on the point.");
+                JMC.put("#       wheel.spacing: RawTextComponent (font = tf2:wheel) ");
+                JMC.put("#           Space characters used to make sure the wheel indicator points to the correct control point.");
+                JMC.put("# @output");
+                JMC.put("#   storage tf2.__temp__:lookup points[0]");
+                JMC.put("#       Dynamically-editable copy of all data in the `tf2:control_points info[$local...][@s tf2.index]` storage path.");
+                JMC.put("#       Can be copied back to the original path using `function tf2:objectives/control_point/find_index/reinsert/main`.");
+
+                $mini_index = tf2.index:@s;
+                $mini_index /= 10;
+                Hardcode.switch(
+                    tf2.batch_number:$local,
+                    "_i_",
+                    () => {
+                        execute if score $mini_index tf2.var matches 0 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[_i_][0];
+                        Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[_i_][_j_];}, count = 7);
+                    },
+                    count = 5
+                );
+            } function reinsert() {
+                JMC.put("#> tf2:objectives/control_point/find_index/reinsert");
+                JMC.put("#");
+                JMC.put("# @within");
+                JMC.put("#   tf2:objectives/control_point/**");
+                JMC.put("#   tf2:reset/**");
+                JMC.put("# @context CP entity");
+                JMC.put("# @input");
+                JMC.put("#   score $local tf2.batch_number");
+                JMC.put("#   score @s tf2.index");
+                JMC.put("#       Storage address of the current control point and the game it belongs to.");
+                JMC.put("#   storage tf2.__temp__:lookup points[0]");
+                JMC.put("#       Edited copy of data in the `tf2:control_points info[$local...][@s tf2.index]` storage path.");
+                JMC.put("# @writes     ");
+                JMC.put("#   storage tf2:control_points info[$local...][@s tf2.index]");
+                JMC.put("#       Where all visual data related to the current CP is stored.");
+                JMC.put("#       See `tf2:objectives/control_point/find_index/main` comments for specific information.");
+
+                $mini_index = tf2.index:@s;
+                $mini_index /= 10;
+                Hardcode.switch(
+                    tf2.batch_number:$local,
+                    "_i_",
+                    () => {
+                        execute if score $mini_index tf2.var matches 0 run data modify storage tf2:control_points info[_i_][0] set from storage tf2.__temp__:lookup points[0];
+                        Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2:control_points info[_i_][_j_] set from storage tf2.__temp__:lookup points[0];}, count = 7);
+                    },
+                    count = 5
+                );
+            }
+        }
+
+        function check_for_players() {
+            JMC.put("#> tf2:objectives/control_point/check_for_players");
+            JMC.put("# ");
+            JMC.put("# @within tf2:__tick__");
+            JMC.put("# @context marker & position");
+            JMC.put("# @output");
+            JMC.put("#   score $(red/blu)_on_point tf2.var");
+            JMC.put("#       The number of RED/BLU players on the control point.");
+
+            tag @s remove tf2.contested;
+
+            execute as @e[type=#tf2:player_like, distance=..1.5, tag=!tf2.unable_to_cap] run tag @s add tf2.on_point;
+            $red_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=1}];
+            $blu_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=2}];
+
+            if($red_on_point >= 1 && $blu_on_point >= 1){tag @s add tf2.contested;}
+
+            execute if entity @s[tag=!tf2.contested] run objectives.control_point.main();
+            tag @e[type=#tf2:player_like] remove tf2.on_point;
+        } function main() {
+            JMC.put("#> tf2:objectives/control_point/main");
+            JMC.put("# ");
+            JMC.put("# @within tf2:objectives/control_point/check_for_players");
+            JMC.put("# @context CP entity & position");
+            JMC.put("# @input");
+            JMC.put("#   score $(red/blu)_on_point tf2.var");
+            JMC.put("#       Number of RED/BLU players on the point. Determines how much progress to add and to which team.");
+            JMC.put("# @writes");
+            JMC.put("#   score $bound tf2.var");
+            JMC.put("#       Used as input for `tf2:math/harmonic_series`.");
+            JMC.put("# @reads ");
+            JMC.put("#   score @s tf2.team");
+            JMC.put("#       Current owners of the control point (1 = RED, 2 = BLU). Prevents invalid capture progress from being added.");
+            JMC.put("#   score @s tf2.(red/blu)_progress");
+            JMC.put("#   score @s tf2.capture_threshold");
+            JMC.put("#       Variables describing the state of the control point. Used for visuals.");
+
+            JMC.put("# amount of capture progress is nth partial sum of harmonic series");
+            $bound > $red_on_point;
+            $bound > $blu_on_point;
+            $bound < 4;
+            math.harmonic_series();
+
+            JMC.put("# apply capture progress to team that has players on point, but you can't capture a point you already own");
+            execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run objectives.control_point.capture_progress.red();
+            execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run objectives.control_point.capture_progress.blu();
+
+            execute unless score @s tf2.team matches 1 if score @s tf2.red_progress < @s tf2.capture_threshold if score @s tf2.blu_progress < @s tf2.capture_threshold run objectives.control_point.visuals.capture_progress.red.main();
+            execute unless score @s tf2.team matches 2 if score @s tf2.red_progress < @s tf2.capture_threshold if score @s tf2.blu_progress < @s tf2.capture_threshold run objectives.control_point.visuals.capture_progress.blu.main();
+        } function gamestate() {
+            JMC.put("#> tf2:objectives/control_point/gamestate");
+            JMC.put("#");
+            JMC.put("# @context game marker");
+            JMC.put("# @within tf2:__tick__");
+            JMC.put("# @handles game progress & win conditions");
+            JMC.put("# @reads");
+            JMC.put("#   score @s tf2.batch_number");
+            JMC.put("#   score ⟨control points⟩ tf2.batch_number");
+            JMC.put("#       Finds the control points that belong to this game marker.");
+            JMC.put("#   score @s tf2.gamemode");
+            JMC.put("#       Which gamemode is being played (see gamemode key below).");
+            JMC.put("#   score @s tf2.timer");
+            JMC.put("#       Amount of time remaining (negative values mean the game is already over but players haven't been relogged yet).");
+            JMC.put("#       Prevents the `tf2:reset/announce_winner` function from being called repeatedly.");
+            JMC.put("# @writes");
+            JMC.put("#   score @s tf2.index");
+            JMC.put("#       Total number of control points in the current game.");
+            JMC.put("#   score $(red/blu)_cp_count tf2.var");
+            JMC.put("#       Number of control points owned by RED/BLU in the current game.");
+            JMC.put("# @output");
+            JMC.put("#   score $winner tf2.team");
+            JMC.put("#       Which team has won the current game (1 = RED, 2 = BLU). Null value if the game is still ongoing.");
+
+            tag @e remove tf2.current;
+            scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+            execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+
+            $red_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=1}];
+            $blu_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=2}];
+
+            JMC.put("# Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom");
+            scoreboard players reset $winner tf2.team;
+            execute if score $red_cp_count tf2.var = @s tf2.index if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run scoreboard players set $winner tf2.team 1;
+            execute if score $blu_cp_count tf2.var = @s tf2.index if score @s[tag=!tf2.multistage] tf2.gamemode matches 1..2 run scoreboard players set $winner tf2.team 2;
+            JMC.put("# execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
+            JMC.put("# execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
+            execute if score $winner tf2.team = $winner tf2.team unless score @s tf2.timer matches ..-1 run reset.announce_winner();
+
+            tag @e[type=marker,tag=tf2.control_point,tag=tf2.current] remove tf2.current;
+        } function lock() {
+            tag @s add tf2.locked;
+            scoreboard players operation @s[scores={tf2.team=1}] tf2.red_progress = @s tf2.capture_threshold;
+            scoreboard players operation @s[scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold;
+            objectives.control_point.find_index.main();
+            data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
+            objectives.control_point.find_index.reinsert();
+        } function unlock() {
+            tag @s remove tf2.locked;
+            objectives.control_point.find_index.main();
+            data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320#)@","font":"tf2:square"}]';
+            objectives.control_point.find_index.reinsert();
+        }
+
+        class capture_progress {
+            function red() {
+                JMC.put("#> tf2:objectives/control_point/capture_progress/red");
+                JMC.put("# ");
+                JMC.put("# @within");
+                JMC.put("#   tf2:objectives/control_point/main");
+                JMC.put("#   tf2:objectives/control_point/decay/main");
+                JMC.put("# @context CP entity & position");
+                JMC.put("# @input");
+                JMC.put("#   score $sum tf2.var");
+                JMC.put("#       Progress to add in RED's direction (in milli-ticks).");
+                JMC.put("# @writes");
+                JMC.put("#   score @s tf2.(red/blu)_progress");
+                JMC.put("#       Current state of the control point.");
+                JMC.put("#   score @s tf2.capture_threshold");
+                JMC.put("#       Self-explanatory.");
+                JMC.put("#   predicate tf2:coin_flip");
+                JMC.put("#       50/50 chance to pick one of two dialogue lines.");
+
+                JMC.put("# BLU progress must be reverted before adding RED progress");
+                execute unless score @s tf2.blu_progress matches 0 run scoreboard players operation @s tf2.blu_progress -= $sum tf2.var;
+                scoreboard players operation @s tf2.blu_progress > 0 tf2.const;
+                scoreboard players operation @s[scores={tf2.blu_progress=0}] tf2.red_progress += $sum tf2.var;
+                execute if score @s tf2.red_progress >= @s tf2.capture_threshold run objectives.control_point.set_owner.red();
+
+                $temp = execute if predicate tf2:coin_flip;
+                execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=2}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=2}] {"text":"Alert! Our control point is being captured.","bold":true,"color":"white"};
+                execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=2}] if score $temp tf2.var matches 1 run tellraw @a[scores={tf2.team=2}] {"text":"Defend our control point!","bold":true,"color":"white"};
+                execute if entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=2}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=2}] [{"text":"Alert! Our","bold":true,"color":"white"},{"text":" last ","bold":true,"italic":true,"color":"white"},{"text":"control point is being captured!","bold":true,"color":"white"}];
+                execute if entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=2}] if score $temp tf2.var matches 1 run tellraw @a[scores={tf2.team=2}] [{"text":"Alert! The","bold":true,"color":"white"},{"text":" final ","italic":true,"bold":true,"color":"white"},{"text":"control point is under attack.","bold":true,"color":"white"}];
+                tag @s[scores={tf2.team=2}] add tf2.said_dialogue;
+            } function blu() {
+                JMC.put("#> tf2:objectives/control_point/capture_progress/blu");
+                JMC.put("# ");
+                JMC.put("# @within");
+                JMC.put("#   tf2:objectives/control_point/main");
+                JMC.put("#   tf2:objectives/control_point/decay/main");
+                JMC.put("# @context CP entity & position");
+                JMC.put("# @input");
+                JMC.put("#   score $sum tf2.var");
+                JMC.put("#       Progress to add in BLU's direction (in milli-ticks).");
+                JMC.put("# @writes");
+                JMC.put("#   score @s tf2.(red/blu)_progress");
+                JMC.put("#       Current state of the control point.");
+                JMC.put("# @reads");
+                JMC.put("#   score @s tf2.capture_threshold");
+                JMC.put("#       Self-explanatory.");
+                JMC.put("#   predicate tf2:coin_flip");
+                JMC.put("#       50/50 chance to pick one of two dialogue lines.");
+
+                JMC.put("# RED progress must be reverted before adding BLU progress");
+                execute unless score @s tf2.red_progress matches 0 run scoreboard players operation @s tf2.red_progress -= $sum tf2.var;
+                scoreboard players operation @s tf2.red_progress > 0 tf2.const;
+                scoreboard players operation @s[scores={tf2.red_progress=0}] tf2.blu_progress += $sum tf2.var;
+                execute if score @s tf2.blu_progress >= @s tf2.capture_threshold run objectives.control_point.set_owner.blu();
+
+                $temp = execute if predicate tf2:coin_flip;
+                execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=1}] {"text":"Alert! Our control point is being captured.","bold":true,"color":"white"};
+                execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 1 run tellraw @a[scores={tf2.team=1}] {"text":"Defend our control point!","bold":true,"color":"white"};
+                execute if entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=1}] [{"text":"Alert! Our","bold":true,"color":"white"},{"text":" last ","bold":true,"italic":true,"color":"white"},{"text":"control point is being captured!","bold":true,"color":"white"}];
+                execute if entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 1 run tellraw @a[scores={tf2.team=1}] [{"text":"Alert! The","bold":true,"color":"white"},{"text":" final ","italic":true,"bold":true,"color":"white"},{"text":"control point is under attack.","bold":true,"color":"white"}];
+                tag @s[scores={tf2.team=1}] add tf2.said_dialogue;
+            }
+        } class decay 
+        {
+            function init() {
+                JMC.put("#> tf2:objectives/control_point/decay/init");
+                JMC.put("#");
+                JMC.put("# @within tf2:__tick__");
+                JMC.put("# @context CP entity & position");
+
+                JMC.put("# if non-owner team still has players on point, don't decay");
+                JMC.put("# TODO: update to use /return when 1.20 releases.");
+                scoreboard players reset $break tf2.var;
+                execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run scoreboard players set $break tf2.var 1;
+                execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run scoreboard players set $break tf2.var 1;
+                execute unless score $break tf2.var matches 1 run objectives.control_point.decay.main(); 
+            } function main() {
+                JMC.put("#> tf2:objectives/control_point/decay/main");
+                JMC.put("#");
+                JMC.put("# @within tf2:objectives/control_point/decay/init");
+                JMC.put("# @writes");
+                JMC.put("#   score @s tf2.red_progress");
+                JMC.put("#   score @s tf2.blu_progress");
+                JMC.put("#       Current state of the control point.");
+                JMC.put("#   score $sum tf2.var");
+                JMC.put("#       Progress to revert (in milli-ticks). Takes 90 seconds to fully revert progress. ");
+                JMC.put("# @reads");
+                JMC.put("#   score @s tf2.batch_number");
+                JMC.put("#   score ⟨marker⟩ tf2.batch_number");
+                JMC.put("#       Finds the game marker that the control point belongs to.");
+
+                $sum = tf2.capture_threshold:@s;
+                $sum /= 20;
+                $sum /= 90;
+                execute if entity @s[tag=tf2.overtime] run $sum *= 6;
+                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                execute as @e[type=marker] if score $local tf2.batch_number = @s tf2.batch_number run tag @s add tf2.current;
+
+                JMC.put("# revert in direction of owner team");
+                execute if score @s tf2.team matches 1 run objectives.control_point.capture_progress.red();
+                execute if score @s tf2.team matches 2 run objectives.control_point.capture_progress.blu();
+
+                execute if score @s[tag=tf2.overtime,scores={tf2.team=1}] tf2.red_progress = @s tf2.capture_threshold as @e[tag=tf2.current,limit=1] run timer.end_game();
+                execute if score @s[tag=tf2.overtime,scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold as @e[tag=tf2.current,limit=1] run timer.end_game();
+
+                JMC.put("# if unowned, revert towards zero");
+                scoreboard players operation @s[scores={tf2.team=0,tf2.red_progress=1..}] tf2.red_progress -= $sum tf2.var;
+                scoreboard players operation @s[scores={tf2.team=0,tf2.blu_progress=1..}] tf2.blu_progress -= $sum tf2.var;
+                scoreboard players operation @s tf2.red_progress > 0 tf2.const;
+                scoreboard players operation @s tf2.blu_progress > 0 tf2.const;
+
+                tag @s[scores={tf2.team=0,tf2.red_progress=0,tf2.blu_progress=0}] remove tf2.said_dialogue;
+            }
+        } class set_owner {
+            function red() {
+                JMC.put("#> tf2:objectives/control_point/set_owner/red");
+                JMC.put("# ");
+                JMC.put("# @within tf2:objectives/control_point/capture_progress/red");
+                JMC.put("# @context CP entity & position");
+                JMC.put("# @writes");
+                JMC.put("#   score $last tf2.team");
+                JMC.put("#       The team that *previously* controlled this point. (0 = unowned, 1 = RED, 2 = BLU)");
+                JMC.put("#   storage tf2.__temp__:lookup points[0].(owner/progress)");
+                JMC.put("#       Visual data relating to this point's state.");
+                JMC.put("# @reads");
+                JMC.put("#   score @s tf2.batch_number");
+                JMC.put("#   score ⟨marker⟩ tf2.batch_number");
+                JMC.put("#       Finds the game marker that this control point belongs to.");
+                JMC.put("#   score ⟨marker⟩ tf2.gamemode");
+                JMC.put("#       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.");
+
+                scoreboard players operation $last tf2.team = @s tf2.team;
+                scoreboard players set @s tf2.team 1;
+                scoreboard players operation @s tf2.red_progress = @s tf2.capture_threshold;
+
+                objectives.control_point.find_index.main();
+                data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
+                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                objectives.control_point.find_index.reinsert();
+                tag @s remove tf2.said_dialogue;
+
+                JMC.put("# placeholder for proper model");
+                setblock ~ ~-1 ~ red_stained_glass;
+
+                JMC.put("# if KOTH: start counting down RED's timer & pause BLU's");
+                JMC.put("# if 5CP & this is mid: unlock BLU's 1st (✓)");
+                JMC.put("# else if 5CP: lock/unlock adjacent points in line (✓)");
+                JMC.put("# if ATK/DEF: how??!!?!?");
+                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                JMC.put("# TODO: change this part to use the new 'return' command when 1.20 releases");
+                execute unless score $last tf2.team = @s tf2.team if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.red.symmetric();
+                execute unless score $last tf2.team = @s tf2.team if score @s tf2.increment = @s tf2.increment run objectives.control_point.on_capture.add_time();
+                tag @e[type=marker,tag=tf2.current] remove tf2.current;
+            } function blu() {
+                JMC.put("#> tf2:objectives/control_point/set_owner/blu");
+                JMC.put("# ");
+                JMC.put("# @within tf2:objectives/control_point/capture_progress/blu");
+                JMC.put("# @context CP entity & position");
+                JMC.put("# @writes");
+                JMC.put("#   score $last tf2.team");
+                JMC.put("#       The team that *previously* controlled this point. (0 = unowned, 1 = RED, 2 = BLU)");
+                JMC.put("#   storage tf2.__temp__:lookup points[0].(owner/progress)");
+                JMC.put("#       Visual data relating to this point's state.");
+                JMC.put("# @reads");
+                JMC.put("#   score @s tf2.batch_number");
+                JMC.put("#   score ⟨marker⟩ tf2.batch_number");
+                JMC.put("#       Finds the game marker that this control point belongs to.");
+                JMC.put("#   score ⟨marker⟩ tf2.gamemode");
+                JMC.put("#       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.");
+
+                scoreboard players operation $last tf2.team = @s tf2.team;
+                scoreboard players set @s tf2.team 2;
+                scoreboard players operation @s tf2.blu_progress = @s tf2.capture_threshold;
+
+                objectives.control_point.find_index.main();
+                data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
+                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                objectives.control_point.find_index.reinsert();
+                tag @s remove tf2.said_dialogue;
+
+                JMC.put("# placeholder for proper model");
+                setblock ~ ~-1 ~ blue_stained_glass;
+
+                JMC.put("# if KOTH: start counting down BLU's timer & pause RED's");
+                JMC.put("# if 5CP & this is mid: unlock RED's 1st (✓)");
+                JMC.put("# else if 5CP: lock/unlock adjacent points in line (✓)");
+                JMC.put("# if ATK/DEF: lock this point (✓) & unlock next point (✓)");
+                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                JMC.put("# TODO: change this part to use the new 'return' command when 1.20 releases");
+                execute unless score $last tf2.team = @s tf2.team if score @s tf2.gamemode matches 1 at @s run objectives.control_point.on_capture.blu.atk_def();
+                execute unless score $last tf2.team = @s tf2.team if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.blu.symmetric();
+                execute unless score $last tf2.team = @s tf2.team if score @s tf2.increment = @s tf2.increment run objectives.control_point.on_capture.add_time();
+                tag @e[type=marker,tag=tf2.current] remove tf2.current;
+            }
+        } class on_capture {
+            class red {
+                function symmetric() {
+                    scoreboard players operation $temp tf2.index = @s tf2.index;
+                    scoreboard players remove $temp tf2.index 10;
+
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index run objectives.control_point.unlock();
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ air;
+
+                    scoreboard players add $temp tf2.index 20;
+                    execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index run objectives.control_point.lock();
+                    execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ stone_slab;
+                    JMC.put("# TODO: add support for map events (like doors opening)");
+                }
+            } class blu {
+                function atk_def() {
+                    scoreboard players operation $temp tf2.index = @s tf2.index;
+                    scoreboard players add $temp tf2.index 10;
+                    objectives.control_point.lock();
+                    setblock ~ ~ ~ stone_slab;
+                    execute as @e[type=marker,tag=tf2.current] if score @s tf2.index = $temp tf2.index run objectives.control_point.unlock();
+                    execute as @e[type=marker,tag=tf2.current] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ air;
+                    JMC.put("# TODO: add support for map events (like doors opening)");
+                } function symmetric() {
+                    scoreboard players operation $temp tf2.index = @s tf2.index;
+                    scoreboard players add $temp tf2.index 10;
+
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index run objectives.control_point.unlock();
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ air;
+
+                    scoreboard players remove $temp tf2.index 20;
+                    execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index run objectives.control_point.lock();
+                    execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ stone_slab;
+                    JMC.put("# TODO: add support for map events (like doors opening)");
+                }
+            } 
+            function add_time() {
+                scoreboard players operation @e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1] tf2.timer += @s tf2.increment;
+                scoreboard players set @e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1,scores={tf2.gamemode=2}] tf2.timer 12000;
+
+                execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                execute if score @s tf2.red_progress >= @s tf2.capture_threshold run tellraw @a[tag=tf2.current,scores={tf2.team=1}] {"text":"Success. Additional time has been awarded.","bold":true,"color":"red"};
+                execute if score @s tf2.red_progress >= @s tf2.capture_threshold run tellraw @a[tag=tf2.current,scores={tf2.team=2}] [{"text":"The ","bold":true,"color":"blue"},{"text":"enemy","bold":true,"italic":true,"color":"blue"},{"text":" has received additional time.","bold":true,"color":"blue"}];
+                execute if score @s tf2.blu_progress >= @s tf2.capture_threshold run tellraw @a[tag=tf2.current,scores={tf2.team=1}] [{"text":"The ","bold":true,"color":"red"},{"text":"enemy","bold":true,"italic":true,"color":"red"},{"text":" has received additional time.","bold":true,"color":"red"}];
+                execute if score @s tf2.blu_progress >= @s tf2.capture_threshold run tellraw @a[tag=tf2.current,scores={tf2.team=2}] {"text":"Success. Additional time has been awarded.","bold":true,"color":"blue"};
+            }
+        }
+        class visuals {   
+            function init() {
+                JMC.put("#> tf2:objectives/control_point/visuals/init");
+                JMC.put("#");
+                JMC.put("# @within tf2:__tick__");
+                JMC.put("# @context all CP entities without tag tf2.init, & their positions");
+                JMC.put("# @writes ");
+                JMC.put("#   score $local tf2.batch_number");
+                JMC.put("#       The game marker that the control point belongs to. Used solely for `tf2:objectives/control_point/find_index/main`.");
+                JMC.put("#   storage tf2.__temp__:lookup points[0].(owner/progress/symbol/extra)");
+                JMC.put("#       All visual data relating to this point's state.");
+                JMC.put("# @reads");
+                JMC.put("#   score @s tf2.team");
+                JMC.put("#       Which team owns the control point (0 = unowned, 1 = RED, 2 = BLU). Used for background color in HUD and for beacon color (placeholder until model is added).");
+                JMC.put("#   score @s tf2.index");
+                JMC.put("#       Which control point this is. Used to determine the letter to show in the corner (0 = A, 10 = B, 20 = C, etc.).");
+
+                execute if entity @s[tag=tf2.locked] run setblock ~ ~ ~ stone_slab;
+                execute unless entity @s[tag=tf2.locked] run setblock ~ ~ ~ air;
+                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                objectives.control_point.find_index.main();
+                Hardcode.repeatLists(
+                    ["_num_", "_color_", "_hex_"],
+                    () => {execute if score @s tf2.team matches _num_ run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
+                    execute if score @s tf2.team matches _num_ run setblock ~ ~-1 ~ _color__stained_glass;},
+                    [["0", "1", "2"], ["white", "red", "blue"], ["A1A1A1", "D95A58", "517AB8"]]
+                );
+                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                execute if entity @s[tag=!tf2.locked,tag=!tf2.star] run data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';
+                execute if entity @s[tag=tf2.locked] run data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
+                execute if entity @s[tag=tf2.star] run data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"321S!)","font":"tf2:square"}]';
+                execute unless entity @s[tag=tf2.letter] run data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]';
+                Hardcode.repeatLists(
+                    ["_num_", "_letter_"],
+                    () => {execute if entity @s[tag=tf2.letter] if score @s tf2.index matches _num_ run data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';},
+                    [["0", "10", "20", "30", "40"], ["A", "B", "C", "D", "E"]]
+                );
+                objectives.control_point.find_index.reinsert();
+                tag @s add tf2.init;
+            } function spacing() {
+                JMC.put("#> tf2:objectives/control_point/visuals/spacing");
+                JMC.put("#");
+                JMC.put("# @within tf2:start_game/as_marker/main");
+                JMC.put("# @context game marker");
+                JMC.put("# @writes ");
+                JMC.put("#   score @s tf2.index");
+                JMC.put("#       Set to 70 so that `tf2:objectives/control_point/find_index/main` fetches `info[@s tf2.batch_number][7]`, which handles spacing.");
+                JMC.put("#   storage tf2.__temp__:lookup points[0].left");
+                JMC.put("#       Space to add at the very beginning, before the timer text.");
+                JMC.put("#   storage tf2.__temp__:lookup points[0].mid");
+                JMC.put("#       Space to add in between the timer text and the control points.");
+                JMC.put("#   storage tf2.__temp__:lookup points[0].right");
+                JMC.put("#       Space to add at the end of the control points row.");
+                JMC.put("# @reads");
+                JMC.put("#   score $highest tf2.index");
+                JMC.put("#       The highest CP index present in the game. Used to determine how many control points there are.");
+
+                scoreboard players set @s tf2.index 70;
+                objectives.control_point.find_index.main();
+
+                execute if score $highest tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0].left set value '430';
+                execute if score $highest tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0].mid set value '60';
+                execute if score $highest tf2.index matches 0..10 run data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
+                execute unless score $highest tf2.index matches 0..10 run data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+
+                execute if score $highest tf2.index matches 10 run data modify storage tf2.__temp__:lookup points[0].left set value '20';
+                execute if score $highest tf2.index matches 10 run data modify storage tf2.__temp__:lookup points[0].mid set value '6420';
+
+                execute if score $highest tf2.index matches 20 run data modify storage tf2.__temp__:lookup points[0].mid set value '6530';
+                execute if score $highest tf2.index matches 20 run data modify storage tf2.__temp__:lookup points[0].right set value '3210';
+
+                execute if score $highest tf2.index matches 30 run data modify storage tf2.__temp__:lookup points[0].mid set value '654320';
+                execute if score $highest tf2.index matches 30 run data modify storage tf2.__temp__:lookup points[0].right set value '510';
+
+                execute if score $highest tf2.index matches 40 run data modify storage tf2.__temp__:lookup points[0].mid set value '740';
+                execute if score $highest tf2.index matches 40 run data modify storage tf2.__temp__:lookup points[0].right set value '54210';
+
+                execute if score $highest tf2.index matches 50 run data modify storage tf2.__temp__:lookup points[0].mid set value '7520';
+                execute if score $highest tf2.index matches 50 run data modify storage tf2.__temp__:lookup points[0].right set value '6310';
+
+                execute if score $highest tf2.index matches 60 run data modify storage tf2.__temp__:lookup points[0].mid set value '75430';
+                execute if score $highest tf2.index matches 60 run data modify storage tf2.__temp__:lookup points[0].right set value '643210';
+
+                objectives.control_point.find_index.reinsert();
+                JMC.put("# repurposes the marker's `tf2.index` score to hold the total number of CPs.");
+                scoreboard players operation @s tf2.index = $highest tf2.index;
+                scoreboard players operation @s tf2.index /= 10 tf2.const;
+                scoreboard players add @s tf2.index 1;
+            } 
+            function wheel_spacing() {
+                JMC.put("#> tf2:objectives/control_point/visuals/wheel_spacing");
+                JMC.put("#");
+                JMC.put("# @within tf2:objectives/control_point/visuals/capture_progress/*/wheel");
+
+                tag @e remove tf2.current;
+                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+
+                $wheel_spacing > tf2.index:@e[type=marker,tag=tf2.current];
+                $wheel_spacing /= 2;
+                $wheel_spacing -= tf2.index:@s;
+                Hardcode.repeatLists(
+                    ["_num_", "_str_"],
+                    () => {execute if score $wheel_spacing tf2.var matches _num_ run data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value _str_;},
+                    [["30", "25", "20", "15", "10", "5", "0", "-5", "-10", "-15", "-20", "-25", "-30"], ["'6542'", "'65'", "'632'", "'543'", "'52'", "'41'", "'[\"\"]'", "'[{\"text\":\"$@\"}]'", "'[{\"text\":\"%#\"}]'", "'[{\"text\":\"%$#@\"}]'", "'[{\"text\":\"^$\"}]'", "'[{\"text\":\"^%@\"}]'", "'[{\"text\":\"^%$#\"}]'"]]
+                );
+            }
+            class capture_progress {
+                class red {
+                    function main() {
+                        JMC.put("#> tf2:objectives/control_point/visuals/capture_progress/red/main");
+                        JMC.put("#");
+                        JMC.put("# @within tf2:objectives/control_point/main");
+                        JMC.put("# @writes ");
+                        JMC.put("#   score $local tf2.batch_number");
+                        JMC.put("#       The game marker that the control point belongs to. Used solely for `tf2:objectives/control_point/find_index/main`.");
+                        JMC.put("#   score $frame tf2.var");
+                        JMC.put("#       Frame of the bossbar animation to display. Ranges from 0 - 15 based on how much capture progress has been made.");
+                        JMC.put("#   score $wheel_frame tf2.var");
+                        JMC.put("#       Frame of the title animation to display. Value is calculated in `tf2:objectives/control_point/visuals/capture_progress/blu/wheel`.");
+                        JMC.put("# @reads");
+                        JMC.put("#   score @s tf2.capture_threshold");
+                        JMC.put("#   score @s tf2.(red/blu)_progress");
+                        JMC.put("#       Variable relating to the point's current state. Used solely to calculate `$frame tf2.var`.");
+                        JMC.put("#   score @s tf2.team");
+                        JMC.put("#       Which team owns the control point. Determines whether or not to flicker the background (only flickers if RED is taking BLU's point rather than an unowned point).");
+
+                        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                        objectives.control_point.find_index.main();
+                        $frame = 0;
+                        $frame = tf2.capture_threshold:@s[scores={tf2.team=2}];
+                        $frame += tf2.red_progress:@s;
+                        $frame -= tf2.blu_progress:@s;
+                        $frame *= 8;
+                        execute if score @s tf2.team matches 0 run $frame *= 2;
+                        $wheel_frame = $frame;
+                        $frame /= tf2.capture_threshold:@s;
+                        execute if score $frame tf2.var matches 0 run data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#@|a0)","color":"#D95A58"}]';
+                        switch ($frame) {
+                            case 1:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#!)|a0b0)","color":"#D95A58"}]';
+                            case 2:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#!|a0b0c0)","color":"#D95A58"}]';
+                            case 3:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#)|a0b0c0d0)","color":"#D95A58"}]';
+                            case 4:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#|a0b0c0d0e0)","color":"#D95A58"}]';
+                            case 5:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@!)|a0b0c0d0e0e0)","color":"#D95A58"}]';
+                            case 6:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@!|a0b0c0d0e0e0e0)","color":"#D95A58"}]';
+                            case 7:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@)|a0b0c0d0e0e0e0e0)","color":"#D95A58"}]';
+                            case 8:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@|a0b0c0d0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 9:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321!)|a0b0c0d0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 10:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321!|a0b0c0d0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 11:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321)|a0b0c0d0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 12:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|a0b0c0d0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 13:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|b0c0d0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 14:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|c0d0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 15:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|d0e0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                        }
+                        execute if score @s[scores={tf2.red_progress=0}] tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
+                        execute if score @s[scores={tf2.red_progress=0}] tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                        execute if score @s[scores={tf2.red_progress=1..}] tf2.team matches 0 run objectives.control_point.visuals.capture_progress.neutral_flicker();
+                        execute if score @s tf2.team matches 2 run objectives.control_point.visuals.capture_progress.blu.flicker();
+                        objectives.control_point.visuals.capture_progress.red.wheel();
+                        objectives.control_point.find_index.reinsert();
+                    } function wheel() {
+                        JMC.put("#> tf2:objectives/control_point/visuals/capture_progress/red/wheel");
+                        JMC.put("#");
+                        JMC.put("# @within tf2:objectives/control_point/visuals/capture_progress/red/main");
+                        JMC.put("# @writes");
+                        JMC.put("#   score $wheel_frame tf2.var");
+                        JMC.put("#       Frame of the title animation to display. Ranges from 0 - 47 based on how much capture progress has been made.");
+                        JMC.put("#   storage tf2.__temp__:lookup points[0].wheel.owner");
+                        JMC.put("#       Team-color background circle to show who controls the point.");
+                        JMC.put("#   storage tf2.__temp__:lookup points[0].wheel.progress");
+                        JMC.put("#       Team-color wedge sector to show the amount of progress. (duh!)");
+                        JMC.put("# @reads");
+                        JMC.put("#   score @s tf2.team");
+                        JMC.put("#       Which team owns the control point. Determines color of the background circle (unowned = #A1A1A1, BLU-owned = #517AB8).");
+
+                        $wheel_frame *= 3;
+                        $wheel_frame /= tf2.capture_threshold:@s;
+                        objectives.control_point.visuals.wheel_spacing();
+                        execute if score @s tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
+                        execute if score @s tf2.team matches 2 run data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 0 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 1 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 2 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 3 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 4 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 5 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 6 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 7 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 8 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 9 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 10 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 11 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+
+                        execute if score $wheel_frame tf2.var matches 12 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 13 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 14 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 15 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 16 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 17 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 18 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 19 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 20 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 21 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 22 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 23 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#D95A58"}]';
+
+                        execute if score $wheel_frame tf2.var matches 24 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 25 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 26 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 27 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 28 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 29 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 30 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 31 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 32 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 33 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 34 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 35 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#D95A58"}]';
+
+                        execute if score $wheel_frame tf2.var matches 36 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 37 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 38 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 39 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 40 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 41 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 42 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 43 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 44 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 45 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 46 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 47 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                        title @a[tag=tf2.on_point] times 0 4 5;
+                        title @a[tag=tf2.on_point] title [{"nbt":"points[0].wheel.spacing","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"?43","color":"#291A15","font":"tf2:wheel"},{"nbt":"points[0].wheel.owner","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"421|","font":"tf2:wheel"},{"nbt":"points[0].wheel.progress","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"}];
+                    } function flicker() {
+                        scoreboard players operation $flicker tf2.ticks = $global tf2.ticks;
+                        scoreboard players operation $flicker tf2.ticks %= 20 tf2.const;
+                        execute if score $flicker tf2.ticks matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
+                        execute if score $flicker tf2.ticks matches 1..2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
+                        execute if score $flicker tf2.ticks matches 3..4 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
+                        execute if score $flicker tf2.ticks matches 5..7 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
+                        execute if score $flicker tf2.ticks matches 8..11 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CABCC0"}]';
+                        execute if score $flicker tf2.ticks matches 12..14 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
+                        execute if score $flicker tf2.ticks matches 15..16 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
+                        execute if score $flicker tf2.ticks matches 17..18 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
+                        execute if score $flicker tf2.ticks matches 19 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
+                    }
+                } class blu {
+                    function main() {
+                        JMC.put("#> tf2:objectives/control_point/visuals/capture_progress/blu/main");
+                        JMC.put("#");
+                        JMC.put("# @within tf2:objectives/control_point/main");
+                        JMC.put("# @writes ");
+                        JMC.put("#   score $local tf2.batch_number");
+                        JMC.put("#       The game marker that the control point belongs to. Used solely for `tf2:objectives/control_point/find_index/main`.");
+                        JMC.put("#   score $frame tf2.var");
+                        JMC.put("#       Frame of the bossbar animation to display. Ranges from 0 - 15 based on how much capture progress has been made.");
+                        JMC.put("#   score $wheel_frame tf2.var");
+                        JMC.put("#       Frame of the title animation to display. Value is calculated in `tf2:objectives/control_point/visuals/capture_progress/blu/wheel`.");
+                        JMC.put("# @reads");
+                        JMC.put("#   score @s tf2.capture_threshold");
+                        JMC.put("#   score @s tf2.(red/blu)_progress");
+                        JMC.put("#       Variable relating to the point's current state. Used solely to calculate `$frame tf2.var`.");
+                        JMC.put("#   score @s tf2.team");
+                        JMC.put("#       Which team owns the control point. Determines whether or not to flicker the background (only flickers if BLU is taking RED's point rather than an unowned point).");
+
+                        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                        objectives.control_point.find_index.main();
+                        $frame = 0;
+                        $frame = tf2.capture_threshold:@s[scores={tf2.team=1}];
+                        $frame += tf2.blu_progress:@s;
+                        $frame -= tf2.red_progress:@s;
+                        $frame *= 8;
+                        execute if score @s tf2.team matches 0 run $frame *= 2;
+                        $wheel_frame = $frame;
+                        $frame /= tf2.capture_threshold:@s;
+                        execute if score $frame tf2.var matches 0 run data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321a0#@)","color":"#517AB8"}]';
+                        switch ($frame) {
+                            case 1:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321b0a0#@","color":"#517AB8"}]';
+                            case 2:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321c0b0a0#!)","color":"#517AB8"}]';
+                            case 3:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321d0c0b0a0#!","color":"#517AB8"}]';
+                            case 4:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0d0c0b0a0#)","color":"#517AB8"}]';
+                            case 5:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0d0c0b0a0#","color":"#517AB8"}]';
+                            case 6:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0d0c0b0a0@!)","color":"#517AB8"}]';
+                            case 7:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0d0c0|b0a0@!","color":"#517AB8"}]';
+                            case 8:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0d0c0|b0a0@)","color":"#517AB8"}]';
+                            case 9:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0|d0c0b0a0@","color":"#517AB8"}]';
+                            case 10:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|d0c0b0a0!)","color":"#517AB8"}]';
+                            case 11:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0d0c0b0a0!","color":"#517AB8"}]';
+                            case 12:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0d0c0b0a0)","color":"#517AB8"}]';
+                            case 13:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0d0c0b0)","color":"#517AB8"}]';
+                            case 14:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0d0c0)","color":"#517AB8"}]';
+                            case 15:
+                                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0e0d0)","color":"#517AB8"}]';
+                        }
+                        execute if score @s[scores={tf2.blu_progress=0}] tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
+                        execute if score @s[scores={tf2.blu_progress=0}] tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                        execute if score @s[scores={tf2.blu_progress=1..}] tf2.team matches 0 run objectives.control_point.visuals.capture_progress.neutral_flicker();
+                        execute if score @s tf2.team matches 1 run objectives.control_point.visuals.capture_progress.red.flicker();
+                        objectives.control_point.visuals.capture_progress.blu.wheel();
+                        objectives.control_point.find_index.reinsert();
+                    } function wheel() {
+                        $wheel_frame *= 3;
+                        $wheel_frame /= tf2.capture_threshold:@s;
+                        objectives.control_point.visuals.wheel_spacing();
+                        execute if score @s tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
+                        execute if score @s tf2.team matches 1 run data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#D95A58"}]';
+                        execute if score $wheel_frame tf2.var matches 0 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 1 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 2 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 3 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 4 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 5 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 6 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 7 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 8 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 9 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 10 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 11 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+
+                        execute if score $wheel_frame tf2.var matches 12 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 13 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 14 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 15 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 16 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 17 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 18 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 19 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 20 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 21 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 22 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 23 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#517AB8"}]';
+
+                        execute if score $wheel_frame tf2.var matches 24 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 25 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 26 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 27 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 28 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 29 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 30 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 31 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 32 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 33 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 34 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 35 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#517AB8"}]';
+
+                        execute if score $wheel_frame tf2.var matches 36 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 37 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 38 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 39 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 40 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 41 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 42 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 43 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 44 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 45 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 46 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        execute if score $wheel_frame tf2.var matches 47 run data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                        title @a[tag=tf2.on_point] times 0 4 5;
+                        title @a[tag=tf2.on_point] title [{"nbt":"points[0].wheel.spacing","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"?43","color":"#291A15","font":"tf2:wheel"},{"nbt":"points[0].wheel.owner","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"421|","font":"tf2:wheel"},{"nbt":"points[0].wheel.progress","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"}];
+                    } function flicker() {
+                        scoreboard players operation $flicker tf2.ticks = $global tf2.ticks;
+                        scoreboard players operation $flicker tf2.ticks %= 20 tf2.const;
+                        execute if score $flicker tf2.ticks matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
+                        execute if score $flicker tf2.ticks matches 1..2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
+                        execute if score $flicker tf2.ticks matches 3..4 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
+                        execute if score $flicker tf2.ticks matches 5..7 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
+                        execute if score $flicker tf2.ticks matches 8..11 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B4BECA"}]';
+                        execute if score $flicker tf2.ticks matches 12..14 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
+                        execute if score $flicker tf2.ticks matches 15..16 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
+                        execute if score $flicker tf2.ticks matches 17..18 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
+                        execute if score $flicker tf2.ticks matches 19 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
+                    }
+                } function neutral_flicker() {
+                    scoreboard players operation $flicker tf2.ticks = $global tf2.ticks;
+                    scoreboard players operation $flicker tf2.ticks %= 20 tf2.const;
+                    execute if score $flicker tf2.ticks matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
+                    execute if score $flicker tf2.ticks matches 1..2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
+                    execute if score $flicker tf2.ticks matches 3..4 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
+                    execute if score $flicker tf2.ticks matches 5..7 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
+                    execute if score $flicker tf2.ticks matches 8..11 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#C4C4C4"}]';
+                    execute if score $flicker tf2.ticks matches 12..14 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
+                    execute if score $flicker tf2.ticks matches 15..16 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
+                    execute if score $flicker tf2.ticks matches 17..18 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
+                    execute if score $flicker tf2.ticks matches 19 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
+                }
+            }
+        }
+    }
+}
+
+class timer
+{
+    function main() {
+        JMC.put("#> tf2:timer/main");
+        JMC.put("#");
+        JMC.put("# @handles timer mechanic");
+        JMC.put("# @context marker");
+        JMC.put("# @within tf2:__tick__");
+
+        scoreboard players remove @s tf2.timer 1;
+        timer.set_value();
+
+        scoreboard players operation @s tf2.timer.sec = @s tf2.timer;
+        scoreboard players operation @s tf2.timer.sec /= 20 tf2.const;
+        scoreboard players operation @s tf2.timer.min = @s tf2.timer.sec;
+        scoreboard players operation @s tf2.timer.sec %= 60 tf2.const;
+        scoreboard players operation @s tf2.timer.min /= 60 tf2.const;
+        execute if entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time] run timer.display.singlestage();
+        JMC.put("# execute if entity @s[tag=tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time] run timer.display.multistage();");
+        execute if entity @s[tag=tf2.setup_time] run timer.display.setup_time();
+        execute if entity @s[tag=tf2.overtime] run timer.display.overtime();
+
+        execute if score @s tf2.timer matches ..1200 run timer.chat();
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 0 run timer.exit_setup();
+        execute if score @s[tag=!tf2.setup_time] tf2.timer matches 0 run timer.zero();
+        execute if score @s tf2.timer matches -100 run reset.as_marker();
+    } function chat() {
+        JMC.put("#> tf2:timer/chat");
+        JMC.put("#");
+        JMC.put("# @within tf2:timer/main");
+        JMC.put("# @handles timer-related dialogue lines");
+        JMC.put("# @reads");
+        JMC.put("#   score @s tf2.batch_number");
+        JMC.put("#   score ⟨players⟩ tf2.batch_number");
+        JMC.put("#       Finds the players that belong to this game marker.");
+        JMC.put("#   predicate tf2:coin_flip");
+        JMC.put("#       50/50 chance to pick one of two dialogue lines.");
+
+        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 1200 run tellraw @a[tag=tf2.current] {"text":"Mission begins in sixty seconds.","bold":true,"color":"white"};
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 600 run tellraw @a[tag=tf2.current] {"text":"Mission begins in thirty seconds.","bold":true,"color":"white"};
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 200 run tellraw @a[tag=tf2.current] {"text":"Mission begins in ten seconds.","bold":true,"color":"white"};
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 100 run tellraw @a[tag=tf2.current] {"text":"Five...","bold":true,"color":"white"};
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 80 run tellraw @a[tag=tf2.current] {"text":"Four..","bold":true,"color":"white"};
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 60 run tellraw @a[tag=tf2.current] {"text":"Three..","bold":true,"color":"white"};
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 40 run tellraw @a[tag=tf2.current] {"text":"Two..","bold":true,"color":"white"};
+        execute if score @s[tag=tf2.setup_time] tf2.timer matches 20 run tellraw @a[tag=tf2.current] {"text":"One.","bold":true,"italic":true,"color":"white"};
+
+        execute if score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 1200 run tellraw @a[tag=tf2.current] {"text":"Mission ends in sixty seconds.","bold":true,"color":"white"};
+        execute if score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 600 run tellraw @a[tag=tf2.current] {"text":"Mission ends in thirty seconds.","bold":true,"color":"white"};
+        execute if score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 200 run tellraw @a[tag=tf2.current] {"text":"Mission ends in ten seconds.","bold":true,"color":"white"};
+        execute if score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 100 run tellraw @a[tag=tf2.current] {"text":"Five!","bold":true,"color":"white"};
+        execute if score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 80 run tellraw @a[tag=tf2.current] {"text":"Four!","bold":true,"color":"white"};
+        execute if score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 60 run tellraw @a[tag=tf2.current] {"text":"Three!","bold":true,"color":"white"};
+        execute if score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 40 run tellraw @a[tag=tf2.current] {"text":"Two!","bold":true,"color":"white"};
+        execute if score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 20 run tellraw @a[tag=tf2.current] {"text":"One!","bold":true,"italic":true,"color":"white"};
+
+        $temp = execute if predicate tf2:coin_flip;
+        execute if score @s[tag=tf2.overtime] tf2.timer matches 1200 if score $temp tf2.var matches 1 run tellraw @a[tag=tf2.current] {"text":"Overtime!","bold":true,"color":"white"};
+        execute if score @s[tag=tf2.overtime] tf2.timer matches 1200 unless score $temp tf2.var matches 1 run tellraw @a[tag=tf2.current] {"text":"Overtime...","bold":true,"color":"white"};
+    } 
+    function set_value() {
+        Hardcode.repeat("_i_", ()=>{execute store result bossbar tf2:timer__i_ value run scoreboard players get @s[scores={tf2.batch_number=_i_}] tf2.timer;}, start = 1, stop = 6);
+    } function set_max() {
+        Hardcode.repeat("_i_", ()=>{execute store result bossbar tf2:timer__i_ max run scoreboard players get @s[scores={tf2.batch_number=_i_}] tf2.timer;}, start = 1, stop = 6);
+        timer.set_value();
+    } 
+    function show() {
+        Hardcode.repeat("_i_", ()=>{
+            execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ visible true;
+            execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ players @a[scores={tf2.batch_number=_i_}];
+            execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color white;
+            }, start = 1, stop = 6
+        );
+    } function hide() {
+        Hardcode.repeat("_i_", ()=>{execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ visible false;}, start = 1, stop = 6);
+    } 
+    function begin_setup() {
+        tag @s add tf2.setup_time;
+        execute store result score @s tf2.timer run data get entity @s data.map.setup_time 20;
+        Hardcode.repeat("_i_", ()=>{execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color green;}, start = 1, stop = 6);
+        timer.set_max();
+        JMC.put("# placeholder for now");
+        execute if data entity @s {data:{map:{name: "test"}}} run fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet;
+    } 
+    function exit_setup() {
+        execute if data entity @s {data:{map:{name: "test"}}} run fill -508 1 -517 -517 1 -508 minecraft:blue_carpet replace minecraft:cobblestone_wall;
+        execute store result score @s tf2.timer run data get entity @s data.map.timer 20;
+        timer.set_max();
+        timer.show();
+        tag @s remove tf2.setup_time;
+    } 
+    function zero() {
+        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+        execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        tag @e[tag=tf2.current] remove tf2.overtime;
+        execute as @e[type=marker,tag=tf2.current] if score @s tf2.blu_progress < @s tf2.capture_threshold if score @s tf2.red_progress < @s tf2.capture_threshold run tag @s add tf2.overtime;
+        execute unless entity @s[tag=tf2.overtime] if entity @e[type=marker,tag=tf2.current,tag=tf2.overtime] run timer.overtime();
+        tag @e[type=marker] remove tf2.current;
+        execute if score @s tf2.timer matches 0 run timer.end_game();
+    } 
+    function overtime() {
+        tag @s add tf2.overtime;
+        scoreboard players set @s tf2.timer 1200;
+        Hardcode.repeat("_i_", ()=>{execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color red;}, start = 1, stop = 6);
+        timer.set_max();
+    }
+    function end_game() {
+        scoreboard players reset $winner tf2.team;
+        $temp = tf2.gamemode:@s;
+        $temp %= 4;
+        execute if score $temp tf2.var matches 1 run scoreboard players set $winner tf2.team 1;
+        execute unless score $temp tf2.var matches 1 run scoreboard players set $winner tf2.team -1;
+        reset.announce_winner();
+    }
+
+    class display {
+        function singlestage() {
+            Hardcode.repeat("_i_", ()=>{
+                execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=10..59}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Round - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
+                execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=0..9}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Round - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":0"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];},
+                start=1, stop=6
+            );
+        }
+        function setup_time() {
+            Hardcode.repeat("_i_", ()=>{
+                execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=10..59}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Setup - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
+                execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=0..9}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Setup - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":0"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];},
+                start=1, stop=6
+            );
+        }
+        function overtime() {
+            Hardcode.repeat("_i_", ()=>{
+                execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=10..59}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Overtime! - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
+                execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=0..9}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Overtime! - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":0"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];},
+                start=1, stop=6
+            );
+        }
+    }
+}
+
+class reset {
+    function announce_winner() {
+        JMC.put("#> tf2:reset/announce_winner");
+        JMC.put("#");
+        JMC.put("# Announces the winner of the game but doesn't relog players yet.");
+        JMC.put("#");
+        JMC.put("# @within");
+        JMC.put("#   tf2:objectives/control_point/gamestate");
+        JMC.put("#   tf2:timer/end_game");
+        JMC.put("# @context a game marker (position/rotation irrelevant)");
+        JMC.put("# @handles game reset");
+        JMC.put("# @input");
+        JMC.put("#   score $winner tf2.team");
+        JMC.put("#       Which team has won the current game (1 = RED, 2 = BLU, -1 = stalemate).");
+        JMC.put("# @reads");
+        JMC.put("#   score @s tf2.batch_number");
+        JMC.put("#   score ⟨control points⟩ tf2.batch_number");
+        JMC.put("#       Finds the control points that belong to this game marker.");
+        JMC.put("#   score ⟨players⟩ tf2.team");
+        JMC.put("#       Used to determine if a player is on the winning or losing team.");
+
+        JMC.put('#  execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]');
+        execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
+        kill @e[type=villager,tag=tf2.current];
+        execute if score $winner tf2.team matches 1 run tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"RED wins!","bold":true,"italic":true,"color":"red"}];
+        execute if score $winner tf2.team matches 2 run tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"BLU wins!","bold":true,"italic":true,"color":"blue"}];
+        execute if score $winner tf2.team matches -1 run tellraw @a[tag=tf2.current] {"text":"Stalemate....","italic":true,"color":"gray","hoverEvent":{"action":"show_text","contents":["You're",{"text":" all ","bold":true},"losers!"]}};
+        execute as @a[tag=tf2.current] if score @s tf2.team = $winner tf2.team run tellraw @s [{"text":"Victory.","bold":false,"italic":true}];
+        execute as @a[tag=tf2.current] if score $winner tf2.team matches 1..2 unless score @s tf2.team = $winner tf2.team run tellraw @s [{"text":"You've failed!","bold":false,"italic":true}];
+        timer.hide();
+        scoreboard players set @s tf2.timer -1;
+        tag @a remove tf2.current;
+    } function as_marker() {
+        JMC.put("#> tf2:reset/as_marker");
+        JMC.put("#");
+        JMC.put("# Resets gameplay-specific information once a match ends.");
+        JMC.put("#");
+        JMC.put("# @within");
+        JMC.put("#   tf2:timer/main");
+        JMC.put("# @context a marker (position/rotation irrelevant)");
+        JMC.put("# @handles game reset");
+        JMC.put("# @reads");
+        JMC.put("#   score $show_debug_messages tf2.settings");
+        JMC.put("#       Self-explanatory.");
+        JMC.put("#   score @s tf2.batch_number");
+        JMC.put("#   score ⟨players⟩ tf2.batch_number");
+        JMC.put("#       Finds the players that belong to this game marker.");
+
+        execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game controlled by ",{"selector":"@s"}," has ended at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
+        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+        execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        execute as @a[tag=tf2.current] run reset.as_players();
+        kill @s;
+        setup_markers();
+    } function as_objectives() {
+        JMC.put("#> tf2:reset/as_objectives");
+        JMC.put("#");
+        JMC.put("# Resets all objective data when a match ends and kills the objectives.");
+        JMC.put("#");
+        JMC.put("# @within tf2:reset/announce_winner");
+        JMC.put("# @context all CP entities within a batch");
+        JMC.put("# @handles game reset");
+        JMC.put("# @writes");
+        JMC.put("#   storage tf2.__temp__:lookup points[0].(owner/progress/symbol/extra)");
+        JMC.put("#       Resets visual data relating to this point's state.");
+
+        setblock ~ ~-1 ~ glass;
+        setblock ~ ~ ~ air;
+        objectives.control_point.find_index.main();
+        data modify storage tf2.__temp__:lookup points[0].owner set value '[""]';
+        data modify storage tf2.__temp__:lookup points[0].progress set value '[""]';
+        data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';
+        data modify storage tf2.__temp__:lookup points[0].extra set value '[""]';
+        objectives.control_point.find_index.reinsert();
+        kill @s;
+    } function as_players() {
+        JMC.put("#> tf2:reset/as_players");
+        JMC.put("#");
+        JMC.put("# Adds to players' permanent scores and relogs them.");
+        JMC.put("#");
+        JMC.put("# @within tf2:reset/as_marker");
+        JMC.put("# @context all players in the current game");
+        JMC.put("# @reads");
+        JMC.put("#   score @s tf2.team");
+        JMC.put("#   score $winner tf2.team");
+        JMC.put("#       Determines whether the player was on the winning or losing team.");
+        JMC.put("# @writes");
+        JMC.put("#   score @s tf2.permanent.games_(played/won)");
+        JMC.put("#       Permanent statistics pertaining to the player.");
+        JMC.put("#   score @s tf2.ticks");
+        JMC.put("#       Number of ticks the player has been online. Resetting this value relogs the player.");
+
+        execute if score @s tf2.team = $winner tf2.team run scoreboard players add @s tf2.permanent.games_won 1;
+        scoreboard players add @s tf2.permanent.games_played 1;
+        tag @s remove tf2.current;
+        scoreboard players reset @s tf2.ticks;
+        JMC.put("# debug only");
+        kill @s[type=villager];
+    } 
+}

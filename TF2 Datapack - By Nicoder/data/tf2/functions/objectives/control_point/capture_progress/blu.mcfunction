@@ -15,13 +15,11 @@
 #       Self-explanatory.
 #   predicate tf2:coin_flip
 #       50/50 chance to pick one of two dialogue lines.
-
 # RED progress must be reverted before adding BLU progress
 execute unless score @s tf2.red_progress matches 0 run scoreboard players operation @s tf2.red_progress -= $sum tf2.var
-scoreboard players operation @s tf2.red_progress > $0 tf2.const
+scoreboard players operation @s tf2.red_progress > 0 tf2.const
 scoreboard players operation @s[scores={tf2.red_progress=0}] tf2.blu_progress += $sum tf2.var
 execute if score @s tf2.blu_progress >= @s tf2.capture_threshold run function tf2:objectives/control_point/set_owner/blu
-
 execute store result score $temp tf2.var if predicate tf2:coin_flip
 execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=1}] {"text":"Alert! Our control point is being captured.","bold":true,"color":"white"}
 execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 1 run tellraw @a[scores={tf2.team=1}] {"text":"Defend our control point!","bold":true,"color":"white"}

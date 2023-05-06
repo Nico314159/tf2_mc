@@ -1,1 +1,5 @@
-{"values":["tf2:tick"]}
+{
+    "values": [
+        "tf2:__tick__"
+    ]
+}

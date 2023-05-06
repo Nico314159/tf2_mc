@@ -1,8 +1,3 @@
-#> tf2:timer/overtime
-#
-# @context game marker
-# @within tf2:timer/zero
-
 tag @s add tf2.overtime
 scoreboard players set @s tf2.timer 1200
 execute if score @s tf2.batch_number matches 1 run bossbar set tf2:timer_1 color red
