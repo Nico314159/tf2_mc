@@ -1,6 +1,6 @@
 #> tf2:objectives/control_point/decay/init
 #
-# @within tf2:__tick__
+# @within tf2:objectives/control_point/check_for_players
 # @context CP entity & position
 # if non-owner team still has players on point, don't decay
 # TODO: update to use /return when 1.20 releases.

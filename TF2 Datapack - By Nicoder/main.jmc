@@ -214,7 +214,6 @@ function __tick__() {
 
     execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s run objectives.control_point.visuals.init();
     execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run objectives.control_point.check_for_players();
-    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.contested,tag=!tf2.locked] run objectives.control_point.decay.init();
 
     execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run objectives.control_point.gamestate();
 }
@@ -674,6 +673,7 @@ class objectives
             if($red_on_point >= 1 && $blu_on_point >= 1){tag @s add tf2.contested;}
 
             execute if entity @s[tag=!tf2.contested] run objectives.control_point.main();
+            execute if entity @s[tag=!tf2.contested] run objectives.control_point.decay.init();
             tag @e[type=#tf2:player_like] remove tf2.on_point;
         } function main() {
             JMC.put("#> tf2:objectives/control_point/main");
@@ -827,7 +827,7 @@ class objectives
             function init() {
                 JMC.put("#> tf2:objectives/control_point/decay/init");
                 JMC.put("#");
-                JMC.put("# @within tf2:__tick__");
+                JMC.put("# @within tf2:objectives/control_point/check_for_players");
                 JMC.put("# @context CP entity & position");
 
                 JMC.put("# if non-owner team still has players on point, don't decay");
