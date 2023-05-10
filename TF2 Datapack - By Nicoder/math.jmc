@@ -1,0 +1,28 @@
+class math {
+    function harmonic_series() {
+        JMC.put("#> tf2:math/harmonic_series");
+        JMC.put("#");
+        JMC.put("# Calculates the nth partial sum of the harmonic series. (1 + 1/2 + 1/3 + ... + 1/n)");
+        JMC.put("#");
+        JMC.put("# @public");
+        JMC.put("# @context any");
+        JMC.put("# @input");
+        JMC.put("#   score $bound tf2.var ");
+        JMC.put("#       The upper bound of summation (i.e. how many fractions to sum up).");
+        JMC.put("# @output");
+        JMC.put("#   score $sum tf2.var");
+        JMC.put("#       The result of the sum, scaled up by 1000. (ex: 1.5 becomes 1500)  ");
+        JMC.put("# @writes");
+        JMC.put("#   score $index tf2.var ");
+        JMC.put("#       Temporary variable for the index of summation (denominator of the current term).");
+        JMC.put("#   score $add tf2.var");
+        JMC.put("#       Temporary variable for the current term on this iteration of the loop. (equal to 1000 / $index) ");
+
+        $sum = 0;
+        for($index = 1; $index <= $bound; $index++;) {
+            $add = 1000;
+            $add /= $index;
+            $sum += $add;
+        }
+    }
+}
