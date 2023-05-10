@@ -35,8 +35,8 @@ execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run s
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass
 # TODO: replace random assignment with first come, first serve
 scoreboard players set __if_else__ tf2.var 0
-execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/0
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/1
+execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/4
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/5
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type
 execute store result score @s tf2.timer run data get entity @s data.map.timer 20
 execute if data entity @s data.map.timer run function tf2:timer/set_max

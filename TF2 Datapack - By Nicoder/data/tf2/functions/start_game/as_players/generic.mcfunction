@@ -2,8 +2,9 @@
 #
 # Adds players to the game and gives them a tag so that other functions know.
 #
-# @within tf2:start_game/as_marker/main
-# @within tf2:__private__**
+# @within
+#   tf2:start_game/as_marker/main
+#   tf2:__private__**
 # @context all players in the current queue
 # @handles start of game
 # @output

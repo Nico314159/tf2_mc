@@ -1,2 +1,2 @@
-execute if score $local tf2.batch_number matches 3 run function tf2:__private__/hardcode_switch/5
-execute if score $local tf2.batch_number matches 4..5 run function tf2:__private__/hardcode_switch/6
+execute if score $mini_index tf2.var matches 4..5 run function tf2:__private__/hardcode_switch/7
+execute if score $mini_index tf2.var matches 6..7 run function tf2:__private__/hardcode_switch/8

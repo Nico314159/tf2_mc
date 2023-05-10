@@ -14,4 +14,6 @@
 #   storage tf2:control_points info[$local...][@s tf2.index]
 #       Where all visual data related to the current CP is stored.
 #       See `tf2:objectives/control_point/find_index/main` comments for specific information.
-function tf2:__private__/hardcode_switch/9
+scoreboard players operation $mini_index tf2.var = @s tf2.index
+scoreboard players operation $mini_index tf2.var /= 10 tf2.const
+function tf2:__private__/hardcode_switch/139

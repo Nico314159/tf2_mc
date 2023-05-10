@@ -1,8 +1,2 @@
-execute if score @s tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[5][0]
-execute if score @s tf2.index matches 10 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[5][1]
-execute if score @s tf2.index matches 20 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[5][2]
-execute if score @s tf2.index matches 30 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[5][3]
-execute if score @s tf2.index matches 40 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[5][4]
-execute if score @s tf2.index matches 50 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[5][5]
-execute if score @s tf2.index matches 60 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[5][6]
-execute if score @s tf2.index matches 70 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[5][7]
+execute if score $mini_index tf2.var matches 6 run function tf2:__private__/hardcode_switch/11
+execute if score $mini_index tf2.var matches 7 run function tf2:__private__/hardcode_switch/12

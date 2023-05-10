@@ -29,4 +29,6 @@
 #   storage tf2.__temp__:lookup points[0]
 #       Dynamically-editable copy of all data in the `tf2:control_points info[$local...][@s tf2.index]` storage path.
 #       Can be copied back to the original path using `function tf2:objectives/control_point/find_index/reinsert/main`.
-function tf2:__private__/hardcode_switch/0
+scoreboard players operation $mini_index tf2.var = @s tf2.index
+scoreboard players operation $mini_index tf2.var /= 10 tf2.const
+function tf2:__private__/hardcode_switch/65

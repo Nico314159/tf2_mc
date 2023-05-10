@@ -5,14 +5,15 @@ scoreboard players set 3 tf2.const 3
 scoreboard players set 4 tf2.const 4
 scoreboard players set 6 tf2.const 6
 scoreboard players set 8 tf2.const 8
+scoreboard players set 10 tf2.const 10
 scoreboard players set 20 tf2.const 20
 scoreboard players set 90 tf2.const 90
 #> tf2:load
 #
-#Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities.
+# Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities.
 #
-#@handles #minecraft:load
-#@context any
+# @handles #minecraft:load
+# @context any
 #declare storage tf2:maps
 #declare storage tf2:control_points
 #declare storage tf2.__temp__:summon

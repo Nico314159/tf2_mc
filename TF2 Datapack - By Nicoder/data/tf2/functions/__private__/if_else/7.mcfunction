@@ -1,1 +1,1 @@
-data modify storage tf2.__temp__:lookup points[0].left set value "[\"\"]"
+execute if score $chaos_queue_length tf2.var matches 40.. run function tf2:__private__/if_else/8
