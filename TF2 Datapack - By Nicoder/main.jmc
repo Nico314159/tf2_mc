@@ -52,12 +52,7 @@ JMC.put("# set up teams");
 Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
 Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
 
-Hardcode.repeat("_i_", ()=>{
-        Bossbar.add(tf2:timer__i_, "");
-    },
-    start=1,
-    stop=6
-);
+Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop = 6);
 
 JMC.put("# markers keep track of gamestate");
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch];
@@ -125,15 +120,13 @@ function initialize() {
     JMC.put("# @public");
 
     if ($batch_markers < tf2.settings:$max_batches){
-        summon minecraft:marker 0 0 0 {Tags:["tf2.batch"],data:{lastPos: [0.0d, 0.0d, 0.0d],  map: {}}};
+        summon minecraft:marker 0 0 0 {Tags:["tf2.batch"], data:{lastPos: [0.0d, 0.0d, 0.0d], map: {}}};
     } 
-    else if ($batch_markers > tf2.settings:$max_batches){
-        kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
-    } 
+    else if ($batch_markers > tf2.settings:$max_batches) kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
     $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
     scoreboard players reset $index tf2.batch_number;
     execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run assign_id();
-    execute unless score $batch_markers tf2.var = $max_batches tf2.settings run setup_markers();
+    if ($batch_markers !== tf2.settings:$max_batches) setup_markers();
 } function assign_id() {
     JMC.put("#> tf2:assign_id");
     JMC.put("#");
@@ -142,11 +135,8 @@ function initialize() {
     JMC.put("#   tf2:assign_id");
 
     scoreboard players set @s tf2.map 1;
-    scoreboard players add $index tf2.batch_number 1;
-    scoreboard players set $break tf2.batch_number 1;
-    execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $index tf2.batch_number run scoreboard players set $break tf2.batch_number 0;
-    execute unless score $break tf2.batch_number matches 1 run assign_id();
-    scoreboard players operation @s tf2.batch_number = $index tf2.batch_number;
+    scoreboard players operation @s tf2.batch_number > @e[type=marker,tag=tf2.batch] tf2.batch_number;
+    scoreboard players add @s tf2.batch_number 1;
 }
 
 import "math";
@@ -169,9 +159,9 @@ function __tick__() {
     $casual_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2}];
     $chaos_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3}];
 
-    scoreboard players set $enough_in_queue tf2.var 1;
+    $enough_in_queue = 1;
     execute unless score $comp_queue_length tf2.var matches 12.. unless score $casual_queue_length tf2.var matches 24.. unless score $chaos_queue_length tf2.var matches 40.. run scoreboard players set $enough_in_queue tf2.var 0;
-    if ($enough_in_queue = 1) {
+    if ($enough_in_queue == 1) {
         execute as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run start_game.as_marker.main();
     }
     
