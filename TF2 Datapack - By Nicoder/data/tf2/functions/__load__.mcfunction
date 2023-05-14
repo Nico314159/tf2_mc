@@ -1,5 +1,6 @@
 scoreboard objectives add tf2.var dummy
 scoreboard objectives add tf2.const dummy
+scoreboard players set 0 tf2.const 0
 scoreboard players set 2 tf2.const 2
 scoreboard players set 3 tf2.const 3
 scoreboard players set 4 tf2.const 4
@@ -8,7 +9,8 @@ scoreboard players set 8 tf2.const 8
 scoreboard players set 10 tf2.const 10
 scoreboard players set 20 tf2.const 20
 scoreboard players set 90 tf2.const 90
-#> tf2:load
+scoreboard players set 60 tf2.const 60
+#> tf2:__load__
 #
 # Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities.
 #

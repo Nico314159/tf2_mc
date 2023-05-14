@@ -11,7 +11,7 @@
 #   score @s tf2.batch_number
 #       Pairs the players in the queue to each other and to the storage marker
 # @writes
-#   score $break tf2.queue_type
+#   score $break tf2.var
 #       Prevents multiple queues from getting assigned to same game
 #   score @s tf2.respawn_timer 0
 #       Makes the players spawn in when the game starts.
@@ -20,7 +20,7 @@ effect give @s glowing 1000 0 true
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 tag @s remove tf2.in_queue
 tag @s add tf2.is_playing
-scoreboard players set $break tf2.queue_type 1
+scoreboard players set $break tf2.var 1
 # used for team assignment
 tag @s add tf2.current
 scoreboard players set @s tf2.respawn_timer 0

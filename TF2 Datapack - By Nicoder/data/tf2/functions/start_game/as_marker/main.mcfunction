@@ -15,11 +15,11 @@
 #   score ⟨players⟩ tf2.batch_number
 #       Pairs the players in a queue to each other and to the storage marker.
 # @writes
-#   score $break tf2.queue_type
+#   score $break tf2.var
 #       Prevents multiple queues from getting assigned to same game.
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"]
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
-scoreboard players reset $break tf2.queue_type
+scoreboard players reset $break tf2.var
 # TODO: make dynamic for selected maps instead of hardcoding
 data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0
 data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1

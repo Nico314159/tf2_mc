@@ -7,14 +7,14 @@ class timer
         JMC.put("# @context marker");
         JMC.put("# @within tf2:__tick__");
 
-        scoreboard players remove @s tf2.timer 1;
+        tf2.timer:@s --;
         timer.set_value();
 
-        scoreboard players operation @s tf2.timer.sec = @s tf2.timer;
-        scoreboard players operation @s tf2.timer.sec /= 20 tf2.const;
-        scoreboard players operation @s tf2.timer.min = @s tf2.timer.sec;
-        scoreboard players operation @s tf2.timer.sec %= 60 tf2.const;
-        scoreboard players operation @s tf2.timer.min /= 60 tf2.const;
+        tf2.timer:@s -> tf2.timer.sec:@s;
+        tf2.timer.sec:@s /= 20;
+        tf2.timer.sec:@s -> tf2.timer.min:@s;
+        tf2.timer.sec:@s %= 60;
+        tf2.timer.min:@s /= 60;
         execute if entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time] run timer.display.singlestage();
         JMC.put("# execute if entity @s[tag=tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time] run timer.display.multistage();");
         execute if entity @s[tag=tf2.setup_time] run timer.display.setup_time();
@@ -36,7 +36,7 @@ class timer
         JMC.put("#   predicate tf2:coin_flip");
         JMC.put("#       50/50 chance to pick one of two dialogue lines.");
 
-        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+        tf2.batch_number:@s -> tf2.batch_number:$local;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute if score @s[tag=tf2.setup_time] tf2.timer matches 1200 run tellraw @a[tag=tf2.current] {"text":"Mission begins in sixty seconds.","bold":true,"color":"white"};
         execute if score @s[tag=tf2.setup_time] tf2.timer matches 600 run tellraw @a[tag=tf2.current] {"text":"Mission begins in thirty seconds.","bold":true,"color":"white"};
@@ -81,21 +81,21 @@ class timer
 
     function begin_setup() {
         tag @s add tf2.setup_time;
-        execute store result score @s tf2.timer run data get entity @s data.map.setup_time 20;
+        tf2.timer:@s = data get entity @s data.map.setup_time 20;
         Hardcode.repeat("_i_", ()=>{execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color green;}, start = 1, stop = 6);
         timer.set_max();
         JMC.put("# placeholder for now");
         execute if data entity @s {data:{map:{name: "test"}}} run fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet;
     } function exit_setup() {
         execute if data entity @s {data:{map:{name: "test"}}} run fill -508 1 -517 -517 1 -508 minecraft:blue_carpet replace minecraft:cobblestone_wall;
-        execute store result score @s tf2.timer run data get entity @s data.map.timer 20;
+        tf2.timer:@s = data get entity @s data.map.timer 20;
         timer.set_max();
         timer.show();
         tag @s remove tf2.setup_time;
     } 
 
     function zero() {
-        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+        tf2.batch_number:@s -> tf2.batch_number:$local;
         execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         tag @e[tag=tf2.current] remove tf2.overtime;
         execute as @e[type=marker,tag=tf2.current] if score @s tf2.blu_progress < @s tf2.capture_threshold if score @s tf2.red_progress < @s tf2.capture_threshold run tag @s add tf2.overtime;
@@ -104,15 +104,15 @@ class timer
         execute if score @s tf2.timer matches 0 run timer.end_game();
     } function overtime() {
         tag @s add tf2.overtime;
-        scoreboard players set @s tf2.timer 1200;
+        tf2.timer:@s = 1200;
         Hardcode.repeat("_i_", ()=>{execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color red;}, start = 1, stop = 6);
         timer.set_max();
     } function end_game() {
         scoreboard players reset $winner tf2.team;
         $temp = tf2.gamemode:@s;
         $temp %= 4;
-        execute if score $temp tf2.var matches 1 run scoreboard players set $winner tf2.team 1;
-        execute unless score $temp tf2.var matches 1 run scoreboard players set $winner tf2.team -1;
+        if ($temp == 1) {tf2.team:$winner = 1;}
+        if ($temp != 1) {tf2.team:$winner = -1;}
         reset.announce_winner();
     }
 

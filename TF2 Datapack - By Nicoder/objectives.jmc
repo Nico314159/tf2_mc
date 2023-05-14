@@ -93,7 +93,7 @@ class objectives {
             $red_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=1}];
             $blu_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=2}];
 
-            if($red_on_point >= 1 && $blu_on_point >= 1){tag @s add tf2.contested;}
+            if ($red_on_point >= 1 && $blu_on_point >= 1) {tag @s add tf2.contested;}
 
             execute if entity @s[tag=!tf2.contested] run objectives.control_point.main();
             execute if entity @s[tag=!tf2.contested] run objectives.control_point.decay.init();
@@ -153,7 +153,7 @@ class objectives {
             JMC.put("#       Which team has won the current game (1 = RED, 2 = BLU). Null value if the game is still ongoing.");
 
             tag @e remove tf2.current;
-            scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+            tf2.batch_number:@s -> tf2.batch_number:$local;
             execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
 
             $red_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=1}];
@@ -203,7 +203,7 @@ class objectives {
 
                 JMC.put("# BLU progress must be reverted before adding RED progress");
                 execute unless score @s tf2.blu_progress matches 0 run scoreboard players operation @s tf2.blu_progress -= $sum tf2.var;
-                scoreboard players operation @s tf2.blu_progress > 0 tf2.const;
+                tf2.blu_progress:@s > 0;
                 scoreboard players operation @s[scores={tf2.blu_progress=0}] tf2.red_progress += $sum tf2.var;
                 execute if score @s tf2.red_progress >= @s tf2.capture_threshold run objectives.control_point.set_owner.red();
 
@@ -234,7 +234,7 @@ class objectives {
 
                 JMC.put("# RED progress must be reverted before adding BLU progress");
                 execute unless score @s tf2.red_progress matches 0 run scoreboard players operation @s tf2.red_progress -= $sum tf2.var;
-                scoreboard players operation @s tf2.red_progress > 0 tf2.const;
+                tf2.red_progress:@s > 0;
                 scoreboard players operation @s[scores={tf2.red_progress=0}] tf2.blu_progress += $sum tf2.var;
                 execute if score @s tf2.blu_progress >= @s tf2.capture_threshold run objectives.control_point.set_owner.blu();
 
@@ -255,8 +255,8 @@ class objectives {
                 JMC.put("# if non-owner team still has players on point, don't decay");
                 JMC.put("# TODO: update to use /return when 1.20 releases.");
                 scoreboard players reset $break tf2.var;
-                execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run scoreboard players set $break tf2.var 1;
-                execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run scoreboard players set $break tf2.var 1;
+                execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run $break = 1;
+                execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run $break = 1;
                 execute unless score $break tf2.var matches 1 run objectives.control_point.decay.main(); 
             } function main() {
                 JMC.put("#> tf2:objectives/control_point/decay/main");
@@ -277,7 +277,7 @@ class objectives {
                 $sum /= 20;
                 $sum /= 90;
                 execute if entity @s[tag=tf2.overtime] run $sum *= 6;
-                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                tf2.batch_number:@s -> tf2.batch_number:$local;
                 execute as @e[type=marker] if score $local tf2.batch_number = @s tf2.batch_number run tag @s add tf2.current;
 
                 JMC.put("# revert in direction of owner team");
@@ -290,8 +290,8 @@ class objectives {
                 JMC.put("# if unowned, revert towards zero");
                 scoreboard players operation @s[scores={tf2.team=0,tf2.red_progress=1..}] tf2.red_progress -= $sum tf2.var;
                 scoreboard players operation @s[scores={tf2.team=0,tf2.blu_progress=1..}] tf2.blu_progress -= $sum tf2.var;
-                scoreboard players operation @s tf2.red_progress > 0 tf2.const;
-                scoreboard players operation @s tf2.blu_progress > 0 tf2.const;
+                tf2.red_progress:@s > 0;
+                tf2.blu_progress:@s > 0;
 
                 tag @s[scores={tf2.team=0,tf2.red_progress=0,tf2.blu_progress=0}] remove tf2.said_dialogue;
             }
@@ -313,9 +313,9 @@ class objectives {
                 JMC.put("#   score ⟨marker⟩ tf2.gamemode");
                 JMC.put("#       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.");
 
-                scoreboard players operation $last tf2.team = @s tf2.team;
-                scoreboard players set @s tf2.team 1;
-                scoreboard players operation @s tf2.red_progress = @s tf2.capture_threshold;
+                tf2.team:@s -> tf2.team:$last
+                tf2.team:@s = 1;
+                tf2.red_progress:@s = tf2.capture_threshold:@s;
 
                 objectives.control_point.find_index.main();
                 data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
@@ -330,7 +330,7 @@ class objectives {
                 JMC.put("# if 5CP & this is mid: unlock BLU's 1st (✓)");
                 JMC.put("# else if 5CP: lock/unlock adjacent points in line (✓)");
                 JMC.put("# if ATK/DEF: how??!!?!?");
-                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                tf2.batch_number:@s -> tf2.batch_number:$local;
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 JMC.put("# TODO: change this part to use the new 'return' command when 1.20 releases");
                 execute unless score $last tf2.team = @s tf2.team if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.red.symmetric();
@@ -353,9 +353,9 @@ class objectives {
                 JMC.put("#   score ⟨marker⟩ tf2.gamemode");
                 JMC.put("#       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.");
 
-                scoreboard players operation $last tf2.team = @s tf2.team;
-                scoreboard players set @s tf2.team 2;
-                scoreboard players operation @s tf2.blu_progress = @s tf2.capture_threshold;
+                tf2.team:@s -> tf2.team:$last;
+                tf2.team:@s = 2;
+                tf2.blu_progress:@s = tf2.capture_threshold:@s;
 
                 objectives.control_point.find_index.main();
                 data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
@@ -370,7 +370,7 @@ class objectives {
                 JMC.put("# if 5CP & this is mid: unlock RED's 1st (✓)");
                 JMC.put("# else if 5CP: lock/unlock adjacent points in line (✓)");
                 JMC.put("# if ATK/DEF: lock this point (✓) & unlock next point (✓)");
-                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                tf2.batch_number:@s -> tf2.batch_number:$local;
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 JMC.put("# TODO: change this part to use the new 'return' command when 1.20 releases");
                 execute unless score $last tf2.team = @s tf2.team if score @s tf2.gamemode matches 1 at @s run objectives.control_point.on_capture.blu.atk_def();
@@ -381,34 +381,35 @@ class objectives {
         } class on_capture {
             class red {
                 function symmetric() {
-                    scoreboard players operation $temp tf2.index = @s tf2.index;
-                    scoreboard players remove $temp tf2.index 10;
+                    tf2.index:@s -> tf2.index:$temp;
+                    tf2.index:$temp -= 10;
 
                     execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index run objectives.control_point.unlock();
                     execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ air;
 
-                    scoreboard players add $temp tf2.index 20;
+                    tf2.index:$temp += 20;
                     execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index run objectives.control_point.lock();
                     execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ stone_slab;
                     JMC.put("# TODO: add support for map events (like doors opening)");
                 }
             } class blu {
                 function atk_def() {
-                    scoreboard players operation $temp tf2.index = @s tf2.index;
-                    scoreboard players add $temp tf2.index 10;
+                    tf2.index:@s -> tf2.index:$temp;
+                    tf2.index:$temp += 10;
+
                     objectives.control_point.lock();
                     setblock ~ ~ ~ stone_slab;
                     execute as @e[type=marker,tag=tf2.current] if score @s tf2.index = $temp tf2.index run objectives.control_point.unlock();
                     execute as @e[type=marker,tag=tf2.current] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ air;
                     JMC.put("# TODO: add support for map events (like doors opening)");
                 } function symmetric() {
-                    scoreboard players operation $temp tf2.index = @s tf2.index;
-                    scoreboard players add $temp tf2.index 10;
+                    tf2.index:@s -> tf2.index:$temp;
+                    tf2.index:$temp += 10;
 
                     execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index run objectives.control_point.unlock();
                     execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ air;
 
-                    scoreboard players remove $temp tf2.index 20;
+                    tf2.index:$temp -= 20;
                     execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index run objectives.control_point.lock();
                     execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run setblock ~ ~ ~ stone_slab;
                     JMC.put("# TODO: add support for map events (like doors opening)");
@@ -443,7 +444,7 @@ class objectives {
 
                 execute if entity @s[tag=tf2.locked] run setblock ~ ~ ~ stone_slab;
                 execute unless entity @s[tag=tf2.locked] run setblock ~ ~ ~ air;
-                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                tf2.batch_number:@s -> tf2.batch_number:$local;
                 objectives.control_point.find_index.main();
                 Hardcode.repeatLists(
                     ["_num_", "_color_", "_hex_"],
@@ -481,7 +482,7 @@ class objectives {
                 JMC.put("#   score $highest tf2.index");
                 JMC.put("#       The highest CP index present in the game. Used to determine how many control points there are.");
 
-                scoreboard players set @s tf2.index 70;
+                tf2.index:@s = 70;
                 objectives.control_point.find_index.main();
 
                 execute if score $highest tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0].left set value '430';
@@ -509,9 +510,9 @@ class objectives {
 
                 objectives.control_point.find_index.reinsert();
                 JMC.put("# repurposes the marker's `tf2.index` score to hold the total number of CPs.");
-                scoreboard players operation @s tf2.index = $highest tf2.index;
-                scoreboard players operation @s tf2.index /= 10 tf2.const;
-                scoreboard players add @s tf2.index 1;
+                tf2.index:@s = tf2.index:$highest;
+                tf2.index:@s /= 10;
+                tf2.index:@s ++;
             } 
             function wheel_spacing() {
                 JMC.put("#> tf2:objectives/control_point/visuals/wheel_spacing");
@@ -519,7 +520,7 @@ class objectives {
                 JMC.put("# @within tf2:objectives/control_point/visuals/capture_progress/*/wheel");
 
                 tag @e remove tf2.current;
-                scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                tf2.batch_number:@s -> tf2.batch_number:$local;
                 execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
 
                 $wheel_spacing > tf2.index:@e[type=marker,tag=tf2.current];
@@ -551,7 +552,7 @@ class objectives {
                         JMC.put("#   score @s tf2.team");
                         JMC.put("#       Which team owns the control point. Determines whether or not to flicker the background (only flickers if RED is taking BLU's point rather than an unowned point).");
 
-                        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                        tf2.batch_number:@s -> tf2.batch_number:$local;
                         objectives.control_point.find_index.main();
                         $frame = 0;
                         $frame = tf2.capture_threshold:@s[scores={tf2.team=2}];
@@ -661,17 +662,17 @@ class objectives {
                         title @a[tag=tf2.on_point] times 0 4 5;
                         title @a[tag=tf2.on_point] title [{"nbt":"points[0].wheel.spacing","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"?43","color":"#291A15","font":"tf2:wheel"},{"nbt":"points[0].wheel.owner","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"421|","font":"tf2:wheel"},{"nbt":"points[0].wheel.progress","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"}];
                     } function flicker() {
-                        scoreboard players operation $flicker tf2.ticks = $global tf2.ticks;
-                        scoreboard players operation $flicker tf2.ticks %= 20 tf2.const;
-                        execute if score $flicker tf2.ticks matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
-                        execute if score $flicker tf2.ticks matches 1..2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
-                        execute if score $flicker tf2.ticks matches 3..4 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
-                        execute if score $flicker tf2.ticks matches 5..7 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
-                        execute if score $flicker tf2.ticks matches 8..11 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CABCC0"}]';
-                        execute if score $flicker tf2.ticks matches 12..14 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
-                        execute if score $flicker tf2.ticks matches 15..16 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
-                        execute if score $flicker tf2.ticks matches 17..18 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
-                        execute if score $flicker tf2.ticks matches 19 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
+                        $flicker = tf2.ticks:$global;
+                        $flicker %= 20;
+                        if ($flicker == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
+                        if ($flicker matches 1..2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
+                        if ($flicker matches 3..4) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
+                        if ($flicker matches 5..7) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
+                        if ($flicker matches 8..11) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CABCC0"}]';
+                        if ($flicker matches 12..14) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
+                        if ($flicker matches 15..16) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
+                        if ($flicker matches 17..18) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
+                        if ($flicker == 19) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
                     }
                 } class blu {
                     function main() {
@@ -692,7 +693,7 @@ class objectives {
                         JMC.put("#   score @s tf2.team");
                         JMC.put("#       Which team owns the control point. Determines whether or not to flicker the background (only flickers if BLU is taking RED's point rather than an unowned point).");
 
-                        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
+                        tf2.batch_number:@s -> tf2.batch_number:$local;
                         objectives.control_point.find_index.main();
                         $frame = 0;
                         $frame = tf2.capture_threshold:@s[scores={tf2.team=1}];
@@ -788,30 +789,30 @@ class objectives {
                         title @a[tag=tf2.on_point] times 0 4 5;
                         title @a[tag=tf2.on_point] title [{"nbt":"points[0].wheel.spacing","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"?43","color":"#291A15","font":"tf2:wheel"},{"nbt":"points[0].wheel.owner","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"421|","font":"tf2:wheel"},{"nbt":"points[0].wheel.progress","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"}];
                     } function flicker() {
-                        scoreboard players operation $flicker tf2.ticks = $global tf2.ticks;
-                        scoreboard players operation $flicker tf2.ticks %= 20 tf2.const;
-                        execute if score $flicker tf2.ticks matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
-                        execute if score $flicker tf2.ticks matches 1..2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
-                        execute if score $flicker tf2.ticks matches 3..4 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
-                        execute if score $flicker tf2.ticks matches 5..7 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
-                        execute if score $flicker tf2.ticks matches 8..11 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B4BECA"}]';
-                        execute if score $flicker tf2.ticks matches 12..14 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
-                        execute if score $flicker tf2.ticks matches 15..16 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
-                        execute if score $flicker tf2.ticks matches 17..18 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
-                        execute if score $flicker tf2.ticks matches 19 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
+                        $flicker = tf2.ticks:$global;
+                        $flicker %= 20;
+                        if ($flicker == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
+                        if ($flicker matches 1..2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
+                        if ($flicker matches 3..4) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
+                        if ($flicker matches 5..7) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
+                        if ($flicker matches 8..11) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B4BECA"}]';
+                        if ($flicker matches 12..14) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
+                        if ($flicker matches 15..16) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
+                        if ($flicker matches 17..18) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
+                        if ($flicker == 19) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
                     }
                 } function neutral_flicker() {
-                    scoreboard players operation $flicker tf2.ticks = $global tf2.ticks;
-                    scoreboard players operation $flicker tf2.ticks %= 20 tf2.const;
-                    execute if score $flicker tf2.ticks matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
-                    execute if score $flicker tf2.ticks matches 1..2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
-                    execute if score $flicker tf2.ticks matches 3..4 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
-                    execute if score $flicker tf2.ticks matches 5..7 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
-                    execute if score $flicker tf2.ticks matches 8..11 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#C4C4C4"}]';
-                    execute if score $flicker tf2.ticks matches 12..14 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
-                    execute if score $flicker tf2.ticks matches 15..16 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
-                    execute if score $flicker tf2.ticks matches 17..18 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
-                    execute if score $flicker tf2.ticks matches 19 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
+                    $flicker = tf2.ticks:$global;
+                    $flicker %= 20;
+                    if ($flicker == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
+                    if ($flicker matches 1..2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
+                    if ($flicker matches 3..4) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
+                    if ($flicker matches 5..7) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
+                    if ($flicker matches 8..11) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#C4C4C4"}]';
+                    if ($flicker matches 12..14) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
+                    if ($flicker matches 15..16) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
+                    if ($flicker matches 17..18) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
+                    if ($flicker == 19) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
                 }
             }
         }

@@ -14,7 +14,6 @@
 #   score ⟨marker⟩ tf2.gamemode
 #       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.
 scoreboard players operation $last tf2.team = @s tf2.team
-scoreboard players set @s tf2.team 1
 scoreboard players operation @s tf2.red_progress = @s tf2.capture_threshold
 function tf2:objectives/control_point/find_index/main
 data modify storage tf2.__temp__:lookup points[0].owner set value "[{\"text\":\"[\",\"color\":\"#F5EACB\"},{\"text\":\"3210=\",\"color\":\"#D95A58\"}]"
