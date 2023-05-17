@@ -31,4 +31,4 @@
 #       Can be copied back to the original path using `function tf2:objectives/control_point/find_index/reinsert/main`.
 scoreboard players operation $mini_index tf2.var = @s tf2.index
 scoreboard players operation $mini_index tf2.var /= 10 tf2.const
-function tf2:__private__/hardcode_switch/65
+function tf2:__private__/hardcode_switch/75

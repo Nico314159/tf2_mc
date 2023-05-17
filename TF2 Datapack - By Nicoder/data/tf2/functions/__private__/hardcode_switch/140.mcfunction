@@ -1,2 +1,1 @@
-execute if score $local tf2.batch_number matches 1 run function tf2:__private__/hardcode_switch/142
-execute if score $local tf2.batch_number matches 2 run function tf2:__private__/hardcode_switch/143
+data modify storage tf2:control_points info[4][3] set from storage tf2.__temp__:lookup points[0]

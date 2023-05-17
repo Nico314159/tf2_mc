@@ -1,2 +1,1 @@
-execute if score $mini_index tf2.var matches 1 run function tf2:__private__/hardcode_switch/129
-execute if score $mini_index tf2.var matches 2..3 run function tf2:__private__/hardcode_switch/130
+data modify storage tf2:control_points info[3][5] set from storage tf2.__temp__:lookup points[0]

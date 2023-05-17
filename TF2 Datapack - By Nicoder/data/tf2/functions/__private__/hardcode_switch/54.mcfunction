@@ -1,2 +1,2 @@
-execute if score $mini_index tf2.var matches 4..5 run function tf2:__private__/hardcode_switch/59
-execute if score $mini_index tf2.var matches 6..7 run function tf2:__private__/hardcode_switch/60
+execute if score $mini_index tf2.var matches 4 run function tf2:__private__/hardcode_switch/56
+execute if score $mini_index tf2.var matches 5 run function tf2:__private__/hardcode_switch/57

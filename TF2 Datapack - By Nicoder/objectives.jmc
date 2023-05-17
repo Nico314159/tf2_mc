@@ -41,8 +41,7 @@ class objectives {
                     tf2.batch_number:$local,
                     "_i_",
                     () => {
-                        execute if score $mini_index tf2.var matches 0 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[_i_][0];
-                        Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[_i_][_j_];}, count = 7);
+                        Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[_i_][_j_];}, count = 7, begin_at = 0);
                     },
                     count = 5
                 );
@@ -70,8 +69,7 @@ class objectives {
                     tf2.batch_number:$local,
                     "_i_",
                     () => {
-                        execute if score $mini_index tf2.var matches 0 run data modify storage tf2:control_points info[_i_][0] set from storage tf2.__temp__:lookup points[0];
-                        Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2:control_points info[_i_][_j_] set from storage tf2.__temp__:lookup points[0];}, count = 7);
+                        Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2:control_points info[_i_][_j_] set from storage tf2.__temp__:lookup points[0];}, count = 7, begin_at = 0);
                     },
                     count = 5
                 );
@@ -526,11 +524,36 @@ class objectives {
                 $wheel_spacing > tf2.index:@e[type=marker,tag=tf2.current];
                 $wheel_spacing /= 2;
                 $wheel_spacing -= tf2.index:@s;
-                Hardcode.repeatLists(
-                    ["_num_", "_str_"],
-                    () => {execute if score $wheel_spacing tf2.var matches _num_ run data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value _str_;},
-                    [["30", "25", "20", "15", "10", "5", "0", "-5", "-10", "-15", "-20", "-25", "-30"], ["'6542'", "'65'", "'632'", "'543'", "'52'", "'41'", "'[\"\"]'", "'[{\"text\":\"$@\"}]'", "'[{\"text\":\"%#\"}]'", "'[{\"text\":\"%$#@\"}]'", "'[{\"text\":\"^$\"}]'", "'[{\"text\":\"^%@\"}]'", "'[{\"text\":\"^%$#\"}]'"]]
-                );
+                $wheel_spacing /= 5;
+                
+                switch ($wheel_spacing) {
+                    case -6:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%$#\"}]";
+                    case -5:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%@\"}]";
+                    case -4:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^$\"}]";
+                    case -3:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%$#@\"}]";
+                    case -2:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%#\"}]";
+                    case -1:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"$@\"}]";
+                    case 0:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[\"\"]";
+                    case 1:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "41";
+                    case 2:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "52";
+                    case 3:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "543";
+                    case 4:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "632";
+                    case 5:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "65";
+                    case 6:
+                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "6542";
+                }
             }
             class capture_progress {
                 class red {

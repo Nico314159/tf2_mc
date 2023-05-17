@@ -1,1 +1,2 @@
-data modify storage tf2.__temp__:lookup points[0].progress set value "[{\"text\":\"321e0e0e0e0e0e0e0|e0e0e0e0d0c0)\",\"color\":\"#517AB8\"}]"
+execute if score $frame tf2.var matches 0 run function tf2:__private__/switch_case/158
+execute if score $frame tf2.var matches 1 run function tf2:__private__/switch_case/159

@@ -108,18 +108,12 @@ function initialize() {
     else if ($batch_markers > tf2.settings:$max_batches) kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
     $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
     scoreboard players reset $index tf2.batch_number;
-    execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run assign_id();
+    execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run {
+        tf2.map:@s = 1;
+        tf2.batch_number:@s > tf2.batch_number:@e[type=marker,tag=tf2.batch];
+        tf2.batch_number:@s ++;
+    }
     if ($batch_markers != tf2.settings:$max_batches) setup_markers();
-} function assign_id() {
-    JMC.put("#> tf2:assign_id");
-    JMC.put("#");
-    JMC.put("# @within");
-    JMC.put("#   tf2:setup_markers");
-    JMC.put("#   tf2:assign_id");
-
-    tf2.map:@s = 1;
-    tf2.batch_number:@s > tf2.batch_number:@e[type=marker,tag=tf2.batch];
-    tf2.batch_number:@s ++;
 }
 
 import "math";
@@ -368,7 +362,7 @@ class start_game {
             while (data storage tf2.__temp__:summon objectives[]) {
                 summon marker ~ ~ ~ {Tags:["tf2.new"]};
                 execute as @e[tag=tf2.new,limit=1] run {
-                    JMC.put("#> tf2:start_game/as_marker/set_nbt");
+                    JMC.put("#> tf2:__private__/anonymous/1");
                     JMC.put("#");
                     JMC.put("# @within tf2:start_game/as_marker");
                     JMC.put("# @context marker summoned by the loop function");
