@@ -1,3 +1,4 @@
+execute as @a[scores={on_event_1mqyp2x=1..}] at @s run function tf2:__private__/on_event/used_carrot_on_a_stick
 #> tf2:__tick__
 #
 # @handles #minecraft:tick

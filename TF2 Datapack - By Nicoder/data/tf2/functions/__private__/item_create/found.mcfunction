@@ -1,0 +1,1 @@
+execute if score __item_id__ tf2.var matches 1 at @s run function tf2:__private__/item_create/0

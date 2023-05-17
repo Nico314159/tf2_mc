@@ -1,0 +1,24 @@
+Item.create(
+    itemId = test_gun,
+    itemType = carrot_on_a_stick,
+    displayName = "&<#a50f79, bold, italic>Test Gun",
+    onClick = ()=>{
+        Raycast.simple(
+            onHit = ()=>{
+                kill @p[distance=..0.01];
+            },
+            onStep = ()=>{
+                particle crit ~ ~ ~ 0 0 0 0 1;
+            },
+            runAtEnd = true
+        );
+    }
+);
+
+class weapons {
+    class test {
+        function give() {
+            Item.give(test_gun, @s);
+        }
+    }
+}
