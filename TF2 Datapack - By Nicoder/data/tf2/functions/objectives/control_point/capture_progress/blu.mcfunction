@@ -16,7 +16,7 @@
 #   predicate tf2:coin_flip
 #       50/50 chance to pick one of two dialogue lines.
 # RED progress must be reverted before adding BLU progress
-execute unless score @s tf2.red_progress matches 0 run scoreboard players operation @s tf2.red_progress -= $sum tf2.var
+scoreboard players operation @s[scores={tf2.red_progress=1..}] tf2.red_progress -= $sum tf2.var
 scoreboard players operation @s tf2.red_progress > 0 tf2.const
 scoreboard players operation @s[scores={tf2.red_progress=0}] tf2.blu_progress += $sum tf2.var
 execute if score @s tf2.blu_progress >= @s tf2.capture_threshold run function tf2:objectives/control_point/set_owner/blu
