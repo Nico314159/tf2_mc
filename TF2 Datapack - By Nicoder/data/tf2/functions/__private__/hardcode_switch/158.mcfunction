@@ -1,1 +1,1 @@
-data modify storage tf2:control_points info[5][6] set from storage tf2.__temp__:lookup points[0]
+data modify storage tf2:control_points info[5][7] set from storage tf2.__temp__:lookup points[0]

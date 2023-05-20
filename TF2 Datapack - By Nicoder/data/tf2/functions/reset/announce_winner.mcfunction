@@ -16,7 +16,7 @@
 #       Finds the control points that belong to this game marker.
 #   score ⟨players⟩ tf2.team
 #       Used to determine if a player is on the winning or losing team.
-#  execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]
+#  execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]
 execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run function tf2:reset/as_objectives
 kill @e[type=villager,tag=tf2.current]

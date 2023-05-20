@@ -348,7 +348,7 @@ class start_game {
             JMC.put("#   score $break tf2.var");
             JMC.put("#       Prevents multiple queues from getting assigned to same game.");
 
-            execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
+            execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
             tf2.batch_number:@s -> tf2.batch_number:$local;
             scoreboard players reset $break tf2.var;
             JMC.put("# TODO: make dynamic for selected maps instead of hardcoding");
@@ -525,7 +525,7 @@ class reset {
         JMC.put("#   score ⟨players⟩ tf2.team");
         JMC.put("#       Used to determine if a player is on the winning or losing team.");
 
-        JMC.put('#  execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]');
+        JMC.put('#  execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]');
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         kill @e[type=villager,tag=tf2.current];
@@ -553,7 +553,7 @@ class reset {
         JMC.put("#   score ⟨players⟩ tf2.batch_number");
         JMC.put("#       Finds the players that belong to this game marker.");
 
-        execute if score $show_debug_messages tf2.settings matches 1 run tellraw NicoWill314 ["",{"text":"<Debug> ","bold":true},"Game controlled by ",{"selector":"@s"}," has ended at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
+        execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game controlled by ",{"selector":"@s"}," has ended at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
         tf2.batch_number:@s -> tf2.batch_number:$local;
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @a[tag=tf2.current] run reset.as_players();
