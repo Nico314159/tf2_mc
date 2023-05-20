@@ -11,6 +11,7 @@ class timer
         timer.set_value();
 
         tf2.timer:@s -> tf2.timer.sec:@s;
+        tf2.timer.sec:@s += 19;
         tf2.timer.sec:@s /= 20;
         tf2.timer.sec:@s -> tf2.timer.min:@s;
         tf2.timer.sec:@s %= 60;
