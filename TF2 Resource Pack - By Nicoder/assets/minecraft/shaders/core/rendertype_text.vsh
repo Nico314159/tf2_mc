@@ -27,31 +27,10 @@ void main() {
 	depthLevel = Position.z; // added: depthLevel for fsh
     gl_Position = ProjMat * ModelViewMat * vec4(Position.xy, Position.z, 1.0);
     if (texelFetch(Sampler0, ivec2(15, 80), 0) == vec4(255., 255., 255., 1.) / 255.) {
-        float multiplier;
-        switch (guiScale) {
-            case 1:
-                multiplier = 1.45; 
-                break;
-            case 2:
-                multiplier = 1.225;
-                break;
-            case 3:
-                multiplier = 1.0;
-                break;
-            case 4:
-                multiplier = 0.75;
-                break;
-            case 5:
-                multiplier = 0.5;
-                break;
-            case 6:
-                multiplier = 0.3;
-                break;
-            default:
-                multiplier = 0.05;
-                break;
-        }
-        gl_Position.y += 0.585 * multiplier;
+        float multiplier = 1.0;
+        vec3 pixeloffset = vec3(0, 116, 0);
+        vec4 screenoffset = vec4(0, 1, 0, 0);
+        gl_Position = (ProjMat * ModelViewMat * vec4(Position + pixeloffset, 1.0)) + screenoffset;
     }
     vertexDistance = fog_distance(ModelViewMat, IViewRotMat * Position, FogShape);
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
