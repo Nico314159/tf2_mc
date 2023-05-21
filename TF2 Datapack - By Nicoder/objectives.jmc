@@ -172,8 +172,13 @@ class objectives {
         } function lock() {
             tag @s add tf2.locked;
             tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
+            tf2.blu_progress:@s[scores={tf2.team=1}] = 0;
+            tf2.red_progress:@s[scores={tf2.team=2}] = 0;
             tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
             objectives.control_point.find_index.main();
+            execute if score @s tf2.team matches 1 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
+            execute if score @s tf2.team matches 2 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
+            data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
             data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
             objectives.control_point.find_index.reinsert();
         } function unlock() {
