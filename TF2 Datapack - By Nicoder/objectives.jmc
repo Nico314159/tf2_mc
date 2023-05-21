@@ -124,8 +124,11 @@ class objectives {
             execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run objectives.control_point.capture_progress.red();
             execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run objectives.control_point.capture_progress.blu();
 
-            execute unless score @s tf2.team matches 1 if score @s tf2.red_progress < @s tf2.capture_threshold if score @s tf2.blu_progress < @s tf2.capture_threshold run objectives.control_point.visuals.capture_progress.red.main();
-            execute unless score @s tf2.team matches 2 if score @s tf2.red_progress < @s tf2.capture_threshold if score @s tf2.blu_progress < @s tf2.capture_threshold run objectives.control_point.visuals.capture_progress.blu.main();
+            execute if score @s tf2.team matches 2 if score @s tf2.blu_progress < @s tf2.capture_threshold run objectives.control_point.visuals.capture_progress.red.main();
+            execute if score @s tf2.team matches 0 if score @s tf2.blu_progress matches 0 run objectives.control_point.visuals.capture_progress.red.main();
+            
+            execute if score @s tf2.team matches 1 if score @s tf2.red_progress < @s tf2.capture_threshold run objectives.control_point.visuals.capture_progress.blu.main();
+            execute if score @s tf2.team matches 0 if score @s tf2.red_progress matches 0 run objectives.control_point.visuals.capture_progress.blu.main();
         } function gamestate() {
             JMC.put("#> tf2:objectives/control_point/gamestate");
             JMC.put("#");
@@ -605,6 +608,7 @@ class objectives {
                         }
                         execute if score @s[scores={tf2.red_progress=0}] tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
                         execute if score @s[scores={tf2.red_progress=0}] tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                        execute if score @s[scores={tf2.red_progress=0}] tf2.team matches 0 run tf2.red_progress:@s --;
                         execute if score @s[scores={tf2.red_progress=1..}] tf2.team matches 0 run objectives.control_point.visuals.capture_progress.neutral_flicker();
                         execute if score @s tf2.team matches 2 run objectives.control_point.visuals.capture_progress.blu.flicker();
                         objectives.control_point.visuals.capture_progress.red.wheel();
