@@ -311,7 +311,7 @@ class objectives {
                 JMC.put("#   score ⟨marker⟩ tf2.gamemode");
                 JMC.put("#       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.");
 
-                tf2.team:@s -> tf2.team:$last
+                tf2.team:@s -> tf2.team:$last;
                 tf2.team:@s = 1;
                 tf2.red_progress:@s = tf2.capture_threshold:@s;
 
