@@ -36,7 +36,7 @@ Scoreboard.add(tf2.batch_number, dummy);
 Scoreboard.add(tf2.class, dummy);
 Scoreboard.add(tf2.team, dummy);
 Scoreboard.add(tf2.health, dummy);
-Scoreboard.add(tf2.dead, deathCount);
+Scoreboard.add(tf2.max_health, dummy);
 Scoreboard.add(tf2.respawn_timer, dummy);
 
 Scoreboard.add(tf2.permanent.games_won, dummy);
@@ -51,6 +51,7 @@ execute unless score $initialization_complete tf2.settings = $initialization_com
 JMC.put("# set up teams");
 Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
 Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
+gamerule showDeathMessages false;
 
 Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop = 6);
 
@@ -142,7 +143,11 @@ function __tick__() {
         execute as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run start_game.as_marker.main();
     }
     
-    execute as @e[type=#tf2:player_like,tag=tf2.is_playing,scores={tf2.dead=1..}] run death();
+    execute as @a[tag=tf2.is_playing,tag=!tf2.dead] at @s if entity @s[y=-45,dy=5] run {
+        tf2.health:@s = 0;
+        tellraw @a ["",{"selector":"@s"}," fell into the void."];
+    }
+    execute as @e[type=#tf2:player_like,tag=tf2.is_playing,tag=!tf2.dead,scores={tf2.health=..0}] run death();
     execute as @e[type=#tf2:player_like,tag=tf2.dead] run tf2.respawn_timer:@s --;
     execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run spawn.init();
 
@@ -189,8 +194,8 @@ function login() {
     tag @s remove tf2.dead;
     scoreboard players reset @s tf2.class;
     scoreboard players reset @s tf2.health;
+    scoreboard players reset @s tf2.max_health;
     scoreboard players reset @s tf2.team;
-    scoreboard players reset @s tf2.dead;
     scoreboard players reset @s tf2.respawn_timer;
     tf2.batch_number:@s = 0;
 } function select() {
@@ -259,7 +264,7 @@ function death() {
     tf2.respawn_timer:@s[scores={tf2.team=1}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.red[0] 20;
     tf2.respawn_timer:@s[scores={tf2.team=2}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.blu[0] 20;
     tag @e[type=marker] remove tf2.temp;
-    tf2.dead:@s = 0;
+    kill @s;
 } class spawn {
     function init() {
         JMC.put("#> tf2:spawn/init");
@@ -282,6 +287,7 @@ function death() {
         tag @s remove tf2.temp;
         gamemode adventure @s;
         tag @s remove tf2.dead;
+        tf2.health:@s = tf2.max_health:@s;
     } function tp() {
         JMC.put("#> tf2:spawn/tp");
         JMC.put("#");
@@ -469,6 +475,10 @@ class start_game {
             tag @s remove tf2.in_queue;
             tag @s add tf2.is_playing;
             $break = 1;
+            
+            JMC.put("# placeholder until the 9 classes are properly implemented");
+            tf2.max_health:@s ??= 100;
+            tf2.health:@s = tf2.max_health:@s;
 
             JMC.put("# used for team assignment");
             tag @s add tf2.current;

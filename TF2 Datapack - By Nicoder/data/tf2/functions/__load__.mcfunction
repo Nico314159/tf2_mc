@@ -44,7 +44,7 @@ scoreboard objectives add tf2.batch_number dummy
 scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
-scoreboard objectives add tf2.dead deathCount
+scoreboard objectives add tf2.max_health dummy
 scoreboard objectives add tf2.respawn_timer dummy
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
@@ -61,6 +61,7 @@ team add BLU {"text":"BLU"}
 team modify BLU color blue
 team modify BLU prefix "[BLU] "
 team modify BLU friendlyFire false
+gamerule showDeathMessages false
 bossbar add tf2:timer_1 ""
 bossbar add tf2:timer_2 ""
 bossbar add tf2:timer_3 ""

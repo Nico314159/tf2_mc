@@ -2,16 +2,18 @@ Item.create(
     itemId = test_gun,
     itemType = carrot_on_a_stick,
     displayName = "&<#a50f79, bold, italic>Test Gun",
-    onClick = ()=>{
+    onClick = () => {
+        tf2.team:$current = tf2.team:@s;
+        execute as @e[type=#tf2:player_like] unless score @s tf2.team = $current tf2.team run tag @s add tf2.enemy;
         Raycast.simple(
-            onHit = ()=>{
-                kill @p[distance=..0.01];
+            onHit = () => {
+                tf2.health:@s = 0; 
+                tellraw @a [{"selector":"@s"},{"text":" was eliminated by ","color":"white"},{"selector":"@a[tag=__self__]"}];
             },
-            onStep = ()=>{
-                particle crit ~ ~ ~ 0 0 0 0 1;
-            },
-            runAtEnd = true
+            onStep = () => {particle crit ~ ~ ~ 0 0 0 0 1;},
+            target = @e[type=#tf2:player_like,tag=tf2.enemy]
         );
+        tag @e remove tf2.enemy;
     }
 );
 
