@@ -48,6 +48,13 @@ scoreboard objectives add tf2.max_health dummy
 scoreboard objectives add tf2.respawn_timer dummy
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
+gamerule doImmediateRespawn true
+gamerule doMobSpawning false
+gamerule fallDamage false
+gamerule keepInventory true
+gamerule mobGriefing false
+gamerule naturalRegeneration false
+gamerule showDeathMessages false
 # TODO remove this line later
 scoreboard players set $show_debug_messages tf2.settings 1
 # only runs the very first time datapack is loaded
@@ -61,7 +68,6 @@ team add BLU {"text":"BLU"}
 team modify BLU color blue
 team modify BLU prefix "[BLU] "
 team modify BLU friendlyFire false
-gamerule showDeathMessages false
 bossbar add tf2:timer_1 ""
 bossbar add tf2:timer_2 ""
 bossbar add tf2:timer_3 ""

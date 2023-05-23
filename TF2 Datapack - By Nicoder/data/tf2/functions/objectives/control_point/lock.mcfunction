@@ -9,3 +9,4 @@ execute if score @s tf2.team matches 2 run data modify storage tf2.__temp__:look
 data modify storage tf2.__temp__:lookup points[0].progress set value "[{\"text\":\"321))))))))))))))\",\"color\":\"gray\"}]"
 data modify storage tf2.__temp__:lookup points[0].symbol set value "[{\"text\":\"320L@\",\"font\":\"tf2:square\"}]"
 function tf2:objectives/control_point/find_index/reinsert
+setblock ~ ~ ~ stone_slab

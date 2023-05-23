@@ -9,7 +9,7 @@
 #		Which queue the player is in (1 = competitive, 2 = casual, 3 = chaos)
 clear @s written_book
 tag @s add tf2.in_queue
-execute if score @s tf2.queue_type matches 1 run tp @s 10 25 25 0 0
-execute if score @s tf2.queue_type matches 2 run tp @s -10 25 25 0 0
-execute if score @s tf2.queue_type matches 3 run tp @s -30 25 25 0 0
+tp @s[scores={tf2.queue_type=1}] 10 25 25 0 0
+tp @s[scores={tf2.queue_type=2}] -10 25 25 0 0
+tp @s[scores={tf2.queue_type=3}] -30 25 25 0 0
 scoreboard players add @s tf2.batch_number 0

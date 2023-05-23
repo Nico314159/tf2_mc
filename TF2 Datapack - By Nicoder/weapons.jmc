@@ -9,6 +9,7 @@ Item.create(
             onHit = () => {
                 tf2.health:@s = 0; 
                 tellraw @a [{"selector":"@s"},{"text":" was eliminated by ","color":"white"},{"selector":"@a[tag=__self__]"}];
+                kill @s[type=villager];
             },
             onStep = () => {particle crit ~ ~ ~ 0 0 0 0 1;},
             target = @e[type=#tf2:player_like,tag=tf2.enemy]
