@@ -1,9 +1,3 @@
-#> tf2:setup_markers
-#
-# Summons new gamestate markers if there aren't enough, and kills extras if there are too many.
-#
-# @context any
-# @public
 scoreboard players set __if_else__ tf2.var 0
 execute if score $batch_markers tf2.var < $max_batches tf2.settings run function tf2:__private__/if_else/0
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/1

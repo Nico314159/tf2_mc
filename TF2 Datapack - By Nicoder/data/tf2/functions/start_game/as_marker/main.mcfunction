@@ -1,22 +1,3 @@
-#> tf2:start_game/as_marker/main
-#
-# Starts a new running game with the players in the queue. 
-#
-# @within tf2:__tick__
-# @context a marker (position/rotation irrelevant)
-# @handles start of game
-# @input
-#   score $(casual/competitive/chaos)_queue_length tf2.var 
-#       The number of people queued for each game format.
-#   storage tf2:maps <num>
-#       The currently selected map and all its associated data.
-# @output
-#   score @s tf2.batch_number
-#   score ⟨players⟩ tf2.batch_number
-#       Pairs the players in a queue to each other and to the storage marker.
-# @writes
-#   score $break tf2.var
-#       Prevents multiple queues from getting assigned to same game.
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"]
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 scoreboard players reset $break tf2.var
@@ -33,7 +14,6 @@ execute as @e[type=marker,tag=tf2.objective] if score @s tf2.index = $highest tf
 data remove entity @s data.map.objectives
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass
-# TODO: replace random assignment with first come, first serve
 scoreboard players set __if_else__ tf2.var 0
 execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/4
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/5

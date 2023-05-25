@@ -3,37 +3,28 @@ class objectives {
     {
         class find_index {
             function main() {
-                JMC.put("#> tf2:objectives/control_point/find_index/main");
-                JMC.put("#");
-                JMC.put("# @within");
-                JMC.put("#   tf2:objectives/control_point/**");
-                JMC.put("#   tf2:reset/**");
-                JMC.put("# @context CP entity");
-                JMC.put("# @input");
-                JMC.put("#   score $local tf2.batch_number");
-                JMC.put("#   score @s tf2.index");
-                JMC.put("#       Storage address of the current control point and the game it belongs to.");
-                JMC.put("# @reads");
-                JMC.put("#   storage tf2:control_points info[$local...][@s tf2.index]");
-                JMC.put("#       owner: RawTextComponent (font = tf2:square)");
-                JMC.put("#           Team-color square to show who controls the point. Flickers when opponents are attacking the point.");
-                JMC.put("#       progress: RawTextComponent (font = tf2:square)");
-                JMC.put("#           Team-color triangle that shows how close is point is to being taken. Points left-to-right for BLU progress, and right-to-left for RED progress.");
-                JMC.put("#       symbol: RawTextComponent (font = tf2:square)");
-                JMC.put("#           Most commonly a locked indictator, but also includes the star for cp_steel's final point, and any other special symbols for specific maps.");
-                JMC.put("#       extra: RawTextComponent (font = tf2:square)");
-                JMC.put("#           Blank by default. If tf2.letter tag is present, displays the letter of the control point in sequence.");
-                JMC.put("#");
-                JMC.put("#       wheel.owner: RawTextComponent (font = tf2:wheel) ");
-                JMC.put("#           Team-color circle in title to show who controls the point. Only shown to players on the point.");
-                JMC.put("#       wheel.progress: RawTextComponent (font = tf2:wheel) ");
-                JMC.put("#           Team-color wedge sector in title to show how close is point is to being taken. Only shown to players on the point.");
-                JMC.put("#       wheel.spacing: RawTextComponent (font = tf2:wheel) ");
-                JMC.put("#           Space characters used to make sure the wheel indicator points to the correct control point.");
-                JMC.put("# @output");
-                JMC.put("#   storage tf2.__temp__:lookup points[0]");
-                JMC.put("#       Dynamically-editable copy of all data in the `tf2:control_points info[$local...][@s tf2.index]` storage path.");
-                JMC.put("#       Can be copied back to the original path using `function tf2:objectives/control_point/find_index/reinsert/main`.");
+                // Looks up (using binary search) the storage address of the current control point and the game it belongs to.
+
+                // Storage format of `tf2:control_points info[$local...][tf2.index:@s]`:
+                //      owner: RawTextComponent (font = tf2:square)
+                //          Team-colored square to show who controls the point. Flickers when opponents are attacking the point.
+                //      progress: RawTextComponent (font = tf2:square)
+                //          Team-color triangle that shows how close is point is to being taken. Grows left-to-right for BLU progress, and right-to-left for RED progress.
+                //      symbol: RawTextComponent (font = tf2:square)
+                //          Most commonly a locked indictator, but also includes the star for cp_steel's final point, and any other special symbols for specific maps.
+                //      extra: RawTextComponent (font = tf2:square)
+                //          Blank by default. If tf2.letter tag is present, displays the letter of the control point in sequence.
+                //
+                //      wheel.owner: RawTextComponent (font = tf2:wheel)
+                //          Team-color circle in title to show who controls the point. Only shown to players on the point.
+                //      wheel.progress: RawTextComponent (font = tf2:wheel)
+                //          Team-color wedge sector in title to show how close is point is to being taken. Only shown to players on the point.
+                //      wheel.spacing: RawTextComponent (font = tf2:wheel)
+                //          Space characters used to make sure the wheel indicator points to the correct control point.
+                
+                // @output `storage tf2.__temp__:lookup points[0]`
+                //  Dynamically-editable copy of all data in the `tf2:control_points info[$local...][tf2.index:@s]` storage path.
+                //  Can be copied back to the original path using `objectives.control_point.find_index.reinsert()`
 
                 $mini_index = tf2.index:@s;
                 $mini_index /= 10;
@@ -44,24 +35,9 @@ class objectives {
                         Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[_i_][_j_];}, count = 7, begin_at = 0);
                     },
                     count = 5
-                );
+                ); 
             } function reinsert() {
-                JMC.put("#> tf2:objectives/control_point/find_index/reinsert");
-                JMC.put("#");
-                JMC.put("# @within");
-                JMC.put("#   tf2:objectives/control_point/**");
-                JMC.put("#   tf2:reset/**");
-                JMC.put("# @context CP entity");
-                JMC.put("# @input");
-                JMC.put("#   score $local tf2.batch_number");
-                JMC.put("#   score @s tf2.index");
-                JMC.put("#       Storage address of the current control point and the game it belongs to.");
-                JMC.put("#   storage tf2.__temp__:lookup points[0]");
-                JMC.put("#       Edited copy of data in the `tf2:control_points info[$local...][@s tf2.index]` storage path.");
-                JMC.put("# @writes     ");
-                JMC.put("#   storage tf2:control_points info[$local...][@s tf2.index]");
-                JMC.put("#       Where all visual data related to the current CP is stored.");
-                JMC.put("#       See `tf2:objectives/control_point/find_index/main` comments for specific information.");
+                // Copies the edited data at `tf2.__temp__:lookup points[0]` back to the matching address in `storage tf2:control_points info[$local...][@s tf2.index]`
 
                 $mini_index = tf2.index:@s;
                 $mini_index /= 10;
@@ -77,13 +53,7 @@ class objectives {
         }
 
         function check_for_players() {
-            JMC.put("#> tf2:objectives/control_point/check_for_players");
-            JMC.put("# ");
-            JMC.put("# @within tf2:__tick__");
-            JMC.put("# @context marker & position");
-            JMC.put("# @output");
-            JMC.put("#   score $(red/blu)_on_point tf2.var");
-            JMC.put("#       The number of RED/BLU players on the control point.");
+            // Counts the number of RED/BLU players on the control point.
 
             tag @s remove tf2.contested;
 
@@ -97,30 +67,15 @@ class objectives {
             execute if entity @s[tag=!tf2.contested] run objectives.control_point.decay.init();
             tag @e[type=#tf2:player_like] remove tf2.on_point;
         } function main() {
-            JMC.put("#> tf2:objectives/control_point/main");
-            JMC.put("# ");
-            JMC.put("# @within tf2:objectives/control_point/check_for_players");
-            JMC.put("# @context CP entity & position");
-            JMC.put("# @input");
-            JMC.put("#   score $(red/blu)_on_point tf2.var");
-            JMC.put("#       Number of RED/BLU players on the point. Determines how much progress to add and to which team.");
-            JMC.put("# @writes");
-            JMC.put("#   score $bound tf2.var");
-            JMC.put("#       Used as input for `tf2:math/harmonic_series`.");
-            JMC.put("# @reads ");
-            JMC.put("#   score @s tf2.team");
-            JMC.put("#       Current owners of the control point (1 = RED, 2 = BLU). Prevents invalid capture progress from being added.");
-            JMC.put("#   score @s tf2.(red/blu)_progress");
-            JMC.put("#   score @s tf2.capture_threshold");
-            JMC.put("#       Variables describing the state of the control point. Used for visuals.");
+            // Handles capture progress & associated visuals for the current control point.
 
-            JMC.put("# amount of capture progress is nth partial sum of harmonic series");
+            // Amount of capture progress = Nth partial sum of harmonic series, where N is how many players are standing on the point.
             $bound > $red_on_point;
             $bound > $blu_on_point;
             $bound < 4;
             math.harmonic_series();
 
-            JMC.put("# apply capture progress to team that has players on point, but you can't capture a point you already own");
+            // apply capture progress to team that has players on point, but you can't capture a point you already own");
             execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run objectives.control_point.capture_progress.red();
             execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run objectives.control_point.capture_progress.blu();
 
@@ -130,28 +85,8 @@ class objectives {
             execute if score @s tf2.team matches 1 if score @s tf2.red_progress < @s tf2.capture_threshold run objectives.control_point.visuals.capture_progress.blu.main();
             execute if score @s tf2.team matches 0 if score @s tf2.red_progress matches 0 run objectives.control_point.visuals.capture_progress.blu.main();
         } function gamestate() {
-            JMC.put("#> tf2:objectives/control_point/gamestate");
-            JMC.put("#");
-            JMC.put("# @context game marker");
-            JMC.put("# @within tf2:__tick__");
-            JMC.put("# @handles game progress & win conditions");
-            JMC.put("# @reads");
-            JMC.put("#   score @s tf2.batch_number");
-            JMC.put("#   score ⟨control points⟩ tf2.batch_number");
-            JMC.put("#       Finds the control points that belong to this game marker.");
-            JMC.put("#   score @s tf2.gamemode");
-            JMC.put("#       Which gamemode is being played (see gamemode key below).");
-            JMC.put("#   score @s tf2.timer");
-            JMC.put("#       Amount of time remaining (negative values mean the game is already over but players haven't been relogged yet).");
-            JMC.put("#       Prevents the `tf2:reset/announce_winner` function from being called repeatedly.");
-            JMC.put("# @writes");
-            JMC.put("#   score @s tf2.index");
-            JMC.put("#       Total number of control points in the current game.");
-            JMC.put("#   score $(red/blu)_cp_count tf2.var");
-            JMC.put("#       Number of control points owned by RED/BLU in the current game.");
-            JMC.put("# @output");
-            JMC.put("#   score $winner tf2.team");
-            JMC.put("#       Which team has won the current game (1 = RED, 2 = BLU). Null value if the game is still ongoing.");
+            // Handles game progress & checks for win conditions. Executed as the gamestate marker, not a control point.
+            // @within __tick__()
 
             tag @e remove tf2.current;
             tf2.batch_number:@s -> tf2.batch_number:$local;
@@ -159,14 +94,15 @@ class objectives {
 
             $red_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=1}];
             $blu_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=2}];
+            // no need to count total number of control points, as that is already given by `tf2.index` [see `objectives.control_point.visuals.spacing()` for more info]
 
-            JMC.put("# Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom");
+            // Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom
             scoreboard players reset $winner tf2.team;
             execute if score $red_cp_count tf2.var = @s tf2.index if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run scoreboard players set $winner tf2.team 1;
             execute if score $blu_cp_count tf2.var = @s tf2.index if score @s[tag=!tf2.multistage] tf2.gamemode matches 1..2 run scoreboard players set $winner tf2.team 2;
-            JMC.put("# execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
-            JMC.put("# execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
-            execute if score $winner tf2.team = $winner tf2.team unless score @s tf2.timer matches ..-1 run reset.announce_winner();
+            // execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
+            // execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
+            execute if score $winner tf2.team = $winner tf2.team unless score @s tf2.timer matches ..-1 run reset.announce_winner(); // Negative time means the game is already over but players haven't been relogged ye
 
             tag @e[type=marker,tag=tf2.control_point,tag=tf2.current] remove tf2.current;
         } function lock() {
@@ -192,61 +128,34 @@ class objectives {
 
         class capture_progress {
             function red() {
-                JMC.put("#> tf2:objectives/control_point/capture_progress/red");
-                JMC.put("# ");
-                JMC.put("# @within");
-                JMC.put("#   tf2:objectives/control_point/main");
-                JMC.put("#   tf2:objectives/control_point/decay/main");
-                JMC.put("# @context CP entity & position");
-                JMC.put("# @input");
-                JMC.put("#   score $sum tf2.var");
-                JMC.put("#       Progress to add in RED's direction (in milli-ticks).");
-                JMC.put("# @writes");
-                JMC.put("#   score @s tf2.(red/blu)_progress");
-                JMC.put("#       Current state of the control point.");
-                JMC.put("#   score @s tf2.capture_threshold");
-                JMC.put("#       Self-explanatory.");
-                JMC.put("#   predicate tf2:coin_flip");
-                JMC.put("#       50/50 chance to pick one of two dialogue lines.");
+                // @within:
+                //      objectives.control_point.main()
+                //      objectives.control_point.decay.main()
 
-                JMC.put("# BLU progress must be reverted before adding RED progress");
+                // BLU progress must be reverted before adding RED progress
                 tf2.blu_progress:@s[scores={tf2.blu_progress=1..}] -= $sum;
                 tf2.blu_progress:@s > 0;
                 tf2.red_progress:@s[scores={tf2.blu_progress=0}] += $sum;
                 execute if score @s tf2.red_progress >= @s tf2.capture_threshold run objectives.control_point.set_owner.red();
 
-                $temp = execute if predicate tf2:coin_flip;
+                $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines.
                 execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=2}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=2}] {"text":"Alert! Our control point is being captured.","bold":true,"color":"white"};
                 execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=2}] if score $temp tf2.var matches 1 run tellraw @a[scores={tf2.team=2}] {"text":"Defend our control point!","bold":true,"color":"white"};
                 execute if entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=2}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=2}] [{"text":"Alert! Our","bold":true,"color":"white"},{"text":" last ","bold":true,"italic":true,"color":"white"},{"text":"control point is being captured!","bold":true,"color":"white"}];
                 execute if entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=2}] if score $temp tf2.var matches 1 run tellraw @a[scores={tf2.team=2}] [{"text":"Alert! The","bold":true,"color":"white"},{"text":" final ","italic":true,"bold":true,"color":"white"},{"text":"control point is under attack.","bold":true,"color":"white"}];
                 tag @s[scores={tf2.team=2}] add tf2.said_dialogue;
             } function blu() {
-                JMC.put("#> tf2:objectives/control_point/capture_progress/blu");
-                JMC.put("# ");
-                JMC.put("# @within");
-                JMC.put("#   tf2:objectives/control_point/main");
-                JMC.put("#   tf2:objectives/control_point/decay/main");
-                JMC.put("# @context CP entity & position");
-                JMC.put("# @input");
-                JMC.put("#   score $sum tf2.var");
-                JMC.put("#       Progress to add in BLU's direction (in milli-ticks).");
-                JMC.put("# @writes");
-                JMC.put("#   score @s tf2.(red/blu)_progress");
-                JMC.put("#       Current state of the control point.");
-                JMC.put("# @reads");
-                JMC.put("#   score @s tf2.capture_threshold");
-                JMC.put("#       Self-explanatory.");
-                JMC.put("#   predicate tf2:coin_flip");
-                JMC.put("#       50/50 chance to pick one of two dialogue lines.");
+                // @within:
+                //      objectives.control_point.main()
+                //      objectives.control_point.decay.main()
 
-                JMC.put("# RED progress must be reverted before adding BLU progress");
+                // RED progress must be reverted before adding BLU progress
                 tf2.red_progress:@s[scores={tf2.red_progress=1..}] -= $sum;
                 tf2.red_progress:@s > 0;
                 tf2.blu_progress:@s[scores={tf2.red_progress=0}] += $sum;
                 execute if score @s tf2.blu_progress >= @s tf2.capture_threshold run objectives.control_point.set_owner.blu();
 
-                $temp = execute if predicate tf2:coin_flip;
+                $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines
                 execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=1}] {"text":"Alert! Our control point is being captured.","bold":true,"color":"white"};
                 execute if entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 1 run tellraw @a[scores={tf2.team=1}] {"text":"Defend our control point!","bold":true,"color":"white"};
                 execute if entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=1}] if score $temp tf2.var matches 0 run tellraw @a[scores={tf2.team=1}] [{"text":"Alert! Our","bold":true,"color":"white"},{"text":" last ","bold":true,"italic":true,"color":"white"},{"text":"control point is being captured!","bold":true,"color":"white"}];
@@ -255,47 +164,31 @@ class objectives {
             }
         } class decay {
             function init() {
-                JMC.put("#> tf2:objectives/control_point/decay/init");
-                JMC.put("#");
-                JMC.put("# @within tf2:objectives/control_point/check_for_players");
-                JMC.put("# @context CP entity & position");
+                // @within objectives.control_point.check_for_players()
 
-                JMC.put("# if non-owner team still has players on point, don't decay");
-                JMC.put("# TODO: update to use /return when 1.20 releases.");
+                // if non-owner team still has players on point, don't decay
+                // TODO: update to use /return when 1.20 releases.
                 scoreboard players reset $break tf2.var;
                 execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run $break = 1;
                 execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run $break = 1;
                 execute unless score $break tf2.var matches 1 run objectives.control_point.decay.main(); 
             } function main() {
-                JMC.put("#> tf2:objectives/control_point/decay/main");
-                JMC.put("#");
-                JMC.put("# @within tf2:objectives/control_point/decay/init");
-                JMC.put("# @writes");
-                JMC.put("#   score @s tf2.red_progress");
-                JMC.put("#   score @s tf2.blu_progress");
-                JMC.put("#       Current state of the control point.");
-                JMC.put("#   score $sum tf2.var");
-                JMC.put("#       Progress to revert (in milli-ticks). Takes 90 seconds to fully revert progress. ");
-                JMC.put("# @reads");
-                JMC.put("#   score @s tf2.batch_number");
-                JMC.put("#   score ⟨marker⟩ tf2.batch_number");
-                JMC.put("#       Finds the game marker that the control point belongs to.");
+                // @within objectives.control_point.decay.init()
 
                 $sum = tf2.capture_threshold:@s;
-                $sum /= 20;
-                $sum /= 90;
+                $sum /= 1800; // Takes 90 seconds to fully revert progress.
                 execute if entity @s[tag=tf2.overtime] run $sum *= 6;
                 tf2.batch_number:@s -> tf2.batch_number:$local;
                 execute as @e[type=marker] if score $local tf2.batch_number = @s tf2.batch_number run tag @s add tf2.current;
 
-                JMC.put("# revert in direction of owner team");
+                // revert in direction of owner team
                 execute if score @s tf2.team matches 1 run objectives.control_point.capture_progress.red();
                 execute if score @s tf2.team matches 2 run objectives.control_point.capture_progress.blu();
 
                 execute if score @s[tag=tf2.overtime,scores={tf2.team=1}] tf2.red_progress = @s tf2.capture_threshold as @e[tag=tf2.current,limit=1] run timer.end_game();
                 execute if score @s[tag=tf2.overtime,scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold as @e[tag=tf2.current,limit=1] run timer.end_game();
 
-                JMC.put("# if unowned, revert towards zero");
+                // if unowned, revert towards zero
                 tf2.red_progress:@s[scores={tf2.team=0,tf2.red_progress=1..}] -= $sum;
                 tf2.blu_progress:@s[scores={tf2.team=0,tf2.blu_progress=1..}] -= $sum;
                 tf2.red_progress:@s > 0;
@@ -305,23 +198,9 @@ class objectives {
             }
         } class set_owner {
             function red() {
-                JMC.put("#> tf2:objectives/control_point/set_owner/red");
-                JMC.put("# ");
-                JMC.put("# @within tf2:objectives/control_point/capture_progress/red");
-                JMC.put("# @context CP entity & position");
-                JMC.put("# @writes");
-                JMC.put("#   score $last tf2.team");
-                JMC.put("#       The team that *previously* controlled this point. (0 = unowned, 1 = RED, 2 = BLU)");
-                JMC.put("#   storage tf2.__temp__:lookup points[0].(owner/progress)");
-                JMC.put("#       Visual data relating to this point's state.");
-                JMC.put("# @reads");
-                JMC.put("#   score @s tf2.batch_number");
-                JMC.put("#   score ⟨marker⟩ tf2.batch_number");
-                JMC.put("#       Finds the game marker that this control point belongs to.");
-                JMC.put("#   score ⟨marker⟩ tf2.gamemode");
-                JMC.put("#       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.");
+                // @within objectives.control_point.capture_progress.red()
 
-                tf2.team:@s -> tf2.team:$last;
+                tf2.team:@s -> tf2.team:$last; // Keep track of the team that *previously* controlled this point.
                 tf2.team:@s = 1;
                 tf2.red_progress:@s = tf2.capture_threshold:@s;
 
@@ -331,37 +210,22 @@ class objectives {
                 objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
 
-                JMC.put("# placeholder for proper model");
-                setblock ~ ~-1 ~ red_stained_glass;
+                setblock ~ ~-1 ~ red_stained_glass; // placeholder for proper model
 
-                JMC.put("# if KOTH: start counting down RED's timer & pause BLU's");
-                JMC.put("# if 5CP & this is mid: unlock BLU's 1st (✓)");
-                JMC.put("# else if 5CP: lock/unlock adjacent points in line (✓)");
-                JMC.put("# if ATK/DEF: how??!!?!?");
+                // if KOTH: start counting down RED's timer & pause BLU's
+                // if 5CP & this is mid: unlock BLU's 1st (✓)
+                // else if 5CP: lock/unlock adjacent points in line (✓)
+                // if ATK/DEF: how??!!?!?
                 tf2.batch_number:@s -> tf2.batch_number:$local;
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                JMC.put("# TODO: change this part to use the new 'return' command when 1.20 releases");
+                // TODO: change this part to use the new 'return' command when 1.20 releases
                 execute unless score $last tf2.team = @s tf2.team if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.red.symmetric();
                 execute unless score $last tf2.team = @s tf2.team if score @s tf2.increment = @s tf2.increment run objectives.control_point.on_capture.add_time();
                 tag @e[type=marker,tag=tf2.current] remove tf2.current;
             } function blu() {
-                JMC.put("#> tf2:objectives/control_point/set_owner/blu");
-                JMC.put("# ");
-                JMC.put("# @within tf2:objectives/control_point/capture_progress/blu");
-                JMC.put("# @context CP entity & position");
-                JMC.put("# @writes");
-                JMC.put("#   score $last tf2.team");
-                JMC.put("#       The team that *previously* controlled this point. (0 = unowned, 1 = RED, 2 = BLU)");
-                JMC.put("#   storage tf2.__temp__:lookup points[0].(owner/progress)");
-                JMC.put("#       Visual data relating to this point's state.");
-                JMC.put("# @reads");
-                JMC.put("#   score @s tf2.batch_number");
-                JMC.put("#   score ⟨marker⟩ tf2.batch_number");
-                JMC.put("#       Finds the game marker that this control point belongs to.");
-                JMC.put("#   score ⟨marker⟩ tf2.gamemode");
-                JMC.put("#       The gamemode that this control point is part of (1 = A/D, 2 = 5CP, 3 = KOTH). Used to determine `on_capture` events.");
+                // @within objectives.control_point.capture_progress.blu()
 
-                tf2.team:@s -> tf2.team:$last;
+                tf2.team:@s -> tf2.team:$last; // Keep track of the team that *previously* controlled this point.
                 tf2.team:@s = 2;
                 tf2.blu_progress:@s = tf2.capture_threshold:@s;
 
@@ -371,16 +235,15 @@ class objectives {
                 objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
 
-                JMC.put("# placeholder for proper model");
-                setblock ~ ~-1 ~ blue_stained_glass;
+                setblock ~ ~-1 ~ blue_stained_glass; // placeholder for proper model
 
-                JMC.put("# if KOTH: start counting down BLU's timer & pause RED's");
-                JMC.put("# if 5CP & this is mid: unlock RED's 1st (✓)");
-                JMC.put("# else if 5CP: lock/unlock adjacent points in line (✓)");
-                JMC.put("# if ATK/DEF: lock this point (✓) & unlock next point (✓)");
+                // if KOTH: start counting down BLU's timer & pause RED's
+                // if 5CP & this is mid: unlock RED's 1st (✓)
+                // else if 5CP: lock/unlock adjacent points in line (✓)
+                // if ATK/DEF: lock this point (✓) & unlock next point (✓)
                 tf2.batch_number:@s -> tf2.batch_number:$local;
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                JMC.put("# TODO: change this part to use the new 'return' command when 1.20 releases");
+                // TODO: change this part to use the new 'return' command when 1.20 releases
                 execute unless score $last tf2.team = @s tf2.team if score @s tf2.gamemode matches 1 at @s run objectives.control_point.on_capture.blu.atk_def();
                 execute unless score $last tf2.team = @s tf2.team if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.blu.symmetric();
                 execute unless score $last tf2.team = @s tf2.team if score @s tf2.increment = @s tf2.increment run objectives.control_point.on_capture.add_time();
@@ -396,7 +259,7 @@ class objectives {
 
                     tf2.index:$temp += 20;
                     execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run objectives.control_point.lock();
-                    JMC.put("# TODO: add support for map events (like doors opening)");
+                    // TODO: add support for map events (like doors opening)
                 }
             } class blu {
                 function atk_def() {
@@ -406,7 +269,7 @@ class objectives {
                     execute at @s run objectives.control_point.lock();
                     setblock ~ ~ ~ stone_slab;
                     execute as @e[type=marker,tag=tf2.current] if score @s tf2.index = $temp tf2.index at @s run objectives.control_point.unlock();
-                    JMC.put("# TODO: add support for map events (like doors opening)");
+                    // TODO: add support for map events (like doors opening)
                 } function symmetric() {
                     tf2.index:@s -> tf2.index:$temp;
                     tf2.index:$temp += 10;
@@ -415,7 +278,7 @@ class objectives {
 
                     tf2.index:$temp -= 20;
                     execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run objectives.control_point.lock();
-                    JMC.put("# TODO: add support for map events (like doors opening)");
+                    // TODO: add support for map events (like doors opening)
                 }
             } 
             function add_time() {
@@ -430,25 +293,15 @@ class objectives {
             }
         } class visuals {
             function init() {
-                JMC.put("#> tf2:objectives/control_point/visuals/init");
-                JMC.put("#");
-                JMC.put("# @within tf2:__tick__");
-                JMC.put("# @context all CP entities without tag tf2.init, & their positions");
-                JMC.put("# @writes ");
-                JMC.put("#   score $local tf2.batch_number");
-                JMC.put("#       The game marker that the control point belongs to. Used solely for `tf2:objectives/control_point/find_index/main`.");
-                JMC.put("#   storage tf2.__temp__:lookup points[0].(owner/progress/symbol/extra)");
-                JMC.put("#       All visual data relating to this point's state.");
-                JMC.put("# @reads");
-                JMC.put("#   score @s tf2.team");
-                JMC.put("#       Which team owns the control point (0 = unowned, 1 = RED, 2 = BLU). Used for background color in HUD and for beacon color (placeholder until model is added).");
-                JMC.put("#   score @s tf2.index");
-                JMC.put("#       Which control point this is. Used to determine the letter to show in the corner (0 = A, 10 = B, 20 = C, etc.).");
-
+                // Sets all visual data relating to this point's state, based on the start condition of the map.
+                // @within __tick__()
+                
                 execute if entity @s[tag=tf2.locked] run setblock ~ ~ ~ stone_slab;
                 execute unless entity @s[tag=tf2.locked] run setblock ~ ~ ~ air;
                 tf2.batch_number:@s -> tf2.batch_number:$local;
                 objectives.control_point.find_index.main();
+
+                // Set background color in HUD, as well as beacon color (placeholder until model is added).
                 Hardcode.repeatLists(
                     ["_num_", "_color_", "_hex_"],
                     () => {execute if score @s tf2.team matches _num_ run data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
@@ -460,6 +313,8 @@ class objectives {
                 execute if entity @s[tag=tf2.locked] run data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
                 execute if entity @s[tag=tf2.star] run data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"321S!)","font":"tf2:square"}]';
                 execute unless entity @s[tag=tf2.letter] run data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]';
+
+                // Puts a letter in the corner of the HUD icon, if the `tf2.letter` tag is present.
                 Hardcode.repeatLists(
                     ["_num_", "_letter_"],
                     () => {execute if entity @s[tag=tf2.letter] if score @s tf2.index matches _num_ run data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';},
@@ -468,24 +323,10 @@ class objectives {
                 objectives.control_point.find_index.reinsert();
                 tag @s add tf2.init;
             } function spacing() {
-                JMC.put("#> tf2:objectives/control_point/visuals/spacing");
-                JMC.put("#");
-                JMC.put("# @within tf2:start_game/as_marker/main");
-                JMC.put("# @context game marker");
-                JMC.put("# @writes ");
-                JMC.put("#   score @s tf2.index");
-                JMC.put("#       Set to 70 so that `tf2:objectives/control_point/find_index/main` fetches `info[@s tf2.batch_number][7]`, which handles spacing.");
-                JMC.put("#   storage tf2.__temp__:lookup points[0].left");
-                JMC.put("#       Space to add at the very beginning, before the timer text.");
-                JMC.put("#   storage tf2.__temp__:lookup points[0].mid");
-                JMC.put("#       Space to add in between the timer text and the control points.");
-                JMC.put("#   storage tf2.__temp__:lookup points[0].right");
-                JMC.put("#       Space to add at the end of the control points row.");
-                JMC.put("# @reads");
-                JMC.put("#   score $highest tf2.index");
-                JMC.put("#       The highest CP index present in the game. Used to determine how many control points there are.");
+                // Determines the spacing to use in the HUD bar.
+                // @within start_game.as_marker.main()
 
-                tf2.index:@s = 70;
+                tf2.index:@s = 70; // Set to 70 so that `objectives.control_point.find_index.main()` fetches the `info[@s tf2.batch_number][7]` path, which handles spacing.
                 objectives.control_point.find_index.main();
 
                 execute if score $highest tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0].left set value '430';
@@ -512,15 +353,13 @@ class objectives {
                 execute if score $highest tf2.index matches 60 run data modify storage tf2.__temp__:lookup points[0].right set value '643210';
 
                 objectives.control_point.find_index.reinsert();
-                JMC.put("# repurposes the marker's `tf2.index` score to hold the total number of CPs.");
-                tf2.index:@s = tf2.index:$highest;
+
+                tf2.index:@s = tf2.index:$highest; // Repurposes the marker's `tf2.index` score to hold the total number of CPs.
                 tf2.index:@s /= 10;
                 tf2.index:@s ++;
             } 
             function wheel_spacing() {
-                JMC.put("#> tf2:objectives/control_point/visuals/wheel_spacing");
-                JMC.put("#");
-                JMC.put("# @within tf2:objectives/control_point/visuals/capture_progress/*/wheel");
+                // @within objectives.control_point.visuals.capture_progress.(red/blu).wheel()
 
                 tag @e remove tf2.current;
                 tf2.batch_number:@s -> tf2.batch_number:$local;
@@ -563,23 +402,9 @@ class objectives {
             class capture_progress {
                 class red {
                     function main() {
-                        JMC.put("#> tf2:objectives/control_point/visuals/capture_progress/red/main");
-                        JMC.put("#");
-                        JMC.put("# @within tf2:objectives/control_point/main");
-                        JMC.put("# @writes ");
-                        JMC.put("#   score $local tf2.batch_number");
-                        JMC.put("#       The game marker that the control point belongs to. Used solely for `tf2:objectives/control_point/find_index/main`.");
-                        JMC.put("#   score $frame tf2.var");
-                        JMC.put("#       Frame of the bossbar animation to display. Ranges from 0 - 15 based on how much capture progress has been made.");
-                        JMC.put("#   score $wheel_frame tf2.var");
-                        JMC.put("#       Frame of the title animation to display. Value is calculated in `tf2:objectives/control_point/visuals/capture_progress/blu/wheel`.");
-                        JMC.put("# @reads");
-                        JMC.put("#   score @s tf2.capture_threshold");
-                        JMC.put("#   score @s tf2.(red/blu)_progress");
-                        JMC.put("#       Variable relating to the point's current state. Used solely to calculate `$frame tf2.var`.");
-                        JMC.put("#   score @s tf2.team");
-                        JMC.put("#       Which team owns the control point. Determines whether or not to flicker the background (only flickers if RED is taking BLU's point rather than an unowned point).");
-
+                        // Handles the captures animations (in title & bossbar), based on how much progress has been made.
+                        // @within tf2.objectives/control_point/main
+                        
                         tf2.batch_number:@s -> tf2.batch_number:$local;
                         objectives.control_point.find_index.main();
                         $frame = 0;
@@ -588,7 +413,7 @@ class objectives {
                         $frame -= tf2.blu_progress:@s;
                         $frame *= 8;
                         execute if score @s tf2.team matches 0 run $frame *= 2;
-                        $wheel_frame = $frame;
+                        $wheel_frame = $frame; // finish calculating this value in `objectives.control_point.visuals.capture_progress.red.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
                             case 0: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#@|a0)","color":"#D95A58"}]';
@@ -616,19 +441,9 @@ class objectives {
                         objectives.control_point.visuals.capture_progress.red.wheel();
                         objectives.control_point.find_index.reinsert();
                     } function wheel() {
-                        JMC.put("#> tf2:objectives/control_point/visuals/capture_progress/red/wheel");
-                        JMC.put("#");
-                        JMC.put("# @within tf2:objectives/control_point/visuals/capture_progress/red/main");
-                        JMC.put("# @writes");
-                        JMC.put("#   score $wheel_frame tf2.var");
-                        JMC.put("#       Frame of the title animation to display. Ranges from 0 - 47 based on how much capture progress has been made.");
-                        JMC.put("#   storage tf2.__temp__:lookup points[0].wheel.owner");
-                        JMC.put("#       Team-color background circle to show who controls the point.");
-                        JMC.put("#   storage tf2.__temp__:lookup points[0].wheel.progress");
-                        JMC.put("#       Team-color wedge sector to show the amount of progress. (duh!)");
-                        JMC.put("# @reads");
-                        JMC.put("#   score @s tf2.team");
-                        JMC.put("#       Which team owns the control point. Determines color of the background circle (unowned = #A1A1A1, BLU-owned = #517AB8).");
+                        // Displays frame 0 - 47 of the title animation, based on how much capture progress has been made.
+                        // Owner team determines color of the background circle. (unowned = #A1A1A1, BLU-owned = #517AB8)
+                        // @within objectives.control_point.visuals.capture_progress.red.main()
 
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
@@ -705,22 +520,8 @@ class objectives {
                     }
                 } class blu {
                     function main() {
-                        JMC.put("#> tf2:objectives/control_point/visuals/capture_progress/blu/main");
-                        JMC.put("#");
-                        JMC.put("# @within tf2:objectives/control_point/main");
-                        JMC.put("# @writes ");
-                        JMC.put("#   score $local tf2.batch_number");
-                        JMC.put("#       The game marker that the control point belongs to. Used solely for `tf2:objectives/control_point/find_index/main`.");
-                        JMC.put("#   score $frame tf2.var");
-                        JMC.put("#       Frame of the bossbar animation to display. Ranges from 0 - 15 based on how much capture progress has been made.");
-                        JMC.put("#   score $wheel_frame tf2.var");
-                        JMC.put("#       Frame of the title animation to display. Value is calculated in `tf2:objectives/control_point/visuals/capture_progress/blu/wheel`.");
-                        JMC.put("# @reads");
-                        JMC.put("#   score @s tf2.capture_threshold");
-                        JMC.put("#   score @s tf2.(red/blu)_progress");
-                        JMC.put("#       Variable relating to the point's current state. Used solely to calculate `$frame tf2.var`.");
-                        JMC.put("#   score @s tf2.team");
-                        JMC.put("#       Which team owns the control point. Determines whether or not to flicker the background (only flickers if BLU is taking RED's point rather than an unowned point).");
+                        // Handles the captures animations (in title & bossbar), based on how much progress has been made.
+                        // @within tf2.objectives/control_point/main
 
                         tf2.batch_number:@s -> tf2.batch_number:$local;
                         objectives.control_point.find_index.main();
@@ -730,7 +531,7 @@ class objectives {
                         $frame -= tf2.red_progress:@s;
                         $frame *= 8;
                         execute if score @s tf2.team matches 0 run $frame *= 2;
-                        $wheel_frame = $frame;
+                        $wheel_frame = $frame; // finish calculating this value in `objectives.control_point.visuals.capture_progress.blu.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
                             case 0: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321a0#@)","color":"#517AB8"}]';
@@ -757,6 +558,10 @@ class objectives {
                         objectives.control_point.visuals.capture_progress.blu.wheel();
                         objectives.control_point.find_index.reinsert();
                     } function wheel() {
+                        // Displays frame 0 - 47 of the title animation, based on how much capture progress has been made.
+                        // Owner team determines color of the background circle. (unowned = #A1A1A1, RED-owned = #D95A58)
+                        // @within objectives.control_point.visuals.capture_progress.blu.main()
+
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
                         objectives.control_point.visuals.wheel_spacing();

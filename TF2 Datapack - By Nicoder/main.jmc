@@ -1,24 +1,14 @@
-JMC.put("#> tf2:__load__");
-JMC.put("#");
-JMC.put("# Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities.");
-JMC.put("#");
-JMC.put("# @handles #minecraft:load");
-JMC.put("# @context any");
-
-JMC.put("#declare storage tf2:maps");
-JMC.put("#declare storage tf2:control_points");
-JMC.put("#declare storage tf2.__temp__:summon");
-JMC.put("#declare storage tf2.__temp__:lookup");
-
-JMC.put("# TODO expand this as time goes on");
+// TODO: expand this section as time goes on
 Scoreboard.add(tf2.ticks, dummy);
 Scoreboard.add(tf2.settings, dummy);
 
-JMC.put("# Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom,");
-JMC.put("# 5 = CTF A/D, 6 = CTF Standard, 7 = Invade CTF / Special Delivery, 8 = HTF, ");
-JMC.put("# 9 = Payload, 10 = Payload Race, 11 / 12 = unused,");
-JMC.put("# 13 = VIP, 14 = VIP Race (lol), 15 = Misc.");
+// Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom
+// 5 = CTF A/D, 6 = CTF Standard, 7 = Invade CTF / Special Delivery, 8 = HTF
+// 9 = Payload, 10 = Payload Race, 11 / 12 = unused
+// 13 = VIP, 14 = VIP Race (lol), 15 = Misc.
 Scoreboard.add(tf2.gamemode, dummy);
+
+// Map key: 0 = ad_test, 1 = cp_test
 Scoreboard.add(tf2.map, dummy);
 
 Scoreboard.add(tf2.index, dummy);
@@ -50,38 +40,31 @@ gamerule mobGriefing false;
 gamerule naturalRegeneration false;
 gamerule showDeathMessages false;
 
-JMC.put("# TODO remove this line later");
+// testing purposes only
 tf2.settings:$show_debug_messages = 1;
 
-JMC.put("# only runs the very first time datapack is loaded");
+// only runs the very first time datapack is loaded
 execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run initialize();
 
-JMC.put("# set up teams");
+// set up teams (RED = 1, BLU = 2 when in score format)
 Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
 Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
 
 Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop = 6);
 
-JMC.put("# markers keep track of gamestate");
+// markers keep track of gamestate
 $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
-if ($batch_markers != tf2.settings:$max_batches) {
-    setup_markers();
-}
+if ($batch_markers != tf2.settings:$max_batches) setup_markers();
 
 data merge storage tf2:maps {0:{name: "ad_test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-489.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-509.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 25.0f, team: 1b, increment: 60.0f}}], gamemode: 1, timer: 480.0f, setup_time: 30.0f}};
 data merge storage tf2:maps {1:{name: "cp_test", origin: [-300.0d, 1.0d, -300.0d], spawn:{red:[[-279.0d, 1.0d, -300.0d]], blu:[[-321.0d, 1.0d, -300.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-311.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 2b, increment: 600.0f}},{Pos:[-306.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 2b, increment: 600.0f}},{Pos:[-299.5d, 1.0d, -299.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 30.0f, team: 0b, increment: 600.0f}},{Pos:[-292.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 1b, increment: 600.0f}},{Pos:[-287.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 1b, increment: 600.0f}}], gamemode: 2, timer: 600.0f}};
 data merge storage tf2.__temp__:summon {};
 
-
 function initialize() {
-    JMC.put("#> tf2:initialize");
-    JMC.put("#");
-    JMC.put("# Sets up values of system constants and defaults for game settings.");
-    JMC.put("#");
-    JMC.put("# @context any");
-    JMC.put("# @within tf2:__load__");
+    // Sets up values of system constants and defaults for game settings.
+    // @within __load__()
 
-    JMC.put("# TODO replace line below when voting system is added");
+    // TODO: replace line below when voting system is added
     tf2.settings:$choose_map_randomly = 1;
     tf2.settings:$random_crits = 0;
     tf2.settings:$random_spread = 0;
@@ -93,7 +76,7 @@ function initialize() {
     data merge storage tf2.__temp__:lookup {points:[{}]};
     data merge storage tf2:control_points {info:[[],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}]]};
 
-    JMC.put("#this *could* all be part of the previous command but then it would be so long that it's a total PITA.");
+    // this could *technically* be part of the previous command, but then it would be so long that it's a total PITA.
     Hardcode.repeat(
         "_i_", ()=>{
             Hardcode.repeat("_j_", 
@@ -104,16 +87,11 @@ function initialize() {
         start=1, stop=6
     );
 } function setup_markers() {
-    JMC.put("#> tf2:setup_markers");
-    JMC.put("#");
-    JMC.put("# Summons new gamestate markers if there aren't enough, and kills extras if there are too many.");
-    JMC.put("#");
-    JMC.put("# @context any");
-    JMC.put("# @public");
+    // Summons new gamestate markers if there aren't enough, and kills extras if there are too many.
 
-    if ($batch_markers < tf2.settings:$max_batches){
+    if ($batch_markers < tf2.settings:$max_batches) {
         summon minecraft:marker 0 0 0 {Tags:["tf2.batch"], data:{lastPos: [0.0d, 0.0d, 0.0d], map: {}}};
-    } 
+    }
     else if ($batch_markers > tf2.settings:$max_batches) kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
     $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
     scoreboard players reset $index tf2.batch_number;
@@ -128,10 +106,8 @@ function initialize() {
 import "math";
 
 function __tick__() {
-    JMC.put("#> tf2:__tick__");
-    JMC.put("#");
-    JMC.put("# @handles #minecraft:tick");
-    JMC.put("# @context any");
+    // @handles #minecraft:tick
+    // @context root
 
     tf2.ticks:$global ++;
     tf2.ticks:@a ++;
@@ -168,15 +144,10 @@ function __tick__() {
 }
 
 function login() {
-    JMC.put("#> tf2:login");
-    JMC.put("#");
-    JMC.put("# Teleports a newly joined player to the lobby room, clears their inventory, puts them in adventure mode, resets their gameplay tags, and allows them to join queues.");
-    JMC.put("# ");
-    JMC.put("# @within tf2:__tick__");
-    JMC.put("# @context a player");
-    JMC.put("# @handles server joining");
+    // Teleports a newly joined player to the lobby room, clears their inventory, puts them in adventure mode, resets their gameplay tags, and allows them to join queues.
+    // @within __tick__()
 
-    JMC.put("# TODO improve lobby build quality (in-world)");
+    // TODO: improve lobby build quality (in-world)
     execute if score $show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},"Player ",{"selector":"@s"}," has logged in at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime."];
     tp @s[tag=!tf2.admin] 30 25 25 0 0;
     gamemode adventure @s[tag=!tf2.admin];
@@ -188,7 +159,7 @@ function login() {
     scoreboard players enable @s tf2.queue_type;
     tf2.queue_type:@s = 0;
 
-    JMC.put("# remove gameplay-specific variables");
+    // removes all gameplay-specific variables
     team leave @s;
     tag @s remove tf2.in_queue;
     tag @s remove tf2.allowed_to_sprint;
@@ -207,62 +178,31 @@ function login() {
     scoreboard players reset @s tf2.respawn_timer;
     tf2.batch_number:@s = 0;
 } function select() {
-    JMC.put("#> tf2:select");
-    JMC.put("#");
-    JMC.put("# Adds players to queues when they select them using /trigger.");
-    JMC.put("#");
-    JMC.put("# @within tf2:__tick__");
-    JMC.put("# @context all players not already queued or playing");
-    JMC.put("# @input");
-    JMC.put("#	score @s tf2.queue_type");
-    JMC.put("#		Which queue the player is in (1 = competitive, 2 = casual, 3 = chaos)");
+    // Adds players to queues when they select them using /trigger.
+    // @within __tick()__
 
     clear @s written_book;
     tag @s add tf2.in_queue;
-    tp @s[scores={tf2.queue_type=1}] 10 25 25 0 0;
-    tp @s[scores={tf2.queue_type=2}] -10 25 25 0 0;
-    tp @s[scores={tf2.queue_type=3}] -30 25 25 0 0;
+    tp @s[scores={tf2.queue_type=1}] 10 25 25 0 0; // 1 = competitive
+    tp @s[scores={tf2.queue_type=2}] -10 25 25 0 0; // 2 = casual
+    tp @s[scores={tf2.queue_type=3}] -30 25 25 0 0; // 3 = chaos
     tf2.batch_number:@s ??= 0;
 }
 
 function disable_sprint() {
-    JMC.put("#> tf2:disable_sprint");
-    JMC.put("#");
-    JMC.put("# Prevents players from sprinting by giving them an attribute modifier that cancels it out exactly.");
-    JMC.put("#");
-    JMC.put("# @within tf2:__tick__");
-    JMC.put("# @context all players without tf2.allowed_to_sprint tag (tag exists only for debugging)");
-    JMC.put("# @reads");
-    JMC.put("#	predicate tf2:sprinting");
+    // Prevents players from sprinting by giving them an attribute modifier that cancels it out exactly.
+    // Function is executed as all players, *except* those with the tf2.allowed_to_sprint tag (which exists only for debugging)
 
+    // UUID was chosen because it spells out "preventsprinting" in ASCII
     attribute @s[predicate=tf2:sprinting] minecraft:generic.movement_speed modifier add 70726576-656e-7473-7072-696e74696e67 "preventsprinting" -0.23 multiply;
     attribute @s[predicate=!tf2:sprinting] minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67;
 }
 
 function death() {
-    JMC.put("#> tf2:death");
-    JMC.put("#");
-    JMC.put("# Puts the dead player into spectator mode and starts their respawn timer.");
-    JMC.put("#");
-    JMC.put("# @within tf2:__tick__");
-    JMC.put("# @context a (dead) player");
-    JMC.put("# @handles death");
-    JMC.put("# @reads");
-    JMC.put("#   score @s tf2.batch_number");
-    JMC.put("#   score ⟨marker⟩ tf2.batch_number");
-    JMC.put("#       Selects the game marker that matches the executing player.");
-    JMC.put("# @writes");
-    JMC.put("#   score @s tf2.dead");
-    JMC.put("#       Boolean to prevent function from being called repeatedly.");
-    JMC.put("# @input");
-    JMC.put("#   data entity ⟨marker⟩ data.map.spawn_time.(red|blu)[0]");
-    JMC.put("#       Current length of RED/BLU's respawn timer on this map. (in *seconds*) ");
-    JMC.put("#   score @s tf2.team");
-    JMC.put("#       Team of the executing player. (1 = RED, 2 = BLU)");
-    JMC.put("# @output");
-    JMC.put("#   score @s tf2.respawn_timer");
-    JMC.put("#       Length of time until the executing player respawns. (in *ticks*)");
+    // Puts a dead player into spectator mode & starts their respawn timer.
+    // Respawn timer length is according to the map and team.
 
+    // Note: `data entity ⟨marker⟩ data.map.spawn_time.(red/blu)[0]` is measured in *seconds*, whereas `tf2.respawn_timer:@s` is measured in *ticks*
     spawnpoint @s ~ ~ ~;
     tag @s add tf2.dead;
     gamemode spectator @s;
@@ -273,19 +213,10 @@ function death() {
     tag @e[type=marker] remove tf2.temp;
 } class spawn {
     function init() {
-        JMC.put("#> tf2:spawn/init");
-        JMC.put("#");
-        JMC.put("# (Re)spawns a player and changes their gamemode back to adventure if applicable.");
-        JMC.put("#");
-        JMC.put("# @within");
-        JMC.put("#   tf2:__tick__");
-        JMC.put("#   tf2:team_assign");
-        JMC.put("# @context a player");
-        JMC.put("# @handles player spawning (both game start & respawn)");
-        JMC.put("# @reads");
-        JMC.put("#   score @s tf2.batch_number");
-        JMC.put("#   score ⟨marker⟩ tf2.batch_number");
-        JMC.put("#       Finds the game marker that matches the executing player.");
+        // (Re)spawns a player, and changes their gamemode back to adventure if applicable.
+        // @within:
+        //   __tick__()
+        //   team_assign()
 
         tag @s add tf2.temp;
         tf2.batch_number:@s -> tf2.batch_number:$local;
@@ -295,22 +226,10 @@ function death() {
         tag @s remove tf2.dead;
         tf2.health:@s = tf2.max_health:@s;
     } function tp() {
-        JMC.put("#> tf2:spawn/tp");
-        JMC.put("#");
-        JMC.put("# Teleports the player to a spawn point.");
-        JMC.put("#");
-        JMC.put("# @within tf2:spawn/init");
-        JMC.put("# @context a marker that matches the tagged player's batch");
-        JMC.put("# @handles dynamic teleportation");
-        JMC.put("# @input");
-        JMC.put("#   score ⟨player⟩ tf2.team");
-        JMC.put("#       Team of the tagged player (1 = RED, 2 = BLU).");
-        JMC.put("#   data entity @s data.map.spawn.(red/blu)[0]");
-        JMC.put("#       Current spawn point of the RED/BLU team on the selected map.");
-        JMC.put("# @output");
-        JMC.put("#   data entity @s Pos");
-        JMC.put("#       Position to teleport the tagged player.");
+        // Dynamically teleports the player to their spawn point. Executed as a marker, NOT the player.
+        // @within spawn.init()
 
+        // Spawn location is stored in `data entity @s data.map.spawn.(red/blu)[0]`
         data modify entity @s data.lastPos set from entity @s Pos;
         execute if entity @e[type=#tf2:player_like,tag=tf2.temp,scores={tf2.team=1},limit=1] run data modify entity @s Pos set from entity @s data.map.spawn.red[0];
         execute if entity @e[type=#tf2:player_like,tag=tf2.temp,scores={tf2.team=2},limit=1] run data modify entity @s Pos set from entity @s data.map.spawn.blu[0];
@@ -318,16 +237,8 @@ function death() {
         data modify entity @s Pos set from entity @s data.lastPos;
     }
 } function team_assign () {
-    JMC.put("#> tf2:team_assign");
-    JMC.put("#");
-    JMC.put("# @within tf2:start_game/as_marker/main");
-    JMC.put("# @context all players in the batch");
-    JMC.put("# @input");
-    JMC.put("#   score $team_temp tf2.var");
-    JMC.put("#       Alternates team of the next player in loop (without using randomization)");
-    JMC.put("# @output");
-    JMC.put("#   score @s tf2.team ");
-    JMC.put("#       Which team the player will be assigned to (1 = RED, 2 = BLU)");
+    // Assigns players to RED/BLU team evenly (without using randomization).
+    // @within start_game.as_marker.main()
 
     $team_temp -> tf2.team:@s;
     tf2.team:@s ++;
@@ -340,25 +251,8 @@ function death() {
 class start_game {
     class as_marker {
         function main() {
-            JMC.put("#> tf2:start_game/as_marker/main");
-            JMC.put("#");
-            JMC.put("# Starts a new running game with the players in the queue. ");
-            JMC.put("#");
-            JMC.put("# @within tf2:__tick__");
-            JMC.put("# @context a marker (position/rotation irrelevant)");
-            JMC.put("# @handles start of game");
-            JMC.put("# @input");
-            JMC.put("#   score $(casual/competitive/chaos)_queue_length tf2.var ");
-            JMC.put("#       The number of people queued for each game format.");
-            JMC.put("#   storage tf2:maps <num>");
-            JMC.put("#       The currently selected map and all its associated data.");
-            JMC.put("# @output");
-            JMC.put("#   score @s tf2.batch_number");
-            JMC.put("#   score ⟨players⟩ tf2.batch_number");
-            JMC.put("#       Pairs the players in a queue to each other and to the storage marker.");
-            JMC.put("# @writes");
-            JMC.put("#   score $break tf2.var");
-            JMC.put("#       Prevents multiple queues from getting assigned to same game.");
+            // Starts a new running game with the players in the queue. ");
+            // @within __tick__()
 
             execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
             tf2.batch_number:@s -> tf2.batch_number:$local;
@@ -374,22 +268,18 @@ class start_game {
             while (data storage tf2.__temp__:summon objectives[]) {
                 summon marker ~ ~ ~ {Tags:["tf2.new"]};
                 execute as @e[tag=tf2.new,limit=1] run {
-                    JMC.put("#> tf2:__private__/anonymous/1");
-                    JMC.put("#");
-                    JMC.put("# @within tf2:start_game/as_marker");
-                    JMC.put("# @context marker summoned by the loop function");
-                    JMC.put("# @input");
-                    JMC.put("#   storage tf2.__temp__:summon objectives[0]");
-                    JMC.put("#       Pos: double[]");
-                    JMC.put("#           Coordinates where the objective is located on the map.");
-                    JMC.put("#       Tags: string[]");
-                    JMC.put("#           Tags specify what type of objective it is. (eg: control point, intelligence, payload cart)");
-                    JMC.put("#       data.team: byte");
-                    JMC.put("#           Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).");
-                    JMC.put("#       data.locked: bool");
-                    JMC.put("#           (DEPRECATED) Whether or not the objective should start out locked.");
-                    JMC.put("#       data.capture_threshold: float");
-                    JMC.put("#           Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
+                    // Storage format of `tf2.__temp__:summon objectives[0]`
+                    //      Pos: double[]
+                    //          Coordinates of where the objective is located on the map.
+                    //      Tags: string[]
+                    //          Specifies info about what type of objective it is. (eg: control point, intelligence, payload cart)
+                    //      data.team: byte
+                    //          Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).
+                    //      data.locked: bool
+                    //          | DEPRECATED, use the `tf2.locked` tag instead. |
+                    //          Whether or not the objective should start out locked.
+                    //      data.capture_threshold: float
+                    //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
 
                     data modify entity @s Pos set from storage tf2.__temp__:summon objectives[0].Pos;
                     data modify entity @s Tags set from storage tf2.__temp__:summon objectives[0].Tags;
@@ -414,7 +304,7 @@ class start_game {
             execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass;
             execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass;
 
-            JMC.put("# TODO: replace random assignment with first come, first serve");
+            // TODO: replace random assignment with first come, first serve"
             if ($comp_queue_length >= 12) {
                 execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run start_game.as_players.generic();
             }
@@ -435,62 +325,41 @@ class start_game {
             $team_temp = 0;
             $count = execute if entity @e[tag=tf2.current];
             execute as @e[tag=tf2.current,sort=random] run team_assign();
-            $count %= 2;
+            $count %= 2; // in case of an odd player count, the extra player has a 50/50 change of going to either team
             if ($count = 1) {
                 execute if predicate tf2:coin_flip run scoreboard players set @e[tag=tf2.current,sort=random,limit=1,scores={tf2.team=1}] tf2.team 2;
             }
             tag @s add tf2.in_use;
             tag @e remove tf2.current;
         } function tell_info() {
-            JMC.put("#> tf2:start_game/as_marker/tell_info");
-            JMC.put("#");
-            JMC.put("# @within tf2:start_game/as_marker/main");
-            JMC.put("# @context game marker");
-            JMC.put("# @input");
-            JMC.put("#   score @s tf2.gamemode");
-            JMC.put("#       Which gamemode the players have been queued for (1 = A/D, 2 = 5CP, 3 = KOTH, etc).");
+            // [WIP] Tells players which gamemode they will be playing, and some basic info about how that gamemode works.
+            // @within start_game.as_marker.main()
 
-            JMC.put("# WIP");
+            // (1 = A/D, 2 = 5CP, 3 = KOTH, etc.)
             execute if score @s tf2.gamemode matches 1 run tellraw @a[tag=tf2.current] ["",{"text":"Gamemode:","bold":true,"underlined":true},{"text":" Attack / Defend","italic":true,"hoverEvent":{"action":"show_text","contents":["RED starts with all the control points, and BLU must capture all of them. Once a point is captured, it cannot be recaptured by RED. If the timer runs out, RED wins no matter how much progress BLU has made."]}}];
             execute if score @s tf2.gamemode matches 2 run tellraw @a[tag=tf2.current] ["",{"text":"Gamemode:","bold":true,"underlined":true},{"text":" Symmetrical Control Points","italic":true,"hoverEvent":{"action":"show_text","contents":["Each team starts out owning half the control points; whichever team captures all of them wins. Stalemate if the timer runs out."]}}];
         }
     }
     class as_players {
         function generic(){
-            JMC.put("#> tf2:start_game/as_players/generic");
-            JMC.put("#");
-            JMC.put("# Adds players to the game and gives them a tag so that other functions know.");
-            JMC.put("#");
-            JMC.put("# @within");
-            JMC.put("#   tf2:start_game/as_marker/main");
-            JMC.put("#   tf2:__private__**");
-            JMC.put("# @context all players in the current queue");
-            JMC.put("# @handles start of game");
-            JMC.put("# @output");
-            JMC.put("#   score @s tf2.batch_number");
-            JMC.put("#       Pairs the players in the queue to each other and to the storage marker");
-            JMC.put("# @writes");
-            JMC.put("#   score $break tf2.var");
-            JMC.put("#       Prevents multiple queues from getting assigned to same game");
-            JMC.put("#   score @s tf2.respawn_timer 0");
-            JMC.put("#       Makes the players spawn in when the game starts.");
+            // Adds players to the game and gives them a tag so that other functions know.
+            // @within start_game.as_marker.main()
 
             effect give @s glowing 1000 0 true;
-            JMC.put("# execute if score $show_debug_messages tf2.settings matches 1 run say generic");
+            // execute if score $show_debug_messages tf2.settings matches 1 run say generic
             tf2.batch_number:@s = tf2.batch_number:$local;
             tag @s remove tf2.in_queue;
             tag @s add tf2.is_playing;
             $break = 1;
             
-            JMC.put("# placeholder until the 9 classes are properly implemented");
+            // placeholder until the 9 classes are properly implemented
             tf2.max_health:@s ??= 100;
             tf2.health:@s = tf2.max_health:@s;
 
-            JMC.put("# used for team assignment");
-            tag @s add tf2.current;
+            tag @s add tf2.current; // tag is used for team assignment
             tf2.respawn_timer:@s = 0;
 
-            JMC.put("# gametype specific");
+            // apply gametype-specific settings
             execute if score @s tf2.queue_type matches 1 run start_game.as_players.competitive();
             execute if score @s tf2.queue_type matches 2 run start_game.as_players.casual();
             execute if score @s tf2.queue_type matches 3 run start_game.as_players.chaos();
@@ -522,26 +391,12 @@ import "timer";
 
 class reset {
     function announce_winner() {
-        JMC.put("#> tf2:reset/announce_winner");
-        JMC.put("#");
-        JMC.put("# Announces the winner of the game but doesn't relog players yet.");
-        JMC.put("#");
-        JMC.put("# @within");
-        JMC.put("#   tf2:objectives/control_point/gamestate");
-        JMC.put("#   tf2:timer/end_game");
-        JMC.put("# @context a game marker (position/rotation irrelevant)");
-        JMC.put("# @handles game reset");
-        JMC.put("# @input");
-        JMC.put("#   score $winner tf2.team");
-        JMC.put("#       Which team has won the current game (1 = RED, 2 = BLU, -1 = stalemate).");
-        JMC.put("# @reads");
-        JMC.put("#   score @s tf2.batch_number");
-        JMC.put("#   score ⟨control points⟩ tf2.batch_number");
-        JMC.put("#       Finds the control points that belong to this game marker.");
-        JMC.put("#   score ⟨players⟩ tf2.team");
-        JMC.put("#       Used to determine if a player is on the winning or losing team.");
+        // Announces the winner of the game, but doesn't relog players yet.
+        // @within:
+        //   objectives.control_point.gamestate()
+        //   timer.end_game()
 
-        JMC.put('#  execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]');
+        // execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run objectives.control_point.lock();
         kill @e[type=villager,tag=tf2.current];
@@ -554,20 +409,8 @@ class reset {
         tf2.timer:@s = -1;
         tag @a remove tf2.current;
     } function as_marker() {
-        JMC.put("#> tf2:reset/as_marker");
-        JMC.put("#");
-        JMC.put("# Resets gameplay-specific information once a match ends.");
-        JMC.put("#");
-        JMC.put("# @within");
-        JMC.put("#   tf2:timer/main");
-        JMC.put("# @context a marker (position/rotation irrelevant)");
-        JMC.put("# @handles game reset");
-        JMC.put("# @reads");
-        JMC.put("#   score $show_debug_messages tf2.settings");
-        JMC.put("#       Self-explanatory.");
-        JMC.put("#   score @s tf2.batch_number");
-        JMC.put("#   score ⟨players⟩ tf2.batch_number");
-        JMC.put("#       Finds the players that belong to this game marker.");
+        // Resets gameplay-specific information once a match ends.
+        // @within timer.main()
 
         execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game controlled by ",{"selector":"@s"}," has ended at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
         tf2.batch_number:@s -> tf2.batch_number:$local;
@@ -577,16 +420,8 @@ class reset {
         kill @s;
         setup_markers();
     } function as_objectives() {
-        JMC.put("#> tf2:reset/as_objectives");
-        JMC.put("#");
-        JMC.put("# Resets all objective data when a match ends and kills the objectives.");
-        JMC.put("#");
-        JMC.put("# @within tf2:reset/announce_winner");
-        JMC.put("# @context all CP entities within a batch");
-        JMC.put("# @handles game reset");
-        JMC.put("# @writes");
-        JMC.put("#   storage tf2.__temp__:lookup points[0].(owner/progress/symbol/extra)");
-        JMC.put("#       Resets visual data relating to this point's state.");
+        // Resets all objective data when a match ends, and kills the objectives.
+        // @within reset.as_marker()
 
         setblock ~ ~-1 ~ glass;
         setblock ~ ~ ~ air;
@@ -598,27 +433,13 @@ class reset {
         objectives.control_point.find_index.reinsert();
         kill @s;
     } function as_players() {
-        JMC.put("#> tf2:reset/as_players");
-        JMC.put("#");
-        JMC.put("# Adds to players' permanent scores and relogs them.");
-        JMC.put("#");
-        JMC.put("# @within tf2:reset/as_marker");
-        JMC.put("# @context all players in the current game");
-        JMC.put("# @reads");
-        JMC.put("#   score @s tf2.team");
-        JMC.put("#   score $winner tf2.team");
-        JMC.put("#       Determines whether the player was on the winning or losing team.");
-        JMC.put("# @writes");
-        JMC.put("#   score @s tf2.permanent.games_(played/won)");
-        JMC.put("#       Permanent statistics pertaining to the player.");
-        JMC.put("#   score @s tf2.ticks");
-        JMC.put("#       Number of ticks the player has been online. Resetting this value relogs the player.");
+        // Adds to players' permanent statistics, then relogs them.
+        // @within reset.as_marker()
 
         execute if score @s tf2.team = $winner tf2.team run tf2.permanent.games_won:@s ++;
         tf2.permanent.games_played:@s ++;
         tag @s remove tf2.current;
         scoreboard players reset @s tf2.ticks;
-        JMC.put("# debug only");
-        kill @s[type=villager];
+        kill @s[type=villager]; // debug only
     } 
 }

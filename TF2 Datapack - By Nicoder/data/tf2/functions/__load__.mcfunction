@@ -7,28 +7,13 @@ scoreboard players set 3 tf2.const 3
 scoreboard players set 4 tf2.const 4
 scoreboard players set 5 tf2.const 5
 scoreboard players set 6 tf2.const 6
+scoreboard players set 1800 tf2.const 1800
 scoreboard players set 8 tf2.const 8
 scoreboard players set 10 tf2.const 10
 scoreboard players set 20 tf2.const 20
-scoreboard players set 90 tf2.const 90
 scoreboard players set 60 tf2.const 60
-#> tf2:__load__
-#
-# Defines scoreboard objectives, sets up game settings if it has not already been done, and summons marker entities.
-#
-# @handles #minecraft:load
-# @context any
-#declare storage tf2:maps
-#declare storage tf2:control_points
-#declare storage tf2.__temp__:summon
-#declare storage tf2.__temp__:lookup
-# TODO expand this as time goes on
 scoreboard objectives add tf2.ticks dummy
 scoreboard objectives add tf2.settings dummy
-# Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom,
-# 5 = CTF A/D, 6 = CTF Standard, 7 = Invade CTF / Special Delivery, 8 = HTF, 
-# 9 = Payload, 10 = Payload Race, 11 / 12 = unused,
-# 13 = VIP, 14 = VIP Race (lol), 15 = Misc.
 scoreboard objectives add tf2.gamemode dummy
 scoreboard objectives add tf2.map dummy
 scoreboard objectives add tf2.index dummy
@@ -55,11 +40,8 @@ gamerule keepInventory true
 gamerule mobGriefing false
 gamerule naturalRegeneration false
 gamerule showDeathMessages false
-# TODO remove this line later
 scoreboard players set $show_debug_messages tf2.settings 1
-# only runs the very first time datapack is loaded
 execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run function tf2:initialize
-# set up teams
 team add RED {"text":"RED"}
 team modify RED color red
 team modify RED prefix "[RED] "
@@ -73,7 +55,6 @@ bossbar add tf2:timer_2 ""
 bossbar add tf2:timer_3 ""
 bossbar add tf2:timer_4 ""
 bossbar add tf2:timer_5 ""
-# markers keep track of gamestate
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $max_batches tf2.settings run function tf2:setup_markers
 data merge storage tf2:maps {0:{name:"ad_test",origin:[-500.0d,1.0d,-500.0d],spawn:{red:[[-487.0d,1.0d,-487.0d]],blu:[[-513.0d,1.0d,-513.0d]]},spawn_time:{red:[5.0f],blu:[5.0f]},objectives:[{Pos:[-489.5d,1.0d,-499.5d],Tags:["tf2.objective","tf2.control_point"],data:{capture_threshold:20.0f,team:1b,increment:60.0f}},{Pos:[-499.5d,1.0d,-499.5d],Tags:["tf2.objective","tf2.control_point","tf2.locked"],data:{capture_threshold:20.0f,team:1b,increment:60.0f}},{Pos:[-509.5d,1.0d,-499.5d],Tags:["tf2.objective","tf2.control_point","tf2.locked"],data:{capture_threshold:25.0f,team:1b,increment:60.0f}}],gamemode:1,timer:480.0f,setup_time:30.0f}}

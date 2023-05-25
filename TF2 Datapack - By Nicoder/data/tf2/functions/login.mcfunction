@@ -1,11 +1,3 @@
-#> tf2:login
-#
-# Teleports a newly joined player to the lobby room, clears their inventory, puts them in adventure mode, resets their gameplay tags, and allows them to join queues.
-# 
-# @within tf2:__tick__
-# @context a player
-# @handles server joining
-# TODO improve lobby build quality (in-world)
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},"Player ",{"selector":"@s"}," has logged in at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime."]
 tp @s[tag=!tf2.admin] 30 25 25 0 0
 gamemode adventure @s[tag=!tf2.admin]
@@ -14,7 +6,6 @@ item replace entity @s[tag=!tf2.admin] hotbar.8 with written_book{pages:['["",{"
 scoreboard players operation @s tf2.ticks = $global tf2.ticks
 scoreboard players enable @s tf2.queue_type
 scoreboard players set @s tf2.queue_type 0
-# remove gameplay-specific variables
 team leave @s
 tag @s remove tf2.in_queue
 tag @s remove tf2.allowed_to_sprint
