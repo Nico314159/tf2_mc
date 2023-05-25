@@ -34,7 +34,7 @@ class objectives {
                     () => {
                         Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[_i_][_j_];}, count = 7, begin_at = 0);
                     },
-                    count = 5
+                    count = _INSTANCES_CAP_MINUS_ONE_
                 ); 
             } function reinsert() {
                 // Copies the edited data at `tf2.__temp__:lookup points[0]` back to the matching address in `storage tf2:control_points info[$local...][@s tf2.index]`
@@ -47,7 +47,7 @@ class objectives {
                     () => {
                         Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2:control_points info[_i_][_j_] set from storage tf2.__temp__:lookup points[0];}, count = 7, begin_at = 0);
                     },
-                    count = 5
+                    count = _INSTANCES_CAP_MINUS_ONE_
                 );
             }
         }

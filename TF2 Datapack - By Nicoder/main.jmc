@@ -28,6 +28,7 @@ Scoreboard.add(tf2.increment, dummy);
 
 Scoreboard.add(tf2.queue_type, trigger);
 Scoreboard.add(tf2.batch_number, dummy);
+Scoreboard.add(tf2.session, dummy);
 Scoreboard.add(tf2.class, dummy);
 Scoreboard.add(tf2.team, dummy);
 Scoreboard.add(tf2.health, dummy);
@@ -50,12 +51,13 @@ tf2.settings:$show_debug_messages = 1;
 
 // only runs the very first time datapack is loaded
 execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run initialize();
+tf2.settings:$max_batches < _INSTANCES_CAP_MINUS_ONE_;
 
 // set up teams (RED = 1, BLU = 2 when in score format)
 Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
 Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
 
-Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop = 6);
+Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop = _INSTANCES_CAP_);
 
 // markers keep track of gamestate
 $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
@@ -64,6 +66,9 @@ if ($batch_markers != tf2.settings:$max_batches) setup_markers();
 data merge storage tf2:maps {0:{name: "ad_test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-489.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-509.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 25.0f, team: 1b, increment: 60.0f}}], gamemode: 1, timer: 480.0f, setup_time: 30.0f}};
 data merge storage tf2:maps {1:{name: "cp_test", origin: [-300.0d, 1.0d, -300.0d], spawn:{red:[[-279.0d, 1.0d, -300.0d]], blu:[[-321.0d, 1.0d, -300.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-311.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 2b, increment: 600.0f}},{Pos:[-306.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 2b, increment: 600.0f}},{Pos:[-299.5d, 1.0d, -299.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 30.0f, team: 0b, increment: 600.0f}},{Pos:[-292.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 1b, increment: 600.0f}},{Pos:[-287.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 1b, increment: 600.0f}}], gamemode: 2, timer: 600.0f}};
 data merge storage tf2.__temp__:summon {};
+
+// restart failsafe
+execute unless entity @a run {Hardcode.repeat("_i_", () => {tf2.session:$global__i_ ++;}, start = 1, stop = _INSTANCES_CAP_);}
 
 new predicates(coin_flip) {
     "condition": "minecraft:random_chance",
@@ -113,10 +118,10 @@ function initialize() {
         "_i_", ()=>{
             Hardcode.repeat("_j_", 
                 ()=>{data modify storage tf2:control_points info[_i_][_j_].main set value '[{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}]';},
-                start=0, stop=7
+                start = 0, stop = 7
             );
         },
-        start=1, stop=6
+        start = 1, stop = _INSTANCES_CAP_
     );
 } function setup_markers() {
     // Summons new gamestate markers if there aren't enough, and kills extras if there are too many.
@@ -131,6 +136,7 @@ function initialize() {
         tf2.map:@s = 1;
         tf2.batch_number:@s > tf2.batch_number:@e[type=marker,tag=tf2.batch];
         tf2.batch_number:@s ++;
+        Hardcode.repeat("_i_", () => {tf2.session:@s[scores={tf2.batch_number=_i_}] = tf2.session:$global__i_;}, start = 1, stop = _INSTANCES_CAP_);
     }
     if ($batch_markers != tf2.settings:$max_batches) setup_markers();
 }
@@ -171,6 +177,9 @@ function __tick__() {
     execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run objectives.control_point.check_for_players();
 
     execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run objectives.control_point.gamestate();
+
+    // honetly
+    Hardcode.repeat("_i_", () => {execute as @e[type=marker,scores={tf2.batch_number=_i_}] unless score @s tf2.session = $global__i_ tf2.session run kill @s;}, start = 1, stop = _INSTANCES_CAP_);
 }
 
 function login() {
@@ -285,6 +294,9 @@ class start_game {
             // @within __tick__()
 
             execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
+            Hardcode.repeat("_i_", () => {
+                execute if score @s tf2.batch_number matches _i_ run {tf2.session:$global__i_ ++; tf2.session:@s = tf2.session:$global__i_;}
+            }, start = 1, stop = _INSTANCES_CAP_);
             tf2.batch_number:@s -> tf2.batch_number:$local;
             scoreboard players reset $break tf2.var;
             JMC.put("# TODO: make dynamic for selected maps instead of hardcoding");
@@ -323,6 +335,7 @@ class start_game {
                     tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
                     tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
                     tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
+                    Hardcode.repeat("_i_", () => {tf2.session:@s[scores={tf2.batch_number=_i_}] = tf2.session:$global__i_;}, start = 1, stop = _INSTANCES_CAP_);
                 }
                 tf2.index:$temp += 10;
                 data remove storage tf2.__temp__:summon objectives[0];

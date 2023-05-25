@@ -1,0 +1,2 @@
+#define _INSTANCES_CAP_ 6
+#define _INSTANCES_CAP_MINUS_ONE_ 5

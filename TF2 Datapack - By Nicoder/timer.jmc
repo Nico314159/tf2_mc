@@ -52,9 +52,9 @@ class timer
     } 
 
     function set_value() {
-        Hardcode.repeat("_i_", ()=>{execute store result bossbar tf2:timer__i_ value run scoreboard players get @s[scores={tf2.batch_number=_i_}] tf2.timer;}, start = 1, stop = 6);
+        Hardcode.repeat("_i_", ()=>{execute store result bossbar tf2:timer__i_ value run scoreboard players get @s[scores={tf2.batch_number=_i_}] tf2.timer;}, start = 1, stop = _INSTANCES_CAP_);
     } function set_max() {
-        Hardcode.repeat("_i_", ()=>{execute store result bossbar tf2:timer__i_ max run scoreboard players get @s[scores={tf2.batch_number=_i_}] tf2.timer;}, start = 1, stop = 6);
+        Hardcode.repeat("_i_", ()=>{execute store result bossbar tf2:timer__i_ max run scoreboard players get @s[scores={tf2.batch_number=_i_}] tf2.timer;}, start = 1, stop = _INSTANCES_CAP_);
         timer.set_value();
     } 
 
@@ -64,16 +64,16 @@ class timer
             execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ visible true;
             execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ players @a[scores={tf2.batch_number=_i_}];
             execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color white;
-            }, start = 1, stop = 6
+            }, start = 1, stop = _INSTANCES_CAP_
         );
     } function hide() {
-        Hardcode.repeat("_i_", () => {execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ visible false;}, start = 1, stop = 6);
+        Hardcode.repeat("_i_", () => {execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ visible false;}, start = 1, stop = _INSTANCES_CAP_);
     } 
 
     function begin_setup() {
         tag @s add tf2.setup_time;
         tf2.timer:@s = data get entity @s data.map.setup_time 20;
-        Hardcode.repeat("_i_", () => {execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color green;}, start = 1, stop = 6);
+        Hardcode.repeat("_i_", () => {execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color green;}, start = 1, stop = _INSTANCES_CAP_);
         timer.set_max();
 
         execute if data entity @s {data:{map:{name: "test"}}} run fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet; // placeholder
@@ -102,7 +102,7 @@ class timer
     function overtime() {
         tag @s add tf2.overtime;
         tf2.timer:@s = 1200; // overtime lasts 1 minute
-        Hardcode.repeat("_i_", () => {execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color red;}, start = 1, stop = 6);
+        Hardcode.repeat("_i_", () => {execute if score @s tf2.batch_number matches _i_ run bossbar set tf2:timer__i_ color red;}, start = 1, stop = _INSTANCES_CAP_);
         timer.set_max();
     } 
     function end_game() {
@@ -121,21 +121,21 @@ class timer
             Hardcode.repeat("_i_", ()=>{
                 execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=10..59}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Round - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
                 execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=0..9}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Round - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":0"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];},
-                start=1, stop=6
+                start = 1, stop = _INSTANCES_CAP_
             );
         }
         function setup_time() {
             Hardcode.repeat("_i_", ()=>{
                 execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=10..59}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Setup - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
                 execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=0..9}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Setup - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":0"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];},
-                start=1, stop=6
+                start = 1, stop = _INSTANCES_CAP_
             );
         }
         function overtime() {
             Hardcode.repeat("_i_", ()=>{
                 execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=10..59}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Overtime! - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
                 execute if entity @s[scores={tf2.batch_number=_i_,tf2.timer.sec=0..9}] run bossbar set tf2:timer__i_ name [{"text":"","font":"minecraft:default"},{"nbt":"info[_i_][7].left","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"text":"Overtime! - "},{"score":{"name":"@s","objective":"tf2.timer.min"}},{"text":":0"},{"score":{"name":"@s","objective":"tf2.timer.sec"}},{"text":" remaining"},{"nbt":"info[_i_][7].mid","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][0].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][1].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][2].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][3].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][4].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][5].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][6].main","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][7].right","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];},
-                start=1, stop=6
+                start = 1, stop = _INSTANCES_CAP_
             );
         }
     }
