@@ -87,7 +87,7 @@ class objectives {
 
             tag @s remove tf2.contested;
 
-            execute as @e[type=#tf2:player_like, distance=..1.5, tag=!tf2.unable_to_cap] run tag @s add tf2.on_point;
+            execute as @e[type=#tf2:player_like, distance=..1.5, tag=!tf2.unable_to_cap, gamemode=!spectator] run tag @s add tf2.on_point;
             $red_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=1}];
             $blu_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=2}];
 
