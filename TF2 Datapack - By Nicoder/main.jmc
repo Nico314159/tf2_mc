@@ -1,3 +1,8 @@
+import "math";
+import "weapons";
+import "objectives";
+import "timer";
+
 // TODO: expand this section as time goes on
 Scoreboard.add(tf2.ticks, dummy);
 Scoreboard.add(tf2.settings, dummy);
@@ -60,6 +65,33 @@ data merge storage tf2:maps {0:{name: "ad_test", origin: [-500.0d, 1.0d, -500.0d
 data merge storage tf2:maps {1:{name: "cp_test", origin: [-300.0d, 1.0d, -300.0d], spawn:{red:[[-279.0d, 1.0d, -300.0d]], blu:[[-321.0d, 1.0d, -300.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-311.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 2b, increment: 600.0f}},{Pos:[-306.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 2b, increment: 600.0f}},{Pos:[-299.5d, 1.0d, -299.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 30.0f, team: 0b, increment: 600.0f}},{Pos:[-292.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 1b, increment: 600.0f}},{Pos:[-287.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 1b, increment: 600.0f}}], gamemode: 2, timer: 600.0f}};
 data merge storage tf2.__temp__:summon {};
 
+new predicates(coin_flip) {
+    "condition": "minecraft:random_chance",
+    "chance": 0.5
+}
+new predicates(sprinting) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+	"predicate": {
+		"flags": {
+			"is_sprinting": true
+		}
+	}
+}
+new predicates(burning) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+	"predicate": {
+		"flags": {
+			"is_on_fire": true
+		}
+	}
+}
+new tags.entity_types(player_like) {
+    "replace": false,
+    "values": ["minecraft:player", "minecraft:villager"]
+}
+
 function initialize() {
     // Sets up values of system constants and defaults for game settings.
     // @within __load__()
@@ -102,8 +134,6 @@ function initialize() {
     }
     if ($batch_markers != tf2.settings:$max_batches) setup_markers();
 }
-
-import "math";
 
 function __tick__() {
     // @handles #minecraft:tick
@@ -384,10 +414,6 @@ class start_game {
         }
     }
 }
-
-import "weapons";
-import "objectives";
-import "timer";
 
 class reset {
     function announce_winner() {

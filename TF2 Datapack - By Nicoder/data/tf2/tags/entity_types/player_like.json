@@ -1,7 +1,7 @@
 {
     "replace": false,
     "values": [
-        "minecraft:player", 
-        "minecraft:villager" 
+        "minecraft:player",
+        "minecraft:villager"
     ]
 }
