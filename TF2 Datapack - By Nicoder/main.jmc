@@ -543,7 +543,7 @@ class reset {
 
         JMC.put('#  execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]');
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
+        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run objectives.control_point.lock();
         kill @e[type=villager,tag=tf2.current];
         execute if score $winner tf2.team matches 1 run tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"RED wins!","bold":true,"italic":true,"color":"red"}];
         execute if score $winner tf2.team matches 2 run tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"BLU wins!","bold":true,"italic":true,"color":"blue"}];
@@ -572,6 +572,7 @@ class reset {
         execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game controlled by ",{"selector":"@s"}," has ended at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"];
         tf2.batch_number:@s -> tf2.batch_number:$local;
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();
         kill @s;
         setup_markers();
