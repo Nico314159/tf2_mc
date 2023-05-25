@@ -266,13 +266,11 @@ function death() {
     spawnpoint @s ~ ~ ~;
     tag @s add tf2.dead;
     gamemode spectator @s;
-    spectate @r[gamemode=!spectator];
     tf2.batch_number:@s -> tf2.batch_number:$local;
     execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.temp;
     tf2.respawn_timer:@s[scores={tf2.team=1}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.red[0] 20;
     tf2.respawn_timer:@s[scores={tf2.team=2}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.blu[0] 20;
     tag @e[type=marker] remove tf2.temp;
-    kill @s;
 } class spawn {
     function init() {
         JMC.put("#> tf2:spawn/init");
