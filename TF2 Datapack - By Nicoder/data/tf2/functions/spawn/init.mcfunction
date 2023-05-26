@@ -5,3 +5,5 @@ tag @s remove tf2.temp
 gamemode adventure @s
 tag @s remove tf2.dead
 scoreboard players operation @s tf2.health = @s tf2.max_health
+title @s title ""
+title @s subtitle ""

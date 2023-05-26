@@ -34,6 +34,7 @@ Scoreboard.add(tf2.team, dummy);
 Scoreboard.add(tf2.health, dummy);
 Scoreboard.add(tf2.max_health, dummy);
 Scoreboard.add(tf2.respawn_timer, dummy);
+Scoreboard.add(tf2.respawn_timer.sec, dummy);
 
 Scoreboard.add(tf2.permanent.games_won, dummy);
 Scoreboard.add(tf2.permanent.games_played, dummy);
@@ -166,9 +167,17 @@ function __tick__() {
     execute as @a[tag=tf2.is_playing,tag=!tf2.dead] at @s if entity @s[y=-45,dy=5] run {
         tf2.health:@s = 0;
         tellraw @a ["",{"selector":"@s"}," fell into the void."];
+        tp @s ~ 5 ~;
     }
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing,tag=!tf2.dead,scores={tf2.health=..0}] run death();
-    execute as @e[type=#tf2:player_like,tag=tf2.dead] run tf2.respawn_timer:@s --;
+    execute as @e[type=#tf2:player_like,tag=tf2.dead] run {
+        tf2.respawn_timer:@s --;
+        tf2.respawn_timer.sec:@s = tf2.respawn_timer:@s;
+        tf2.respawn_timer.sec:@s += 19;
+        tf2.respawn_timer.sec:@s /= 20;
+        title @s title [{"text":"You died!","color":"gray"}];
+        title @s subtitle [{"text":"Respawn in... ","color":"gray"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"white"}];
+    }
     execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run spawn.init();
 
     execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.timer = @s tf2.timer run timer.main();
@@ -264,6 +273,8 @@ function death() {
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tf2.health:@s = tf2.max_health:@s;
+        title @s title "";
+        title @s subtitle "";
     } function tp() {
         // Dynamically teleports the player to their spawn point. Executed as a marker, NOT the player.
         // @within spawn.init()

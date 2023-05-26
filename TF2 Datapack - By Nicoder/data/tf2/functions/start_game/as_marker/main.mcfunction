@@ -1,9 +1,9 @@
 execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"]
-execute if score @s tf2.batch_number matches 1 run function tf2:__private__/anonymous/3
-execute if score @s tf2.batch_number matches 2 run function tf2:__private__/anonymous/4
-execute if score @s tf2.batch_number matches 3 run function tf2:__private__/anonymous/5
-execute if score @s tf2.batch_number matches 4 run function tf2:__private__/anonymous/6
-execute if score @s tf2.batch_number matches 5 run function tf2:__private__/anonymous/7
+execute if score @s tf2.batch_number matches 1 run function tf2:__private__/anonymous/4
+execute if score @s tf2.batch_number matches 2 run function tf2:__private__/anonymous/5
+execute if score @s tf2.batch_number matches 3 run function tf2:__private__/anonymous/6
+execute if score @s tf2.batch_number matches 4 run function tf2:__private__/anonymous/7
+execute if score @s tf2.batch_number matches 5 run function tf2:__private__/anonymous/8
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 scoreboard players reset $break tf2.var
 # TODO: make dynamic for selected maps instead of hardcoding
