@@ -175,8 +175,8 @@ function __tick__() {
         tf2.respawn_timer.sec:@s = tf2.respawn_timer:@s;
         tf2.respawn_timer.sec:@s += 19;
         tf2.respawn_timer.sec:@s /= 20;
-        title @s title [{"text":"You died!","color":"gray"}];
-        title @s subtitle [{"text":"Respawn in... ","color":"gray"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"white"}];
+        title @s title [{"text":"You died!","color":"white"}];
+        title @s subtitle [{"text":"Respawn in... ","color":"gray"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"dark_gray"}];
     }
     execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run spawn.init();
 
