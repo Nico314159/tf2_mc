@@ -57,7 +57,7 @@ class objectives {
 
             tag @s remove tf2.contested;
 
-            execute as @e[type=#tf2:player_like, distance=..1.5, tag=!tf2.unable_to_cap, gamemode=!spectator] run tag @s add tf2.on_point;
+            tag @e[type=#tf2:player_like, distance=..1.5, tag=!tf2.unable_to_cap, gamemode=!spectator] add tf2.on_point;
             $red_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=1}];
             $blu_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=2}];
 
@@ -167,11 +167,9 @@ class objectives {
                 // @within objectives.control_point.check_for_players()
 
                 // if non-owner team still has players on point, don't decay
-                // TODO: update to use /return when 1.20 releases.
-                scoreboard players reset $break tf2.var;
-                execute if score $red_on_point tf2.var matches 1.. unless score @s tf2.team matches 1 run $break = 1;
-                execute if score $blu_on_point tf2.var matches 1.. unless score @s tf2.team matches 2 run $break = 1;
-                execute unless score $break tf2.var matches 1 run objectives.control_point.decay.main(); 
+                if ($red_on_point >= 1) execute unless score @s tf2.team matches 1 run return 0;
+                if ($blu_on_point >= 1) execute unless score @s tf2.team matches 2 run return 0;
+                objectives.control_point.decay.main(); 
             } function main() {
                 // @within objectives.control_point.decay.init()
 
@@ -217,11 +215,12 @@ class objectives {
                 // else if 5CP: lock/unlock adjacent points in line (✓)
                 // if ATK/DEF: how??!!?!?
                 tf2.batch_number:@s -> tf2.batch_number:$local;
-                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                // TODO: change this part to use the new 'return' command when 1.20 releases
-                execute unless score $last tf2.team = @s tf2.team if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.red.symmetric();
-                execute unless score $last tf2.team = @s tf2.team if score @s tf2.increment = @s tf2.increment run objectives.control_point.on_capture.add_time();
                 tag @e[type=marker,tag=tf2.current] remove tf2.current;
+                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                execute if score $last tf2.team = @s tf2.team run return 0;
+
+                execute if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.red.symmetric();
+                execute if score @s tf2.increment = @s tf2.increment run objectives.control_point.on_capture.add_time();
             } function blu() {
                 // @within objectives.control_point.capture_progress.blu()
 
@@ -242,12 +241,14 @@ class objectives {
                 // else if 5CP: lock/unlock adjacent points in line (✓)
                 // if ATK/DEF: lock this point (✓) & unlock next point (✓)
                 tf2.batch_number:@s -> tf2.batch_number:$local;
-                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                // TODO: change this part to use the new 'return' command when 1.20 releases
-                execute unless score $last tf2.team = @s tf2.team if score @s tf2.gamemode matches 1 at @s run objectives.control_point.on_capture.blu.atk_def();
-                execute unless score $last tf2.team = @s tf2.team if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.blu.symmetric();
-                execute unless score $last tf2.team = @s tf2.team if score @s tf2.increment = @s tf2.increment run objectives.control_point.on_capture.add_time();
                 tag @e[type=marker,tag=tf2.current] remove tf2.current;
+                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                execute if score $last tf2.team = @s tf2.team run return 0;
+
+                execute if score @s tf2.gamemode matches 1 at @s run objectives.control_point.on_capture.blu.atk_def();
+                execute if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run objectives.control_point.on_capture.blu.symmetric();
+                execute if score @s tf2.increment = @s tf2.increment run objectives.control_point.on_capture.add_time();
+                
             }
         } class on_capture {
             class red {
