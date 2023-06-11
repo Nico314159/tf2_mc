@@ -6,4 +6,4 @@ execute if score @s tf2.batch_number matches 3 run bossbar set tf2:timer_3 color
 execute if score @s tf2.batch_number matches 4 run bossbar set tf2:timer_4 color green
 execute if score @s tf2.batch_number matches 5 run bossbar set tf2:timer_5 color green
 function tf2:timer/set_max
-execute if data entity @s {data:{map:{name:"test"}}} run fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet
+execute if data entity @s {data:{map:{name: "test"}}} run fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet

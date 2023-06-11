@@ -1,9 +1,9 @@
-execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},"Game has been started by ",{"selector":"@s"}," at ",{"score":{"name":"$global","objective":"tf2.ticks"}}," ticks gametime"]
-execute if score @s tf2.batch_number matches 1 run function tf2:__private__/anonymous/4
-execute if score @s tf2.batch_number matches 2 run function tf2:__private__/anonymous/5
-execute if score @s tf2.batch_number matches 3 run function tf2:__private__/anonymous/6
-execute if score @s tf2.batch_number matches 4 run function tf2:__private__/anonymous/7
-execute if score @s tf2.batch_number matches 5 run function tf2:__private__/anonymous/8
+execute if score $show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},{"text":"Game has been started by ","bold":false},{"selector":"@s"},{"text":" at "},{"score":{"name":"$global","objective":"tf2.ticks"}},{"text":" ticks gametime"}]
+execute if score tf2.batch_number:@s tf2.var matches 1 run function tf2:__private__/if_else/4
+execute if score tf2.batch_number:@s tf2.var matches 2 run function tf2:__private__/if_else/5
+execute if score tf2.batch_number:@s tf2.var matches 3 run function tf2:__private__/if_else/6
+execute if score tf2.batch_number:@s tf2.var matches 4 run function tf2:__private__/if_else/7
+execute if score tf2.batch_number:@s tf2.var matches 5 run function tf2:__private__/if_else/8
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 scoreboard players reset $break tf2.var
 # TODO: make dynamic for selected maps instead of hardcoding
@@ -20,8 +20,8 @@ data remove entity @s data.map.objectives
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass
 scoreboard players set __if_else__ tf2.var 0
-execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/4
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/5
+execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/9
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/10
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type
 execute store result score @s tf2.timer run data get entity @s data.map.timer 20
 execute if data entity @s data.map.timer run function tf2:timer/set_max

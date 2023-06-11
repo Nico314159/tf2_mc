@@ -1,1 +1,2 @@
-execute if score $chaos_queue_length tf2.var matches 40.. run function tf2:__private__/if_else/8
+scoreboard players add $global_4 tf2.session 1
+scoreboard players operation @s tf2.session = $global_4 tf2.session

@@ -12,7 +12,7 @@ class math {
         //      $add: Current term on the iteration of the loop. Equal to `1000 / $index`.
 
         $sum = 0;
-        for($index = 1; $index <= $bound; $index++;) {
+        for ($index = 1; $index <= $bound; $index ++;) {
             $add = 1000;
             $add /= $index;
             $sum += $add;
