@@ -1,0 +1,4 @@
+#define Lobby.Main 30 25 25 0 0
+#define Lobby.Competitive 10 25 25 0 0
+#define Lobby.Casual -10 25 25 0 0
+#define Lobby.Chaos -30 25 25 0 0

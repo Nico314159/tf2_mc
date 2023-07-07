@@ -1,146 +1,10 @@
+import "load";
+import "utils";
+import "gameplay_loop";
 import "math";
 import "weapons";
 import "objectives";
 import "timer";
-
-// TODO: expand this section as time goes on
-Scoreboard.add(tf2.ticks, dummy);
-Scoreboard.add(tf2.settings, dummy);
-
-// Gamemode key: 1 = A/D, 2 = Symmetrical CP, 3 = KOTH, 4 = Dom
-// 5 = CTF A/D, 6 = CTF Standard, 7 = Invade CTF / Special Delivery, 8 = HTF
-// 9 = Payload, 10 = Payload Race, 11 / 12 = unused
-// 13 = VIP, 14 = VIP Race (lol), 15 = Misc.
-Scoreboard.add(tf2.gamemode, dummy);
-
-// Map key: 0 = ad_test, 1 = cp_test
-Scoreboard.add(tf2.map, dummy);
-
-Scoreboard.add(tf2.index, dummy);
-Scoreboard.add(tf2.red_progress, dummy);
-Scoreboard.add(tf2.blu_progress, dummy);
-Scoreboard.add(tf2.capture_threshold, dummy);
-
-Scoreboard.add(tf2.timer, dummy);
-Scoreboard.add(tf2.timer.min, dummy);
-Scoreboard.add(tf2.timer.sec, dummy);
-Scoreboard.add(tf2.increment, dummy);
-
-Scoreboard.add(tf2.queue_type, trigger);
-Scoreboard.add(tf2.batch_number, dummy);
-Scoreboard.add(tf2.session, dummy);
-Scoreboard.add(tf2.class, dummy);
-Scoreboard.add(tf2.team, dummy);
-Scoreboard.add(tf2.health, dummy);
-Scoreboard.add(tf2.max_health, dummy);
-Scoreboard.add(tf2.respawn_timer, dummy);
-Scoreboard.add(tf2.respawn_timer.sec, dummy);
-
-Scoreboard.add(tf2.permanent.games_won, dummy);
-Scoreboard.add(tf2.permanent.games_played, dummy);
-
-gamerule doImmediateRespawn true;
-gamerule doMobSpawning false;
-gamerule fallDamage false;
-gamerule keepInventory true;
-gamerule mobGriefing false;
-gamerule naturalRegeneration false;
-gamerule showDeathMessages false;
-
-// testing purposes only
-tf2.settings:$show_debug_messages = 1;
-
-// only runs the very first time datapack is loaded
-execute unless score $initialization_complete tf2.settings = $initialization_complete tf2.settings run initialize();
-tf2.settings:$max_batches < _INSTANCES_CAP_MINUS_ONE_;
-
-// set up teams (RED = 1, BLU = 2 when in score format)
-Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
-Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
-
-Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop = _INSTANCES_CAP_);
-
-// markers keep track of gamestate
-$batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
-if ($batch_markers != tf2.settings:$max_batches) setup_markers();
-
-data merge storage tf2:maps {0:{name: "ad_test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-489.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-509.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 25.0f, team: 1b, increment: 60.0f}}], gamemode: 1, timer: 480.0f, setup_time: 30.0f}};
-data merge storage tf2:maps {1:{name: "cp_test", origin: [-300.0d, 1.0d, -300.0d], spawn:{red:[[-279.0d, 1.0d, -300.0d]], blu:[[-321.0d, 1.0d, -300.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-311.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 2b, increment: 600.0f}},{Pos:[-306.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 2b, increment: 600.0f}},{Pos:[-299.5d, 1.0d, -299.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 30.0f, team: 0b, increment: 600.0f}},{Pos:[-292.5d, 1.0d, -303.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 15.0f, team: 1b, increment: 600.0f}},{Pos:[-287.5d, 1.0d, -295.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 5.0f, team: 1b, increment: 600.0f}}], gamemode: 2, timer: 600.0f}};
-data merge storage tf2.__temp__:summon {};
-
-// restart failsafe
-execute unless entity @a run {Hardcode.repeat("_i_", () => {tf2.session:$global__i_ ++;}, start = 1, stop = _INSTANCES_CAP_);}
-
-new predicates(coin_flip) {
-    "condition": "minecraft:random_chance",
-    "chance": 0.5
-}
-new predicates(sprinting) {
-    "condition": "minecraft:entity_properties",
-    "entity": "this",
-	"predicate": {
-		"flags": {
-			"is_sprinting": true
-		}
-	}
-}
-new predicates(burning) {
-    "condition": "minecraft:entity_properties",
-    "entity": "this",
-	"predicate": {
-		"flags": {
-			"is_on_fire": true
-		}
-	}
-}
-new tags.entity_types(player_like) {
-    "replace": false,
-    "values": ["minecraft:player", "minecraft:villager"]
-}
-
-function initialize() {
-    // Sets up values of system constants and defaults for game settings.
-    // @within __load__()
-
-    // TODO: replace line below when voting system is added
-    tf2.settings:$choose_map_randomly = 1;
-    tf2.settings:$random_crits = 0;
-    tf2.settings:$random_spread = 0;
-    tf2.settings:$use_server_mods = 0;
-    tf2.settings:$chat_bot = 0;
-    tf2.settings:$max_batches = 3;
-    tf2.settings:$initialization_complete = 1;
-
-    data merge storage tf2.__temp__:lookup {points:[{}]};
-    data merge storage tf2:control_points {info:[[],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}]]};
-
-    // this could *technically* be part of the previous command, but then it would be so long that it's a total PITA.
-    Hardcode.repeat(
-        "_i_", ()=>{
-            Hardcode.repeat("_j_", 
-                ()=>{data modify storage tf2:control_points info[_i_][_j_].main set value '[{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}]';},
-                start = 0, stop = 7
-            );
-        },
-        start = 1, stop = _INSTANCES_CAP_
-    );
-} function setup_markers() {
-    // Summons new gamestate markers if there aren't enough, and kills extras if there are too many.
-
-    if ($batch_markers < tf2.settings:$max_batches) {
-        summon minecraft:marker 0 0 0 {Tags:["tf2.batch"], data:{lastPos: [0.0d, 0.0d, 0.0d], map: {}}};
-    }
-    else if ($batch_markers > tf2.settings:$max_batches) kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
-    $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
-    scoreboard players reset $index tf2.batch_number;
-    execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run {
-        tf2.map:@s = 1;
-        tf2.batch_number:@s > tf2.batch_number:@e[type=marker,tag=tf2.batch];
-        tf2.batch_number:@s ++;
-        Hardcode.repeat("_i_", () => {tf2.session:@s[scores={tf2.batch_number=_i_}] = tf2.session:$global__i_;}, start = 1, stop = _INSTANCES_CAP_);
-    }
-    if ($batch_markers != tf2.settings:$max_batches) setup_markers();
-}
 
 function __tick__() {
     // @handles #minecraft:tick
@@ -151,15 +15,15 @@ function __tick__() {
     if (entity @a[tag=tf2.in_queue]) tf2.ticks:$waiting_room ++;
     execute as @a unless score @s tf2.ticks = $global tf2.ticks run login();
 
-    execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run select();
+    execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run select_queue();
     execute as @a[tag=!tf2.allowed_to_sprint] run disable_sprint();
     
     $comp_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}];
     $casual_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2}];
     $chaos_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3}];
 
-    $enough_in_queue = 1;
-    if ($comp_queue_length < 12 && $casual_queue_length < 24 && $chaos_queue_length < 40) $enough_in_queue = 0;
+    $enough_in_queue = true;
+    if ($comp_queue_length < 12 && $casual_queue_length < 24 && $chaos_queue_length < 40) $enough_in_queue = false;
     if ($enough_in_queue) {
         execute as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run start_game.as_marker.main();
     }
@@ -176,7 +40,7 @@ function __tick__() {
         tf2.respawn_timer.sec:@s += 19;
         tf2.respawn_timer.sec:@s /= 20;
         Text.title(@s, "&<white>You died!");
-        Text.subtitle(@s, "&<gray>Respawn in... &<tf2.respawn_timer.sec:@s,bold,dark_gray>");
+        Text.subtitle(@s, "&<gray>Respawn in... &<tf2.respawn_timer.sec:@s, bold, dark_gray>");
     }
     execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run spawn.init();
 
@@ -197,7 +61,7 @@ function login() {
 
     // TODO: improve lobby build quality (in-world)
     if (score $show_debug_messages tf2.settings matches 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Player &<@s> has logged in at &<tf2.ticks:$global> ticks gametime.");
-    tp @s[tag=!tf2.admin] 30 25 25 0 0;
+    tp @s[tag=!tf2.admin] Lobby.Main;
     gamemode adventure @s[tag=!tf2.admin];
 
     clear @s[tag=!tf2.admin];
@@ -225,26 +89,7 @@ function login() {
     scoreboard players reset @s tf2.team;
     scoreboard players reset @s tf2.respawn_timer;
     tf2.batch_number:@s = 0;
-} function select() {
-    // Adds players to queues when they select them using /trigger.
-    // @within __tick()__
-
-    clear @s written_book;
-    tag @s add tf2.in_queue;
-    tp @s[scores={tf2.queue_type=1}] 10 25 25 0 0; // 1 = competitive
-    tp @s[scores={tf2.queue_type=2}] -10 25 25 0 0; // 2 = casual
-    tp @s[scores={tf2.queue_type=3}] -30 25 25 0 0; // 3 = chaos
-    tf2.batch_number:@s ??= 0;
-}
-
-function disable_sprint() {
-    // Prevents players from sprinting by giving them an attribute modifier that cancels it out exactly.
-    // Function is executed as all players, *except* those with the tf2.allowed_to_sprint tag (which exists only for debugging)
-
-    // UUID was chosen because it spells out "preventsprinting" in ASCII
-    attribute @s[predicate=tf2:sprinting] minecraft:generic.movement_speed modifier add 70726576-656e-7473-7072-696e74696e67 "preventsprinting" -0.23 multiply;
-    attribute @s[predicate=!tf2:sprinting] minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67;
-}
+} 
 
 function death() {
     // Puts a dead player into spectator mode & starts their respawn timer.
@@ -259,7 +104,8 @@ function death() {
     tf2.respawn_timer:@s[scores={tf2.team=1}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.red[0] 20;
     tf2.respawn_timer:@s[scores={tf2.team=2}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.blu[0] 20;
     tag @e[type=marker] remove tf2.temp;
-} class spawn {
+} 
+class spawn {
     function init() {
         // (Re)spawns a player, and changes their gamemode back to adventure if applicable.
         // @within:
@@ -275,7 +121,8 @@ function death() {
         tf2.health:@s = tf2.max_health:@s;
         Text.title(@s, "");
         Text.subtitle(@s, "");
-    } function tp() {
+    } 
+    function tp() {
         // Dynamically teleports the player to their spawn point. Executed as a marker, NOT the player.
         // @within spawn.init()
 
@@ -286,208 +133,4 @@ function death() {
         tp @e[type=#tf2:player_like,tag=tf2.temp,limit=1] @s;
         data modify entity @s Pos set from entity @s data.lastPos;
     }
-} function team_assign () {
-    // Assigns players to RED/BLU team evenly (without using randomization).
-    // @within start_game.as_marker.main()
-
-    $team_temp -> tf2.team:@s;
-    tf2.team:@s ++;
-    team join RED @s[scores={tf2.team=1}];
-    team join BLU @s[scores={tf2.team=2}];
-    $team_temp ?= execute if score $team_temp tf2.var matches 0;
-    spawn.init();
-}
-
-class start_game {
-    class as_marker {
-        function main() {
-            // Starts a new running game with the players in the queue. ");
-            // @within __tick__()
-
-            if (score $show_debug_messages tf2.settings matches 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Game has been started by &<@s> at &<tf2.ticks:$global> ticks gametime");
-            Hardcode.repeat("_i_", () => {
-                if (tf2.batch_number:@s = _i_) {tf2.session:$global__i_ ++; tf2.session:@s = tf2.session:$global__i_;}
-            }, start = 1, stop = _INSTANCES_CAP_);
-            tf2.batch_number:@s -> tf2.batch_number:$local;
-            scoreboard players reset $break tf2.var;
-            JMC.put("# TODO: make dynamic for selected maps instead of hardcoding");
-            data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0;
-            data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1;
-
-            tf2.gamemode:@s = data get entity @s data.map.gamemode;
-            tf2.gamemode:@s -> tf2.gamemode:$temp;
-            data modify storage tf2.__temp__:summon objectives set from entity @s data.map.objectives;
-            tf2.index:$temp = 0;
-            while (data storage tf2.__temp__:summon objectives[]) {
-                summon marker ~ ~ ~ {Tags:["tf2.new"]};
-                execute as @e[tag=tf2.new,limit=1] run {
-                    // Storage format of `tf2.__temp__:summon objectives[0]`
-                    //      Pos: double[]
-                    //          Coordinates of where the objective is located on the map.
-                    //      Tags: string[]
-                    //          Specifies info about what type of objective it is. (eg: control point, intelligence, payload cart)
-                    //      data.team: byte
-                    //          Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).
-                    //      data.locked: bool
-                    //          | DEPRECATED, use the `tf2.locked` tag instead. |
-                    //          Whether or not the objective should start out locked.
-                    //      data.capture_threshold: float
-                    //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
-
-                    data modify entity @s Pos set from storage tf2.__temp__:summon objectives[0].Pos;
-                    data modify entity @s Tags set from storage tf2.__temp__:summon objectives[0].Tags;
-                    tf2.team:@s = data get storage tf2.__temp__:summon objectives[0].data.team 1;
-                    tf2.capture_threshold:@s = data get storage tf2.__temp__:summon objectives[0].data.capture_threshold 20000;
-                    tf2.increment:@s = data get storage tf2.__temp__:summon objectives[0].data.increment 20;
-                    tf2.gamemode:@s = tf2.gamemode:$temp;
-                    tf2.index:@s = tf2.index:$temp;
-                    tf2.index:$highest = tf2.index:@s;
-                    tf2.batch_number:@s = tf2.batch_number:$local;
-                    tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
-                    tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
-                    tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
-                    Hardcode.repeat("_i_", () => {tf2.session:@s[scores={tf2.batch_number=_i_}] = tf2.session:$global__i_;}, start = 1, stop = _INSTANCES_CAP_);
-                }
-                tf2.index:$temp += 10;
-                data remove storage tf2.__temp__:summon objectives[0];
-            }
-            if (score @s tf2.gamemode matches 1..4) objectives.control_point.visuals.spacing();
-            execute as @e[type=marker,tag=tf2.objective] if score @s tf2.index = $highest tf2.index run tag @s add tf2.last;
-            data remove entity @s data.map.objectives;
-
-            execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass;
-            execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass;
-
-            // TODO: replace random assignment with first come, first serve"
-            if ($comp_queue_length >= 12) {
-                execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run start_game.as_players.generic();
-            }
-            else if ($casual_queue_length >= 24) {
-                execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2,tf2.batch_number=0},limit=24,sort=random] run start_game.as_players.generic();
-            }
-            else if ($chaos_queue_length >= 40) {
-                execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run start_game.as_players.generic();
-            }
-            scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type;
-            tf2.timer:@s = data get entity @s data.map.timer 20;
-            if (data entity @s data.map.timer) timer.set_max();
-            if (data entity @s data.map.timer) timer.show();
-            if (data entity @s data.map.setup_time) timer.begin_setup();
-            start_game.as_marker.tell_info();
-
-            scoreboard players reset @e[tag=tf2.current] tf2.team;
-            $team_temp = 0;
-            $count = execute if entity @e[tag=tf2.current];
-            execute as @e[tag=tf2.current,sort=random] run team_assign();
-            $count %= 2; // in case of an odd player count, the extra player has a 50/50 change of going to either team
-            if ($count = 1 && predicate tf2:coin_flip) tf2.team:@e[tag=tf2.current,sort=random,limit=1,scores={tf2.team=1}] = 2;
-            tag @s add tf2.in_use;
-            tag @e remove tf2.current;
-        } function tell_info() {
-            // [WIP] Tells players which gamemode they will be playing, and some basic info about how that gamemode works.
-            // @within start_game.as_marker.main()
-
-            // (1 = A/D, 2 = 5CP, 3 = KOTH, etc.)
-            if (score @s tf2.gamemode matches 1) tellraw @a[tag=tf2.current] ["",{"text":"Gamemode:","bold":true,"underlined":true},{"text":" Attack / Defend","italic":true,"hoverEvent":{"action":"show_text","contents":["RED starts with all the control points, and BLU must capture all of them. Once a point is captured, it cannot be recaptured by RED. If the timer runs out, RED wins no matter how much progress BLU has made."]}}];
-            if (score @s tf2.gamemode matches 2) tellraw @a[tag=tf2.current] ["",{"text":"Gamemode:","bold":true,"underlined":true},{"text":" Symmetrical Control Points","italic":true,"hoverEvent":{"action":"show_text","contents":["Each team starts out owning half the control points; whichever team captures all of them wins. Stalemate if the timer runs out."]}}];
-        }
-    }
-    class as_players {
-        function generic(){
-            // Adds players to the game and gives them a tag so that other functions know.
-            // @within start_game.as_marker.main()
-
-            effect give @s glowing 1000 0 true;
-            // execute if score $show_debug_messages tf2.settings matches 1 run say generic
-            tf2.batch_number:@s = tf2.batch_number:$local;
-            tag @s remove tf2.in_queue;
-            tag @s add tf2.is_playing;
-            $break = 1;
-            
-            // placeholder until the 9 classes are properly implemented
-            tf2.max_health:@s ??= 100;
-            tf2.health:@s = tf2.max_health:@s;
-
-            tag @s add tf2.current; // tag is used for team assignment
-            tf2.respawn_timer:@s = 0;
-
-            // apply gametype-specific settings
-            if (score @s tf2.queue_type matches 1) start_game.as_players.competitive();
-            if (score @s tf2.queue_type matches 2) start_game.as_players.casual();
-            if (score @s tf2.queue_type matches 3) start_game.as_players.chaos();
-        } function casual() {
-            // execute if score $show_debug_messages tf2.settings matches 1 run say casual
-            tag @s add tf2.random_spread;
-            tag @s remove tf2.random_crits;
-            tag @s add tf2.free_vote;
-            tag @s add tf2.can_be_autobalanced;
-        } function competitive() {
-            // execute if score $show_debug_messages tf2.settings matches 1 run say competitive
-            tag @s remove tf2.random_spread;
-            tag @s remove tf2.random_crits;
-            tag @s remove tf2.free_vote;
-            tag @s add tf2.can_be_autobalanced;
-        } function chaos() {
-            // execute if score $show_debug_messages tf2.settings matches 1 run say chaos
-            tag @s add tf2.random_spread;
-            tag @s add tf2.random_crits;
-            tag @s add tf2.free_vote;
-            tag @s remove tf2.can_be_autobalanced;
-        }
-    }
-}
-
-class reset {
-    function announce_winner() {
-        // Announces the winner of the game, but doesn't relog players yet.
-        // @within:
-        //   objectives.control_point.gamestate()
-        //   timer.end_game()
-
-        // execute if score $show_debug_messages tf2.settings matches 1 run tellraw Nico314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]
-        execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run objectives.control_point.lock();
-        kill @e[type=villager,tag=tf2.current];
-        if (score $winner tf2.team matches 1) tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"RED wins!","bold":true,"italic":true,"color":"red"}];
-        if (score $winner tf2.team matches 2) tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"BLU wins!","bold":true,"italic":true,"color":"blue"}];
-        if (score $winner tf2.team matches -1) tellraw @a[tag=tf2.current] {"text":"Stalemate....","italic":true,"color":"gray","hoverEvent":{"action":"show_text","contents":["You're",{"text":" all ","bold":true},"losers!"]}}
-        execute as @a[tag=tf2.current] if score @s tf2.team = $winner tf2.team run Text.tellraw(@s, "&<!bold,italic>Victory.");
-        execute as @a[tag=tf2.current] if score $winner tf2.team matches 1..2 unless score @s tf2.team = $winner tf2.team run Text.tellraw(@s, "&<!bold,italic>You've failed!");
-        timer.hide();
-        tf2.timer:@s = -1;
-        tag @a remove tf2.current;
-    } function as_marker() {
-        // Resets gameplay-specific information once a match ends.
-        // @within timer.main()
-
-        if (score $show_debug_messages tf2.settings matches 1) Text.tellraw(@a, "&<bold><Debug> &<!bold> Game controlled by &<@s> has ended at &<tf2.ticks:$global> ticks gametime");
-        tf2.batch_number:@s -> tf2.batch_number:$local;
-        execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
-        execute as @a[tag=tf2.current] run reset.as_players();
-        kill @s;
-        setup_markers();
-    } function as_objectives() {
-        // Resets all objective data when a match ends, and kills the objectives.
-        // @within reset.as_marker()
-
-        setblock ~ ~-1 ~ glass;
-        setblock ~ ~ ~ air;
-        objectives.control_point.find_index.main();
-        data modify storage tf2.__temp__:lookup points[0].owner set value '[""]';
-        data modify storage tf2.__temp__:lookup points[0].progress set value '[""]';
-        data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';
-        data modify storage tf2.__temp__:lookup points[0].extra set value '[""]';
-        objectives.control_point.find_index.reinsert();
-        kill @s;
-    } function as_players() {
-        // Adds to players' permanent statistics, then relogs them.
-        // @within reset.as_marker()
-
-        if (score @s tf2.team = $winner tf2.team) tf2.permanent.games_won:@s ++;
-        tf2.permanent.games_played:@s ++;
-        tag @s remove tf2.current;
-        scoreboard players reset @s tf2.ticks;
-        kill @s[type=villager]; // debug only
-    } 
-}
+} 

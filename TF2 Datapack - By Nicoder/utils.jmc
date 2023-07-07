@@ -1,0 +1,50 @@
+function setup_markers() {
+    // Summons new gamestate markers if there aren't enough, and kills extras if there are too many.
+
+    if ($batch_markers < tf2.settings:$max_batches) {
+        summon minecraft:marker 0 0 0 {Tags:["tf2.batch"], data:{lastPos: [0.0d, 0.0d, 0.0d], map: {}}};
+    }
+    else if ($batch_markers > tf2.settings:$max_batches) kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
+    $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
+    scoreboard players reset $index tf2.batch_number;
+    execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run {
+        tf2.map:@s = 1;
+        tf2.batch_number:@s > tf2.batch_number:@e[type=marker,tag=tf2.batch];
+        tf2.batch_number:@s ++;
+        Hardcode.repeat("[i]", () => {tf2.session:@s[scores={tf2.batch_number=[i]}] = tf2.session:$global_[i];}, start = 1, stop = _INSTANCES_CAP_);
+    }
+    if ($batch_markers != tf2.settings:$max_batches) setup_markers();
+}
+
+function disable_sprint() {
+    // Prevents players from sprinting by giving them an attribute modifier that cancels it out exactly.
+    // Function is executed as all players, *except* those with the tf2.allowed_to_sprint tag (which exists only for debugging)
+
+    // UUID was chosen because it spells out "preventsprinting" in ASCII
+    attribute @s[predicate=tf2:sprinting] minecraft:generic.movement_speed modifier add 70726576-656e-7473-7072-696e74696e67 "preventsprinting" -0.23 multiply;
+    attribute @s[predicate=!tf2:sprinting] minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67;
+}
+
+function select_queue() {
+    // Adds players to queues when they select them using /trigger.
+    // @within __tick()__
+
+    clear @s written_book;
+    tag @s add tf2.in_queue;
+    tp @s[scores={tf2.queue_type=1}] Lobby.Competitive;
+    tp @s[scores={tf2.queue_type=2}] Lobby.Casual;
+    tp @s[scores={tf2.queue_type=3}] Lobby.Chaos;
+    tf2.batch_number:@s ??= 0;
+}
+
+function team_assign() {
+    // Assigns players to RED/BLU team evenly (without using randomization).
+    // @within start_game.as_marker.main()
+
+    tf2.team:@s = $team_temp;
+    tf2.team:@s ++;
+    team join RED @s[scores={tf2.team=1}];
+    team join BLU @s[scores={tf2.team=2}];
+    $team_temp ?= execute if score $team_temp tf2.var matches 0;
+    spawn.init();
+}

@@ -1,1 +1,2 @@
-execute if score $batch_markers tf2.var > $max_batches tf2.settings run function tf2:__private__/if_else/2
+summon minecraft:marker 0 0 0 {Tags:["tf2.batch"],data:{lastPos:[0.0d,0.0d,0.0d],map:{}}}
+scoreboard players set __if_else__ tf2.var 1

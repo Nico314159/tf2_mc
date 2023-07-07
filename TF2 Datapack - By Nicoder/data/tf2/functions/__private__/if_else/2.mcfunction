@@ -1,2 +1,1 @@
-kill @e[type=marker,tag=tf2.batch,sort=random,limit=1]
-scoreboard players set __if_else__ tf2.var 1
+execute if score $batch_markers tf2.var > $max_batches tf2.settings run function tf2:__private__/if_else/3

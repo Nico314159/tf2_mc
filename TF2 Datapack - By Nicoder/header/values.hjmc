@@ -1,0 +1,24 @@
+#define _INSTANCES_CAP_ 6
+#define _INSTANCES_CAP_MINUS_ONE_ 5
+
+// Gamemode IDs
+#define Gamemode.ATK_DEF 1
+#define Gamemode.CONTROL_PTS 2
+#define Gamemode.KOTH 3
+#define Gamemode.DOMINATION 4
+#define Gamemode.CTF_ATK_DEF 5
+#define Gamemode.CAPTURE_THE_FLAG 6
+#define Gamemode.CTF 6
+#define Gamemode.SPECIAL_DELIVERY 7
+#define Gamemode.HOLD_THE_FLAG 8
+#define Gamemode.PAYLOAD 9
+#define Gamemode.PAYLOAD_RACE 10
+#define Gamemode.VIP 13
+#define Gamemode.VIP_RACE 14
+#define Gamemode.OTHER 15
+
+#define Error.NEGATIVE_DEPTH -1
+#define Error.OUT_OF_RANGE 1
+
+// #define try execute store result score __error__ retina.__var__ run
+// #define catch(a) a = retina.__var__:__error__ execute if score a matches 1.. run
