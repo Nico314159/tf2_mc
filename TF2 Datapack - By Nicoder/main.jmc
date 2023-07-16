@@ -42,14 +42,14 @@ function __tick__() {
         Text.title(@s, "&<white>You died!");
         Text.subtitle(@s, "&<gray>Respawn in... &<tf2.respawn_timer.sec:@s, bold, dark_gray>");
     }
-    execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run spawn.init();
+    execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run Spawn.init();
 
-    execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.timer = @s tf2.timer run timer.main();
+    execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.timer = @s tf2.timer run Timer.main();
 
-    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s run objectives.control_point.visuals.init();
-    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run objectives.control_point.check_for_players();
+    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s run Objectives.control_point.visuals.init();
+    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run Objectives.control_point.check_for_players();
 
-    execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run objectives.control_point.gamestate();
+    execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run Objectives.control_point.gamestate();
 
     // honetly
     Hardcode.repeat("_i_", () => {execute as @e[type=marker,scores={tf2.batch_number=_i_}] unless score @s tf2.session = $global__i_ tf2.session run kill @s;}, start = 1, stop = _INSTANCES_CAP_);
@@ -105,7 +105,7 @@ function death() {
     tf2.respawn_timer:@s[scores={tf2.team=2}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.blu[0] 20;
     tag @e[type=marker] remove tf2.temp;
 } 
-class spawn {
+class Spawn {
     function init() {
         // (Re)spawns a player, and changes their gamemode back to adventure if applicable.
         // @within:
@@ -114,7 +114,7 @@ class spawn {
 
         tag @s add tf2.temp;
         tf2.batch_number:@s -> tf2.batch_number:$local;
-        execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run spawn.tp();
+        execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run Spawn.tp();
         tag @s remove tf2.temp;
         gamemode adventure @s;
         tag @s remove tf2.dead;

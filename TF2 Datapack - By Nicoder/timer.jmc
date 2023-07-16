@@ -1,11 +1,11 @@
-class timer
+class Timer
 {
     function main() {
         // Handles the timer mechanic, which is essential to almost all gamemodes
         // @within __tick__()
 
         tf2.timer:@s --;
-        timer.set_value();
+        Timer.set_value();
 
         tf2.timer:@s -> tf2.timer.sec:@s;
         tf2.timer.sec:@s += 19;
@@ -13,18 +13,18 @@ class timer
         tf2.timer.sec:@s -> tf2.timer.min:@s;
         tf2.timer.sec:@s %= 60;
         tf2.timer.min:@s /= 60;
-        if (entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) timer.display.singlestage();
-        // if (entity @s[tag=tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) timer.display.multistage();
-        if (entity @s[tag=tf2.setup_time]) timer.display.setup_time();
-        if (entity @s[tag=tf2.overtime]) timer.display.overtime();
+        if (entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.singlestage();
+        // if (entity @s[tag=tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.multistage();
+        if (entity @s[tag=tf2.setup_time]) Timer.display.setup_time();
+        if (entity @s[tag=tf2.overtime]) Timer.display.overtime();
 
-        if (score @s tf2.timer matches ..1200) timer.chat();
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 0) timer.exit_setup();
-        if (score @s[tag=!tf2.setup_time] tf2.timer matches 0) timer.zero();
+        if (score @s tf2.timer matches ..1200) Timer.chat();
+        if (score @s[tag=tf2.setup_time] tf2.timer matches 0) Timer.exit_setup();
+        if (score @s[tag=!tf2.setup_time] tf2.timer matches 0) Timer.zero();
         if (score @s tf2.timer matches -100) reset.as_marker();
     } function chat() {
         // Sends timer-related dialogue lines in chat.
-        // @within timer.main()
+        // @within Timer.main()
 
         tf2.batch_number:@s -> tf2.batch_number:$local;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
@@ -55,7 +55,7 @@ class timer
         Hardcode.repeat("_i_", () => {execute store result bossbar tf2:timer__i_ value run scoreboard players get @s[scores={tf2.batch_number=_i_}] tf2.timer;}, start = 1, stop = _INSTANCES_CAP_);
     } function set_max() {
         Hardcode.repeat("_i_", () => {execute store result bossbar tf2:timer__i_ max run scoreboard players get @s[scores={tf2.batch_number=_i_}] tf2.timer;}, start = 1, stop = _INSTANCES_CAP_);
-        timer.set_value();
+        Timer.set_value();
     } 
 
     function show() {
@@ -74,14 +74,14 @@ class timer
         tag @s add tf2.setup_time;
         tf2.timer:@s = data get entity @s data.map.setup_time 20;
         Hardcode.repeat("_i_", () => {if (score @s tf2.batch_number matches _i_) bossbar set tf2:timer__i_ color green;}, start = 1, stop = _INSTANCES_CAP_);
-        timer.set_max();
+        Timer.set_max();
 
         if (data entity @s {data:{map:{name: "test"}}}) fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet; // placeholder
     } function exit_setup() {
         if (data entity @s {data:{map:{name: "test"}}}) fill -508 1 -517 -517 1 -508 minecraft:blue_carpet replace minecraft:cobblestone_wall; // placeholder
         tf2.timer:@s = data get entity @s data.map.timer 20;
-        timer.set_max();
-        timer.show();
+        Timer.set_max();
+        Timer.show();
         tag @s remove tf2.setup_time;
     } 
 
@@ -93,17 +93,17 @@ class timer
         execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         tag @e[tag=tf2.current] remove tf2.overtime;
         execute as @e[type=marker,tag=tf2.current] if score @s tf2.blu_progress < @s tf2.capture_threshold if score @s tf2.red_progress < @s tf2.capture_threshold run tag @s add tf2.overtime;
-        execute unless entity @s[tag=tf2.overtime] if entity @e[type=marker,tag=tf2.current,tag=tf2.overtime] run timer.overtime();
+        execute unless entity @s[tag=tf2.overtime] if entity @e[type=marker,tag=tf2.current,tag=tf2.overtime] run Timer.overtime();
 
         // Otherwise, end the game.
         tag @e[type=marker] remove tf2.current;
-        if (score @s tf2.timer matches 0) timer.end_game();
+        if (score @s tf2.timer matches 0) Timer.end_game();
     } 
     function overtime() {
         tag @s add tf2.overtime;
         tf2.timer:@s = 1200; // overtime lasts 1 minute
         Hardcode.repeat("_i_", () => {if (score @s tf2.batch_number matches _i_) bossbar set tf2:timer__i_ color red;}, start = 1, stop = _INSTANCES_CAP_);
-        timer.set_max();
+        Timer.set_max();
     } 
     function end_game() {
         scoreboard players reset $winner tf2.team;

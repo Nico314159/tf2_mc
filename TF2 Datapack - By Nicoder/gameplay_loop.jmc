@@ -51,7 +51,7 @@ class start_game {
                 tf2.index:$temp += 10;
                 data remove storage tf2.__temp__:summon objectives[0];
             }
-            if (score @s tf2.gamemode matches 1..4) objectives.control_point.visuals.spacing();
+            if (score @s tf2.gamemode matches 1..4) Objectives.control_point.visuals.spacing();
             execute as @e[type=marker,tag=tf2.objective] if score @s tf2.index = $highest tf2.index run tag @s add tf2.last;
             data remove entity @s data.map.objectives;
 
@@ -70,9 +70,9 @@ class start_game {
             }
             scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type;
             tf2.timer:@s = data get entity @s data.map.timer 20;
-            if (data entity @s data.map.timer) timer.set_max();
-            if (data entity @s data.map.timer) timer.show();
-            if (data entity @s data.map.setup_time) timer.begin_setup();
+            if (data entity @s data.map.timer) Timer.set_max();
+            if (data entity @s data.map.timer) Timer.show();
+            if (data entity @s data.map.setup_time) Timer.begin_setup();
             start_game.as_marker.tell_info();
 
             scoreboard players reset @e[tag=tf2.current] tf2.team;
@@ -141,24 +141,24 @@ class reset {
     function announce_winner() {
         // Announces the winner of the game, but doesn't relog players yet.
         // @within:
-        //   objectives.control_point.gamestate()
-        //   timer.end_game()
+        //   Objectives.control_point.gamestate()
+        //   Timer.end_game()
 
         // if ($Settings.show_debug_messages) tellraw Nico314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run objectives.control_point.lock();
+        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run Objectives.control_point.lock();
         kill @e[type=villager,tag=tf2.current];
         if (score $winner tf2.team matches 1) tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"RED wins!","bold":true,"italic":true,"color":"red"}];
         if (score $winner tf2.team matches 2) tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"BLU wins!","bold":true,"italic":true,"color":"blue"}];
         if (score $winner tf2.team matches -1) tellraw @a[tag=tf2.current] {"text":"Stalemate....","italic":true,"color":"gray","hoverEvent":{"action":"show_text","contents":["You're",{"text":" all ","bold":true},"losers!"]}}
         execute as @a[tag=tf2.current] if score @s tf2.team = $winner tf2.team run Text.tellraw(@s, "&<!bold,italic>Victory.");
         execute as @a[tag=tf2.current] if score $winner tf2.team matches 1..2 unless score @s tf2.team = $winner tf2.team run Text.tellraw(@s, "&<!bold,italic>You've failed!");
-        timer.hide();
+        Timer.hide();
         tf2.timer:@s = -1;
         tag @a remove tf2.current;
     } function as_marker() {
         // Resets gameplay-specific information once a match ends.
-        // @within timer.main()
+        // @within Timer.main()
 
         if (score $show_debug_messages tf2.settings matches 1) Text.tellraw(@a, "&<bold><Debug> &<!bold> Game controlled by &<@s> has ended at &<tf2.ticks:$global> ticks gametime");
         tf2.batch_number:@s -> tf2.batch_number:$local;
@@ -168,17 +168,17 @@ class reset {
         kill @s;
         setup_markers();
     } function as_objectives() {
-        // Resets all objective data when a match ends, and kills the objectives.
+        // Resets all objective data when a match ends, and kills the Objectives.
         // @within reset.as_marker()
 
         setblock ~ ~-1 ~ glass;
         setblock ~ ~ ~ air;
-        objectives.control_point.find_index.main();
+        Objectives.control_point.find_index.main();
         data modify storage tf2.__temp__:lookup points[0].owner set value '[""]';
         data modify storage tf2.__temp__:lookup points[0].progress set value '[""]';
         data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';
         data modify storage tf2.__temp__:lookup points[0].extra set value '[""]';
-        objectives.control_point.find_index.reinsert();
+        Objectives.control_point.find_index.reinsert();
         kill @s;
     } function as_players() {
         // Adds to players' permanent statistics, then relogs them.
