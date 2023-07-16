@@ -60,7 +60,7 @@ function login() {
     // @within __tick__()
 
     // TODO: improve lobby build quality (in-world)
-    if (score $show_debug_messages tf2.settings matches 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Player &<@s> has logged in at &<tf2.ticks:$global> ticks gametime.");
+    if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Player &<@s> has logged in at &<tf2.ticks:$global> ticks gametime.");
     tp @s[tag=!tf2.admin] Lobby.Main;
     gamemode adventure @s[tag=!tf2.admin];
 

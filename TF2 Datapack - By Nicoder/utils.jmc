@@ -1,10 +1,10 @@
 function setup_markers() {
     // Summons new gamestate markers if there aren't enough, and kills extras if there are too many.
 
-    if ($batch_markers < tf2.settings:$max_batches) {
+    if ($batch_markers < $Settings.max_batches) {
         summon minecraft:marker 0 0 0 {Tags:["tf2.batch"], data:{lastPos: [0.0d, 0.0d, 0.0d], map: {}}};
     }
-    else if ($batch_markers > tf2.settings:$max_batches) kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
+    else if ($batch_markers > $Settings.max_batches) kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
     $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
     scoreboard players reset $index tf2.batch_number;
     execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run {
@@ -13,7 +13,7 @@ function setup_markers() {
         tf2.batch_number:@s ++;
         Hardcode.repeat("[i]", () => {tf2.session:@s[scores={tf2.batch_number=[i]}] = tf2.session:$global_[i];}, start = 1, stop = _INSTANCES_CAP_);
     }
-    if ($batch_markers != tf2.settings:$max_batches) setup_markers();
+    if ($batch_markers != $Settings.max_batches) setup_markers();
 }
 
 function disable_sprint() {

@@ -39,7 +39,7 @@ gamerule naturalRegeneration false;
 gamerule showDeathMessages false;
 
 // testing purposes only
-tf2.settings:$show_debug_messages = true;
+$Settings.show_debug_messages = true;
 
 // when in score format - RED = 1, BLU = 2
 Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
@@ -49,7 +49,7 @@ Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop 
 
 // markers keep track of gamestate
 $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
-if ($batch_markers != tf2.settings:$max_batches) setup_markers();
+if ($batch_markers != $Settings.max_batches) setup_markers();
 
 // map data
 data merge storage tf2:maps {0:{name: "ad_test", origin: [-500.0d, 1.0d, -500.0d], spawn:{red:[[-487.0d, 1.0d, -487.0d]], blu:[[-513.0d, 1.0d, -513.0d]]}, spawn_time:{red:[5.0f],blu:[5.0f]}, objectives:[{Pos:[-489.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-499.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 20.0f, team: 1b, increment: 60.0f}},{Pos:[-509.5d, 1.0d, -499.5d], Tags:["tf2.objective","tf2.control_point","tf2.locked"], data:{capture_threshold: 25.0f, team: 1b, increment: 60.0f}}], gamemode: 1, timer: 480.0f, setup_time: 30.0f}};
@@ -82,35 +82,89 @@ new tags.entity_types(player_like) {
     "values": ["minecraft:player", "minecraft:villager"]
 }
 
-if ($initialization_complete != $initialization_complete) {
+if (!$initialization_complete) {
     // Sets up NBT paths & defaults for game settings. 
     // Only runs the very first time the pack is loaded.
 
     // TODO: replace line below when voting system is added
-    tf2.settings:$choose_map_randomly = 1;
-    tf2.settings:$random_crits = 0;
-    tf2.settings:$random_spread = 0;
-    tf2.settings:$use_server_mods = 0;
-    tf2.settings:$chat_bot = 0;
-    tf2.settings:$max_batches = 3;
-    $initialization_complete = 1;
+    $Settings.choose_map_randomly = true;
+    $Settings.random_crits = false;
+    $Settings.random_spread = false;
+    $Settings.use_server_mods = false;
+    $Settings.chat_bot = false;
+    $Settings.max_batches = 3;
 
     data merge storage tf2.__temp__:summon {};
     data merge storage tf2.__temp__:lookup {points:[{}]};
-    data merge storage tf2:control_points {info:[[],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}],[{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{owner:'[""]',progress:'[""]',symbol:'[""]',extra:'[""]',wheel:{spacing:'[""]',owner:'[""]',progress:'[""]'}},{left:'[""]', mid:'[""]', right:'[""]'}]]};
+    data merge storage tf2:control_points {
+        info: [
+            [],
+            [
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {left:'[""]', mid:'[""]', right:'[""]'}
+            ],
+            [
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {left:'[""]', mid:'[""]', right:'[""]'}
+            ],
+            [
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {left:'[""]', mid:'[""]', right:'[""]'}
+            ],
+            [
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {left:'[""]', mid:'[""]', right:'[""]'}
+            ], 
+            [
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+                {left:'[""]', mid:'[""]', right:'[""]'}
+            ]
+        ]
+    };
 
     // this could *technically* be part of the previous command, but then it would be so long that it's a total PITA.
     Hardcode.repeat(
         "_i_", () => {
             Hardcode.repeat("_j_", 
-                ()=>{data modify storage tf2:control_points info[_i_][_j_].main set value '[{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}]';},
+                () => {data modify storage tf2:control_points info[_i_][_j_].main set value '[{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}]';},
                 start = 0, stop = 7
             );
         },
         start = 1, stop = _INSTANCES_CAP_
     );
+    $initialization_complete = true;
 }
-tf2.settings:$max_batches < _INSTANCES_CAP_MINUS_ONE_; 
+$Settings.max_batches < _INSTANCES_CAP_MINUS_ONE_; 
 
 // restart failsafe
 execute unless entity @a run {Hardcode.repeat("[i]", () => {tf2.session:$global_[i]++;}, start = 1, stop = _INSTANCES_CAP_);}

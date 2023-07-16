@@ -4,7 +4,7 @@ class start_game {
             // Starts a new running game with the players in the queue. ");
             // @within __tick__()
 
-            if (score $show_debug_messages tf2.settings matches 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Game has been started by &<@s> at &<tf2.ticks:$global> ticks gametime");
+            if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Game has been started by &<@s> at &<tf2.ticks:$global> ticks gametime");
             Hardcode.repeat("_i_", () => {
                 if (tf2.batch_number:@s = _i_) {tf2.session:$global__i_ ++; tf2.session:@s = tf2.session:$global__i_;}
             }, start = 1, stop = _INSTANCES_CAP_);
@@ -160,7 +160,7 @@ class reset {
         // Resets gameplay-specific information once a match ends.
         // @within Timer.main()
 
-        if (score $show_debug_messages tf2.settings matches 1) Text.tellraw(@a, "&<bold><Debug> &<!bold> Game controlled by &<@s> has ended at &<tf2.ticks:$global> ticks gametime");
+        if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold> Game controlled by &<@s> has ended at &<tf2.ticks:$global> ticks gametime");
         tf2.batch_number:@s -> tf2.batch_number:$local;
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
