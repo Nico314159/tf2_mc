@@ -148,8 +148,8 @@ class reset {
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run Objectives.control_point.lock();
         kill @e[type=villager,tag=tf2.current];
-        if (score $winner tf2.team matches 1) tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"RED wins!","bold":true,"italic":true,"color":"red"}];
-        if (score $winner tf2.team matches 2) tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","bold":false,"italic":false,"color":"yellow"},"| ",{"text":"BLU wins!","bold":true,"italic":true,"color":"blue"}];
+        if (score $winner tf2.team matches 1) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<red,bold,italic>RED wins!");
+        if (score $winner tf2.team matches 2) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<blue,bold,italic>BLU wins!");
         if (score $winner tf2.team matches -1) tellraw @a[tag=tf2.current] {"text":"Stalemate....","italic":true,"color":"gray","hoverEvent":{"action":"show_text","contents":["You're",{"text":" all ","bold":true},"losers!"]}}
         execute as @a[tag=tf2.current] if score @s tf2.team = $winner tf2.team run Text.tellraw(@s, "&<!bold,italic>Victory.");
         execute as @a[tag=tf2.current] if score $winner tf2.team matches 1..2 unless score @s tf2.team = $winner tf2.team run Text.tellraw(@s, "&<!bold,italic>You've failed!");
