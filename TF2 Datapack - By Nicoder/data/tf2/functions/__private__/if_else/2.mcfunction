@@ -1,1 +1,1 @@
-execute if score $batch_markers tf2.var > $max_batches tf2.settings run function tf2:__private__/if_else/3
+execute if score $batch_markers tf2.var > $Settings.max_batches tf2.var run function tf2:__private__/if_else/3

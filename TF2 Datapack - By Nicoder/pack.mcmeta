@@ -1,4 +1,8 @@
 {
+    "pack": {
+        "pack_format": 15,
+        "description": "Team Fortress 2, recreated in Minecraft"
+    },
     "filter": {
         "block": [
             {
@@ -10,9 +14,5 @@
                 "path": "advancements/.*"
             }
         ]
-    },
-    "pack": {
-        "pack_format": 15,
-        "description": "Team Fortress 2, recreated in Minecraft"
     }
 }

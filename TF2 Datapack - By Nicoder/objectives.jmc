@@ -520,7 +520,7 @@ class Objectives {
                             case 47: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
-                        title @a[tag=tf2.on_point] title [{"nbt":"points[0].wheel.spacing","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"?43","color":"#291A15","font":"tf2:wheel"},{"nbt":"points[0].wheel.owner","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"421|","font":"tf2:wheel"},{"nbt":"points[0].wheel.progress","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"}];
+                        Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
                     } function flicker() {
                         $flicker = tf2.ticks:$global;
                         $flicker %= 20;
@@ -637,7 +637,7 @@ class Objectives {
                             case 47: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
-                        title @a[tag=tf2.on_point] title [{"nbt":"points[0].wheel.spacing","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"?43","color":"#291A15","font":"tf2:wheel"},{"nbt":"points[0].wheel.owner","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"},{"text":"421|","font":"tf2:wheel"},{"nbt":"points[0].wheel.progress","storage":"tf2.__temp__:lookup","interpret":true,"font":"tf2:wheel"}];
+                        Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
                     } function flicker() {
                         $flicker = tf2.ticks:$global;
                         $flicker %= 20;

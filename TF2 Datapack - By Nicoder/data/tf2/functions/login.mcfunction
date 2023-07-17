@@ -1,4 +1,4 @@
-execute if score $show_debug_messages tf2.settings matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},{"text":"Player ","bold":false},{"selector":"@s"},{"text":" has logged in at "},{"score":{"name":"$global","objective":"tf2.ticks"}},{"text":" ticks gametime."}]
+execute if score $Settings.show_debug_messages tf2.var matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},{"text":"Player ","bold":false},{"selector":"@s"},{"text":" has logged in at "},{"score":{"name":"$global","objective":"tf2.ticks"}},{"text":" ticks gametime."}]
 tp @s[tag=!tf2.admin] 30 25 25 0 0
 gamemode adventure @s[tag=!tf2.admin]
 clear @s[tag=!tf2.admin]

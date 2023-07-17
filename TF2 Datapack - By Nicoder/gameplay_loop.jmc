@@ -88,8 +88,8 @@ class start_game {
             // @within start_game.as_marker.main()
 
             // (1 = A/D, 2 = 5CP, 3 = KOTH, etc.)
-            if (score @s tf2.gamemode matches 1) tellraw @a[tag=tf2.current] ["",{"text":"Gamemode:","bold":true,"underlined":true},{"text":" Attack / Defend","italic":true,"hoverEvent":{"action":"show_text","contents":["RED starts with all the control points, and BLU must capture all of them. Once a point is captured, it cannot be recaptured by RED. If the timer runs out, RED wins no matter how much progress BLU has made."]}}];
-            if (score @s tf2.gamemode matches 2) tellraw @a[tag=tf2.current] ["",{"text":"Gamemode:","bold":true,"underlined":true},{"text":" Symmetrical Control Points","italic":true,"hoverEvent":{"action":"show_text","contents":["Each team starts out owning half the control points; whichever team captures all of them wins. Stalemate if the timer runs out."]}}];
+            if (score @s tf2.gamemode matches 1) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode: &<italic, info_atk_def>Attack / Defend");
+            if (score @s tf2.gamemode matches 2) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode: &<italic, info_control_points>Control Points");
         }
     }
     class as_players {
