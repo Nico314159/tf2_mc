@@ -1,5 +1,5 @@
 execute as @a[scores={on_event_1mqyp2x=1..}] at @s run function tf2:__private__/on_event/used_carrot_on_a_stick
-execute unless score $debug_messages tf2.var matches 1.. run return-118
+execute unless score $retina_installed tf2.var matches 1.. run return -118
 scoreboard players add $global tf2.ticks 1
 scoreboard players add @a tf2.ticks 1
 execute if entity @a[tag=tf2.in_queue] run scoreboard players add $waiting_room tf2.ticks 1

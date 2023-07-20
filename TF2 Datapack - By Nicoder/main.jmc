@@ -10,7 +10,7 @@ function __tick__() {
     // @handles #minecraft:tick
     // @context root
 
-    if (!$debug_messages) throw Error.MISSING_DEPENDENCY;
+    if (!$retina_installed) return  Error.MISSING_DEPENDENCY;
     tf2.ticks:$global ++;
     tf2.ticks:@a ++;
     if (entity @a[tag=tf2.in_queue]) tf2.ticks:$waiting_room ++;

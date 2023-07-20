@@ -20,6 +20,5 @@
 #define Error.MISSING_DEPENDENCY -118
 #define Error.OUT_OF_RANGE 1
 
-#define throw return
 // #define try execute store result score __error__ retina.__var__ run
 // #define catch(a) a = retina.__var__:__error__ execute if score a matches 1.. run

@@ -51,7 +51,7 @@ Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop 
 TextProp.clickURL("retina_link", "https://github.com/Nico314159/Retina_v2", true);
 $retina_installed ?= execute run function retina:__load__;
 if (!$retina_installed) Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,retina_link>Retina 2 &<red>was not found.");
-if (!$retina_installed) throw Error.MISSING_DEPENDENCY;
+if (!$retina_installed) return  Error.MISSING_DEPENDENCY;
 
 gamerule doImmediateRespawn true;
 gamerule doMobSpawning false;
