@@ -52,6 +52,8 @@ function __tick__() {
 
     execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run Objectives.control_point.gamestate();
 
+    tf2.attack_delay:@e[type=#tf2:player_like,tag=tf2.is_playing,scores={tf2.attack_delay=..0}] -= 100;
+
     // honetly
     Hardcode.repeat("_i_", () => {execute as @e[type=marker,scores={tf2.batch_number=_i_}] unless score @s tf2.session = $global__i_ tf2.session run kill @s;}, start = 1, stop = _INSTANCES_CAP_);
 }

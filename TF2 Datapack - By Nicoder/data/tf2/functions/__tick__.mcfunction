@@ -20,6 +20,7 @@ execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.timer = @s tf2.timer r
 execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s run function tf2:objectives/control_point/visuals/init
 execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run function tf2:objectives/control_point/check_for_players
 execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run function tf2:objectives/control_point/gamestate
+scoreboard players remove @e[type=#tf2:player_like,tag=tf2.is_playing,scores={tf2.attack_delay=..0}] tf2.attack_delay 100
 execute as @e[type=marker,scores={tf2.batch_number=1}] unless score @s tf2.session = $global_1 tf2.session run kill @s
 execute as @e[type=marker,scores={tf2.batch_number=2}] unless score @s tf2.session = $global_2 tf2.session run kill @s
 execute as @e[type=marker,scores={tf2.batch_number=3}] unless score @s tf2.session = $global_3 tf2.session run kill @s

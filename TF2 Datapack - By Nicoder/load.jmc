@@ -36,6 +36,7 @@ Scoreboard.add(tf2.class, dummy);
 Scoreboard.add(tf2.team, dummy);
 Scoreboard.add(tf2.health, dummy);
 Scoreboard.add(tf2.max_health, dummy);
+Scoreboard.add(tf2.attack_delay, dummy);
 Scoreboard.add(tf2.respawn_timer, dummy);
 Scoreboard.add(tf2.respawn_timer.sec, dummy);
 
