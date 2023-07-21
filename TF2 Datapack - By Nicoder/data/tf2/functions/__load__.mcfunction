@@ -48,7 +48,7 @@ bossbar add tf2:timer_3 ""
 bossbar add tf2:timer_4 ""
 bossbar add tf2:timer_5 ""
 execute store success score $retina_installed tf2.var run function retina:__load__
-execute unless score $retina_installed tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Retina 2 ","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"}},{"text":"was not found.","color":"red"}]
+execute unless score $retina_installed tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Retina 2","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"},"hoverEvent":{"action":"show_text","contents":{"text":"https://github.com/Nico314159/Retina_v2"}}},{"text":" was not found.","color":"red"}]
 execute unless score $retina_installed tf2.var matches 1.. run return -118
 gamerule doImmediateRespawn true
 gamerule doMobSpawning false
