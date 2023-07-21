@@ -18,10 +18,33 @@ Item.create(
     }
 );
 
+Item.create(
+    itemId = shotgun,
+    itemType = carrot_on_a_stick,
+    displayName = "&<gray, italic>Shotgun",
+    onClick = () => {
+        //if (tf2.attack_delay:@s > 0) return 0;
+        tf2.team:$current = tf2.team:@s;
+        data merge storage retina:input {HorizontalCount: 3, VerticalCount: 3, CenteredCount: false, EndpointEntity: true, SpreadFactor: [30, 170]};
+        retina.__variable__:$end_particle = true;
+        function retina:traverse/multicast;
+        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {
+            if (score @s tf2.team = $current tf2.team) return 0;
+            $damage = 9;
+            $damage *= retina.hit:@s;
+            tf2.health:@s -= $damage; 
+        }
+        retina.__variable__:$end_particle = false;
+        //tf2.attack_delay:@s += 1250;
+    }
+);
 class Weapons {
     class test {
         function give() {
             Item.give(test_gun, @s);
+        }
+        function give_shotgun() {
+            Item.give(shotgun, @s);
         }
     }
 }

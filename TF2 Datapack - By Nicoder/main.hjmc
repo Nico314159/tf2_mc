@@ -1,2 +1,4 @@
 #include "header/locations.hjmc"
 #include "header/values.hjmc"
+
+#override retina

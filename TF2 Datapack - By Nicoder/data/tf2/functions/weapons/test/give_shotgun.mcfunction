@@ -1,0 +1,1 @@
+give @s carrot_on_a_stick{__item_id__:2,display:{Name:'{"text":"Shotgun","color":"gray","italic":true}'}} 1
