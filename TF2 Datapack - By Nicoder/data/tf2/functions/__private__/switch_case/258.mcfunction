@@ -1,2 +1,1 @@
-execute if score $wheel_frame tf2.var matches 39 run function tf2:__private__/switch_case/263
-execute if score $wheel_frame tf2.var matches 40..41 run function tf2:__private__/switch_case/264
+data modify storage tf2.__temp__:lookup points[0].wheel.progress set value "[{\"text\":\"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!\",\"color\":\"#517AB8\"}]"
