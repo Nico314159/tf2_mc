@@ -17,6 +17,17 @@
 #define Gamemode.VIP_RACE 14
 #define Gamemode.OTHER 15
 
+#define Class.SPY 1
+#define Class.SNIPER 2
+#define Class.SCOUT 3
+#define Class.SOLDIER 4
+#define Class.DEMOMAN 5
+#define Class.HEAVY 6
+#define Class.PYRO 7
+#define Class.ENGINEER 8
+#define Class.MEDIC 9
+#define Class.CIVILIAN 10
+
 #define Error.MISSING_DEPENDENCY -118
 #define Error.OUT_OF_RANGE 1
 

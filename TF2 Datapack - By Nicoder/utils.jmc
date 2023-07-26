@@ -4,7 +4,8 @@ TextProp.hoverText(
     "&<red>RED &<white>starts with all the control points, and &<blue>BLU must capture &<italic>all &<!italic>of them in order to win. Once a point is taken, it cannot be reclaimed by &<red>RED. &<white>If the timer runs out, &<red>RED &<white>wins no matter how much progress &<blue>BLU &<white>has made."
 );
 TextProp.hoverText(
-    "info_control_points", "Each team starts out owning half the control points; whichever team captures all of them wins. Stalemate if the timer runs out."
+    "info_control_points", 
+    "Each team starts out owning half the control points; whichever team captures all of them wins. Stalemate if the timer runs out."
 );
 TextProps.nbt(
     propertyName = "gui_wheel",
@@ -43,7 +44,7 @@ function disable_sprint() {
     attribute @s[predicate=!tf2:sprinting] minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67;
 }
 
-function select_queue() {
+function join_queue() {
     // Adds players to queues when they select them using /trigger.
     // @within __tick()__
 
@@ -65,4 +66,10 @@ function team_assign() {
     team join BLU @s[scores={tf2.team=2}];
     $team_temp ?= execute if score $team_temp tf2.var matches 0;
     spawn.init();
+}
+
+function swap_hands() {
+    item replace entity @s enderchest.0 from entity @s weapon.mainhand;
+    item replace entity @s weapon.mainhand from entity @s weapon.offhand; 
+    item replace entity @s weapon.offhand from entity @s enderchest.0;
 }
