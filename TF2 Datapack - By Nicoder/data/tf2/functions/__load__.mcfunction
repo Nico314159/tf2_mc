@@ -26,15 +26,17 @@ scoreboard objectives add tf2.increment dummy
 scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.batch_number dummy
 scoreboard objectives add tf2.session dummy
+scoreboard objectives add tf2.respawn_timer dummy
+scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
 scoreboard objectives add tf2.max_health dummy
 scoreboard objectives add tf2.attack_delay dummy
-scoreboard objectives add tf2.respawn_timer dummy
-scoreboard objectives add tf2.respawn_timer.sec dummy
+scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
+scoreboard objectives add tf2.permanent.double_jumps dummy
 team add RED {"text":"RED"}
 team modify RED color red
 team modify RED prefix "[RED] "
@@ -48,9 +50,12 @@ bossbar add tf2:timer_2 ""
 bossbar add tf2:timer_3 ""
 bossbar add tf2:timer_4 ""
 bossbar add tf2:timer_5 ""
-execute store success score $retina_installed tf2.var run function retina:__load__
-execute unless score $retina_installed tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Retina 2","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"},"hoverEvent":{"action":"show_text","contents":{"text":"https://github.com/Nico314159/Retina_v2"}}},{"text":" was not found.","color":"red"}]
-execute unless score $retina_installed tf2.var matches 1.. run return -118
+execute store success score $found_dependency tf2.var run function retina:__load__
+execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Retina 2","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"},"hoverEvent":{"action":"show_text","contents":{"text":"https://github.com/Nico314159/Retina_v2"}}},{"text":" was not found.","color":"red"}]
+execute unless score $found_dependency tf2.var matches 1.. run return -118
+execute store success score $found_dependency tf2.var run function delta:internal/technical/load
+execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Delta","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/BigPapi13/Delta"},"hoverEvent":{"action":"show_text","contents":{"text":"https://github.com/BigPapi13/Delta"}}},{"text":" was not found.","color":"red"}]
+execute unless score $found_dependency tf2.var matches 1.. run return -118
 gamerule doImmediateRespawn true
 gamerule doMobSpawning false
 gamerule fallDamage false
@@ -65,3 +70,4 @@ scoreboard players operation $Settings.max_batches tf2.var < 5 tf2.const
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $Settings.max_batches tf2.var run function tf2:setup_markers
 execute unless entity @a run function tf2:__private__/anonymous/0
+scoreboard objectives add tf2.grounded dummy

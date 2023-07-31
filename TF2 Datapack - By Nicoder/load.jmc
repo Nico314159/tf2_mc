@@ -32,16 +32,18 @@ Scoreboard.add(tf2.increment, dummy);
 Scoreboard.add(tf2.queue_type, trigger);
 Scoreboard.add(tf2.batch_number, dummy);
 Scoreboard.add(tf2.session, dummy);
+Scoreboard.add(tf2.respawn_timer, dummy);
+Scoreboard.add(tf2.respawn_timer.sec, dummy);
 Scoreboard.add(tf2.class, dummy);
 Scoreboard.add(tf2.team, dummy);
 Scoreboard.add(tf2.health, dummy);
 Scoreboard.add(tf2.max_health, dummy);
 Scoreboard.add(tf2.attack_delay, dummy);
-Scoreboard.add(tf2.respawn_timer, dummy);
-Scoreboard.add(tf2.respawn_timer.sec, dummy);
+Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
 
 Scoreboard.add(tf2.permanent.games_won, dummy);
 Scoreboard.add(tf2.permanent.games_played, dummy);
+Scoreboard.add(tf2.permanent.double_jumps, dummy);
 
 // when in score format - RED = 1, BLU = 2
 Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
@@ -51,9 +53,15 @@ Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop 
 
 TextProp.clickURL("retina_link", "https://github.com/Nico314159/Retina_v2", true);
 TextProp.hoverText("retina_hover", "https://github.com/Nico314159/Retina_v2", true);
-$retina_installed ?= execute run function retina:__load__;
-if (!$retina_installed) Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,retina_link,retina_hover>Retina 2&<red> was not found.");
-if (!$retina_installed) return  Error.MISSING_DEPENDENCY;
+$found_dependency ?= execute run function retina:__load__;
+if (!$found_dependency) Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,retina_link,retina_hover>Retina 2&<red> was not found.");
+if (!$found_dependency) return  Error.MISSING_DEPENDENCY;
+
+TextProp.clickURL("delta_link", "https://github.com/BigPapi13/Delta", true);
+TextProp.hoverText("delta_hover", "https://github.com/BigPapi13/Delta", true);
+$found_dependency ?= execute run function delta:internal/technical/load;
+if (!$found_dependency) Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,delta_link,delta_hover>Delta&<red> was not found.");
+if (!$found_dependency) return  Error.MISSING_DEPENDENCY;
 
 gamerule doImmediateRespawn true;
 gamerule doMobSpawning false;
@@ -127,9 +135,23 @@ new predicates(burning) {
 		}
 	}
 }
+new predicates(grounded) {
+    "condition": "minecraft:inverted",
+    "term": {
+        "condition": "minecraft:entity_properties",
+        "entity": "this",
+        "predicate": {
+            "stepping_on": {
+                "block": {
+                    "blocks": ["minecraft:air"]
+                }
+            }
+        }
+    }
+}
 new tags.entity_types(player_like) {
     "replace": false,
-    "values": ["minecraft:player", "minecraft:villager"]
+    "values": ["minecraft:player", "minecraft:villager", "minecraft:blaze"]
 }
 
 if (!$initialization_complete) {

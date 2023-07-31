@@ -19,32 +19,132 @@ Item.create(
 );
 
 Item.create(
-    itemId = shotgun,
+    itemId = scattergun,
     itemType = carrot_on_a_stick,
-    displayName = "&<gray, italic>Shotgun",
-    onClick = () => {
-        if (tf2.attack_delay:@s > 0) return 0;
+    displayName = "&<gray, italic>Scattergun",
+    lore = [],
+    nbt = {
+        CustomModelData: 3100, 
+        retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
+        attributes: {damage: {base: 9}, attackDelay: 0.625d}
+    },
+    onClick = () => { Weapons.main_fire(); }
+);
+Item.create(
+    itemId = pistol,
+    itemType = carrot_on_a_stick,  
+    displayName = "&<gray, italic>Pistol",
+    lore = [],
+    nbt = {
+        CustomModelData: 3200, 
+        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
+        attributes: {damage: {base: 2}, attackDelay: 0.15d}
+    },
+    onClick = () => { Weapons.main_fire(); }
+);
+Item.create(
+    itemId = baseball_bat,
+    itemType = carrot_on_a_stick,
+    displayName = "&<gray, italic>Baseball Bat",
+    lore = [],
+    nbt = {
+        CustomModelData: 3300, 
+        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
+        attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d}
+    },
+    onClick = () => { 
+        Weapons.main_fire(); 
+        if (score $offset_Y retina.__variable__ matches 776..778) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+        if (score $offset_Y retina.__variable__ matches 608..610) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+        if (score $offset_Y retina.__variable__ matches 192) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+    }
+);
+Item.create(elytra, elytra);
+
+Scoreboard.add(tf2.grounded, dummy);
+
+class Class {
+    class Spy {
+        function tick() {}
+    }
+    class Sniper {
+        function tick() {}
+    }
+    class Scout {
+        function give() {
+            Item.replaceEntity(scattergun, @s, "hotbar.0");
+            Item.replaceEntity(pistol, @s, "hotbar.1");
+            Item.replaceEntity(baseball_bat, @s, "hotbar.2");
+        }
+        function tick() {
+            Class.Scout.inventory_lock();
+
+            if (predicate tf2:grounded) tag @s add tf2.can_double_jump;
+            if (score @s tf2.elytra_detect matches 1..) {
+                Item.clear(elytra, @s);
+                delta.api.launch:$x = 0;
+                delta.api.launch:$y = 7500;
+                delta.api.launch:$z = 0;
+                function delta:api/launch_xyz;
+                tf2.elytra_detect:@s = 0;
+                tf2.permanent.double_jumps:@s++;
+                tag @s remove tf2.can_double_jump;
+            }
+        }
+        function inventory_lock() {
+            Item.replaceEntity(scattergun, @s, "hotbar.0");
+            $_count_ = Item.clear(scattergun, @s, 0);
+            if ($_count_ != 1) Item.clear(scattergun, @s);
+            if ($_count_ != 1) Item.replaceEntity(scattergun, @s, "hotbar.0");
+
+            Item.replaceEntity(pistol, @s, "hotbar.1");
+            $_count_ = Item.clear(pistol, @s, 0);
+            if ($_count_ != 1) Item.clear(pistol, @s);
+            if ($_count_ != 1) Item.replaceEntity(pistol, @s, "hotbar.1");
+
+            Item.replaceEntity(baseball_bat, @s, "hotbar.2");
+            $_count_ = Item.clear(baseball_bat, @s, 0);
+            if ($_count_ != 1) Item.clear(baseball_bat, @s);
+            if ($_count_ != 1) Item.replaceEntity(baseball_bat, @s, "hotbar.2");
+
+            if (entity @s[tag=tf2.can_double_jump]) {
+                Item.replaceEntity(elytra, @s, "armor.chest");
+                $_count_ = Item.clear(elytra, @s, 0);
+                if ($_count_ != 1) Item.clear(elytra, @s);
+                if ($_count_ != 1) Item.replaceEntity(elytra, @s, "armor.chest");
+            }
+        }
+    }
+}
+
+class Weapons {
+    function main_fire() {
+        if (score @s tf2.attack_delay matches 1..) return 0;
         tf2.team:$current = tf2.team:@s;
-        data merge storage retina:input {HorizontalCount: 3, VerticalCount: 3, CenteredCount: false, EndpointEntity: true, SpreadFactor: [30, 170]};
-        retina.__variable__:$end_particle = true;
+        data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
+        $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
+        $_range_ = data get entity @s SelectedItem.tag.attributes.range 1000;
+        if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
+        retina._variable_:$end_particle = true;
         function retina:traverse/multicast;
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {
             if (score @s tf2.team = $current tf2.team) return 0;
-            $damage = 9;
-            $damage *= retina.hit:@s;
-            tf2.health:@s -= $damage; 
+            $_distance_ = data get storage retina:output Distance 1000;
+            if ($_distance_ > $_range_) return 0;
+
+            $_damage_ *= retina.hit:@s;
+            tf2.health:@s -= $_damage_; 
         }
-        retina.__variable__:$end_particle = false;
-        tf2.attack_delay:@s += 1250;
+        retina._variable_:$end_particle = false;
+        $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 2000;
+        tf2.attack_delay:@s += $_delay_;
     }
-);
-class Weapons {
     class test {
         function give() {
             Item.give(test_gun, @s);
         }
         function give_shotgun() {
-            Item.give(shotgun, @s);
+            Item.give(scattergun, @s);
         }
     }
 }
