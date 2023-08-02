@@ -66,10 +66,6 @@ gamerule showDeathMessages false;
 // testing purposes only
 $Settings.show_debug_messages = true;
 
-// markers keep track of gamestate
-$batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
-if ($batch_markers != $Settings.max_batches) setup_markers();
-
 // map data
 data merge storage tf2:maps {
     0: {
@@ -219,6 +215,10 @@ if (!$initialization_complete) {
     $initialization_complete = true;
 }
 $Settings.max_batches < _INSTANCES_CAP_MINUS_ONE_; 
+
+// markers keep track of gamestate
+$batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
+if ($batch_markers != $Settings.max_batches) setup_markers();
 
 // restart failsafe
 execute unless entity @a run {Hardcode.repeat("[i]", () => {tf2.session:$global_[i]++;}, start = 1, stop = _INSTANCES_CAP_);}
