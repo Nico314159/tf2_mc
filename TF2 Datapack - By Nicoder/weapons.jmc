@@ -81,11 +81,17 @@ class Class {
 
             if (predicate tf2:grounded) tag @s add tf2.can_double_jump;
             if (score @s tf2.elytra_detect matches 1..) {
-                Item.clear(elytra, @s);
-                delta.api.launch:$x = 0;
+                retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
+                retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
+                function retina:math/gimbal_to_vec;
+                delta.api.launch:$x = retina.__variable__:$output_vec3.X;
+                delta.api.launch:$x *= 3;
                 delta.api.launch:$y = 7500;
-                delta.api.launch:$z = 0;
+                delta.api.launch:$z = retina.__variable__:$output_vec3.Z;
+                delta.api.launch:$z *= 3;
                 function delta:api/launch_xyz;
+
+                Item.clear(elytra, @s);
                 tf2.elytra_detect:@s = 0;
                 tf2.permanent.double_jumps:@s++;
                 tag @s remove tf2.can_double_jump;
