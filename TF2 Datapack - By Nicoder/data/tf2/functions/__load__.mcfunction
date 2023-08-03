@@ -70,4 +70,3 @@ scoreboard players operation $Settings.max_batches tf2.var < 5 tf2.const
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $Settings.max_batches tf2.var run function tf2:setup_markers
 execute unless entity @a run function tf2:__private__/anonymous/0
-scoreboard objectives add tf2.grounded dummy

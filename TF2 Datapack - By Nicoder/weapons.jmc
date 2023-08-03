@@ -61,7 +61,6 @@ Item.create(
 );
 Item.create(elytra, elytra);
 
-Scoreboard.add(tf2.grounded, dummy);
 
 class Class {
     class Spy {
