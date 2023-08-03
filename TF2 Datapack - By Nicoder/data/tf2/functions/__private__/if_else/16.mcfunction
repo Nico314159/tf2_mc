@@ -3,7 +3,7 @@ execute store result score $input_yaw retina.__variable__ run data get entity @s
 function retina:math/gimbal_to_vec
 scoreboard players operation $x delta.api.launch = $output_vec3.X retina.__variable__
 scoreboard players operation $x delta.api.launch *= 3 tf2.const
-scoreboard players set $y delta.api.launch 7500
+scoreboard players set $y delta.api.launch 6000
 scoreboard players operation $z delta.api.launch = $output_vec3.Z retina.__variable__
 scoreboard players operation $z delta.api.launch *= 3 tf2.const
 function delta:api/launch_xyz

@@ -86,7 +86,7 @@ class Class {
                 function retina:math/gimbal_to_vec;
                 delta.api.launch:$x = retina.__variable__:$output_vec3.X;
                 delta.api.launch:$x *= 3;
-                delta.api.launch:$y = 7500;
+                delta.api.launch:$y = 6000;
                 delta.api.launch:$z = retina.__variable__:$output_vec3.Z;
                 delta.api.launch:$z *= 3;
                 function delta:api/launch_xyz;
