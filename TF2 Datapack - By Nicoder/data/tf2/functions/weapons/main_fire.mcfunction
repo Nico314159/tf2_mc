@@ -8,5 +8,5 @@ scoreboard players set $end_particle retina._variable_ 1
 function retina:traverse/multicast
 execute as @e[type=#tf2:player_like,scores={retina.hit=1..}] run function tf2:__private__/anonymous/3
 scoreboard players set $end_particle retina._variable_ 0
-execute store result score $_delay_ tf2.var run data get entity @s SelectedItem.tag.attributes.attackDelay 2000
+execute store result score $_delay_ tf2.var run data get entity @s SelectedItem.tag.attributes.attackDelay 20000
 scoreboard players operation @s tf2.attack_delay += $_delay_ tf2.var

@@ -141,7 +141,7 @@ class Weapons {
             tf2.health:@s -= $_damage_; 
         }
         retina._variable_:$end_particle = false;
-        $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 2000;
+        $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
         tf2.attack_delay:@s += $_delay_;
     }
     class test {
