@@ -50,7 +50,7 @@ Item.create(
     nbt = {
         CustomModelData: 3300, 
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
-        attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d}
+        attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d}
     },
     onClick = () => { 
         Weapons.main_fire(); 
