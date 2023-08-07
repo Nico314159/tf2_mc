@@ -76,10 +76,17 @@ class Class {
             Item.replaceEntity(baseball_bat, @s, "hotbar.2");
         }
         function tick() {
-            Class.Scout.inventory_lock();
+            $last_slot = $current_slot;
+            $last_slot ??= 0;
+            $current_slot = data get entity @s SelectedItemSlot;
+
+            if ($last_slot != $current_slot) {
+                tf2.attack_delay:@s = data get entity @s SelectedItem.tag.attributes.deployTime 10000;
+                if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
+            }
 
             if (predicate tf2:grounded) tag @s add tf2.can_double_jump;
-            if (score @s tf2.elytra_detect matches 1..) {
+            if (tf2.elytra_detect:@s >= 1) {
                 retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
                 retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
                 function retina:math/gimbal_to_vec;
@@ -95,6 +102,8 @@ class Class {
                 tf2.permanent.double_jumps:@s++;
                 tag @s remove tf2.can_double_jump;
             }
+
+            Class.Scout.inventory_lock();
         }
         function inventory_lock() {
             Item.replaceEntity(scattergun, @s, "hotbar.0");
@@ -124,7 +133,7 @@ class Class {
 
 class Weapons {
     function main_fire() {
-        if (score @s tf2.attack_delay matches 1..) return 0;
+        if (tf2.attack_delay:@s > 0) return 0;
         tf2.team:$current = tf2.team:@s;
         data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
         $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
