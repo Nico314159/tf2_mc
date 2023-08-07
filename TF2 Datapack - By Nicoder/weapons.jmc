@@ -91,10 +91,10 @@ class Class {
                 retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
                 function retina:math/gimbal_to_vec;
                 delta.api.launch:$x = retina.__variable__:$output_vec3.X;
-                delta.api.launch:$x *= 3;
-                delta.api.launch:$y = 6000;
+                delta.api.launch:$x *= 2;
+                delta.api.launch:$y = 5000;
                 delta.api.launch:$z = retina.__variable__:$output_vec3.Z;
-                delta.api.launch:$z *= 3;
+                delta.api.launch:$z *= 2;
                 function delta:api/launch_xyz;
 
                 Item.clear(elytra, @s);
