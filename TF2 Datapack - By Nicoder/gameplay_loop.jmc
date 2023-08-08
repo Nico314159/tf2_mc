@@ -51,7 +51,7 @@ class start_game {
                 tf2.index:$temp += 10;
                 data remove storage tf2.__temp__:summon objectives[0];
             }
-            if (score @s tf2.gamemode matches 1..4) Objectives.control_point.visuals.spacing();
+            if (tf2.gamemode:@s matches 1..4) Objectives.control_point.visuals.spacing();
             execute as @e[type=marker,tag=tf2.objective] if score @s tf2.index = $highest tf2.index run tag @s add tf2.last;
             data remove entity @s data.map.objectives;
 
@@ -88,8 +88,8 @@ class start_game {
             // @within start_game.as_marker.main()
 
             // (1 = A/D, 2 = 5CP, 3 = KOTH, etc.)
-            if (score @s tf2.gamemode matches 1) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode: &<italic, info_atk_def>Attack / Defend");
-            if (score @s tf2.gamemode matches 2) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode: &<italic, info_control_points>Control Points");
+            if (tf2.gamemode:@s = 1) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode: &<italic, info_atk_def>Attack / Defend");
+            if (tf2.gamemode:@s = 2) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode: &<italic, info_control_points>Control Points");
         }
     }
     class as_players {
@@ -112,9 +112,9 @@ class start_game {
             tf2.respawn_timer:@s = 0;
 
             // apply gametype-specific settings
-            if (score @s tf2.queue_type matches 1) start_game.as_players.competitive();
-            if (score @s tf2.queue_type matches 2) start_game.as_players.casual();
-            if (score @s tf2.queue_type matches 3) start_game.as_players.chaos();
+            if (tf2.queue_type:@s = 1) start_game.as_players.competitive();
+            if (tf2.queue_type:@s = 2) start_game.as_players.casual();
+            if (tf2.queue_type:@s = 3) start_game.as_players.chaos();
         } function casual() {
             // if ($Settings.show_debug_messages) say casual
             tag @s add tf2.random_spread;
@@ -139,6 +139,7 @@ class start_game {
 
 class reset {
     function announce_winner() {
+        
         // Announces the winner of the game, but doesn't relog players yet.
         // @within:
         //   Objectives.control_point.gamestate()
@@ -148,11 +149,14 @@ class reset {
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run Objectives.control_point.lock();
         kill @e[type=villager,tag=tf2.current];
-        if (score $winner tf2.team matches 1) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<red,bold,italic>RED wins!");
-        if (score $winner tf2.team matches 2) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<blue,bold,italic>BLU wins!");
-        if (score $winner tf2.team matches -1) tellraw @a[tag=tf2.current] {"text":"Stalemate....","italic":true,"color":"gray","hoverEvent":{"action":"show_text","contents":["You're",{"text":" all ","bold":true},"losers!"]}}
-        execute as @a[tag=tf2.current] if score @s tf2.team = $winner tf2.team run Text.tellraw(@s, "&<!bold,italic>Victory.");
-        execute as @a[tag=tf2.current] if score $winner tf2.team matches 1..2 unless score @s tf2.team = $winner tf2.team run Text.tellraw(@s, "&<!bold,italic>You've failed!");
+        if ($winner == 1) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<red,bold,italic>RED wins!");
+        if ($winner == 2) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<blue,bold,italic>BLU wins!");
+        if ($winner == -1) tellraw @a[tag=tf2.current] {"text":"Stalemate....","italic":true,"color":"gray","hoverEvent":{"action":"show_text","contents":["You're",{"text":" all ","bold":true},"losers!"]}}
+
+        execute as @a[tag=tf2.current] run {
+            if (tf2.team:@s == $winner) Text.tellraw(@s, "&<!bold,italic>Victory.");
+            if ($winner matches 1..2 && tf2.team:@s != $winner) Text.tellraw(@s, "&<!bold,italic>You've failed!");
+        }
         Timer.hide();
         tf2.timer:@s = -1;
         tag @a remove tf2.current;
@@ -184,7 +188,7 @@ class reset {
         // Adds to players' permanent statistics, then relogs them.
         // @within reset.as_marker()
 
-        if (score @s tf2.team = $winner tf2.team) tf2.permanent.games_won:@s ++;
+        if (tf2.team:@s == $winner) tf2.permanent.games_won:@s ++;
         tf2.permanent.games_played:@s ++;
         tag @s remove tf2.current;
         scoreboard players reset @s tf2.ticks;

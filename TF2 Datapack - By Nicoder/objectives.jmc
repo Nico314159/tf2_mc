@@ -61,7 +61,7 @@ class Objectives {
             $red_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=1}];
             $blu_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=2}];
 
-            if ($red_on_point >= 1 && $blu_on_point >= 1) {tag @s add tf2.contested;}
+            if ($red_on_point && $blu_on_point) {tag @s add tf2.contested;}
 
             if (entity @s[tag=!tf2.contested]) Objectives.control_point.main();
             if (entity @s[tag=!tf2.contested]) Objectives.control_point.decay.init();
@@ -73,17 +73,17 @@ class Objectives {
             $bound > $red_on_point;
             $bound > $blu_on_point;
             $bound < 4;
-            math.harmonic_series();
+            Math.harmonic_series();
 
             // apply capture progress to team that has players on point, but you can't capture a point you already own");
-            if ($red_on_point >= 1) execute unless score @s tf2.team matches 1 run Objectives.control_point.capture_progress.red();
-            if ($blu_on_point >= 1) execute unless score @s tf2.team matches 2 run Objectives.control_point.capture_progress.blu();
+            if ($red_on_point && tf2.team:@s != 1) Objectives.control_point.capture_progress.red();
+            if ($blu_on_point && tf2.team:@s != 2) Objectives.control_point.capture_progress.blu();
 
-            if (score @s tf2.team matches 2 && score @s tf2.blu_progress < @s tf2.capture_threshold) Objectives.control_point.visuals.capture_progress.red.main();
-            if (score @s tf2.team matches 0 && score @s tf2.blu_progress matches 0) Objectives.control_point.visuals.capture_progress.red.main();
+            if (tf2.team:@s == 2 && tf2.blu_progress:@s < tf2.capture_threshold:@s) Objectives.control_point.visuals.capture_progress.red.main();
+            if (tf2.team:@s == 0 && tf2.blu_progress:@s == 0) Objectives.control_point.visuals.capture_progress.red.main();
             
-            if (score @s tf2.team matches 1 && score @s tf2.red_progress < @s tf2.capture_threshold) Objectives.control_point.visuals.capture_progress.blu.main();
-            if (score @s tf2.team matches 0 && score @s tf2.red_progress matches 0) Objectives.control_point.visuals.capture_progress.blu.main();
+            if (tf2.team:@s == 1 && tf2.red_progress:@s < tf2.capture_threshold:@s) Objectives.control_point.visuals.capture_progress.blu.main();
+            if (tf2.team:@s == 0 && tf2.red_progress:@s == 0) Objectives.control_point.visuals.capture_progress.blu.main();
         } function gamestate() {
             // Handles game progress & checks for win conditions. Executed as the gamestate marker, not a control point.
             // @within __tick__()
@@ -96,12 +96,12 @@ class Objectives {
             $blu_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=2}];
             // no need to count total number of control points, as that is already given by `tf2.index` [see `Objectives.control_point.visuals.spacing()` for more info]
 
-            scoreboard players reset $winner tf2.team;
-            if ($red_cp_count = tf2.index:@s && score @s[tag=!tf2.multistage] tf2.gamemode matches 2) tf2.team:$winner = 1;
-            if ($blu_cp_count = tf2.index:@s && score @s[tag=!tf2.multistage] tf2.gamemode matches 1..2) tf2.team:$winner = 2;
+            scoreboard players reset $winner tf2.var;
+            if ($red_cp_count = tf2.index:@s && score @s[tag=!tf2.multistage] tf2.gamemode matches 2) $winner = 1;
+            if ($blu_cp_count = tf2.index:@s && score @s[tag=!tf2.multistage] tf2.gamemode matches 1..2) $winner = 2;
             // execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
             // execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
-            if (score $winner tf2.team = $winner tf2.team && !score @s tf2.timer matches ..-1) reset.announce_winner(); // Negative time means the game is already over but players haven't been relogged yet
+            if ($winner == $winner && !score @s tf2.timer matches ..-1) reset.announce_winner(); // Negative time means the game is already over but players haven't been relogged yet
 
             tag @e[type=marker,tag=tf2.control_point,tag=tf2.current] remove tf2.current;
         } 
@@ -112,8 +112,8 @@ class Objectives {
             tf2.red_progress:@s[scores={tf2.team=2}] = 0;
             tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
             Objectives.control_point.find_index.main();
-            if (score @s tf2.team matches 1) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
-            if (score @s tf2.team matches 2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
+            if (tf2.team:@s == 1) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
+            if (tf2.team:@s == 2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
             data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
             data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
             Objectives.control_point.find_index.reinsert();
@@ -137,7 +137,7 @@ class Objectives {
                 tf2.blu_progress:@s[scores={tf2.blu_progress=1..}] -= $sum;
                 tf2.blu_progress:@s > 0;
                 tf2.red_progress:@s[scores={tf2.blu_progress=0}] += $sum;
-                if (score @s tf2.red_progress >= @s tf2.capture_threshold) Objectives.control_point.set_owner.red();
+                if (tf2.red_progress:@s >= tf2.capture_threshold:@s) Objectives.control_point.set_owner.red();
 
                 $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines.
                 if (entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=2}] && $temp = 0) Text.tellraw(@a[scores={tf2.team=2}], "&<bold>Alert! Our control point is being captured.");
@@ -154,7 +154,7 @@ class Objectives {
                 tf2.red_progress:@s[scores={tf2.red_progress=1..}] -= $sum;
                 tf2.red_progress:@s > 0;
                 tf2.blu_progress:@s[scores={tf2.red_progress=0}] += $sum;
-                if (score @s tf2.blu_progress >= @s tf2.capture_threshold) Objectives.control_point.set_owner.blu();
+                if (tf2.blu_progress:@s >= tf2.capture_threshold:@s) Objectives.control_point.set_owner.blu();
 
                 $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines
                 if (entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] && $temp = 0) Text.tellraw(@a[scores={tf2.team=1}], "&<bold>Alert! Our control point is being captured.");
@@ -169,8 +169,8 @@ class Objectives {
                 // @within Objectives.control_point.check_for_players()
 
                 // if non-owner team still has players on point, don't decay
-                if ($red_on_point >= 1 && !score @s tf2.team matches 1) return 0;
-                if ($blu_on_point >= 1 && !score @s tf2.team matches 2) return 0;
+                if ($red_on_point && tf2.team:@s != 1) return 0;
+                if ($blu_on_point && tf2.team:@s != 2) return 0;
                 Objectives.control_point.decay.main(); 
             } function main() {
                 // @within Objectives.control_point.decay.init()
@@ -182,8 +182,8 @@ class Objectives {
                 execute as @e[type=marker] if score $local tf2.batch_number = @s tf2.batch_number run tag @s add tf2.current;
 
                 // revert in direction of owner team
-                if (score @s tf2.team matches 1) Objectives.control_point.capture_progress.red();
-                if (score @s tf2.team matches 2) Objectives.control_point.capture_progress.blu();
+                if (tf2.team:@s == 1) Objectives.control_point.capture_progress.red();
+                if (tf2.team:@s == 2) Objectives.control_point.capture_progress.blu();
 
                 if (score @s[tag=tf2.overtime,scores={tf2.team=1}] tf2.red_progress = @s tf2.capture_threshold) execute as @e[tag=tf2.current,limit=1] run Timer.end_game();
                 if (score @s[tag=tf2.overtime,scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold) execute as @e[tag=tf2.current,limit=1] run Timer.end_game();
@@ -220,10 +220,10 @@ class Objectives {
                 tf2.batch_number:@s -> tf2.batch_number:$local;
                 tag @e[type=marker,tag=tf2.current] remove tf2.current;
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                if (score $last tf2.team = @s tf2.team) return 0;
+                if (tf2.team:$last == tf2.team:@s) return 0;
 
                 if (score @s[tag=!tf2.multistage] tf2.gamemode matches 2) Objectives.control_point.on_capture.red.symmetric();
-                if (score @s tf2.increment = @s tf2.increment) Objectives.control_point.on_capture.add_time();
+                if (tf2.increment:@s = tf2.increment:@s) Objectives.control_point.on_capture.add_time();
             } function blu() {
                 // @within Objectives.control_point.capture_progress.blu()
 
@@ -246,11 +246,11 @@ class Objectives {
                 tf2.batch_number:@s -> tf2.batch_number:$local;
                 tag @e[type=marker,tag=tf2.current] remove tf2.current;
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                if (score $last tf2.team = @s tf2.team) return 0;
+                if (tf2.team:$last = tf2.team:@s) return 0;
 
-                if (score @s tf2.gamemode matches 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
+                if (tf2.gamemode:@s = 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
                 if (score @s[tag=!tf2.multistage] tf2.gamemode matches 2) Objectives.control_point.on_capture.blu.symmetric();
-                if (score @s tf2.increment = @s tf2.increment) Objectives.control_point.on_capture.add_time();
+                if (tf2.increment:@s = tf2.increment:@s) Objectives.control_point.on_capture.add_time();
                 
             }
         } 
@@ -262,8 +262,9 @@ class Objectives {
 
                     execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.unlock();
 
+                    if (tf2.team:$last = 0) return 0;
                     tf2.index:$temp += 20;
-                    execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.lock();
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.lock();
                     // TODO: add support for map events (like doors opening)
                 }
             } class blu {
@@ -281,8 +282,9 @@ class Objectives {
 
                     execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.unlock();
 
+                    if (tf2.team:$last = 0) return 0;
                     tf2.index:$temp -= 20;
-                    execute unless score $last tf2.team matches 0 as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.lock();
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.lock();
                     // TODO: add support for map events (like doors opening)
                 }
             } 
@@ -291,16 +293,16 @@ class Objectives {
                 tf2.timer:@e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1,scores={tf2.gamemode=2}] = 12000;
 
                 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                if (score @s tf2.red_progress >= @s tf2.capture_threshold) {
+                if (tf2.red_progress:@s >= tf2.capture_threshold:@s) {
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>Success. Additional time has been awarded."); 
                 }
-                if (score @s tf2.red_progress >= @s tf2.capture_threshold) {
+                if (tf2.red_progress:@s >= tf2.capture_threshold:@s) {
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>The &<bold,italic,blue>enemy &<bold,blue>has received additional time.");
                 }
-                if (score @s tf2.blu_progress >= @s tf2.capture_threshold) {
+                if (tf2.blu_progress:@s >= tf2.capture_threshold:@s) {
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>The &<bold,italic,red>enemy &<bold,red>has received additional time.");
                 }
-                if (score @s tf2.blu_progress >= @s tf2.capture_threshold) {
+                if (tf2.blu_progress:@s >= tf2.capture_threshold:@s) {
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>Success. Additional time has been awarded."); 
                 }
             }
@@ -319,8 +321,8 @@ class Objectives {
                 Hardcode.repeatLists(
                     ["_num_", "_color_", "_hex_"],
                     () => {
-                        if (score @s tf2.team matches _num_) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
-                        if (score @s tf2.team matches _num_) setblock ~ ~-1 ~ _color__stained_glass;
+                        if (tf2.team:@s == _num_) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
+                        if (tf2.team:@s == _num_) setblock ~ ~-1 ~ _color__stained_glass;
                     },
                     [["0", "1", "2"], ["white", "red", "blue"], ["A1A1A1", "D95A58", "517AB8"]]
                 );
@@ -345,28 +347,28 @@ class Objectives {
                 tf2.index:@s = 70; // Set to 70 so that `Objectives.control_point.find_index.main()` fetches the `info[@s tf2.batch_number][7]` path, which handles spacing.
                 Objectives.control_point.find_index.main();
 
-                if (score $highest tf2.index matches 0) data modify storage tf2.__temp__:lookup points[0].left set value '430';
-                if (score $highest tf2.index matches 0) data modify storage tf2.__temp__:lookup points[0].mid set value '60';
-                if (score $highest tf2.index matches 0..10) data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
-                execute unless score $highest tf2.index matches 0..10 run data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                if (tf2.index:$highest == 0) data modify storage tf2.__temp__:lookup points[0].left set value '430';
+                if (tf2.index:$highest == 0) data modify storage tf2.__temp__:lookup points[0].mid set value '60';
+                if (tf2.index:$highest matches 0..10) data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
+                if (!tf2.index:$highest matches 0..10) data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
 
-                if (score $highest tf2.index matches 10) data modify storage tf2.__temp__:lookup points[0].left set value '20';
-                if (score $highest tf2.index matches 10) data modify storage tf2.__temp__:lookup points[0].mid set value '6420';
+                if (tf2.index:$highest == 10) data modify storage tf2.__temp__:lookup points[0].left set value '20';
+                if (tf2.index:$highest == 10) data modify storage tf2.__temp__:lookup points[0].mid set value '6420';
 
-                if (score $highest tf2.index matches 20) data modify storage tf2.__temp__:lookup points[0].mid set value '6530';
-                if (score $highest tf2.index matches 20) data modify storage tf2.__temp__:lookup points[0].right set value '3210';
+                if (tf2.index:$highest == 20) data modify storage tf2.__temp__:lookup points[0].mid set value '6530';
+                if (tf2.index:$highest == 20) data modify storage tf2.__temp__:lookup points[0].right set value '3210';
 
-                if (score $highest tf2.index matches 30) data modify storage tf2.__temp__:lookup points[0].mid set value '654320';
-                if (score $highest tf2.index matches 30) data modify storage tf2.__temp__:lookup points[0].right set value '510';
+                if (tf2.index:$highest == 30) data modify storage tf2.__temp__:lookup points[0].mid set value '654320';
+                if (tf2.index:$highest == 30) data modify storage tf2.__temp__:lookup points[0].right set value '510';
 
-                if (score $highest tf2.index matches 40) data modify storage tf2.__temp__:lookup points[0].mid set value '740';
-                if (score $highest tf2.index matches 40) data modify storage tf2.__temp__:lookup points[0].right set value '54210';
+                if (tf2.index:$highest == 40) data modify storage tf2.__temp__:lookup points[0].mid set value '740';
+                if (tf2.index:$highest == 40) data modify storage tf2.__temp__:lookup points[0].right set value '54210';
 
-                if (score $highest tf2.index matches 50) data modify storage tf2.__temp__:lookup points[0].mid set value '7520';
-                if (score $highest tf2.index matches 50) data modify storage tf2.__temp__:lookup points[0].right set value '6310';
+                if (tf2.index:$highest == 50) data modify storage tf2.__temp__:lookup points[0].mid set value '7520';
+                if (tf2.index:$highest == 50) data modify storage tf2.__temp__:lookup points[0].right set value '6310';
 
-                if (score $highest tf2.index matches 60) data modify storage tf2.__temp__:lookup points[0].mid set value '75430';
-                if (score $highest tf2.index matches 60) data modify storage tf2.__temp__:lookup points[0].right set value '643210';
+                if (tf2.index:$highest == 60) data modify storage tf2.__temp__:lookup points[0].mid set value '75430';
+                if (tf2.index:$highest == 60) data modify storage tf2.__temp__:lookup points[0].right set value '643210';
 
                 Objectives.control_point.find_index.reinsert();
 
@@ -428,7 +430,7 @@ class Objectives {
                         $frame += tf2.red_progress:@s;
                         $frame -= tf2.blu_progress:@s;
                         $frame *= 8;
-                        if (score @s tf2.team matches 0) $frame *= 2;
+                        if (tf2.team:@s == 0) $frame *= 2;
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.red.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
@@ -453,7 +455,7 @@ class Objectives {
                         if (score @s[scores={tf2.red_progress=0}] tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
                         if (score @s[scores={tf2.red_progress=0}] tf2.team matches 0) tf2.red_progress:@s --;
                         if (score @s[scores={tf2.red_progress=1..}] tf2.team matches 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
-                        if (score @s tf2.team matches 2) Objectives.control_point.visuals.capture_progress.blu.flicker();
+                        if (tf2.team:@s == 2) Objectives.control_point.visuals.capture_progress.blu.flicker();
                         Objectives.control_point.visuals.capture_progress.red.wheel();
                         Objectives.control_point.find_index.reinsert();
                     } function wheel() {
@@ -464,8 +466,8 @@ class Objectives {
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
                         Objectives.control_point.visuals.wheel_spacing();
-                        if (score @s tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
-                        if (score @s tf2.team matches 2) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#517AB8"}]';
+                        if (tf2.team:@s == 0) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
+                        if (tf2.team:@s == 2) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#517AB8"}]';
                         switch ($wheel_frame) {
                             case 0: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#D95A58"}]';
                             case 1: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}]';
@@ -546,7 +548,7 @@ class Objectives {
                         $frame += tf2.blu_progress:@s;
                         $frame -= tf2.red_progress:@s;
                         $frame *= 8;
-                        if (score @s tf2.team matches 0) $frame *= 2;
+                        if (tf2.team:@s == 0) $frame *= 2;
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.blu.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
@@ -570,7 +572,7 @@ class Objectives {
                         if (score @s[scores={tf2.blu_progress=0}] tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
                         if (score @s[scores={tf2.blu_progress=0}] tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
                         if (score @s[scores={tf2.blu_progress=1..}] tf2.team matches 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
-                        if (score @s tf2.team matches 1) Objectives.control_point.visuals.capture_progress.red.flicker();
+                        if (tf2.team:@s == 1) Objectives.control_point.visuals.capture_progress.red.flicker();
                         Objectives.control_point.visuals.capture_progress.blu.wheel();
                         Objectives.control_point.find_index.reinsert();
                     } function wheel() {
@@ -581,8 +583,8 @@ class Objectives {
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
                         Objectives.control_point.visuals.wheel_spacing();
-                        if (score @s tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
-                        if (score @s tf2.team matches 1) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#D95A58"}]';
+                        if (tf2.team:@s == 0) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
+                        if (tf2.team:@s == 1) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#D95A58"}]';
                         switch ($wheel_frame) {
                             case 0: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#517AB8"}]';
                             case 1: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#517AB8"}]';

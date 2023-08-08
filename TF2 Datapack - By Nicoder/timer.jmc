@@ -110,11 +110,11 @@ class Timer
         Timer.set_max();
     } 
     function end_game() {
-        scoreboard players reset $winner tf2.team;
+        scoreboard players reset $winner tf2.var;
         $temp = tf2.gamemode:@s;
         $temp %= 4; // determines whether gamemode is symmetric or not (see gamemode key). 
-        if ($temp == 1) {tf2.team:$winner = 1;} // RED wins in asymmetric gamemodes (like A/D or Payload)
-        if ($temp != 1) {tf2.team:$winner = -1;} // Stalemate in symmetric gamemodes (like KOTH, 5CP, or CTF)
+        if ($temp == 1) $winner = 1; // RED wins in asymmetric gamemodes (like A/D or Payload)
+        if ($temp != 1) $winner = -1; // Stalemate in symmetric gamemodes (like KOTH, 5CP, or CTF)
         reset.announce_winner();
     }
 
