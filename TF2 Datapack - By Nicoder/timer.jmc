@@ -79,10 +79,10 @@ class Timer
         Hardcode.repeat("_i_", () => {if (score @s tf2.batch_number matches _i_) bossbar set tf2:timer__i_ color green;}, start = 1, stop = _INSTANCES_CAP_);
         Timer.set_max();
 
-        if (data entity @s {data:{map:{name: "test"}}}) fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet; // placeholder
+        if (data entity @s {data:{map:{name: "ad_test"}}}) fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet; // placeholder
     } 
     function exit_setup() {
-        if (data entity @s {data:{map:{name: "test"}}}) fill -508 1 -517 -517 1 -508 minecraft:blue_carpet replace minecraft:cobblestone_wall; // placeholder
+        if (data entity @s {data:{map:{name: "ad_test"}}}) fill -508 1 -517 -517 1 -508 minecraft:blue_carpet replace minecraft:cobblestone_wall; // placeholder
         tf2.timer:@s = data get entity @s data.map.timer 20;
         Timer.set_max();
         Timer.show();
