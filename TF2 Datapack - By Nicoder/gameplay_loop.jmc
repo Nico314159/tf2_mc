@@ -21,8 +21,7 @@ class start_game {
             tf2.index:$temp *= 10;
             while (data storage tf2.__temp__:summon objectives[]) {
                 tf2.index:$temp -= 10;
-                summon marker ~ ~ ~ {Tags:["tf2.new"]};
-                execute as @e[tag=tf2.new,limit=1] run {
+                execute summon marker run {
                     // Storage format of `tf2.__temp__:summon objectives[-1]`
                     //      Pos: double[]
                     //          Coordinates of where the objective is located on the map.
