@@ -35,8 +35,9 @@ class start_game {
                     //      data.capture_threshold: float
                     //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
 
-                    data modify entity @s Pos set from storage tf2.__temp__:summon objectives[-1].Pos;
-                    data modify entity @s Tags set from storage tf2.__temp__:summon objectives[-1].Tags;
+                    data modify storage tf2.__temp__:summon entity.Pos set from storage tf2.__temp__:summon objectives[-1].Pos;
+                    data modify storage tf2.__temp__:summon entity.Tags set from storage tf2.__temp__:summon objectives[-1].Tags;
+                    data modify entity @s {} merge from storage tf2.__temp__:summon entity;
                     tf2.team:@s = data get storage tf2.__temp__:summon objectives[-1].data.team 1;
                     tf2.capture_threshold:@s = data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000;
                     tf2.increment:@s = data get storage tf2.__temp__:summon objectives[-1].data.increment 20;
@@ -54,6 +55,7 @@ class start_game {
             }
             if (tf2.gamemode:@s matches 1..4) Objectives.control_point.visuals.spacing();
             data remove entity @s data.map.objectives;
+            data remove storage tf2.__temp__:summon entity;
 
             execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass;
             execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass;

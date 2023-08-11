@@ -1,5 +1,6 @@
-data modify entity @s Pos set from storage tf2.__temp__:summon objectives[-1].Pos
-data modify entity @s Tags set from storage tf2.__temp__:summon objectives[-1].Tags
+data modify storage tf2.__temp__:summon entity.Pos set from storage tf2.__temp__:summon objectives[-1].Pos
+data modify storage tf2.__temp__:summon entity.Tags set from storage tf2.__temp__:summon objectives[-1].Tags
+data modify entity @s {} merge from storage tf2.__temp__:summon entity
 execute store result score @s tf2.team run data get storage tf2.__temp__:summon objectives[-1].data.team 1
 execute store result score @s tf2.capture_threshold run data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000
 execute store result score @s tf2.increment run data get storage tf2.__temp__:summon objectives[-1].data.increment 20
