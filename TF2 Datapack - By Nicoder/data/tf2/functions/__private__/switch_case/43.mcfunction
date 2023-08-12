@@ -1,1 +1,3 @@
-data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%$#@\"}]"
+data modify storage tf2.__temp__:lookup points[0].left set value "[\"\"]"
+data modify storage tf2.__temp__:lookup points[0].mid set value "654320"
+data modify storage tf2.__temp__:lookup points[0].right set value "510"

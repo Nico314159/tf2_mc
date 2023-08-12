@@ -8,7 +8,7 @@ scoreboard players operation $frame tf2.var *= 8 tf2.const
 execute if score @s tf2.team matches 0 run scoreboard players operation $frame tf2.var *= 2 tf2.const
 scoreboard players operation $wheel_frame tf2.var = $frame tf2.var
 scoreboard players operation $frame tf2.var /= @s tf2.capture_threshold
-function tf2:__private__/switch_case/59
+function tf2:__private__/switch_case/72
 execute if score @s[scores={tf2.red_progress=0}] tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].owner set value "[{\"text\":\"[\",\"color\":\"#F5EACB\"},{\"text\":\"3210=\",\"color\":\"#A1A1A1\"}]"
 execute if score @s[scores={tf2.red_progress=0}] tf2.team matches 0 run data modify storage tf2.__temp__:lookup points[0].progress set value "[{\"text\":\"321))))))))))))))\",\"color\":\"gray\"}]"
 execute if score @s[scores={tf2.red_progress=0}] tf2.team matches 0 run scoreboard players remove @s tf2.red_progress 1

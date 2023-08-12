@@ -1,2 +1,1 @@
-execute if score $frame tf2.var matches 6 run function tf2:__private__/switch_case/74
-execute if score $frame tf2.var matches 7 run function tf2:__private__/switch_case/75
+data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "6542"

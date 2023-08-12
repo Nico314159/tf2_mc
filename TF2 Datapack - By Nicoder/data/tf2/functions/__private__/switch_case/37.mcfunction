@@ -1,2 +1,3 @@
-execute if score $wheel_spacing tf2.var matches -6 run function tf2:__private__/switch_case/39
-execute if score $wheel_spacing tf2.var matches -5..-4 run function tf2:__private__/switch_case/40
+data modify storage tf2.__temp__:lookup points[0].left set value "430"
+data modify storage tf2.__temp__:lookup points[0].mid set value "60"
+data modify storage tf2.__temp__:lookup points[0].right set value "[\"\"]"

@@ -6,4 +6,4 @@ execute if predicate tf2:empty_hand run function tf2:__private__/if_else/31
 execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/32
 tag @s remove tf2.self
 scoreboard players operation $class tf2.var = @s tf2.class
-function tf2:__private__/switch_case/311
+function tf2:__private__/switch_case/324

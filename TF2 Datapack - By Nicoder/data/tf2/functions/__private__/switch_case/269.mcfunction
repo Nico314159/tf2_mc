@@ -1,2 +1,2 @@
-execute if score $wheel_frame tf2.var matches 24 run function tf2:__private__/switch_case/271
-execute if score $wheel_frame tf2.var matches 25..26 run function tf2:__private__/switch_case/272
+execute if score $wheel_frame tf2.var matches 21 run function tf2:__private__/switch_case/274
+execute if score $wheel_frame tf2.var matches 22..23 run function tf2:__private__/switch_case/275

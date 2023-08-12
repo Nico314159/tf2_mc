@@ -349,34 +349,42 @@ class Objectives {
                 tf2.index:@s = 70; // Set to 70 so that `Objectives.control_point.find_index.main()` fetches the `info[@s tf2.batch_number][7]` path, which handles spacing.
                 Objectives.control_point.find_index.main();
 
-                if (tf2.index:$highest == 0) data modify storage tf2.__temp__:lookup points[0].left set value '430';
-                if (tf2.index:$highest == 0) data modify storage tf2.__temp__:lookup points[0].mid set value '60';
-                if (tf2.index:$highest matches 0..10) data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
-                if (!tf2.index:$highest matches 0..10) data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
-
-                if (tf2.index:$highest == 10) data modify storage tf2.__temp__:lookup points[0].left set value '20';
-                if (tf2.index:$highest == 10) data modify storage tf2.__temp__:lookup points[0].mid set value '6420';
-
-                if (tf2.index:$highest == 20) data modify storage tf2.__temp__:lookup points[0].mid set value '6530';
-                if (tf2.index:$highest == 20) data modify storage tf2.__temp__:lookup points[0].right set value '3210';
-
-                if (tf2.index:$highest == 30) data modify storage tf2.__temp__:lookup points[0].mid set value '654320';
-                if (tf2.index:$highest == 30) data modify storage tf2.__temp__:lookup points[0].right set value '510';
-
-                if (tf2.index:$highest == 40) data modify storage tf2.__temp__:lookup points[0].mid set value '740';
-                if (tf2.index:$highest == 40) data modify storage tf2.__temp__:lookup points[0].right set value '54210';
-
-                if (tf2.index:$highest == 50) data modify storage tf2.__temp__:lookup points[0].mid set value '7520';
-                if (tf2.index:$highest == 50) data modify storage tf2.__temp__:lookup points[0].right set value '6310';
-
-                if (tf2.index:$highest == 60) data modify storage tf2.__temp__:lookup points[0].mid set value '75430';
-                if (tf2.index:$highest == 60) data modify storage tf2.__temp__:lookup points[0].right set value '643210';
-
+                $temp = tf2.index:$highest;
+                $temp /= 10;
+                $temp ++;
+                switch ($temp) {
+                    case 1:
+                        data modify storage tf2.__temp__:lookup points[0].left set value '430';
+                        data modify storage tf2.__temp__:lookup points[0].mid set value '60';
+                        data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
+                    case 2:
+                        data modify storage tf2.__temp__:lookup points[0].left set value '20';
+                        data modify storage tf2.__temp__:lookup points[0].mid set value '6420';
+                        data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
+                    case 3:
+                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                        data modify storage tf2.__temp__:lookup points[0].mid set value '6530';
+                        data modify storage tf2.__temp__:lookup points[0].right set value '3210';
+                    case 4:
+                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                        data modify storage tf2.__temp__:lookup points[0].mid set value '654320';
+                        data modify storage tf2.__temp__:lookup points[0].right set value '510';
+                    case 5:
+                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                        data modify storage tf2.__temp__:lookup points[0].mid set value '740';
+                        data modify storage tf2.__temp__:lookup points[0].right set value '54210';
+                    case 6:
+                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                        data modify storage tf2.__temp__:lookup points[0].mid set value '7520';
+                        data modify storage tf2.__temp__:lookup points[0].right set value '6310';
+                    case 7:
+                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                        data modify storage tf2.__temp__:lookup points[0].mid set value '75430';
+                        data modify storage tf2.__temp__:lookup points[0].right set value '643210';
+                }
                 Objectives.control_point.find_index.reinsert();
-
-                tf2.index:@s = tf2.index:$highest; // Repurposes the marker's `tf2.index` score to hold the total number of CPs.
-                tf2.index:@s /= 10;
-                tf2.index:@s ++;
+                
+                tf2.index:@s = $temp; // Repurposes the marker's `tf2.index` score to hold the total number of CPs.
             } 
             function wheel_spacing() {
                 // @within Objectives.control_point.visuals.capture_progress.(red/blu).wheel()
