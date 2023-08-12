@@ -1,1 +1,0 @@
-give @s carrot_on_a_stick{CustomModelData:3100,retina:{HorizontalCount:3,VerticalCount:3,CenteredCount:0,EndpointEntity:true,TargetEntities:true,SpreadFactor:[30,170],MaxRecursionDepth:100},attributes:{damage:{base:9},attackDelay:0.625d},__item_id__:2,display:{Name:'{"text":"Scattergun","color":"gray","italic":true}'}} 1
