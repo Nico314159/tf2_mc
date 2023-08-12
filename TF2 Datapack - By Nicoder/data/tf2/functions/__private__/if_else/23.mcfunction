@@ -1,13 +1,1 @@
-execute store result score $input_pitch retina.__variable__ run data get entity @s Rotation[1] 10
-execute store result score $input_yaw retina.__variable__ run data get entity @s Rotation[0] 10
-function retina:math/gimbal_to_vec
-scoreboard players operation $x delta.api.launch = $output_vec3.X retina.__variable__
-scoreboard players operation $x delta.api.launch *= 2 tf2.const
-scoreboard players set $y delta.api.launch 5000
-scoreboard players operation $z delta.api.launch = $output_vec3.Z retina.__variable__
-scoreboard players operation $z delta.api.launch *= 2 tf2.const
-function delta:api/launch_xyz
-clear @s elytra{} 
-scoreboard players set @s tf2.elytra_detect 0
-scoreboard players add @s tf2.permanent.double_jumps 1
-tag @s remove tf2.can_double_jump
+title @s actionbar ["",{"text":"\u2764 Health: ","color":"red"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red"},{"text":"             ","color":"red"},{"text":"Ammo: ","color":"gray"},{"score":{"name":"$_clip_","objective":"tf2.var"},"color":"gray"},{"text":" ","color":"gray"},{"text":"(","color":"dark_gray"},{"score":{"name":"$_ammo_","objective":"tf2.var"},"color":"dark_gray"},{"text":")","color":"dark_gray"}]

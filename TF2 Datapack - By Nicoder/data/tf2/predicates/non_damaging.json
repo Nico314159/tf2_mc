@@ -1,11 +1,27 @@
 {
-    "condition": "minecraft:entity_properties",
-    "entity": "this",
-    "predicate": {
-        "equipment": {
-            "mainhand": {
-                "nbt": "{attributes: {damage: {base: 0}}}"
+    "condition": "minecraft:any_of",
+    "terms": [
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "equipment": {
+                    "mainhand": {
+                        "nbt": "{attributes: {damage: {base: 0}}}"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "equipment": {
+                    "mainhand": {
+                        "count": 0
+                    }
+                }
             }
         }
-    }
+    ]
 }

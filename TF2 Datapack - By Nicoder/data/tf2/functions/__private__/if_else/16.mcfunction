@@ -1,3 +1,4 @@
-scoreboard players operation $_clip_ tf2.var = @s tf2.primary_clip
-scoreboard players operation $_maxClip_ tf2.var = @s tf2.primary_maxClip
-scoreboard players operation $_ammo_ tf2.var = @s tf2.primary_ammo
+execute if score $offset_Y retina.__variable__ matches 776..778 at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1
+execute if score $offset_Y retina.__variable__ matches 608..610 at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1
+execute if score $offset_Y retina.__variable__ matches 192 at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1
+scoreboard players set __if_else__ tf2.var 1

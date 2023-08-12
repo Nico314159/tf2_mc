@@ -1,3 +1,2 @@
-scoreboard players operation $_clip_ tf2.var = @s tf2.secondary_clip
-scoreboard players operation $_maxClip_ tf2.var = @s tf2.secondary_maxClip
-scoreboard players operation $_ammo_ tf2.var = @s tf2.secondary_ammo
+scoreboard players remove $_clip_ tf2.var 1
+function tf2:weapons/set_ammo

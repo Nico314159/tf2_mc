@@ -10,15 +10,31 @@ new predicates(holding_melee) {
     }
 }
 new predicates(non_damaging) {
-    "condition": "minecraft:entity_properties",
-    "entity": "this",
-    "predicate": {
-        "equipment": {
-            "mainhand": {
-                "nbt": "{attributes: {damage: {base: 0}}}"
+    "condition": "minecraft:any_of",
+    "terms": [
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "equipment": {
+                    "mainhand": {
+                        "nbt": "{attributes: {damage: {base: 0}}}"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {  
+                "equipment": {
+                    "mainhand": {
+                        "count": 0
+                    }
+                }
             }
         }
-    }
+    ]
 }
 
 
@@ -56,27 +72,24 @@ Item.create(
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
         attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true}
     },
-    onClick = () => { 
-        Weapons.main_fire(); 
-        if (score $offset_Y retina.__variable__ matches 776..778) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-        if (score $offset_Y retina.__variable__ matches 608..610) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-        if (score $offset_Y retina.__variable__ matches 192) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-    }
+    onClick = () => { Weapons.main_fire(); }
 );
 Item.create(elytra, elytra);
 
 
 class Weapons {
     function main_fire() {
-        // Weapons.get_ammo();
+        Weapons.get_ammo();
         if (tf2.attack_delay:@s > 0) return 0;
-        // if ($_ammo_ <= 0) return 0;
+        if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
+
         tf2.team:$current = tf2.team:@s;
         data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
         $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
         $_range_ = data get entity @s SelectedItem.tag.attributes.range 1000;
         if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
         retina._variable_:$end_particle = true;
+
         function retina:traverse/multicast;
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {
             if (score @s tf2.team = $current tf2.team) return 0;
@@ -89,6 +102,17 @@ class Weapons {
         retina._variable_:$end_particle = false;
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
         tf2.attack_delay:@s += $_delay_;
+
+        // TODO: use `return run` when 1.20.2 releases
+        if (predicate tf2:holding_melee) {
+            if (score $offset_Y retina.__variable__ matches 776..778) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+            if (score $offset_Y retina.__variable__ matches 608..610) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+            if (score $offset_Y retina.__variable__ matches 192) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+        }
+        else {
+            $_clip_ --;
+            Weapons.set_ammo();
+        }
     }
     function get_ammo() {
         if (tf2.current_slot:@s == 0) {
