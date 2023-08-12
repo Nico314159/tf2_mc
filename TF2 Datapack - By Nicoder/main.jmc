@@ -54,7 +54,6 @@ function __tick__() {
     execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run Objectives.control_point.gamestate();
 
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing,gamemode=!spectator] at @s run {
-        Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>");
         tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
 
         $class = tf2.class:@s;

@@ -1,3 +1,27 @@
+new predicates(holding_melee) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "equipment": {
+            "mainhand": {
+                "nbt": "{attributes: {isMelee: 1b}}"
+            }
+        }
+    }
+}
+new predicates(non_damaging) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "equipment": {
+            "mainhand": {
+                "nbt": "{attributes: {damage: {base: 0}}}"
+            }
+        }
+    }
+}
+
+
 Item.create(
     itemId = scattergun,
     itemType = carrot_on_a_stick,
@@ -6,7 +30,7 @@ Item.create(
     nbt = {
         CustomModelData: 31000, 
         retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 9}, attackDelay: 0.625d}
+        attributes: {damage: {base: 9}, attackDelay: 0.625d, clip: 6, ammo: 32}
     },
     onClick = () => { Weapons.main_fire(); }
 );
@@ -18,7 +42,7 @@ Item.create(
     nbt = {
         CustomModelData: 32000, 
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [20, 45], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 2}, attackDelay: 0.15d}
+        attributes: {damage: {base: 2}, attackDelay: 0.15d, clip: 12, ammo: 40}
     },
     onClick = () => { Weapons.main_fire(); }
 );
@@ -30,7 +54,7 @@ Item.create(
     nbt = {
         CustomModelData: 33000, 
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
-        attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d}
+        attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true}
     },
     onClick = () => { 
         Weapons.main_fire(); 
@@ -44,7 +68,9 @@ Item.create(elytra, elytra);
 
 class Weapons {
     function main_fire() {
+        // Weapons.get_ammo();
         if (tf2.attack_delay:@s > 0) return 0;
+        // if ($_ammo_ <= 0) return 0;
         tf2.team:$current = tf2.team:@s;
         data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
         $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
@@ -64,6 +90,39 @@ class Weapons {
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
         tf2.attack_delay:@s += $_delay_;
     }
+    function get_ammo() {
+        if (tf2.current_slot:@s == 0) {
+            $_clip_ = tf2.primary_clip:@s;
+            $_maxClip_ = tf2.primary_maxClip:@s;
+            $_ammo_ = tf2.primary_ammo:@s;
+        }
+        if (tf2.current_slot:@s == 1) {
+            $_clip_ = tf2.secondary_clip:@s;
+            $_maxClip_ = tf2.secondary_maxClip:@s;
+            $_ammo_ = tf2.secondary_ammo:@s;
+        }
+    }
+    function set_ammo() {
+        if (tf2.current_slot:@s == 0) {
+            tf2.primary_clip:@s = $_clip_;   
+            tf2.primary_maxClip:@s = $_maxClip_;
+            tf2.primary_ammo:@s = $_ammo_;  
+        }
+        if (tf2.current_slot:@s == 1) {
+            tf2.secondary_clip:@s = $_clip_;
+            tf2.secondary_maxClip:@s = $_maxClip_;
+            tf2.secondary_ammo:@s = $_ammo_;
+        }
+    }
+    function actionbar() {
+        // TODO: use `return run` when 1.20.2 releases
+        if (predicate tf2:holding_melee || predicate tf2:non_damaging) {
+            Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>");
+        }
+        else {
+            Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>             &<gray>Ammo: &<$_clip_> &<dark_gray>(&<$_ammo_>)");
+        }
+    }
 }
 
 class Class {
@@ -78,17 +137,26 @@ class Class {
             Item.replaceEntity(scattergun, @s, "hotbar.0");
             Item.replaceEntity(pistol, @s, "hotbar.1");
             Item.replaceEntity(baseball_bat, @s, "hotbar.2");
+
+            tf2.primary_maxClip:@s = execute run tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
+            tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
+            tf2.secondary_maxClip:@s = execute run tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
+            tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
         }
         function tick() {
-            $last_slot = $current_slot;
-            $last_slot ??= 0;
-            $current_slot = data get entity @s SelectedItemSlot;
+            tf2.last_slot:@s = tf2.current_slot:@s;
+            tf2.last_slot:@s ??= 0;
+            tf2.current_slot:@s = data get entity @s SelectedItemSlot;
 
-            if ($last_slot != $current_slot) {
+            if (tf2.last_slot:@s != tf2.current_slot:@s) {
                 tf2.attack_delay:@s = data get entity @s SelectedItem.tag.attributes.deployTime 10000;
                 if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
             }
 
+            Weapons.get_ammo();
+            Weapons.actionbar();
+            Weapons.set_ammo(); 
+            
             if (predicate tf2:grounded) tag @s add tf2.can_double_jump;
             if (tf2.elytra_detect:@s >= 1) {
                 retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
@@ -134,3 +202,4 @@ class Class {
         }
     }
 }
+

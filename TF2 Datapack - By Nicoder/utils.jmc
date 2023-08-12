@@ -80,6 +80,7 @@ function class_select() {
         case Class.SCOUT:
             tf2.max_health:@s = execute run tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.16;
+            Class.Scout.give();
         case Class.SOLDIER:
             tf2.max_health:@s = execute run tf2.health:@s = 200;
             attribute @s minecraft:generic.movement_speed base set 0.102;

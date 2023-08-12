@@ -1,4 +1,3 @@
-item replace entity @s armor.chest with elytra{} 1
-execute store result score $_count_ tf2.var run clear @s elytra{} 0
-execute unless score $_count_ tf2.var matches 1 run clear @s elytra{} 
-execute unless score $_count_ tf2.var matches 1 run item replace entity @s armor.chest with elytra{} 1
+scoreboard players operation @s tf2.primary_clip = $_clip_ tf2.var
+scoreboard players operation @s tf2.primary_maxClip = $_maxClip_ tf2.var
+scoreboard players operation @s tf2.primary_ammo = $_ammo_ tf2.var

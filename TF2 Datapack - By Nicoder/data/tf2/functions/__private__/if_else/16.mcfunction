@@ -1,2 +1,3 @@
-execute store result score @s tf2.attack_delay run data get entity @s SelectedItem.tag.attributes.deployTime 10000
-execute unless data entity @s SelectedItem.tag.attributes.deployTime run scoreboard players set @s tf2.attack_delay 10000
+scoreboard players operation $_clip_ tf2.var = @s tf2.primary_clip
+scoreboard players operation $_maxClip_ tf2.var = @s tf2.primary_maxClip
+scoreboard players operation $_ammo_ tf2.var = @s tf2.primary_ammo
