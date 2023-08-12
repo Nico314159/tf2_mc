@@ -4,7 +4,7 @@ Item.create(
     displayName = "&<gray, italic>Scattergun",
     lore = [],
     nbt = {
-        CustomModelData: 3100, 
+        CustomModelData: 31000, 
         retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
         attributes: {damage: {base: 9}, attackDelay: 0.625d}
     },
@@ -16,7 +16,7 @@ Item.create(
     displayName = "&<gray, italic>Pistol",
     lore = [],
     nbt = {
-        CustomModelData: 3200, 
+        CustomModelData: 32000, 
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [20, 45], MaxRecursionDepth: 100}, 
         attributes: {damage: {base: 2}, attackDelay: 0.15d}
     },
@@ -28,7 +28,7 @@ Item.create(
     displayName = "&<gray, italic>Baseball Bat",
     lore = [],
     nbt = {
-        CustomModelData: 3300, 
+        CustomModelData: 33000, 
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
         attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d}
     },
