@@ -75,7 +75,7 @@ class Objectives {
             $bound < 4;
             Math.harmonic_series();
 
-            // apply capture progress to team that has players on point, but you can't capture a point you already own");
+            // apply capture progress to team that has players on point, but you can't capture a point you already own
             if ($red_on_point && tf2.team:@s != 1) Objectives.control_point.capture_progress.red();
             if ($blu_on_point && tf2.team:@s != 2) Objectives.control_point.capture_progress.blu();
 
@@ -335,7 +335,9 @@ class Objectives {
                 // Puts a letter in the corner of the HUD icon, if the `tf2.letter` tag is present.
                 Hardcode.repeatLists(
                     ["_num_", "_letter_"],
-                    () => {if (entity @s[tag=tf2.letter] && score @s tf2.index matches _num_) data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';},
+                    () => {
+                        if (entity @s[tag=tf2.letter] && score @s tf2.index matches _num_) data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';
+                    },
                     [["0", "10", "20", "30", "40"], ["A", "B", "C", "D", "E"]]
                 );
                 Objectives.control_point.find_index.reinsert();
