@@ -327,10 +327,14 @@ class Objectives {
                     [["0", "1", "2"], ["white", "red", "blue"], ["A1A1A1", "D95A58", "517AB8"]]
                 );
                 data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
-                if (entity @s[tag=!tf2.locked,tag=!tf2.star]) data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';
-                if (entity @s[tag=tf2.locked]) data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
-                if (entity @s[tag=tf2.star]) data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"321S!)","font":"tf2:square"}]';
-                execute unless entity @s[tag=tf2.letter] run data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]';
+                
+                if (entity @s[tag=tf2.locked]) {
+                    data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
+                } else if (entity @s[tag=tf2.star]) {
+                    data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"321S!)","font":"tf2:square"}]';
+                } else {data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';}
+                
+                if (entity @s[tag=!tf2.letter]) data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]';
 
                 // Puts a letter in the corner of the HUD icon, if the `tf2.letter` tag is present.
                 Hardcode.repeatLists(

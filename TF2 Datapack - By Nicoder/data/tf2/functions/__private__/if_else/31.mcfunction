@@ -1,2 +1,2 @@
-execute as @e[type=item,tag=!tf2.map_item,distance=..2] run function tf2:__private__/anonymous/8
-execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/9
+data modify storage tf2.__temp__:lookup points[0].symbol set value "[{\"text\":\"321S!)\",\"font\":\"tf2:square\"}]"
+scoreboard players set __if_else__ tf2.var 1
