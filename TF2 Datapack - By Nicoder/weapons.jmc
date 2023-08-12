@@ -42,6 +42,30 @@ Item.create(
 Item.create(elytra, elytra);
 
 
+class Weapons {
+    function main_fire() {
+        if (tf2.attack_delay:@s > 0) return 0;
+        tf2.team:$current = tf2.team:@s;
+        data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
+        $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
+        $_range_ = data get entity @s SelectedItem.tag.attributes.range 1000;
+        if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
+        retina._variable_:$end_particle = true;
+        function retina:traverse/multicast;
+        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {
+            if (score @s tf2.team = $current tf2.team) return 0;
+            $_distance_ = data get storage retina:output Distance 1000;
+            if ($_distance_ > $_range_) return 0;
+
+            $_damage_ *= retina.hit:@s;
+            tf2.health:@s -= $_damage_; 
+        }
+        retina._variable_:$end_particle = false;
+        $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
+        tf2.attack_delay:@s += $_delay_;
+    }
+}
+
 class Class {
     class Spy {
         function tick() {}
@@ -108,29 +132,5 @@ class Class {
                 if ($_count_ != 1) Item.replaceEntity(elytra, @s, "armor.chest");
             }
         }
-    }
-}
-
-class Weapons {
-    function main_fire() {
-        if (tf2.attack_delay:@s > 0) return 0;
-        tf2.team:$current = tf2.team:@s;
-        data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
-        $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
-        $_range_ = data get entity @s SelectedItem.tag.attributes.range 1000;
-        if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
-        retina._variable_:$end_particle = true;
-        function retina:traverse/multicast;
-        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {
-            if (score @s tf2.team = $current tf2.team) return 0;
-            $_distance_ = data get storage retina:output Distance 1000;
-            if ($_distance_ > $_range_) return 0;
-
-            $_damage_ *= retina.hit:@s;
-            tf2.health:@s -= $_damage_; 
-        }
-        retina._variable_:$end_particle = false;
-        $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
-        tf2.attack_delay:@s += $_delay_;
     }
 }
