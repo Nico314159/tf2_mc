@@ -1,2 +1,1 @@
-execute if score $wheel_frame tf2.var matches 10 run function tf2:__private__/switch_case/98
-execute if score $wheel_frame tf2.var matches 11 run function tf2:__private__/switch_case/99
+data modify storage tf2.__temp__:lookup points[0].wheel.progress set value "[{\"text\":\")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!\",\"color\":\"#D95A58\"}]"

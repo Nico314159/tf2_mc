@@ -1,2 +1,4 @@
-execute if score $wheel_spacing tf2.var matches -2 run function tf2:__private__/switch_case/28
-execute if score $wheel_spacing tf2.var matches -1 run function tf2:__private__/switch_case/29
+scoreboard players operation $_ammoCost_ tf2.var = $_maxClip_ tf2.var
+scoreboard players operation $_ammoCost_ tf2.var < $_ammo_ tf2.var
+scoreboard players operation $_clip_ tf2.var = $_ammoCost_ tf2.var
+scoreboard players operation $_ammo_ tf2.var -= $_ammoCost_ tf2.var

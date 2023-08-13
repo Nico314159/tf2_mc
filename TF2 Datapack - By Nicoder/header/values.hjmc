@@ -28,6 +28,11 @@
 #define Class.MEDIC 9
 #define Class.CIVILIAN 10
 
+#define Reload.NONE 0
+#define Reload.SINGLE 1
+#define Reload.LOSSY 2
+#define Reload.LOSSLESS 3
+
 #define Error.MISSING_DEPENDENCY -118
 #define Error.OUT_OF_RANGE 1
 

@@ -24,17 +24,21 @@ new predicates(non_damaging) {
             }
         },
         {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {  
-                "equipment": {
-                    "mainhand": {
-                        "count": 0
-                    }
-                }
-            }
+            "condition": "minecraft:reference",
+            "name": "tf2:empty_hand"
         }
     ]
+}
+new predicates(empty_hand) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {  
+        "equipment": {
+            "mainhand": {
+                "count": 0
+            }
+        }
+    }
 }
 new predicates(hide_ammo) {
     "condition": "minecraft:any_of",
@@ -50,7 +54,6 @@ new predicates(hide_ammo) {
     ]
 }
 
-
 Item.create(
     itemId = scattergun,
     itemType = carrot_on_a_stick,
@@ -59,7 +62,8 @@ Item.create(
     nbt = {
         CustomModelData: 31000, 
         retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 9}, attackDelay: 0.625d, clip: 6, ammo: 32}
+        attributes: {damage: {base: 9}, attackDelay: 0.625d, clip: 6, ammo: 32},
+        controls: {main_fire: true, alt_fire: false, reload: Reload.SINGLE}
     },
     onClick = () => { Weapons.main_fire(); }
 );
@@ -71,7 +75,8 @@ Item.create(
     nbt = {
         CustomModelData: 32000, 
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [20, 45], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 2}, attackDelay: 0.15d, clip: 12, ammo: 40}
+        attributes: {damage: {base: 2}, attackDelay: 0.15d, clip: 12, ammo: 40},
+        controls: {main_fire: true, alt_fire: false, reload: Reload.LOSSLESS}
     },
     onClick = () => { Weapons.main_fire(); }
 );
@@ -83,7 +88,8 @@ Item.create(
     nbt = {
         CustomModelData: 33000, 
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
-        attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true}
+        attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true},
+        controls: {main_fire: true, alt_fire: false, reload: Reload.NONE}
     },
     onClick = () => { Weapons.main_fire(); }
 );
@@ -150,6 +156,45 @@ class Weapons {
             tf2.secondary_maxClip:@s = $_maxClip_;
             tf2.secondary_ammo:@s = $_ammo_;
         }
+    }
+    function reload() {
+        execute as @e[type=item,tag=!tf2.map_item,sort=nearest,limit=1] run kill @s;
+        switch ($class) {
+            case Class.SPY: break; //Class.Spy.inventory_lock();
+            case Class.SNIPER: break; //Class.Sniper.inventory_lock();
+            case Class.SCOUT: Class.Scout.inventory_lock();
+            // case Class.SOLDIER: Class.Soldier.inventory_lock();
+            // case Class.DEMOMAN: Class.Demoman.inventory_lock();
+            // case Class.HEAVY: Class.Heavy.inventory_lock();
+            // case Class.PYRO: Class.Pyro.inventory_lock();
+            // case Class.ENGINEER: Class.Engineer.inventory_lock();
+            // case Class.MEDIC: Class.Medic.inventory_lock();
+        }
+        if (predicate tf2:hide_ammo) return 0;
+        Weapons.get_ammo();
+        if ($_clip_ >= $_maxClip_) return 0;
+        if ($_ammo_ == 0) return 0;
+
+        $_reloadType_ = data get entity @s SelectedItem.tag.controls.reload;
+        switch ($_reloadType_) {
+            case Reload.NONE: 
+                break;
+            case Reload.SINGLE:
+                $_clip_ ++;
+                $_ammo_ --;
+            case Reload.LOSSY:
+                $_ammoCost_ = $_maxClip_;
+                $_ammoCost_ < $_ammo_;
+                $_clip_ = $_ammoCost_;
+                $_ammo_ -= $_ammoCost_;
+            case Reload.LOSSLESS:
+                $_ammoCost_ = $_maxClip_;
+                $_ammoCost_ -= $_clip_;
+                $_ammoCost_ < $_ammo_;
+                $_clip_ += $_ammoCost_;
+                $_ammo_ -= $_ammoCost_;
+        }
+        Weapons.set_ammo();
     }
     function actionbar() {
         // TODO: use `return run` when 1.20.2 releases

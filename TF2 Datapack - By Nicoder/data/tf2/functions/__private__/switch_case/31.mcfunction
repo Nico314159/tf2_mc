@@ -1,2 +1,2 @@
-execute if score $wheel_spacing tf2.var matches 3..4 run function tf2:__private__/switch_case/36
-execute if score $wheel_spacing tf2.var matches 5..6 run function tf2:__private__/switch_case/37
+execute if score $wheel_spacing tf2.var matches 0..2 run function tf2:__private__/switch_case/42
+execute if score $wheel_spacing tf2.var matches 3..6 run function tf2:__private__/switch_case/43

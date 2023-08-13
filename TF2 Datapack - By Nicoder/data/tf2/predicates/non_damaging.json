@@ -13,15 +13,8 @@
             }
         },
         {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-                "equipment": {
-                    "mainhand": {
-                        "count": 0
-                    }
-                }
-            }
+            "condition": "minecraft:reference",
+            "name": "tf2:empty_hand"
         }
     ]
 }
