@@ -38,7 +38,6 @@ Scoreboard.add(tf2.class, dummy);
 Scoreboard.add(tf2.team, dummy);
 Scoreboard.add(tf2.health, dummy);
 Scoreboard.add(tf2.max_health, dummy);
-Scoreboard.add(tf2.attack_delay, dummy);
 Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
 
 Scoreboard.add(tf2.last_slot, dummy);
@@ -50,6 +49,10 @@ Scoreboard.add(tf2.primary_ammo, dummy);
 Scoreboard.add(tf2.secondary_clip, dummy);
 Scoreboard.add(tf2.secondary_maxClip, dummy);
 Scoreboard.add(tf2.secondary_ammo, dummy);
+
+Scoreboard.add(tf2.attack_delay, dummy);
+Scoreboard.add(tf2.reload_delay, dummy);
+Scoreboard.add(tf2.consecutive_reload, dummy);
 
 Scoreboard.add(tf2.permanent.games_won, dummy);
 Scoreboard.add(tf2.permanent.games_played, dummy);

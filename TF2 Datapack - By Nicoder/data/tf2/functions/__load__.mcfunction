@@ -32,7 +32,6 @@ scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
 scoreboard objectives add tf2.max_health dummy
-scoreboard objectives add tf2.attack_delay dummy
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.last_slot dummy
 scoreboard objectives add tf2.current_slot dummy
@@ -42,6 +41,9 @@ scoreboard objectives add tf2.primary_ammo dummy
 scoreboard objectives add tf2.secondary_clip dummy
 scoreboard objectives add tf2.secondary_maxClip dummy
 scoreboard objectives add tf2.secondary_ammo dummy
+scoreboard objectives add tf2.attack_delay dummy
+scoreboard objectives add tf2.reload_delay dummy
+scoreboard objectives add tf2.consecutive_reload dummy
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
 scoreboard objectives add tf2.permanent.double_jumps dummy

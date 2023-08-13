@@ -55,6 +55,7 @@ function __tick__() {
 
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing,gamemode=!spectator] at @s run {
         tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
+        tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
         if (entity @e[type=item,tag=!tf2.map_item]) Weapons.reload();
 
         $class = tf2.class:@s;

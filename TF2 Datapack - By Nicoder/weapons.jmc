@@ -62,7 +62,7 @@ Item.create(
     nbt = {
         CustomModelData: 31000, 
         retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 9}, attackDelay: 0.625d, clip: 6, ammo: 32},
+        attributes: {damage: {base: 9}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
         controls: {main_fire: true, alt_fire: false, reload: Reload.SINGLE}
     },
     onClick = () => { Weapons.main_fire(); }
@@ -74,8 +74,8 @@ Item.create(
     lore = [],
     nbt = {
         CustomModelData: 32000, 
-        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 115], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 2}, attackDelay: 0.15d, clip: 12, ammo: 40},
+        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 215], MaxRecursionDepth: 100}, 
+        attributes: {damage: {base: 2}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
         controls: {main_fire: true, alt_fire: false, reload: Reload.LOSSLESS}
     },
     onClick = () => { Weapons.main_fire(); }
@@ -131,6 +131,7 @@ class Weapons {
         else {
             $_clip_ --;
             Weapons.set_ammo();
+            tf2.consecutive_reload:@s = false;
         }
     }
     function get_ammo() {
@@ -171,6 +172,7 @@ class Weapons {
             // case Class.MEDIC: Class.Medic.inventory_lock();
         }
         if (predicate tf2:hide_ammo) return 0;
+        if (tf2.reload_delay:@s > 0) return 0;
         Weapons.get_ammo();
         if ($_clip_ >= $_maxClip_) return 0;
         if ($_ammo_ == 0) return 0;
@@ -195,6 +197,11 @@ class Weapons {
                 $_ammo_ -= $_ammoCost_;
         }
         Weapons.set_ammo();
+
+        if (tf2.consecutive_reload:@s == 0) $_reloadDelay_ = data get entity @s SelectedItem.tag.attributes.reloadDelay[0] 20000;
+        if (tf2.consecutive_reload:@s == 1) $_reloadDelay_ = data get entity @s SelectedItem.tag.attributes.reloadDelay[1] 20000;
+        tf2.reload_delay:@s += $_reloadDelay_;
+        tf2.consecutive_reload:@s = true;
     }
     function actionbar() {
         // TODO: use `return run` when 1.20.2 releases
@@ -233,6 +240,7 @@ class Class {
             if (tf2.last_slot:@s != tf2.current_slot:@s) {
                 tf2.attack_delay:@s = data get entity @s SelectedItem.tag.attributes.deployTime 10000;
                 if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
+                tf2.consecutive_reload:@s = false;
             }
 
             Weapons.get_ammo();
