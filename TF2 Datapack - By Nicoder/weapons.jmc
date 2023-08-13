@@ -74,7 +74,7 @@ Item.create(
     lore = [],
     nbt = {
         CustomModelData: 32000, 
-        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [20, 45], MaxRecursionDepth: 100}, 
+        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 115], MaxRecursionDepth: 100}, 
         attributes: {damage: {base: 2}, attackDelay: 0.15d, clip: 12, ammo: 40},
         controls: {main_fire: true, alt_fire: false, reload: Reload.LOSSLESS}
     },
