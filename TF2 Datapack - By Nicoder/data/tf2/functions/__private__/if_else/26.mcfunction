@@ -1,4 +1,3 @@
-item replace entity @s armor.chest with elytra{} 1
-execute store result score $_count_ tf2.var run clear @s elytra{} 0
-execute unless score $_count_ tf2.var matches 1 run clear @s elytra{} 
-execute unless score $_count_ tf2.var matches 1 run item replace entity @s armor.chest with elytra{} 1
+execute store result score @s tf2.attack_delay run data get entity @s SelectedItem.tag.attributes.deployTime 10000
+execute unless data entity @s SelectedItem.tag.attributes.deployTime run scoreboard players set @s tf2.attack_delay 10000
+scoreboard players set @s tf2.consecutive_reload 0

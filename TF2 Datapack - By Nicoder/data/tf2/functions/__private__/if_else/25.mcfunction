@@ -1,13 +1,24 @@
-execute store result score $input_pitch retina.__variable__ run data get entity @s Rotation[1] 10
-execute store result score $input_yaw retina.__variable__ run data get entity @s Rotation[0] 10
-function retina:math/gimbal_to_vec
-scoreboard players operation $x delta.api.launch = $output_vec3.X retina.__variable__
-scoreboard players operation $x delta.api.launch *= 2 tf2.const
-scoreboard players set $y delta.api.launch 5000
-scoreboard players operation $z delta.api.launch = $output_vec3.Z retina.__variable__
-scoreboard players operation $z delta.api.launch *= 2 tf2.const
-function delta:api/launch_xyz
-clear @s elytra{} 
-scoreboard players set @s tf2.elytra_detect 0
-scoreboard players add @s tf2.permanent.double_jumps 1
-tag @s remove tf2.can_double_jump
+execute store result score $_hammerUnits_ tf2.var run data get storage retina:output Distance 52.49343832021
+scoreboard players operation $_hammerUnits_ tf2.var < 1024 tf2.const
+scoreboard players operation $_temp1_ tf2.var = $_hammerUnits_ tf2.var
+scoreboard players operation $_temp1_ tf2.var *= $_hammerUnits_ tf2.var
+scoreboard players operation $_temp1_ tf2.var *= 3 tf2.const
+scoreboard players operation $_temp2_ tf2.var = $_hammerUnits_ tf2.var
+scoreboard players operation $_temp2_ tf2.var *= $_hammerUnits_ tf2.var
+scoreboard players operation $_temp2_ tf2.var *= $_hammerUnits_ tf2.var
+scoreboard players operation $_temp2_ tf2.var *= 2 tf2.const
+execute if score $_temp2_ tf2.var matches -2147483648 run scoreboard players remove $_temp2_ tf2.var 1
+scoreboard players operation $_temp2_ tf2.var /= 1024 tf2.const
+scoreboard players operation $_multiplier_ tf2.var = $_temp1_ tf2.var
+scoreboard players operation $_multiplier_ tf2.var -= $_temp2_ tf2.var
+scoreboard players operation $_multiplier_ tf2.var *= -100 tf2.const
+scoreboard players operation $_multiplier_ tf2.var /= 1048576 tf2.const
+scoreboard players add $_multiplier_ tf2.var 50
+scoreboard players set $_temp3_ tf2.var 100
+execute if score $_hammerUnits_ tf2.var matches ..511 run function tf2:__private__/if_else/24
+scoreboard players operation $_multiplier_ tf2.var *= $_temp3_ tf2.var
+scoreboard players operation $_multiplier_ tf2.var /= 100 tf2.const
+scoreboard players add $_multiplier_ tf2.var 100
+scoreboard players operation $_finalDamage_ tf2.var *= $_multiplier_ tf2.var
+scoreboard players add $_finalDamage_ tf2.var 99
+scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const

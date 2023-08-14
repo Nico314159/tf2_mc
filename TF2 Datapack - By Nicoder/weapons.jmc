@@ -54,6 +54,13 @@ new predicates(hide_ammo) {
     ]
 }
 
+new tags.functions(retina.on_hit) {
+    "values": [
+        "tf2:weapons/damage"
+    ],
+    "replace": false
+}
+
 Item.create(
     itemId = scattergun,
     itemType = carrot_on_a_stick,
@@ -62,7 +69,7 @@ Item.create(
     nbt = {
         CustomModelData: 31000, 
         retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 9}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
+        attributes: {damage: {base: 6}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
         controls: {main_fire: true, alt_fire: false, reload: Reload.SINGLE}
     },
     onClick = () => { Weapons.main_fire(); }
@@ -74,7 +81,7 @@ Item.create(
     lore = [],
     nbt = {
         CustomModelData: 32000, 
-        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 215], MaxRecursionDepth: 100}, 
+        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, 
         attributes: {damage: {base: 2}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
         controls: {main_fire: true, alt_fire: false, reload: Reload.LOSSLESS}
     },
@@ -107,20 +114,17 @@ class Weapons {
         $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
         $_range_ = data get entity @s SelectedItem.tag.attributes.range 1000;
         if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
-        retina._variable_:$end_particle = true;
+        $_maxRamp_ = data get entity @s SelectedItem.tag.attributes.damage.maxRamp 100;
+        if (!data entity @s SelectedItem.tag.attributes.maxRamp) $_maxRamp_ = 150;
+        $_noRamp_ = execute if predicate tf2:holding_melee;
+        // retina._variable_:$end_particle = true;
 
+        retina.__variable__:$func_id = 100;
         function retina:traverse/multicast;
-        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {
-            if (score @s tf2.team = $current tf2.team) return 0;
-            $_distance_ = data get storage retina:output Distance 1000;
-            if ($_distance_ > $_range_) return 0;
-
-            $_damage_ *= retina.hit:@s;
-            tf2.health:@s -= $_damage_; 
-        }
-        retina._variable_:$end_particle = false;
+        // retina._variable_:$end_particle = false;
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
         tf2.attack_delay:@s += $_delay_;
+        scoreboard players reset $func_id retina.__variable__;
 
         // TODO: use `return run` when 1.20.2 releases
         if (predicate tf2:holding_melee) {
@@ -210,6 +214,53 @@ class Weapons {
         }
         else {
             Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>             &<gray>Ammo: &<$_clip_> &<dark_gray>(&<$_ammo_>)");
+        }
+    }
+    function damage() {
+        if (retina.__variable__:$func_id !== 100) return 0;
+        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {  
+            if (score @s tf2.team = $current tf2.team) return 0;
+            $_distance_ = data get storage retina:output Distance 1000;
+            if ($_distance_ > $_range_) return 0;
+            $_finalDamage_ = $_damage_;
+
+            if (!$_noRamp_) {
+                $_hammerUnits_ = data get storage retina:output Distance 52.49343832021;
+                $_hammerUnits_ < 1024;
+
+                $_temp1_ = $_hammerUnits_;
+                $_temp1_ *= $_hammerUnits_;
+                $_temp1_ *= 3;
+
+                $_temp2_ = $_hammerUnits_;
+                $_temp2_ *= $_hammerUnits_;
+                $_temp2_ *= $_hammerUnits_;
+                $_temp2_ *= 2;
+                if ($_temp2_ == -2147483648) $_temp2_ --;
+                $_temp2_ /= 1024;
+
+                $_multiplier_ = $_temp1_;
+                $_multiplier_ -= $_temp2_;
+                $_multiplier_ *= -100;
+                $_multiplier_ /= 1048576;
+                $_multiplier_ += 50;
+
+                $_temp3_ = 100;
+                if ($_hammerUnits_ < 512) {
+                    $_temp3_ = $_maxRamp_;
+                    $_temp3_ -= 100;
+                    $_temp3_ *= 2;
+                }
+                $_multiplier_ *= $_temp3_;
+                $_multiplier_ /= 100;
+                $_multiplier_ += 100;
+
+                $_finalDamage_ *= $_multiplier_;
+                $_finalDamage_ += 99;
+                $_finalDamage_ /= 100;
+            }
+
+            tf2.health:@s -= $_finalDamage_; 
         }
     }
 }
