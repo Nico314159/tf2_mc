@@ -1,0 +1,11 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "item/carrot_on_a_stick"
+    },
+    "overrides": [      
+        { "predicate": {"custom_model_data": 31000}, "model": "tf2:item/scout/primary/scattergun"},
+        { "predicate": {"custom_model_data": 32000}, "model": "tf2:item/scout/secondary/pistol"},
+        { "predicate": {"custom_model_data": 33000}, "model": "tf2:item/scout/melee/baseball_bat"}
+    ]
+}

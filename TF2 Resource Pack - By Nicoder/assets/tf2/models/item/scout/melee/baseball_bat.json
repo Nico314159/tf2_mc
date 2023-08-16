@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "item/scout/melee/baseball_bat"
+    "layer0": "tf2:item/scout/melee/baseball_bat"
   },
   "display": {
     "firstperson_lefthand": {
