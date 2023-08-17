@@ -19,4 +19,79 @@ class Math {
         }
         // TODO: Use `return run $sum.get();` when 1.20.2 releases
     }
+    function arctangent() {
+        // Get quadrant of inputs
+        $quadrant_X = 1;
+        if ($input_X <= -1) $quadrant_X = -1;
+        if ($input_X <= -1) $input_X *= -1;
+
+        $quadrant_Y = 1;
+        if ($input_Y <= -1) $quadrant_Y = -1;
+        if ($input_Y <= -1) $input_Y *= -1;
+
+        // Switch around inputs if ratio demands it
+        $arctangent_swap_boolean = false;
+        if ($input_X < $input_Y) $arctangent_swap_boolean = true;
+        if ($input_X < $input_Y) $input_X >< $input_Y;
+
+        // Compute function
+        $math_trigonometry_0 = $input_Y;
+        $math_trigonometry_0 *= 1000;
+        $math_trigonometry_0 /= $input_X;
+        $math_trigonometry_1 = $math_trigonometry_0;
+        $math_trigonometry_0 *= $math_trigonometry_0;
+        $math_trigonometry_0 /= 1000;
+
+        $math_trigonometry_2 = 776;
+        $math_trigonometry_3 = -2874;
+        $math_trigonometry_4 = 9951;
+
+        $math_trigonometry_4 *= $math_trigonometry_1;
+        $math_trigonometry_4 /= 10000;
+
+        $math_trigonometry_1 *= $math_trigonometry_0;
+        $math_trigonometry_1 /= 1000;
+
+        $math_trigonometry_3 *= $math_trigonometry_1;
+        $math_trigonometry_3 /= 10000;
+
+        $math_trigonometry_1 *= $math_trigonometry_0;
+        $math_trigonometry_1 /= 1000;
+
+        $math_trigonometry_2 *= $math_trigonometry_1;
+        $math_trigonometry_2 /= 10000;
+
+        $output = $math_trigonometry_2;
+        $output += $math_trigonometry_3;
+        $output += $math_trigonometry_4;
+
+        $output *= 900;
+        $output /= 1570;
+
+        // Adjust for swap and quadrant
+        if ($arctangent_swap_boolean) $output *= -1;
+        if ($arctangent_swap_boolean) $output += 900;
+
+        if ($quadrant_X == -1 && $quadrant_Y == -1) $output -= 1800;
+
+        if ($quadrant_X == -1 && $quadrant_Y == 1) $output *= -1;
+        if ($quadrant_X == -1 && $quadrant_Y == 1) $output += 1800;
+
+        if ($quadrant_X == 1 && $quadrant_Y == -1) $output *= -1;
+    }
+    function vec_to_gimbal() {
+        // Get pitch from vector
+        $input_X = $input_vec3.X;
+        $input_Y = $input_vec3.Y;
+        $input_Y *= -1;
+        Math.arctangent();
+        $output_pitch = $output;
+
+        // Get yaw from vector
+        $input_X = $input_vec3.Z;
+        $input_Y = $input_vec3.X;
+        $input_Y *= -1;
+        Math.arctangent();
+        $output_yaw = $output;
+    }
 }

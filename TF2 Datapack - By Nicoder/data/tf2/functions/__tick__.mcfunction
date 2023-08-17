@@ -13,15 +13,15 @@ execute store result score $chaos_queue_length tf2.var if entity @e[type=#tf2:pl
 scoreboard players set $enough_in_queue tf2.var 1
 execute if score $comp_queue_length tf2.var matches ..11 if score $casual_queue_length tf2.var matches ..23 if score $chaos_queue_length tf2.var matches ..39 run scoreboard players set $enough_in_queue tf2.var 0
 execute if score $enough_in_queue tf2.var matches 1.. as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run function tf2:start_game/as_marker/main
-execute as @a[tag=tf2.is_playing,tag=!tf2.dead] at @s if entity @s[y=-45,dy=5] run function tf2:__private__/anonymous/5
+execute as @a[tag=tf2.is_playing,tag=!tf2.dead] at @s if entity @s[y=-45,dy=5] run function tf2:__private__/anonymous/6
 execute as @e[type=#tf2:player_like,tag=tf2.is_playing,tag=!tf2.dead,scores={tf2.health=..0}] run function tf2:death
-execute as @e[type=#tf2:player_like,tag=tf2.dead] run function tf2:__private__/anonymous/6
+execute as @e[type=#tf2:player_like,tag=tf2.dead] run function tf2:__private__/anonymous/7
 execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run function tf2:spawn/init
 execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.timer = @s tf2.timer run function tf2:timer/main
 execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s run function tf2:objectives/control_point/visuals/init
 execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run function tf2:objectives/control_point/check_for_players
 execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run function tf2:objectives/control_point/gamestate
-execute as @e[type=#tf2:player_like,tag=tf2.is_playing,gamemode=!spectator] at @s run function tf2:__private__/anonymous/7
+execute as @e[type=#tf2:player_like,tag=tf2.is_playing,gamemode=!spectator] at @s run function tf2:__private__/anonymous/8
 execute as @e[type=marker,scores={tf2.batch_number=1}] unless score @s tf2.session = $global_1 tf2.session run kill @s
 execute as @e[type=marker,scores={tf2.batch_number=2}] unless score @s tf2.session = $global_2 tf2.session run kill @s
 execute as @e[type=marker,scores={tf2.batch_number=3}] unless score @s tf2.session = $global_3 tf2.session run kill @s

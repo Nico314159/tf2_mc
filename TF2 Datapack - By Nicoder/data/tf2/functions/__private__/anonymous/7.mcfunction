@@ -1,5 +1,6 @@
-scoreboard players remove @s[scores={tf2.attack_delay=0..}] tf2.attack_delay 1000
-scoreboard players remove @s[scores={tf2.reload_delay=0..}] tf2.reload_delay 1000
-execute if entity @e[type=item,tag=!tf2.map_item] run function tf2:weapons/reload
-scoreboard players operation $class tf2.var = @s tf2.class
-function tf2:__private__/switch_case/306
+scoreboard players remove @s tf2.respawn_timer 1
+scoreboard players operation @s tf2.respawn_timer.sec = @s tf2.respawn_timer
+scoreboard players add @s tf2.respawn_timer.sec 19
+scoreboard players operation @s tf2.respawn_timer.sec /= 20 tf2.const
+title @s title {"text":"You died!","color":"white"}
+title @s subtitle ["",{"text":"Respawn in... ","color":"gray"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"dark_gray"}]

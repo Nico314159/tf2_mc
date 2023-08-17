@@ -5,7 +5,7 @@ scoreboard players set 1024 tf2.const 1024
 scoreboard players set 1048576 tf2.const 1048576
 scoreboard players set 2 tf2.const 2
 scoreboard players set 3 tf2.const 3
-scoreboard players set 100 tf2.const 100
+scoreboard players set 900 tf2.const 900
 scoreboard players set 5 tf2.const 5
 scoreboard players set 4 tf2.const 4
 scoreboard players set 0 tf2.const 0
@@ -13,9 +13,14 @@ scoreboard players set 1800 tf2.const 1800
 scoreboard players set 6 tf2.const 6
 scoreboard players set 10 tf2.const 10
 scoreboard players set 8 tf2.const 8
-scoreboard players set 60 tf2.const 60
+scoreboard players set 10000 tf2.const 10000
 scoreboard players set 20 tf2.const 20
 scoreboard players set -100 tf2.const -100
+scoreboard players set 1570 tf2.const 1570
+scoreboard players set 60 tf2.const 60
+scoreboard players set 100 tf2.const 100
+scoreboard players set 1000 tf2.const 1000
+scoreboard players set -1 tf2.const -1
 scoreboard objectives add tf2.ticks dummy
 scoreboard objectives add tf2.gamemode dummy
 scoreboard objectives add tf2.map dummy
