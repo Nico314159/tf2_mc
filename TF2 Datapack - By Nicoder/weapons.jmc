@@ -218,18 +218,18 @@ class Weapons {
     }
     function damage() {
         if (retina.__variable__:$func_id !== 100) return 0;
-        execute as @e[tag=retina.executing] at @s summon minecraft:item_display run {
+        execute at @e[tag=retina.executing] anchored eyes summon minecraft:item_display run {
             tag @s add tf2.bullet;
             data merge entity @s {
                 item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}}
             };
-            execute store result entity @s transformation.scale[2] float 0.001 run data get storage retina:output Distance 1000;
+            execute store result entity @s transformation.scale[2] float 0.001 run data get storage retina:output Distance 2000;
             $input_vec3.X = retina.__variable__:$output_vec3.X;
             $input_vec3.Y = retina.__variable__:$output_vec3.Y;
             $input_vec3.Z = retina.__variable__:$output_vec3.Z;
             Math.vec_to_gimbal();
-            execute store result entity @s Rotation[0] float 1 run $output_yaw.get();
-            execute store result entity @s Rotation[1] float 1 run $output_pitch.get();
+            execute store result entity @s Rotation[0] float 0.1 run $output_yaw.get();
+            execute store result entity @s Rotation[1] float 0.1 run $output_pitch.get();
         }
 
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {  
