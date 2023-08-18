@@ -228,6 +228,10 @@ class Weapons {
             $input_vec3.Y = retina.__variable__:$output_vec3.Y;
             $input_vec3.Z = retina.__variable__:$output_vec3.Z;
             Math.vec_to_gimbal();
+            if ($output_yaw > 0) $output_pitch *= -1;
+            if ($output_yaw > 0) $output_pitch += 1800;
+            if ($output_yaw > 0 && $output_pitch > 1800) $output_pitch -= 3600;
+            
             execute store result entity @s Rotation[0] float 0.1 run $output_yaw.get();
             execute store result entity @s Rotation[1] float 0.1 run $output_pitch.get();
         }
