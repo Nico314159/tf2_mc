@@ -1,4 +1,5 @@
 tag @s add tf2.bullet
+scoreboard players set @s tf2.timer 5
 data merge entity @s {item:{id:"glowstone_dust",Count:1b,tag:{CustomModelData:0}}}
 execute store result score $temp_Y tf2.var run data get entity @s Pos[1] 480
 scoreboard players operation $temp_Y tf2.var += $offset_Y retina.__variable__

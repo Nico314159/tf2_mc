@@ -220,6 +220,7 @@ class Weapons {
         if (retina.__variable__:$func_id !== 100) return 0;
         execute at @s summon minecraft:item_display run {
             tag @s add tf2.bullet;
+            tf2.timer:@s = 5;
             data merge entity @s {
                 item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}}
             };

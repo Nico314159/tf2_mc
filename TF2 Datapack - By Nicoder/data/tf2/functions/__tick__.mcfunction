@@ -4,6 +4,8 @@ scoreboard players add $global tf2.ticks 1
 scoreboard players add @a tf2.ticks 1
 execute if entity @a[tag=tf2.in_queue] run scoreboard players add $waiting_room tf2.ticks 1
 execute as @a unless score @s tf2.ticks = $global tf2.ticks run function tf2:login
+execute as @e[tag=tf2.bullet] run scoreboard players remove @s tf2.timer 1
+kill @e[tag=tf2.bullet,scores={tf2.timer=..0}]
 execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run function tf2:join_queue
 execute as @a[tag=!tf2.allowed_to_sprint] run function tf2:disable_sprint
 effect give @a minecraft:saturation infinite 0 true
