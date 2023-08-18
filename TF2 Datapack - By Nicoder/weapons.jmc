@@ -218,7 +218,7 @@ class Weapons {
     }
     function damage() {
         if (retina.__variable__:$func_id !== 100) return 0;
-        execute at @s summon minecraft:item_display run {
+        execute unless predicate tf2:hide_ammo at @s summon minecraft:item_display run {
             tag @s add tf2.bullet;
             tf2.timer:@s = 5;
             data merge entity @s {
