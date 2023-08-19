@@ -1,3 +1,5 @@
+title @s actionbar ["",{"text":"\u2764 Health: 0 / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red"}]
+title @s times 0 3 3
 spawnpoint @s ~ ~ ~
 tag @s add tf2.dead
 gamemode spectator @s

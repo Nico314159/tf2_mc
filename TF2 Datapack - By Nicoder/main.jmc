@@ -145,6 +145,8 @@ function death() {
     // Respawn timer length is according to the map and team.
 
     // Note: `data entity ⟨marker⟩ data.map.spawn_time.(red/blu)[0]` is measured in *seconds*, whereas `tf2.respawn_timer:@s` is measured in *ticks*
+    Text.actionbar(@s, "&<red>❤ Health: 0 / &<tf2.max_health:@s>");
+    title @s times 0 3 3;
     spawnpoint @s ~ ~ ~;
     tag @s add tf2.dead;
     gamemode spectator @s;
