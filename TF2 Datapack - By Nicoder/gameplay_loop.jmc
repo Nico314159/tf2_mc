@@ -90,8 +90,8 @@ class start_game {
             // @within start_game.as_marker.main()
 
             // (1 = A/D, 2 = 5CP, 3 = KOTH, etc.)
-            if (tf2.gamemode:@s = 1) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode: &<italic, info_atk_def>Attack / Defend");
-            if (tf2.gamemode:@s = 2) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode: &<italic, info_control_points>Control Points");
+            if (tf2.gamemode:@s = 1) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_atk_def>Attack / Defend");
+            if (tf2.gamemode:@s = 2) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_control_points>Control Points");
         }
     }
     class as_players {
