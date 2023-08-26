@@ -1,15 +1,3 @@
-JMC.setFilter({
-    "block": [
-        {
-            "namespace": "^minecraft$",
-            "path": "recipes/.*"
-        },
-        {
-            "namespace": "^minecraft$",
-            "path": "advancements/.*"
-        }
-    ]
-});
 // TODO: expand this section as time goes on
 Scoreboard.add(tf2.ticks, dummy);
 
