@@ -1,0 +1,3 @@
+class Class.Sniper {
+    function tick() {}
+}

@@ -1,0 +1,3 @@
+class Class.Spy {
+    function tick() {}
+}
