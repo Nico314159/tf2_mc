@@ -1,10 +1,10 @@
-import "load";
-import "utils";
-import "gameplay_loop";
-import "math";
-import "weapons";
-import "objectives";
-import "timer";
+import "src/load";
+import "src/utils";
+import "src/gameplay_loop";
+import "src/math";
+import "src/weapons";
+import "src/objectives";
+import "src/timer";
 
 function __tick__() {
     // @handles #minecraft:tick
