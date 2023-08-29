@@ -1,2 +1,1 @@
-execute if score $wheel_spacing tf2.var matches 3..4 run function tf2:__private__/switch_case/48
-execute if score $wheel_spacing tf2.var matches 5..6 run function tf2:__private__/switch_case/49
+data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%$#@\"}]"

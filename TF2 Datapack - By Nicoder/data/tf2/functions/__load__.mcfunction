@@ -1,5 +1,4 @@
 scoreboard objectives add tf2.var dummy
-scoreboard objectives add on_event_1mqyp2x used:carrot_on_a_stick
 scoreboard objectives add tf2.const dummy
 scoreboard players set 1024 tf2.const 1024
 scoreboard players set 1048576 tf2.const 1048576

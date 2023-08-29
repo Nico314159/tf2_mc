@@ -63,7 +63,7 @@ new tags.functions(retina.on_hit) {
 
 Item.create(
     itemId = scattergun,
-    itemType = carrot_on_a_stick,
+    itemType = snowball,
     displayName = "&<gray, italic>Scattergun",
     lore = [],
     nbt = {
@@ -71,12 +71,11 @@ Item.create(
         retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
         attributes: {damage: {base: 6, maxRamp: 1.75d}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
         controls: {main_fire: true, alt_fire: false, reload: Reload.SINGLE}
-    },
-    onClick = () => { Weapons.main_fire(); }
+    }
 );
 Item.create(
     itemId = pistol,
-    itemType = carrot_on_a_stick,  
+    itemType = snowball,  
     displayName = "&<gray, italic>Pistol",
     lore = [],
     nbt = {
@@ -84,12 +83,11 @@ Item.create(
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, 
         attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
         controls: {main_fire: true, alt_fire: false, reload: Reload.LOSSLESS}
-    },
-    onClick = () => { Weapons.main_fire(); }
+    }
 );
 Item.create(
     itemId = baseball_bat,
-    itemType = carrot_on_a_stick,
+    itemType = snowball,
     displayName = "&<gray, italic>Baseball Bat",
     lore = [],
     nbt = {
@@ -97,14 +95,25 @@ Item.create(
         retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
         attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true},
         controls: {main_fire: true, alt_fire: false, reload: Reload.NONE}
-    },
-    onClick = () => { Weapons.main_fire(); }
+    }
 );
 Item.create(elytra, elytra);
 
-
 class Weapons {
     function main_fire() {
+        execute as @e[type=snowball,sort=nearest,limit=1] run kill @s;
+        switch ($class) {
+            case Class.SPY: break; //Class.Spy.inventory_lock();
+            case Class.SNIPER: break; //Class.Sniper.inventory_lock();
+            case Class.SCOUT: Class.Scout.inventory_lock();
+            // case Class.SOLDIER: Class.Soldier.inventory_lock();
+            // case Class.DEMOMAN: Class.Demoman.inventory_lock();
+            // case Class.HEAVY: Class.Heavy.inventory_lock();
+            // case Class.PYRO: Class.Pyro.inventory_lock();
+            // case Class.ENGINEER: Class.Engineer.inventory_lock();
+            // case Class.MEDIC: Class.Medic.inventory_lock();
+        }
+
         Weapons.get_ammo();
         if (tf2.attack_delay:@s > 0) return 0;
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;

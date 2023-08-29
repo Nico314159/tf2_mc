@@ -33,6 +33,10 @@ function __tick__() {
         execute as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run start_game.as_marker.main();
     }
     
+    // execute as @a run attribute @s minecraft:generic.movement_speed modifier remove 1-1-1-1-1;
+    // execute as @a[tag=!tf2.using_eye] run attribute @s minecraft:generic.movement_speed modifier remove 1-1-1-1-1;
+    // tag @a remove tf2.using_eye;
+    
     execute as @a[tag=tf2.is_playing,tag=!tf2.dead] at @s if entity @s[y=-45,dy=5] run {
         tf2.health:@s = 0;
         Text.tellraw(@a, "&<@s> fell into the void.");
@@ -65,6 +69,12 @@ function __tick__() {
         execute as @e[type=item,tag=!tf2.map_item,distance=..2] run {
             if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Thrower)) {
                 execute as @e[tag=tf2.self] run Weapons.reload();
+            }
+        } 
+
+        execute if predicate tf2:empty_hand as @e[type=snowball] run {
+            if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Owner)) {
+                execute as @e[tag=tf2.self] run Weapons.main_fire();
             }
         } 
         tag @s remove tf2.self;

@@ -1,3 +1,5 @@
+execute as @e[type=snowball,sort=nearest,limit=1] run kill @s
+function tf2:__private__/switch_case/17
 function tf2:weapons/get_ammo
 execute if score @s tf2.attack_delay matches 1.. run return 0
 execute if score $_clip_ tf2.var matches ..0 unless predicate tf2:holding_melee run return 0

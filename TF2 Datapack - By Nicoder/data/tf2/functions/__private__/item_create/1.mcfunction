@@ -1,1 +1,0 @@
-function tf2:weapons/main_fire
