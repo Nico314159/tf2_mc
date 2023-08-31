@@ -11,7 +11,6 @@ function __tick__() {
     // @context root
 
     if (!$retina_installed) return  Error.MISSING_DEPENDENCY;
-    if (entity @a[tag=tf2.in_queue]) tf2.ticks:$waiting_room ++;
 
 	execute as @e[tag=tf2.bullet] run tf2.timer:@s--;
     kill @e[tag=tf2.bullet, scores={tf2.timer=..0}];

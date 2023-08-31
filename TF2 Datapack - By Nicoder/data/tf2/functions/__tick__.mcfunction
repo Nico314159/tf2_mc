@@ -2,7 +2,6 @@ scoreboard players add $__global__ __player_join__ 1
 scoreboard players add @a __player_join__ 1
 execute as @a unless score @s ticks matches $__global__ __player_join__ run function tf2:__private__/player_join/main
 execute unless score $retina_installed tf2.var matches 1.. run return -118
-execute if entity @a[tag=tf2.in_queue] run scoreboard players add $waiting_room tf2.ticks 1
 execute as @e[tag=tf2.bullet] run scoreboard players remove @s tf2.timer 1
 kill @e[tag=tf2.bullet,scores={tf2.timer=..0}]
 execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run function tf2:join_queue
