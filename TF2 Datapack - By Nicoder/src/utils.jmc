@@ -72,32 +72,32 @@ function class_select() {
     $class = tf2.class:@s;
     switch ($class) {
         case Class.SPY:
-            tf2.max_health:@s = execute run tf2.health:@s = 125;
+            tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.12;
         case Class.SNIPER:
-            tf2.max_health:@s = execute run tf2.health:@s = 125;
+            tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.12;
         case Class.SCOUT:
-            tf2.max_health:@s = execute run tf2.health:@s = 125;
+            tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.16;
             Class.Scout.give();
         case Class.SOLDIER:
-            tf2.max_health:@s = execute run tf2.health:@s = 200;
+            tf2.max_health:@s = tf2.health:@s = 200;
             attribute @s minecraft:generic.movement_speed base set 0.102;
         case Class.DEMOMAN:
-            tf2.max_health:@s = execute run tf2.health:@s = 175;
+            tf2.max_health:@s = tf2.health:@s = 175;
             attribute @s minecraft:generic.movement_speed base set 0.1116;
         case Class.HEAVY:
-            tf2.max_health:@s = execute run tf2.health:@s = 300;
+            tf2.max_health:@s = tf2.health:@s = 300;
             attribute @s minecraft:generic.movement_speed base set 0.084;
         case Class.PYRO:
-            tf2.max_health:@s = execute run tf2.health:@s = 175;
+            tf2.max_health:@s = tf2.health:@s = 175;
             attribute @s minecraft:generic.movement_speed base set 0.12;
         case Class.ENGINEER:
-            tf2.max_health:@s = execute run tf2.health:@s = 125;
+            tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.12;
         case Class.MEDIC:
-            tf2.max_health:@s = execute run tf2.health:@s = 150;
+            tf2.max_health:@s = tf2.health:@s = 150;
             attribute @s minecraft:generic.movement_speed base set 0.1284;
     }
 }

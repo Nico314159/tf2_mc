@@ -4,9 +4,9 @@ class Class.Scout {
         Item.replaceEntity(pistol, @s, "hotbar.1");
         Item.replaceEntity(baseball_bat, @s, "hotbar.2");
 
-        tf2.primary_maxClip:@s = execute run tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
         tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
-        tf2.secondary_maxClip:@s = execute run tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
         tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
     }
     function tick() {
