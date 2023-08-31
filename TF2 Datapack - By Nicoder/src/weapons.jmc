@@ -53,6 +53,17 @@ new predicates(hide_ammo) {
         }
     ]
 }
+new predicates(has_main_fire) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "equipment": {
+            "mainhand": {
+                "nbt": "{controls: {main_fire: true}}"
+            }
+        }
+    }
+}
 
 new tags.functions(retina.on_hit) {
     "values": [
@@ -113,8 +124,9 @@ class Weapons {
             // case Class.MEDIC: Class.Medic.inventory_lock();
         }
 
-        Weapons.get_ammo();
+        if (!predicate tf2:has_main_fire) return 0;
         if (tf2.attack_delay:@s > 0) return 0;
+        Weapons.get_ammo();
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
 
         tf2.team:$current = tf2.team:@s;
