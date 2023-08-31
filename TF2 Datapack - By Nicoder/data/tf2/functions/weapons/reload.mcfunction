@@ -1,4 +1,3 @@
-execute as @e[type=item,tag=!tf2.map_item,sort=nearest,limit=1] run kill @s
 function tf2:__private__/switch_case/22
 execute if predicate tf2:hide_ammo run return 0
 execute if score @s tf2.reload_delay matches 1.. run return 0

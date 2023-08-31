@@ -101,7 +101,6 @@ Item.create(elytra, elytra);
 
 class Weapons {
     function main_fire() {
-        execute as @e[type=snowball,sort=nearest,limit=1] run kill @s;
         switch ($class) {
             case Class.SPY: break; //Class.Spy.inventory_lock();
             case Class.SNIPER: break; //Class.Sniper.inventory_lock();
@@ -172,7 +171,6 @@ class Weapons {
         }
     }
     function reload() {
-        execute as @e[type=item,tag=!tf2.map_item,sort=nearest,limit=1] run kill @s;
         switch ($class) {
             case Class.SPY: break; //Class.Spy.inventory_lock();
             case Class.SNIPER: break; //Class.Sniper.inventory_lock();
