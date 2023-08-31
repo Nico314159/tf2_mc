@@ -66,19 +66,18 @@ function __tick__() {
 
         data modify storage tf2.__temp__:check_match UUID set from entity @s UUID;
         tag @s add tf2.self;
-        execute as @e[type=item,tag=!tf2.map_item,distance=..2] run {
-            if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Thrower)) {
-                execute as @e[tag=tf2.self] run Weapons.reload();
-                kill @s;
-            }
-        } 
-
-        execute if predicate tf2:empty_hand as @e[type=snowball] run {
-            if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Owner)) {
-                execute as @e[tag=tf2.self] run Weapons.main_fire();
-                kill @s;
-            }
-        } 
+        if (predicate tf2:empty_hand) {
+            execute as @e[type=item,tag=!tf2.map_item,distance=..2] run {
+                if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Thrower)) {
+                    execute as @e[tag=tf2.self] run Weapons.reload(); kill @s;
+                }
+            } 
+            execute as @e[type=snowball,distance=..5] run {
+                if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Owner)) {
+                    execute as @e[tag=tf2.self] run Weapons.main_fire(); kill @s;
+                }
+            } 
+        }
         tag @s remove tf2.self;
 
         $class = tf2.class:@s;
