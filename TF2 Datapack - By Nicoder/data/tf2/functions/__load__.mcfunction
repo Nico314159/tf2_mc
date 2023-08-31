@@ -20,7 +20,6 @@ scoreboard players set 60 tf2.const 60
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000
 scoreboard players set -1 tf2.const -1
-scoreboard objectives add tf2.ticks dummy
 scoreboard objectives add tf2.gamemode dummy
 scoreboard objectives add tf2.map dummy
 scoreboard objectives add tf2.index dummy

@@ -526,7 +526,7 @@ class Objectives {
                         title @a[tag=tf2.on_point] times 0 4 5;
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
                     } function flicker() {
-                        $flicker = tf2.ticks:$global;
+                        $flicker = __player_join__:$__global__;
                         $flicker %= 20;
                         if ($flicker == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
                         if ($flicker matches 1..2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
@@ -643,7 +643,7 @@ class Objectives {
                         title @a[tag=tf2.on_point] times 0 4 5;
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
                     } function flicker() {
-                        $flicker = tf2.ticks:$global;
+                        $flicker = __player_join__:$__global__;
                         $flicker %= 20;
                         if ($flicker == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
                         if ($flicker matches 1..2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
@@ -656,7 +656,7 @@ class Objectives {
                         if ($flicker == 19) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
                     }
                 } function neutral_flicker() {
-                    $flicker = tf2.ticks:$global;
+                    $flicker = __player_join__:$__global__;
                     $flicker %= 20;
                     if ($flicker == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
                     if ($flicker matches 1..2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';

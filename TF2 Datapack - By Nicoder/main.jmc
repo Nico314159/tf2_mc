@@ -11,10 +11,7 @@ function __tick__() {
     // @context root
 
     if (!$retina_installed) return  Error.MISSING_DEPENDENCY;
-    tf2.ticks:$global ++;
-    tf2.ticks:@a ++;
     if (entity @a[tag=tf2.in_queue]) tf2.ticks:$waiting_room ++;
-    execute as @a unless score @s tf2.ticks = $global tf2.ticks run login();
 
 	execute as @e[tag=tf2.bullet] run tf2.timer:@s--;
     kill @e[tag=tf2.bullet, scores={tf2.timer=..0}];
@@ -98,12 +95,12 @@ function __tick__() {
     Hardcode.repeat("_i_", () => {execute as @e[type=marker,scores={tf2.batch_number=_i_}] unless score @s tf2.session = $global__i_ tf2.session run kill @s;}, start = 1, stop = _INSTANCES_CAP_);
 }
 
-function login() {
+Player.join(() => {
     // Teleports a newly joined player to the lobby room, clears their inventory, puts them in adventure mode, resets their gameplay tags, and allows them to join queues.
     // @within __tick__()
 
     // TODO: improve lobby build quality (in-world)
-    if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Player &<@s> has logged in at &<tf2.ticks:$global> ticks gametime.");
+    if ($Settings.show_debug_messages) Text.tellraw(@a, "&<bold><Debug> &<!bold>Player &<@s> has logged in at &<__player_join__:$__global__> ticks gametime.");
     tp @s[tag=!tf2.admin] Lobby.Main;
     gamemode adventure @s[tag=!tf2.admin];
 
@@ -127,7 +124,7 @@ function login() {
 		author: LazyHarpSeal
 	};
 
-    tf2.ticks:@s = tf2.ticks:$global;
+    __player_join__:@s = __player_join__:$__global__;
     scoreboard players enable @s tf2.queue_type;
     tf2.queue_type:@s = 0;
 
@@ -149,7 +146,7 @@ function login() {
     scoreboard players reset @s tf2.team;
     scoreboard players reset @s tf2.respawn_timer;
     tf2.batch_number:@s = 0;
-} 
+});
 
 function death() {
     // Puts a dead player into spectator mode & starts their respawn timer.
