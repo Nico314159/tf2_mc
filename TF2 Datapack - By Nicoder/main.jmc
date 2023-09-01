@@ -127,6 +127,8 @@ Player.join(() => {
     scoreboard players enable @s tf2.queue_type;
     tf2.queue_type:@s = 0;
 
+    attribute @s minecraft:generic.attack_damage base set 0;
+
     // removes all gameplay-specific variables
     team leave @s;
     tag @s remove tf2.in_queue;
