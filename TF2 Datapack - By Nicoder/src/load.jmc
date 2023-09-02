@@ -1,4 +1,5 @@
 // TODO: expand this section as time goes on
+Scoreboard.add(0008it54g_p_join, dummy);
 
 // See header file for gamemode key
 Scoreboard.add(tf2.gamemode, dummy);

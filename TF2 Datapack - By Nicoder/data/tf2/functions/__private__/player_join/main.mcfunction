@@ -24,3 +24,4 @@ scoreboard players reset @s tf2.max_health
 scoreboard players reset @s tf2.team
 scoreboard players reset @s tf2.respawn_timer
 scoreboard players set @s tf2.batch_number 0
+scoreboard players operation @s 0008it54g_p_join = $__global__ 0008it54g_p_join

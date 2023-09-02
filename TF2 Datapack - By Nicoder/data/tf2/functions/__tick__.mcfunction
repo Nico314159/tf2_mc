@@ -1,6 +1,6 @@
-scoreboard players add $__global__ __player_join__ 1
-scoreboard players add @a __player_join__ 1
-execute as @a unless score @s ticks matches $__global__ __player_join__ run function tf2:__private__/player_join/main
+scoreboard players add $__global__ 0008it54g_p_join 1
+scoreboard players add @a 0008it54g_p_join 1
+execute as @a unless score @s 0008it54g_p_join = $__global__ 0008it54g_p_join run function tf2:__private__/player_join/main
 execute unless score $retina_installed tf2.var matches 1.. run return -118
 execute as @e[tag=tf2.bullet] run scoreboard players remove @s tf2.timer 1
 kill @e[tag=tf2.bullet,scores={tf2.timer=..0}]
