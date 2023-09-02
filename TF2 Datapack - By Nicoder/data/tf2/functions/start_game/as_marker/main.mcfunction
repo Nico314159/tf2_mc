@@ -1,4 +1,4 @@
-execute if score $Settings.show_debug_messages tf2.var matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},{"text":"Game has been started by ","bold":false},{"selector":"@s"},{"text":" at "},{"score":{"name":"$__global__","objective":"__player_join__"}},{"text":" ticks gametime"}]
+execute if score $Settings.show_debug_messages tf2.var matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},{"text":"Game has been started by ","bold":false},{"selector":"@s"},{"text":" at "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"}},{"text":" ticks gametime"}]
 execute if score @s tf2.batch_number matches 1 run function tf2:__private__/if_else/5
 execute if score @s tf2.batch_number matches 2 run function tf2:__private__/if_else/6
 execute if score @s tf2.batch_number matches 3 run function tf2:__private__/if_else/7
