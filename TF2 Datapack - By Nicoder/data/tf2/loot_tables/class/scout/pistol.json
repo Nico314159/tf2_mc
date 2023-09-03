@@ -5,7 +5,7 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:snowball",
+                    "name": "minecraft:crossbow",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -17,7 +17,7 @@
                         },
                         {
                             "function": "minecraft:set_nbt",
-                            "tag": "{\n                                CustomModelData: 32000, \n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, \n                                attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},\n                                controls: {main_fire: true, alt_fire: false, reload: 3}\n                            }"
+                            "tag": "{\n                                CustomModelData: 32000, \n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, \n                                attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},\n                                controls: {main_fire: true, alt_fire: false, reload: 3},\n                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}]\n                            }"
                         }
                     ]
                 }

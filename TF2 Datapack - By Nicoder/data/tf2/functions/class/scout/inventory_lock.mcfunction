@@ -1,10 +1,10 @@
 loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun
-execute store result score $_count_ tf2.var run clear @s snowball{CustomModelData:31000} 0
-execute unless score $_count_ tf2.var matches 1 run clear @s snowball{CustomModelData:31000}
+execute store result score $_count_ tf2.var run clear @s crossbow{CustomModelData:31000} 0
+execute unless score $_count_ tf2.var matches 1 run clear @s crossbow{CustomModelData:31000}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun
 loot replace entity @s hotbar.1 loot tf2:class/scout/pistol
-execute store result score $_count_ tf2.var run clear @s snowball{CustomModelData:32000} 0
-execute unless score $_count_ tf2.var matches 1 run clear @s snowball{CustomModelData:32000}
+execute store result score $_count_ tf2.var run clear @s crossbow{CustomModelData:32000} 0
+execute unless score $_count_ tf2.var matches 1 run clear @s crossbow{CustomModelData:32000}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.1 loot tf2:class/scout/pistol
 loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat
 execute store result score $_count_ tf2.var run clear @s snowball{CustomModelData:33000} 0

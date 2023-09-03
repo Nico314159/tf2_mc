@@ -64,6 +64,22 @@ new predicates(has_main_fire) {
         }
     }
 }
+new predicates(unloaded_crossbow) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "equipment": {
+            "mainhand": {
+                "items": ["minecraft:crossbow"],
+                "nbt": "{Charged:0b}"
+            }
+        }
+    }
+}
+new item_modifiers(load_crossbow) {
+    "function": "minecraft:set_nbt",
+    "tag": "{Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}]}"
+}
 
 new tags.functions(retina.on_hit) {
     "values": [

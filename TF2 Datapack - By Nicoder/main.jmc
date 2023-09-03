@@ -72,8 +72,15 @@ function __tick__() {
                 if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Owner)) {
                     execute as @e[tag=tf2.self] run Weapons.main_fire(); kill @s;
                 }
-            } 
+            }
         }
+
+        if (predicate tf2:unloaded_crossbow) {
+            Weapons.main_fire();
+            item modify entity @s weapon.mainhand tf2:load_crossbow;
+            kill @e[type=arrow];
+        }
+
         tag @s remove tf2.self;
 
         $class = tf2.class:@s;

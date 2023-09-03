@@ -7,7 +7,7 @@ class Class.Scout {
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:snowball",
+                    "name": "minecraft:crossbow",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -23,7 +23,8 @@ class Class.Scout {
                                 CustomModelData: 31000,
                                 retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
                                 attributes: {damage: {base: 9}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
-                                controls: {main_fire: true, alt_fire: false, reload: 1}
+                                controls: {main_fire: true, alt_fire: false, reload: 1},
+                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}]
                             }"
                         }
                     ]
@@ -37,7 +38,7 @@ class Class.Scout {
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:snowball",
+                    "name": "minecraft:crossbow",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -53,7 +54,8 @@ class Class.Scout {
                                 CustomModelData: 32000, 
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, 
                                 attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
-                                controls: {main_fire: true, alt_fire: false, reload: 3}
+                                controls: {main_fire: true, alt_fire: false, reload: 3},
+                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}]
                             }"
                         }
                     ]
@@ -139,13 +141,13 @@ class Class.Scout {
     }
     function inventory_lock() {
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
-        $_count_ = clear @s snowball{CustomModelData: 31000} 0;
-        if ($_count_ != 1) clear @s snowball{CustomModelData: 31000}
+        $_count_ = clear @s crossbow{CustomModelData: 31000} 0;
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 31000}
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
 
         loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
-        $_count_ = clear @s snowball{CustomModelData: 32000} 0;
-        if ($_count_ != 1) clear @s snowball{CustomModelData: 32000}
+        $_count_ = clear @s crossbow{CustomModelData: 32000} 0;
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 32000}
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
 
         loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
