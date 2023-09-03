@@ -1,18 +1,17 @@
-new advancements(scope) {
+{
     "criteria": {
         "requirement": {
             "trigger": "minecraft:using_item",
             "conditions": {
-                "item": {"items": ["minecraft:spyglass"]}
+                "item": {
+                    "items": [
+                        "minecraft:spyglass"
+                    ]
+                }
             }
         }
     },
     "rewards": {
         "function": "tf2:class/sniper/scope"
     }
-}
-
-class Class.Sniper {
-    function tick() {}
-    function scope() {}
 }
