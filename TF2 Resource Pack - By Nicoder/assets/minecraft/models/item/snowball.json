@@ -1,7 +1,6 @@
 {
-    "parent": "item/generated",
     "textures": {
-        "layer0": "item/carrot_on_a_stick"
+        "layer0": "item/snowball"
     },
     "overrides": [      
         { "predicate": {"custom_model_data": 31000}, "model": "tf2:item/scout/primary/scattergun"},
