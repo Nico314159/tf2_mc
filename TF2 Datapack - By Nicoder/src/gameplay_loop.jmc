@@ -8,14 +8,14 @@ class start_game {
             Hardcode.repeat("_i_", () => {
                 if (tf2.batch_number:@s = _i_) {tf2.session:$global__i_ ++; tf2.session:@s = tf2.session:$global__i_;}
             }, start = 1, stop = _INSTANCES_CAP_);
-            tf2.batch_number:@s -> tf2.batch_number:$local;
+            tf2.batch_number:$local = tf2.batch_number:@s;
             scoreboard players reset $break tf2.var;
             JMC.put("# TODO: make dynamic for selected maps instead of hardcoding");
             data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0;
             data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1;
 
             tf2.gamemode:@s = data get entity @s data.map.gamemode;
-            tf2.gamemode:@s -> tf2.gamemode:$temp;
+            tf2.gamemode:$temp = tf2.gamemode:@s;
             data modify storage tf2.__temp__:summon objectives set from entity @s data.map.objectives;
             tf2.index:$temp = execute if data storage tf2.__temp__:summon objectives[];
             tf2.index:$temp *= 10;
@@ -167,7 +167,7 @@ class reset {
         // @within Timer.main()
 
         if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold> Game controlled by &<@s> has ended at &<0008it54g_p_join:$__global__> ticks gametime");
-        tf2.batch_number:@s -> tf2.batch_number:$local;
+        tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();

@@ -7,10 +7,10 @@ class Timer
         tf2.timer:@s --;
         Timer.set_value();
 
-        tf2.timer:@s -> tf2.timer.sec:@s;
+        tf2.timer.sec:@s = tf2.timer:@s;
         tf2.timer.sec:@s += 19;
         tf2.timer.sec:@s /= 20;
-        tf2.timer.sec:@s -> tf2.timer.min:@s;
+        tf2.timer.min:@s = tf2.timer.sec:@s;
         tf2.timer.sec:@s %= 60;
         tf2.timer.min:@s /= 60;
         if (entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.singlestage();
@@ -27,7 +27,7 @@ class Timer
         // Sends timer-related dialogue lines in chat.
         // @within Timer.main()
 
-        tf2.batch_number:@s -> tf2.batch_number:$local;
+        tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         if (score @s[tag=tf2.setup_time] tf2.timer matches 1200) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in sixty seconds.");
         if (score @s[tag=tf2.setup_time] tf2.timer matches 600) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in thirty seconds.");
@@ -93,7 +93,7 @@ class Timer
         // Handles what to do when the timer reaches zero.
 
         // If any objectives are still in contention, then start overtime if it isn't already.
-        tf2.batch_number:@s -> tf2.batch_number:$local;
+        tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         tag @e[tag=tf2.current] remove tf2.overtime;
         execute as @e[type=marker,tag=tf2.current] if score @s tf2.blu_progress < @s tf2.capture_threshold if score @s tf2.red_progress < @s tf2.capture_threshold run tag @s add tf2.overtime;

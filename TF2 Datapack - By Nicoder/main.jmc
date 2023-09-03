@@ -158,7 +158,7 @@ function death() {
     spawnpoint @s ~ ~ ~;
     tag @s add tf2.dead;
     gamemode spectator @s;
-    tf2.batch_number:@s -> tf2.batch_number:$local;
+    tf2.batch_number:$local = tf2.batch_number:@s;
     execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.temp;
     tf2.respawn_timer:@s[scores={tf2.team=1}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.red[0] 20;
     tf2.respawn_timer:@s[scores={tf2.team=2}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.blu[0] 20;
@@ -172,7 +172,7 @@ class Spawn {
         //   team_assign()
 
         tag @s add tf2.temp;
-        tf2.batch_number:@s -> tf2.batch_number:$local;
+        tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run Spawn.tp();
         tag @s remove tf2.temp;
         gamemode adventure @s;
