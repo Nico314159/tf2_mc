@@ -1,46 +1,101 @@
-Item.create(
-    itemId = scattergun,
-    itemType = snowball,
-    displayName = "&<gray, italic>Scattergun",
-    lore = [],
-    nbt = {
-        CustomModelData: 31000, 
-        retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 6, maxRamp: 1.75d}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
-        controls: {main_fire: true, alt_fire: false, reload: Reload.SINGLE}
-    }
-);
-Item.create(
-    itemId = pistol,
-    itemType = snowball,  
-    displayName = "&<gray, italic>Pistol",
-    lore = [],
-    nbt = {
-        CustomModelData: 32000, 
-        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, 
-        attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
-        controls: {main_fire: true, alt_fire: false, reload: Reload.LOSSLESS}
-    }
-);
-Item.create(
-    itemId = baseball_bat,
-    itemType = snowball,
-    displayName = "&<gray, italic>Baseball Bat",
-    lore = [],
-    nbt = {
-        CustomModelData: 33000, 
-        retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
-        attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true},
-        controls: {main_fire: true, alt_fire: false, reload: Reload.NONE}
-    }
-);
 Item.create(elytra, elytra);
 
 class Class.Scout {
+    new loot_tables(scattergun) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:snowball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Scattergun",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 31000,
+                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
+                                attributes: {damage: {base: 9}, attackDelay: 0.625d},
+                                controls: {main_fire: true, alt_fire: false, reload: 1}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(pistol) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:snowball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Pistol",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 32000, 
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, 
+                                attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
+                                controls: {main_fire: true, alt_fire: false, reload: 3}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(baseball_bat) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:snowball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Baseball Bat",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 33000, 
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
+                                attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true},
+                                controls: {main_fire: true, alt_fire: false, reload: 0}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    
     function give() {
-        Item.replaceEntity(scattergun, @s, "hotbar.0");
-        Item.replaceEntity(pistol, @s, "hotbar.1");
-        Item.replaceEntity(baseball_bat, @s, "hotbar.2");
+        loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
+        loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
+        loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
         tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
@@ -83,20 +138,20 @@ class Class.Scout {
         Class.Scout.inventory_lock();
     }
     function inventory_lock() {
-        Item.replaceEntity(scattergun, @s, "hotbar.0");
-        $_count_ = Item.clear(scattergun, @s, 0);
-        if ($_count_ != 1) Item.clear(scattergun, @s);
-        if ($_count_ != 1) Item.replaceEntity(scattergun, @s, "hotbar.0");
+        loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
+        $_count_ = clear @s snowball{CustomModelData: 31000} 0;
+        if ($_count_ != 1) clear @s snowball{CustomModelData: 31000}
+        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
 
-        Item.replaceEntity(pistol, @s, "hotbar.1");
-        $_count_ = Item.clear(pistol, @s, 0);
-        if ($_count_ != 1) Item.clear(pistol, @s);
-        if ($_count_ != 1) Item.replaceEntity(pistol, @s, "hotbar.1");
+        loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
+        $_count_ = clear @s snowball{CustomModelData: 32000} 0;
+        if ($_count_ != 1) clear @s snowball{CustomModelData: 32000}
+        if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
 
-        Item.replaceEntity(baseball_bat, @s, "hotbar.2");
-        $_count_ = Item.clear(baseball_bat, @s, 0);
-        if ($_count_ != 1) Item.clear(baseball_bat, @s);
-        if ($_count_ != 1) Item.replaceEntity(baseball_bat, @s, "hotbar.2");
+        loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
+        $_count_ = clear @s snowball{CustomModelData: 33000} 0;
+        if ($_count_ != 1) clear @s snowball{CustomModelData: 33000}
+        if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
         if (entity @s[tag=tf2.can_double_jump]) {
             Item.replaceEntity(elytra, @s, "armor.chest");

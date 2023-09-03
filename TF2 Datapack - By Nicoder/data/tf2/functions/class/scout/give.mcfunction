@@ -1,6 +1,6 @@
-item replace entity @s hotbar.0 with snowball{CustomModelData:31000,retina:{HorizontalCount:3,VerticalCount:3,CenteredCount:0,EndpointEntity:true,TargetEntities:true,SpreadFactor:[30,170],MaxRecursionDepth:100},attributes:{damage:{base:6,maxRamp:1.75d},attackDelay:0.625d,reloadDelay:[0.7d,0.5d],clip:6,ammo:32},controls:{main_fire:true,alt_fire:false,reload:1},display:{Name:'{"text":"Scattergun","color":"gray","italic":true}'}} 1
-item replace entity @s hotbar.1 with snowball{CustomModelData:32000,retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:true,TargetEntities:true,SpreadFactor:[40,85],MaxRecursionDepth:100},attributes:{damage:{base:15},attackDelay:0.15d,reloadDelay:[1.005d,1.005d],clip:12,ammo:40},controls:{main_fire:true,alt_fire:false,reload:3},display:{Name:'{"text":"Pistol","color":"gray","italic":true}'}} 1
-item replace entity @s hotbar.2 with snowball{CustomModelData:33000,retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:5},attributes:{damage:{base:35},attackDelay:0.5d,range:3.2d,isMelee:true},controls:{main_fire:true,alt_fire:false,reload:0},display:{Name:'{"text":"Baseball Bat","color":"gray","italic":true}'}} 1
+loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun
+loot replace entity @s hotbar.1 loot tf2:class/scout/pistol
+loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat
 execute store result score @s tf2.primary_maxClip store result score @s tf2.primary_clip run data get entity @s Inventory[0].tag.attributes.clip
 execute store result score @s tf2.primary_ammo run data get entity @s Inventory[0].tag.attributes.ammo
 execute store result score @s tf2.secondary_maxClip store result score @s tf2.secondary_clip run data get entity @s Inventory[1].tag.attributes.clip

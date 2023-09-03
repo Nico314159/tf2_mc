@@ -1,0 +1,27 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:snowball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Baseball Bat",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{                                CustomModelData: 33000,                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},                                 attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true},                                controls: {main_fire: true, alt_fire: false, reload: 0}                            }"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
