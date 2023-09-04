@@ -403,32 +403,19 @@ class Objectives {
                 $wheel_spacing /= 5;
                 
                 switch ($wheel_spacing) {
-                    case -6:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%$#\"}]";
-                    case -5:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%@\"}]";
-                    case -4:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^$\"}]";
-                    case -3:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%$#@\"}]";
-                    case -2:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%#\"}]";
-                    case -1:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"$@\"}]";
-                    case 0:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[\"\"]";
-                    case 1:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "41";
-                    case 2:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "52";
-                    case 3:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "543";
-                    case 4:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "632";
-                    case 5:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "65";
-                    case 6:
-                        data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "6542";
+                    case -6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%$#\"}]";
+                    case -5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%@\"}]";
+                    case -4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^$\"}]";
+                    case -3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%$#@\"}]";
+                    case -2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%#\"}]";
+                    case -1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"$@\"}]";
+                    case  0: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[\"\"]";
+                    case  1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "41";
+                    case  2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "52";
+                    case  3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "543";
+                    case  4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "632";
+                    case  5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "65";
+                    case  6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "6542";
                 }
             }
             class capture_progress {
@@ -448,16 +435,16 @@ class Objectives {
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.red.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
-                            case 0: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#@|a0)","color":"#D95A58"}]';
-                            case 1: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#!)|a0b0)","color":"#D95A58"}]';
-                            case 2: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#!|a0b0c0)","color":"#D95A58"}]';
-                            case 3: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#)|a0b0c0d0)","color":"#D95A58"}]';
-                            case 4: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#|a0b0c0d0e0)","color":"#D95A58"}]';
-                            case 5: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@!)|a0b0c0d0e0e0)","color":"#D95A58"}]';
-                            case 6: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@!|a0b0c0d0e0e0e0)","color":"#D95A58"}]';
-                            case 7: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@)|a0b0c0d0e0e0e0e0)","color":"#D95A58"}]';
-                            case 8: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@|a0b0c0d0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 9: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321!)|a0b0c0d0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case  0: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#@|a0)","color":"#D95A58"}]';
+                            case  1: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#!)|a0b0)","color":"#D95A58"}]';
+                            case  2: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#!|a0b0c0)","color":"#D95A58"}]';
+                            case  3: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#)|a0b0c0d0)","color":"#D95A58"}]';
+                            case  4: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#|a0b0c0d0e0)","color":"#D95A58"}]';
+                            case  5: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@!)|a0b0c0d0e0e0)","color":"#D95A58"}]';
+                            case  6: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@!|a0b0c0d0e0e0e0)","color":"#D95A58"}]';
+                            case  7: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@)|a0b0c0d0e0e0e0e0)","color":"#D95A58"}]';
+                            case  8: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@|a0b0c0d0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case  9: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321!)|a0b0c0d0e0e0e0e0e0e0)","color":"#D95A58"}]';
                             case 10: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321!|a0b0c0d0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
                             case 11: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321)|a0b0c0d0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
                             case 12: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|a0b0c0d0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
@@ -483,16 +470,16 @@ class Objectives {
                         if (tf2.team:@s == 0) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
                         if (tf2.team:@s == 2) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#517AB8"}]';
                         switch ($wheel_frame) {
-                            case 0: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#D95A58"}]';
-                            case 1: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 2: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 3: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 4: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 5: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 6: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 7: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 8: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 9: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  0:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#D95A58"}]';
+                            case  1:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  2:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  3:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  4:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  5:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  6:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  7:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  8:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  9:  data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
                             case 10: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
                             case 11: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
 
@@ -566,16 +553,16 @@ class Objectives {
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.blu.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
-                            case 0: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321a0#@)","color":"#517AB8"}]';
-                            case 1: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321b0a0#@","color":"#517AB8"}]';
-                            case 2: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321c0b0a0#!)","color":"#517AB8"}]';
-                            case 3: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321d0c0b0a0#!","color":"#517AB8"}]';
-                            case 4: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0d0c0b0a0#)","color":"#517AB8"}]';
-                            case 5: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0d0c0b0a0#","color":"#517AB8"}]';
-                            case 6: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0d0c0b0a0@!)","color":"#517AB8"}]';
-                            case 7: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0d0c0|b0a0@!","color":"#517AB8"}]';
-                            case 8: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0d0c0|b0a0@)","color":"#517AB8"}]';
-                            case 9: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0|d0c0b0a0@","color":"#517AB8"}]';
+                            case  0: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321a0#@)","color":"#517AB8"}]';
+                            case  1: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321b0a0#@","color":"#517AB8"}]';
+                            case  2: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321c0b0a0#!)","color":"#517AB8"}]';
+                            case  3: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321d0c0b0a0#!","color":"#517AB8"}]';
+                            case  4: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0d0c0b0a0#)","color":"#517AB8"}]';
+                            case  5: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0d0c0b0a0#","color":"#517AB8"}]';
+                            case  6: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0d0c0b0a0@!)","color":"#517AB8"}]';
+                            case  7: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0d0c0|b0a0@!","color":"#517AB8"}]';
+                            case  8: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0d0c0|b0a0@)","color":"#517AB8"}]';
+                            case  9: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0|d0c0b0a0@","color":"#517AB8"}]';
                             case 10: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|d0c0b0a0!)","color":"#517AB8"}]';
                             case 11: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0d0c0b0a0!","color":"#517AB8"}]';
                             case 12: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0d0c0b0a0)","color":"#517AB8"}]';
@@ -600,16 +587,16 @@ class Objectives {
                         if (tf2.team:@s == 0) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
                         if (tf2.team:@s == 1) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#D95A58"}]';
                         switch ($wheel_frame) {
-                            case 0: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#517AB8"}]';
-                            case 1: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 2: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 3: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 4: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 5: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 6: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 7: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 8: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 9: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  0: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#517AB8"}]';
+                            case  1: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  2: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  3: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  4: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  5: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  6: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  7: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  8: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  9: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
                             case 10: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
                             case 11: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
 
