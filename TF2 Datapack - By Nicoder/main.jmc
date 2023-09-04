@@ -74,15 +74,14 @@ function __tick__() {
                 }
             }
         }
-
+        tag @s remove tf2.self;
         if (predicate tf2:unloaded_crossbow) {
             Weapons.main_fire();
             item modify entity @s weapon.mainhand tf2:load_crossbow;
             kill @e[type=arrow];
         }
-
-        tag @s remove tf2.self;
-
+        
+        Weapons.slot_check();
         $class = tf2.class:@s;
         switch ($class) {
             case Class.SPY: Class.Spy.tick();

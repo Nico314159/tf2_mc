@@ -53,16 +53,6 @@ class Class.Sniper {
         // tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
     }
     function tick() {
-        tf2.last_slot:@s = tf2.current_slot:@s;
-        tf2.last_slot:@s ??= 0;
-        tf2.current_slot:@s = data get entity @s SelectedItemSlot;
-
-        if (tf2.last_slot:@s != tf2.current_slot:@s) {
-            tf2.attack_delay:@s = data get entity @s SelectedItem.tag.attributes.deployTime 10000;
-            if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
-            tf2.consecutive_reload:@s = false;
-        }
-
         Weapons.get_ammo();
         Weapons.actionbar();
         Weapons.set_ammo(); 
