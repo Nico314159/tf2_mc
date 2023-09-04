@@ -3,6 +3,7 @@
         "layer0": "item/snowball"
     },
     "overrides": [      
+        { "predicate": {"custom_model_data": 23000}, "model": "tf2:item/sniper/melee/kukri"},
         { "predicate": {"custom_model_data": 33000}, "model": "tf2:item/scout/melee/baseball_bat"}
     ]
 }
