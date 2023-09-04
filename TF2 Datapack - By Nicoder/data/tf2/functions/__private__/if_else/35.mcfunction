@@ -1,2 +1,2 @@
-execute as @e[type=item,tag=!tf2.map_item,distance=..2] run function tf2:__private__/anonymous/8
-execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/9
+execute as @e[tag=tf2.self] run function tf2:weapons/main_fire
+kill @s

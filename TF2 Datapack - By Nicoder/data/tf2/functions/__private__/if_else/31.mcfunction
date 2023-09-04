@@ -1,2 +1,2 @@
-data modify storage tf2.__temp__:lookup points[0].symbol set value "[{\"text\":\"321S!)\",\"font\":\"tf2:square\"}]"
-scoreboard players set __if_else__ tf2.var 1
+execute if entity @s[tag=tf2.star] run function tf2:__private__/if_else/32
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/33

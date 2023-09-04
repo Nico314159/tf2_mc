@@ -13,6 +13,68 @@ new advancements(scope) {
 }
 
 class Class.Sniper {
-    function tick() {}
-    function scope() {}
-}
+    new loot_tables(kukri) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:snowball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Kukri",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 23000, 
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
+                                attributes: {damage: {base: 65}, attackDelay: 0.625d, range: 3.2d, isMelee: true},
+                                controls: {main_fire: true, alt_fire: false, reload: 0}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+
+    function give() {
+        loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
+
+        // tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
+        // tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
+        // tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
+        // tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+    }
+    function tick() {
+        tf2.last_slot:@s = tf2.current_slot:@s;
+        tf2.last_slot:@s ??= 0;
+        tf2.current_slot:@s = data get entity @s SelectedItemSlot;
+
+        if (tf2.last_slot:@s != tf2.current_slot:@s) {
+            tf2.attack_delay:@s = data get entity @s SelectedItem.tag.attributes.deployTime 10000;
+            if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
+            tf2.consecutive_reload:@s = false;
+        }
+
+        Weapons.get_ammo();
+        Weapons.actionbar();
+        Weapons.set_ammo(); 
+        
+        Class.Sniper.inventory_lock();
+    }
+    function inventory_lock() {
+        loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
+        $_count_ = clear @s snowball{CustomModelData: 23000} 0;
+        if ($_count_ != 1) clear @s snowball{CustomModelData: 23000}
+        if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
+    }
+    function scope() {
+    }
+}   

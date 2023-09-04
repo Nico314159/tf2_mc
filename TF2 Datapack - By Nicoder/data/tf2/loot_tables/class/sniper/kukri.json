@@ -1,0 +1,27 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:snowball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Kukri",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{\n                                CustomModelData: 23000, \n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, \n                                attributes: {damage: {base: 65}, attackDelay: 0.625d, range: 3.2d, isMelee: true},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}\n                            }"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
