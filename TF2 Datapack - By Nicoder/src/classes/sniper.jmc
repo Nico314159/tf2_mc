@@ -45,6 +45,7 @@ class Class.Sniper {
     }
 
     function give() {
+        clear @s;
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
 
         // tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;

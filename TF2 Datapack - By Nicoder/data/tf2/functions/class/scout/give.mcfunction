@@ -1,3 +1,4 @@
+clear @s
 loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun
 loot replace entity @s hotbar.1 loot tf2:class/scout/pistol
 loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat
