@@ -1,4 +1,4 @@
 {
     "function": "minecraft:set_nbt",
-    "tag": "{Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}]}"
+    "tag": "{Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b}"
 }

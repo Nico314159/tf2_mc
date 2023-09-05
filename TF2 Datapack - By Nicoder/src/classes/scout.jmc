@@ -24,7 +24,7 @@ class Class.Scout {
                                 retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
                                 attributes: {damage: {base: 9}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
                                 controls: {main_fire: true, alt_fire: false, reload: 1},
-                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}]
+                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b, Unbreakable: 1b
                             }"
                         }
                     ]
@@ -55,7 +55,7 @@ class Class.Scout {
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, 
                                 attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
                                 controls: {main_fire: true, alt_fire: false, reload: 3},
-                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}]
+                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
                             }"
                         }
                     ]

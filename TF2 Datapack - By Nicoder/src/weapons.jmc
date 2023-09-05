@@ -78,7 +78,7 @@ new predicates(unloaded_crossbow) {
 }
 new item_modifiers(load_crossbow) {
     "function": "minecraft:set_nbt",
-    "tag": "{Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}]}"
+    "tag": "{Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b}"
 }
 
 new tags.functions(retina.on_hit) {
