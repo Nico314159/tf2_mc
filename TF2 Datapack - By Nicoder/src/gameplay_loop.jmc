@@ -139,6 +139,10 @@ class start_game {
     }
 }
 
+TextProp.hoverText(
+    "stalemate_text",
+    "You're &<bold>all losers!"
+);
 class reset {
     function announce_winner() {
         
@@ -153,7 +157,7 @@ class reset {
         kill @e[type=villager,tag=tf2.current];
         if ($winner == 1) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<red,bold,italic>RED wins!");
         if ($winner == 2) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<blue,bold,italic>BLU wins!");
-        if ($winner == -1) tellraw @a[tag=tf2.current] {"text":"Stalemate....","italic":true,"color":"gray","hoverEvent":{"action":"show_text","contents":["You're",{"text":" all ","bold":true},"losers!"]}}
+        if ($winner == -1) Text.tellraw(@a[tag=tf2.current], "&<gray,italic,stalemate_text>Stalemate....");
 
         execute as @a[tag=tf2.current] run {
             if (tf2.team:@s == $winner) Text.tellraw(@s, "&<!bold,italic>Victory.");

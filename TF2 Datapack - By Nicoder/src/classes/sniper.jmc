@@ -63,7 +63,7 @@ class Class.Sniper {
     function inventory_lock() {
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
         $_count_ = clear @s snowball{CustomModelData: 23000} 0;
-        if ($_count_ != 1) clear @s snowball{CustomModelData: 23000}
+        if ($_count_ != 1) clear @s snowball{CustomModelData: 23000};
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
     }
     function scope() {

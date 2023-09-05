@@ -55,11 +55,11 @@ scoreboard objectives add tf2.consecutive_reload dummy
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
 scoreboard objectives add tf2.permanent.double_jumps dummy
-team add RED {"text":"RED"}
+team add RED "RED"
 team modify RED color red
 team modify RED prefix "[RED] "
 team modify RED friendlyFire false
-team add BLU {"text":"BLU"}
+team add BLU "BLU"
 team modify BLU color blue
 team modify BLU prefix "[BLU] "
 team modify BLU friendlyFire false
@@ -69,10 +69,10 @@ bossbar add tf2:timer_3 ""
 bossbar add tf2:timer_4 ""
 bossbar add tf2:timer_5 ""
 execute store success score $found_dependency tf2.var run function retina:__load__
-execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Retina 2","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"},"hoverEvent":{"action":"show_text","contents":{"text":"https://github.com/Nico314159/Retina_v2"}}},{"text":" was not found.","color":"red"}]
+execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Retina 2","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"},"hoverEvent":{"action":"show_text","contents":"https://github.com/Nico314159/Retina_v2"}},{"text":" was not found.","color":"red"}]
 execute unless score $found_dependency tf2.var matches 1.. run return -118
 execute store success score $found_dependency tf2.var run function delta:internal/technical/load
-execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Delta","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/BigPapi13/Delta"},"hoverEvent":{"action":"show_text","contents":{"text":"https://github.com/BigPapi13/Delta"}}},{"text":" was not found.","color":"red"}]
+execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Delta","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/BigPapi13/Delta"},"hoverEvent":{"action":"show_text","contents":"https://github.com/BigPapi13/Delta"}},{"text":" was not found.","color":"red"}]
 execute unless score $found_dependency tf2.var matches 1.. run return -118
 gamerule doImmediateRespawn true
 gamerule doMobSpawning false

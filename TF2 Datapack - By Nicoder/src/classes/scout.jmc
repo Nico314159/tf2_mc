@@ -133,17 +133,17 @@ class Class.Scout {
     function inventory_lock() {
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
         $_count_ = clear @s crossbow{CustomModelData: 31000} 0;
-        if ($_count_ != 1) clear @s crossbow{CustomModelData: 31000}
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 31000};
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
 
         loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
         $_count_ = clear @s crossbow{CustomModelData: 32000} 0;
-        if ($_count_ != 1) clear @s crossbow{CustomModelData: 32000}
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 32000};
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
 
         loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
         $_count_ = clear @s snowball{CustomModelData: 33000} 0;
-        if ($_count_ != 1) clear @s snowball{CustomModelData: 33000}
+        if ($_count_ != 1) clear @s snowball{CustomModelData: 33000};
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
         if (entity @s[tag=tf2.can_double_jump]) {
