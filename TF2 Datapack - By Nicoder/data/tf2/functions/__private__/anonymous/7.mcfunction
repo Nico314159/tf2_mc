@@ -1,6 +1,18 @@
-scoreboard players remove @s tf2.respawn_timer 1
-scoreboard players operation @s tf2.respawn_timer.sec = @s tf2.respawn_timer
-scoreboard players add @s tf2.respawn_timer.sec 19
-scoreboard players operation @s tf2.respawn_timer.sec /= 20 tf2.const
-title @s title {"text":"You died!","color":"white"}
-title @s subtitle ["",{"text":"Respawn in... ","color":"gray"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"dark_gray"}]
+tag @s add tf2.bullet
+scoreboard players set @s tf2.timer 400
+data merge entity @s {item:{id:"glowstone_dust",Count:1b,tag:{CustomModelData:0}}}
+execute store result score $scale_length tf2.var run data get storage retina:output Distance 2000
+scoreboard players remove $scale_length tf2.var 400
+execute store result entity @s transformation.scale[2] float 0.001 run scoreboard players get $scale_length tf2.var
+scoreboard players operation $input_vec3.X tf2.var = $output_vec3.X retina.__variable__
+scoreboard players operation $input_vec3.Y tf2.var = $output_vec3.Y retina.__variable__
+scoreboard players operation $input_vec3.Z tf2.var = $output_vec3.Z retina.__variable__
+function tf2:math/vec_to_gimbal
+execute if score $output_yaw tf2.var matches 1.. run scoreboard players operation $output_pitch tf2.var *= -1 tf2.const
+execute if score $output_yaw tf2.var matches 1.. run scoreboard players add $output_pitch tf2.var 1800
+execute if score $output_yaw tf2.var matches 1.. if score $output_pitch tf2.var matches 1801.. run scoreboard players remove $output_pitch tf2.var 3600
+execute store result entity @s Rotation[0] float 0.1 run scoreboard players get $output_yaw tf2.var
+execute store result entity @s Rotation[1] float 0.1 run scoreboard players get $output_pitch tf2.var
+tellraw @a ["final 1: ",{"nbt":"Pos","entity":"@s"}]
+tp @s ^ ^-0.15 ^0.15
+tellraw @a ["final 2: ",{"nbt":"Pos","entity":"@s"}]

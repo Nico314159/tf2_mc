@@ -1,3 +1,3 @@
-data modify storage tf2:__storage__ currentObject set from storage tf2.__temp__:check_match UUID
-execute store success score __bool_result__0 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @s Thrower
-execute if score __bool_result__0 tf2.var matches 0 run function tf2:__private__/if_else/33
+execute summon minecraft:marker run function tf2:__private__/anonymous/6
+execute at @e[tag=tf2.intermediate,limit=1] summon item_display run function tf2:__private__/anonymous/7
+kill @e[tag=tf2.intermediate]

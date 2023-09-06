@@ -215,26 +215,57 @@ class Weapons {
     }
     function damage() {
         if (retina.__variable__:$func_id !== 100) return 0;
-        execute unless predicate tf2:hide_ammo at @s summon minecraft:item_display run {
-            tag @s add tf2.bullet;
-            tf2.timer:@s = 5;
-            data merge entity @s {
-                item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}}
-            };
-            $temp_Y = data get entity @s Pos[1] 480;
-            $temp_Y += retina.__variable__:$offset_Y;
-            execute store result entity @s Pos[1] double 0.002083333333333 run $temp_Y.get();
-            execute store result entity @s transformation.scale[2] float 0.001 run data get storage retina:output Distance 2000;
-            $input_vec3.X = retina.__variable__:$output_vec3.X;
-            $input_vec3.Y = retina.__variable__:$output_vec3.Y;
-            $input_vec3.Z = retina.__variable__:$output_vec3.Z;
-            Math.vec_to_gimbal();
-            if ($output_yaw > 0) $output_pitch *= -1;
-            if ($output_yaw > 0) $output_pitch += 1800;
-            if ($output_yaw > 0 && $output_pitch > 1800) $output_pitch -= 3600;
-            
-            execute store result entity @s Rotation[0] float 0.1 run $output_yaw.get();
-            execute store result entity @s Rotation[1] float 0.1 run $output_pitch.get();
+        
+        execute unless predicate tf2:hide_ammo at @s run {
+            execute summon minecraft:marker run {
+                tellraw @a ["0: ",{"nbt":"Pos","entity":"@s"}];
+                if (retina.__variable__:$offset_Y matches 776..778) {tp @s ~ ~1.62 ~;}
+                if (retina.__variable__:$offset_Y matches 608..610) {tp @s ~ ~1.27 ~;}
+                if (retina.__variable__:$offset_Y === 192)          {tp @s ~ ~0.40 ~;}
+                tellraw @a ["begin: ",{"nbt":"Pos","entity":"@s"}];
+                execute at @s summon minecraft:marker run {
+                    tag @e[type=marker,tag=retina.endpoint,tag=!tf2.used,limit=1] add tf2.rotate;
+                    tellraw @a ["mid 1: ",{"nbt":"Pos","entity":"@s"}];
+                    execute at @s run tp @s ~ ~ ~ facing entity @e[type=marker,tag=tf2.rotate,limit=1];
+                    execute as @e[type=marker,tag=tf2.rotate] run {
+                        tag @s add tf2.used;
+                        tag @s remove tf2.rotate;
+                    }
+                    tellraw @a ["mid 2: ",{"nbt":"Pos","entity":"@s"}];
+                    tag @s add tf2.intermediate;
+                }
+                kill @s;
+            }
+
+            execute at @e[tag=tf2.intermediate,limit=1] summon item_display run {
+                tag @s add tf2.bullet;
+                tf2.timer:@s = 400;
+                data merge entity @s {
+                    item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}}
+                };
+
+                // scale by 0.2 fewer blocks
+                $scale_length = data get storage retina:output Distance 2000;
+                $scale_length -= 400;
+                execute store result entity @s transformation.scale[2] float 0.001 run $scale_length.get();
+
+                // rotate according to player vector
+                $input_vec3.X = retina.__variable__:$output_vec3.X;
+                $input_vec3.Y = retina.__variable__:$output_vec3.Y;
+                $input_vec3.Z = retina.__variable__:$output_vec3.Z;
+                Math.vec_to_gimbal();
+                if ($output_yaw > 0) $output_pitch *= -1;
+                if ($output_yaw > 0) $output_pitch += 1800;
+                if ($output_yaw > 0 && $output_pitch > 1800) $output_pitch -= 3600;
+                execute store result entity @s Rotation[0] float 0.1 run $output_yaw.get();
+                execute store result entity @s Rotation[1] float 0.1 run $output_pitch.get();
+
+                // final tp
+                tellraw @a ["final 1: ",{"nbt":"Pos","entity":"@s"}];
+                tp @s ^ ^-0.15 ^0.15;
+                tellraw @a ["final 2: ",{"nbt":"Pos","entity":"@s"}];
+            }
+            kill @e[tag=tf2.intermediate];
         }
 
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {  
