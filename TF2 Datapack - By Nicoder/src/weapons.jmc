@@ -118,7 +118,7 @@ class Weapons {
         // retina._variable_:$end_particle = true;
 
         retina.__variable__:$func_id = 100;
-        function retina:traverse/multicast;
+        JMC.put("function retina:traverse/multicast");
         // retina._variable_:$end_particle = false;
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
         tf2.attack_delay:@s += $_delay_;
