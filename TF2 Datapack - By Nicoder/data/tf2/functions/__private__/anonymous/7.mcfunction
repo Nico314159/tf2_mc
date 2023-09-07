@@ -1,18 +1,6 @@
-tag @s add tf2.bullet
-scoreboard players set @s tf2.timer 400
-data merge entity @s {item:{id:"glowstone_dust",Count:1b,tag:{CustomModelData:0}}}
-execute store result score $scale_length tf2.var run data get storage retina:output Distance 2000
-scoreboard players remove $scale_length tf2.var 400
-execute store result entity @s transformation.scale[2] float 0.001 run scoreboard players get $scale_length tf2.var
-scoreboard players operation $input_vec3.X tf2.var = $output_vec3.X retina.__variable__
-scoreboard players operation $input_vec3.Y tf2.var = $output_vec3.Y retina.__variable__
-scoreboard players operation $input_vec3.Z tf2.var = $output_vec3.Z retina.__variable__
-function tf2:math/vec_to_gimbal
-execute if score $output_yaw tf2.var matches 1.. run scoreboard players operation $output_pitch tf2.var *= -1 tf2.const
-execute if score $output_yaw tf2.var matches 1.. run scoreboard players add $output_pitch tf2.var 1800
-execute if score $output_yaw tf2.var matches 1.. if score $output_pitch tf2.var matches 1801.. run scoreboard players remove $output_pitch tf2.var 3600
-execute store result entity @s Rotation[0] float 0.1 run scoreboard players get $output_yaw tf2.var
-execute store result entity @s Rotation[1] float 0.1 run scoreboard players get $output_pitch tf2.var
-tellraw @a ["final 1: ",{"nbt":"Pos","entity":"@s"}]
-tp @s ^ ^-0.15 ^0.15
-tellraw @a ["final 2: ",{"nbt":"Pos","entity":"@s"}]
+execute if score @s tf2.team = $current tf2.team run return 0
+execute store result score $_distance_ tf2.var run data get storage retina:output Distance 1000
+execute if score $_distance_ tf2.var > $_range_ tf2.var run return 0
+scoreboard players operation $_finalDamage_ tf2.var = $_damage_ tf2.var
+execute unless score $_noRamp_ tf2.var matches 1.. run function tf2:__private__/if_else/25
+scoreboard players operation @s tf2.health -= $_finalDamage_ tf2.var

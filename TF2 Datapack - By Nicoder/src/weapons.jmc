@@ -218,35 +218,22 @@ class Weapons {
         
         execute unless predicate tf2:hide_ammo at @s run {
             execute summon minecraft:marker run {
-                tellraw @a ["0: ",{"nbt":"Pos","entity":"@s"}];
-                if (retina.__variable__:$offset_Y matches 776..778) {tp @s ~ ~1.62 ~;}
-                if (retina.__variable__:$offset_Y matches 608..610) {tp @s ~ ~1.27 ~;}
-                if (retina.__variable__:$offset_Y === 192)          {tp @s ~ ~0.40 ~;}
-                tellraw @a ["begin: ",{"nbt":"Pos","entity":"@s"}];
-                execute at @s summon minecraft:marker run {
-                    tag @e[type=marker,tag=retina.endpoint,tag=!tf2.used,limit=1] add tf2.rotate;
-                    tellraw @a ["mid 1: ",{"nbt":"Pos","entity":"@s"}];
-                    execute at @s run tp @s ~ ~ ~ facing entity @e[type=marker,tag=tf2.rotate,limit=1];
-                    execute as @e[type=marker,tag=tf2.rotate] run {
-                        tag @s add tf2.used;
-                        tag @s remove tf2.rotate;
-                    }
-                    tellraw @a ["mid 2: ",{"nbt":"Pos","entity":"@s"}];
-                    tag @s add tf2.intermediate;
-                }
-                kill @s;
+                if (retina.__variable__:$offset_Y matches 776..778) {tp @s ~ ~1.42 ~;}
+                if (retina.__variable__:$offset_Y matches 608..610) {tp @s ~ ~1.07 ~;}
+                if (retina.__variable__:$offset_Y === 192)          {tp @s ~ ~0.20 ~;}
+                tag @s add tf2.height;
             }
 
-            execute at @e[tag=tf2.intermediate,limit=1] summon item_display run {
+            execute at @e[tag=tf2.height,limit=1] summon item_display run {
                 tag @s add tf2.bullet;
-                tf2.timer:@s = 400;
+                tf2.timer:@s = 4;
                 data merge entity @s {
                     item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}}
                 };
 
                 // scale by 0.2 fewer blocks
                 $scale_length = data get storage retina:output Distance 2000;
-                $scale_length -= 400;
+                //$scale_length -= 400;
                 execute store result entity @s transformation.scale[2] float 0.001 run $scale_length.get();
 
                 // rotate according to player vector
@@ -260,12 +247,9 @@ class Weapons {
                 execute store result entity @s Rotation[0] float 0.1 run $output_yaw.get();
                 execute store result entity @s Rotation[1] float 0.1 run $output_pitch.get();
 
-                // final tp
-                tellraw @a ["final 1: ",{"nbt":"Pos","entity":"@s"}];
-                tp @s ^ ^-0.15 ^0.15;
-                tellraw @a ["final 2: ",{"nbt":"Pos","entity":"@s"}];
+                tp @s ^ ^ ^0.15; // final tp
             }
-            kill @e[tag=tf2.intermediate];
+            kill @e[tag=tf2.height];
         }
 
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {  

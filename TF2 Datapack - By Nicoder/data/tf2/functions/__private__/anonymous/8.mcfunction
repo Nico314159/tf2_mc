@@ -1,3 +1,3 @@
-execute summon minecraft:marker run function tf2:__private__/anonymous/6
-execute at @e[tag=tf2.intermediate,limit=1] summon item_display run function tf2:__private__/anonymous/7
-kill @e[tag=tf2.intermediate]
+scoreboard players set @s tf2.health 0
+tellraw @a ["",{"selector":"@s"},{"text":" fell into the void."}]
+tp @s ~ 5 ~
