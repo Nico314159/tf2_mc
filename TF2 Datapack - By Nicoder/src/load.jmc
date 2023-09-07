@@ -25,6 +25,9 @@ Scoreboard.add(tf2.class, dummy);
 Scoreboard.add(tf2.team, dummy);
 Scoreboard.add(tf2.health, dummy);
 Scoreboard.add(tf2.max_health, dummy);
+
+Scoreboard.add(tf2.time_scoped, dummy);
+Scoreboard.add(tf2.grace_period, dummy);
 Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
 
 Scoreboard.add(tf2.last_slot, dummy);

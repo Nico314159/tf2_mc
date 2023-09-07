@@ -1,3 +1,2 @@
-function tf2:weapons/main_fire
-item modify entity @s weapon.mainhand tf2:load_crossbow
-kill @e[type=arrow]
+data modify storage tf2.__temp__:lookup points[0].symbol set value "[{\"text\":\"321S!)\",\"font\":\"tf2:square\"}]"
+scoreboard players set __if_else__ tf2.var 1

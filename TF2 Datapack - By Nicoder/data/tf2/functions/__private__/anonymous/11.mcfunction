@@ -1,3 +1,6 @@
-data modify storage tf2:__storage__ currentObject set from storage tf2.__temp__:check_match UUID
-execute store success score __bool_result__1 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @s Owner
-execute if score __bool_result__1 tf2.var matches 0 run function tf2:__private__/if_else/34
+scoreboard players remove @s tf2.respawn_timer 1
+scoreboard players operation @s tf2.respawn_timer.sec = @s tf2.respawn_timer
+scoreboard players add @s tf2.respawn_timer.sec 19
+scoreboard players operation @s tf2.respawn_timer.sec /= 20 tf2.const
+title @s title {"text":"You died!","color":"white"}
+title @s subtitle ["",{"text":"Respawn in... ","color":"gray"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"dark_gray"}]

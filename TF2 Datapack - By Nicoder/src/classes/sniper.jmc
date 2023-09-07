@@ -1,18 +1,48 @@
-new advancements(scope) {
-    "criteria": {
-        "requirement": {
-            "trigger": "minecraft:using_item",
-            "conditions": {
-                "item": {"items": ["minecraft:spyglass"]}
-            }
-        }
-    },
-    "rewards": {
-        "function": "tf2:class/sniper/scope"
-    }
-}
-
 class Class.Sniper {
+    new advancements(scope) {
+        "criteria": {
+            "requirement": {
+                "trigger": "minecraft:using_item",
+                "conditions": {
+                    "item": {"items": ["minecraft:spyglass"]}
+                }
+            }
+        },
+        "rewards": {
+            "function": "tf2:class/sniper/scope"
+        }
+    }
+
+    new loot_tables(sniper_rifle) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:snowball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Sniper Rifle",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 21000, 
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500}, 
+                                attributes: {damage: {base: 50}, attackDelay: 1.5d, clip: 15, ammo: 0},
+                                controls: {main_fire: true, alt_fire: false, reload: 0}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
     new loot_tables(kukri) {
         "pools": [{
             "rolls": 1,
@@ -54,6 +84,10 @@ class Class.Sniper {
         // tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
     }
     function tick() {
+        tf2.grace_period:@s[tag=!tf2.scoped] ++;
+        tf2.time_scoped:@s[scores={tf2.grace_period=5..}] = 0;
+        tag @s[tag=tf2.scoped] remove tf2.scoped;
+
         Weapons.get_ammo();
         Weapons.actionbar();
         Weapons.set_ammo(); 
@@ -67,5 +101,44 @@ class Class.Sniper {
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
     }
     function scope() {
+        tf2.time_scoped:@s += 1;
+        tf2.grace_period:@s = 0;
+        tag @s add tf2.scoped;
+        execute anchored eyes positioned ^ ^ ^ run function retina:traverse/setup;
+        execute summon marker run {   
+            data modify entity @s Pos set from storage retina:output ContactCoordinates;
+            tag @s add tf2.temp;
+        }
+        tag @s add tf2.self;
+        execute at @e[type=marker, tag=tf2.temp] run {
+            if (entity @s[tf2.team=1]) {
+                particle dust 1.0 0.2 0.0 0.9 ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!retina.target];
+                if (entity @s[distance=  ..5]) particle dust 1.0 0.2 0.0 0.25 ^ ^ ^ 0 0 0 0 2 force @s;
+                if (entity @s[distance=5..50]) particle dust 1.0 0.2 0.0 0.50 ^ ^ ^ 0 0 0 0 2 force @s;
+                if (entity @s[distance=50.. ]) particle dust 1.0 0.2 0.0 0.90 ^ ^ ^ 0 0 0 0 2 force @s;
+                particle dust 1.0 0.2 0.0 0.3 ^ ^ ^ 0 0 0 0 2 force @a[tag=retina.target];
+            }
+            if (entity @s[tf2.team=2]) {
+                particle dust 0.0 0.4 1.0 0.9 ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!retina.target];
+                if (entity @s[distance=  ..5]) particle dust 0.0 0.4 1.0 0.25 ^ ^ ^ 0 0 0 0 2 force @s;
+                if (entity @s[distance=5..50]) particle dust 0.0 0.4 1.0 0.50 ^ ^ ^ 0 0 0 0 2 force @s;
+                if (entity @s[distance=50.. ]) particle dust 0.0 0.4 1.0 0.90 ^ ^ ^ 0 0 0 0 2 force @s;
+                particle dust 0.0 0.4 1.0 0.3 ^ ^ ^ 0 0 0 0 2 force @a[tag=retina.target];
+            }
+        }
+        tag @s remove tf2.self;
+        kill @e[type=marker, tag=tf2.temp]; 
+        Advancement.revoke(@s, only, class/sniper/scope);
+    }
+    function damage_scale() {
+        $_multiplier_ = tf2.time_scoped:@s;
+        $_multiplier_ -= 26;
+        $_multiplier_ *= 5;
+        $_multiplier_ += 100;
+
+        $_multiplier_ > 100;
+        $_multiplier_ < 300;
+
+        if (data storage retina:input {HitEntityHead: true}) $_multiplier_ *= 3;
     }
 }   

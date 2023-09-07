@@ -288,12 +288,15 @@ class Weapons {
                 $_multiplier_ *= $_temp3_;
                 $_multiplier_ /= 100;
                 $_multiplier_ += 100;
-
-                $_finalDamage_ *= $_multiplier_;
-                $_finalDamage_ += 99;
-                $_finalDamage_ /= 100;
             }
+            else if (entity @s[scores={tf2.class=2,tf2.current_slot=0,tf2.time_scoped=4..}]) {
+                Class.Sniper.damage_scale();
+            }
+            else {$_multiplier_ = 100;}
 
+            $_finalDamage_ *= $_multiplier_;
+            $_finalDamage_ += 99;
+            $_finalDamage_ /= 100;
             tf2.health:@s -= $_finalDamage_; 
         }
     }

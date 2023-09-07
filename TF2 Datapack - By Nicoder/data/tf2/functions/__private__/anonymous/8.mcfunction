@@ -1,3 +1,2 @@
-scoreboard players set @s tf2.health 0
-tellraw @a ["",{"selector":"@s"},{"text":" fell into the void."}]
-tp @s ~ 5 ~
+data modify entity @s Pos set from storage retina:output ContactCoordinates
+tag @s add tf2.temp

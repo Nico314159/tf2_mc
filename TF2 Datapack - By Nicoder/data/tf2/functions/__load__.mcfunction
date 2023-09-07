@@ -17,6 +17,7 @@ scoreboard players set 10000 tf2.const 10000
 scoreboard players set 20 tf2.const 20
 scoreboard players set -100 tf2.const -100
 scoreboard players set 1570 tf2.const 1570
+scoreboard players set 300 tf2.const 300
 scoreboard players set 60 tf2.const 60
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000
@@ -40,6 +41,8 @@ scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
 scoreboard objectives add tf2.max_health dummy
+scoreboard objectives add tf2.time_scoped dummy
+scoreboard objectives add tf2.grace_period dummy
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.last_slot dummy
 scoreboard objectives add tf2.current_slot dummy
