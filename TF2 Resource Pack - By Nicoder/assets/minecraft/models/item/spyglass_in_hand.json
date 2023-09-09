@@ -1,0 +1,8 @@
+{
+    "textures": {
+        "spyglass": "item/spyglass_model"
+    },
+    "overrides": [
+        { "predicate": {"custom_model_data": 21000}, "model": "tf2:item/sniper/primary/sniper_rifle_scope"}
+    ]
+}

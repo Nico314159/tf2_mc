@@ -3,7 +3,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "tf2:item/sniper/primary/sniper_rifle",
-		"particle": "tf2:item/transparent"
+		"particle": "tf2:transparent"
 	},
 	"elements": [
 		{
@@ -324,26 +324,21 @@
 			"scale": [0, 0, 0]
 		},
 		"thirdperson_righthand": {
-			"rotation": [8, -17.5, 0],
-			"translation": [0.1, 4, -10],
+			"rotation": [5, -35, 0],
+			"translation": [4.2, 3.3, -6.0],
 			"scale": [0.8, 0.8, 0.75]
 		},
-		"firstperson_righthand": {
-			"rotation": [0, -2, 0],
-			"translation": [5.75, 3.5, 0],
-			"scale": [0.4, 0.4, 0.4]
-		},
 		"firstperson_lefthand": {
-			"rotation": [0, -9, 0],
-			"translation": [-2, 4.75, 1.25],
-			"scale": [0.35, 0.35, 0.35]
+			"scale": [0, 0, 0]
+		},
+		"firstperson_righthand": {
+			"scale": [0, 0, 0]
 		},
 		"ground": {
 			"scale": [0, 0, 0]
 		},
 		"gui": {
-			"rotation": [0, -108, 0],
-			"scale": [0.5, 0.4, 0.4]
+			"scale": [0, 0, 0]
 		}
 	}
 }
