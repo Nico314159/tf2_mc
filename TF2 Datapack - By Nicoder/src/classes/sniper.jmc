@@ -12,6 +12,32 @@ class Class.Sniper {
             "function": "tf2:class/sniper/scope"
         }
     }
+    new predicates(holding_scope) {
+        "condition": "minecraft:all_of",
+        "terms": [{
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "equipment": {
+                    "mainhand": {
+                        "items": ["minecraft:spyglass"]
+                    }
+                }
+            }
+        },
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "equipment": {
+                    "offhand": {
+                        "items": ["minecraft:crossbow"]
+                    }
+                }
+            }
+        }]
+    }
+
 
     new loot_tables(sniper_rifle) {
         "pools": [{
@@ -19,7 +45,7 @@ class Class.Sniper {
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:snowball",
+                    "name": "minecraft:crossbow",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -37,6 +63,23 @@ class Class.Sniper {
                                 attributes: {damage: {base: 50}, attackDelay: 1.5d, clip: 15, ammo: 0},
                                 controls: {main_fire: true, alt_fire: false, reload: 0}
                             }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(sniper_rifle_scope) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:spyglass",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{CustomModelData: 21000}"
                         }
                     ]
                 }
@@ -99,6 +142,23 @@ class Class.Sniper {
         $_count_ = clear @s snowball{CustomModelData: 23000} 0;
         if ($_count_ != 1) clear @s snowball{CustomModelData: 23000};
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
+
+        // gets first 2 digits
+        $_crossbow_id_ = data get entity @s Inventory[-1].tag.CustomModelData 0.001;
+        if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21) expand {
+            item modify entity @s weapon.offhand tf2:load_crossbow;
+            return 0;
+        }
+
+        loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
+        $_count_ = clear @s crossbow{CustomModelData: 21000} 0;
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 21000};
+        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
+
+        loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope;
+        $_count_ = clear @s spyglass{CustomModelData: 21000} 0;
+        if ($_count_ != 1) clear @s spyglass{CustomModelData: 21000};
+        if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope;
     }
     function scope() {
         tf2.time_scoped:@s += 1;
@@ -111,14 +171,14 @@ class Class.Sniper {
         }
         tag @s add tf2.self;
         execute at @e[type=marker, tag=tf2.temp] run {
-            if (entity @s[tf2.team=1]) {
+            if (entity @s[scores={tf2.team=1}]) {
                 particle dust 1.0 0.2 0.0 0.9 ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!retina.target];
                 if (entity @s[distance=  ..5]) particle dust 1.0 0.2 0.0 0.25 ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=5..50]) particle dust 1.0 0.2 0.0 0.50 ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=50.. ]) particle dust 1.0 0.2 0.0 0.90 ^ ^ ^ 0 0 0 0 2 force @s;
                 particle dust 1.0 0.2 0.0 0.3 ^ ^ ^ 0 0 0 0 2 force @a[tag=retina.target];
             }
-            if (entity @s[tf2.team=2]) {
+            if (entity @s[scores={tf2.team=2}]) {
                 particle dust 0.0 0.4 1.0 0.9 ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!retina.target];
                 if (entity @s[distance=  ..5]) particle dust 0.0 0.4 1.0 0.25 ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=5..50]) particle dust 0.0 0.4 1.0 0.50 ^ ^ ^ 0 0 0 0 2 force @s;
