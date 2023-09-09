@@ -53,6 +53,26 @@ new predicates(hide_ammo) {
         }
     ]
 }
+new predicates(uniform_damage) {
+    "condition": "minecraft:any_of",
+    "terms": [
+        {
+            "condition": "minecraft:reference",
+            "name": "tf2:holding_melee"
+        },
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "equipment": {
+                    "mainhand": {
+                        "nbt": "{attributes: {damage: {uniform: true}}}"
+                    }
+                }
+            }
+        }
+    ]
+}
 new predicates(has_main_fire) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
@@ -114,7 +134,7 @@ class Weapons {
         if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
         $_maxRamp_ = data get entity @s SelectedItem.tag.attributes.damage.maxRamp 100;
         if (!data entity @s SelectedItem.tag.attributes.maxRamp) $_maxRamp_ = 150;
-        $_noRamp_ = execute if predicate tf2:holding_melee;
+        $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
         // retina._variable_:$end_particle = true;
 
         retina.__variable__:$func_id = 100;
@@ -258,7 +278,7 @@ class Weapons {
             if ($_distance_ > $_range_) return 0;
             $_finalDamage_ = $_damage_;
 
-            if (!$_noRamp_) {
+            if ($_rangeDependent_) {
                 $_hammerUnits_ = data get storage retina:output Distance 52.49343832021;
                 $_hammerUnits_ < 1024;
 
@@ -289,7 +309,7 @@ class Weapons {
                 $_multiplier_ /= 100;
                 $_multiplier_ += 100;
             }
-            else if (entity @s[scores={tf2.class=2,tf2.current_slot=0,tf2.time_scoped=4..}]) {
+            else if (entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
                 Class.Sniper.damage_scale();
             }
             else {$_multiplier_ = 100;}

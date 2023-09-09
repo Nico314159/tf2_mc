@@ -1,2 +1,2 @@
-execute if entity @s[scores={tf2.class=2,tf2.current_slot=0,tf2.time_scoped=4..}] run function tf2:__private__/if_else/27
+execute if entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}] run function tf2:__private__/if_else/27
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/28

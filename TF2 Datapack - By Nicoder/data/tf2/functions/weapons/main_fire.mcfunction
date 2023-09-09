@@ -10,7 +10,7 @@ execute store result score $_range_ tf2.var run data get entity @s SelectedItem.
 execute unless data entity @s SelectedItem.tag.attributes.range run scoreboard players set $_range_ tf2.var 2147483647
 execute store result score $_maxRamp_ tf2.var run data get entity @s SelectedItem.tag.attributes.damage.maxRamp 100
 execute unless data entity @s SelectedItem.tag.attributes.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
-execute store result score $_noRamp_ tf2.var if predicate tf2:holding_melee
+execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
 scoreboard players set $func_id retina.__variable__ 100
 function retina:traverse/multicast
 execute store result score $_delay_ tf2.var run data get entity @s SelectedItem.tag.attributes.attackDelay 20000

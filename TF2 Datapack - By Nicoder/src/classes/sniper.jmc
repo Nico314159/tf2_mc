@@ -60,7 +60,7 @@ class Class.Sniper {
                             "tag": "{
                                 CustomModelData: 21000, 
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500}, 
-                                attributes: {damage: {base: 50}, attackDelay: 1.5d, clip: 15, ammo: 0},
+                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},
                                 controls: {main_fire: true, alt_fire: false, reload: 0},
                                 Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
                             }"
@@ -129,7 +129,7 @@ class Class.Sniper {
     }
     function tick() {
         tf2.grace_period:@s[tag=!tf2.scoped] ++;
-        tf2.time_scoped:@s[scores={tf2.grace_period=5..}] = 0;
+        tf2.time_scoped:@s[scores={tf2.grace_period=10..}] = 0;
         tag @s[tag=tf2.scoped] remove tf2.scoped;
 
         Weapons.get_ammo();
@@ -192,7 +192,7 @@ class Class.Sniper {
         Advancement.revoke(@s, only, class/sniper/scope);
     }
     function damage_scale() {
-        $_multiplier_ = tf2.time_scoped:@s;
+        $_multiplier_ = tf2.time_scoped:@a[tag=retina.executing, limit=1];
         $_multiplier_ -= 26;
         $_multiplier_ *= 5;
         $_multiplier_ += 100;
@@ -200,6 +200,8 @@ class Class.Sniper {
         $_multiplier_ > 100;
         $_multiplier_ < 300;
 
-        if (data storage retina:input {HitEntityHead: true}) $_multiplier_ *= 3;
+        if (data storage retina:output {HitEntityHead: true}) expand {
+            $_multiplier_ *= 3;
+        }
     }
 }   
