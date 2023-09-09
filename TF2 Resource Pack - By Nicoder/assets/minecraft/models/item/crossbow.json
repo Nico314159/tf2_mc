@@ -46,6 +46,13 @@
         {
             "predicate": {
                 "charged": 1,
+                "custom_model_data": 21000
+            },
+            "model": "tf2:item/sniper/primary/sniper_rifle"
+        },
+        {
+            "predicate": {
+                "charged": 1,
                 "custom_model_data": 31000
             },
             "model": "tf2:item/scout/primary/scattergun"
