@@ -87,6 +87,37 @@ class Class.Sniper {
             ]
         }]
     }
+    new loot_tables(smg) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:crossbow",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "SMG",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 22000, 
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [25, 60], MaxRecursionDepth: 100}, 
+                                attributes: {damage: {base: 8}, attackDelay: 0.105d, reloadDelay: [1.1d, 1.1d], clip: 25, ammo: 75},
+                                controls: {main_fire: true, alt_fire: false, reload: 3},
+                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
     new loot_tables(kukri) {
         "pools": [{
             "rolls": 1,
@@ -120,12 +151,15 @@ class Class.Sniper {
 
     function give() {
         clear @s;
+        loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
+        loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope;
+        loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
 
-        // tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
-        // tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
-        // tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
-        // tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
+        tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
+        tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
     }
     function tick() {
         tf2.grace_period:@s[tag=!tf2.scoped] ++;
@@ -139,6 +173,11 @@ class Class.Sniper {
         Class.Sniper.inventory_lock();
     }
     function inventory_lock() {
+        loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
+        $_count_ = clear @s crossbow{CustomModelData: 23000} 0;
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 23000};
+        if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
+
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
         $_count_ = clear @s snowball{CustomModelData: 23000} 0;
         if ($_count_ != 1) clear @s snowball{CustomModelData: 23000};

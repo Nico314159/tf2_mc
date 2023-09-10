@@ -19,36 +19,17 @@
     "overrides": [
         {
             "predicate": {
-                "pulling": 1
-            },
-            "model": "item/crossbow_pulling_0"
-        },
-        {
-            "predicate": {
-                "pulling": 1,
-                "pull": 0.58
-            },
-            "model": "item/crossbow_pulling_1"
-        },
-        {
-            "predicate": {
-                "pulling": 1,
-                "pull": 1.0
-            },
-            "model": "item/crossbow_pulling_2"
-        },
-        {
-            "predicate": {
-                "charged": 1
-            },
-            "model": "item/crossbow_arrow"
-        },
-        {
-            "predicate": {
                 "charged": 1,
                 "custom_model_data": 21000
             },
             "model": "tf2:item/sniper/primary/sniper_rifle"
+        },
+        {
+            "predicate": {
+                "charged": 1,
+                "custom_model_data": 22000
+            },
+            "model": "tf2:item/sniper/secondary/smg"
         },
         {
             "predicate": {

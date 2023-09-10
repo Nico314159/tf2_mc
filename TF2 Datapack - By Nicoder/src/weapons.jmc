@@ -112,7 +112,7 @@ class Weapons {
     function main_fire() {
         switch ($class) {
             case Class.SPY: break; //Class.Spy.inventory_lock();
-            case Class.SNIPER: break; //Class.Sniper.inventory_lock();
+            case Class.SNIPER: Class.Sniper.inventory_lock();
             case Class.SCOUT: Class.Scout.inventory_lock();
             // case Class.SOLDIER: Class.Soldier.inventory_lock();
             // case Class.DEMOMAN: Class.Demoman.inventory_lock();
@@ -183,7 +183,7 @@ class Weapons {
     function reload() {
         switch ($class) {
             case Class.SPY: break; //Class.Spy.inventory_lock();
-            case Class.SNIPER: break; //Class.Sniper.inventory_lock();
+            case Class.SNIPER: Class.Sniper.inventory_lock();
             case Class.SCOUT: Class.Scout.inventory_lock();
             // case Class.SOLDIER: Class.Soldier.inventory_lock();
             // case Class.DEMOMAN: Class.Demoman.inventory_lock();
