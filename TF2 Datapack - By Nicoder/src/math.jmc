@@ -80,18 +80,27 @@ class Math {
         if ($quadrant_X == 1 && $quadrant_Y == -1) $output *= -1;
     }
     function vec_to_gimbal() {
-        // Get pitch from vector
-        $input_X = $input_vec3.X;
-        $input_Y = $input_vec3.Y;
-        $input_Y *= -1;
-        Math.arctangent();
-        $output_pitch = $output;
-
         // Get yaw from vector
         $input_X = $input_vec3.Z;
         $input_Y = $input_vec3.X;
         $input_Y *= -1;
         Math.arctangent();
         $output_yaw = $output;
+
+        // Compute length of horizontal component of vector
+        $temp_vec2.X = $input_vec3.X;
+        $temp_vec2.X *= $temp_vec2.X;
+        $temp_vec2.Y = $input_vec3.Z;
+        $temp_vec2.Y *= $temp_vec2.Y;
+        $radicand = $temp_vec2.X;
+        $radicand += $temp_vec2.Y;
+        $length = Math.sqrt($radicand);
+
+        // Get pitch from vector
+        $input_X = $length;
+        $input_Y = $input_vec3.Y;
+        $input_Y *= -1;
+        Math.arctangent();
+        $output_pitch = $output;
     }
 }
