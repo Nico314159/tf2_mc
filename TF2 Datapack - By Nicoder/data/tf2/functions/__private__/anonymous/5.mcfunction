@@ -7,6 +7,6 @@ scoreboard players operation $input_vec3.X tf2.var = $output_vec3.X retina.__var
 scoreboard players operation $input_vec3.Y tf2.var = $output_vec3.Y retina.__variable__
 scoreboard players operation $input_vec3.Z tf2.var = $output_vec3.Z retina.__variable__
 function tf2:math/vec_to_gimbal
-execute store result entity @s Rotation[0] float 0.1 run scoreboard players get $output_yaw tf2.gimbal
-execute store result entity @s Rotation[1] float 0.1 run scoreboard players get $output_pitch tf2.gimbal
+execute store result entity @s Rotation[0] float 0.1 run scoreboard players get $output_yaw tf2.var
+execute store result entity @s Rotation[1] float 0.1 run scoreboard players get $output_pitch tf2.var
 tp @s ^ ^ ^0.15
