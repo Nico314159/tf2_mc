@@ -1,3 +1,2 @@
-scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
-scoreboard players remove $_temp3_ tf2.var 100
-scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const
+title @s actionbar ["",{"text":"\u2764 Health: ","color":"red"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red"}]
+scoreboard players set __if_else__ tf2.var 1

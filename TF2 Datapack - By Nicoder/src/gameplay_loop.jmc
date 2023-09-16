@@ -161,7 +161,7 @@ class reset {
 
         execute as @a[tag=tf2.current] run {
             if (tf2.team:@s == $winner) Text.tellraw(@s, "&<!bold,italic>Victory.");
-            if ($winner matches 1..2 && tf2.team:@s != $winner) Text.tellraw(@s, "&<!bold,italic>You've failed!");
+            else if ($winner matches 1..2) Text.tellraw(@s, "&<!bold,italic>You've failed!");
         }
         Timer.hide();
         tf2.timer:@s = -1;

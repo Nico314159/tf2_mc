@@ -1,2 +1,2 @@
-execute as @e[tag=tf2.self] run function tf2:weapons/main_fire
-kill @s
+execute if entity @s[tag=tf2.star] run function tf2:__private__/if_else/40
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/41
