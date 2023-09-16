@@ -5,4 +5,5 @@ scoreboard players operation $wheel_spacing tf2.var > @e[type=marker,tag=tf2.cur
 scoreboard players operation $wheel_spacing tf2.var /= 2 tf2.const
 scoreboard players operation $wheel_spacing tf2.var -= @s tf2.index
 scoreboard players operation $wheel_spacing tf2.var /= 5 tf2.const
-function tf2:__private__/switch_case/47
+execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $wheel_spacing tf2.var
+function tf2:__private__/switch_case/5/select with storage tf2:__storage__

@@ -7,4 +7,5 @@ tag @s remove tf2.self
 execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/45
 function tf2:weapons/slot_check
 scoreboard players operation $class tf2.var = @s tf2.class
-function tf2:__private__/switch_case/324
+execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $class tf2.var
+function tf2:__private__/switch_case/10/select with storage tf2:__storage__

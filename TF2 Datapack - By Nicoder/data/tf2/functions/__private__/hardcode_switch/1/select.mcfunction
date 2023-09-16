@@ -1,0 +1,1 @@
+$function tf2:__private__/hardcode_switch/1/$(switch_key)
