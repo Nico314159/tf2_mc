@@ -92,7 +92,7 @@ class Objectives
             // no need to count total number of control points, as that is already given by `tf2.index` [see `Objectives.control_point.visuals.spacing()` for more info]
 
             scoreboard players reset $winner tf2.var;
-            if ($red_cp_count = tf2.index:@s && score @s[tag=!tf2.multistage] tf2.gamemode matches 2) $winner = 1;
+            if ($red_cp_count = tf2.index:@s && tf2.gamemode:@s[tag=!tf2.multistage] == 2) $winner = 1;
             if ($blu_cp_count = tf2.index:@s && score @s[tag=!tf2.multistage] tf2.gamemode matches 1..2) $winner = 2;
             // execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
             // execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
@@ -217,7 +217,7 @@ class Objectives
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 if (tf2.team:$last == tf2.team:@s) return 0;
 
-                if (score @s[tag=!tf2.multistage] tf2.gamemode matches 2) Objectives.control_point.on_capture.red.symmetric();
+                if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
                 if (tf2.increment:@s = tf2.increment:@s) Objectives.control_point.on_capture.add_time();
             } function blu() {
                 // @within Objectives.control_point.capture_progress.blu()
@@ -244,7 +244,7 @@ class Objectives
                 if (tf2.team:$last = tf2.team:@s) return 0;
 
                 if (tf2.gamemode:@s = 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
-                if (score @s[tag=!tf2.multistage] tf2.gamemode matches 2) Objectives.control_point.on_capture.blu.symmetric();
+                if (tf2.gamemode:@s[tag=!tf2.multistage] = 2) Objectives.control_point.on_capture.blu.symmetric();
                 if (tf2.increment:@s = tf2.increment:@s) Objectives.control_point.on_capture.add_time();
                 
             }
@@ -335,7 +335,7 @@ class Objectives
                 Hardcode.repeatLists(
                     ["_num_", "_letter_"],
                     () => {
-                        if (entity @s[tag=tf2.letter] && score @s tf2.index matches _num_) data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';
+                        if (tf2.index:@s[tag=tf2.letter] == _num_) data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';
                     },
                     [["0", "10", "20", "30", "40"], ["A", "B", "C", "D", "E"]]
                 );
@@ -447,10 +447,10 @@ class Objectives
                             case 14: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|c0d0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
                             case 15: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|d0e0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
                         }
-                        if (score @s[scores={tf2.red_progress=0}] tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
-                        if (score @s[scores={tf2.red_progress=0}] tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
-                        if (score @s[scores={tf2.red_progress=0}] tf2.team matches 0) tf2.red_progress:@s --;
-                        if (score @s[scores={tf2.red_progress=1..}] tf2.team matches 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
+                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
+                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) tf2.red_progress:@s --;
+                        if (tf2.team:@s[scores={tf2.red_progress=1..}] == 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
                         if (tf2.team:@s == 2) Objectives.control_point.visuals.capture_progress.blu.flicker();
                         Objectives.control_point.visuals.capture_progress.red.wheel();
                         Objectives.control_point.find_index.reinsert();
@@ -565,9 +565,9 @@ class Objectives
                             case 14: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0d0c0)","color":"#517AB8"}]';
                             case 15: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0e0d0)","color":"#517AB8"}]';
                         }
-                        if (score @s[scores={tf2.blu_progress=0}] tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
-                        if (score @s[scores={tf2.blu_progress=0}] tf2.team matches 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
-                        if (score @s[scores={tf2.blu_progress=1..}] tf2.team matches 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
+                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
+                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                        if (tf2.team:@s[scores={tf2.blu_progress=1..}] == 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
                         if (tf2.team:@s == 1) Objectives.control_point.visuals.capture_progress.red.flicker();
                         Objectives.control_point.visuals.capture_progress.blu.wheel();
                         Objectives.control_point.find_index.reinsert();

@@ -19,10 +19,10 @@ class Timer
         if (entity @s[tag=tf2.setup_time]) Timer.display.setup_time() with storage tf2.__temp__:index;
         if (entity @s[tag=tf2.overtime]) Timer.display.overtime() with storage tf2.__temp__:index;
 
-        if (score @s tf2.timer matches ..1200) Timer.chat();
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 0) Timer.exit_setup() with storage tf2.__temp__:index;
-        if (score @s[tag=!tf2.setup_time] tf2.timer matches 0) Timer.zero() with storage tf2.__temp__:index;
-        if (score @s tf2.timer matches -100) reset.as_marker();
+        if (tf2.timer:@s <= 1200) Timer.chat();
+        if (tf2.timer:@s[tag=tf2.setup_time] == 0) Timer.exit_setup() with storage tf2.__temp__:index;
+        if (tf2.timer:@s[tag=!tf2.setup_time] == 0) Timer.zero() with storage tf2.__temp__:index;
+        if (tf2.timer:@s == -100) reset.as_marker();
     } 
     function chat() {
         // Sends timer-related dialogue lines in chat.
@@ -57,8 +57,8 @@ class Timer
         }
         
         $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines.
-        if (score @s[tag=tf2.overtime] tf2.timer matches 1200 && $temp = 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime!");
-        if (score @s[tag=tf2.overtime] tf2.timer matches 1200 && $temp != 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime...");
+        if (tf2.timer:@s[tag=tf2.overtime] == 1200 && $temp == 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime!");
+        if (tf2.timer:@s[tag=tf2.overtime] == 1200 && $temp != 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime...");
     } 
 
     function set_value() {
@@ -127,7 +127,7 @@ class Timer
 
         // Otherwise, end the game.
         tag @e[type=marker] remove tf2.current;
-        if (score @s tf2.timer matches 0) Timer.end_game();
+        if (tf2.timer:@s == 0) Timer.end_game();
     } 
     function overtime() {
         // @needs_macro 
