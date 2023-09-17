@@ -5,7 +5,6 @@ execute if score @s tf2.batch_number matches 3 run function tf2:__private__/if_e
 execute if score @s tf2.batch_number matches 4 run function tf2:__private__/if_else/8
 execute if score @s tf2.batch_number matches 5 run function tf2:__private__/if_else/9
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
-scoreboard players reset $break tf2.var
 # TODO: make dynamic for selected maps instead of hardcoding
 data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0
 data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1

@@ -9,7 +9,6 @@ class start_game {
                 if (tf2.batch_number:@s = _i_) {tf2.session:$global__i_ ++; tf2.session:@s = tf2.session:$global__i_;}
             }, start = 1, stop = _INSTANCES_CAP_);
             tf2.batch_number:$local = tf2.batch_number:@s;
-            scoreboard players reset $break tf2.var;
             JMC.put("# TODO: make dynamic for selected maps instead of hardcoding");
             data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0;
             data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1;
@@ -105,7 +104,6 @@ class start_game {
             tf2.batch_number:@s = tf2.batch_number:$local;
             tag @s remove tf2.in_queue;
             tag @s add tf2.is_playing;
-            $break = 1;
             
             // placeholder until the 9 classes are properly implemented
             tf2.max_health:@s ??= 100;
