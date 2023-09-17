@@ -71,9 +71,10 @@ class start_game {
                 execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run start_game.as_players.generic();
             }
             scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type;
+            execute store result storage tf2.__temp__:index run tf2.batch_number:@s.get();
             tf2.timer:@s = data get entity @s data.map.timer 20;
-            if (data entity @s data.map.timer) Timer.set_max();
-            if (data entity @s data.map.timer) Timer.show();
+            if (data entity @s data.map.timer) Timer.set_max() with storage tf2:__temp__.args;
+            if (data entity @s data.map.timer) Timer.show() with storage tf2:__temp__.args;
             if (data entity @s data.map.setup_time) Timer.begin_setup();
             start_game.as_marker.tell_info();
 
@@ -145,7 +146,6 @@ TextProp.hoverText(
 );
 class reset {
     function announce_winner() {
-        
         // Announces the winner of the game, but doesn't relog players yet.
         // @within:
         //   Objectives.control_point.gamestate()
@@ -163,7 +163,8 @@ class reset {
             if (tf2.team:@s == $winner) Text.tellraw(@s, "&<!bold,italic>Victory.");
             else if ($winner matches 1..2) Text.tellraw(@s, "&<!bold,italic>You've failed!");
         }
-        Timer.hide();
+        execute store result storage tf2.__temp__:index run tf2.batch_number:@s.get();
+        Timer.hide() with storage tf2.__temp__:index;
         tf2.timer:@s = -1;
         tag @a remove tf2.current;
     } function as_marker() {

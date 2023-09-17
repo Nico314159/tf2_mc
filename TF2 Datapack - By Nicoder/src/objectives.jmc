@@ -26,29 +26,21 @@ class Objectives {
                 //  Dynamically-editable copy of all data in the `tf2:control_points info[$local...][tf2.index:@s]` storage path.
                 //  Can be copied back to the original path using `Objectives.control_point.find_index.reinsert()`
 
-                $mini_index = tf2.index:@s;
-                $mini_index /= 10;
-                Hardcode.switch(
-                    tf2.batch_number:$local,
-                    "_i_",
-                    () => {
-                        Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[_i_][_j_];}, count = 7, begin_at = 0);
-                    },
-                    count = _INSTANCES_CAP_MINUS_ONE_
-                ); 
+                execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:$local.get();
+                execute store result storage tf2.__temp__:index j int 0.1 run tf2.index:@s.get();
+                $_access_mode_ = 1;
+                Objectives.control_point.find_index.private() with storage tf2.__temp__:index;
             } function reinsert() {
                 // Copies the edited data at `tf2.__temp__:lookup points[0]` back to the matching address in `storage tf2:control_points info[$local...][@s tf2.index]`
 
-                $mini_index = tf2.index:@s;
-                $mini_index /= 10;
-                Hardcode.switch(
-                    tf2.batch_number:$local,
-                    "_i_",
-                    () => {
-                        Hardcode.switch($mini_index, "_j_", () => {data modify storage tf2:control_points info[_i_][_j_] set from storage tf2.__temp__:lookup points[0];}, count = 7, begin_at = 0);
-                    },
-                    count = _INSTANCES_CAP_MINUS_ONE_
-                );
+                execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:$local.get();
+                execute store result storage tf2.__temp__:index j int 0.1 run tf2.index:@s.get();
+                $_access_mode_ = 2;
+                Objectives.control_point.find_index.private() with storage tf2.__temp__:index;
+            }
+            function private() {
+                $execute if score $_access_mode tf2.var matches 1 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[$(i)][$(j)];
+                $execute if score $_access_mode tf2.var matches 2 run data modify storage tf2:control_points info[$(i)][$(j)] set from storage tf2.__temp__:lookup points[0];
             }
         }
 

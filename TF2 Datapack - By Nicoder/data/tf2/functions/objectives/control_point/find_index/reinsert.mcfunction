@@ -1,4 +1,4 @@
-scoreboard players operation $mini_index tf2.var = @s tf2.index
-scoreboard players operation $mini_index tf2.var /= 10 tf2.const
-execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $local tf2.batch_number
-function tf2:__private__/hardcode_switch/11/select with storage tf2:__storage__
+execute store result storage tf2.__temp__:index i int 1 run scoreboard players get $local tf2.batch_number
+execute store result storage tf2.__temp__:index j int 0.1 run scoreboard players get @s tf2.index
+scoreboard players set $_access_mode_ tf2.var 2
+function tf2:objectives/control_point/find_index/private with storage tf2.__temp__:index

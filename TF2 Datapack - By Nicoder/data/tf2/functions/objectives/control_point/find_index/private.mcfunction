@@ -1,0 +1,2 @@
+$execute if score $_access_mode tf2.var matches 1 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[$(i)][$(j)]
+$execute if score $_access_mode tf2.var matches 2 run data modify storage tf2:control_points info[$(i)][$(j)] set from storage tf2.__temp__:lookup points[0]
