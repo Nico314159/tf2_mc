@@ -1,4 +1,4 @@
-execute store result storage tf2.__temp__:index run scoreboard players get @s tf2.batch_number
+execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
 scoreboard players remove @s tf2.timer 1
 function tf2:timer/set_value with storage tf2.__temp__:index
 scoreboard players operation @s tf2.timer.sec = @s tf2.timer

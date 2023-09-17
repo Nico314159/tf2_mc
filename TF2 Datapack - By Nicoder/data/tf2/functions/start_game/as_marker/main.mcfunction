@@ -24,10 +24,10 @@ scoreboard players set __if_else__ tf2.var 0
 execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/10
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/11
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type
-execute store result storage tf2.__temp__:index run scoreboard players get @s tf2.batch_number
+execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
 execute store result score @s tf2.timer run data get entity @s data.map.timer 20
-execute if data entity @s data.map.timer run function tf2:timer/set_max with storage tf2:__temp__.args
-execute if data entity @s data.map.timer run function tf2:timer/show with storage tf2:__temp__.args
+execute if data entity @s data.map.timer run function tf2:timer/set_max with storage tf2.__temp__:index
+execute if data entity @s data.map.timer run function tf2:timer/show with storage tf2.__temp__:index
 execute if data entity @s data.map.setup_time run function tf2:timer/begin_setup
 function tf2:start_game/as_marker/tell_info
 scoreboard players reset @e[tag=tf2.current] tf2.team

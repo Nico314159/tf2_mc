@@ -5,7 +5,7 @@ execute if score $winner tf2.var matches 1 run tellraw @a[tag=tf2.current] ["",{
 execute if score $winner tf2.var matches 2 run tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","color":"yellow"},{"text":"| ","color":"white"},{"text":"BLU wins!","color":"blue","bold":true,"italic":true}]
 execute if score $winner tf2.var matches -1 run tellraw @a[tag=tf2.current] {"text":"Stalemate....","color":"gray","italic":true,"hoverEvent":{"action":"show_text","contents":["",{"text":"You're "},{"text":"all losers!","bold":true}]}}
 execute as @a[tag=tf2.current] run function tf2:__private__/anonymous/3
-execute store result storage tf2.__temp__:index run scoreboard players get @s tf2.batch_number
+execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
 function tf2:timer/hide with storage tf2.__temp__:index
 scoreboard players set @s tf2.timer -1
 tag @a remove tf2.current
