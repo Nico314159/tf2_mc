@@ -1,6 +1,1 @@
-execute store result bossbar tf2:timer_1 max run scoreboard players get @s[scores={tf2.batch_number=1}] tf2.timer
-execute store result bossbar tf2:timer_2 max run scoreboard players get @s[scores={tf2.batch_number=2}] tf2.timer
-execute store result bossbar tf2:timer_3 max run scoreboard players get @s[scores={tf2.batch_number=3}] tf2.timer
-execute store result bossbar tf2:timer_4 max run scoreboard players get @s[scores={tf2.batch_number=4}] tf2.timer
-execute store result bossbar tf2:timer_5 max run scoreboard players get @s[scores={tf2.batch_number=5}] tf2.timer
-function tf2:timer/set_value
+execute store result bossbar tf2:timer_$(i) max store result bossbar tf2:timer_$(i) value run scoreboard players get @s tf2.timer
