@@ -30,24 +30,32 @@ class Timer
 
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 1200) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in sixty seconds.");
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 600) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in thirty seconds.");
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 200) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in ten seconds.");
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 100) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Five...");
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 80) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Four..");
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 60) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Three..");
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 40) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Two..");
-        if (score @s[tag=tf2.setup_time] tf2.timer matches 20) Text.tellraw(@a[tag=tf2.current], "&<bold,italic,white>One.");
-
-        if (score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 1200) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in sixty seconds.");
-        if (score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 600) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in thirty seconds.");
-        if (score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 200) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in ten seconds.");
-        if (score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 100) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Five!");
-        if (score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 80) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Four!");
-        if (score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 60) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Three!");
-        if (score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 40) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Two!");
-        if (score @s[tag=!tf2.overtime,tag=!tf2.setup_time] tf2.timer matches 20) Text.tellraw(@a[tag=tf2.current], "&<bold,italic,white>One!");
-
+        $timer_temp = tf2.timer:@s;
+        if (entity @s[tag=tf2.setup_time]) {
+            switch ($timer_temp) {
+            case 1200: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in sixty seconds.");
+            case  600: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in thirty seconds.");
+            case  200: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in ten seconds.");
+            case  100: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Five...");
+            case   80: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Four..");
+            case   60: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Three..");
+            case   40: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Two..");
+            case   20: Text.tellraw(@a[tag=tf2.current], "&<bold,italic,white>One.");
+            }
+        }
+        else if (entity @s[tag=!tf2.overtime]) {
+            switch ($timer_temp) {
+            case 1200: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in sixty seconds.");
+            case  600: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in thirty seconds.");
+            case  200: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in ten seconds.");
+            case  100: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Five!");
+            case   80: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Four!");
+            case   60: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Three!");
+            case   40: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Two!");
+            case   20: Text.tellraw(@a[tag=tf2.current], "&<bold,italic,white>One!");
+            }
+        }
+        
         $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines.
         if (score @s[tag=tf2.overtime] tf2.timer matches 1200 && $temp = 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime!");
         if (score @s[tag=tf2.overtime] tf2.timer matches 1200 && $temp != 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime...");

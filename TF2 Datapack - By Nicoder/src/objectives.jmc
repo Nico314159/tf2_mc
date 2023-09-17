@@ -1,5 +1,6 @@
-class Objectives {
-    class control_point
+class Objectives 
+{
+    class control_point 
     {
         class find_index {
             function main() {
@@ -58,7 +59,8 @@ class Objectives {
             if (entity @s[tag=!tf2.contested]) Objectives.control_point.main();
             if (entity @s[tag=!tf2.contested]) Objectives.control_point.decay.init();
             tag @e[type=#tf2:player_like] remove tf2.on_point;
-        } function main() {
+        }
+        function main() {
             // Handles capture progress & associated visuals for the current control point.
 
             // Amount of capture progress = Nth partial sum of harmonic series, where N is how many players are standing on the point.
@@ -76,7 +78,8 @@ class Objectives {
             
             if (tf2.team:@s == 1 && tf2.red_progress:@s < tf2.capture_threshold:@s) Objectives.control_point.visuals.capture_progress.blu.main();
             if (tf2.team:@s == 0 && tf2.red_progress:@s == 0) Objectives.control_point.visuals.capture_progress.blu.main();
-        } function gamestate() {
+        } 
+        function gamestate() {
             // Handles game progress & checks for win conditions. Executed as the gamestate marker, not a control point.
             // @within __tick__()
 
