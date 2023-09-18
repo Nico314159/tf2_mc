@@ -177,10 +177,13 @@ class Spawn {
         //   __tick__()
         //   team_assign()
 
-        tag @s add tf2.temp;
-        tf2.batch_number:$local = tf2.batch_number:@s;
-        execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run Spawn.tp();
-        tag @s remove tf2.temp;
+        data modify storage tf2.__temp__:coords red_X set from entity @s data.map.spawn.red[0][0];
+        data modify storage tf2.__temp__:coords red_Y set from entity @s data.map.spawn.red[0][1];
+        data modify storage tf2.__temp__:coords red_Z set from entity @s data.map.spawn.red[0][2];
+        data modify storage tf2.__temp__:coords blu_X set from entity @s data.map.spawn.blu[0][0];
+        data modify storage tf2.__temp__:coords blu_Y set from entity @s data.map.spawn.blu[0][1];
+        data modify storage tf2.__temp__:coords blu_Z set from entity @s data.map.spawn.blu[0][2];
+        Spawn.tp() with storage tf2.__temp__:coords;
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tf2.health:@s = tf2.max_health:@s;
@@ -188,14 +191,11 @@ class Spawn {
         Text.subtitle(@s, "");
     } 
     function tp() {
-        // Dynamically teleports the player to their spawn point. Executed as a marker, NOT the player.
+        // Dynamically teleports the player to their spawn point. 
+        // @needs_macro
         // @within spawn.init()
 
-        // Spawn location is stored in `data entity @s data.map.spawn.(red/blu)[0]`
-        data modify entity @s data.lastPos set from entity @s Pos;
-        if (entity @e[type=#tf2:player_like,tag=tf2.temp,scores={tf2.team=1},limit=1]) data modify entity @s Pos set from entity @s data.map.spawn.red[0];
-        if (entity @e[type=#tf2:player_like,tag=tf2.temp,scores={tf2.team=2},limit=1]) data modify entity @s Pos set from entity @s data.map.spawn.blu[0];
-        tp @e[type=#tf2:player_like,tag=tf2.temp,limit=1] @s;
-        data modify entity @s Pos set from entity @s data.lastPos;
+        $tp @s[scores={tf2.team=1}] $(red_X) $(red_Y) $(red_Z);
+        $tp @s[scores={tf2.team=2}] $(blu_X) $(blu_Y) $(blu_Z);
     }
 } 
