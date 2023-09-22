@@ -1,3 +1,18 @@
+Item.create(
+    itemId = selectSniper,
+    itemType = carrot_on_a_stick,
+    displayName = "Sniper",
+    nbt = {CustomModelData: 2},
+    onClick = () => {tf2.class:@s = 2; clear @s;}
+);
+Item.create(
+    itemId = selectScout,
+    itemType = carrot_on_a_stick,
+    displayName = "Scout",
+    nbt = {CustomModelData: 3},
+    onClick = () => {tf2.class:@s = 3; clear @s;}
+);
+
 class start_game {
     class as_marker {
         function main() {
@@ -29,7 +44,7 @@ class start_game {
                     //      data.team: byte
                     //          Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).
                     //      data.locked: bool
-                    //          | DEPRECATED, use the `tf2.locked` tag instead. |
+                    //          # DEPRECATED, use the `tf2.locked` tag instead. #
                     //          Whether or not the objective should start out locked.
                     //      data.capture_threshold: float
                     //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
@@ -111,6 +126,9 @@ class start_game {
 
             tag @s add tf2.current; // tag is used for team assignment
             tf2.respawn_timer:@s = 0;
+
+            Item.give(selectSniper, @s);
+            Item.give(selectScout, @s);
 
             // apply gametype-specific settings
             if (tf2.queue_type:@s = 1) start_game.as_players.competitive();
