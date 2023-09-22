@@ -1,0 +1,9 @@
+{
+    "textures": {
+        "layer0": "item/carrot_on_a_stick"
+    },
+    "overrides": [      
+        { "predicate": {"custom_model_data": 2}, "model": "tf2:item/sniper/icon"},
+        { "predicate": {"custom_model_data": 3}, "model": "tf2:item/scout/icon"}
+    ]
+}
