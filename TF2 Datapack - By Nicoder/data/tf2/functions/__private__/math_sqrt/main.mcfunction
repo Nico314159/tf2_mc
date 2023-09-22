@@ -1,3 +1,4 @@
+scoreboard players set __math__.newton_iterations tf2.var 0
 scoreboard players set __math__.x_n tf2.var 1225
 function tf2:__private__/math_sqrt/newton_raphson
 scoreboard players operation __main__.x_n_sq tf2.var = __math__.x_n tf2.var
