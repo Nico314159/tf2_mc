@@ -202,3 +202,5 @@ class Spawn {
         $tp @s[scores={tf2.team=2}] $(blu_X) $(blu_Y) $(blu_Z);
     }
 } 
+
+function uninstall() {}
