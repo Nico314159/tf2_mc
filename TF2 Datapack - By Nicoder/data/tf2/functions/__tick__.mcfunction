@@ -2,7 +2,7 @@ execute as @a[scores={on_event_1mqyp2x=1..}] at @s run function tf2:__private__/
 scoreboard players add $__global__ 0008it54g_p_join 1
 scoreboard players add @a 0008it54g_p_join 1
 execute as @a unless score @s 0008it54g_p_join = $__global__ 0008it54g_p_join run function tf2:__private__/player_join/main
-execute unless score $retina_installed tf2.var matches 1.. run return -118
+execute unless score $found_dependency tf2.var matches 1.. run return -118
 execute as @e[tag=tf2.bullet] run scoreboard players remove @s tf2.timer 1
 kill @e[tag=tf2.bullet,scores={tf2.timer=..0}]
 execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run function tf2:join_queue

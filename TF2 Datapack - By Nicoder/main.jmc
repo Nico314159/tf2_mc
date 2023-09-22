@@ -10,7 +10,7 @@ function __tick__() {
     // @handles #minecraft:tick
     // @context root
 
-    if (!$retina_installed) return  Error.MISSING_DEPENDENCY;
+    if (!$found_dependency) return  Error.MISSING_DEPENDENCY;
 
 	execute as @e[tag=tf2.bullet] run tf2.timer:@s--;
     kill @e[tag=tf2.bullet, scores={tf2.timer=..0}];
