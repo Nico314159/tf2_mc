@@ -6,6 +6,7 @@ item replace entity @s[tag=!tf2.admin] hotbar.8 with written_book{pages:['["", {
 scoreboard players enable @s tf2.queue_type
 scoreboard players set @s tf2.queue_type 0
 attribute @s minecraft:generic.attack_damage base set 0
+attribute @s minecraft:generic.movement_speed base set 0.1
 team leave @s
 tag @s remove tf2.in_queue
 tag @s remove tf2.allowed_to_sprint

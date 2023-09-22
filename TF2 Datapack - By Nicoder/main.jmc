@@ -133,6 +133,7 @@ Player.join(() => {
     tf2.queue_type:@s = 0;
 
     attribute @s minecraft:generic.attack_damage base set 0;
+    attribute @s minecraft:generic.movement_speed base set 0.1;
 
     // removes all gameplay-specific variables
     team leave @s;
