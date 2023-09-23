@@ -110,6 +110,7 @@ new tags.functions(retina.on_hit) {
 
 class Weapons {
     function main_fire() {
+        $class = tf2.class:@s;
         switch ($class) {
             case Class.SPY: break; //Class.Spy.inventory_lock();
             case Class.SNIPER: Class.Sniper.inventory_lock();

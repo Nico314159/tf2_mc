@@ -191,6 +191,7 @@ class Spawn {
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tf2.health:@s = tf2.max_health:@s;
+        class_select();
         Text.title(@s, "");
         Text.subtitle(@s, "");
     } 
