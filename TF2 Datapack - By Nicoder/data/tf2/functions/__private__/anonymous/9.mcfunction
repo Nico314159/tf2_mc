@@ -1,11 +1,3 @@
-execute summon minecraft:marker run function tf2:__private__/anonymous/7
-scoreboard players operation $input_vec3.X tf2.var = $output_vec3.X retina.__variable__
-scoreboard players operation $input_vec3.Y tf2.var = $output_vec3.Y retina.__variable__
-scoreboard players operation $input_vec3.Z tf2.var = $output_vec3.Z retina.__variable__
-function tf2:math/vec_to_gimbal
-execute store result storage tf2.__temp__:summon line.yaw float 0.1 run scoreboard players get $output_yaw tf2.var
-execute store result storage tf2.__temp__:summon line.pitch float 0.1 run scoreboard players get $output_pitch tf2.var
-execute store result score $scale_length tf2.var run data get storage retina:output Distance 2000
-execute store result storage tf2.__temp__:summon line.scale float 0.001 run scoreboard players get $scale_length tf2.var
-function tf2:__private__/anonymous/8 with storage tf2.__temp__:summon line
-data remove storage tf2.__temp__:summon line
+$execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {item:{id:"glowstone_dust",Count:1b,tag:{CustomModelData:0}},Rotation:[$(yaw)f,$(pitch)f],Tags:["tf2.bullet","tf2.temp"],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1f,1f,$(scale)f]}}
+scoreboard players set @e[type=item_display,tag=tf2.bullet,tag=tf2.temp] tf2.timer 4
+tag @e[type=item_display,tag=tf2.bullet,tag=tf2.temp] remove tf2.temp

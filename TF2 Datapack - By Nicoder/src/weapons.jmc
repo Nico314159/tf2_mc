@@ -236,47 +236,7 @@ class Weapons {
     function damage() {
         if (retina.__variable__:$func_id !== 100) return 0;
         
-        execute unless predicate tf2:hide_ammo at @s run {
-            execute summon minecraft:marker run {
-                if (retina.__variable__:$offset_Y matches 776..778) {tp @s ~ ~1.42 ~;}
-                if (retina.__variable__:$offset_Y matches 608..610) {tp @s ~ ~1.07 ~;}
-                if (retina.__variable__:$offset_Y === 192)          {tp @s ~ ~0.20 ~;}
-                tag @s add tf2.height;
-                data modify storage tf2.__temp__:summon line.X set from entity @s Pos[0];
-                data modify storage tf2.__temp__:summon line.Y set from entity @s Pos[1];
-                data modify storage tf2.__temp__:summon line.Z set from entity @s Pos[2];
-                kill @s;
-            }
-            // rotate according to player vector
-            $input_vec3.X = retina.__variable__:$output_vec3.X;
-            $input_vec3.Y = retina.__variable__:$output_vec3.Y;
-            $input_vec3.Z = retina.__variable__:$output_vec3.Z;
-            Math.vec_to_gimbal();
-            execute store result storage tf2.__temp__:summon line.yaw float 0.1 run $output_yaw.get();
-            execute store result storage tf2.__temp__:summon line.pitch float 0.1 run $output_pitch.get();
-
-            $scale_length = data get storage retina:output Distance 2000;
-            //$scale_length -= 400;
-            execute store result storage tf2.__temp__:summon line.scale float 0.001 run $scale_length.get();
-
-            execute run {
-                $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
-                    item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}},
-                    Rotation: [$(yaw)f, $(pitch)f],
-                    Tags: ["tf2.bullet", "tf2.temp"],
-                    transformation: {
-                    left_rotation: [0f, 0f, 0f, 1f],
-                    right_rotation: [0f, 0f, 0f, 1f],
-                    translation: [0f, 0f, 0f],
-                    scale: [1f, 1f, $(scale)f]
-                    }
-                };
-                tf2.timer:@e[type=item_display,tag=tf2.bullet,tag=tf2.temp] = 4;
-                tag @e[type=item_display,tag=tf2.bullet,tag=tf2.temp] remove tf2.temp;
-                // damage @s 1 arrow;
-            } with storage tf2.__temp__:summon line;
-            data remove storage tf2.__temp__:summon line;
-        }
+        execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {  
             if (score @s tf2.team = $current tf2.team) return 0;
@@ -325,6 +285,48 @@ class Weapons {
             $_finalDamage_ /= 100;
             tf2.health:@s -= $_finalDamage_; 
         }
+    }
+    function draw_line() {
+        // @within Weapons.damage()
+        execute summon minecraft:marker run {
+            if (retina.__variable__:$offset_Y matches 776..778) {tp @s ~ ~1.42 ~;}
+            if (retina.__variable__:$offset_Y matches 608..610) {tp @s ~ ~1.07 ~;}
+            if (retina.__variable__:$offset_Y === 192)          {tp @s ~ ~0.20 ~;}
+            tag @s add tf2.height;
+            data modify storage tf2.__temp__:summon line.X set from entity @s Pos[0];
+            data modify storage tf2.__temp__:summon line.Y set from entity @s Pos[1];
+            data modify storage tf2.__temp__:summon line.Z set from entity @s Pos[2];
+            kill @s;
+        }
+        // rotate according to player vector
+        $input_vec3.X = retina.__variable__:$output_vec3.X;
+        $input_vec3.Y = retina.__variable__:$output_vec3.Y;
+        $input_vec3.Z = retina.__variable__:$output_vec3.Z;
+        Math.vec_to_gimbal();
+        execute store result storage tf2.__temp__:summon line.yaw float 0.1 run $output_yaw.get();
+        execute store result storage tf2.__temp__:summon line.pitch float 0.1 run $output_pitch.get();
+
+        $scale_length = data get storage retina:output Distance 2000;
+        //$scale_length -= 400;
+        execute store result storage tf2.__temp__:summon line.scale float 0.001 run $scale_length.get();
+
+        execute run {
+            $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
+                item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}},
+                Rotation: [$(yaw)f, $(pitch)f],
+                Tags: ["tf2.bullet", "tf2.temp"],
+                transformation: {
+                left_rotation: [0f, 0f, 0f, 1f],
+                right_rotation: [0f, 0f, 0f, 1f],
+                translation: [0f, 0f, 0f],
+                scale: [1f, 1f, $(scale)f]
+                }
+            };
+            tf2.timer:@e[type=item_display,tag=tf2.bullet,tag=tf2.temp] = 4;
+            tag @e[type=item_display,tag=tf2.bullet,tag=tf2.temp] remove tf2.temp;
+            // damage @s 1 arrow;
+        } with storage tf2.__temp__:summon line;
+        data remove storage tf2.__temp__:summon line;
     }
     function slot_check() {
         tf2.last_slot:@s = tf2.current_slot:@s;
