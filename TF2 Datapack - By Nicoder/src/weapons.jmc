@@ -238,53 +238,7 @@ class Weapons {
         
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 
-        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run {  
-            if (score @s tf2.team = $current tf2.team) return 0;
-            $_distance_ = data get storage retina:output Distance 1000;
-            if ($_distance_ > $_range_) return 0;
-            $_finalDamage_ = $_damage_;
-
-            if ($_rangeDependent_) {
-                $_hammerUnits_ = data get storage retina:output Distance 52.49343832021;
-                $_hammerUnits_ < 1024;
-
-                $_temp1_ = $_hammerUnits_;
-                $_temp1_ *= $_hammerUnits_;
-                $_temp1_ *= 3;
-
-                $_temp2_ = $_hammerUnits_;
-                $_temp2_ *= $_hammerUnits_;
-                $_temp2_ *= $_hammerUnits_;
-                $_temp2_ *= 2;
-                if ($_temp2_ == -2147483648) $_temp2_ --;
-                $_temp2_ /= 1024;
-
-                $_multiplier_ = $_temp1_;
-                $_multiplier_ -= $_temp2_;
-                $_multiplier_ *= -100;
-                $_multiplier_ /= 1048576;
-                $_multiplier_ += 50;
-
-                $_temp3_ = 100;
-                if ($_hammerUnits_ < 512) {
-                    $_temp3_ = $_maxRamp_;
-                    $_temp3_ -= 100;
-                    $_temp3_ *= 2;
-                }
-                $_multiplier_ *= $_temp3_;
-                $_multiplier_ /= 100;
-                $_multiplier_ += 100;
-            }
-            else if (entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
-                Class.Sniper.damage_scale();
-            }
-            else {$_multiplier_ = 100;}
-
-            $_finalDamage_ *= $_multiplier_;
-            $_finalDamage_ += 99;
-            $_finalDamage_ /= 100;
-            tf2.health:@s -= $_finalDamage_; 
-        }
+        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run Weapons.calculate_falloff();
     }
     function draw_line() {
         // @within Weapons.damage()
@@ -327,6 +281,54 @@ class Weapons {
             // damage @s 1 arrow;
         } with storage tf2.__temp__:summon line;
         data remove storage tf2.__temp__:summon line;
+    }
+    function calculate_falloff() {  
+        // @within Weapons.damage()
+        if (score @s tf2.team = $current tf2.team) return 0;
+        $_distance_ = data get storage retina:output Distance 1000;
+        if ($_distance_ > $_range_) return 0;
+        $_finalDamage_ = $_damage_;
+
+        if ($_rangeDependent_) {
+            $_hammerUnits_ = data get storage retina:output Distance 52.49343832021;
+            $_hammerUnits_ < 1024;
+
+            $_temp1_ = $_hammerUnits_;
+            $_temp1_ *= $_hammerUnits_;
+            $_temp1_ *= 3;
+
+            $_temp2_ = $_hammerUnits_;
+            $_temp2_ *= $_hammerUnits_;
+            $_temp2_ *= $_hammerUnits_;
+            $_temp2_ *= 2;
+            if ($_temp2_ == -2147483648) $_temp2_ --;
+            $_temp2_ /= 1024;
+
+            $_multiplier_ = $_temp1_;
+            $_multiplier_ -= $_temp2_;
+            $_multiplier_ *= -100;
+            $_multiplier_ /= 1048576;
+            $_multiplier_ += 50;
+
+            $_temp3_ = 100;
+            if ($_hammerUnits_ < 512) {
+                $_temp3_ = $_maxRamp_;
+                $_temp3_ -= 100;
+                $_temp3_ *= 2;
+            }
+            $_multiplier_ *= $_temp3_;
+            $_multiplier_ /= 100;
+            $_multiplier_ += 100;
+        }
+        else if (entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
+            Class.Sniper.damage_scale();
+        }
+        else {$_multiplier_ = 100;}
+
+        $_finalDamage_ *= $_multiplier_;
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+        tf2.health:@s -= $_finalDamage_; 
     }
     function slot_check() {
         tf2.last_slot:@s = tf2.current_slot:@s;
