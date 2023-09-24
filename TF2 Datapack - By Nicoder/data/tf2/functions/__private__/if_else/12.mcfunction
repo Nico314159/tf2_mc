@@ -1,2 +1,1 @@
-execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2,tf2.batch_number=0},limit=24,sort=random] run function tf2:start_game/as_players/generic
-scoreboard players set __if_else__ tf2.var 1
+execute if score $winner tf2.var matches 1..2 run function tf2:__private__/if_else/13

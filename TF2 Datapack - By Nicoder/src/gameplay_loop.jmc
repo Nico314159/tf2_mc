@@ -20,10 +20,12 @@ class start_game {
             // @within __tick__()
 
             if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Game has been started by &<@s> at &<0008it54g_p_join:$__global__> ticks gametime");
-            Hardcode.repeat("_i_", () => {
-                if (tf2.batch_number:@s = _i_) {tf2.session:$global__i_ ++; tf2.session:@s = tf2.session:$global__i_;}
-            }, start = 1, stop = _INSTANCES_CAP_);
             tf2.batch_number:$local = tf2.batch_number:@s;
+            execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
+            execute run {
+                $scoreboard players add $global_$(i) tf2.session 1;
+                $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
+            } with storage tf2.__temp__:index;
             JMC.put("# TODO: make dynamic for selected maps instead of hardcoding");
             data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0;
             data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1;
@@ -63,7 +65,9 @@ class start_game {
                     tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
                     execute if score @s tf2.index = $highest tf2.index run tag @s add tf2.last;
                     tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
-                    Hardcode.repeat("_i_", () => {tf2.session:@s[scores={tf2.batch_number=_i_}] = tf2.session:$global__i_;}, start = 1, stop = _INSTANCES_CAP_);
+                    execute run {
+                        $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
+                    } with storage tf2.__temp__:index;
                 }
                 data remove storage tf2.__temp__:summon objectives[-1];
             }
@@ -85,7 +89,6 @@ class start_game {
                 execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run start_game.as_players.generic();
             }
             scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type;
-            execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
             tf2.timer:@s = data get entity @s data.map.timer 20;
             if (data entity @s data.map.timer) Timer.set_max() with storage tf2.__temp__:index;
             if (data entity @s data.map.timer) Timer.show() with storage tf2.__temp__:index;

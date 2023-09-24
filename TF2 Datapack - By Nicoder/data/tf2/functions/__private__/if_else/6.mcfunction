@@ -1,2 +1,2 @@
-scoreboard players add $global_2 tf2.session 1
-scoreboard players operation @s tf2.session = $global_2 tf2.session
+execute if score $casual_queue_length tf2.var matches 24.. run function tf2:__private__/if_else/7
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/8

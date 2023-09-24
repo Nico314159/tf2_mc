@@ -1,3 +1,3 @@
-execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $timer_temp tf2.var
-function tf2:__private__/switch_case/11/select with storage tf2:__storage__
-scoreboard players set __if_else__ tf2.var 1
+function tf2:weapons/main_fire
+item modify entity @s weapon.mainhand tf2:load_crossbow
+kill @e[type=arrow]

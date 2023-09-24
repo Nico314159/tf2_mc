@@ -19,5 +19,5 @@ execute store result score $_delay_ tf2.var run data get entity @s SelectedItem.
 scoreboard players operation @s tf2.attack_delay += $_delay_ tf2.var
 scoreboard players reset $func_id retina.__variable__
 scoreboard players set __if_else__ tf2.var 0
-execute if predicate tf2:holding_melee run function tf2:__private__/if_else/20
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/21
+execute if predicate tf2:holding_melee run function tf2:__private__/if_else/15
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/16

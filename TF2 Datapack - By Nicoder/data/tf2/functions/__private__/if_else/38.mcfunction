@@ -1,2 +1,1 @@
-data modify storage tf2.__temp__:lookup points[0].symbol set value "[{\"text\":\"320L@\",\"font\":\"tf2:square\"}]"
-scoreboard players set __if_else__ tf2.var 1
+execute if entity @s[tag=!tf2.overtime] run function tf2:__private__/if_else/39

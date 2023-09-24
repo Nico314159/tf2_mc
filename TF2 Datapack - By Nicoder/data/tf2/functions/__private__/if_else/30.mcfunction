@@ -1,3 +1,4 @@
-scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
-scoreboard players remove $_temp3_ tf2.var 100
-scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const
+item replace entity @s armor.chest with elytra{} 1
+execute store result score $_count_ tf2.var run clear @s elytra{} 0
+execute unless score $_count_ tf2.var matches 1 run clear @s elytra{} 
+execute unless score $_count_ tf2.var matches 1 run item replace entity @s armor.chest with elytra{} 1

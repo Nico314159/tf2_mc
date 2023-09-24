@@ -1,1 +1,3 @@
-execute if score $winner tf2.var matches 1..2 run function tf2:__private__/if_else/18
+scoreboard players operation $_clip_ tf2.var = @s tf2.primary_clip
+scoreboard players operation $_maxClip_ tf2.var = @s tf2.primary_maxClip
+scoreboard players operation $_ammo_ tf2.var = @s tf2.primary_ammo

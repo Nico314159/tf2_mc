@@ -1,3 +1,3 @@
-execute summon minecraft:marker run function tf2:__private__/anonymous/4
-execute at @e[tag=tf2.height,limit=1] summon item_display run function tf2:__private__/anonymous/5
-kill @e[tag=tf2.height]
+scoreboard players set __if_else__ tf2.var 0
+execute if score @s tf2.team = $winner tf2.var run function tf2:__private__/if_else/11
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/12

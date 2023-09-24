@@ -1,2 +1,2 @@
-title @s actionbar ["",{"text":"\u2764 Health: ","color":"red"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red"}]
+function tf2:class/sniper/damage_scale
 scoreboard players set __if_else__ tf2.var 1

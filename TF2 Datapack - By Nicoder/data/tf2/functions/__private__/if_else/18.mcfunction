@@ -1,2 +1,3 @@
-tellraw @s {"text":"You've failed!","bold":false,"italic":true}
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players operation $_clip_ tf2.var = @s tf2.secondary_clip
+scoreboard players operation $_maxClip_ tf2.var = @s tf2.secondary_maxClip
+scoreboard players operation $_ammo_ tf2.var = @s tf2.secondary_ammo

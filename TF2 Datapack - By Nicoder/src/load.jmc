@@ -171,6 +171,7 @@ if (!$initialization_complete) {
 
     data merge storage tf2.__temp__:actionbar {string:'[""]'};
     data merge storage tf2.__temp__:summon {};
+    data merge storage tf2.__temp__:index {};
     data merge storage tf2.__temp__:lookup {points:[{}]};
     data merge storage tf2:control_points {
         info: [
@@ -229,15 +230,11 @@ if (!$initialization_complete) {
     };
 
     // this could *technically* be part of the previous command, but then it would be so long that it's a total PITA.
-    Hardcode.repeat(
-        "_i_", () => {
-            Hardcode.repeat("_j_", 
-                () => {data modify storage tf2:control_points info[_i_][_j_].main set value '[{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}]';},
-                start = 0, stop = 7
-            );
-        },
-        start = 1, stop = _INSTANCES_CAP_
-    );
+    Hardcode.repeat("_i_", () => {
+        Hardcode.repeat("_j_", () => {
+            data modify storage tf2:control_points info[_i_][_j_].main set value '[{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}]';
+        }, start = 0, stop = 7);
+    }, start = 1, stop = _INSTANCES_CAP_);
     $initialization_complete = true;
 }
 $Settings.max_batches < _INSTANCES_CAP_MINUS_ONE_; 

@@ -1,3 +1,3 @@
-data modify storage tf2:__storage__ currentObject set from storage tf2.__temp__:check_match UUID
-execute store success score __bool_result__1 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @s Owner
-execute if score __bool_result__1 tf2.var matches 0 run function tf2:__private__/if_else/47
+scoreboard players set @s tf2.health 0
+tellraw @a ["",{"selector":"@s"},{"text":" fell into the void."}]
+tp @s ~ 5 ~

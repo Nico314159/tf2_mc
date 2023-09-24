@@ -1,11 +1,6 @@
-scoreboard players remove @s[scores={tf2.attack_delay=0..}] tf2.attack_delay 1000
-scoreboard players remove @s[scores={tf2.reload_delay=0..}] tf2.reload_delay 1000
-data modify storage tf2.__temp__:check_match UUID set from entity @s UUID
-tag @s add tf2.self
-execute if predicate tf2:empty_hand run function tf2:__private__/if_else/48
-tag @s remove tf2.self
-execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/49
-function tf2:weapons/slot_check
-scoreboard players operation $class tf2.var = @s tf2.class
-execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $class tf2.var
-function tf2:__private__/switch_case/12/select with storage tf2:__storage__
+scoreboard players remove @s tf2.respawn_timer 1
+scoreboard players operation @s tf2.respawn_timer.sec = @s tf2.respawn_timer
+scoreboard players add @s tf2.respawn_timer.sec 19
+scoreboard players operation @s tf2.respawn_timer.sec /= 20 tf2.const
+title @s title {"text":"You died!","color":"white"}
+title @s subtitle ["",{"text":"Respawn in... ","color":"gray"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"dark_gray"}]

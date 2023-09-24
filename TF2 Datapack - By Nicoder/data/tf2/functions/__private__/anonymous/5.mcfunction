@@ -1,12 +1,15 @@
-tag @s add tf2.bullet
-scoreboard players set @s tf2.timer 4
-data merge entity @s {item:{id:"glowstone_dust",Count:1b,tag:{CustomModelData:0}}}
-execute store result score $scale_length tf2.var run data get storage retina:output Distance 2000
-execute store result entity @s transformation.scale[2] float 0.001 run scoreboard players get $scale_length tf2.var
-scoreboard players operation $input_vec3.X tf2.var = $output_vec3.X retina.__variable__
-scoreboard players operation $input_vec3.Y tf2.var = $output_vec3.Y retina.__variable__
-scoreboard players operation $input_vec3.Z tf2.var = $output_vec3.Z retina.__variable__
-function tf2:math/vec_to_gimbal
-execute store result entity @s Rotation[0] float 0.1 run scoreboard players get $output_yaw tf2.var
-execute store result entity @s Rotation[1] float 0.1 run scoreboard players get $output_pitch tf2.var
-tp @s ^ ^ ^0.15
+data modify storage tf2.__temp__:summon entity.Pos set from storage tf2.__temp__:summon objectives[-1].Pos
+data modify storage tf2.__temp__:summon entity.Tags set from storage tf2.__temp__:summon objectives[-1].Tags
+data modify entity @s {} merge from storage tf2.__temp__:summon entity
+execute store result score @s tf2.team run data get storage tf2.__temp__:summon objectives[-1].data.team 1
+execute store result score @s tf2.capture_threshold run data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000
+execute store result score @s tf2.increment run data get storage tf2.__temp__:summon objectives[-1].data.increment 20
+scoreboard players operation @s tf2.gamemode = $temp tf2.gamemode
+scoreboard players operation @s tf2.index = $temp tf2.index
+scoreboard players operation $highest tf2.index > @s tf2.index
+scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
+scoreboard players operation @s[scores={tf2.team=1}] tf2.red_progress = @s tf2.capture_threshold
+scoreboard players operation @s[scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold
+execute if score @s tf2.index = $highest tf2.index run tag @s add tf2.last
+tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last
+function tf2:__private__/anonymous/4 with storage tf2.__temp__:index

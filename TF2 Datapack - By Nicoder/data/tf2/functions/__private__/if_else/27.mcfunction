@@ -1,1 +1,1 @@
-title @s actionbar ["",{"text":"\u2764 Health: ","color":"red"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red"},{"text":"             ","color":"red"},{"text":"Ammo: ","color":"gray"},{"score":{"name":"$_clip_","objective":"tf2.var"},"color":"gray"},{"text":" ","color":"gray"},{"text":"(","color":"dark_gray"},{"score":{"name":"$_ammo_","objective":"tf2.var"},"color":"dark_gray"},{"text":")","color":"dark_gray"}]
+scoreboard players set $_multiplier_ tf2.var 100

@@ -1,2 +1,2 @@
-execute if score $casual_queue_length tf2.var matches 24.. run function tf2:__private__/if_else/12
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/13
+tellraw @s {"text":"Victory.","bold":false,"italic":true}
+scoreboard players set __if_else__ tf2.var 1

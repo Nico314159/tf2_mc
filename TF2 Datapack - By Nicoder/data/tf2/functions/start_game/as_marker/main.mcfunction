@@ -1,10 +1,7 @@
 execute if score $Settings.show_debug_messages tf2.var matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},{"text":"Game has been started by ","bold":false},{"selector":"@s"},{"text":" at "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"}},{"text":" ticks gametime"}]
-execute if score @s tf2.batch_number matches 1 run function tf2:__private__/if_else/5
-execute if score @s tf2.batch_number matches 2 run function tf2:__private__/if_else/6
-execute if score @s tf2.batch_number matches 3 run function tf2:__private__/if_else/7
-execute if score @s tf2.batch_number matches 4 run function tf2:__private__/if_else/8
-execute if score @s tf2.batch_number matches 5 run function tf2:__private__/if_else/9
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
+execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:__private__/anonymous/3 with storage tf2.__temp__:index
 # TODO: make dynamic for selected maps instead of hardcoding
 data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0
 data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1
@@ -20,10 +17,9 @@ data remove storage tf2.__temp__:summon entity
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass
 scoreboard players set __if_else__ tf2.var 0
-execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/10
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/11
+execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/5
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/6
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
 execute store result score @s tf2.timer run data get entity @s data.map.timer 20
 execute if data entity @s data.map.timer run function tf2:timer/set_max with storage tf2.__temp__:index
 execute if data entity @s data.map.timer run function tf2:timer/show with storage tf2.__temp__:index

@@ -97,7 +97,10 @@ function __tick__() {
     }
     
     // honetly
-    Hardcode.repeat("_i_", () => {execute as @e[type=marker,scores={tf2.batch_number=_i_}] unless score @s tf2.session = $global__i_ tf2.session run kill @s;}, start = 1, stop = _INSTANCES_CAP_);
+    execute as @e[type=marker,tag=tf2.batch] run {
+        execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
+        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with tf2.__temp__:index;
+    }
 }
 
 Player.join(() => {

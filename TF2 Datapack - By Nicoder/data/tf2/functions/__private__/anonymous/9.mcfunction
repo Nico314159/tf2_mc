@@ -1,2 +1,3 @@
-execute if entity @s[scores={tf2.team=1}] run function tf2:__private__/if_else/36
-execute if entity @s[scores={tf2.team=2}] run function tf2:__private__/if_else/37
+execute summon minecraft:marker run function tf2:__private__/anonymous/7
+execute at @e[tag=tf2.height,limit=1] summon item_display run function tf2:__private__/anonymous/8
+kill @e[tag=tf2.height]

@@ -1,2 +1,2 @@
-scoreboard players add $global_1 tf2.session 1
-scoreboard players operation @s tf2.session = $global_1 tf2.session
+execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run function tf2:start_game/as_players/generic
+scoreboard players set __if_else__ tf2.var 1
