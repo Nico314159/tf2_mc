@@ -1,6 +1,7 @@
 tag @s add tf2.bullet
 scoreboard players set @s tf2.timer 4
 data merge entity @s {item:{id:"glowstone_dust",Count:1b,tag:{CustomModelData:0}}}
+data modify entity @s Pos set from storage tf2.__temp__:summon Pos
 execute store result score $scale_length tf2.var run data get storage retina:output Distance 2000
 execute store result entity @s transformation.scale[2] float 0.001 run scoreboard players get $scale_length tf2.var
 scoreboard players operation $input_vec3.X tf2.var = $output_vec3.X retina.__variable__

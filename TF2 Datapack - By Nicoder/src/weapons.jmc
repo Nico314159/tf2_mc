@@ -244,14 +244,16 @@ class Weapons {
                 if (retina.__variable__:$offset_Y matches 608..610) {tp @s ~ ~1.07 ~;}
                 if (retina.__variable__:$offset_Y === 192)          {tp @s ~ ~0.20 ~;}
                 tag @s add tf2.height;
+                data modify storage tf2.__temp__:summon Pos set from entity @s Pos;
             }
 
-            execute at @e[tag=tf2.height,limit=1] summon item_display run {
+            execute at @e[tag=tf2.height,limit=1] positioned ~ ~1000 ~ summon item_display run {
                 tag @s add tf2.bullet;
                 tf2.timer:@s = 4;
                 data merge entity @s {
                     item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}}
                 };
+                data modify entity @s Pos set from storage tf2.__temp__:summon Pos;
 
                 // scale by 0.2 fewer blocks
                 $scale_length = data get storage retina:output Distance 2000;

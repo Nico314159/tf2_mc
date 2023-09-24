@@ -2,3 +2,4 @@ execute if score $offset_Y retina.__variable__ matches 776..778 run tp @s ~ ~1.4
 execute if score $offset_Y retina.__variable__ matches 608..610 run tp @s ~ ~1.07 ~
 execute if score $offset_Y retina.__variable__ matches 192 run tp @s ~ ~0.20 ~
 tag @s add tf2.height
+data modify storage tf2.__temp__:summon Pos set from entity @s Pos
