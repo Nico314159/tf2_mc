@@ -98,7 +98,7 @@ function __tick__() {
     // honetly
     execute as @e[type=marker,tag=tf2.batch] run {
         execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
-        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with tf2.__temp__:index;
+        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with storage tf2.__temp__:index;
     }
 }
 
