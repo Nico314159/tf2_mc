@@ -7,7 +7,6 @@ execute as @e[tag=tf2.bullet] run scoreboard players remove @s tf2.timer 1
 kill @e[tag=tf2.bullet,scores={tf2.timer=..0}]
 execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run function tf2:join_queue
 execute as @a[tag=!tf2.allowed_to_sprint] run function tf2:disable_sprint
-effect give @a minecraft:saturation infinite 0 true
 execute store result score $comp_queue_length tf2.var if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}]
 execute store result score $casual_queue_length tf2.var if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2}]
 execute store result score $chaos_queue_length tf2.var if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3}]
