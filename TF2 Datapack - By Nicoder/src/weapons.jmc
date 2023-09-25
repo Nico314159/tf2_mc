@@ -137,11 +137,18 @@ class Weapons {
         // retina._variable_:$end_particle = true;
 
         retina.__variable__:$func_id = 100;
+        $_totalDamage_ = 0;
         JMC.put("function retina:traverse/multicast");
         // retina._variable_:$end_particle = false;
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
         tf2.attack_delay:@s += $_delay_;
         scoreboard players reset $func_id retina.__variable__;
+
+        data modify storage tf2.__temp__:summon number.X set from storage retina:output ContactCoordinates[0];
+        data modify storage tf2.__temp__:summon number.Y set from storage retina:output ContactCoordinates[1];
+        data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
+        execute store result storage tf2.__temp__:summon number.value int 1 run $_totalDamage_.get();
+        if ($_totalDamage_ > 0) {Weapons.damage_numbers() with storage tf2.__temp__:summon number;}
 
         // TODO: use `return run` when 1.20.2 releases
         if (predicate tf2:holding_melee) {
@@ -329,16 +336,14 @@ class Weapons {
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
         tf2.health:@s -= $_finalDamage_;
-
-        data modify storage tf2.__temp__:summon number.X set from storage retina:output ContactCoordinates[0];
-        data modify storage tf2.__temp__:summon number.Y set from storage retina:output ContactCoordinates[1];
-        data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
-        execute store result storage tf2.__temp__:summon number.value int 1 run $_finalDamage_.get();
-        execute run {
-            $execute positioned 0 0.4 0 run summon text_display ~$(X) ~$(Y) ~$(Z) {billboard: "center", text: '{"color":"red","bold":"true","text":"-$(value)"}', Tags: ["tf2.visual", "tf2.newest"]};
-            tf2.timer:@e[type=text_display,tag=tf2.visual,tag=tf2.newest] = 10;
-            tag @e[type=text_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
-        } with storage tf2.__temp__:summon number; 
+        $_totalDamage_ += $_finalDamage_;
+    }
+    function damage_numbers() {
+        // @within Weapons.main_fire();
+        $execute positioned 0 0.4 0 run summon text_display ~$(X) ~$(Y) ~$(Z) {billboard: "center", text: '{"color":"red","bold":"true","text":"-$(value)"}', Tags: ["tf2.visual", "tf2.newest"]};
+        tf2.timer:@e[type=text_display,tag=tf2.visual,tag=tf2.newest] = 10;
+        tag @e[type=text_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
+        data remove storage tf2.__temp__:summon number;
     }
     function slot_check() {
         tf2.last_slot:@s = tf2.current_slot:@s;
