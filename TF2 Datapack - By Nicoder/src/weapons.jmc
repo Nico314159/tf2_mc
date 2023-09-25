@@ -268,7 +268,7 @@ class Weapons {
             $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
                 item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}},
                 Rotation: [$(yaw)f, $(pitch)f],
-                Tags: ["tf2.bullet", "tf2.temp"],
+                Tags: ["tf2.bullet", "tf2.newest"],
                 transformation: {
                 left_rotation: [0f, 0f, 0f, 1f],
                 right_rotation: [0f, 0f, 0f, 1f],
@@ -276,13 +276,13 @@ class Weapons {
                 scale: [1f, 1f, $(scale)f]
                 }
             };
-            tf2.timer:@e[type=item_display,tag=tf2.bullet,tag=tf2.temp] = 4;
-            tag @e[type=item_display,tag=tf2.bullet,tag=tf2.temp] remove tf2.temp;
+            tf2.timer:@e[type=item_display,tag=tf2.bullet,tag=tf2.newest] = 4;
+            tag @e[type=item_display,tag=tf2.bullet,tag=tf2.newest] remove tf2.newest;
             // damage @s 1 arrow;
         } with storage tf2.__temp__:summon line;
         data remove storage tf2.__temp__:summon line;
     }
-    function calculate_falloff() {  
+    function calculate_falloff() {
         // @within Weapons.damage()
         if (score @s tf2.team = $current tf2.team) return 0;
         $_distance_ = data get storage retina:output Distance 1000;
@@ -328,7 +328,17 @@ class Weapons {
         $_finalDamage_ *= $_multiplier_;
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
-        tf2.health:@s -= $_finalDamage_; 
+        tf2.health:@s -= $_finalDamage_;
+
+        data modify storage tf2.__temp__:summon number.X set from storage retina:output ContactCoordinates[0];
+        data modify storage tf2.__temp__:summon number.Y set from storage retina:output ContactCoordinates[1];
+        data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
+        execute store result storage tf2.__temp__:summon number.value int 1 run $_finalDamage_.get();
+        execute run {
+            $summon text_display $(X) $(Y) $(Z) {billboard: "center", text: '{"color":"red","text":"-$(value)"}', Tags: ["tf2.damage_number", "tf2.newest"], Motion: [0.0, 0.1, 0.0]};
+            tf2.timer:@e[type=text_display,tag=tf2.damage_number,tag=tf2.newest] = 10;
+            tag @e[type=text_display,tag=tf2.damage_number,tag=tf2.newest] remove tf2.newest;
+        } with storage tf2.__temp__:summon number; 
     }
     function slot_check() {
         tf2.last_slot:@s = tf2.current_slot:@s;

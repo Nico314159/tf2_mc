@@ -1,2 +1,1 @@
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/16 with storage tf2.__temp__:index
+$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s
