@@ -268,7 +268,7 @@ class Weapons {
             $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
                 item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}},
                 Rotation: [$(yaw)f, $(pitch)f],
-                Tags: ["tf2.bullet", "tf2.newest"],
+                Tags: ["tf2.visual", "tf2.newest"],
                 transformation: {
                 left_rotation: [0f, 0f, 0f, 1f],
                 right_rotation: [0f, 0f, 0f, 1f],
@@ -276,8 +276,8 @@ class Weapons {
                 scale: [1f, 1f, $(scale)f]
                 }
             };
-            tf2.timer:@e[type=item_display,tag=tf2.bullet,tag=tf2.newest] = 4;
-            tag @e[type=item_display,tag=tf2.bullet,tag=tf2.newest] remove tf2.newest;
+            tf2.timer:@e[type=item_display,tag=tf2.visual,tag=tf2.newest] = 4;
+            tag @e[type=item_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
             // damage @s 1 arrow;
         } with storage tf2.__temp__:summon line;
         data remove storage tf2.__temp__:summon line;
@@ -335,9 +335,9 @@ class Weapons {
         data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
         execute store result storage tf2.__temp__:summon number.value int 1 run $_finalDamage_.get();
         execute run {
-            $summon text_display $(X) $(Y) $(Z) {billboard: "center", text: '{"color":"red","text":"-$(value)"}', Tags: ["tf2.damage_number", "tf2.newest"], Motion: [0.0, 0.1, 0.0]};
-            tf2.timer:@e[type=text_display,tag=tf2.damage_number,tag=tf2.newest] = 10;
-            tag @e[type=text_display,tag=tf2.damage_number,tag=tf2.newest] remove tf2.newest;
+            $execute positioned 0 0.4 0 run summon text_display ~$(X) ~$(Y) ~$(Z) {billboard: "center", text: '{"color":"red","bold":"true","text":"-$(value)"}', Tags: ["tf2.visual", "tf2.newest"]};
+            tf2.timer:@e[type=text_display,tag=tf2.visual,tag=tf2.newest] = 10;
+            tag @e[type=text_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
         } with storage tf2.__temp__:summon number; 
     }
     function slot_check() {

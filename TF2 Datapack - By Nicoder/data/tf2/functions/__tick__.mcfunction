@@ -3,10 +3,8 @@ scoreboard players add $__global__ 0008it54g_p_join 1
 scoreboard players add @a 0008it54g_p_join 1
 execute as @a unless score @s 0008it54g_p_join = $__global__ 0008it54g_p_join run function tf2:__private__/player_join/main
 execute unless score $found_dependency tf2.var matches 1.. run return -118
-execute as @e[tag=tf2.bullet] run scoreboard players remove @s tf2.timer 1
-kill @e[tag=tf2.bullet,scores={tf2.timer=..0}]
-execute as @e[tag=tf2.damage_number] run scoreboard players remove @s tf2.timer 1
-kill @e[tag=tf2.damage_number,scores={tf2.timer=..0}]
+execute as @e[tag=tf2.visual] run scoreboard players remove @s tf2.timer 1
+kill @e[tag=tf2.visual,scores={tf2.timer=..0}]
 execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run function tf2:join_queue
 execute as @a[tag=!tf2.allowed_to_sprint] run function tf2:disable_sprint
 execute store result score $comp_queue_length tf2.var if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}]
