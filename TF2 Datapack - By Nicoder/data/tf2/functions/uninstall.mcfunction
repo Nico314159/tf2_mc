@@ -14,6 +14,7 @@ scoreboard objectives remove tf2.increment
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.batch_number
 scoreboard objectives remove tf2.session
+scoreboard objectives remove tf2.lifetime
 scoreboard objectives remove tf2.respawn_timer
 scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.class

@@ -282,7 +282,7 @@ class Weapons {
                 scale: [1f, 1f, $(scale)f]
                 }
             };
-            tf2.timer:@e[type=item_display,tag=tf2.visual,tag=tf2.newest] = 4;
+            tf2.lifetime:@e[type=item_display,tag=tf2.visual,tag=tf2.newest] = 4;
             tag @e[type=item_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
             // damage @s 1 arrow;
         } with storage tf2.__temp__:summon line;
@@ -350,7 +350,7 @@ class Weapons {
             scale: [2f, 2f, 2f]
             }
         };
-        tf2.timer:@e[type=text_display,tag=tf2.visual,tag=tf2.newest] = 12;
+        tf2.lifetime:@e[type=text_display,tag=tf2.visual,tag=tf2.newest] = 12;
         tag @e[type=text_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
         data remove storage tf2.__temp__:summon number;
     }

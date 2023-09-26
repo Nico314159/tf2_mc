@@ -36,6 +36,7 @@ scoreboard objectives add tf2.increment dummy
 scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.batch_number dummy
 scoreboard objectives add tf2.session dummy
+scoreboard objectives add tf2.lifetime dummy
 scoreboard objectives add tf2.respawn_timer dummy
 scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.class dummy

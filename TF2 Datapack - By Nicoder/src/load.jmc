@@ -19,6 +19,7 @@ Scoreboard.add(tf2.increment, dummy);
 Scoreboard.add(tf2.queue_type, trigger);
 Scoreboard.add(tf2.batch_number, dummy);
 Scoreboard.add(tf2.session, dummy);
+Scoreboard.add(tf2.lifetime, dummy);
 Scoreboard.add(tf2.respawn_timer, dummy);
 Scoreboard.add(tf2.respawn_timer.sec, dummy);
 Scoreboard.add(tf2.class, dummy);
