@@ -11,7 +11,7 @@ execute store result score $_damage_ tf2.var run data get entity @s SelectedItem
 execute store result score $_range_ tf2.var run data get entity @s SelectedItem.tag.attributes.range 1000
 execute unless data entity @s SelectedItem.tag.attributes.range run scoreboard players set $_range_ tf2.var 2147483647
 execute store result score $_maxRamp_ tf2.var run data get entity @s SelectedItem.tag.attributes.damage.maxRamp 100
-execute unless data entity @s SelectedItem.tag.attributes.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
+execute unless data entity @s SelectedItem.tag.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
 execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
 scoreboard players set $func_id retina.__variable__ 100
 scoreboard players set $_totalDamage_ tf2.var 0

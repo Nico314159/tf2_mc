@@ -132,7 +132,7 @@ class Weapons {
         $_range_ = data get entity @s SelectedItem.tag.attributes.range 1000;
         if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
         $_maxRamp_ = data get entity @s SelectedItem.tag.attributes.damage.maxRamp 100;
-        if (!data entity @s SelectedItem.tag.attributes.maxRamp) $_maxRamp_ = 150;
+        if (!data entity @s SelectedItem.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
         // retina._variable_:$end_particle = true;
 
@@ -154,7 +154,7 @@ class Weapons {
         if (predicate tf2:holding_melee) {
             if (score $offset_Y retina.__variable__ matches 776..778) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
             if (score $offset_Y retina.__variable__ matches 608..610) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-            if (score $offset_Y retina.__variable__ matches 192) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+            if (score $offset_Y retina.__variable__ matches 192)      execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
         }
         else {
             $_clip_ --;
@@ -235,8 +235,7 @@ class Weapons {
         // TODO: use `return run` when 1.20.2 releases
         if (predicate tf2:hide_ammo) {
             Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>");
-        }
-        else {
+        } else {
             Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>             &<gray>Ammo: &<$_clip_> &<dark_gray>(&<$_ammo_>)");
         }
     }

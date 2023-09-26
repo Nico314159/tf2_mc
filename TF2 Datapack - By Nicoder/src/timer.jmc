@@ -74,7 +74,7 @@ class Timer
         //  Timer.overtime()
         //  start_game.as_marker.main()
         $execute store result bossbar tf2:timer_$(i) max 
-                store result bossbar tf2:timer_$(i) value run tf2.timer:@s.get();
+                 store result bossbar tf2:timer_$(i) value run tf2.timer:@s.get();
     } 
 
     function show() {
