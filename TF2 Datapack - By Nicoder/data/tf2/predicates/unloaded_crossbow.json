@@ -7,7 +7,7 @@
                 "items": [
                     "minecraft:crossbow"
                 ],
-                "nbt": "{Charged:0b}"
+                "nbt": "{Charged: 0b}"
             }
         }
     }

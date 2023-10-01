@@ -10,3 +10,4 @@ scoreboard players add $_finalDamage_ tf2.var 99
 scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const
 scoreboard players operation @s tf2.health -= $_finalDamage_ tf2.var
 scoreboard players operation $_totalDamage_ tf2.var += $_finalDamage_ tf2.var
+damage @s 0.01 tf2:screenshake by @a[tag=retina.executing,limit=1]
