@@ -160,13 +160,20 @@ class Weapons {
         data modify storage tf2.__temp__:summon number.Y set from storage retina:output ContactCoordinates[1];
         data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
         execute store result storage tf2.__temp__:summon number.value int 1 run $_totalDamage_.get();
-        if ($_totalDamage_ > 0) {Weapons.damage_numbers() with storage tf2.__temp__:summon number;}
+        if ($_totalDamage_ >= 1) {
+            Weapons.damage_numbers() with storage tf2.__temp__:summon number;
+        }
+
+        // Equivalent to the range 192 u 608..610 u 776..778
+        $validOffset = false;
+        execute if score $offset_Y retina.__variable__ matches 192..778 
+            unless score $offset_Y retina.__variable__ matches 193..607 
+            unless score $offset_Y retina.__variable__ matches 611..775
+            run $validOffset = true;
 
         // TODO: use `return run` when 1.20.2 releases
-        if (predicate tf2:holding_melee) {
-            if (score $offset_Y retina.__variable__ matches 776..778) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-            if (score $offset_Y retina.__variable__ matches 608..610) execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-            if (score $offset_Y retina.__variable__ matches 192)      execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+        if (predicate tf2:holding_melee && $validOffset) {
+            execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
         }
         else {
             $_clip_ --;
@@ -354,7 +361,7 @@ class Weapons {
         // @within Weapons.main_fire();
         $execute positioned 0 0.4 0 run summon text_display ~$(X) ~$(Y) ~$(Z) {
             billboard: "center", 
-            text: '{"color":"red","bold":"true","text":"-$(value)"}', 
+            text: '{"color":"red", "bold":"true", "text":"-$(value)"}', 
             Tags: ["tf2.visual", "tf2.newest"],
             transformation: {
             left_rotation: [0f, 0f, 0f, 1f],

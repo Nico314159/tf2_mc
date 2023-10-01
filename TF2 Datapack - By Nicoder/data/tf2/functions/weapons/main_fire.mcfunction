@@ -24,6 +24,8 @@ data modify storage tf2.__temp__:summon number.Y set from storage retina:output 
 data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2]
 execute store result storage tf2.__temp__:summon number.value int 1 run scoreboard players get $_totalDamage_ tf2.var
 execute if score $_totalDamage_ tf2.var matches 1.. run function tf2:weapons/damage_numbers with storage tf2.__temp__:summon number
+scoreboard players set $validOffset tf2.var 0
+execute if score $offset_Y retina.__variable__ matches 192..778 unless score $offset_Y retina.__variable__ matches 193..607 unless score $offset_Y retina.__variable__ matches 611..775 run scoreboard players set $validOffset tf2.var 1
 scoreboard players set __if_else__ tf2.var 0
-execute if predicate tf2:holding_melee run function tf2:__private__/if_else/15
+execute if predicate tf2:holding_melee if score $validOffset tf2.var matches 1.. run function tf2:__private__/if_else/15
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/16
