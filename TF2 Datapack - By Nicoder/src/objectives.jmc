@@ -96,7 +96,9 @@ class Objectives
             if ($blu_cp_count = tf2.index:@s && score @s[tag=!tf2.multistage] tf2.gamemode matches 1..2) $winner = 2;
             // execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
             // execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
-            if ($winner == $winner && !score @s tf2.timer matches ..-1) reset.announce_winner(); // Negative time means the game is already over but players haven't been relogged yet
+
+            // Negative time means the game is already over but players haven't been relogged yet. `$winner == $winner` checks if score is set.
+            if ($winner == $winner && !tf2.timer:@s <= -1) reset.announce_winner(); 
 
             tag @e[type=marker,tag=tf2.control_point,tag=tf2.current] remove tf2.current;
         } 
@@ -134,7 +136,8 @@ class Objectives
                 tf2.red_progress:@s[scores={tf2.blu_progress=0}] += $sum;
                 if (tf2.red_progress:@s >= tf2.capture_threshold:@s) Objectives.control_point.set_owner.red();
 
-                $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines.
+                // 50:50 chance to pick one of two dialogue lines
+                $temp = execute if predicate tf2:coin_flip;
                 if (entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=2}] && $temp = 0) Text.tellraw(@a[scores={tf2.team=2}], "&<bold>Alert! Our control point is being captured.");
                 if (entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=2}] && $temp = 1) Text.tellraw(@a[scores={tf2.team=2}], "&<bold>Defend our control point!");
                 if (entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=2}] && $temp = 0) Text.tellraw(@a[scores={tf2.team=2}], "&<bold>Alert! Our &<bold,italic>last &<bold,!italic>control point is being captured!");
@@ -151,7 +154,8 @@ class Objectives
                 tf2.blu_progress:@s[scores={tf2.red_progress=0}] += $sum;
                 if (tf2.blu_progress:@s >= tf2.capture_threshold:@s) Objectives.control_point.set_owner.blu();
 
-                $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines
+                // 50:50 chance to pick one of two dialogue lines
+                $temp = execute if predicate tf2:coin_flip;
                 if (entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] && $temp = 0) Text.tellraw(@a[scores={tf2.team=1}], "&<bold>Alert! Our control point is being captured.");
                 if (entity @s[tag=!tf2.said_dialogue,tag=!tf2.last,scores={tf2.team=1}] && $temp = 1) Text.tellraw(@a[scores={tf2.team=1}], "&<bold>Defend our control point!");
                 if (entity @s[tag=!tf2.said_dialogue,tag=tf2.last,scores={tf2.team=1}] && $temp = 0) Text.tellraw(@a[scores={tf2.team=1}], "&<bold>Alert! Our &<bold,italic>last &<bold,!italic>control point is being captured!");
@@ -196,7 +200,8 @@ class Objectives
             function red() {
                 // @within Objectives.control_point.capture_progress.red()
 
-                tf2.team:$last = tf2.team:@s; // Keep track of the team that *previously* controlled this point.
+                // Keep track of the team that *previously* controlled this point.
+                tf2.team:$last = tf2.team:@s; 
                 tf2.team:@s = 1;
                 tf2.red_progress:@s = tf2.capture_threshold:@s;
 
@@ -219,10 +224,12 @@ class Objectives
 
                 if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
                 if (tf2.increment:@s = tf2.increment:@s) Objectives.control_point.on_capture.add_time();
-            } function blu() {
+            } 
+            function blu() {
                 // @within Objectives.control_point.capture_progress.blu()
 
-                tf2.team:$last = tf2.team:@s; // Keep track of the team that *previously* controlled this point.
+                // Keep track of the team that *previously* controlled this point.
+                tf2.team:$last = tf2.team:@s; 
                 tf2.team:@s = 2;
                 tf2.blu_progress:@s = tf2.capture_threshold:@s;
 
@@ -246,7 +253,6 @@ class Objectives
                 if (tf2.gamemode:@s = 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
                 if (tf2.gamemode:@s[tag=!tf2.multistage] = 2) Objectives.control_point.on_capture.blu.symmetric();
                 if (tf2.increment:@s = tf2.increment:@s) Objectives.control_point.on_capture.add_time();
-                
             }
         } 
         class on_capture {
@@ -288,16 +294,12 @@ class Objectives
                 tf2.timer:@e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1,scores={tf2.gamemode=2}] = 12000;
 
                 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                if (tf2.red_progress:@s >= tf2.capture_threshold:@s) {
+                if (tf2.red_progress:@s >= tf2.capture_threshold:@s) expand {
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>Success. Additional time has been awarded."); 
-                }
-                if (tf2.red_progress:@s >= tf2.capture_threshold:@s) {
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>The &<bold,italic,blue>enemy &<bold,blue>has received additional time.");
                 }
-                if (tf2.blu_progress:@s >= tf2.capture_threshold:@s) {
+                if (tf2.blu_progress:@s >= tf2.capture_threshold:@s) expand {
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>The &<bold,italic,red>enemy &<bold,red>has received additional time.");
-                }
-                if (tf2.blu_progress:@s >= tf2.capture_threshold:@s) {
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>Success. Additional time has been awarded."); 
                 }
             }
@@ -341,7 +343,8 @@ class Objectives
                 );
                 Objectives.control_point.find_index.reinsert();
                 tag @s add tf2.init;
-            } function spacing() {
+            } 
+            function spacing() {
                 // Determines the spacing to use in the HUD bar.
                 // @within start_game.as_marker.main()
 
@@ -352,34 +355,34 @@ class Objectives
                 $temp /= 10;
                 $temp ++;
                 switch ($temp) {
-                    case 1:
-                        data modify storage tf2.__temp__:lookup points[0].left set value '430';
-                        data modify storage tf2.__temp__:lookup points[0].mid set value '60';
-                        data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
-                    case 2:
-                        data modify storage tf2.__temp__:lookup points[0].left set value '20';
-                        data modify storage tf2.__temp__:lookup points[0].mid set value '6420';
-                        data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
-                    case 3:
-                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
-                        data modify storage tf2.__temp__:lookup points[0].mid set value '6530';
-                        data modify storage tf2.__temp__:lookup points[0].right set value '3210';
-                    case 4:
-                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
-                        data modify storage tf2.__temp__:lookup points[0].mid set value '654320';
-                        data modify storage tf2.__temp__:lookup points[0].right set value '510';
-                    case 5:
-                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
-                        data modify storage tf2.__temp__:lookup points[0].mid set value '740';
-                        data modify storage tf2.__temp__:lookup points[0].right set value '54210';
-                    case 6:
-                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
-                        data modify storage tf2.__temp__:lookup points[0].mid set value '7520';
-                        data modify storage tf2.__temp__:lookup points[0].right set value '6310';
-                    case 7:
-                        data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
-                        data modify storage tf2.__temp__:lookup points[0].mid set value '75430';
-                        data modify storage tf2.__temp__:lookup points[0].right set value '643210';
+                case 1:
+                    data modify storage tf2.__temp__:lookup points[0].left set value '430';
+                    data modify storage tf2.__temp__:lookup points[0].mid set value '60';
+                    data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
+                case 2:
+                    data modify storage tf2.__temp__:lookup points[0].left set value '20';
+                    data modify storage tf2.__temp__:lookup points[0].mid set value '6420';
+                    data modify storage tf2.__temp__:lookup points[0].right set value '[""]';
+                case 3:
+                    data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                    data modify storage tf2.__temp__:lookup points[0].mid set value '6530';
+                    data modify storage tf2.__temp__:lookup points[0].right set value '3210';
+                case 4:
+                    data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                    data modify storage tf2.__temp__:lookup points[0].mid set value '654320';
+                    data modify storage tf2.__temp__:lookup points[0].right set value '510';
+                case 5:
+                    data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                    data modify storage tf2.__temp__:lookup points[0].mid set value '740';
+                    data modify storage tf2.__temp__:lookup points[0].right set value '54210';
+                case 6:
+                    data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                    data modify storage tf2.__temp__:lookup points[0].mid set value '7520';
+                    data modify storage tf2.__temp__:lookup points[0].right set value '6310';
+                case 7:
+                    data modify storage tf2.__temp__:lookup points[0].left set value '[""]';
+                    data modify storage tf2.__temp__:lookup points[0].mid set value '75430';
+                    data modify storage tf2.__temp__:lookup points[0].right set value '643210';
                 }
                 Objectives.control_point.find_index.reinsert();
                 
@@ -398,19 +401,19 @@ class Objectives
                 $wheel_spacing /= 5;
                 
                 switch ($wheel_spacing) {
-                    case -6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%$#\"}]";
-                    case -5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%@\"}]";
-                    case -4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^$\"}]";
-                    case -3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%$#@\"}]";
-                    case -2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%#\"}]";
-                    case -1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"$@\"}]";
-                    case  0: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[\"\"]";
-                    case  1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "41";
-                    case  2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "52";
-                    case  3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "543";
-                    case  4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "632";
-                    case  5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "65";
-                    case  6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "6542";
+                case -6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%$#\"}]";
+                case -5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%@\"}]";
+                case -4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^$\"}]";
+                case -3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%$#@\"}]";
+                case -2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%#\"}]";
+                case -1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"$@\"}]";
+                case  0: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[\"\"]";
+                case  1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "41";
+                case  2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "52";
+                case  3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "543";
+                case  4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "632";
+                case  5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "65";
+                case  6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "6542";
                 }
             }
             class capture_progress {
@@ -454,7 +457,8 @@ class Objectives
                         if (tf2.team:@s == 2) Objectives.control_point.visuals.capture_progress.blu.flicker();
                         Objectives.control_point.visuals.capture_progress.red.wheel();
                         Objectives.control_point.find_index.reinsert();
-                    } function wheel() {
+                    } 
+                    function wheel() {
                         // Displays frame 0 - 47 of the title animation, based on how much capture progress has been made.
                         // Owner team determines color of the background circle. (unowned = #A1A1A1, BLU-owned = #517AB8)
                         // @within Objectives.control_point.visuals.capture_progress.red.main()
@@ -519,7 +523,8 @@ class Objectives
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
-                    } function flicker() {
+                    } 
+                    function flicker() {
                         $flicker = 0008it54g_p_join:$__global__;
                         $flicker %= 20;
                         if ($flicker == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
@@ -571,7 +576,8 @@ class Objectives
                         if (tf2.team:@s == 1) Objectives.control_point.visuals.capture_progress.red.flicker();
                         Objectives.control_point.visuals.capture_progress.blu.wheel();
                         Objectives.control_point.find_index.reinsert();
-                    } function wheel() {
+                    } 
+                    function wheel() {
                         // Displays frame 0 - 47 of the title animation, based on how much capture progress has been made.
                         // Owner team determines color of the background circle. (unowned = #A1A1A1, RED-owned = #D95A58)
                         // @within Objectives.control_point.visuals.capture_progress.blu.main()
@@ -636,7 +642,8 @@ class Objectives
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
-                    } function flicker() {
+                    } 
+                    function flicker() {
                         $flicker = 0008it54g_p_join:$__global__;
                         $flicker %= 20;
                         if ($flicker == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';

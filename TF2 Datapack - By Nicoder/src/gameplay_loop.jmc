@@ -127,7 +127,8 @@ class start_game {
             tf2.max_health:@s ??= 100;
             tf2.health:@s = tf2.max_health:@s;
 
-            tag @s add tf2.current; // tag is used for team assignment
+            // tag is used for team assignment
+            tag @s add tf2.current; 
             tf2.respawn_timer:@s = 0;
 
             Item.give(selectSniper, @s);

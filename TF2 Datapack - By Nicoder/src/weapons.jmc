@@ -89,7 +89,7 @@ new predicates(unloaded_crossbow) {
         "equipment": {
             "mainhand": {
                 "items": ["minecraft:crossbow"],
-                "nbt": "{Charged:0b}"
+                "nbt": "{Charged: 0b}"
             }
         }
     }
@@ -104,6 +104,18 @@ new tags.functions(retina.on_hit) {
         "tf2:weapons/damage"
     ],
     "replace": false
+}
+
+new tags.damage_type(minecraft.no_impact) {
+    "values": [
+        "tf2:screenshake"
+    ],
+    "replace": false
+}
+new damage_type(screenshake) {
+    "exhaustion": 0.0,
+    "message_id": "generic",
+    "scaling": "never"
 }
 
 class Weapons {
@@ -336,6 +348,7 @@ class Weapons {
         $_finalDamage_ /= 100;
         tf2.health:@s -= $_finalDamage_;
         $_totalDamage_ += $_finalDamage_;
+        damage @s 0.01 tf2:screenshake by @a[tag=retina.executing, limit=1];
     }
     function damage_numbers() {
         // @within Weapons.main_fire();

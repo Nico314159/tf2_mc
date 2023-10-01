@@ -56,7 +56,8 @@ class Timer
             }
         }
         
-        $temp = execute if predicate tf2:coin_flip; // 50/50 chance to pick one of two dialogue lines.
+        // 50/50 chance to pick one of two dialogue lines.
+        $temp = execute if predicate tf2:coin_flip;
         if (tf2.timer:@s[tag=tf2.overtime] == 1200 && $temp == 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime!");
         if (tf2.timer:@s[tag=tf2.overtime] == 1200 && $temp != 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime...");
     } 
