@@ -1,4 +1,5 @@
-execute if score $Settings.show_debug_messages tf2.var matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true},{"text":"Game has been started by ","bold":false},{"selector":"@s"},{"text":" at "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"}},{"text":" ticks gametime"}]
+execute if score $Settings.show_debug_messages tf2.var matches 1.. run tellraw @a ["",{"text":"<Debug> ","bold":true},{"text":"Game has been started by ","bold":false},{"selector":"@s"},{"text":" at "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"}},{"text":" ticks gametime"}]
+execute if score $Settings.show_debug_messages tf2.var matches 2.. if score $profiler_installed tf2.var matches 1.. run scoreboard players set $enabled timekeeper.var -1
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
 function tf2:__private__/anonymous/3 with storage tf2.__temp__:index

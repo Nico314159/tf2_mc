@@ -19,7 +19,8 @@ class start_game {
             // Starts a new running game with the players in the queue. ");
             // @within __tick__()
 
-            if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Game has been started by &<@s> at &<0008it54g_p_join:$__global__> ticks gametime");
+            if ($Settings.show_debug_messages) Text.tellraw(@a, "&<bold><Debug> &<!bold>Game has been started by &<@s> at &<0008it54g_p_join:$__global__> ticks gametime");
+            if ($Settings.show_debug_messages >= 2 && $profiler_installed) timekeeper.var:$enabled = -1;
             tf2.batch_number:$local = tf2.batch_number:@s;
             execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
             execute run {
@@ -196,6 +197,7 @@ class reset {
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();
+        if (timekeeper.var:$enabled == -1 && $profiler_installed) timekeeper.var:$enabled = 1;
         kill @s;
         setup_markers();
     } function as_objectives() {

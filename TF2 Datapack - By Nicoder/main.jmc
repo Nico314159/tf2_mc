@@ -10,7 +10,7 @@ function __tick__() {
     // @handles #minecraft:tick
     // @context root
 
-    if (!$found_dependency) return  Error.MISSING_DEPENDENCY;
+    if (!$found_dependency) return -1;
 
 	execute as @e[tag=tf2.visual] run tf2.lifetime:@s--;
     kill @e[tag=tf2.visual, scores={tf2.lifetime=..0}];

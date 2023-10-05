@@ -59,13 +59,15 @@ TextProp.clickURL("retina_link", "https://github.com/Nico314159/Retina_v2", true
 TextProp.hoverText("retina_hover", "https://github.com/Nico314159/Retina_v2", true);
 $found_dependency ?= execute run function retina:__load__;
 if (!$found_dependency) Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,retina_link,retina_hover>Retina 2&<red> was not found.");
-if (!$found_dependency) return  Error.MISSING_DEPENDENCY;
+if (!$found_dependency) return -1;
 
 TextProp.clickURL("delta_link", "https://github.com/BigPapi13/Delta", true);
 TextProp.hoverText("delta_hover", "https://github.com/BigPapi13/Delta", true);
 $found_dependency ?= execute run function delta:internal/technical/load;
 if (!$found_dependency) Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,delta_link,delta_hover>Delta&<red> was not found.");
-if (!$found_dependency) return  Error.MISSING_DEPENDENCY;
+if (!$found_dependency) return -1;
+
+$profiler_installed ?= execute run function timekeeper:__load__;
 
 gamerule doImmediateRespawn true;
 gamerule doMobSpawning false;
@@ -244,3 +246,5 @@ if ($batch_markers != $Settings.max_batches) setup_markers();
 
 // restart failsafe
 execute unless entity @a run {Hardcode.repeat("[i]", () => {tf2.session:$global_[i]++;}, start = 1, stop = _INSTANCES_CAP_);}
+
+return 1;

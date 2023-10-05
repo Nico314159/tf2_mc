@@ -75,10 +75,11 @@ bossbar add tf2:timer_4 ""
 bossbar add tf2:timer_5 ""
 execute store success score $found_dependency tf2.var run function retina:__load__
 execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Retina 2","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"},"hoverEvent":{"action":"show_text","contents":"https://github.com/Nico314159/Retina_v2"}},{"text":" was not found.","color":"red"}]
-execute unless score $found_dependency tf2.var matches 1.. run return -118
+execute unless score $found_dependency tf2.var matches 1.. run return -1
 execute store success score $found_dependency tf2.var run function delta:internal/technical/load
 execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red"},{"text":"Dependency ","color":"red"},{"text":"Delta","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/BigPapi13/Delta"},"hoverEvent":{"action":"show_text","contents":"https://github.com/BigPapi13/Delta"}},{"text":" was not found.","color":"red"}]
-execute unless score $found_dependency tf2.var matches 1.. run return -118
+execute unless score $found_dependency tf2.var matches 1.. run return -1
+execute store success score $profiler_installed tf2.var run function timekeeper:__load__
 gamerule doImmediateRespawn true
 gamerule doMobSpawning false
 gamerule fallDamage false
@@ -93,3 +94,4 @@ scoreboard players operation $Settings.max_batches tf2.var < 5 tf2.const
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $Settings.max_batches tf2.var run function tf2:setup_markers
 execute unless entity @a run function tf2:__private__/anonymous/0
+return 1
