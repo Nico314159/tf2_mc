@@ -3,7 +3,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "tf2:item/sniper/primary/sniper_rifle",
-		"particle": "tf2:transparent"
+		"particle": "tf2:item/transparent"
 	},
 	"elements": [
 		{
