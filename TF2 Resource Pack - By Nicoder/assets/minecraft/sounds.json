@@ -1,0 +1,6 @@
+{
+    "item.crossbow.shoot": {
+        "replace": true,
+        "sounds": [{"name": "tf2:silence"}]
+    }
+}

@@ -138,6 +138,10 @@ class Weapons {
         Weapons.get_ammo();
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
 
+        if (!predicate tf2:holding_melee) {
+            playsound tf2:item.gun.shoot ambient @s ~ ~ ~ 1.5 1 0.1;
+        }
+
         tf2.team:$current = tf2.team:@s;
         data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
         $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
