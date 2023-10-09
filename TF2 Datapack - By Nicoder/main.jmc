@@ -12,7 +12,7 @@ function __tick__() {
 
     if (!$found_dependency) return -1;
 
-	execute as @e[tag=tf2.visual] run tf2.lifetime:@s--;
+	tf2.lifetime:@e[tag=tf2.visual]--;
     kill @e[tag=tf2.visual, scores={tf2.lifetime=..0}];
 
     execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run join_queue();
@@ -195,7 +195,9 @@ class Spawn {
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tf2.health:@s = tf2.max_health:@s;
-        class_select();
+        // Replenish ammo
+        class_select(); 
+        // Remove "You died!" message
         Text.title(@s, "");
         Text.subtitle(@s, "");
     } 
