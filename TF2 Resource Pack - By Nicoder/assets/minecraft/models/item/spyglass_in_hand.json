@@ -2,6 +2,13 @@
     "textures": {
         "spyglass": "item/spyglass_model"
     },
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.9, 0.9, 0.9 ]
+        }
+    },
     "overrides": [
         { "predicate": {"custom_model_data": 21000}, "model": "tf2:item/sniper/primary/sniper_rifle_scope"}
     ]
