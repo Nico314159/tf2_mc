@@ -211,4 +211,7 @@ class Spawn {
     }
 } 
 
-function uninstall() {}
+function uninstall() {
+    team remove RED; team remove BLU;
+    Hardcode.repeat("_i_", () => {bossbar remove tf2:timer__i_;}, start = 1, stop = _INSTANCES_CAP_);
+}
