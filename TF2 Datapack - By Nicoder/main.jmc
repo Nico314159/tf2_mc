@@ -132,10 +132,10 @@ Player.join(() => {
 	};
 
     scoreboard players enable @s tf2.queue_type;
-    tf2.queue_type:@s = 0;
+    tf2.batch_number:@s = tf2.queue_type:@s = 0;
 
-    effect give @a minecraft:saturation infinite 0 true;
-    effect give @a minecraft:resistance infinite 4 true;
+    effect give @s minecraft:saturation infinite 0 true;
+    effect give @s minecraft:resistance infinite 4 true;
     attribute @s minecraft:generic.attack_damage base set 0;
     attribute @s minecraft:generic.movement_speed base set 0.1;
 
@@ -156,7 +156,6 @@ Player.join(() => {
     scoreboard players reset @s tf2.max_health;
     scoreboard players reset @s tf2.team;
     scoreboard players reset @s tf2.respawn_timer;
-    tf2.batch_number:@s = 0;
 });
 
 function death() {
