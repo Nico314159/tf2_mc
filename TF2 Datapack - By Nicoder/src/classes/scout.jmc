@@ -134,6 +134,7 @@ class Class.Scout {
         ]
     }
     
+    // TODO: use @inline decorator once JMC adds it
     function give() {
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
@@ -172,6 +173,7 @@ class Class.Scout {
 
         Class.Scout.inventory_lock();
     }
+    // TODO: use @inline decorator once JMC adds it
     function inventory_lock() {
         item replace entity @s weapon.offhand with air;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;

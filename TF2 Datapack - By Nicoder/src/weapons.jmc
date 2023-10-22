@@ -228,7 +228,7 @@ class Weapons {
             unless score $offset_Y retina.__variable__ matches 611..775
             run $validOffset = true;
 
-        // TODO: use `return run` when 1.20.2 releases
+        // TODO: use `return run` when 1.20.3 releases
         if (predicate tf2:holding_melee && $validOffset) {
             execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
         }
@@ -238,6 +238,7 @@ class Weapons {
             tf2.consecutive_reload:@s = false;
         }
     }
+    // TODO: use @inline decorator once JMC adds it
     function get_ammo() {
         if (tf2.current_slot:@s == 0) {
             $_clip_ = tf2.primary_clip:@s;
@@ -250,6 +251,7 @@ class Weapons {
             $_ammo_ = tf2.secondary_ammo:@s;
         }
     }
+    // TODO: use @inline decorator once JMC adds it
     function set_ammo() {
         if (tf2.current_slot:@s == 0) {
             tf2.primary_clip:@s = $_clip_;   
@@ -308,7 +310,7 @@ class Weapons {
         tf2.consecutive_reload:@s = true;
     }
     function actionbar() {
-        // TODO: use `return run` when 1.20.2 releases
+        // TODO: use `return run` when 1.20.3 releases
         if (predicate tf2:hide_ammo) {
             Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>");
         } else {

@@ -17,7 +17,7 @@ class Math {
             $add /= $index;
             $sum += $add;
         }
-        // TODO: Use `return run $sum.get();` when 1.20.2 releases
+        // TODO: Use `return run $sum.get();` when 1.20.3 releases
     }
     function arctangent() {
         // Get quadrant of inputs

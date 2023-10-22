@@ -58,6 +58,7 @@ Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop 
 TextProp.clickURL("retina_link", "https://github.com/Nico314159/Retina_v2", true);
 TextProp.hoverText("retina_hover", "https://github.com/Nico314159/Retina_v2", true);
 $found_dependency ?= execute run function retina:__load__;
+// TODO: use return run once 1.20.3 releases
 if (!$found_dependency) Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,retina_link,retina_hover>Retina 2&<red> was not found.");
 if (!$found_dependency) return -1;
 

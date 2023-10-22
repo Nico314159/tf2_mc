@@ -171,7 +171,8 @@ class Objectives
                 if ($red_on_point && tf2.team:@s != 1) return 0;
                 if ($blu_on_point && tf2.team:@s != 2) return 0;
                 Objectives.control_point.decay.main(); 
-            } function main() {
+            } 
+            function main() {
                 // @within Objectives.control_point.decay.init()
 
                 $sum = tf2.capture_threshold:@s;
