@@ -1,0 +1,28 @@
+[
+    {
+        "function": "minecraft:set_nbt",
+        "tag": "{Trim: {material: \"tf2:red\"}}",
+        "conditions": [
+            {
+                "condition": "minecraft:entity_scores",
+                "entity": "this",
+                "scores": {
+                    "tf2.team": 1
+                }
+            }
+        ]
+    },
+    {
+        "function": "minecraft:set_nbt",
+        "tag": "{Trim: {material: \"tf2:blue\"}}",
+        "conditions": [
+            {
+                "condition": "minecraft:entity_scores",
+                "entity": "this",
+                "scores": {
+                    "tf2.team": 2
+                }
+            }
+        ]
+    }
+]

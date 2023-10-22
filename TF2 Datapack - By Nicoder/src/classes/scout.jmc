@@ -76,7 +76,7 @@ class Class.Scout {
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, 
                                 attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
                                 controls: {main_fire: true, alt_fire: false, reload: 3},
-                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
+                                Charged: 1b, ChargedProjectiles: [{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
                             }"
                         }
                     ]
@@ -114,12 +114,33 @@ class Class.Scout {
             ]
         }]
     }
+    new loot_tables(_model) {
+        "pools": [
+            {
+                "rolls": 1,
+                "entries": [
+                    {
+                        "type": "minecraft:item",
+                        "name": "minecraft:iron_leggings",
+                        "functions": [
+                            {
+                                "function": "minecraft:set_nbt",
+                                "tag": "{Trim: {pattern: \"tf2:scout\"}}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
     
     function give() {
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
         loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
         loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
+        loot replace entity @s armor.legs loot tf2:class/scout/_model;
+        item modify entity @s armor.legs tf2:apply_team_material;
 
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
         tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
