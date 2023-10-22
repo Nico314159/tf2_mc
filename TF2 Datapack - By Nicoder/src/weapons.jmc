@@ -118,6 +118,31 @@ new damage_type(screenshake) {
     "scaling": "never"
 }
 
+new trim_material(red) {
+    "asset_name": "red",
+    "description": {
+        "color": "#DD3004",
+        "translate": "trim_material.tf2.red"
+    },
+    "ingredient": "minecraft:red_banner",
+    "item_model_index": 0.01
+}
+new trim_material(blue) {
+    "asset_name": "blue",
+    "description": {
+        "color": "#258474",
+        "translate": "trim_material.tf2.blue"
+    },
+    "ingredient": "minecraft:blue_banner",
+    "item_model_index": 0.02
+}
+new tags.items(minecraft.trim_materials) {
+    "values": [
+        "minecraft:red_banner",
+        "minecraft:blue_banner"
+    ]
+}
+
 class Weapons {
     function main_fire() {
         $class = tf2.class:@s;

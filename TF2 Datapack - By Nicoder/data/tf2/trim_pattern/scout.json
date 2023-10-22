@@ -1,0 +1,7 @@
+{
+    "asset_id": "tf2:scout",
+    "description": {
+        "translate": "trim_pattern.tf2.scout"
+    },
+    "template_item": "minecraft:stick"
+}

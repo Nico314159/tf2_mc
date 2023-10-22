@@ -1,0 +1,15 @@
+{
+    "sources": [
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "minecraft:trims/items/leggings_trim"
+            ],
+            "palette_key": "minecraft:trims/color_palettes/trim_palette",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/scout/red",
+                "blue": "tf2:trims/color_palettes/scout/blue"
+            }
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "sources": [
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/scout_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/scout/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/scout/red",
+                "blue": "tf2:trims/color_palettes/scout/blue"
+            }
+        }
+    ]
+}
