@@ -1,0 +1,7 @@
+{
+    "asset_id": "tf2:sniper",
+    "description": {
+        "translate": "trim_pattern.tf2.sniper"
+    },
+    "template_item": "minecraft:arrow"
+}

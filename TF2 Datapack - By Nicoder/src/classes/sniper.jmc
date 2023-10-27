@@ -1,3 +1,24 @@
+new trim_pattern(sniper) {
+    "asset_id": "tf2:sniper",
+    "description": {
+        "translate": "trim_pattern.tf2.sniper"
+    },
+    "template_item": "minecraft:arrow"
+}
+
+new recipe(sniper_armor_trim) {
+    "type": "minecraft:smithing_trim",
+    "addition": {
+        "tag": "minecraft:trim_materials"
+    },
+    "base": {
+        "tag": "minecraft:trimmable_armor"
+    },
+    "template": {
+        "item": "minecraft:arrow"
+    }
+}
+
 class Class.Sniper {
     new advancements(scope) {
         "criteria": {
@@ -146,6 +167,19 @@ class Class.Sniper {
                     ]
                 }
             ]
+        }]
+    }
+    new loot_tables(_model) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [{
+                "type": "minecraft:item",
+                "name": "minecraft:iron_leggings",
+                "functions": [{
+                    "function": "minecraft:set_nbt",
+                    "tag": "{Trim: {pattern: \"tf2:sniper\"}}"
+                }]
+            }]
         }]
     }
 
