@@ -85,7 +85,9 @@ class Objectives
 
             tag @e remove tf2.current;
             tf2.batch_number:$local = tf2.batch_number:@s;
-            execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+            execute as @e[type=marker,tag=tf2.control_point] 
+					if score @s tf2.batch_number = $local tf2.batch_number 
+					run tag @s add tf2.current;
 
             $red_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=1}];
             $blu_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=2}];
@@ -207,8 +209,10 @@ class Objectives
                 tf2.red_progress:@s = tf2.capture_threshold:@s;
 
                 Objectives.control_point.find_index.main();
-                data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
-                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                data modify storage tf2.__temp__:lookup points[0].owner 
+					 set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
+                data modify storage tf2.__temp__:lookup points[0].progress 
+				     set value '[{"text":"321))))))))))))))","color":"gray"}]';
                 Objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
 
@@ -262,11 +266,16 @@ class Objectives
                     tf2.index:$temp = tf2.index:@s;
                     tf2.index:$temp -= 10;
 
-                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.unlock();
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] 
+							if score @s tf2.index = $temp tf2.index 
+							at @s run Objectives.control_point.unlock();
 
                     if (tf2.team:$last = 0) return 0;
                     tf2.index:$temp += 20;
-                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.lock();
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] 
+							if score @s tf2.index = $temp tf2.index 
+							at @s run Objectives.control_point.lock();
+
                     // TODO: add support for map events (like doors opening)
                 }
             } class blu {
@@ -276,17 +285,26 @@ class Objectives
 
                     execute at @s run Objectives.control_point.lock();
                     setblock ~ ~ ~ stone_slab;
-                    execute as @e[type=marker,tag=tf2.current] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.unlock();
+                    execute as @e[type=marker,tag=tf2.current] 
+							if score @s tf2.index = $temp tf2.index 
+							at @s run Objectives.control_point.unlock();
+
                     // TODO: add support for map events (like doors opening)
-                } function symmetric() {
+                } 
+				function symmetric() {
                     tf2.index:$temp = tf2.index:@s;
                     tf2.index:$temp += 10;
 
-                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.unlock();
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}] 
+							if score @s tf2.index = $temp tf2.index
+					 		at @s run Objectives.control_point.unlock();
 
                     if (tf2.team:$last = 0) return 0;
                     tf2.index:$temp -= 20;
-                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] if score @s tf2.index = $temp tf2.index at @s run Objectives.control_point.lock();
+                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}] 
+							if score @s tf2.index = $temp tf2.index 
+							at @s run Objectives.control_point.lock();
+
                     // TODO: add support for map events (like doors opening)
                 }
             } 
@@ -330,9 +348,13 @@ class Objectives
                     data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
                 } else if (entity @s[tag=tf2.star]) {
                     data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"321S!)","font":"tf2:square"}]';
-                } else {data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';}
+                } else {
+					data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';
+				}
                 
-                if (entity @s[tag=!tf2.letter]) data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]';
+                if (entity @s[tag=!tf2.letter]) {
+					data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]';
+				}
 
                 // Puts a letter in the corner of the HUD icon, if the `tf2.letter` tag is present.
                 Hardcode.repeatLists(
@@ -394,7 +416,9 @@ class Objectives
 
                 tag @e remove tf2.current;
                 tf2.batch_number:$local = tf2.batch_number:@s;
-                execute as @e[type=marker,tag=tf2.control_point] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                execute as @e[type=marker,tag=tf2.control_point] 
+						if score @s tf2.batch_number = $local tf2.batch_number
+						run  tag @s add tf2.current;
 
                 $wheel_spacing > tf2.index:@e[type=marker,tag=tf2.current];
                 $wheel_spacing /= 2;
