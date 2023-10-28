@@ -10,6 +10,17 @@
                 "red": "tf2:trims/color_palettes/scout/red",
                 "blue": "tf2:trims/color_palettes/scout/blue"
             }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/sniper_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/sniper/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/sniper/red",
+                "blue": "tf2:trims/color_palettes/sniper/blue"
+            }
         }
     ]
 }
