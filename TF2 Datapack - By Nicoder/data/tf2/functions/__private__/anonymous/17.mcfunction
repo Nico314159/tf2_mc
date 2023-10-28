@@ -1,2 +1,6 @@
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/16 with storage tf2.__temp__:index
+data modify storage tf2.__temp__:coords red_X set from entity @s data.map.spawn.red[0][0]
+data modify storage tf2.__temp__:coords red_Y set from entity @s data.map.spawn.red[0][1]
+data modify storage tf2.__temp__:coords red_Z set from entity @s data.map.spawn.red[0][2]
+data modify storage tf2.__temp__:coords blu_X set from entity @s data.map.spawn.blu[0][0]
+data modify storage tf2.__temp__:coords blu_Y set from entity @s data.map.spawn.blu[0][1]
+data modify storage tf2.__temp__:coords blu_Z set from entity @s data.map.spawn.blu[0][2]

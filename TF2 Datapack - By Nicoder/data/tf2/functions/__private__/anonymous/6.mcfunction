@@ -1,3 +1,8 @@
-scoreboard players set __if_else__ tf2.var 0
-execute if score @s tf2.team = $winner tf2.var run function tf2:__private__/if_else/11
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/12
+execute if score $offset_Y retina.__variable__ matches 776..778 run tp @s ~ ~1.42 ~
+execute if score $offset_Y retina.__variable__ matches 608..610 run tp @s ~ ~1.07 ~
+execute if score $offset_Y retina.__variable__ matches 192 run tp @s ~ ~0.20 ~
+tag @s add tf2.height
+data modify storage tf2.__temp__:summon line.X set from entity @s Pos[0]
+data modify storage tf2.__temp__:summon line.Y set from entity @s Pos[1]
+data modify storage tf2.__temp__:summon line.Z set from entity @s Pos[2]
+kill @s

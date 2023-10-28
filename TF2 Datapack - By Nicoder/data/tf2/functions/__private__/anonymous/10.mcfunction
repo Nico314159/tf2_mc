@@ -1,2 +1,3 @@
-execute if entity @s[scores={tf2.team=1}] run function tf2:__private__/if_else/31
-execute if entity @s[scores={tf2.team=2}] run function tf2:__private__/if_else/32
+scoreboard players set @s tf2.health 0
+tellraw @a ["",{"selector":"@s"},{"text":" fell into the void."}]
+tp @s ~ 5 ~

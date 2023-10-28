@@ -66,10 +66,8 @@ class start_game {
                     tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
                     execute if score @s tf2.index = $highest tf2.index run tag @s add tf2.last;
                     tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
-                    execute run {
-                        $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
-                    } with storage tf2.__temp__:index;
-                }
+                    $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
+                } with storage tf2.__temp__:index;
                 data remove storage tf2.__temp__:summon objectives[-1];
             }
             if (tf2.gamemode:@s matches 1..4) Objectives.control_point.visuals.spacing();
