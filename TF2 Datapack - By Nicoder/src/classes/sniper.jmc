@@ -222,6 +222,13 @@ class Class.Sniper {
         if ($_count_ != 1) clear @s snowball{CustomModelData: 23000};
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
 
+        loot replace entity @s armor.legs loot tf2:class/sniper/_model;
+        item modify entity @s armor.legs tf2:apply_team_material;
+        $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:sniper"}} 0;
+        if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:sniper"}};
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/sniper/_model;
+        if ($_count_ != 1) item modify entity @s armor.legs tf2:apply_team_material;
+
         // gets first 2 digits
         $_crossbow_id_ = data get entity @s Inventory[-1].tag.CustomModelData 0.001;
         if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21) expand {

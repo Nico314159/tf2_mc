@@ -185,6 +185,13 @@ class Class.Scout {
         if ($_count_ != 1) clear @s snowball{CustomModelData: 33000};
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
+        loot replace entity @s armor.legs loot tf2:class/scout/_model;
+        item modify entity @s armor.legs tf2:apply_team_material;
+        $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:scout"}} 0;
+        if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:scout"}};
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/scout/_model;
+        if ($_count_ != 1) item modify entity @s armor.legs tf2:apply_team_material;
+
         if (entity @s[tag=tf2.can_double_jump]) {
             Item.replaceEntity(elytra, @s, "armor.chest");
             $_count_ = Item.clear(elytra, @s, 0);
