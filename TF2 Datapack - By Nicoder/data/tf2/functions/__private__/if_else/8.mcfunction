@@ -1,1 +1,1 @@
-execute if score $chaos_queue_length tf2.var matches 40.. run function tf2:__private__/if_else/9
+execute if score $winner tf2.var matches 1..2 run function tf2:__private__/if_else/9

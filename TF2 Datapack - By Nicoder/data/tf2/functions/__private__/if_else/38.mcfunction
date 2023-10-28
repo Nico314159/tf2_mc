@@ -1,1 +1,2 @@
-execute if entity @s[tag=!tf2.overtime] run function tf2:__private__/if_else/39
+execute as @e[tag=tf2.self] run function tf2:weapons/main_fire
+kill @s

@@ -1,1 +1,3 @@
-execute if score $winner tf2.var matches 1..2 run function tf2:__private__/if_else/13
+scoreboard players remove $_clip_ tf2.var 1
+function tf2:weapons/set_ammo
+scoreboard players set @s tf2.consecutive_reload 0

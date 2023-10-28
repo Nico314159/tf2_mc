@@ -23,7 +23,8 @@ function setup_markers() {
     if ($batch_markers < $Settings.max_batches) {
         summon minecraft:marker 0 0 0 {Tags:["tf2.batch"], data:{lastPos: [0.0d, 0.0d, 0.0d], map: {}}};
     }
-    else if ($batch_markers > $Settings.max_batches) kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];
+    if ($batch_markers > $Settings.max_batches) {kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];}
+    
     $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
     scoreboard players reset $index tf2.batch_number;
     execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run {

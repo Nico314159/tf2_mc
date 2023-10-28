@@ -1,2 +1,3 @@
-execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players operation @s tf2.primary_clip = $_clip_ tf2.var
+scoreboard players operation @s tf2.primary_maxClip = $_maxClip_ tf2.var
+scoreboard players operation @s tf2.primary_ammo = $_ammo_ tf2.var
