@@ -120,10 +120,16 @@ class Class.Scout {
             "entries": [{
                 "type": "minecraft:item",
                 "name": "minecraft:iron_leggings",
-                "functions": [{
-                    "function": "minecraft:set_nbt",
-                    "tag": "{Trim: {pattern: \"tf2:scout\"}}"
-                }]
+                "functions": [
+                    {
+                        "function": "minecraft:reference",
+                        "name": "tf2:apply_team_material"
+                    },
+                    {
+                        "function": "minecraft:set_nbt",
+                        "tag": "{Trim: {pattern: \"tf2:scout\"}}"
+                    }
+                ]
             }]
         }]
     }
@@ -135,7 +141,6 @@ class Class.Scout {
         loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
         loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
         loot replace entity @s armor.legs loot tf2:class/scout/_model;
-        item modify entity @s armor.legs tf2:apply_team_material;
 
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
         tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
@@ -186,11 +191,9 @@ class Class.Scout {
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
         loot replace entity @s armor.legs loot tf2:class/scout/_model;
-        item modify entity @s armor.legs tf2:apply_team_material;
         $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:scout"}} 0;
         if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:scout"}};
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/scout/_model;
-        if ($_count_ != 1) item modify entity @s armor.legs tf2:apply_team_material;
 
         if (entity @s[tag=tf2.can_double_jump]) {
             Item.replaceEntity(elytra, @s, "armor.chest");

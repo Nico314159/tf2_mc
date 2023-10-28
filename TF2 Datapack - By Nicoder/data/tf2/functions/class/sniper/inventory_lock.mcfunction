@@ -8,11 +8,9 @@ execute store result score $_count_ tf2.var run clear @s snowball{CustomModelDat
 execute unless score $_count_ tf2.var matches 1 run clear @s snowball{CustomModelData:23000}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri
 loot replace entity @s armor.legs loot tf2:class/sniper/_model
-item modify entity @s armor.legs tf2:apply_team_material
 execute store result score $_count_ tf2.var run clear @s iron_leggings{Trim:{pattern:"tf2:sniper"}} 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings{Trim:{pattern:"tf2:sniper"}}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/sniper/_model
-execute unless score $_count_ tf2.var matches 1 run item modify entity @s armor.legs tf2:apply_team_material
 execute store result score $_crossbow_id_ tf2.var run data get entity @s Inventory[-1].tag.CustomModelData 0.001
 execute if predicate tf2:class/sniper/holding_scope if score $_crossbow_id_ tf2.var matches 21 run item modify entity @s weapon.offhand tf2:load_crossbow
 execute if predicate tf2:class/sniper/holding_scope if score $_crossbow_id_ tf2.var matches 21 run return 0

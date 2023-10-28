@@ -8,6 +8,10 @@
                     "name": "minecraft:iron_leggings",
                     "functions": [
                         {
+                            "function": "minecraft:reference",
+                            "name": "tf2:apply_team_material"
+                        },
+                        {
                             "function": "minecraft:set_nbt",
                             "tag": "{Trim: {pattern: \"tf2:sniper\"}}"
                         }

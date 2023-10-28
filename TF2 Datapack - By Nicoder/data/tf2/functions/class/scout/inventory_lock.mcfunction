@@ -12,9 +12,7 @@ execute store result score $_count_ tf2.var run clear @s snowball{CustomModelDat
 execute unless score $_count_ tf2.var matches 1 run clear @s snowball{CustomModelData:33000}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat
 loot replace entity @s armor.legs loot tf2:class/scout/_model
-item modify entity @s armor.legs tf2:apply_team_material
 execute store result score $_count_ tf2.var run clear @s iron_leggings{Trim:{pattern:"tf2:scout"}} 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings{Trim:{pattern:"tf2:scout"}}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/scout/_model
-execute unless score $_count_ tf2.var matches 1 run item modify entity @s armor.legs tf2:apply_team_material
 execute if entity @s[tag=tf2.can_double_jump] run function tf2:__private__/if_else/30
