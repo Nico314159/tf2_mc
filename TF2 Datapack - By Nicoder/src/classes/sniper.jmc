@@ -6,19 +6,6 @@ new trim_pattern(sniper) {
     "template_item": "minecraft:arrow"
 }
 
-new recipe(sniper_armor_trim) {
-    "type": "minecraft:smithing_trim",
-    "addition": {
-        "tag": "minecraft:trim_materials"
-    },
-    "base": {
-        "tag": "minecraft:trimmable_armor"
-    },
-    "template": {
-        "item": "minecraft:arrow"
-    }
-}
-
 class Class.Sniper {
     new advancements(scope) {
         "criteria": {

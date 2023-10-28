@@ -8,19 +8,6 @@ new trim_pattern(scout) {
     "template_item": "minecraft:stick"
 }
 
-new recipe(scout_armor_trim) {
-    "type": "minecraft:smithing_trim",
-    "addition": {
-        "tag": "minecraft:trim_materials"
-    },
-    "base": {
-        "tag": "minecraft:trimmable_armor"
-    },
-    "template": {
-        "item": "minecraft:stick"
-    }
-}
-
 class Class.Scout {
     new loot_tables(scattergun) {
         "pools": [{
