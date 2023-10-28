@@ -8,7 +8,7 @@
             "palette_key": "minecraft:trims/color_palettes/trim_palette",
             "permutations": {
                 "red": "tf2:trims/color_palettes/scout/red",
-                "blue": "tf2:trims/color_palettes/scout/blue"
+                "blu": "tf2:trims/color_palettes/scout/blu"
             }
         },
         {
@@ -19,7 +19,7 @@
             "palette_key": "minecraft:trims/color_palettes/trim_palette",
             "permutations": {
                 "red": "tf2:trims/color_palettes/sniper/red",
-                "blue": "tf2:trims/color_palettes/sniper/blu"
+                "blu": "tf2:trims/color_palettes/sniper/blu"
             }
         }
     ]

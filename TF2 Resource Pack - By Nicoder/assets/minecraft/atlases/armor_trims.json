@@ -8,7 +8,7 @@
             "palette_key": "tf2:trims/color_palettes/scout/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/scout/red",
-                "blue": "tf2:trims/color_palettes/scout/blue"
+                "blu": "tf2:trims/color_palettes/scout/blu"
             }
         },
         {
@@ -19,7 +19,7 @@
             "palette_key": "tf2:trims/color_palettes/sniper/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/sniper/red",
-                "blue": "tf2:trims/color_palettes/sniper/blue"
+                "blu": "tf2:trims/color_palettes/sniper/blu"
             }
         }
     ]

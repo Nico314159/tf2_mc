@@ -1,8 +1,8 @@
 {
-    "asset_name": "blue",
+    "asset_name": "blu",
     "description": {
         "color": "#258474",
-        "translate": "trim_material.tf2.blue"
+        "translate": "trim_material.tf2.blu"
     },
     "ingredient": "minecraft:blue_banner",
     "item_model_index": 0.02

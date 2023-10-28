@@ -8,7 +8,7 @@
             }
         },
         {
-            "model": "tf2:item/iron_chestplate_blue_trim",
+            "model": "tf2:item/iron_chestplate_blu_trim",
             "predicate": {
                 "trim_type": 0.02
             }
