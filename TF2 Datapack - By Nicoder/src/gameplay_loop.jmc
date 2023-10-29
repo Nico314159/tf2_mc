@@ -1,16 +1,16 @@
 Item.create(
-    itemId = selectSniper,
-    itemType = carrot_on_a_stick,
+    itemId      = selectSniper,
+    itemType    = carrot_on_a_stick,
     displayName = "Sniper",
-    nbt = {CustomModelData: 2},
-    onClick = () => {tf2.class:@s = 2; clear @s;}
+    nbt         = {CustomModelData: 2},
+    onClick     = () => {tf2.class:@s = 2; clear @s;}
 );
 Item.create(
-    itemId = selectScout,
-    itemType = carrot_on_a_stick,
+    itemId      = selectScout,
+    itemType    = carrot_on_a_stick,
     displayName = "Scout",
-    nbt = {CustomModelData: 3},
-    onClick = () => {tf2.class:@s = 3; clear @s;}
+    nbt         = {CustomModelData: 3},
+    onClick     = () => {tf2.class:@s = 3; clear @s;}
 );
 
 class start_game {
@@ -33,7 +33,7 @@ class start_game {
 
             tf2.gamemode:@s = data get entity @s data.map.gamemode;
             tf2.gamemode:$temp = tf2.gamemode:@s;
-            data modify storage tf2.__temp__:summon objectives 
+            data modify storage tf2.__temp__:summon objectives
                         set from entity @s data.map.objectives;
             tf2.index:$temp = execute if data storage tf2.__temp__:summon objectives[];
             tf2.index:$temp *= 10;
@@ -53,9 +53,9 @@ class start_game {
                     //      data.capture_threshold: float
                     //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
 
-                    data modify storage tf2.__temp__:summon entity.Pos 
+                    data modify storage tf2.__temp__:summon entity.Pos
                        set from storage tf2.__temp__:summon objectives[-1].Pos;
-                    data modify storage tf2.__temp__:summon entity.Tags 
+                    data modify storage tf2.__temp__:summon entity.Tags
                        set from storage tf2.__temp__:summon objectives[-1].Tags;
                     data modify entity @s {} merge from storage tf2.__temp__:summon entity;
                     tf2.team:@s              = data get storage tf2.__temp__:summon objectives[-1].data.team 1;
@@ -124,13 +124,13 @@ class start_game {
             tf2.batch_number:@s = tf2.batch_number:$local;
             tag @s remove tf2.in_queue;
             tag @s add tf2.is_playing;
-            
+
             // placeholder until the 9 classes are properly implemented
             tf2.max_health:@s ??= 100;
             tf2.health:@s = tf2.max_health:@s;
 
             // tag is used for team assignment
-            tag @s add tf2.current; 
+            tag @s add tf2.current;
             tf2.respawn_timer:@s = 0;
 
             Item.give(selectSniper, @s);
@@ -224,5 +224,5 @@ class reset {
         tag @s remove tf2.current;
         0008it54g_p_join:@s --;
         kill @s[type=villager]; // debug only
-    } 
+    }
 }

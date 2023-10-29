@@ -29,7 +29,7 @@ class Class.Scout {
                             "function": "minecraft:set_nbt",
                             "tag": "{
                                 CustomModelData: 31000,
-                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100}, 
+                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 6, maxRamp: 1.75}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
                                 controls: {main_fire: true, alt_fire: false, reload: 1},
                                 Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
@@ -59,8 +59,8 @@ class Class.Scout {
                         {
                             "function": "minecraft:set_nbt",
                             "tag": "{
-                                CustomModelData: 32000, 
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100}, 
+                                CustomModelData: 32000,
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
                                 controls: {main_fire: true, alt_fire: false, reload: 3},
                                 Charged: 1b, ChargedProjectiles: [{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
@@ -90,8 +90,8 @@ class Class.Scout {
                         {
                             "function": "minecraft:set_nbt",
                             "tag": "{
-                                CustomModelData: 33000, 
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5}, 
+                                CustomModelData: 33000,
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
                                 attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true},
                                 controls: {main_fire: true, alt_fire: false, reload: 0}
                             }"
@@ -120,7 +120,7 @@ class Class.Scout {
             }]
         }]
     }
-    
+
     // TODO: use @inline decorator once JMC adds it
     function give() {
         clear @s;
@@ -137,8 +137,8 @@ class Class.Scout {
     function tick() {
         Weapons.get_ammo();
         Weapons.actionbar();
-        Weapons.set_ammo(); 
-        
+        Weapons.set_ammo();
+
         if (predicate tf2:grounded) tag @s add tf2.can_double_jump;
         if (tf2.elytra_detect:@s >= 1) {
             retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;

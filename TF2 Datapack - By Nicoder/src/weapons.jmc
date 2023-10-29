@@ -32,7 +32,7 @@ new predicates(non_damaging) {
 new predicates(empty_hand) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
-    "predicate": {  
+    "predicate": {
         "equipment": {
             "mainhand": {"count": 0}
         }
@@ -223,8 +223,8 @@ class Weapons {
 
         // Equivalent to the range 192 u 608..610 u 776..778
         $validOffset = false;
-        execute if score $offset_Y retina.__variable__ matches 192..778 
-            unless score $offset_Y retina.__variable__ matches 193..607 
+        execute if score $offset_Y retina.__variable__ matches 192..778
+            unless score $offset_Y retina.__variable__ matches 193..607
             unless score $offset_Y retina.__variable__ matches 611..775
             run $validOffset = true;
 
@@ -254,9 +254,9 @@ class Weapons {
     // TODO: use @inline decorator once JMC adds it
     function set_ammo() {
         if (tf2.current_slot:@s == 0) {
-            tf2.primary_clip:@s = $_clip_;   
+            tf2.primary_clip:@s = $_clip_;
             tf2.primary_maxClip:@s = $_maxClip_;
-            tf2.primary_ammo:@s = $_ammo_;  
+            tf2.primary_ammo:@s = $_ammo_;
         }
         if (tf2.current_slot:@s == 1) {
             tf2.secondary_clip:@s = $_clip_;
@@ -285,7 +285,7 @@ class Weapons {
 
         $_reloadType_ = data get entity @s SelectedItem.tag.controls.reload;
         switch ($_reloadType_) {
-            case Reload.NONE: 
+            case Reload.NONE:
                 break;
             case Reload.SINGLE:
                 $_clip_ ++;
@@ -319,7 +319,7 @@ class Weapons {
     }
     function damage() {
         if (retina.__variable__:$func_id !== 100) return 0;
-        
+
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}] run Weapons.calculate_falloff();
@@ -419,8 +419,8 @@ class Weapons {
     function damage_numbers() {
         // @within Weapons.main_fire();
         $execute positioned 0 0.4 0 run summon text_display ~$(X) ~$(Y) ~$(Z) {
-            billboard: "center", 
-            text: '{"color":"red", "bold":"true", "text":"-$(value)"}', 
+            billboard: "center",
+            text: '{"color":"red", "bold":"true", "text":"-$(value)"}',
             Tags: ["tf2.visual", "tf2.newest"],
             transformation: {
             left_rotation: [0f, 0f, 0f, 1f],

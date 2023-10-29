@@ -4,16 +4,16 @@ TextProp.hoverText(
     "&<red>RED &<white>starts with all the control points, and &<blue>BLU must capture &<italic>all &<!italic>of them in order to win. Once a point is taken, it cannot be reclaimed by &<red>RED. &<white>If the timer runs out, &<red>RED &<white>wins no matter how much progress &<blue>BLU &<white>has made."
 );
 TextProp.hoverText(
-    "info_control_points", 
+    "info_control_points",
     "Each team starts out owning half the control points; whichever team captures all of them wins. Stalemate if the timer runs out."
 );
 TextProps.nbt(
     propertyName = "gui_wheel",
-    indexString = "_path_",
-    type = storage,
-    source = "tf2.__temp__:lookup",
-    path = points[0].wheel._path_,
-    interpret = true
+    indexString  = "_path_",
+    type         = storage,
+    source       = "tf2.__temp__:lookup",
+    path         = points[0].wheel._path_,
+    interpret    = true
 );
 
 
@@ -24,7 +24,7 @@ function setup_markers() {
         summon minecraft:marker 0 0 0 {Tags:["tf2.batch"], data:{lastPos: [0.0d, 0.0d, 0.0d], map: {}}};
     }
     if ($batch_markers > $Settings.max_batches) {kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];}
-    
+
     $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
     scoreboard players reset $index tf2.batch_number;
     execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run {
@@ -110,6 +110,6 @@ function class_select() {
 
 function swap_hands() {
     item replace entity @s enderchest.0 from entity @s weapon.mainhand;
-    item replace entity @s weapon.mainhand from entity @s weapon.offhand; 
+    item replace entity @s weapon.mainhand from entity @s weapon.offhand;
     item replace entity @s weapon.offhand from entity @s enderchest.0;
 }

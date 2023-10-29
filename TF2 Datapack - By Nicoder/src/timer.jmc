@@ -23,7 +23,7 @@ class Timer
         if (tf2.timer:@s[tag=tf2.setup_time] == 0) Timer.exit_setup() with storage tf2.__temp__:index;
         if (tf2.timer:@s[tag=!tf2.setup_time] == 0) Timer.zero() with storage tf2.__temp__:index;
         if (tf2.timer:@s == -100) reset.as_marker();
-    } 
+    }
     function chat() {
         // Sends timer-related dialogue lines in chat.
         // @within Timer.main()
@@ -55,19 +55,19 @@ class Timer
             case   20: Text.tellraw(@a[tag=tf2.current], "&<bold,italic,white>One!");
             }
         }
-        
+
         // 50/50 chance to pick one of two dialogue lines.
         $temp = execute if predicate tf2:coin_flip;
         if (tf2.timer:@s[tag=tf2.overtime] == 1200 && $temp == 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime!");
         if (tf2.timer:@s[tag=tf2.overtime] == 1200 && $temp != 1) Text.tellraw(@a[tag=tf2.current], "&<bold,white>Overtime...");
-    } 
+    }
 
     function set_value() {
         // @needs_macro
         // @within Timer.main()
-        $execute store result bossbar tf2:timer_$(i) value 
+        $execute store result bossbar tf2:timer_$(i) value
                  run tf2.timer:@s.get();
-    } 
+    }
     function set_max() {
         // @needs_macro
         // @within
@@ -75,10 +75,10 @@ class Timer
         //  Timer.exit_setup()
         //  Timer.overtime()
         //  start_game.as_marker.main()
-        $execute store result bossbar tf2:timer_$(i) max 
-                 store result bossbar tf2:timer_$(i) value 
+        $execute store result bossbar tf2:timer_$(i) max
+                 store result bossbar tf2:timer_$(i) value
                  run tf2.timer:@s.get();
-    } 
+    }
 
     function show() {
         // Displays timer bar to all players in the same batch as the marker
@@ -89,13 +89,13 @@ class Timer
         $bossbar set tf2:timer_$(i) visible true;
         $bossbar set tf2:timer_$(i) players @a[scores={tf2.batch_number=$(i)}];
         $bossbar set tf2:timer_$(i) color white;
-    } 
+    }
     function hide() {
         // @needs_macro
         // @within
         //  reset.announce_winner()()
         $bossbar set tf2:timer_$(i) visible false;
-    } 
+    }
 
     function begin_setup() {
         // @needs_macro
@@ -109,7 +109,7 @@ class Timer
             // placeholder
             fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet;
         }
-    } 
+    }
     function exit_setup() {
         // @within Timer.main()
         tf2.timer:@s = data get entity @s data.map.timer 20;
@@ -121,7 +121,7 @@ class Timer
             // placeholder
             fill -508 1 -517 -517 1 -508 minecraft:blue_carpet replace minecraft:cobblestone_wall;
         }
-    } 
+    }
 
     function zero() {
         // Handles what to do when the timer reaches zero.
@@ -129,37 +129,37 @@ class Timer
 
         // If any objectives are still in contention, then start overtime if it isn't already.
         tf2.batch_number:$local = tf2.batch_number:@s;
-        execute as @e[type=marker,tag=tf2.control_point] 
-                if score @s tf2.batch_number = $local tf2.batch_number 
-                run tag @s add tf2.current;
+        execute as @e[type=marker,tag=tf2.control_point]
+                if score @s tf2.batch_number = $local tf2.batch_number
+                run  tag @s add tf2.current;
         tag @e[tag=tf2.current] remove tf2.overtime;
-        execute as @e[type=marker,tag=tf2.current] 
-                if score @s tf2.blu_progress < @s tf2.capture_threshold 
-                if score @s tf2.red_progress < @s tf2.capture_threshold 
+        execute as @e[type=marker,tag=tf2.current]
+                if score @s tf2.blu_progress < @s tf2.capture_threshold
+                if score @s tf2.red_progress < @s tf2.capture_threshold
                 run  tag @s add tf2.overtime;
-        execute unless entity @s[tag=tf2.overtime] 
-                if entity @e[type=marker,tag=tf2.current,tag=tf2.overtime] 
+        execute unless entity @s[tag=tf2.overtime]
+                if entity @e[type=marker,tag=tf2.current,tag=tf2.overtime]
                 run Timer.overtime() with storage tf2.__temp__:index;
 
         // Otherwise, end the game.
         tag @e[type=marker] remove tf2.current;
         if (tf2.timer:@s == 0) Timer.end_game();
-    } 
+    }
     function overtime() {
-        // @needs_macro 
+        // @needs_macro
         // @within Timer.zero()
         tag @s add tf2.overtime;
         tf2.timer:@s = 1200; // overtime lasts 1 minute
         $bossbar set tf2:timer_$(i) color red;
         Timer.set_max() with storage tf2.__temp__:index;
-    } 
+    }
     function end_game() {
-        // @within 
+        // @within
         //  Timer.zero()
         //  Objectives.control_point.decay.main()
         scoreboard players reset $winner tf2.var;
         $temp = tf2.gamemode:@s;
-        $temp %= 4; // determines whether gamemode is symmetric or not (see gamemode key). 
+        $temp %= 4; // determines whether gamemode is symmetric or not (see gamemode key).
         if ($temp == 1) $winner = 1; // RED wins in asymmetric gamemodes (like A/D or Payload)
         if ($temp != 1) $winner = -1; // Stalemate in symmetric gamemodes (like KOTH, 5CP, or CTF)
         reset.announce_winner();
@@ -181,7 +181,7 @@ class Timer
             $execute if entity @s[scores={tf2.timer.sec=0..9}] run bossbar set tf2:timer_$(i) name [
                 {"text": "", "font": "minecraft:default"}, {"nbt": "info[$(i)][7].left", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"},
                 {"text": "Round - "}, {"score": {"name": "@s", "objective": "tf2.timer.min"}}, {"text": ":0"}, {"score": {"name": "@s", "objective": "tf2.timer.sec"}}, {"text": " remaining"}, {"nbt": "info[$(i)][7].mid", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"},
-                {"nbt": "info[$(i)][0].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][1].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][2].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][3].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, 
+                {"nbt": "info[$(i)][0].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][1].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][2].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][3].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"},
                 {"nbt": "info[$(i)][4].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][5].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][6].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][7].right", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}
             ];
         }
@@ -197,7 +197,7 @@ class Timer
                 {"text": "Setup - "}, {"score": {"name": "@s", "objective": "tf2.timer.min"}}, {"text": ":0"}, {"score": {"name": "@s", "objective": "tf2.timer.sec"}}, {"text": " remaining"}, {"nbt": "info[$(i)][7].mid", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"},
                 {"nbt": "info[$(i)][0].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][1].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][2].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][3].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"},
                 {"nbt": "info[$(i)][4].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][5].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][6].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][7].right", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}
-            ]; 
+            ];
         }
         function overtime() {
             $execute if entity @s[scores={tf2.timer.sec=10..59}] run bossbar set tf2:timer_$(i) name [
@@ -211,7 +211,7 @@ class Timer
                 {"text": "Overtime! - "}, {"score": {"name": "@s", "objective": "tf2.timer.min"}}, {"text": ":0"}, {"score": {"name": "@s", "objective": "tf2.timer.sec"}}, {"text": " remaining"}, {"nbt": "info[$(i)][7].mid", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"},
                 {"nbt": "info[$(i)][0].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][1].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][2].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][3].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"},
                 {"nbt": "info[$(i)][4].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][5].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][6].main", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}, {"nbt": "info[$(i)][7].right", "storage": "tf2:control_points", "interpret": true, "font": "tf2:square"}
-            ]; 
+            ];
         }
     }
 }

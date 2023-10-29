@@ -50,7 +50,7 @@ Scoreboard.add(tf2.permanent.games_played, dummy);
 Scoreboard.add(tf2.permanent.double_jumps, dummy);
 
 // when in score format - RED = 1, BLU = 2
-Team.add(RED, "RED", {color: red, prefix: "\"[RED] \"", friendlyFire: false});
+Team.add(RED, "RED", {color: red,  prefix: "\"[RED] \"", friendlyFire: false});
 Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
 
 Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop = _INSTANCES_CAP_);
@@ -84,38 +84,38 @@ $Settings.show_debug_messages = true;
 // map data
 data merge storage tf2:maps {
     0: {
-        name: "ad_test", 
-        origin: [-500.0d, 1.0d, -500.0d], 
+        name: "ad_test",
+        origin: [-500.0d, 1.0d, -500.0d],
         spawn: {
-            red: [[-487.0d, 1.0d, -487.0d]], 
+            red: [[-487.0d, 1.0d, -487.0d]],
             blu: [[-513.0d, 1.0d, -513.0d]]
-        }, 
-        spawn_time: {red: [5.0f], blu: [5.0f]}, 
+        },
+        spawn_time: {red: [5.0f], blu: [5.0f]},
         objectives: [
             {Pos: [-509.5d, 1.0d, -499.5d], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 20.0f, team: 1b, increment: 60.0f}},
             {Pos: [-499.5d, 1.0d, -499.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 20.0f, team: 1b, increment: 60.0f}},
             {Pos: [-489.5d, 1.0d, -499.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 25.0f, team: 1b, increment: 60.0f}}
-        ], 
-        gamemode: 1b, 
-        timer: 480.0f, 
+        ],
+        gamemode: 1b,
+        timer: 480.0f,
         setup_time: 30.0f
     },
     1: {
-        name: "cp_test", 
-        origin: [-300.0d, 1.0d, -300.0d], 
+        name: "cp_test",
+        origin: [-300.0d, 1.0d, -300.0d],
         spawn: {
-            red: [[-279.0d, 1.0d, -300.0d]], 
+            red: [[-279.0d, 1.0d, -300.0d]],
             blu: [[-321.0d, 1.0d, -300.0d]]
-        }, 
-        spawn_time: {red: [5.0f], blu: [5.0f]}, 
+        },
+        spawn_time: {red: [5.0f], blu: [5.0f]},
         objectives: [
             {Pos: [-311.5d, 1.0d, -303.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 5.0f, team: 2b, increment: 600.0f}},
             {Pos: [-306.5d, 1.0d, -295.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 15.0f, team: 2b, increment: 600.0f}},
             {Pos: [-299.5d, 1.0d, -299.5d], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 30.0f, team: 0b, increment: 600.0f}},
             {Pos: [-292.5d, 1.0d, -303.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 15.0f, team: 1b, increment: 600.0f}},
             {Pos: [-287.5d, 1.0d, -295.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 5.0f, team: 1b, increment: 600.0f}}
-        ], 
-        gamemode: 2b, 
+        ],
+        gamemode: 2b,
         timer: 600.0f
     }
 };
@@ -162,7 +162,7 @@ new tags.entity_types(player_like) {
 }
 
 if (!$initialization_complete) {
-    // Sets up NBT paths & defaults for game settings. 
+    // Sets up NBT paths & defaults for game settings.
     // Only runs the very first time the pack is loaded.
 
     // TODO: replace line below when voting system is added
@@ -180,53 +180,53 @@ if (!$initialization_complete) {
     data merge storage tf2:control_points {info:[
         [],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
             {left:'[""]', mid:'[""]', right:'[""]'}
         ],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
             {left:'[""]', mid:'[""]', right:'[""]'}
         ],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
             {left:'[""]', mid:'[""]', right:'[""]'}
         ],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
             {left:'[""]', mid:'[""]', right:'[""]'}
-        ], 
+        ],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}}, 
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
+            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
             {left:'[""]', mid:'[""]', right:'[""]'}
         ]
     ]};
@@ -239,7 +239,7 @@ if (!$initialization_complete) {
     }, start = 1, stop = _INSTANCES_CAP_);
     $initialization_complete = true;
 }
-$Settings.max_batches < _INSTANCES_CAP_MINUS_ONE_; 
+$Settings.max_batches < _INSTANCES_CAP_MINUS_ONE_;
 
 // markers keep track of gamestate
 $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
