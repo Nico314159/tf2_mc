@@ -167,10 +167,10 @@ if (!$initialization_complete) {
 
     // TODO: replace line below when voting system is added
     $Settings.choose_map_randomly = true;
-    $Settings.random_crits = false;
-    $Settings.random_spread = false;
-    $Settings.use_server_mods = false;
-    $Settings.chat_bot = false;
+    $Settings.random_crits = $Settings.random_spread
+                           = $Settings.use_server_mods 
+                           = $Settings.chat_bot
+                           = false;
     $Settings.max_batches = 3;
 
     data merge storage tf2.__temp__:actionbar {string:'[""]'};

@@ -8,3 +8,4 @@ execute if score @s tf2.team matches 2 if score @s tf2.blu_progress < @s tf2.cap
 execute if score @s tf2.team matches 0 if score @s tf2.blu_progress matches 0 run function tf2:objectives/control_point/visuals/capture_progress/red/main
 execute if score @s tf2.team matches 1 if score @s tf2.red_progress < @s tf2.capture_threshold run function tf2:objectives/control_point/visuals/capture_progress/blu/main
 execute if score @s tf2.team matches 0 if score @s tf2.red_progress matches 0 run function tf2:objectives/control_point/visuals/capture_progress/blu/main
+function tf2:objectives/control_point/decay/init

@@ -28,17 +28,36 @@ function __tick__() {
         execute as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run start_game.as_marker.main();
     }
 
-    // execute as @a run attribute @s minecraft:generic.movement_speed modifier remove 1-1-1-1-1;
-    // execute as @a[tag=!tf2.using_eye] run attribute @s minecraft:generic.movement_speed modifier remove 1-1-1-1-1;
-    // tag @a remove tf2.using_eye;
+    execute as @e[type=marker] run marker_tick();
+    execute as @e[type=#tf2:player_like,tag=tf2.is_playing,gamemode=!spectator] at @s run player_tick();
+}
 
-    execute as @a[tag=tf2.is_playing,tag=!tf2.dead] at @s if entity @s[y=-45,dy=5] run {
+function marker_tick() {
+    if (entity @s[tag=tf2.in_use,scores={tf2.timer=..2147483647}]) Timer.main();
+    if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=1..4}] && entity @a) {
+        Objectives.control_point.gamestate();
+    }
+
+    execute if entity @s[tag=tf2.control_point,tag=!tf2.init] at @s run Objectives.control_point.visuals.init();
+    execute if entity @s[tag=tf2.control_point,tag=!tf2.locked] at @s run Objectives.control_point.check_for_players();
+
+    // honetly
+    execute if entity @e[tag=tf2.batch] run {
+        execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
+        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with storage tf2.__temp__:index;
+    }
+}
+
+function player_tick() {
+    if (entity @s[tag=!tf2.is_playing]) return 0;
+
+    if (entity @s[tag=!tf2.dead,y=-45,dy=5]) {
         tf2.health:@s = 0;
         Text.tellraw(@a, "&<@s> fell into the void.");
         tp @s ~ 5 ~;
     }
-    execute as @e[type=#tf2:player_like,tag=tf2.is_playing,tag=!tf2.dead,scores={tf2.health=..0}] run death();
-    execute as @e[type=#tf2:player_like,tag=tf2.dead] run {
+    if (entity @s[tag=!tf2.dead,scores={tf2.health=..0}]) {death();}
+    if (entity @s[tag=tf2.dead]) {
         tf2.respawn_timer:@s --;
         tf2.respawn_timer.sec:@s = tf2.respawn_timer:@s;
         tf2.respawn_timer.sec:@s += 19;
@@ -46,59 +65,46 @@ function __tick__() {
         Text.title(@s, "&<white>You died!");
         Text.subtitle(@s, "&<gray>Respawn in... &<tf2.respawn_timer.sec:@s, bold, dark_gray>");
     }
-    execute as @e[type=#tf2:player_like,tag=tf2.dead,scores={tf2.respawn_timer=..0}] run Spawn.init();
+    if (entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}]) {Spawn.init();}
 
-    execute as @e[type=marker,tag=tf2.in_use] if score @s tf2.timer = @s tf2.timer run Timer.main();
+    if (entity @s[gamemode=spectator]) return 1;
 
-    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.init] at @s run Objectives.control_point.visuals.init();
-    execute as @e[type=marker,tag=tf2.control_point,tag=!tf2.locked] at @s run Objectives.control_point.check_for_players();
+    tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
+    tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
 
-    execute as @e[type=marker,tag=tf2.in_use,scores={tf2.gamemode=1..4}] if entity @a run Objectives.control_point.gamestate();
-
-    execute as @e[type=#tf2:player_like,tag=tf2.is_playing,gamemode=!spectator] at @s run {
-        tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
-        tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
-
-        data modify storage tf2.__temp__:check_match UUID set from entity @s UUID;
-        tag @s add tf2.self;
-        if (predicate tf2:empty_hand) {
-            execute as @e[type=item,tag=!tf2.map_item,distance=..2] run {
-                if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Thrower)) {
-                    execute as @e[tag=tf2.self] run Weapons.reload(); kill @s;
-                }
-            }
-            execute as @e[type=snowball,distance=..5] run {
-                if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Owner)) {
-                    execute as @e[tag=tf2.self] run Weapons.main_fire(); kill @s;
-                }
+    data modify storage tf2.__temp__:check_match UUID set from entity @s UUID;
+    tag @s add tf2.self;
+    if (predicate tf2:empty_hand) {
+        execute as @e[type=item,tag=!tf2.map_item,distance=..2] run {
+            if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Thrower)) {
+                execute as @e[tag=tf2.self] run Weapons.reload(); kill @s;
             }
         }
-        tag @s remove tf2.self;
-        if (predicate tf2:unloaded_crossbow) {
-            Weapons.main_fire();
-            item modify entity @s weapon.mainhand tf2:load_crossbow;
-            kill @e[type=arrow];
-        }
-
-        Weapons.slot_check();
-        $class = tf2.class:@s;
-        switch ($class) {
-            case Class.SPY: Class.Spy.tick();
-            case Class.SNIPER: Class.Sniper.tick();
-            case Class.SCOUT: Class.Scout.tick();
-            // case Class.SOLDIER: Class.Soldier.tick();
-            // case Class.DEMOMAN: Class.Demoman.tick();
-            // case Class.HEAVY: Class.Heavy.tick();
-            // case Class.PYRO: Class.Pyro.tick();
-            // case Class.ENGINEER: Class.Engineer.tick();
-            // case Class.MEDIC: Class.Medic.tick();
+        execute as @e[type=snowball,distance=..5] run {
+            if (Object.isEqual(storage, "tf2.__temp__:check_match", UUID, entity, "@s", Owner)) {
+                execute as @e[tag=tf2.self] run Weapons.main_fire(); kill @s;
+            }
         }
     }
+    tag @s remove tf2.self;
+    if (predicate tf2:unloaded_crossbow) {
+        Weapons.main_fire();
+        item modify entity @s weapon.mainhand tf2:load_crossbow;
+        kill @e[type=arrow];
+    }
 
-    // honetly
-    execute as @e[type=marker,tag=tf2.batch] run {
-        execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
-        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with storage tf2.__temp__:index;
+    Weapons.slot_check();
+    $class = tf2.class:@s;
+    switch ($class) {
+        case Class.SPY: Class.Spy.tick();
+        case Class.SNIPER: Class.Sniper.tick();
+        case Class.SCOUT: Class.Scout.tick();
+        // case Class.SOLDIER: Class.Soldier.tick();
+        // case Class.DEMOMAN: Class.Demoman.tick();
+        // case Class.HEAVY: Class.Heavy.tick();
+        // case Class.PYRO: Class.Pyro.tick();
+        // case Class.ENGINEER: Class.Engineer.tick();
+        // case Class.MEDIC: Class.Medic.tick();
     }
 }
 

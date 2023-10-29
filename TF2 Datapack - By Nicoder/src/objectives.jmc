@@ -57,7 +57,6 @@ class Objectives
             if ($red_on_point && $blu_on_point) {tag @s add tf2.contested;}
 
             if (entity @s[tag=!tf2.contested]) Objectives.control_point.main();
-            if (entity @s[tag=!tf2.contested]) Objectives.control_point.decay.init();
             tag @e[type=#tf2:player_like] remove tf2.on_point;
         }
         function main() {
@@ -78,6 +77,8 @@ class Objectives
 
             if (tf2.team:@s == 1 && tf2.red_progress:@s < tf2.capture_threshold:@s) Objectives.control_point.visuals.capture_progress.blu.main();
             if (tf2.team:@s == 0 && tf2.red_progress:@s == 0) Objectives.control_point.visuals.capture_progress.blu.main();
+
+            Objectives.control_point.decay.init();
         }
         function gamestate() {
             // Handles game progress & checks for win conditions. Executed as the gamestate marker, not a control point.
