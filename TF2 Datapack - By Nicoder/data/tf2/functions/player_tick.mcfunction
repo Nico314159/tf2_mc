@@ -12,6 +12,5 @@ execute if predicate tf2:empty_hand run function tf2:__private__/if_else/41
 tag @s remove tf2.self
 execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/42
 function tf2:weapons/slot_check
-scoreboard players operation $class tf2.var = @s tf2.class
-execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $class tf2.var
+execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/12/select with storage tf2:__storage__

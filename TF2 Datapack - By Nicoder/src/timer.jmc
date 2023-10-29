@@ -30,9 +30,8 @@ class Timer
 
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        $timer_temp = tf2.timer:@s;
         if (entity @s[tag=tf2.setup_time]) {
-            switch ($timer_temp) {
+            switch (tf2.timer:@s) {
             case 1200: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in sixty seconds.");
             case  600: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in thirty seconds.");
             case  200: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission begins in ten seconds.");
@@ -44,7 +43,7 @@ class Timer
             }
         }
         else if (entity @s[tag=!tf2.overtime]) {
-            switch ($timer_temp) {
+            switch (tf2.timer:@s) {
             case 1200: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in sixty seconds.");
             case  600: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in thirty seconds.");
             case  200: Text.tellraw(@a[tag=tf2.current], "&<bold,white>Mission ends in ten seconds.");

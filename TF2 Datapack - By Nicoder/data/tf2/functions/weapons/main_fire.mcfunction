@@ -1,5 +1,4 @@
-scoreboard players operation $class tf2.var = @s tf2.class
-execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $class tf2.var
+execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/1/select with storage tf2:__storage__
 execute unless predicate tf2:has_main_fire run return 0
 execute if score @s tf2.attack_delay matches 1.. run return 0

@@ -74,8 +74,7 @@ function team_assign() {
 
 function class_select() {
     clear @s;
-    $class = tf2.class:@s;
-    switch ($class) {
+    switch (tf2.class:@s) {
         case Class.SPY:
             tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.12;
