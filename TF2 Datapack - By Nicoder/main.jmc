@@ -18,9 +18,9 @@ function __tick__() {
     execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run join_queue();
     execute as @a[tag=!tf2.allowed_to_sprint] run disable_sprint();
 
-    $comp_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}];
+    $comp_queue_length   = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}];
     $casual_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2}];
-    $chaos_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3}];
+    $chaos_queue_length  = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3}];
 
     $enough_in_queue = true;
     if ($comp_queue_length < 12 && $casual_queue_length < 24 && $chaos_queue_length < 40) $enough_in_queue = false;
@@ -29,7 +29,8 @@ function __tick__() {
     }
 
     execute as @e[type=marker] run marker_tick();
-    execute as @e[type=#tf2:player_like,tag=tf2.is_playing,gamemode=!spectator] at @s run player_tick();
+    execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run player_tick();
+    tag @e[type=#tf2:player_like] remove tf2.on_point;
 }
 
 function marker_tick() {
@@ -38,7 +39,7 @@ function marker_tick() {
         Objectives.control_point.gamestate();
     }
 
-    execute if entity @s[tag=tf2.control_point,tag=!tf2.init] at @s run Objectives.control_point.visuals.init();
+    execute if entity @s[tag=tf2.control_point,tag=!tf2.init  ] at @s run Objectives.control_point.visuals.init();
     execute if entity @s[tag=tf2.control_point,tag=!tf2.locked] at @s run Objectives.control_point.check_for_players();
 
     // honetly
@@ -49,8 +50,6 @@ function marker_tick() {
 }
 
 function player_tick() {
-    if (entity @s[tag=!tf2.is_playing]) return 0;
-
     if (entity @s[tag=!tf2.dead,y=-45,dy=5]) {
         tf2.health:@s = 0;
         Text.tellraw(@a, "&<@s> fell into the void.");

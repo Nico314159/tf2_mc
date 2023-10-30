@@ -1,1 +1,3 @@
-data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "543"
+data modify storage tf2.__temp__:lookup points[0].left set value "[\"\"]"
+data modify storage tf2.__temp__:lookup points[0].mid set value "6530"
+data modify storage tf2.__temp__:lookup points[0].right set value "3210"

@@ -1,0 +1,1 @@
+tellraw @a[tag=tf2.current] {"text":"Two!","bold":true,"color":"white"}

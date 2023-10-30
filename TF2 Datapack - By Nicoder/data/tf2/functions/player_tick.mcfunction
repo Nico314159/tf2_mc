@@ -1,4 +1,3 @@
-execute if entity @s[tag=!tf2.is_playing] run return 0
 execute if entity @s[tag=!tf2.dead,y=-45,dy=5] run function tf2:__private__/if_else/37
 execute if entity @s[tag=!tf2.dead,scores={tf2.health=..0}] run function tf2:death
 execute if entity @s[tag=tf2.dead] run function tf2:__private__/if_else/38
@@ -13,4 +12,4 @@ tag @s remove tf2.self
 execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/42
 function tf2:weapons/slot_check
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
-function tf2:__private__/switch_case/12/select with storage tf2:__storage__
+function tf2:__private__/switch_case/13/select with storage tf2:__storage__

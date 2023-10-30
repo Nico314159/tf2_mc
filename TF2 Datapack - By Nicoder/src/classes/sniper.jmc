@@ -199,6 +199,10 @@ class Class.Sniper {
         Weapons.actionbar();
         Weapons.set_ammo();
 
+        if (entity @s[scores={tf2.class=2, tf2.time_scoped=1..}]) {
+            Class.Sniper.zoom_meter();
+        }
+
         Class.Sniper.inventory_lock();
     }
     // TODO: use @inline decorator once JMC adds it
@@ -282,8 +286,31 @@ class Class.Sniper {
         $_multiplier_ > 100;
         $_multiplier_ < 300;
 
-        if (data storage retina:output {HitEntityHead: true}) expand {
+        if (data storage retina:output {HitEntityHead: true}) {
             $_multiplier_ *= 3;
+        }
+    }
+    function zoom_meter() {
+        $bars = tf2.time_scoped:@s;
+        $bars *= 10;
+        $bars /= 66;
+        $bars += 3;
+        $bars < 13;
+        $bars > 3;
+        title @s times 0 4 2;
+        Text.title(@s[tag=!tf2.on_point], "");
+        switch ($bars) {
+            case  3: Text.subtitle(@s, "&<gray>|||&<dark_gray>||||||||||");
+            case  4: Text.subtitle(@s, "&<gray>||||&<dark_gray>|||||||||");
+            case  5: Text.subtitle(@s, "&<gray>|||||&<dark_gray>||||||||");
+            case  6: Text.subtitle(@s, "&<gray>||||||&<dark_gray>|||||||");
+            case  7: Text.subtitle(@s, "&<gray>|||||||&<dark_gray>||||||");
+            case  8: Text.subtitle(@s, "&<gray>||||||||&<dark_gray>|||||");
+            case  9: Text.subtitle(@s, "&<gray>|||||||||&<dark_gray>||||");
+            case 10: Text.subtitle(@s, "&<gray>||||||||||&<dark_gray>|||");
+            case 11: Text.subtitle(@s, "&<gray>|||||||||||&<dark_gray>||");
+            case 12: Text.subtitle(@s, "&<gray>||||||||||||&<dark_gray>|");
+            case 13: Text.subtitle(@s, "&<gray>|||||||||||||&<dark_gray>");
         }
     }
 }

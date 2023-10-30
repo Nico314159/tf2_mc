@@ -196,10 +196,10 @@ class Weapons {
 
         tf2.team:$current = tf2.team:@s;
         data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
-        $_damage_ = data get entity @s SelectedItem.tag.attributes.damage.base;
-        $_range_ = data get entity @s SelectedItem.tag.attributes.range 1000;
-        if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
+        $_damage_  = data get entity @s SelectedItem.tag.attributes.damage.base;
+        $_range_   = data get entity @s SelectedItem.tag.attributes.range 1000;
         $_maxRamp_ = data get entity @s SelectedItem.tag.attributes.damage.maxRamp 100;
+        if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
         if (!data entity @s SelectedItem.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
         // retina._variable_:$end_particle = true;
@@ -240,27 +240,27 @@ class Weapons {
     // TODO: use @inline decorator once JMC adds it
     function get_ammo() {
         if (tf2.current_slot:@s == 0) {
-            $_clip_ = tf2.primary_clip:@s;
+            $_clip_    = tf2.primary_clip:@s;
             $_maxClip_ = tf2.primary_maxClip:@s;
-            $_ammo_ = tf2.primary_ammo:@s;
+            $_ammo_    = tf2.primary_ammo:@s;
         }
         if (tf2.current_slot:@s == 1) {
-            $_clip_ = tf2.secondary_clip:@s;
+            $_clip_    = tf2.secondary_clip:@s;
             $_maxClip_ = tf2.secondary_maxClip:@s;
-            $_ammo_ = tf2.secondary_ammo:@s;
+            $_ammo_    = tf2.secondary_ammo:@s;
         }
     }
     // TODO: use @inline decorator once JMC adds it
     function set_ammo() {
         if (tf2.current_slot:@s == 0) {
-            tf2.primary_clip:@s = $_clip_;
-            tf2.primary_maxClip:@s = $_maxClip_;
-            tf2.primary_ammo:@s = $_ammo_;
+            tf2.primary_clip:@s      = $_clip_;
+            tf2.primary_maxClip:@s   = $_maxClip_;
+            tf2.primary_ammo:@s      = $_ammo_;
         }
         if (tf2.current_slot:@s == 1) {
-            tf2.secondary_clip:@s = $_clip_;
+            tf2.secondary_clip:@s    = $_clip_;
             tf2.secondary_maxClip:@s = $_maxClip_;
-            tf2.secondary_ammo:@s = $_ammo_;
+            tf2.secondary_ammo:@s    = $_ammo_;
         }
     }
     function reload() {
