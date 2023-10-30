@@ -42,7 +42,7 @@ function marker_tick() {
     execute if entity @s[tag=tf2.control_point,tag=!tf2.locked] at @s run Objectives.control_point.check_for_players();
 
     // honetly
-    execute if entity @e[tag=tf2.batch] run {
+    execute if entity @s[tag=tf2.batch] run {
         execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
         execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with storage tf2.__temp__:index;
     }
