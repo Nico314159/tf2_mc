@@ -1,1 +1,1 @@
-title @s subtitle {"text":"|||||||||||||","color":"gray"}
+title @s subtitle {"text":"abcdefghijklm","color":"gray","font":"tf2:zoom_meter"}

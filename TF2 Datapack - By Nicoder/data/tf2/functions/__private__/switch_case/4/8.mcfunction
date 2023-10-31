@@ -1,1 +1,1 @@
-title @s subtitle ["",{"text":"||||||||","color":"gray"},{"text":"|||||","color":"dark_gray"}]
+title @s subtitle ["",{"text":"abcdefgh","color":"gray","font":"tf2:zoom_meter"},{"text":"ijklm","color":"dark_gray","font":"tf2:zoom_meter"}]

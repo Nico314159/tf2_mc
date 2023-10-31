@@ -300,17 +300,17 @@ class Class.Sniper {
         title @s times 0 4 2;
         Text.title(@s[tag=!tf2.on_point], "");
         switch ($bars) {
-            case  3: Text.subtitle(@s, "&<gray>|||&<dark_gray>||||||||||");
-            case  4: Text.subtitle(@s, "&<gray>||||&<dark_gray>|||||||||");
-            case  5: Text.subtitle(@s, "&<gray>|||||&<dark_gray>||||||||");
-            case  6: Text.subtitle(@s, "&<gray>||||||&<dark_gray>|||||||");
-            case  7: Text.subtitle(@s, "&<gray>|||||||&<dark_gray>||||||");
-            case  8: Text.subtitle(@s, "&<gray>||||||||&<dark_gray>|||||");
-            case  9: Text.subtitle(@s, "&<gray>|||||||||&<dark_gray>||||");
-            case 10: Text.subtitle(@s, "&<gray>||||||||||&<dark_gray>|||");
-            case 11: Text.subtitle(@s, "&<gray>|||||||||||&<dark_gray>||");
-            case 12: Text.subtitle(@s, "&<gray>||||||||||||&<dark_gray>|");
-            case 13: Text.subtitle(@s, "&<gray>|||||||||||||&<dark_gray>");
+            case  3: Text.subtitle(@s, "&<gray,font(zoom_meter)>abc&<dark_gray,font(zoom_meter)>defghijklm");
+            case  4: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcd&<dark_gray,font(zoom_meter)>efghijklm");
+            case  5: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcde&<dark_gray,font(zoom_meter)>fghijklm");
+            case  6: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcdef&<dark_gray,font(zoom_meter)>ghijklm");
+            case  7: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcdefg&<dark_gray,font(zoom_meter)>hijklm");
+            case  8: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcdefgh&<dark_gray,font(zoom_meter)>ijklm");
+            case  9: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcdefghi&<dark_gray,font(zoom_meter)>jklm");
+            case 10: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcdefghij&<dark_gray,font(zoom_meter)>klm");
+            case 11: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcdefghijk&<dark_gray,font(zoom_meter)>lm");
+            case 12: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcdefghijkl&<dark_gray,font(zoom_meter)>m");
+            case 13: Text.subtitle(@s, "&<gray,font(zoom_meter)>abcdefghijklm&<dark_gray,font(zoom_meter)>");
         }
     }
 }
