@@ -1,0 +1,27 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:crossbow",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Shotgun",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{\n                                CustomModelData: 62000,\n                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [0.87d, 0.51d], clip: 6, ammo: 32},\n                                controls: {main_fire: true, alt_fire: false, reload: 1},\n                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b\n                            }"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

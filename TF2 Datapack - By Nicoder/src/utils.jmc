@@ -95,6 +95,7 @@ function class_select() {
         case Class.HEAVY:
             tf2.max_health:@s = tf2.health:@s = 300;
             attribute @s minecraft:generic.movement_speed base set 0.084;
+            Class.Heavy.give();
         case Class.PYRO:
             tf2.max_health:@s = tf2.health:@s = 175;
             attribute @s minecraft:generic.movement_speed base set 0.12;

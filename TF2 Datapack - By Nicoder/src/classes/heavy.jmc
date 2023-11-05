@@ -1,0 +1,101 @@
+class Class.Heavy {
+    new loot_tables(shotgun) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:crossbow",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Shotgun",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 62000,
+                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100},
+                                attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [0.87d, 0.51d], clip: 6, ammo: 32},
+                                controls: {main_fire: true, alt_fire: false, reload: 1},
+                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(fists) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:snowball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Fists",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 63000,
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
+                                attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
+                                controls: {main_fire: true, alt_fire: false, reload: 0}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    // TODO: use @inline decorator once JMC adds it
+    function give() {
+        clear @s;
+        // loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
+        item replace entity @s hotbar.0 with paper; // temporary
+        loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
+        loot replace entity @s hotbar.2 loot tf2:class/heavy/fists;
+        // loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
+        tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
+        tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+    }
+    function tick() {
+        Weapons.get_ammo();
+        Weapons.actionbar();
+        Weapons.set_ammo();
+
+        Class.Heavy.inventory_lock();
+    }
+    // TODO: use @inline decorator once JMC adds it
+    function inventory_lock() {
+        loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
+        $_count_ = clear @s crossbow{CustomModelData: 62000} 0;
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 62000};
+        if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
+
+        loot replace entity @s hotbar.2 loot tf2:class/heavy/fists;
+        $_count_ = clear @s snowball{CustomModelData: 63000} 0;
+        if ($_count_ != 1) clear @s snowball{CustomModelData: 63000};
+        if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/heavy/fists;
+
+        // loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+        // $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}} 0;
+        // if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}};
+        // if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+    }
+}

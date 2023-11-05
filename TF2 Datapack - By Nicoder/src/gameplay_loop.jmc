@@ -2,16 +2,23 @@ Item.create(
     itemId      = selectSniper,
     itemType    = carrot_on_a_stick,
     displayName = "Sniper",
-    nbt         = {CustomModelData: 2},
-    onClick     = () => {tf2.class:@s = 2; clear @s;}
+    nbt         = {CustomModelData: Class.SNIPER},
+    onClick     = () => {tf2.class:@s = Class.SNIPER; clear @s;}
 );
 Item.create(
     itemId      = selectScout,
     itemType    = carrot_on_a_stick,
     displayName = "Scout",
-    nbt         = {CustomModelData: 3},
-    onClick     = () => {tf2.class:@s = 3; clear @s;}
+    nbt         = {CustomModelData: Class.SCOUT},
+    onClick     = () => {tf2.class:@s = Class.SCOUT; clear @s;}
 );
+// Item.create(
+//     itemId      = selectHeavy,
+//     itemType    = carrot_on_a_stick,
+//     displayName = "Heavy",
+//     nbt         = {CustomModelData: Class.HEAVY},
+//     onClick     = () => {tf2.class:@s = Class.HEAVY; clear @s;}
+// );
 
 class start_game {
     class as_marker {
