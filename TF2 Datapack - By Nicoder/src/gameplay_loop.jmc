@@ -133,9 +133,6 @@ class start_game {
             tag @s add tf2.current;
             tf2.respawn_timer:@s = 0;
 
-            Item.give(selectSniper, @s);
-            Item.give(selectScout, @s);
-
             // apply gametype-specific settings
             if (tf2.queue_type:@s = 1) start_game.as_players.competitive();
             if (tf2.queue_type:@s = 2) start_game.as_players.casual();
@@ -225,4 +222,9 @@ class reset {
         0008it54g_p_join:@s --;
         kill @s[type=villager]; // debug only
     }
+}
+
+function test_items() {
+    Item.give(selectSniper, @s);
+    Item.give(selectScout, @s);
 }

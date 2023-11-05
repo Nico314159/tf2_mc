@@ -104,6 +104,9 @@ function class_select() {
         case Class.MEDIC:
             tf2.max_health:@s = tf2.health:@s = 150;
             attribute @s minecraft:generic.movement_speed base set 0.1284;
+        default: 
+            test_items();
+        break;
     }
 }
 
