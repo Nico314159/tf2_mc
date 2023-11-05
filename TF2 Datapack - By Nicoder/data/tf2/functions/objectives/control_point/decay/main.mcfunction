@@ -12,3 +12,4 @@ scoreboard players operation @s[scores={tf2.team=0,tf2.blu_progress=1..}] tf2.bl
 scoreboard players operation @s tf2.red_progress > 0 tf2.const
 scoreboard players operation @s tf2.blu_progress > 0 tf2.const
 tag @s[scores={tf2.team=0,tf2.red_progress=0,tf2.blu_progress=0}] remove tf2.said_dialogue
+tag @e remove tf2.current
