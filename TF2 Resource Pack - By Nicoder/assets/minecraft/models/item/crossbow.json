@@ -44,6 +44,13 @@
                 "custom_model_data": 32000
             },
             "model": "tf2:item/scout/secondary/pistol"
+        },
+        {
+            "predicate": {
+                "charged": 1,
+                "custom_model_data": 62000
+            },
+            "model": "tf2:item/heavy/secondary/shotgun"
         }
     ]
 }
