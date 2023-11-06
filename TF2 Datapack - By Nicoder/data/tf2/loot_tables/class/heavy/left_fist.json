@@ -15,7 +15,7 @@
                         },
                         {
                             "function": "minecraft:set_nbt",
-                            "tag": "{CustomModelData: 63000}"
+                            "tag": "{ CustomModelData: 63000, attributes: {isMelee: true} }"
                         }
                     ]
                 }
