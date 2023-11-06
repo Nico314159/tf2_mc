@@ -1,0 +1,7 @@
+{
+    "asset_id": "tf2:heavy",
+    "description": {
+        "translate": "trim_pattern.tf2.heavy"
+    },
+    "template_item": "minecraft:iron_block"
+}

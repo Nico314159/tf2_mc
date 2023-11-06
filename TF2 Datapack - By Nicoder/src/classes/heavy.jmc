@@ -1,3 +1,11 @@
+new trim_pattern(heavy) {
+    "asset_id": "tf2:heavy",
+    "description": {
+        "translate": "trim_pattern.tf2.heavy"
+    },
+    "template_item": "minecraft:iron_block"
+}
+
 class Class.Heavy {
     new loot_tables(minigun) {
         "pools": [{
@@ -112,6 +120,25 @@ class Class.Heavy {
             ]
         }]
     }
+    new loot_tables(_model) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [{
+                "type": "minecraft:item",
+                "name": "minecraft:iron_leggings",
+                "functions": [
+                    {
+                        "function": "minecraft:reference",
+                        "name": "tf2:apply_team_material"
+                    },
+                    {
+                        "function": "minecraft:set_nbt",
+                        "tag": "{Trim: {pattern: \"tf2:heavy\"}}"
+                    }
+                ]
+            }]
+        }]
+    }
 
     // TODO: use @inline decorator once JMC adds it
     function give() {
@@ -119,7 +146,7 @@ class Class.Heavy {
         loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
         loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
         loot replace entity @s hotbar.2 loot tf2:class/heavy/fists;
-        // loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+        loot replace entity @s armor.legs loot tf2:class/heavy/_model;
 
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
         tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
@@ -149,6 +176,11 @@ class Class.Heavy {
         $_count_ = clear @s snowball{CustomModelData: 63000} 0;
         if ($_count_ != 1) clear @s snowball{CustomModelData: 63000};
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
+
+        loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+        $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}} 0;
+        if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}};
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/heavy/_model;
 
         if (tf2.current_slot:@s == 2) {
             loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist;

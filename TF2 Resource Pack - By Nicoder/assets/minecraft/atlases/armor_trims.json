@@ -21,6 +21,17 @@
                 "red": "tf2:trims/color_palettes/sniper/red",
                 "blu": "tf2:trims/color_palettes/sniper/blu"
             }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/heavy_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/heavy/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/heavy/red",
+                "blu": "tf2:trims/color_palettes/heavy/blu"
+            }
         }
     ]
 }
