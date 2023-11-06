@@ -1,4 +1,35 @@
 class Class.Heavy {
+    new loot_tables(minigun) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:crossbow",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Minigun",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 61000,
+                                retina: {HorizontalCount: 2, VerticalCount: 2, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [35, 175], MaxRecursionDepth: 100},
+                                attributes: {damage: {base: 9, maxRamp: 1.5}, attackDelay: 0.1d, clip: 200, ammo: 0},
+                                controls: {main_fire: true, alt_fire: false, reload: 0},
+                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
     new loot_tables(shotgun) {
         "pools": [{
             "rolls": 1,
@@ -85,8 +116,7 @@ class Class.Heavy {
     // TODO: use @inline decorator once JMC adds it
     function give() {
         clear @s;
-        // loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
-        item replace entity @s hotbar.0 with paper; // temporary
+        loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
         loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
         loot replace entity @s hotbar.2 loot tf2:class/heavy/fists;
         // loot replace entity @s armor.legs loot tf2:class/heavy/_model;
@@ -105,6 +135,11 @@ class Class.Heavy {
     }
     // TODO: use @inline decorator once JMC adds it
     function inventory_lock() {
+        loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
+        $_count_ = clear @s crossbow{CustomModelData: 61000} 0;
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 61000};
+        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
+
         loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
         $_count_ = clear @s crossbow{CustomModelData: 62000} 0;
         if ($_count_ != 1) clear @s crossbow{CustomModelData: 62000};

@@ -48,6 +48,13 @@
         {
             "predicate": {
                 "charged": 1,
+                "custom_model_data": 61000
+            },
+            "model": "tf2:item/heavy/primary/minigun"
+        },
+        {
+            "predicate": {
+                "charged": 1,
                 "custom_model_data": 62000
             },
             "model": "tf2:item/heavy/secondary/shotgun"
