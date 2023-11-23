@@ -42,6 +42,8 @@ scoreboard objectives remove tf2.secondary_ammo
 scoreboard objectives remove tf2.attack_delay
 scoreboard objectives remove tf2.reload_delay
 scoreboard objectives remove tf2.consecutive_reload
+scoreboard objectives remove tf2.time_revved
+scoreboard objectives remove tf2.rev_threshold
 scoreboard objectives remove tf2.permanent.games_won
 scoreboard objectives remove tf2.permanent.games_played
 scoreboard objectives remove tf2.permanent.double_jumps

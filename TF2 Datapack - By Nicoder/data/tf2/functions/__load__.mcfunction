@@ -59,6 +59,8 @@ scoreboard objectives add tf2.secondary_ammo dummy
 scoreboard objectives add tf2.attack_delay dummy
 scoreboard objectives add tf2.reload_delay dummy
 scoreboard objectives add tf2.consecutive_reload dummy
+scoreboard objectives add tf2.time_revved dummy
+scoreboard objectives add tf2.rev_threshold dummy
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
 scoreboard objectives add tf2.permanent.double_jumps dummy

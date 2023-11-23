@@ -1,2 +1,6 @@
-execute as @e[type=item,tag=!tf2.map_item,distance=..2] run function tf2:__private__/anonymous/12
-execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/13
+scoreboard players remove @s tf2.respawn_timer 1
+scoreboard players operation @s tf2.respawn_timer.sec = @s tf2.respawn_timer
+scoreboard players add @s tf2.respawn_timer.sec 19
+scoreboard players operation @s tf2.respawn_timer.sec /= 20 tf2.const
+title @s title {"text":"You died!","color":"white"}
+title @s subtitle ["",{"text":"Respawn in... ","color":"gray"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"dark_gray"}]

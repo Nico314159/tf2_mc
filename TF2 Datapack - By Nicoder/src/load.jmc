@@ -45,6 +45,9 @@ Scoreboard.add(tf2.attack_delay, dummy);
 Scoreboard.add(tf2.reload_delay, dummy);
 Scoreboard.add(tf2.consecutive_reload, dummy);
 
+Scoreboard.add(tf2.time_revved, dummy);
+Scoreboard.add(tf2.rev_threshold, dummy);
+
 Scoreboard.add(tf2.permanent.games_won, dummy);
 Scoreboard.add(tf2.permanent.games_played, dummy);
 Scoreboard.add(tf2.permanent.double_jumps, dummy);

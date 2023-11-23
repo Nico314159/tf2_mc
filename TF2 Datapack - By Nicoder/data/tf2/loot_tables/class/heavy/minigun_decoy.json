@@ -1,0 +1,27 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:crossbow",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Minigun",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{\n                                CustomModelData: 61000,\n                                Charged: 0b, Unbreakable: 1b,\n                                kind: \"fake\"\n                            }"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

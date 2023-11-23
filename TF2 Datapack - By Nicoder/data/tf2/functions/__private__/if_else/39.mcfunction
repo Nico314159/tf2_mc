@@ -1,3 +1,1 @@
-scoreboard players set @s tf2.health 0
-tellraw @a ["",{"selector":"@s"},{"text":" fell into the void."}]
-tp @s ~ 5 ~
+execute if entity @s[tag=!tf2.overtime] run function tf2:__private__/if_else/40

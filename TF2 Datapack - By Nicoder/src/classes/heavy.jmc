@@ -7,7 +7,38 @@ new trim_pattern(heavy) {
 }
 
 class Class.Heavy {
-    new loot_tables(minigun) {
+    new predicates(is_revving) {
+        "condition": "minecraft:all_of",
+        "terms": [{
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "equipment": {
+                    "mainhand": {
+                        "items": [
+                            "minecraft:crossbow"
+                        ],
+                        "nbt": "{kind: \"real\"}"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "equipment": {
+                    "offhand": {
+                        "items": [
+                            "minecraft:crossbow"
+                        ],
+                        "nbt": "{kind: \"fake\"}"
+                    }
+                }
+            }
+        }]
+    }
+    new loot_tables(minigun_decoy) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -27,10 +58,40 @@ class Class.Heavy {
                             "function": "minecraft:set_nbt",
                             "tag": "{
                                 CustomModelData: 61000,
+                                Charged: 0b, Unbreakable: 1b,
+                                kind: \"fake\"
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(minigun_spinning) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:crossbow",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Minigun",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 61001,
                                 retina: {HorizontalCount: 2, VerticalCount: 2, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [35, 175], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 9, maxRamp: 1.5}, attackDelay: 0.1d, clip: 200, ammo: 0},
-                                controls: {main_fire: true, alt_fire: false, reload: 0},
-                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
+                                attributes: {damage: {base: 9, maxRamp: 1.5}, attackDelay: 0.1d, spinupDelay: 0.87s, clip: 200, ammo: 0},
+                                controls: {main_fire: true, alt_fire: false, reload: 0}, 
+                                Charged: 0b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b, 
+                                kind: \"real\"
                             }"
                         }
                     ]
@@ -140,10 +201,13 @@ class Class.Heavy {
         }]
     }
 
+
+
     // TODO: use @inline decorator once JMC adds it
     function give() {
         clear @s;
-        loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
+        loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
+        loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;
         loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
         loot replace entity @s hotbar.2 loot tf2:class/heavy/fists;
         loot replace entity @s armor.legs loot tf2:class/heavy/_model;
@@ -152,21 +216,27 @@ class Class.Heavy {
         tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
         tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+        tf2.rev_threshold:@s = data get entity @s Inventory[-106].tag.attributes.spinupDelay 20;
     }
     function tick() {
         Weapons.get_ammo();
         Weapons.actionbar();
         Weapons.set_ammo();
 
+        if (predicate tf2:class/heavy/is_revving) {
+            tf2.time_revved:@s ++;
+        }
+        if (tf2.time_revved:@s >= tf2.rev_threshold:@s) {
+            item modify entity @s hotbar.0 tf2:load_crossbow;
+        }
+        if (tf2.current_slot:@s != 0 && tf2.time_revved:@s != 0) {
+            tf2.attack_delay:@s += tf2.rev_threshold:@s;
+            tf2.time_revved:@s = 0;
+        }
         Class.Heavy.inventory_lock();
     }
     // TODO: use @inline decorator once JMC adds it
     function inventory_lock() {
-        loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
-        $_count_ = clear @s crossbow{CustomModelData: 61000} 0;
-        if ($_count_ != 1) clear @s crossbow{CustomModelData: 61000};
-        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun;
-
         loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
         $_count_ = clear @s crossbow{CustomModelData: 62000} 0;
         if ($_count_ != 1) clear @s crossbow{CustomModelData: 62000};
@@ -188,11 +258,39 @@ class Class.Heavy {
             if ($_count_ != 1) clear @s clay_ball{CustomModelData: 63000};
             if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist;
         } else {
-            clear @s clay_ball;
+            clear @s clay_ball{CustomModelData: 63000};
         }
-        // loot replace entity @s armor.legs loot tf2:class/heavy/_model;
-        // $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}} 0;
-        // if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}};
-        // if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+
+        loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+        $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}} 0;
+        if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}};
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+
+        $_crossbow_id_ = data get entity @s Inventory[-1].tag.CustomModelData 0.001;
+
+        if (predicate tf2:class/heavy/is_revving && $_crossbow_id_ === 61) {
+            loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;
+            $_count_ = clear @s crossbow{CustomModelData: 61001, kind: "real"} 0;
+            if ($_count_ != 1) clear @s crossbow{CustomModelData: 61001, kind: "real"};
+            if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;
+
+            loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy;
+            $_count_ = clear @s crossbow{CustomModelData: 61000, kind: "fake"} 0;
+            if ($_count_ != 1) clear @s crossbow{CustomModelData: 61000, kind: "fake"};
+            if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy;
+        }
+        else {
+            loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
+            $_count_ = clear @s crossbow{CustomModelData: 61000, kind: "fake"} 0;
+            if ($_count_ != 1) clear @s crossbow{CustomModelData: 61000, kind: "fake"};
+            if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
+
+            loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;
+            $_count_ = clear @s crossbow{CustomModelData: 61001, kind: "real"} 0;
+            if ($_count_ != 1) clear @s crossbow{CustomModelData: 61001, kind: "real"};
+            if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;
+
+            if (tf2.current_slot:@s != 0) clear @s crossbow{kind: "real"};
+        }
     }
 }

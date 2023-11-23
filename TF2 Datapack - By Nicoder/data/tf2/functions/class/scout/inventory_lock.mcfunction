@@ -15,4 +15,4 @@ loot replace entity @s armor.legs loot tf2:class/scout/_model
 execute store result score $_count_ tf2.var run clear @s iron_leggings{Trim:{pattern:"tf2:scout"}} 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings{Trim:{pattern:"tf2:scout"}}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/scout/_model
-execute if entity @s[tag=tf2.can_double_jump] run function tf2:__private__/if_else/28
+execute if entity @s[tag=tf2.can_double_jump] run function tf2:__private__/if_else/31

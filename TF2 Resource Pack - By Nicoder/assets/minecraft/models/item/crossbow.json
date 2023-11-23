@@ -47,10 +47,16 @@
         },
         {
             "predicate": {
-                "charged": 1,
                 "custom_model_data": 61000
             },
             "model": "tf2:item/heavy/primary/minigun"
+        },
+        {
+            "predicate": {
+                "charged": 0,
+                "custom_model_data": 61001
+            },
+            "model": "tf2:item/transparent"
         },
         {
             "predicate": {
