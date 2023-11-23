@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "item/transparent"
+    "layer0": "tf2:item/transparent"
   }
 }

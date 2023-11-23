@@ -56,7 +56,7 @@
                 "charged": 0,
                 "custom_model_data": 61001
             },
-            "model": "tf2:item/transparent"
+            "model": "tf2:item/empty"
         },
         {
             "predicate": {
