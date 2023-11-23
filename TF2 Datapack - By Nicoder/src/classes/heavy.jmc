@@ -93,6 +93,26 @@ class Class.Heavy {
                                 Charged: 0b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b, 
                                 kind: \"real\"
                             }"
+                        },
+                        {
+                            "function": "minecraft:reference",
+                            "name": "tf2:load_crossbow",
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.time_revved": {
+                                            "min": {
+                                                "type": "minecraft:score",
+                                                "target": "this",
+                                                "score": "tf2.rev_threshold",
+                                                "scale": 1
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
@@ -225,9 +245,6 @@ class Class.Heavy {
 
         if (predicate tf2:class/heavy/is_revving) {
             tf2.time_revved:@s ++;
-        }
-        if (tf2.time_revved:@s >= tf2.rev_threshold:@s) {
-            item modify entity @s hotbar.0 tf2:load_crossbow;
         }
         if (tf2.current_slot:@s != 0 && tf2.time_revved:@s != 0) {
             tf2.attack_delay:@s += tf2.rev_threshold:@s;
