@@ -1,7 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "tf2:item/heavy/melee/fist"
+		"1": "tf2:item/heavy/melee/fist",
+		"particle": "tf2:item/transparent"
 	},
 	"elements": [
 		{
