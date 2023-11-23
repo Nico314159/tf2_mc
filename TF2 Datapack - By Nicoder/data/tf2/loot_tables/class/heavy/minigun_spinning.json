@@ -17,7 +17,7 @@
                         },
                         {
                             "function": "minecraft:set_nbt",
-                            "tag": "{\n                                CustomModelData: 61001,\n                                retina: {HorizontalCount: 2, VerticalCount: 2, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [35, 175], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 9, maxRamp: 1.5}, attackDelay: 0.1d, spinupDelay: 0.87s, clip: 200, ammo: 0},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}, \n                                Charged: 0b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b, \n                                kind: \"real\"\n                            }"
+                            "tag": "{\n                                CustomModelData: 61001,\n                                retina: {HorizontalCount: 2, VerticalCount: 2, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [35, 175], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 9, maxRamp: 1.5}, attackDelay: 0.1d, spinupDelay: 0.87d, clip: 200, ammo: 0},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}, \n                                Charged: 0b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b, \n                                kind: \"real\"\n                            }"
                         },
                         {
                             "function": "minecraft:reference",
