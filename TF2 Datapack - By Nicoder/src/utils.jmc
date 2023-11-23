@@ -77,34 +77,34 @@ function class_select() {
     switch (tf2.class:@s) {
         case Class.SPY:
             tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:generic.movement_speed base set 0.12;
+            attribute @s minecraft:generic.movement_speed base set 0.132;
         case Class.SNIPER:
             tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:generic.movement_speed base set 0.12;
+            attribute @s minecraft:generic.movement_speed base set 0.132;
             Class.Sniper.give();
         case Class.SCOUT:
             tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:generic.movement_speed base set 0.16;
+            attribute @s minecraft:generic.movement_speed base set 0.176;
             Class.Scout.give();
         case Class.SOLDIER:
             tf2.max_health:@s = tf2.health:@s = 200;
-            attribute @s minecraft:generic.movement_speed base set 0.102;
+            attribute @s minecraft:generic.movement_speed base set 0.1122;
         case Class.DEMOMAN:
             tf2.max_health:@s = tf2.health:@s = 175;
-            attribute @s minecraft:generic.movement_speed base set 0.1116;
+            attribute @s minecraft:generic.movement_speed base set 0.12276;
         case Class.HEAVY:
             tf2.max_health:@s = tf2.health:@s = 300;
-            attribute @s minecraft:generic.movement_speed base set 0.084;
+            attribute @s minecraft:generic.movement_speed base set 0.0924;
             Class.Heavy.give();
         case Class.PYRO:
             tf2.max_health:@s = tf2.health:@s = 175;
-            attribute @s minecraft:generic.movement_speed base set 0.12;
+            attribute @s minecraft:generic.movement_speed base set 0.132;
         case Class.ENGINEER:
             tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:generic.movement_speed base set 0.12;
+            attribute @s minecraft:generic.movement_speed base set 0.132;
         case Class.MEDIC:
             tf2.max_health:@s = tf2.health:@s = 150;
-            attribute @s minecraft:generic.movement_speed base set 0.1284;
+            attribute @s minecraft:generic.movement_speed base set 0.14124;
         default: 
             test_items();
         break;
