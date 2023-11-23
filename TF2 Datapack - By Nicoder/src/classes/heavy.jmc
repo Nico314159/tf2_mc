@@ -236,7 +236,7 @@ class Class.Heavy {
         tf2.primary_ammo:@s = data get entity @s Inventory[{Slot:-106b}].tag.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
         tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
-        tf2.rev_threshold:@s = data get entity @s Inventory[{Slot:-106b}].tag.attributes.spinupDelay 20;
+        tf2.rev_threshold:@s = data get entity @s Inventory[{Slot:-106b}].tag.attributes.spinupDelay 20000;
     }
     function tick() {
         Weapons.get_ammo();
@@ -245,13 +245,14 @@ class Class.Heavy {
 
         attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier add 736c6f77-7768-696c-6572-657676696e67 "slowwhilerevving" -0.5 multiply;
         attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier remove 736c6f77-7768-696c-6572-657676696e67;
-        tf2.time_revved:@s[predicate=tf2:class/heavy/is_revving] ++;
-        tf2.time_revved:@s[predicate=!tf2:class/heavy/is_revving] = 0;
+        tf2.time_revved:@s[predicate=tf2:class/heavy/is_revving] += 1000;
         
         if (tf2.current_slot:@s != 0 && tf2.time_revved:@s != 0) {
             tf2.attack_delay:@s += tf2.rev_threshold:@s;
             tf2.time_revved:@s = 0;
         }
+
+        tf2.time_revved:@s[predicate=!tf2:class/heavy/is_revving] = 0;
         Class.Heavy.inventory_lock();
     }
     // TODO: use @inline decorator once JMC adds it
