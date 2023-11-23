@@ -87,6 +87,7 @@ function player_tick() {
     }
     tag @s remove tf2.self;
     if (predicate tf2:unloaded_crossbow) {
+        if (tf2.class:@s == 6 && tf2.time_revved:@s < tf2.rev_threshold:@s) return 0;
         Weapons.main_fire();
         item modify entity @s weapon.mainhand tf2:load_crossbow;
         kill @e[type=arrow];
