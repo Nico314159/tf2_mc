@@ -55,6 +55,13 @@
         {
             "predicate": {
                 "charged": 1,
+                "custom_model_data": 61001
+            },
+            "model": "tf2:item/heavy/primary/minigun_spinning"
+        },
+        {
+            "predicate": {
+                "charged": 1,
                 "custom_model_data": 62000
             },
             "model": "tf2:item/heavy/secondary/shotgun"
