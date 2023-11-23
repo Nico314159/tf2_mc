@@ -58,7 +58,7 @@ class Class.Heavy {
                             "function": "minecraft:set_nbt",
                             "tag": "{
                                 CustomModelData: 61000,
-                                Charged: 0b, Unbreakable: 1b,
+                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b,
                                 kind: \"fake\"
                             }"
                         }

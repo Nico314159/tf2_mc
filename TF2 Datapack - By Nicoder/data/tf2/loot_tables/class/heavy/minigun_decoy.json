@@ -17,7 +17,7 @@
                         },
                         {
                             "function": "minecraft:set_nbt",
-                            "tag": "{\n                                CustomModelData: 61000,\n                                Charged: 0b, Unbreakable: 1b,\n                                kind: \"fake\"\n                            }"
+                            "tag": "{\n                                CustomModelData: 61000,\n                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b,\n                                kind: \"fake\"\n                            }"
                         }
                     ]
                 }

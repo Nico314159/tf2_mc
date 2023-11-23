@@ -3194,15 +3194,16 @@
 		},
 		"firstperson_righthand": {
 			"rotation": [7, 9, 0],
-			"translation": [7.25, 3.25, 2],
-			"scale": [0.56, 0.46, 0.4]
+			"translation": [7.25, 2.25, 2],
+			"scale": [0, 0, 0]
 		},
 		"firstperson_lefthand": {
 			"scale": [0, 0, 0]
 		},
 		"gui": {
 			"rotation": [0, -75, 0],
-			"scale": [0, 0, 0]
+			"translation": [0, -131072, 0],
+			"scale": [0, 1000, 0]
 		}
 	}
 }

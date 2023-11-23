@@ -3,7 +3,6 @@
         "layer0": "item/clay_ball"
     },
     "overrides": [      
-        { "predicate": {"custom_model_data": 61000}, "model": "tf2:item/heavy/primary/minigun"},
         { "predicate": {"custom_model_data": 63000}, "model": "tf2:item/heavy/melee/left_fist"}
     ]
 }
