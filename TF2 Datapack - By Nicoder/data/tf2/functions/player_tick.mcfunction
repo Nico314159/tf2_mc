@@ -9,7 +9,7 @@ data modify storage tf2.__temp__:check_match UUID set from entity @s UUID
 tag @s add tf2.self
 execute if predicate tf2:empty_hand run function tf2:__private__/if_else/46
 tag @s remove tf2.self
-execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/47
 function tf2:weapons/slot_check
+execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/47
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/13/select with storage tf2:__storage__
