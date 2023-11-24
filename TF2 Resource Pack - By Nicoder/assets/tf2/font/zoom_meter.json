@@ -10,9 +10,16 @@
             ]
         },
         {
+            "type": "space",
+            "advances": {
+                " ": 4,
+                "_": 28
+            }
+        },
+        {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_1.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "a"
@@ -21,7 +28,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_2.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "b"
@@ -30,7 +37,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_3.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "c"
@@ -39,7 +46,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_4.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "d"
@@ -48,7 +55,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_5.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "e"
@@ -57,7 +64,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_6.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "f"
@@ -66,7 +73,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_7.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "g"
@@ -75,7 +82,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_8.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "h"
@@ -84,7 +91,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_9.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "i"
@@ -93,7 +100,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_10.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "j"
@@ -102,7 +109,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_11.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "k"
@@ -111,7 +118,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_12.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "l"
@@ -120,7 +127,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_13.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "m"
@@ -129,7 +136,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_14.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "n"
@@ -138,7 +145,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_15.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "o"
@@ -147,7 +154,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/zoom_meter/bar_16.png",
-            "ascent": 16,
+            "ascent": 10,
             "height": 16,
             "chars": [
                 "p"
