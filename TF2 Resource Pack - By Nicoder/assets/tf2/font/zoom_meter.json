@@ -12,6 +12,7 @@
         {
             "type": "space",
             "advances": {
+                ":": 12,
                 " ": 4,
                 "_": 28
             }
@@ -158,6 +159,15 @@
             "height": 16,
             "chars": [
                 "p"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "tf2:font/zoom_meter/hundred.png",
+            "ascent": 10,
+            "height": 12,
+            "chars": [
+                "%"
             ]
         }
     ]

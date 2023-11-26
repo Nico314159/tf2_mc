@@ -1,1 +1,1 @@
-title @s subtitle {"text":"_abcdefghijklm","color":"gray","font":"tf2:zoom_meter"}
+title @s subtitle {"text":"_:abcdefghijklm%","color":"gray","font":"tf2:zoom_meter"}

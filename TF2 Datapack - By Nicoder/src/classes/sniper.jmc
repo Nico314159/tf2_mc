@@ -310,7 +310,7 @@ class Class.Sniper {
             case 10: Text.subtitle(@s, "&<gray,font(zoom_meter)>_abcdefghij&<dark_gray,font(zoom_meter)>klm");
             case 11: Text.subtitle(@s, "&<gray,font(zoom_meter)>_abcdefghijk&<dark_gray,font(zoom_meter)>lm");
             case 12: Text.subtitle(@s, "&<gray,font(zoom_meter)>_abcdefghijkl&<dark_gray,font(zoom_meter)>m");
-            case 13: Text.subtitle(@s, "&<gray,font(zoom_meter)>_abcdefghijklm&<dark_gray,font(zoom_meter)>");
+            case 13: Text.subtitle(@s, "&<gray,font(zoom_meter)>_:abcdefghijklm%");
         }
     }
 }
