@@ -1,2 +1,5 @@
-execute if score $casual_queue_length tf2.var matches 24.. run function tf2:__private__/if_else/3
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/4
+loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist
+execute store result score $_count_ tf2.var run clear @s clay_ball{CustomModelData:63000} 0
+execute unless score $_count_ tf2.var matches 1 run clear @s clay_ball{CustomModelData:63000}
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist
+scoreboard players set __if_else__ tf2.var 1

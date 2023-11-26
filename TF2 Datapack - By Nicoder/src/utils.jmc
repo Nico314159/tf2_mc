@@ -1,22 +1,3 @@
-TextProps.font("font", "_foo_", "tf2:_foo_");
-TextProp.hoverText(
-    "info_atk_def",
-    "&<red>RED &<white>starts with all the control points, and &<blue>BLU must capture &<italic>all &<!italic>of them in order to win. Once a point is taken, it cannot be reclaimed by &<red>RED. &<white>If the timer runs out, &<red>RED &<white>wins no matter how much progress &<blue>BLU &<white>has made."
-);
-TextProp.hoverText(
-    "info_control_points",
-    "Each team starts out owning half the control points; whichever team captures all of them wins. Stalemate if the timer runs out."
-);
-TextProps.nbt(
-    propertyName = "gui_wheel",
-    indexString  = "_path_",
-    type         = storage,
-    source       = "tf2.__temp__:lookup",
-    path         = points[0].wheel._path_,
-    interpret    = true
-);
-
-
 function setup_markers() {
     // Summons new gamestate markers if there aren't enough, and kills extras if there are too many.
 

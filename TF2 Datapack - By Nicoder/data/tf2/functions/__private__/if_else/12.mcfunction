@@ -1,3 +1,3 @@
-scoreboard players remove $_clip_ tf2.var 1
-function tf2:weapons/set_ammo
-scoreboard players set @s tf2.consecutive_reload 0
+scoreboard players operation $_clip_ tf2.var = @s tf2.primary_clip
+scoreboard players operation $_maxClip_ tf2.var = @s tf2.primary_maxClip
+scoreboard players operation $_ammo_ tf2.var = @s tf2.primary_ammo

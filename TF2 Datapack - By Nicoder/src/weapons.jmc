@@ -443,5 +443,3 @@ class Weapons {
         }
     }
 }
-
-import "src/classes/*";

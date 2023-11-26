@@ -1,8 +1,10 @@
 import "src/load";
+import "src/text_props";
+import "src/classes/*";
+import "src/weapons";
 import "src/utils";
 import "src/gameplay_loop";
 import "src/math";
-import "src/weapons";
 import "src/objectives";
 import "src/timer";
 

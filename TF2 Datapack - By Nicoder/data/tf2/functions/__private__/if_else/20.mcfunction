@@ -1,2 +1,3 @@
-execute if entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}] run function tf2:__private__/if_else/22
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/23
+scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
+scoreboard players remove $_temp3_ tf2.var 100
+scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const

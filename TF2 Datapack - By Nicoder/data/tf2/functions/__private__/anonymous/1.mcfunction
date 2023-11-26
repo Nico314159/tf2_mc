@@ -1,1 +1,2 @@
-$scoreboard players operation @s tf2.session = $global_$(i) tf2.session
+data modify entity @s Pos set from storage retina:output ContactCoordinates
+tag @s add tf2.temp

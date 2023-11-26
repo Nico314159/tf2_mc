@@ -1,2 +1,3 @@
-execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players remove $_clip_ tf2.var 1
+function tf2:weapons/set_ammo
+scoreboard players set @s tf2.consecutive_reload 0

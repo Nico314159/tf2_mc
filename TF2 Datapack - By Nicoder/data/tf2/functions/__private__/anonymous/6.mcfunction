@@ -1,8 +1,5 @@
-execute if score $offset_Y retina.__variable__ matches 776..778 run tp @s ~ ~1.42 ~
-execute if score $offset_Y retina.__variable__ matches 608..610 run tp @s ~ ~1.07 ~
-execute if score $offset_Y retina.__variable__ matches 192 run tp @s ~ ~0.20 ~
-tag @s add tf2.height
-data modify storage tf2.__temp__:summon line.X set from entity @s Pos[0]
-data modify storage tf2.__temp__:summon line.Y set from entity @s Pos[1]
-data modify storage tf2.__temp__:summon line.Z set from entity @s Pos[2]
-kill @s
+scoreboard players set @s tf2.map 1
+scoreboard players operation @s tf2.batch_number > @e[type=marker,tag=tf2.batch] tf2.batch_number
+scoreboard players add @s tf2.batch_number 1
+execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:__private__/anonymous/5 with storage tf2.__temp__:index

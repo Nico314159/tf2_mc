@@ -1,5 +1,2 @@
-scoreboard players set @s tf2.map 1
-scoreboard players operation @s tf2.batch_number > @e[type=marker,tag=tf2.batch] tf2.batch_number
-scoreboard players add @s tf2.batch_number 1
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/1 with storage tf2.__temp__:index
+execute if entity @s[scores={tf2.team=1}] run function tf2:__private__/if_else/8
+execute if entity @s[scores={tf2.team=2}] run function tf2:__private__/if_else/9

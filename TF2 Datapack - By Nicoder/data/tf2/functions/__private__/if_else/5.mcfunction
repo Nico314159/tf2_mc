@@ -1,2 +1,10 @@
-execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run function tf2:start_game/as_players/generic
-scoreboard players set __if_else__ tf2.var 1
+loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy
+execute store result score $_count_ tf2.var run clear @s crossbow{CustomModelData:61000,kind:"fake"} 0
+execute unless score $_count_ tf2.var matches 1 run clear @s crossbow{CustomModelData:61000,kind:"fake"}
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy
+execute unless score @s tf2.current_slot matches 0 run clear @s crossbow{kind:"real"}
+execute unless score @s tf2.current_slot matches 0 run return 0
+loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning
+execute store result score $_count_ tf2.var run clear @s crossbow{CustomModelData:61001,kind:"real"} 0
+execute unless score $_count_ tf2.var matches 1 run clear @s crossbow{CustomModelData:61001,kind:"real"}
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning
