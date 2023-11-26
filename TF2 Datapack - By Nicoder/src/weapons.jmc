@@ -237,7 +237,6 @@ class Weapons {
             tf2.consecutive_reload:@s = false;
         }
     }
-    // TODO: use @inline decorator once JMC adds it
     function get_ammo() {
         if (tf2.current_slot:@s == 0) {
             $_clip_    = tf2.primary_clip:@s;
@@ -250,7 +249,6 @@ class Weapons {
             $_ammo_    = tf2.secondary_ammo:@s;
         }
     }
-    // TODO: use @inline decorator once JMC adds it
     function set_ammo() {
         if (tf2.current_slot:@s == 0) {
             tf2.primary_clip:@s      = $_clip_;

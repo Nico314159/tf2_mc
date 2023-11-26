@@ -1,1 +1,2 @@
-title @s actionbar ["",{"text":"\u2764 Health: ","color":"red"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red"},{"text":"             ","color":"red"},{"text":"Ammo: ","color":"gray"},{"score":{"name":"$_clip_","objective":"tf2.var"},"color":"gray"},{"text":" ","color":"gray"},{"text":"(","color":"dark_gray"},{"score":{"name":"$_ammo_","objective":"tf2.var"},"color":"dark_gray"},{"text":")","color":"dark_gray"}]
+execute if entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}] run function tf2:__private__/if_else/19
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/20

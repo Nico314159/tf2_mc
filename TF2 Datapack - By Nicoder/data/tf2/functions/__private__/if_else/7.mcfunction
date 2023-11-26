@@ -1,4 +1,6 @@
-item replace entity @s armor.chest with elytra{} 1
-execute store result score $_count_ tf2.var run clear @s elytra{} 0
-execute unless score $_count_ tf2.var matches 1 run clear @s elytra{} 
-execute unless score $_count_ tf2.var matches 1 run item replace entity @s armor.chest with elytra{} 1
+particle dust 0.0 0.4 1.0 0.9 ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!retina.target]
+execute if entity @s[distance=  ..02] run particle dust 0.0 0.4 1.0 0.10 ^ ^ ^ 0 0 0 0 2 force @s
+execute if entity @s[distance=02..05] run particle dust 0.0 0.4 1.0 0.25 ^ ^ ^ 0 0 0 0 2 force @s
+execute if entity @s[distance=05..50] run particle dust 0.0 0.4 1.0 0.55 ^ ^ ^ 0 0 0 0 2 force @s
+execute if entity @s[distance=50..  ] run particle dust 0.0 0.4 1.0 0.90 ^ ^ ^ 0 0 0 0 2 force @s
+particle dust 0.0 0.4 1.0 0.3 ^ ^ ^ 0 0 0 0 2 force @a[tag=retina.target]

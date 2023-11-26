@@ -121,7 +121,7 @@ class Class.Scout {
         }]
     }
 
-    // TODO: use @inline decorator once JMC adds it
+    @lazy
     function give() {
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
@@ -134,6 +134,7 @@ class Class.Scout {
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
         tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
     }
+    @lazy
     function tick() {
         Weapons.get_ammo();
         Weapons.actionbar();
@@ -159,7 +160,6 @@ class Class.Scout {
 
         Class.Scout.inventory_lock();
     }
-    // TODO: use @inline decorator once JMC adds it
     function inventory_lock() {
         item replace entity @s weapon.offhand with air;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;

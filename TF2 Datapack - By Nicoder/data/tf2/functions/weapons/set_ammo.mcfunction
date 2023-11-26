@@ -1,2 +1,2 @@
-execute if score @s tf2.current_slot matches 0 run function tf2:__private__/if_else/14
-execute if score @s tf2.current_slot matches 1 run function tf2:__private__/if_else/15
+execute if score @s tf2.current_slot matches 0 run function tf2:__private__/if_else/12
+execute if score @s tf2.current_slot matches 1 run function tf2:__private__/if_else/13

@@ -1,2 +1,3 @@
-function tf2:class/sniper/damage_scale
-scoreboard players set __if_else__ tf2.var 1
+execute store result score @s tf2.attack_delay run data get entity @s SelectedItem.tag.attributes.deployTime 10000
+execute unless data entity @s SelectedItem.tag.attributes.deployTime run scoreboard players set @s tf2.attack_delay 10000
+scoreboard players set @s tf2.consecutive_reload 0

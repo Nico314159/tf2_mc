@@ -1,1 +1,1 @@
-data modify storage tf2.__temp__:lookup points[0].symbol set value "[\"\"]"
+execute if entity @s[tag=!tf2.overtime] run function tf2:__private__/if_else/38

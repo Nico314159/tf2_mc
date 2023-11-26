@@ -176,7 +176,7 @@ class Class.Sniper {
         }]
     }
 
-    // TODO: use @inline decorator once JMC adds it
+    @lazy
     function give() {
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
@@ -190,6 +190,7 @@ class Class.Sniper {
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
         tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
     }
+    @lazy
     function tick() {
         tf2.grace_period:@s[tag=!tf2.scoped] ++;
         tf2.time_scoped:@s[scores={tf2.grace_period=10..}] = 0;
@@ -205,7 +206,6 @@ class Class.Sniper {
 
         Class.Sniper.inventory_lock();
     }
-    // TODO: use @inline decorator once JMC adds it
     function inventory_lock() {
         item replace entity @s armor.chest with air;
         loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
@@ -276,7 +276,7 @@ class Class.Sniper {
         kill @e[type=marker, tag=tf2.temp];
         Advancement.revoke(@s, only, class/sniper/scope);
     }
-    // TODO: use @inline decorator once JMC adds it
+    @lazy
     function damage_scale() {
         $_multiplier_ = tf2.time_scoped:@a[tag=retina.executing, limit=1];
         $_multiplier_ -= 26;

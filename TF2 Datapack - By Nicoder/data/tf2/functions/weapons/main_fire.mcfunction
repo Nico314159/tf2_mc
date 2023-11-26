@@ -27,5 +27,5 @@ execute if score $_totalDamage_ tf2.var matches 1.. run function tf2:weapons/dam
 scoreboard players set $validOffset tf2.var 0
 execute if score $offset_Y retina.__variable__ matches 192..778 unless score $offset_Y retina.__variable__ matches 193..607 unless score $offset_Y retina.__variable__ matches 611..775 run scoreboard players set $validOffset tf2.var 1
 scoreboard players set __if_else__ tf2.var 0
-execute if predicate tf2:holding_melee if score $validOffset tf2.var matches 1.. run function tf2:__private__/if_else/10
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/11
+execute if predicate tf2:holding_melee if score $validOffset tf2.var matches 1.. run function tf2:__private__/if_else/8
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/9
