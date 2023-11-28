@@ -27,17 +27,6 @@ class Class.Sniper {
             "entity": "this",
             "predicate": {
                 "equipment": {
-                    "mainhand": {
-                        "items": ["minecraft:spyglass"]
-                    }
-                }
-            }
-        },
-        {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-                "equipment": {
                     "offhand": {
                         "items": ["minecraft:crossbow"]
                     }
@@ -228,7 +217,7 @@ class Class.Sniper {
         $_crossbow_id_ = data get entity @s Inventory[-1].tag.CustomModelData 0.001;
         if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21 && tf2.attack_delay:@s <= 0) expand {
             // TODO: use `return run` once 1.20.3 releases
-            // (returning from inline is okay since there's nothing after this function anyway)
+            loot replace entity @s weapon.mainhand loot tf2:class/sniper/sniper_rifle_scope;
             item modify entity @s weapon.offhand tf2:load_crossbow;
             return 0;
         }
@@ -238,12 +227,7 @@ class Class.Sniper {
         if ($_count_ != 1) clear @s crossbow{CustomModelData: 21000};
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
 
-        loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope;
-        $_count_ = clear @s spyglass{CustomModelData: 21000} 0;
-        if ($_count_ != 1) clear @s spyglass{CustomModelData: 21000};
-        if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope;
-
-        if (tf2.current_slot:@s != 0) clear @s spyglass;
+        clear @s spyglass;
     }
     function scope() {
         tf2.time_scoped:@s += 1;

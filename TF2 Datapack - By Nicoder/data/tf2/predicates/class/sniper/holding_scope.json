@@ -6,19 +6,6 @@
             "entity": "this",
             "predicate": {
                 "equipment": {
-                    "mainhand": {
-                        "items": [
-                            "minecraft:spyglass"
-                        ]
-                    }
-                }
-            }
-        },
-        {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-                "equipment": {
                     "offhand": {
                         "items": [
                             "minecraft:crossbow"
