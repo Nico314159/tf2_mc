@@ -243,7 +243,7 @@ class Class.Sniper {
         if ($_count_ != 1) clear @s spyglass{CustomModelData: 21000};
         if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope;
 
-        if (!tf2.current_slot:@s matches 0..2) clear @s spyglass;
+        if (tf2.current_slot:@s != 0) clear @s spyglass;
     }
     function scope() {
         tf2.time_scoped:@s += 1;

@@ -22,4 +22,4 @@ loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope
 execute store result score $_count_ tf2.var run clear @s spyglass{CustomModelData:21000} 0
 execute unless score $_count_ tf2.var matches 1 run clear @s spyglass{CustomModelData:21000}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope
-execute unless score @s tf2.current_slot matches 0..2 run clear @s spyglass
+execute unless score @s tf2.current_slot matches 0 run clear @s spyglass
