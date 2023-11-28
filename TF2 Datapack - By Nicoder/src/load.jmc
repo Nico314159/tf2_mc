@@ -174,10 +174,7 @@ new loot_tables(crossbow_based) {
                 "condition": "minecraft:entity_scores",
                 "entity": "this",
                 "scores": {
-                    "tf2.attack_delay": {
-                        "min": -2147483648,
-                        "max": 1000
-                    }
+                    "tf2.attack_delay": {"max": 1000}
                 }
             },
             {

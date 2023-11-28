@@ -340,7 +340,7 @@ class Weapons {
         tf2.reload_delay:@s += $_reloadDelay_;
         tf2.consecutive_reload:@s = true;
 
-        if (tf2.attack_delay:@s <= 1000) {
+        if (tf2.attack_delay:@s <= 0) {
             // Prevents it from seeing "unloaded crossbow" the next tick and assuming the fire button was hit
             item modify entity @s weapon.mainhand tf2:load_crossbow;
         }
