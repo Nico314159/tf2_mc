@@ -11,5 +11,6 @@ execute if predicate tf2:empty_hand run function tf2:__private__/if_else/44
 tag @s remove tf2.self
 function tf2:weapons/slot_check
 execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/45
+execute if score @s tf2.attack_delay matches ..1000 run item modify entity @s weapon.mainhand tf2:load_crossbow
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/13/select with storage tf2:__storage__

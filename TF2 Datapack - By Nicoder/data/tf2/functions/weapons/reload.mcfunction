@@ -13,3 +13,4 @@ execute if score @s tf2.consecutive_reload matches 0 store result score $_reload
 execute if score @s tf2.consecutive_reload matches 1 store result score $_reloadDelay_ tf2.var run data get entity @s SelectedItem.tag.attributes.reloadDelay[1] 20000
 scoreboard players operation @s tf2.reload_delay += $_reloadDelay_ tf2.var
 scoreboard players set @s tf2.consecutive_reload 1
+execute if score @s tf2.attack_delay matches ..1000 run item modify entity @s weapon.mainhand tf2:load_crossbow

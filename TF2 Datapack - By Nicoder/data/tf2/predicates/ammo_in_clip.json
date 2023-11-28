@@ -1,0 +1,47 @@
+{
+    "condition": "minecraft:any_of",
+    "terms": [
+        {
+            "condition": "minecraft:all_of",
+            "terms": [
+                {
+                    "condition": "minecraft:entity_scores",
+                    "entity": "this",
+                    "scores": {
+                        "tf2.current_slot": 0
+                    }
+                },
+                {
+                    "condition": "minecraft:entity_scores",
+                    "entity": "this",
+                    "scores": {
+                        "tf2.primary_clip": {
+                            "min": 1
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "condition": "minecraft:all_of",
+            "terms": [
+                {
+                    "condition": "minecraft:entity_scores",
+                    "entity": "this",
+                    "scores": {
+                        "tf2.current_slot": 1
+                    }
+                },
+                {
+                    "condition": "minecraft:entity_scores",
+                    "entity": "this",
+                    "scores": {
+                        "tf2.secondary_clip": {
+                            "min": 1
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

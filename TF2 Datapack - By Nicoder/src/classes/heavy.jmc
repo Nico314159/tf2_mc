@@ -119,7 +119,7 @@ class Class.Heavy {
             ]
         }]
     }
-    new loot_tables(shotgun) {
+    new loot_tables(shotgun) extends(crossbow_based) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -142,7 +142,7 @@ class Class.Heavy {
                                 retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [0.87d, 0.51d], clip: 6, ammo: 32},
                                 controls: {main_fire: true, alt_fire: false, reload: 1},
-                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b
+                                Charged: 0b, Unbreakable: 1b
                             }"
                         }
                     ]

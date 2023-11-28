@@ -82,6 +82,41 @@ new predicates(has_main_fire) {
         }
     }
 }
+new predicates(ammo_in_clip) {
+    "condition": "minecraft:any_of",
+    "terms": [
+        {
+            "condition": "minecraft:all_of",
+            "terms": [
+                {
+                    "condition": "minecraft:entity_scores", 
+                    "entity": "this",
+                    "scores": {"tf2.current_slot": 0}
+                },
+                {
+                    "condition": "minecraft:entity_scores", 
+                    "entity": "this",
+                    "scores": {"tf2.primary_clip": {"min": 1}}
+                }
+            ]
+        },
+        {
+            "condition": "minecraft:all_of",
+            "terms": [
+                {
+                    "condition": "minecraft:entity_scores", 
+                    "entity": "this",
+                    "scores": {"tf2.current_slot": 1}
+                },
+                {
+                    "condition": "minecraft:entity_scores", 
+                    "entity": "this",
+                    "scores": {"tf2.secondary_clip": {"min": 1}}
+                }
+            ]
+        }
+    ]
+}
 new predicates(unloaded_crossbow) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
@@ -304,6 +339,11 @@ class Weapons {
         if (tf2.consecutive_reload:@s == 1) $_reloadDelay_ = data get entity @s SelectedItem.tag.attributes.reloadDelay[1] 20000;
         tf2.reload_delay:@s += $_reloadDelay_;
         tf2.consecutive_reload:@s = true;
+
+        if (tf2.attack_delay:@s <= 1000) {
+            // Prevents it from seeing "unloaded crossbow" the next tick and assuming the fire button was hit
+            item modify entity @s weapon.mainhand tf2:load_crossbow;
+        }
     }
     function actionbar() {
         // TODO: use `return run` when 1.20.3 releases

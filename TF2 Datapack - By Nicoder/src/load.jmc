@@ -164,6 +164,30 @@ new tags.entity_types(player_like) {
     "values": ["minecraft:player", "minecraft:villager", "minecraft:blaze"]
 }
 
+// Need to define this *before* importing weapon/class files
+new loot_tables(crossbow_based) {
+    "functions": [{
+        "function": "minecraft:reference",
+        "name": "tf2:load_crossbow",
+        "conditions": [
+            {
+                "condition": "minecraft:entity_scores",
+                "entity": "this",
+                "scores": {
+                    "tf2.attack_delay": {
+                        "min": -2147483648,
+                        "max": 1000
+                    }
+                }
+            },
+            {
+                "condition": "minecraft:reference",
+                "name": "tf2:ammo_in_clip"
+            }
+        ]
+    }]
+}
+
 if (!$initialization_complete) {
     // Sets up NBT paths & defaults for game settings.
     // Only runs the very first time the pack is loaded.

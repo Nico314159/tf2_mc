@@ -1,4 +1,26 @@
 {
+    "functions": [
+        {
+            "function": "minecraft:reference",
+            "name": "tf2:load_crossbow",
+            "conditions": [
+                {
+                    "condition": "minecraft:entity_scores",
+                    "entity": "this",
+                    "scores": {
+                        "tf2.attack_delay": {
+                            "min": -2147483648,
+                            "max": 1000
+                        }
+                    }
+                },
+                {
+                    "condition": "minecraft:reference",
+                    "name": "tf2:ammo_in_clip"
+                }
+            ]
+        }
+    ],
     "pools": [
         {
             "rolls": 1,
@@ -17,7 +39,7 @@
                         },
                         {
                             "function": "minecraft:set_nbt",
-                            "tag": "{\n                                CustomModelData: 31000,\n                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 6, maxRamp: 1.75}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},\n                                controls: {main_fire: true, alt_fire: false, reload: 1},\n                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b\n                            }"
+                            "tag": "{\n                                CustomModelData: 31000,\n                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 6, maxRamp: 1.75}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},\n                                controls: {main_fire: true, alt_fire: false, reload: 1},\n                                Charged: 0b, Unbreakable: 1b\n                            }"
                         }
                     ]
                 }
