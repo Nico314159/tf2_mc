@@ -6,5 +6,9 @@
     "item.armor.equip_elytra": {
         "replace": true,
         "sounds": [{"name": "tf2:silence"}]
+    },
+    "entity.snowball.throw": {
+        "replace": true,
+        "sounds": [{"name": "tf2:silence"}]
     }
 }

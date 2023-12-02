@@ -42,5 +42,74 @@
             }
         ],
         "subtitle": "Gun shoots"
+    },
+    "item.melee.miss": {
+        "sounds": [
+            "random/bow"
+        ],
+        "subtitle": "Melee misses"
+    },
+    "item.melee.hit": {
+        "sounds": [
+            {
+              "name": "entity/player/attack/strong1",
+              "volume": 0.6
+            },
+            {
+              "name": "entity/player/attack/strong2",
+              "volume": 0.6
+            },
+            {
+              "name": "entity/player/attack/strong3",
+              "volume": 0.6
+            },
+            {
+              "name": "entity/player/attack/strong4",
+              "volume": 0.6
+            },
+            {
+              "name": "entity/player/attack/strong5",
+              "volume": 0.7
+            },
+            {
+              "name": "entity/player/attack/strong6",
+              "volume": 0.7
+            }
+        ],
+        "subtitle": "Melee hits"
+    },
+    "item.melee.sweep": {
+        "sounds": [
+            {
+                "name": "entity/player/attack/sweep1",
+                "volume": 0.7
+            },
+            {
+                "name": "entity/player/attack/sweep2",
+                "volume": 0.7
+            },
+            {
+                "name": "entity/player/attack/sweep3",
+                "volume": 0.7
+            },
+            {
+                "name": "entity/player/attack/sweep4",
+                "volume": 0.7
+            },
+            {
+                "name": "entity/player/attack/sweep5",
+                "volume": 0.7
+            },
+            {
+                "name": "entity/player/attack/sweep6",
+                "volume": 0.7
+            },
+            {
+                "name": "entity/player/attack/sweep7",
+                "volume": 0.7
+            }
+
+        ],
+        "subtitle": "Melee hits"
     }
 }

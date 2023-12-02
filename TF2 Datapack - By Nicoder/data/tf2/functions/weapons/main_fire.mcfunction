@@ -29,3 +29,5 @@ execute if score $offset_Y retina.__variable__ matches 192..778 unless score $of
 scoreboard players set __if_else__ tf2.var 0
 execute if predicate tf2:holding_melee if score $validOffset tf2.var matches 1.. run function tf2:__private__/if_else/8
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/9
+execute if predicate tf2:holding_melee if data storage retina:output {Target: "NONE"} run playsound tf2:item.melee.miss ambient @s ~ ~ ~ 0.35 0.35 0.1
+execute if predicate tf2:holding_melee unless data storage retina:output {Target: "NONE"} run playsound tf2:item.melee.hit ambient @s ~ ~ ~ 1.5 0.9 0.1
