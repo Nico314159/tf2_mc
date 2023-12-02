@@ -184,6 +184,38 @@ new loot_tables(crossbow_based) {
         ]
     }]
 }
+new loot_tables(melee_base) {
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:alternatives",
+                    "children": [
+                        {
+                            "type": "minecraft:item",
+                            "name": "minecraft:snowball",
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.attack_delay": {"max": 1000}
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "minecraft:item",
+                            "name": "minecraft:brick"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
 
 if (!$initialization_complete) {
     // Sets up NBT paths & defaults for game settings.

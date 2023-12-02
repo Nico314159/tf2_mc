@@ -76,8 +76,8 @@ class Class.Scout {
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-                    "name": "minecraft:snowball",
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:melee_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
