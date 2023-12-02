@@ -1,32 +1,11 @@
 {
-    "functions": [
-        {
-            "function": "minecraft:reference",
-            "name": "tf2:load_crossbow",
-            "conditions": [
-                {
-                    "condition": "minecraft:entity_scores",
-                    "entity": "this",
-                    "scores": {
-                        "tf2.attack_delay": {
-                            "max": 1000
-                        }
-                    }
-                },
-                {
-                    "condition": "minecraft:reference",
-                    "name": "tf2:ammo_in_clip"
-                }
-            ]
-        }
-    ],
     "pools": [
         {
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-                    "name": "minecraft:crossbow",
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -38,7 +17,7 @@
                         },
                         {
                             "function": "minecraft:set_nbt",
-                            "tag": "{\n                                CustomModelData: 21000,\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},\n                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},\n                                controls: {main_fire: true, alt_fire: false, reload: 0},\n                                Charged: 0b, Unbreakable: 1b\n                            }"
+                            "tag": "{\n                                CustomModelData: 21000,\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},\n                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},\n                                controls: {main_fire: true, alt_fire: false, reload: 0},\n                                Unbreakable: 1b\n                            }"
                         }
                     ]
                 }

@@ -36,13 +36,13 @@ class Class.Sniper {
     }
 
 
-    new loot_tables(sniper_rifle) extends(crossbow_based) {
+    new loot_tables(sniper_rifle) {
         "pools": [{
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-                    "name": "minecraft:crossbow",
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -59,7 +59,7 @@ class Class.Sniper {
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},
                                 attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},
                                 controls: {main_fire: true, alt_fire: false, reload: 0},
-                                Charged: 0b, Unbreakable: 1b
+                                Unbreakable: 1b
                             }"
                         }
                         
@@ -85,13 +85,13 @@ class Class.Sniper {
             ]
         }]
     }
-    new loot_tables(smg) extends(crossbow_based) {
+    new loot_tables(smg) {
         "pools": [{
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-                    "name": "minecraft:crossbow",
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -108,7 +108,7 @@ class Class.Sniper {
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [25, 60], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 8}, attackDelay: 0.105d, reloadDelay: [1.1d, 1.1d], clip: 25, ammo: 75},
                                 controls: {main_fire: true, alt_fire: false, reload: 3},
-                                Charged: 0b, Unbreakable: 1b
+                                Unbreakable: 1b
                             }"
                         }
                     ]

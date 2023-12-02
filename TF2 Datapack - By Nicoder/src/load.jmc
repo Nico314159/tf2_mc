@@ -165,25 +165,39 @@ new tags.entity_types(player_like) {
 }
 
 // Need to define this *before* importing weapon/class files
-new loot_tables(crossbow_based) {
-    "functions": [{
-        "function": "minecraft:reference",
-        "name": "tf2:load_crossbow",
-        "conditions": [
-            {
-                "condition": "minecraft:entity_scores",
-                "entity": "this",
-                "scores": {
-                    "tf2.attack_delay": {"max": 1000}
+new loot_tables(crossbow_base) {
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:crossbow",
+                    "functions": [
+                        {
+                            "function": "minecraft:reference",
+                            "name": "tf2:load_crossbow",
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.attack_delay": {"max": 1000}
+                                    }
+                                },
+                                {
+                                    "condition": "minecraft:reference",
+                                    "name": "tf2:ammo_in_clip"
+                                }
+                            ]
+                        }
+                    ]
                 }
-            },
-            {
-                "condition": "minecraft:reference",
-                "name": "tf2:ammo_in_clip"
-            }
-        ]
-    }]
+            ]
+        }
+    ]
 }
+
 new loot_tables(melee_base) {
     "pools": [
         {

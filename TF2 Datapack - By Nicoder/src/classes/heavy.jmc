@@ -90,7 +90,7 @@ class Class.Heavy {
                                 retina: {HorizontalCount: 2, VerticalCount: 2, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [190, 310], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 9, maxRamp: 1.5}, attackDelay: 0.1d, spinupDelay: 0.87d, clip: 200, ammo: 0},
                                 controls: {main_fire: true, alt_fire: false, reload: 0}, 
-                                Charged: 0b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b, 
+                                Unbreakable: 1b, 
                                 kind: \"real\"
                             }"
                         },
@@ -119,13 +119,13 @@ class Class.Heavy {
             ]
         }]
     }
-    new loot_tables(shotgun) extends(crossbow_based) {
+    new loot_tables(shotgun) {
         "pools": [{
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-                    "name": "minecraft:crossbow",
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -142,7 +142,7 @@ class Class.Heavy {
                                 retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [0.87d, 0.51d], clip: 6, ammo: 32},
                                 controls: {main_fire: true, alt_fire: false, reload: 1},
-                                Charged: 0b, Unbreakable: 1b
+                                Unbreakable: 1b
                             }"
                         }
                     ]
