@@ -17,11 +17,14 @@ scoreboard players set 8 tf2.const 8
 scoreboard players set 13 tf2.const 13
 scoreboard players set 10000 tf2.const 10000
 scoreboard players set 20 tf2.const 20
+scoreboard players set 1050 tf2.const 1050
 scoreboard players set -100 tf2.const -100
 scoreboard players set 1570 tf2.const 1570
 scoreboard players set 300 tf2.const 300
 scoreboard players set 60 tf2.const 60
 scoreboard players set 66 tf2.const 66
+scoreboard players set 5833 tf2.const 5833
+scoreboard players set 85 tf2.const 85
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000
 scoreboard players set -1 tf2.const -1
@@ -64,6 +67,11 @@ scoreboard objectives add tf2.rev_threshold dummy
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
 scoreboard objectives add tf2.permanent.double_jumps dummy
+scoreboard objectives add tf2.fall custom:fall_one_cm
+scoreboard objectives add tf2.fall_y dummy
+scoreboard objectives add tf2.fall_y1 dummy
+scoreboard objectives add tf2.fall_y2 dummy
+scoreboard objectives add tf2.fall_y3 dummy
 team add RED "RED"
 team modify RED color red
 team modify RED prefix "[RED] "

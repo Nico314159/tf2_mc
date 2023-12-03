@@ -47,6 +47,11 @@ scoreboard objectives remove tf2.rev_threshold
 scoreboard objectives remove tf2.permanent.games_won
 scoreboard objectives remove tf2.permanent.games_played
 scoreboard objectives remove tf2.permanent.double_jumps
+scoreboard objectives remove tf2.fall
+scoreboard objectives remove tf2.fall_y
+scoreboard objectives remove tf2.fall_y1
+scoreboard objectives remove tf2.fall_y2
+scoreboard objectives remove tf2.fall_y3
 team remove RED
 team remove BLU
 bossbar remove tf2:timer_1

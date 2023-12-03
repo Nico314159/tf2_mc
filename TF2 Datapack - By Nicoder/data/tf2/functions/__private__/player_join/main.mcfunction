@@ -27,4 +27,9 @@ scoreboard players reset @s tf2.health
 scoreboard players reset @s tf2.max_health
 scoreboard players reset @s tf2.team
 scoreboard players reset @s tf2.respawn_timer
+scoreboard players reset @s tf2.fall
+scoreboard players reset @s tf2.fall_y
+scoreboard players reset @s tf2.fall_y1
+scoreboard players reset @s tf2.fall_y2
+scoreboard players reset @s tf2.fall_y3
 scoreboard players operation @s 0008it54g_p_join = $__global__ 0008it54g_p_join

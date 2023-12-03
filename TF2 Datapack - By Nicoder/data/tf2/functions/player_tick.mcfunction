@@ -13,3 +13,8 @@ function tf2:weapons/slot_check
 execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/45
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/13/select with storage tf2:__storage__
+scoreboard players operation @s tf2.fall_y3 = @s tf2.fall_y2
+scoreboard players operation @s tf2.fall_y2 = @s tf2.fall_y1
+scoreboard players operation @s tf2.fall_y1 = @s tf2.fall_y
+execute store result score @s tf2.fall_y run data get entity @s Pos[1] 100
+execute if predicate tf2:grounded if score @s tf2.fall matches 1.. run function tf2:do_fall_damage

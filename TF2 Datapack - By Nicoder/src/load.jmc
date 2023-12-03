@@ -52,6 +52,12 @@ Scoreboard.add(tf2.permanent.games_won, dummy);
 Scoreboard.add(tf2.permanent.games_played, dummy);
 Scoreboard.add(tf2.permanent.double_jumps, dummy);
 
+Scoreboard.add(tf2.fall, custom:fall_one_cm);
+Scoreboard.add(tf2.fall_y, dummy);
+Scoreboard.add(tf2.fall_y1, dummy);
+Scoreboard.add(tf2.fall_y2, dummy);
+Scoreboard.add(tf2.fall_y3, dummy);
+
 // when in score format - RED = 1, BLU = 2
 Team.add(RED, "RED", {color: red,  prefix: "\"[RED] \"", friendlyFire: false});
 Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
