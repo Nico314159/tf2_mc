@@ -478,8 +478,8 @@ class Weapons {
         data remove storage tf2.__temp__:summon number;
     }
     function slot_check() {
+        tf2.current_slot:@s ??= 0;
         tf2.last_slot:@s = tf2.current_slot:@s;
-        tf2.last_slot:@s ??= 0;
         tf2.current_slot:@s = data get entity @s SelectedItemSlot;
 
         if (tf2.last_slot:@s != tf2.current_slot:@s) {

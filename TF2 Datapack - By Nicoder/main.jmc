@@ -212,26 +212,23 @@ Player.join(() => {
 
     // removes all gameplay-specific variables
     team leave @s;
-    tag @s remove tf2.in_queue;
-    tag @s remove tf2.allowed_to_sprint;
-    tag @s remove tf2.is_playing;
-    tag @s remove tf2.random_spread;
-    tag @s remove tf2.random_crits;
-    tag @s remove tf2.free_vote;
-    tag @s remove tf2.can_be_autobalanced;
-    tag @s remove tf2.on_point;
-    tag @s remove tf2.unable_to_cap;
-    tag @s remove tf2.dead;
-    scoreboard players reset @s tf2.class;
-    scoreboard players reset @s tf2.health;
-    scoreboard players reset @s tf2.max_health;
-    scoreboard players reset @s tf2.team;
-    scoreboard players reset @s tf2.respawn_timer;
-    scoreboard players reset @s tf2.fall;
-    scoreboard players reset @s tf2.fall_y;
-    scoreboard players reset @s tf2.fall_y1;
-    scoreboard players reset @s tf2.fall_y2;
-    scoreboard players reset @s tf2.fall_y3;
+    Hardcode.repeatList(
+        "tagName",
+        () => {
+            tag @s remove tf2.tagName;
+        },
+        ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "unable_to_cap", "dead"]
+    );
+    Hardcode.repeatList(
+        "objectiveName",
+        () => {
+            scoreboard players reset @s tf2.objectiveName;
+        },
+        ["class", "health", "max_health", "team", "respawn_timer",
+        "attack_delay", "reload_delay", "consecutive_reload", "current_slot", "last_slot",
+        "time_revved", "rev_threshold", "time_scoped", "elytra_detect",
+        "fall", "fall_y", "fall_y1", "fall_y2", "fall_y3"]
+    );
 });
 
 function death() {

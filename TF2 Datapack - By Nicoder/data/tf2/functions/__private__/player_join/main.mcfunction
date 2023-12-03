@@ -19,6 +19,7 @@ tag @s remove tf2.random_spread
 tag @s remove tf2.random_crits
 tag @s remove tf2.free_vote
 tag @s remove tf2.can_be_autobalanced
+tag @s remove tf2.scoped
 tag @s remove tf2.on_point
 tag @s remove tf2.unable_to_cap
 tag @s remove tf2.dead
@@ -27,6 +28,15 @@ scoreboard players reset @s tf2.health
 scoreboard players reset @s tf2.max_health
 scoreboard players reset @s tf2.team
 scoreboard players reset @s tf2.respawn_timer
+scoreboard players reset @s tf2.attack_delay
+scoreboard players reset @s tf2.reload_delay
+scoreboard players reset @s tf2.consecutive_reload
+scoreboard players reset @s tf2.current_slot
+scoreboard players reset @s tf2.last_slot
+scoreboard players reset @s tf2.time_revved
+scoreboard players reset @s tf2.rev_threshold
+scoreboard players reset @s tf2.time_scoped
+scoreboard players reset @s tf2.elytra_detect
 scoreboard players reset @s tf2.fall
 scoreboard players reset @s tf2.fall_y
 scoreboard players reset @s tf2.fall_y1
