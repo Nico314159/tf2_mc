@@ -11,11 +11,9 @@ scoreboard players operation $impact_velocity tf2.var *= 1050 tf2.const
 execute if score $impact_velocity tf2.var matches ..92000 run scoreboard players set $impact_velocity tf2.var 0
 scoreboard players operation $fall_damage tf2.var = $impact_velocity tf2.var
 scoreboard players operation $fall_damage tf2.var /= 85 tf2.const
+scoreboard players operation $fall_damage tf2.var < 5833 tf2.const
 scoreboard players operation $fall_damage tf2.var *= @s tf2.max_health
 scoreboard players operation $fall_damage tf2.var /= 100 tf2.const
-tellraw @a {"score":{"name":"$fall_damage","objective":"tf2.var"}}
-scoreboard players operation $fall_damage tf2.var < 5833 tf2.const
-tellraw @a {"score":{"name":"$fall_damage","objective":"tf2.var"}}
 execute store result score $random_mult tf2.var run random value 80..120
 scoreboard players operation $fall_damage tf2.var *= $random_mult tf2.var
 scoreboard players operation $fall_damage tf2.var /= 10000 tf2.const
