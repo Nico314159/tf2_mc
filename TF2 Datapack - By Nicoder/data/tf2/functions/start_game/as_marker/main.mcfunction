@@ -2,10 +2,8 @@ execute if score $Settings.show_debug_messages tf2.var matches 1.. run tellraw @
 execute if score $Settings.show_debug_messages tf2.var matches 2.. if score $profiler_installed tf2.var matches 1.. run scoreboard players set $enabled timekeeper.var -1
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
+execute store result storage tf2.__temp__:index map_id int 1 run scoreboard players get @s tf2.map
 function tf2:__private__/anonymous/7 with storage tf2.__temp__:index
-# TODO: make dynamic for selected maps instead of hardcoding
-data modify entity @s[scores={tf2.map=0}] data.map set from storage tf2:maps 0
-data modify entity @s[scores={tf2.map=1}] data.map set from storage tf2:maps 1
 execute store result score @s tf2.gamemode run data get entity @s data.map.gamemode
 scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode
 data modify storage tf2.__temp__:summon objectives set from entity @s data.map.objectives
@@ -21,10 +19,8 @@ scoreboard players set __if_else__ tf2.var 0
 execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/22
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/23
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type
-execute store result score @s tf2.timer run data get entity @s data.map.timer 20
-execute if data entity @s data.map.timer run function tf2:timer/set_max with storage tf2.__temp__:index
-execute if data entity @s data.map.timer run function tf2:timer/show with storage tf2.__temp__:index
-execute if data entity @s data.map.setup_time run function tf2:timer/begin_setup
+execute if score @s tf2.gamemode matches 1..2 run function tf2:__private__/if_else/28
+execute if score @s tf2.gamemode matches 3 run function tf2:__private__/if_else/29
 function tf2:start_game/as_marker/tell_info
 scoreboard players reset @e[tag=tf2.current] tf2.team
 scoreboard players set $team_temp tf2.var 0

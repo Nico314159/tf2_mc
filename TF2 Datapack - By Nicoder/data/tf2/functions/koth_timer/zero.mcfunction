@@ -1,0 +1,1 @@
+execute if entity @s run function tf2:koth_timer/end_game

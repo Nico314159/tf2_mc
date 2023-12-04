@@ -218,6 +218,9 @@ class Objectives
 
                     // TODO: add support for map events (like doors opening)
                 }
+                @lazy function koth() {
+                    tf2.team:@e[type=marker,tag=tf2.current] = 1;
+                }
             } class blu {
                 function atk_def() {
                     tf2.index:$temp = tf2.index:@s;
@@ -246,6 +249,9 @@ class Objectives
 							at @s run Objectives.control_point.lock();
 
                     // TODO: add support for map events (like doors opening)
+                }
+                @lazy function koth() {
+                    tf2.team:@e[type=marker,tag=tf2.current] = 2;
                 }
             }
             function add_time() {
@@ -292,6 +298,7 @@ class Objectives
                 if (tf2.team:$last == tf2.team:@s) return 0;
 
                 if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
+                if (tf2.gamemode:@s == 3) Objectives.control_point.on_capture.red.koth();
                 if (tf2.increment:@s) Objectives.control_point.on_capture.add_time();
             }
             function blu() {
@@ -321,6 +328,7 @@ class Objectives
 
                 if (tf2.gamemode:@s == 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
                 if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.blu.symmetric();
+                if (tf2.gamemode:@s == 3) execute at @s run Objectives.control_point.on_capture.blu.koth();
                 if (tf2.increment:@s) Objectives.control_point.on_capture.add_time();
             }
         }

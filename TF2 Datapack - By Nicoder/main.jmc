@@ -37,6 +37,7 @@ function __tick__() {
 
 function marker_tick() {
     if (entity @s[tag=tf2.in_use,scores={tf2.timer=..2147483647}]) Timer.main();
+    if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=3}]) KOTH_Timer.main();
     if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=1..4}] && entity @a) {
         Objectives.control_point.gamestate();
     }
@@ -285,5 +286,9 @@ class Spawn {
 
 function uninstall() {
     team remove RED; team remove BLU;
-    Hardcode.repeat("_i_", () => {bossbar remove tf2:timer__i_;}, start = 1, stop = _INSTANCES_CAP_);
+    Hardcode.repeat("_i_", () => {
+        bossbar remove tf2:timer__i_; 
+        bossbar remove tf2:red_timer__i_; 
+        bossbar remove tf2:blu_timer__i_;
+    }, 1, _INSTANCES_CAP_);
 }

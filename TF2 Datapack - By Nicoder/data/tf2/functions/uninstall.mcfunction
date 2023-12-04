@@ -1,10 +1,20 @@
 team remove RED
 team remove BLU
 bossbar remove tf2:timer_1
+bossbar remove tf2:red_timer_1
+bossbar remove tf2:blu_timer_1
 bossbar remove tf2:timer_2
+bossbar remove tf2:red_timer_2
+bossbar remove tf2:blu_timer_2
 bossbar remove tf2:timer_3
+bossbar remove tf2:red_timer_3
+bossbar remove tf2:blu_timer_3
 bossbar remove tf2:timer_4
+bossbar remove tf2:red_timer_4
+bossbar remove tf2:blu_timer_4
 bossbar remove tf2:timer_5
+bossbar remove tf2:red_timer_5
+bossbar remove tf2:blu_timer_5
 scoreboard objectives remove tf2.var
 scoreboard objectives remove on_event_1mqyp2x
 scoreboard objectives remove 0008it54g_p_join
@@ -18,7 +28,12 @@ scoreboard objectives remove tf2.timer
 scoreboard objectives remove tf2.timer.min
 scoreboard objectives remove tf2.timer.sec
 scoreboard objectives remove tf2.increment
-scoreboard objectives remove tf2.queue_type
+scoreboard objectives remove tf2.red_timer
+scoreboard objectives remove tf2.red_timer.min
+scoreboard objectives remove tf2.red_timer.sec
+scoreboard objectives remove tf2.blu_timer
+scoreboard objectives remove tf2.blu_timer.min
+scoreboard objectives remove tf2.blu_timer.sec
 scoreboard objectives remove tf2.batch_number
 scoreboard objectives remove tf2.session
 scoreboard objectives remove tf2.lifetime
@@ -30,7 +45,6 @@ scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.max_health
 scoreboard objectives remove tf2.time_scoped
 scoreboard objectives remove tf2.grace_period
-scoreboard objectives remove tf2.elytra_detect
 scoreboard objectives remove tf2.last_slot
 scoreboard objectives remove tf2.current_slot
 scoreboard objectives remove tf2.primary_clip
@@ -47,15 +61,27 @@ scoreboard objectives remove tf2.rev_threshold
 scoreboard objectives remove tf2.permanent.games_won
 scoreboard objectives remove tf2.permanent.games_played
 scoreboard objectives remove tf2.permanent.double_jumps
-scoreboard objectives remove tf2.fall
 scoreboard objectives remove tf2.fall_y
 scoreboard objectives remove tf2.fall_y1
 scoreboard objectives remove tf2.fall_y2
 scoreboard objectives remove tf2.fall_y3
+scoreboard objectives remove tf2.queue_type
+scoreboard objectives remove tf2.elytra_detect
+scoreboard objectives remove tf2.fall
 team remove RED
 team remove BLU
 bossbar remove tf2:timer_1
+bossbar remove tf2:red_timer_1
+bossbar remove tf2:blu_timer_1
 bossbar remove tf2:timer_2
+bossbar remove tf2:red_timer_2
+bossbar remove tf2:blu_timer_2
 bossbar remove tf2:timer_3
+bossbar remove tf2:red_timer_3
+bossbar remove tf2:blu_timer_3
 bossbar remove tf2:timer_4
+bossbar remove tf2:red_timer_4
+bossbar remove tf2:blu_timer_4
 bossbar remove tf2:timer_5
+bossbar remove tf2:red_timer_5
+bossbar remove tf2:blu_timer_5

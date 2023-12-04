@@ -3,66 +3,46 @@
 // See header file for gamemode key
 Scoreboard.add(tf2.gamemode, dummy);
 
-// Map key: 0 = ad_test, 1 = cp_test
+// Map key: 0 = ad_test, 1 = cp_test, 2 = koth_woodlands
 Scoreboard.add(tf2.map, dummy);
 
-Scoreboard.add(tf2.index, dummy);
-Scoreboard.add(tf2.red_progress, dummy);
-Scoreboard.add(tf2.blu_progress, dummy);
-Scoreboard.add(tf2.capture_threshold, dummy);
-
-Scoreboard.add(tf2.timer, dummy);
-Scoreboard.add(tf2.timer.min, dummy);
-Scoreboard.add(tf2.timer.sec, dummy);
-Scoreboard.add(tf2.increment, dummy);
+Hardcode.repeatList(
+    "objectiveName",
+    () => {
+        Scoreboard.add(tf2.objectiveName);
+    },
+    [
+        "index", "red_progress", "blu_progress", "capture_threshold",
+        "timer", "timer.min", "timer.sec", "increment",
+        "red_timer", "red_timer.min", "red_timer.sec", 
+        "blu_timer", "blu_timer.min", "blu_timer.sec",
+        "batch_number", "session", "lifetime", 
+        "respawn_timer", "respawn_timer.sec", "class", "team", "health", "max_health",
+        "time_scoped", "grace_period", "last_slot", "current_slot",
+        "primary_clip", "primary_maxClip", "primary_ammo", 
+        "secondary_clip", "secondary_maxClip", "secondary_ammo",
+        "attack_delay", "reload_delay", "consecutive_reload",
+        "time_revved", "rev_threshold",
+        "permanent.games_won", "permanent.games_played", "permanent.double_jumps",
+        "fall_y", "fall_y1", "fall_y2", "fall_y3"
+    ]
+);
 
 Scoreboard.add(tf2.queue_type, trigger);
-Scoreboard.add(tf2.batch_number, dummy);
-Scoreboard.add(tf2.session, dummy);
-Scoreboard.add(tf2.lifetime, dummy);
-Scoreboard.add(tf2.respawn_timer, dummy);
-Scoreboard.add(tf2.respawn_timer.sec, dummy);
-Scoreboard.add(tf2.class, dummy);
-Scoreboard.add(tf2.team, dummy);
-Scoreboard.add(tf2.health, dummy);
-Scoreboard.add(tf2.max_health, dummy);
-
-Scoreboard.add(tf2.time_scoped, dummy);
-Scoreboard.add(tf2.grace_period, dummy);
 Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
-
-Scoreboard.add(tf2.last_slot, dummy);
-Scoreboard.add(tf2.current_slot, dummy);
-
-Scoreboard.add(tf2.primary_clip, dummy);
-Scoreboard.add(tf2.primary_maxClip, dummy);
-Scoreboard.add(tf2.primary_ammo, dummy);
-Scoreboard.add(tf2.secondary_clip, dummy);
-Scoreboard.add(tf2.secondary_maxClip, dummy);
-Scoreboard.add(tf2.secondary_ammo, dummy);
-
-Scoreboard.add(tf2.attack_delay, dummy);
-Scoreboard.add(tf2.reload_delay, dummy);
-Scoreboard.add(tf2.consecutive_reload, dummy);
-
-Scoreboard.add(tf2.time_revved, dummy);
-Scoreboard.add(tf2.rev_threshold, dummy);
-
-Scoreboard.add(tf2.permanent.games_won, dummy);
-Scoreboard.add(tf2.permanent.games_played, dummy);
-Scoreboard.add(tf2.permanent.double_jumps, dummy);
-
 Scoreboard.add(tf2.fall, custom:fall_one_cm);
-Scoreboard.add(tf2.fall_y, dummy);
-Scoreboard.add(tf2.fall_y1, dummy);
-Scoreboard.add(tf2.fall_y2, dummy);
-Scoreboard.add(tf2.fall_y3, dummy);
 
 // when in score format - RED = 1, BLU = 2
 Team.add(RED, "RED", {color: red,  prefix: "\"[RED] \"", friendlyFire: false});
 Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
 
-Hardcode.repeat("_i_", () => {Bossbar.add(tf2:timer__i_, "");}, start = 1, stop = _INSTANCES_CAP_);
+Hardcode.repeat("_i_", () => {
+    Bossbar.add(tf2:timer__i_, "");
+    Bossbar.add(tf2:red_timer__i_, "");
+    bossbar set tf2:red_timer__i_ color red;
+    Bossbar.add(tf2:blu_timer__i_, "");
+    bossbar set tf2:blu_timer__i_ color blue;
+}, 1, _INSTANCES_CAP_);
 
 TextProp.clickURL("retina_link", "https://github.com/Nico314159/Retina_v2", true);
 TextProp.hoverText("retina_hover", "https://github.com/Nico314159/Retina_v2", true);
@@ -126,6 +106,20 @@ data merge storage tf2:maps {
         ],
         gamemode: 2b,
         timer: 600.0f
+    },
+    2: {
+        name: "koth_woodlands",
+        origin: [1050.0d, 76.0d, 910.0d],
+        spawn: {
+            red: [[1002.5d, 76.0d, 934.5d]],
+            blu: [[1098.0d, 68.0d, 882.5d]]
+        },
+        spawn_time: {red: [5.0f], blu: [5.0f]},
+        objectives: [
+            {Pos: [1050.5d, 104.0d, 910.5d], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 20.0f, team: 0b}},
+        ],
+        gamemode: 3b,
+        timer: 180.0f
     }
 };
 

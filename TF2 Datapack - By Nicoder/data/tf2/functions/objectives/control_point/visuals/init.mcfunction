@@ -10,8 +10,8 @@ execute if score @s tf2.team matches 2 run data modify storage tf2.__temp__:look
 execute if score @s tf2.team matches 2 run setblock ~ ~-1 ~ blue_stained_glass
 data modify storage tf2.__temp__:lookup points[0].progress set value "[{\"text\":\"321))))))))))))))\",\"color\":\"gray\"}]"
 scoreboard players set __if_else__ tf2.var 0
-execute if entity @s[tag=tf2.locked] run function tf2:__private__/if_else/32
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/33
+execute if entity @s[tag=tf2.locked] run function tf2:__private__/if_else/34
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/35
 execute if entity @s[tag=!tf2.letter] run data modify storage tf2.__temp__:lookup points[0].extra set value "[{\"text\":\"$#)\",\"font\":\"tf2:square\"}]"
 execute if score @s[tag=tf2.letter] tf2.index matches 0 run data modify storage tf2.__temp__:lookup points[0].extra set value "[{\"text\":\"3210|]\",\"color\":\"gray\"},{\"text\":\"|21A$#\",\"color\":\"black\"}]"
 execute if score @s[tag=tf2.letter] tf2.index matches 10 run data modify storage tf2.__temp__:lookup points[0].extra set value "[{\"text\":\"3210|]\",\"color\":\"gray\"},{\"text\":\"|21B$#\",\"color\":\"black\"}]"

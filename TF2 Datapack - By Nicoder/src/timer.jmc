@@ -92,7 +92,7 @@ class Timer
     function hide() {
         // @needs_macro
         // @within
-        //  reset.announce_winner()()
+        //  reset.announce_winner()
         $bossbar set tf2:timer_$(i) visible false;
     }
 
@@ -160,7 +160,7 @@ class Timer
         $temp = tf2.gamemode:@s;
         $temp %= 4; // determines whether gamemode is symmetric or not (see gamemode key).
         if ($temp == 1) $winner = 1; // RED wins in asymmetric gamemodes (like A/D or Payload)
-        if ($temp != 1) $winner = -1; // Stalemate in symmetric gamemodes (like KOTH, 5CP, or CTF)
+        if ($temp != 1) $winner = -1; // Stalemate in symmetric gamemodes (like 5CP or CTF)
         reset.announce_winner();
     }
 
@@ -184,3 +184,99 @@ class Timer
         }
     }
 }
+
+class KOTH_Timer
+{
+    function main() {
+        // Handles the timer mechanic, which is essential to almost all gamemodes
+        // @within __tick__()
+
+        execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
+        this.display() with storage tf2.__temp__:index;
+
+        if (tf2.team:@s == 0) return 0;
+        if (tf2.team:@s == 1) {data modify storage tf2.__temp__:index name set value "red";}
+        if (tf2.team:@s == 2) {data modify storage tf2.__temp__:index name set value "blu";}
+        this.update() with storage tf2.__temp__:index;
+
+        if (tf2.red_timer:@s == 0 || tf2.blu_timer:@s == 0) {
+            this.zero();
+        }
+    }
+
+    function update() {
+        $scoreboard players operation $ticksCopy tf2.var = @s tf2.$(name)_timer;
+        // Copy is meant to reduce total number of macro invocations
+        $ticksCopy --;
+        $secondsCopy = $ticksCopy;
+        $secondsCopy += 19;
+        $secondsCopy /= 20;
+        $minutesCopy = $secondsCopy;
+        $secondsCopy %= 60;
+        $minutesCopy /= 60;
+        $execute store result bossbar tf2:$(name)_timer_$(i) value run $ticksCopy.get();
+        $scoreboard players operation @s tf2.$(name)_timer = $ticksCopy tf2.var;
+        $scoreboard players operation @s tf2.$(name)_timer.sec = $secondsCopy tf2.var;
+        $scoreboard players operation @s tf2.$(name)_timer.min = $minutesCopy tf2.var;
+    }
+    function set_max() {
+        // @needs_macro
+        // @within
+        //  start_game.as_marker.main()
+        $execute store result bossbar  tf2:red_timer_$(i) max
+                 store result bossbar  tf2:red_timer_$(i) value
+                 store result score @s tf2.red_timer
+                 store result bossbar  tf2:blu_timer_$(i) max
+                 store result bossbar  tf2:blu_timer_$(i) value
+                 store result score @s tf2.blu_timer
+                 run data get entity @s data.map.timer 20;
+
+        $this.update({"name": "red", "i": $(i)});
+        $this.update({"name": "blu", "i": $(i)});
+    }
+
+    function zero() {
+        // Handles what to do when the timer reaches zero.
+        // @within KOTH_Timer.main()
+
+        // TODO: add overtime condition
+        if (entity @s) this.end_game();
+    }
+    // function overtime() {}
+    function end_game() {
+        // @within
+        //  this.zero()
+        if (tf2.red_timer:@s == 0) $winner = 1;
+        if (tf2.blu_timer:@s == 0) $winner = 2;
+        reset.announce_winner();
+    }
+
+    function show() {
+        // Displays both KOTH timer bars to all players in the same batch as the marker
+        // @needs_macro
+        // @within
+        //  start_game.as_marker.main()
+        $bossbar set tf2:red_timer_$(i) visible true;
+        $bossbar set tf2:red_timer_$(i) players @a[scores={tf2.batch_number=$(i)}];
+        $bossbar set tf2:blu_timer_$(i) visible true;
+        $bossbar set tf2:blu_timer_$(i) players @a[scores={tf2.batch_number=$(i)}];
+    }
+    function hide() {
+        // @needs_macro
+        // @within
+        //  reset.announce_winner()
+        $bossbar set tf2:red_timer_$(i) visible false;
+        $bossbar set tf2:blu_timer_$(i) visible false;
+    }
+    function display() {
+        // @needs_macro
+        // @within this.main()
+        // say "display called";
+        $execute if entity @s[scores={tf2.red_timer.sec=10..59}] run Bossbar.setName(tf2:red_timer_$(i), "RED - &<tf2.red_timer.min:@s>:&<tf2.red_timer.sec:@s> remaining");
+        $execute if entity @s[scores={tf2.red_timer.sec=0..9}] run Bossbar.setName(tf2:red_timer_$(i), "RED - &<tf2.red_timer.min:@s>:0&<tf2.red_timer.sec:@s> remaining");
+
+        $execute if entity @s[scores={tf2.blu_timer.sec=10..59}] run Bossbar.setName(tf2:blu_timer_$(i), "&<space(left),font(square)>BLU - &<tf2.blu_timer.min:@s>:&<tf2.blu_timer.sec:@s> remaining&<space(mid),font(square)>&<point(0),font(square)>&<space(right),font(square)>");
+        $execute if entity @s[scores={tf2.blu_timer.sec=0..9}] run Bossbar.setName(tf2:blu_timer_$(i), "&<space(left),font(square)>BLU - &<tf2.blu_timer.min:@s>:0&<tf2.blu_timer.sec:@s> remaining&<space(mid),font(square)>&<point(0),font(square)>&<space(right),font(square)>");
+    }
+}
+
