@@ -136,6 +136,15 @@ new predicates(sprinting) {
 		}
 	}
 }
+new predicates(sneaking) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+	"predicate": {
+		"flags": {
+			"is_sneaking": true
+		}
+	}
+}
 new predicates(burning) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
@@ -162,6 +171,22 @@ new predicates(grounded) {
 new tags.entity_types(player_like) {
     "replace": false,
     "values": ["minecraft:player", "minecraft:villager", "minecraft:blaze"]
+}
+new tag.blocks(no_fall_dmg) {
+    "values": [
+        "minecraft:powder_snow",
+        "minecraft:sweet_berry_bush",
+        "minecraft:ladder",
+        "minecraft:vine",
+        "minecraft:cobweb",
+        "minecraft:water"
+    ]
+}
+new tag.blocks(reduce_fall_dmg) {
+    "values": [
+        "minecraft:hay_bale",
+        "minecraft:honey_block"
+    ]
 }
 
 // Need to define this *before* importing weapon/class files

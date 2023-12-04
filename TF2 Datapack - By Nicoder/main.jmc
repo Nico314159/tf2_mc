@@ -156,6 +156,18 @@ function do_fall_damage() {
     $fall_damage *= $random_mult;
     $fall_damage /= 10000;
 
+    if (block ~ ~-1 ~ #tf2:no_fall_dmg) {
+        $fall_damage = 0;
+    }
+    if (block ~ ~-1 ~ slime_block && !predicate tf2:sneaking) {
+        $fall_damage = 0;
+    }
+    if (block ~ ~-1 ~ #tf2:reduce_fall_dmg) {
+        $fall_damage /= 5;
+    }
+    if (block ~ ~-1 ~ #minecraft:beds) {
+        $fall_damage /= 2;
+    }
     tf2.health:@s -= $fall_damage;
     if ($fall_damage) {
         damage @s 0.01 tf2:screenshake;
