@@ -12,5 +12,5 @@ tag @e[type=marker,tag=tf2.current] remove tf2.current
 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 execute if score $last tf2.team = @s tf2.team run return 0
 execute if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run function tf2:objectives/control_point/on_capture/red/symmetric
-execute if score @s tf2.gamemode matches 3 run scoreboard players set @e[type=marker,tag=tf2.current] tf2.team 1
+execute if score @s tf2.gamemode matches 3 run function tf2:objectives/control_point/on_capture/red/koth
 execute if score @s tf2.increment matches 1.. run function tf2:objectives/control_point/on_capture/add_time

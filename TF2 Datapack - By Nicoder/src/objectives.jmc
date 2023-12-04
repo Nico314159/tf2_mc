@@ -50,7 +50,9 @@ class Objectives
 
             tag @s remove tf2.contested;
 
-            tag @e[type=#tf2:player_like, distance=..1.5, tag=!tf2.unable_to_cap, gamemode=!spectator] add tf2.on_point;
+            tag @e[type=#tf2:player_like, distance=..1.5, tag=!tf2.unable_to_cap] add tf2.on_point;
+            tag @a[gamemode=spectator] remove tf2.on_point;
+
             $red_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=1}];
             $blu_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=2}];
 
@@ -218,8 +220,14 @@ class Objectives
 
                     // TODO: add support for map events (like doors opening)
                 }
-                @lazy function koth() {
+                function koth() {
                     tf2.team:@e[type=marker,tag=tf2.current] = 1;
+                    execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                    $temp = execute if predicate tf2:coin_flip;
+                    if ($temp) Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>We have captured the control point!");
+                    if (!$temp) Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>We have secured the control point!");
+                    Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>We have lost the control point!");
+                    tag @a remove tf2.current;
                 }
             } class blu {
                 function atk_def() {
@@ -250,8 +258,14 @@ class Objectives
 
                     // TODO: add support for map events (like doors opening)
                 }
-                @lazy function koth() {
+                function koth() {
                     tf2.team:@e[type=marker,tag=tf2.current] = 2;
+                    execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                    $temp = execute if predicate tf2:coin_flip;
+                    if ($temp) Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>We have captured the control point!");
+                    if (!$temp) Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>We have secured the control point!");
+                    Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>We have lost the control point!");
+                    tag @a remove tf2.current;
                 }
             }
             function add_time() {
@@ -288,7 +302,7 @@ class Objectives
 
                 setblock ~ ~-1 ~ red_stained_glass; // placeholder for proper model
 
-                // if KOTH: start counting down RED's timer & pause BLU's
+                // if KOTH: start counting down RED's timer & pause BLU's (✓)
                 // if 5CP & this is mid: unlock BLU's 1st (✓)
                 // else if 5CP: lock/unlock adjacent points in line (✓)
                 // if ATK/DEF: how??!!?!?
@@ -317,7 +331,7 @@ class Objectives
 
                 setblock ~ ~-1 ~ blue_stained_glass; // placeholder for proper model
 
-                // if KOTH: start counting down BLU's timer & pause RED's
+                // if KOTH: start counting down BLU's timer & pause RED's (✓)
                 // if 5CP & this is mid: unlock RED's 1st (✓)
                 // else if 5CP: lock/unlock adjacent points in line (✓)
                 // if ATK/DEF: lock this point (✓) & unlock next point (✓)
