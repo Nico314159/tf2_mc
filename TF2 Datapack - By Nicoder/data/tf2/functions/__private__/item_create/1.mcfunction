@@ -1,2 +1,2 @@
 scoreboard players set @s tf2.class 3
-clear @s
+function tf2:class_select
