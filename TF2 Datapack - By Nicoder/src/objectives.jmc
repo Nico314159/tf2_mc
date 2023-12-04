@@ -30,14 +30,14 @@ class Objectives
                 execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:$local.get();
                 execute store result storage tf2.__temp__:index j int 0.1 run tf2.index:@s.get();
                 $_access_mode_ = 1;
-                Objectives.control_point.find_index.private() with storage tf2.__temp__:index;
+                this.private() with storage tf2.__temp__:index;
             } function reinsert() {
                 // Copies the edited data at `tf2.__temp__:lookup points[0]` back to the matching address in `storage tf2:control_points info[$local...][@s tf2.index]`
 
                 execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:$local.get();
                 execute store result storage tf2.__temp__:index j int 0.1 run tf2.index:@s.get();
                 $_access_mode_ = 2;
-                Objectives.control_point.find_index.private() with storage tf2.__temp__:index;
+                this.private() with storage tf2.__temp__:index;
             }
             function private() {
                 $execute if score $_access_mode_ tf2.var matches 1 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[$(i)][$(j)];
@@ -56,7 +56,7 @@ class Objectives
 
             if ($red_on_point && $blu_on_point) {tag @s add tf2.contested;}
 
-            if (entity @s[tag=!tf2.contested]) Objectives.control_point.main();
+            if (entity @s[tag=!tf2.contested]) this.main();
         }
         function main() {
             // Handles capture progress & associated visuals for the current control point.
@@ -68,16 +68,16 @@ class Objectives
             Math.harmonic_series();
 
             // apply capture progress to team that has players on point, but you can't capture a point you already own
-            if ($red_on_point && tf2.team:@s != 1) Objectives.control_point.capture_progress.red();
-            if ($blu_on_point && tf2.team:@s != 2) Objectives.control_point.capture_progress.blu();
+            if ($red_on_point && tf2.team:@s != 1) this.capture_progress.red();
+            if ($blu_on_point && tf2.team:@s != 2) this.capture_progress.blu();
 
-            if (tf2.team:@s == 2 && tf2.blu_progress:@s < tf2.capture_threshold:@s) Objectives.control_point.visuals.capture_progress.red.main();
-            if (tf2.team:@s == 0 && tf2.blu_progress:@s == 0) Objectives.control_point.visuals.capture_progress.red.main();
+            if (tf2.team:@s == 2 && tf2.blu_progress:@s < tf2.capture_threshold:@s) this.visuals.capture_progress.red.main();
+            if (tf2.team:@s == 0 && tf2.blu_progress:@s == 0) this.visuals.capture_progress.red.main();
 
-            if (tf2.team:@s == 1 && tf2.red_progress:@s < tf2.capture_threshold:@s) Objectives.control_point.visuals.capture_progress.blu.main();
-            if (tf2.team:@s == 0 && tf2.red_progress:@s == 0) Objectives.control_point.visuals.capture_progress.blu.main();
+            if (tf2.team:@s == 1 && tf2.red_progress:@s < tf2.capture_threshold:@s) this.visuals.capture_progress.blu.main();
+            if (tf2.team:@s == 0 && tf2.red_progress:@s == 0) this.visuals.capture_progress.blu.main();
 
-            Objectives.control_point.decay.init();
+            this.decay.init();
         }
         function gamestate() {
             // Handles game progress & checks for win conditions. Executed as the gamestate marker, not a control point.
@@ -110,19 +110,19 @@ class Objectives
             tf2.blu_progress:@s[scores={tf2.team=1}] = 0;
             tf2.red_progress:@s[scores={tf2.team=2}] = 0;
             tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
-            Objectives.control_point.find_index.main();
+            this.find_index.main();
             if (tf2.team:@s == 1) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
             if (tf2.team:@s == 2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
             data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
             data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
-            Objectives.control_point.find_index.reinsert();
+            this.find_index.reinsert();
             setblock ~ ~ ~ stone_slab;
         }
         function unlock() {
             tag @s remove tf2.locked;
-            Objectives.control_point.find_index.main();
+            this.find_index.main();
             data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320#)@","font":"tf2:square"}]';
-            Objectives.control_point.find_index.reinsert();
+            this.find_index.reinsert();
             setblock ~ ~ ~ air;
         }
 
@@ -172,10 +172,10 @@ class Objectives
                 // if non-owner team still has players on point, don't decay
                 if ($red_on_point && tf2.team:@s != 1) return 0;
                 if ($blu_on_point && tf2.team:@s != 2) return 0;
-                Objectives.control_point.decay.main();
+                this.main();
             }
             function main() {
-                // @within Objectives.control_point.decay.init()
+                // @within this.init()
 
                 $sum = tf2.capture_threshold:@s;
                 $sum /= 1800; // Takes 90 seconds to fully revert progress.
@@ -198,67 +198,6 @@ class Objectives
 
                 tag @s[scores={tf2.team=0,tf2.red_progress=0,tf2.blu_progress=0}] remove tf2.said_dialogue;
                 tag @e remove tf2.current;
-            }
-        }
-        class set_owner {
-            function red() {
-                // @within Objectives.control_point.capture_progress.red()
-
-                // Keep track of the team that *previously* controlled this point.
-                tf2.team:$last = tf2.team:@s;
-                tf2.team:@s = 1;
-                tf2.red_progress:@s = tf2.capture_threshold:@s;
-
-                Objectives.control_point.find_index.main();
-                data modify storage tf2.__temp__:lookup points[0].owner
-					 set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
-                data modify storage tf2.__temp__:lookup points[0].progress
-				     set value '[{"text":"321))))))))))))))","color":"gray"}]';
-                Objectives.control_point.find_index.reinsert();
-                tag @s remove tf2.said_dialogue;
-
-                setblock ~ ~-1 ~ red_stained_glass; // placeholder for proper model
-
-                // if KOTH: start counting down RED's timer & pause BLU's
-                // if 5CP & this is mid: unlock BLU's 1st (✓)
-                // else if 5CP: lock/unlock adjacent points in line (✓)
-                // if ATK/DEF: how??!!?!?
-                tf2.batch_number:$local = tf2.batch_number:@s;
-                tag @e[type=marker,tag=tf2.current] remove tf2.current;
-                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                if (tf2.team:$last == tf2.team:@s) return 0;
-
-                if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
-                if (tf2.increment:@s = tf2.increment:@s) Objectives.control_point.on_capture.add_time();
-            }
-            function blu() {
-                // @within Objectives.control_point.capture_progress.blu()
-
-                // Keep track of the team that *previously* controlled this point.
-                tf2.team:$last = tf2.team:@s;
-                tf2.team:@s = 2;
-                tf2.blu_progress:@s = tf2.capture_threshold:@s;
-
-                Objectives.control_point.find_index.main();
-                data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
-                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
-                Objectives.control_point.find_index.reinsert();
-                tag @s remove tf2.said_dialogue;
-
-                setblock ~ ~-1 ~ blue_stained_glass; // placeholder for proper model
-
-                // if KOTH: start counting down BLU's timer & pause RED's
-                // if 5CP & this is mid: unlock RED's 1st (✓)
-                // else if 5CP: lock/unlock adjacent points in line (✓)
-                // if ATK/DEF: lock this point (✓) & unlock next point (✓)
-                tf2.batch_number:$local = tf2.batch_number:@s;
-                tag @e[type=marker,tag=tf2.current] remove tf2.current;
-                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-                if (tf2.team:$last = tf2.team:@s) return 0;
-
-                if (tf2.gamemode:@s = 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
-                if (tf2.gamemode:@s[tag=!tf2.multistage] = 2) Objectives.control_point.on_capture.blu.symmetric();
-                if (tf2.increment:@s = tf2.increment:@s) Objectives.control_point.on_capture.add_time();
             }
         }
         class on_capture {
@@ -322,6 +261,67 @@ class Objectives
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>The &<bold,italic,red>enemy &<bold,red>has received additional time.");
                     Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>Success. Additional time has been awarded.");
                 }
+            }
+        }
+        class set_owner {
+            function red() {
+                // @within Objectives.control_point.capture_progress.red()
+
+                // Keep track of the team that *previously* controlled this point.
+                tf2.team:$last = tf2.team:@s;
+                tf2.team:@s = 1;
+                tf2.red_progress:@s = tf2.capture_threshold:@s;
+
+                Objectives.control_point.find_index.main();
+                data modify storage tf2.__temp__:lookup points[0].owner
+					 set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
+                data modify storage tf2.__temp__:lookup points[0].progress
+				     set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                Objectives.control_point.find_index.reinsert();
+                tag @s remove tf2.said_dialogue;
+
+                setblock ~ ~-1 ~ red_stained_glass; // placeholder for proper model
+
+                // if KOTH: start counting down RED's timer & pause BLU's
+                // if 5CP & this is mid: unlock BLU's 1st (✓)
+                // else if 5CP: lock/unlock adjacent points in line (✓)
+                // if ATK/DEF: how??!!?!?
+                tf2.batch_number:$local = tf2.batch_number:@s;
+                tag @e[type=marker,tag=tf2.current] remove tf2.current;
+                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                if (tf2.team:$last == tf2.team:@s) return 0;
+
+                if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
+                if (tf2.increment:@s) Objectives.control_point.on_capture.add_time();
+            }
+            function blu() {
+                // @within Objectives.control_point.capture_progress.blu()
+
+                // Keep track of the team that *previously* controlled this point.
+                tf2.team:$last = tf2.team:@s;
+                tf2.team:@s = 2;
+                tf2.blu_progress:@s = tf2.capture_threshold:@s;
+
+                Objectives.control_point.find_index.main();
+                data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
+                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                Objectives.control_point.find_index.reinsert();
+                tag @s remove tf2.said_dialogue;
+
+                setblock ~ ~-1 ~ blue_stained_glass; // placeholder for proper model
+
+                // if KOTH: start counting down BLU's timer & pause RED's
+                // if 5CP & this is mid: unlock RED's 1st (✓)
+                // else if 5CP: lock/unlock adjacent points in line (✓)
+                // if ATK/DEF: lock this point (✓) & unlock next point (✓)
+                tf2.batch_number:$local = tf2.batch_number:@s;
+                tag @e[type=marker,tag=tf2.current] remove tf2.current;
+                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                if (tf2.team:$last == tf2.team:@s) return 0;
+
+                if (tf2.gamemode:@s == 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
+                if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.blu.symmetric();
+                if (tf2.increment:@s) Objectives.control_point.on_capture.add_time();
             }
         }
         class visuals {
@@ -413,7 +413,7 @@ class Objectives
                 tf2.index:@s = $temp; // Repurposes the marker's `tf2.index` score to hold the total number of CPs.
             }
             function wheel_spacing() {
-                // @within Objectives.control_point.visuals.capture_progress.(red/blu).wheel()
+                // @within this.capture_progress.(red/blu).wheel()
 
                 tag @e remove tf2.current;
                 tf2.batch_number:$local = tf2.batch_number:@s;
@@ -481,13 +481,13 @@ class Objectives
                         if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) tf2.red_progress:@s --;
                         if (tf2.team:@s[scores={tf2.red_progress=1..}] == 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
                         if (tf2.team:@s == 2) Objectives.control_point.visuals.capture_progress.blu.flicker();
-                        Objectives.control_point.visuals.capture_progress.red.wheel();
+                        this.wheel();
                         Objectives.control_point.find_index.reinsert();
                     }
                     function wheel() {
                         // Displays frame 0 - 47 of the title animation, based on how much capture progress has been made.
                         // Owner team determines color of the background circle. (unowned = #A1A1A1, BLU-owned = #517AB8)
-                        // @within Objectives.control_point.visuals.capture_progress.red.main()
+                        // @within this.main()
 
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
@@ -600,13 +600,13 @@ class Objectives
                         if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
                         if (tf2.team:@s[scores={tf2.blu_progress=1..}] == 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
                         if (tf2.team:@s == 1) Objectives.control_point.visuals.capture_progress.red.flicker();
-                        Objectives.control_point.visuals.capture_progress.blu.wheel();
+                        this.wheel();
                         Objectives.control_point.find_index.reinsert();
                     }
                     function wheel() {
                         // Displays frame 0 - 47 of the title animation, based on how much capture progress has been made.
                         // Owner team determines color of the background circle. (unowned = #A1A1A1, RED-owned = #D95A58)
-                        // @within Objectives.control_point.visuals.capture_progress.blu.main()
+                        // @within this.main()
 
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
