@@ -157,6 +157,9 @@ function do_fall_damage() {
     $fall_damage /= 10000;
 
     tf2.health:@s -= $fall_damage;
+    if ($fall_damage) {
+        damage @s 0.01 tf2:screenshake;
+    }
 
     // Clear everything out
     $previous_∆y 

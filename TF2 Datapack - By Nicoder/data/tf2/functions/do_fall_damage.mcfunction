@@ -18,4 +18,5 @@ execute store result score $random_mult tf2.var run random value 80..120
 scoreboard players operation $fall_damage tf2.var *= $random_mult tf2.var
 scoreboard players operation $fall_damage tf2.var /= 10000 tf2.const
 scoreboard players operation @s tf2.health -= $fall_damage tf2.var
+execute if score $fall_damage tf2.var matches 1.. run damage @s 0.01 tf2:screenshake
 execute store result score $previous_∆y tf2.var store result score $current_∆y tf2.var store result score $impact_velocity tf2.var store result score $fall_damage tf2.var store result score @s tf2.fall_y3 store result score @s tf2.fall_y2 store result score @s tf2.fall_y1 store result score @s tf2.fall_y run scoreboard players set @s tf2.fall 0
