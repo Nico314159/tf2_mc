@@ -73,7 +73,7 @@ class start_game {
                     tf2.batch_number:@s = tf2.batch_number:$local;
                     tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
                     tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
-                    execute if score @s tf2.index = $highest tf2.index run tag @s add tf2.last;
+                    execute if score @s tf2.index = $highest tf2.index unless score @s tf2.gamemode matches 3 run tag @s add tf2.last;
                     tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
                     $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
                 } with storage tf2.__temp__:index;
