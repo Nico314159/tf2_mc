@@ -281,8 +281,7 @@ class KOTH_Timer
     function end_game() {
         // @within
         //  this.zero()
-        if (tf2.red_timer:@s == 0) $winner = 1;
-        if (tf2.blu_timer:@s == 0) $winner = 2;
+        $winner = tf2.team:@s;
         reset.announce_winner();
         tag @s add tf2.ended;
     }
