@@ -258,10 +258,10 @@ class KOTH_Timer
             execute as @e[type=marker,tag=tf2.control_point]
                     if score @s tf2.batch_number = $local tf2.batch_number
                     run  tag @s add tf2.current;
-            tag @e[tag=tf2.current,tag=tf2.objective] remove tf2.overtime;
             tf2.red_overtime:@s ?= execute 
                                 as @e[type=marker,tag=tf2.current,tag=tf2.objective] 
                                 if score @s tf2.red_progress < @s tf2.capture_threshold;
+            tag @e[type=marker,tag=tf2.current,tag=tf2.objective] remove tf2.current;
             if (!tf2.red_overtime:@s) KOTH_Timer.end_game();
         }
         function blu() {
@@ -274,6 +274,7 @@ class KOTH_Timer
             tf2.blu_overtime:@s ?= execute 
                                 as @e[type=marker,tag=tf2.current,tag=tf2.objective] 
                                 if score @s tf2.blu_progress < @s tf2.capture_threshold;
+            tag @e[type=marker,tag=tf2.current,tag=tf2.objective] remove tf2.current;
             if (!tf2.blu_overtime:@s) KOTH_Timer.end_game();
         }
     }
