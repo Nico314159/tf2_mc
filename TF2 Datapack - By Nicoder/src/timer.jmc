@@ -310,9 +310,9 @@ class KOTH_Timer
         $execute if entity @s[scores={tf2.red_timer.sec=0..9}] run Bossbar.setName(tf2:red_timer_$(i), "RED - &<tf2.red_timer.min:@s>:0&<tf2.red_timer.sec:@s> remaining");
         $execute if entity @s[scores={tf2.red_overtime=1}] run Bossbar.setName(tf2:red_timer_$(i), "RED - Overtime!");
 
-        $execute if entity @s[scores={tf2.blu_timer.sec=10..59}] run Bossbar.setName(tf2:blu_timer_$(i), "&<space(left),font(square)>BLU - &<tf2.blu_timer.min:@s>:&<tf2.blu_timer.sec:@s> remaining&<space(mid),font(square)>&<point(0),font(square)>&<space(right),font(square)>");
-        $execute if entity @s[scores={tf2.blu_timer.sec=0..9}] run Bossbar.setName(tf2:blu_timer_$(i), "&<space(left),font(square)>BLU - &<tf2.blu_timer.min:@s>:0&<tf2.blu_timer.sec:@s> remaining&<space(mid),font(square)>&<point(0),font(square)>&<space(right),font(square)>");
-        $execute if entity @s[scores={tf2.blu_overtime=1}] run Bossbar.setName(tf2:blu_timer_$(i), "&<space(left),font(square)>BLU - Overtime!&<space(mid),font(square)>&<point(0),font(square)>&<space(right),font(square)>");
+        $execute if entity @s[scores={tf2.blu_timer.sec=10..59}] run Bossbar.setName(tf2:blu_timer_$(i), "&<font(square)>42&<reset>BLU - &<tf2.blu_timer.min:@s>:&<tf2.blu_timer.sec:@s> remaining&<font(square)>54310&<point(0),font(square)>");
+        $execute if entity @s[scores={tf2.blu_timer.sec=0..9}] run Bossbar.setName(tf2:blu_timer_$(i), "&<font(square)>42&<reset>BLU - &<tf2.blu_timer.min:@s>:0&<tf2.blu_timer.sec:@s> remaining&<font(square)>54310&<point(0),font(square)>");
+        $execute if entity @s[scores={tf2.blu_overtime=1}] run Bossbar.setName(tf2:blu_timer_$(i), "&<font(square)>21&<reset>BLU - Overtime!&<font(square)>5321&<point(0),font(square)>");
     }
 }
 
