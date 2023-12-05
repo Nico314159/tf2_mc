@@ -31,9 +31,11 @@ scoreboard objectives remove tf2.increment
 scoreboard objectives remove tf2.red_timer
 scoreboard objectives remove tf2.red_timer.min
 scoreboard objectives remove tf2.red_timer.sec
+scoreboard objectives remove tf2.red_overtime
 scoreboard objectives remove tf2.blu_timer
 scoreboard objectives remove tf2.blu_timer.min
 scoreboard objectives remove tf2.blu_timer.sec
+scoreboard objectives remove tf2.blu_overtime
 scoreboard objectives remove tf2.batch_number
 scoreboard objectives remove tf2.session
 scoreboard objectives remove tf2.lifetime

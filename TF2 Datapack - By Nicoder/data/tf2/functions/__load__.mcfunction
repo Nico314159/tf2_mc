@@ -41,9 +41,11 @@ scoreboard objectives add tf2.increment dummy
 scoreboard objectives add tf2.red_timer dummy
 scoreboard objectives add tf2.red_timer.min dummy
 scoreboard objectives add tf2.red_timer.sec dummy
+scoreboard objectives add tf2.red_overtime dummy
 scoreboard objectives add tf2.blu_timer dummy
 scoreboard objectives add tf2.blu_timer.min dummy
 scoreboard objectives add tf2.blu_timer.sec dummy
+scoreboard objectives add tf2.blu_overtime dummy
 scoreboard objectives add tf2.batch_number dummy
 scoreboard objectives add tf2.session dummy
 scoreboard objectives add tf2.lifetime dummy

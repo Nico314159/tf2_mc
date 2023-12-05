@@ -14,8 +14,8 @@ Hardcode.repeatList(
     [
         "index", "red_progress", "blu_progress", "capture_threshold",
         "timer", "timer.min", "timer.sec", "increment",
-        "red_timer", "red_timer.min", "red_timer.sec", 
-        "blu_timer", "blu_timer.min", "blu_timer.sec",
+        "red_timer", "red_timer.min", "red_timer.sec", "red_overtime",
+        "blu_timer", "blu_timer.min", "blu_timer.sec", "blu_overtime",
         "batch_number", "session", "lifetime", 
         "respawn_timer", "respawn_timer.sec", "class", "team", "health", "max_health",
         "time_scoped", "grace_period", "last_slot", "current_slot",
