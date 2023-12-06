@@ -1,6 +1,6 @@
 {
     "pack": {
-        "pack_format": 18,
+        "pack_format": 26,
         "description": "Team Fortress 2, recreated in Minecraft"
     },
     "filter": {

@@ -1,1 +1,1 @@
-tellraw @a[tag=tf2.current] {"text":"One.","bold":true,"italic":true,"color":"white"}
+tellraw @a[tag=tf2.current] {"text":"One.","bold":true,"italic":true,"color":"white","type":"text"}
