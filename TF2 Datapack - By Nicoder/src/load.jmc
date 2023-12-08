@@ -184,7 +184,7 @@ new tag.blocks(no_fall_dmg) {
 }
 new tag.blocks(reduce_fall_dmg) {
     "values": [
-        "minecraft:hay_bale",
+        "minecraft:hay_block",
         "minecraft:honey_block"
     ]
 }
