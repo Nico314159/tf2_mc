@@ -266,17 +266,14 @@ class Weapons {
 
         // Melee sound effects
         if (predicate tf2:holding_melee) return run {
-            if ($validOffset) {
-                execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+            if (!$validOffset) return 0;
+            execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+            if (!data storage retina:output {Target: "ENTITY"}) {
+                return run playsound tf2:item.melee.miss ambient @s ~ ~ ~ 0.35 0.35 0.1;
             }
-            if (data storage retina:output {Target: "NONE"}) {
-                playsound tf2:item.melee.miss ambient @s ~ ~ ~ 0.35 0.35 0.1;
-            }
-            if (!data storage retina:output {Target: "NONE"}) {
-                playsound tf2:item.melee.hit ambient @s ~ ~ ~ 1.5 0.9 0.1;
-            }
+            playsound tf2:item.melee.hit ambient @s ~ ~ ~ 1.5 0.9 0.1;
         };
-        
+
         $_clip_ --;
         this.set_ammo();
         tf2.consecutive_reload:@s = false;
