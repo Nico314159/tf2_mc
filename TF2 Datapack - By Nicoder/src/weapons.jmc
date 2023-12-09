@@ -208,7 +208,6 @@ new item_modifiers(apply_team_material) [
 
 class Weapons {
     function main_fire() {
-        if (!predicate tf2:ammo_in_clip) return 0;
         if (tf2.attack_delay:@s > 0) return 0;
         if (tf2.class:@s == 6 && tf2.current_slot:@s == 0 && tf2.time_revved:@s < tf2.rev_threshold:@s) return 0;
 
@@ -224,6 +223,7 @@ class Weapons {
             // case Class.MEDIC: Class.Medic.inventory_lock();
         }
 
+        if (!predicate tf2:has_main_fire) return 0;
         this.get_ammo();
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
 
