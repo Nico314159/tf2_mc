@@ -67,9 +67,14 @@ scoreboard objectives remove tf2.fall_y
 scoreboard objectives remove tf2.fall_y1
 scoreboard objectives remove tf2.fall_y2
 scoreboard objectives remove tf2.fall_y3
+scoreboard objectives remove tf2.drown_lost
+scoreboard objectives remove tf2.time_surfaced
+scoreboard objectives remove tf2.current_air
+scoreboard objectives remove tf2.last_air
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.elytra_detect
 scoreboard objectives remove tf2.fall
+scoreboard objectives remove tf2.air
 team remove RED
 team remove BLU
 bossbar remove tf2:timer_1

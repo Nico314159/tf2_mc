@@ -18,3 +18,7 @@ scoreboard players operation @s tf2.fall_y2 = @s tf2.fall_y1
 scoreboard players operation @s tf2.fall_y1 = @s tf2.fall_y
 execute store result score @s tf2.fall_y run data get entity @s Pos[1] 100
 execute if predicate tf2:grounded if score @s tf2.fall matches 1.. run function tf2:do_fall_damage
+execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/50
+scoreboard players add @s[predicate=!tf2:submerged] tf2.time_surfaced 1
+execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/51
+scoreboard players set @s[predicate=tf2:submerged] tf2.time_surfaced 0

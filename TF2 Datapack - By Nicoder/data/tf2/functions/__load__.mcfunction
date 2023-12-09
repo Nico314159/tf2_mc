@@ -77,9 +77,14 @@ scoreboard objectives add tf2.fall_y dummy
 scoreboard objectives add tf2.fall_y1 dummy
 scoreboard objectives add tf2.fall_y2 dummy
 scoreboard objectives add tf2.fall_y3 dummy
+scoreboard objectives add tf2.drown_lost dummy
+scoreboard objectives add tf2.time_surfaced dummy
+scoreboard objectives add tf2.current_air dummy
+scoreboard objectives add tf2.last_air dummy
 scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.fall custom:fall_one_cm
+scoreboard objectives add tf2.air air
 team add RED "RED"
 team modify RED color red
 team modify RED prefix "[RED] "
@@ -123,6 +128,7 @@ execute store success score $profiler_installed tf2.var run function timekeeper:
 gamerule doImmediateRespawn true
 gamerule doMobSpawning false
 gamerule fallDamage false
+gamerule drowningDamage true
 gamerule keepInventory true
 gamerule mobGriefing false
 gamerule naturalRegeneration false

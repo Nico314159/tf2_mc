@@ -24,13 +24,15 @@ Hardcode.repeatList(
         "attack_delay", "reload_delay", "consecutive_reload",
         "time_revved", "rev_threshold",
         "permanent.games_won", "permanent.games_played", "permanent.double_jumps",
-        "fall_y", "fall_y1", "fall_y2", "fall_y3"
+        "fall_y", "fall_y1", "fall_y2", "fall_y3", 
+        "drown_lost", "time_surfaced", "current_air", "last_air"
     ]
 );
 
 Scoreboard.add(tf2.queue_type, trigger);
 Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
 Scoreboard.add(tf2.fall, custom:fall_one_cm);
+Scoreboard.add(tf2.air, air);
 
 // when in score format - RED = 1, BLU = 2
 Team.add(RED, "RED", {color: red,  prefix: "\"[RED] \"", friendlyFire: false});
@@ -62,6 +64,7 @@ $profiler_installed ?= execute run function timekeeper:__load__;
 gamerule doImmediateRespawn true;
 gamerule doMobSpawning false;
 gamerule fallDamage false;
+gamerule drowningDamage true;
 gamerule keepInventory true;
 gamerule mobGriefing false;
 gamerule naturalRegeneration false;
@@ -144,6 +147,49 @@ new predicates(sneaking) {
 			"is_sneaking": true
 		}
 	}
+}
+new predicates(submerged) {
+    "condition": "minecraft:any_of",
+    "terms": [
+        {
+            "condition": "minecraft:location_check",
+            "offsetY": 1,
+            "predicate": {
+                "fluid": {
+                    "fluid": "minecraft:water"
+                }
+            }
+        },
+        {
+            "condition": "minecraft:location_check",
+            "offsetY": 1,
+            "predicate": {
+                "fluid": {
+                    "fluid": "minecraft:flowing_water"
+                }
+            }
+        },
+        {
+            "condition": "minecraft:location_check",
+            "offsetY": 1,
+            "predicate": {
+                "block": {
+                    "state": {
+                        "waterlogged": "true"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "flags": {
+                    "is_swimming": true
+                }
+            }
+        }
+    ]
 }
 new predicates(burning) {
     "condition": "minecraft:entity_properties",

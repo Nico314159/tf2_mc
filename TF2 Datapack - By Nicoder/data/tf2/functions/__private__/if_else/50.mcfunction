@@ -1,4 +1,2 @@
-scoreboard players operation $impact_velocity tf2.var = $previous_∆y tf2.var
-scoreboard players operation $impact_velocity tf2.var += $previous_∆y tf2.var
-scoreboard players operation $impact_velocity tf2.var -= $2nd_previous_∆y tf2.var
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players remove @s tf2.health 5
+scoreboard players add @s tf2.drown_lost 5

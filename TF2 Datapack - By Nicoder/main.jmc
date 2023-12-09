@@ -120,6 +120,22 @@ function player_tick() {
     if (predicate tf2:grounded && tf2.fall:@s > 0) {
         do_fall_damage();
     }
+
+    // Drowning stuff
+    if (tf2.air:@s == -19) {
+        tf2.health:@s -= 5;
+        tf2.drown_lost:@s += 5;
+    }
+    tf2.time_surfaced:@s[predicate=!tf2:submerged] ++;
+    if (tf2.time_surfaced:@s == 40) {
+        $temp = tf2.drown_lost:@s;
+        $temp < 10;
+        tf2.health:@s += $temp;
+        tf2.health:@s < tf2.max_health:@s;
+        tf2.drown_lost:@s -= $temp;
+        tf2.time_surfaced:@s = 0;
+    }
+    tf2.time_surfaced:@s[predicate=tf2:submerged] = 0;
 }
 function do_fall_damage() {
     $2nd_previous_∆y = tf2.fall_y3:@s;
@@ -283,6 +299,7 @@ class Spawn {
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tf2.health:@s = tf2.max_health:@s;
+        tf2.time_surfaced:@s = tf2.drown_lost:@s = 0;
         // Replenish ammo
         class_select();
         // Remove "You died!" message
