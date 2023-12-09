@@ -1,2 +1,2 @@
-execute as @e[type=item,tag=!tf2.map_item,distance=..2] run function tf2:__private__/anonymous/17
-execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/18
+scoreboard players remove @s tf2.health 5
+scoreboard players add @s tf2.drown_lost 5

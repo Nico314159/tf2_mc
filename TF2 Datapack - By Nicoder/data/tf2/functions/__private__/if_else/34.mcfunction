@@ -1,3 +1,2 @@
-scoreboard players set @s tf2.health 0
-tellraw @a ["",{"selector":"@s","type":"selector"},{"text":" fell into the void."}]
-tp @s ~ 5 ~
+execute as @e[type=item,tag=!tf2.map_item,distance=..2] run function tf2:__private__/anonymous/17
+execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/18
