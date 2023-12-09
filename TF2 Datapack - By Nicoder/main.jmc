@@ -36,7 +36,7 @@ function __tick__() {
 }
 
 function marker_tick() {
-    if (entity @s[tag=tf2.in_use,scores={tf2.timer=..2147483647}]) Timer.main();
+    if (entity @s[tag=tf2.in_use] && tf2.gamemode:@s != 3) Timer.main();
     if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=3}]) KOTH_Timer.main();
     if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=1..4}] && entity @a) {
         Objectives.control_point.gamestate();
