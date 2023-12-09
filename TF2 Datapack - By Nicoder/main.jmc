@@ -232,8 +232,13 @@ Player.join(() => {
 		author: LazyHarpSeal
 	};
 
+    execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
     scoreboard players enable @s tf2.queue_type;
     tf2.batch_number:@s = tf2.queue_type:@s = 0;
+
+    // Update timer visibility to exclude currrent player
+    KOTH_Timer.show() with storage tf2.__temp__:index;
+    Timer.show() with storage tf2.__temp__:index;
 
     effect give @s minecraft:saturation infinite 0 true;
     effect give @s minecraft:resistance infinite 4 true;
