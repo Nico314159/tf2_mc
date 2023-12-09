@@ -119,11 +119,9 @@ bossbar set tf2:red_timer_5 color red
 bossbar add tf2:blu_timer_5 ""
 bossbar set tf2:blu_timer_5 color blue
 execute store success score $found_dependency tf2.var run function retina:__load__
-execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"Retina 2","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"},"hoverEvent":{"action":"show_text","contents":"https://github.com/Nico314159/Retina_v2"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
-execute unless score $found_dependency tf2.var matches 1.. run return -1
+execute unless score $found_dependency tf2.var matches 1.. run return run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"Retina 2","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/Nico314159/Retina_v2"},"hoverEvent":{"action":"show_text","contents":"https://github.com/Nico314159/Retina_v2"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
 execute store success score $found_dependency tf2.var run function delta:internal/technical/load
-execute unless score $found_dependency tf2.var matches 1.. run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"Delta","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/BigPapi13/Delta"},"hoverEvent":{"action":"show_text","contents":"https://github.com/BigPapi13/Delta"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
-execute unless score $found_dependency tf2.var matches 1.. run return -1
+execute unless score $found_dependency tf2.var matches 1.. run return run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"Delta","color":"aqua","underlined":true,"clickEvent":{"action":"open_url","value":"https://github.com/BigPapi13/Delta"},"hoverEvent":{"action":"show_text","contents":"https://github.com/BigPapi13/Delta"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
 execute store success score $profiler_installed tf2.var run function timekeeper:__load__
 gamerule doImmediateRespawn true
 gamerule doMobSpawning false

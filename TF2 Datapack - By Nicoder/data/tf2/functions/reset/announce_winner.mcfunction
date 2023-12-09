@@ -4,7 +4,7 @@ kill @e[type=villager,tag=tf2.current]
 execute if score $winner tf2.var matches 1 run tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","color":"yellow","type":"text"},{"text":"| ","color":"white","type":"text"},{"text":"RED wins!","color":"red","bold":true,"italic":true,"type":"text"}]
 execute if score $winner tf2.var matches 2 run tellraw @a[tag=tf2.current] ["",{"text":"MATCH ","color":"yellow","type":"text"},{"text":"| ","color":"white","type":"text"},{"text":"BLU wins!","color":"blue","bold":true,"italic":true,"type":"text"}]
 execute if score $winner tf2.var matches -1 run tellraw @a[tag=tf2.current] {"text":"Stalemate....","color":"gray","italic":true,"hoverEvent":{"action":"show_text","contents":["",{"text":"You're "},{"text":"all losers!","bold":true,"type":"text"}]},"type":"text"}
-execute as @a[tag=tf2.current] run function tf2:__private__/anonymous/9
+execute as @a[tag=tf2.current] run function tf2:__private__/anonymous/14
 execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
 execute if score @s tf2.gamemode matches 1..2 run function tf2:timer/hide with storage tf2.__temp__:index
 execute if score @s tf2.gamemode matches 3 run function tf2:koth_timer/hide with storage tf2.__temp__:index

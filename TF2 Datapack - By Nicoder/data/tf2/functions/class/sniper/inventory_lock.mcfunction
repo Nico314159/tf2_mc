@@ -12,10 +12,7 @@ execute store result score $_count_ tf2.var run clear @s iron_leggings{Trim:{pat
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings{Trim:{pattern:"tf2:sniper"}}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/sniper/_model
 execute store result score $_crossbow_id_ tf2.var run data get entity @s Inventory[-1].tag.CustomModelData 0.001
-execute if predicate tf2:class/sniper/holding_scope if score $_crossbow_id_ tf2.var matches 21 if score @s tf2.attack_delay matches ..0 run loot replace entity @s weapon.mainhand loot tf2:class/sniper/sniper_rifle_scope
-execute if predicate tf2:class/sniper/holding_scope if score $_crossbow_id_ tf2.var matches 21 if score @s tf2.attack_delay matches ..0 run item modify entity @s weapon.offhand tf2:load_crossbow
-execute if predicate tf2:class/sniper/holding_scope if score $_crossbow_id_ tf2.var matches 21 if score @s tf2.attack_delay matches ..0 run return 0
-loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle
+execute if predicate tf2:class/sniper/holding_scope if score $_crossbow_id_ tf2.var matches 21 if score @s tf2.attack_delay matches ..0 run return run function tf2:__private__/anonymous/2
 execute store result score $_count_ tf2.var run clear @s crossbow{CustomModelData:21000} 0
 execute unless score $_count_ tf2.var matches 1 run clear @s crossbow{CustomModelData:21000}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle

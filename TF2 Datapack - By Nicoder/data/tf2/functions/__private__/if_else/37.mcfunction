@@ -1,1 +1,2 @@
-data modify storage tf2.__temp__:lookup points[0].symbol set value "[\"\"]"
+execute as @e[tag=tf2.self] run function tf2:weapons/main_fire
+kill @s

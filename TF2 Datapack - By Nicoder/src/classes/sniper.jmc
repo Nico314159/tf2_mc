@@ -215,11 +215,9 @@ class Class.Sniper {
 
         // gets first 2 digits
         $_crossbow_id_ = data get entity @s Inventory[-1].tag.CustomModelData 0.001;
-        if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21 && tf2.attack_delay:@s <= 0) expand {
-            // TODO: use `return run` once 1.20.3 releases
+        if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21 && tf2.attack_delay:@s <= 0) return run {
             loot replace entity @s weapon.mainhand loot tf2:class/sniper/sniper_rifle_scope;
             item modify entity @s weapon.offhand tf2:load_crossbow;
-            return 0;
         }
 
         loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;

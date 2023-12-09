@@ -208,6 +208,10 @@ new item_modifiers(apply_team_material) [
 
 class Weapons {
     function main_fire() {
+        if (!predicate tf2:ammo_in_clip) return 0;
+        if (tf2.attack_delay:@s > 0) return 0;
+        if (tf2.class:@s == 6 && tf2.current_slot:@s == 0 && tf2.time_revved:@s < tf2.rev_threshold:@s) return 0;
+
         switch (tf2.class:@s) {
             case Class.SPY: break; //Class.Spy.inventory_lock();
             case Class.SNIPER: Class.Sniper.inventory_lock();
@@ -220,8 +224,6 @@ class Weapons {
             // case Class.MEDIC: Class.Medic.inventory_lock();
         }
 
-        if (!predicate tf2:has_main_fire) return 0;
-        if (tf2.attack_delay:@s > 0) return 0;
         Weapons.get_ammo();
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
 
@@ -262,30 +264,29 @@ class Weapons {
             unless score $offset_Y retina.__variable__ matches 611..775
             run $validOffset = true;
 
-        // TODO: use `return run` when 1.20.3 releases
-        if (predicate tf2:holding_melee && $validOffset) {
-            execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-        }
-        else {
-            $_clip_ --;
-            Weapons.set_ammo();
-            tf2.consecutive_reload:@s = false;
-        }
-
         // Melee sound effects
-        if (predicate tf2:holding_melee && data storage retina:output {Target: "NONE"}) {
-            playsound tf2:item.melee.miss ambient @s ~ ~ ~ 0.35 0.35 0.1;
-        }
-        if (predicate tf2:holding_melee && !data storage retina:output {Target: "NONE"}) {
-            playsound tf2:item.melee.hit ambient @s ~ ~ ~ 1.5 0.9 0.1;
-        }
+        if (predicate tf2:holding_melee) return run {
+            if ($validOffset) {
+                execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
+            }
+            if (data storage retina:output {Target: "NONE"}) {
+                playsound tf2:item.melee.miss ambient @s ~ ~ ~ 0.35 0.35 0.1;
+            }
+            if (!data storage retina:output {Target: "NONE"}) {
+                playsound tf2:item.melee.hit ambient @s ~ ~ ~ 1.5 0.9 0.1;
+            }
+        };
+        
+        $_clip_ --;
+        Weapons.set_ammo();
+        tf2.consecutive_reload:@s = false;
     }
     function get_ammo() {
-        if (tf2.current_slot:@s == 0) {
+        if (tf2.current_slot:@s == 0) return run {
             $_clip_    = tf2.primary_clip:@s;
             $_maxClip_ = tf2.primary_maxClip:@s;
             $_ammo_    = tf2.primary_ammo:@s;
-        }
+        };
         if (tf2.current_slot:@s == 1) {
             $_clip_    = tf2.secondary_clip:@s;
             $_maxClip_ = tf2.secondary_maxClip:@s;
@@ -293,11 +294,11 @@ class Weapons {
         }
     }
     function set_ammo() {
-        if (tf2.current_slot:@s == 0) {
+        if (tf2.current_slot:@s == 0) return run {
             tf2.primary_clip:@s      = $_clip_;
             tf2.primary_maxClip:@s   = $_maxClip_;
             tf2.primary_ammo:@s      = $_ammo_;
-        }
+        };
         if (tf2.current_slot:@s == 1) {
             tf2.secondary_clip:@s    = $_clip_;
             tf2.secondary_maxClip:@s = $_maxClip_;
@@ -354,12 +355,10 @@ class Weapons {
         }
     }
     function actionbar() {
-        // TODO: use `return run` when 1.20.3 releases
         if (predicate tf2:hide_ammo) {
-            Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>");
-        } else {
-            Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>             &<gray>Ammo: &<$_clip_> &<dark_gray>(&<$_ammo_>)");
+            return run Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>");
         }
+        Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>             &<gray>Ammo: &<$_clip_> &<dark_gray>(&<$_ammo_>)");
     }
     function damage() {
         if (retina.__variable__:$func_id !== 100) return 0;

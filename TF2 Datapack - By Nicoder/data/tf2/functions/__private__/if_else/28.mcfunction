@@ -1,4 +1,2 @@
-execute store result score @s tf2.timer run data get entity @s data.map.timer 20
-execute if data entity @s data.map.timer run function tf2:timer/set_max with storage tf2.__temp__:index
-execute if data entity @s data.map.timer run function tf2:timer/show with storage tf2.__temp__:index
-execute if data entity @s data.map.setup_time run function tf2:timer/begin_setup
+data modify storage tf2.__temp__:lookup points[0].symbol set value "[{\"text\":\"321S!)\",\"font\":\"tf2:square\"}]"
+scoreboard players set __if_else__ tf2.var 1

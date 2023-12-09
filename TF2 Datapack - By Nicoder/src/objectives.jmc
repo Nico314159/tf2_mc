@@ -570,10 +570,8 @@ class Objectives
                             case 47: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
-                        if (tf2.gamemode:@s == 3) expand {
-                            // TODO: use `return run` later
-                            Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel_koth)>&<#291A15,font(wheel_koth)>?43&<gui_wheel(owner),font(wheel_koth)>&<font(wheel_koth)>421|&<gui_wheel(progress),font(wheel_koth)>");
-                            return 1;
+                        if (tf2.gamemode:@s == 3) {
+                            return run Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel_koth)>&<#291A15,font(wheel_koth)>?43&<gui_wheel(owner),font(wheel_koth)>&<font(wheel_koth)>421|&<gui_wheel(progress),font(wheel_koth)>");
                         }
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
                         
@@ -695,10 +693,8 @@ class Objectives
                             case 47: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
-                        if (tf2.gamemode:@s == 3) expand {
-                            // TODO: use `return run` later
-                            Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel_koth)>&<#291A15,font(wheel_koth)>?43&<gui_wheel(owner),font(wheel_koth)>&<font(wheel_koth)>421|&<gui_wheel(progress),font(wheel_koth)>");
-                            return 1;
+                        if (tf2.gamemode:@s == 3) {
+                            return run Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel_koth)>&<#291A15,font(wheel_koth)>?43&<gui_wheel(owner),font(wheel_koth)>&<font(wheel_koth)>421|&<gui_wheel(progress),font(wheel_koth)>");
                         }
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
                     }

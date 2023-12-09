@@ -1,2 +1,1 @@
-execute if score $casual_queue_length tf2.var matches 24.. run function tf2:__private__/if_else/24
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/25
+execute if score $winner tf2.var matches 1..2 run function tf2:__private__/if_else/24

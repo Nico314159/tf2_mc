@@ -1,3 +1,2 @@
-scoreboard players set __if_else__ tf2.var 0
-execute if predicate tf2:hide_ammo run function tf2:__private__/if_else/14
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/15
+execute if predicate tf2:hide_ammo run return run title @s actionbar ["",{"text":"\u2764 Health: ","color":"red","type":"text"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red","type":"score"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red","type":"score"}]
+title @s actionbar ["",{"text":"\u2764 Health: ","color":"red","type":"text"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red","type":"score"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red","type":"score"},{"text":"             ","color":"red"},{"text":"Ammo: ","color":"gray","type":"text"},{"score":{"name":"$_clip_","objective":"tf2.var"},"color":"gray","type":"score"},{"text":" ","color":"gray"},{"text":"(","color":"dark_gray","type":"text"},{"score":{"name":"$_ammo_","objective":"tf2.var"},"color":"dark_gray","type":"score"},{"text":")","color":"dark_gray"}]

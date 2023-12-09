@@ -1,2 +1,3 @@
-data modify storage tf2.__temp__:lookup points[0].symbol set value "[{\"text\":\"320L@\",\"font\":\"tf2:square\"}]"
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players set @s tf2.health 0
+tellraw @a ["",{"selector":"@s","type":"selector"},{"text":" fell into the void."}]
+tp @s ~ 5 ~

@@ -1,3 +1,2 @@
-scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
-scoreboard players remove $_temp3_ tf2.var 100
-scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const
+execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run function tf2:start_game/as_players/generic
+scoreboard players set __if_else__ tf2.var 1

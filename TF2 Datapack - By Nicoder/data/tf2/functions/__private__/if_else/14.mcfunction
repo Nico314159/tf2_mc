@@ -1,2 +1,2 @@
-title @s actionbar ["",{"text":"\u2764 Health: ","color":"red","type":"text"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red","type":"score"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red","type":"score"}]
+execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run function tf2:start_game/as_players/generic
 scoreboard players set __if_else__ tf2.var 1

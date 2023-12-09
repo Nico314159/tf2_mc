@@ -1,3 +1,2 @@
-scoreboard players set @s tf2.health 0
-tellraw @a ["",{"selector":"@s","type":"selector"},{"text":" fell into the void."}]
-tp @s ~ 5 ~
+scoreboard players remove @s tf2.health 5
+scoreboard players add @s tf2.drown_lost 5

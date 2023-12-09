@@ -1,2 +1,2 @@
-execute if entity @s[scores={tf2.team=1}] run function tf2:__private__/if_else/6
-execute if entity @s[scores={tf2.team=2}] run function tf2:__private__/if_else/7
+loot replace entity @s weapon.mainhand loot tf2:class/sniper/sniper_rifle_scope
+item modify entity @s weapon.offhand tf2:load_crossbow

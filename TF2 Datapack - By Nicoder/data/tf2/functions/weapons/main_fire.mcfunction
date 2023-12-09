@@ -1,7 +1,8 @@
+execute unless predicate tf2:ammo_in_clip run return 0
+execute if score @s tf2.attack_delay matches 1.. run return 0
+execute if score @s tf2.class matches 6 if score @s tf2.current_slot matches 0 if score @s tf2.time_revved < @s tf2.rev_threshold run return 0
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/1/select with storage tf2:__storage__
-execute unless predicate tf2:has_main_fire run return 0
-execute if score @s tf2.attack_delay matches 1.. run return 0
 function tf2:weapons/get_ammo
 execute if score $_clip_ tf2.var matches ..0 unless predicate tf2:holding_melee run return 0
 execute unless predicate tf2:holding_melee run playsound tf2:item.gun.shoot ambient @s ~ ~ ~ 1.5 1 0.1
@@ -26,8 +27,7 @@ execute store result storage tf2.__temp__:summon number.value int 1 run scoreboa
 execute if score $_totalDamage_ tf2.var matches 1.. run function tf2:weapons/damage_numbers with storage tf2.__temp__:summon number
 scoreboard players set $validOffset tf2.var 0
 execute if score $offset_Y retina.__variable__ matches 192..778 unless score $offset_Y retina.__variable__ matches 193..607 unless score $offset_Y retina.__variable__ matches 611..775 run scoreboard players set $validOffset tf2.var 1
-scoreboard players set __if_else__ tf2.var 0
-execute if predicate tf2:holding_melee if score $validOffset tf2.var matches 1.. run function tf2:__private__/if_else/8
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/9
-execute if predicate tf2:holding_melee if data storage retina:output {Target: "NONE"} run playsound tf2:item.melee.miss ambient @s ~ ~ ~ 0.35 0.35 0.1
-execute if predicate tf2:holding_melee unless data storage retina:output {Target: "NONE"} run playsound tf2:item.melee.hit ambient @s ~ ~ ~ 1.5 0.9 0.1
+execute if predicate tf2:holding_melee run return run function tf2:__private__/anonymous/5
+scoreboard players remove $_clip_ tf2.var 1
+function tf2:weapons/set_ammo
+scoreboard players set @s tf2.consecutive_reload 0

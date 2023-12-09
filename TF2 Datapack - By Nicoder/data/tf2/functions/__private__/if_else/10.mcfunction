@@ -1,3 +1,3 @@
-scoreboard players operation $_clip_ tf2.var = @s tf2.primary_clip
-scoreboard players operation $_maxClip_ tf2.var = @s tf2.primary_maxClip
-scoreboard players operation $_ammo_ tf2.var = @s tf2.primary_ammo
+scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
+scoreboard players remove $_temp3_ tf2.var 100
+scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const

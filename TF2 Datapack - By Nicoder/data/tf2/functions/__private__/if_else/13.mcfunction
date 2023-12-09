@@ -1,3 +1,3 @@
-scoreboard players operation @s tf2.secondary_clip = $_clip_ tf2.var
-scoreboard players operation @s tf2.secondary_maxClip = $_maxClip_ tf2.var
-scoreboard players operation @s tf2.secondary_ammo = $_ammo_ tf2.var
+execute store result score @s tf2.attack_delay run data get entity @s SelectedItem.tag.attributes.deployTime 10000
+execute unless data entity @s SelectedItem.tag.attributes.deployTime run scoreboard players set @s tf2.attack_delay 10000
+scoreboard players set @s tf2.consecutive_reload 0

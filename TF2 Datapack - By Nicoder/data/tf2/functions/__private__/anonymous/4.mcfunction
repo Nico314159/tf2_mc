@@ -1,3 +1,2 @@
-$execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {item:{id:"glowstone_dust",Count:1b,tag:{CustomModelData:0}},Rotation:[$(yaw)f,$(pitch)f],Tags:["tf2.visual","tf2.newest"],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1f,1f,$(scale)f]}}
-scoreboard players set @e[type=item_display,tag=tf2.visual,tag=tf2.newest] tf2.lifetime 4
-tag @e[type=item_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest
+execute if entity @s[scores={tf2.team=1}] run function tf2:__private__/if_else/4
+execute if entity @s[scores={tf2.team=2}] run function tf2:__private__/if_else/5
