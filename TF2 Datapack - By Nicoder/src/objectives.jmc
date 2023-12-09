@@ -54,11 +54,18 @@ class Objectives
             tag @a[gamemode=spectator] remove tf2.on_point;
 
             $red_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=1}];
+            $red_scouts = execute if entity @e[tag=tf2.on_point, scores={tf2.team=1,tf2.class=Class.SCOUT}];
+            $red_on_point += $red_scouts;
+
             $blu_on_point = execute if entity @e[tag=tf2.on_point, scores={tf2.team=2}];
+            $blu_scouts = execute if entity @e[tag=tf2.on_point, scores={tf2.team=2,tf2.class=Class.SCOUT}];
+            $blu_on_point += $blu_scouts;
 
-            if ($red_on_point && $blu_on_point) {tag @s add tf2.contested;}
+            if ($red_on_point && $blu_on_point) {
+                return run tag @s add tf2.contested;
+            }
 
-            if (entity @s[tag=!tf2.contested]) this.main();
+            this.main();
         }
         function main() {
             // Handles capture progress & associated visuals for the current control point.
