@@ -19,6 +19,7 @@ execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings{Trim:
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/heavy/_model
 execute store result score $_crossbow_id_ tf2.var run data get entity @s Inventory[-1].tag.CustomModelData 0.001
 execute if predicate tf2:class/heavy/is_revving if score $_crossbow_id_ tf2.var matches 61 run return run function tf2:__private__/anonymous/1
+loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy
 execute store result score $_count_ tf2.var run clear @s crossbow{CustomModelData:61000,kind:"fake"} 0
 execute unless score $_count_ tf2.var matches 1 run clear @s crossbow{CustomModelData:61000,kind:"fake"}
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy

@@ -272,7 +272,7 @@ class Weapons {
                 return run playsound tf2:item.melee.miss ambient @s ~ ~ ~ 0.35 0.35 0.1;
             }
             playsound tf2:item.melee.hit ambient @s ~ ~ ~ 1.5 0.9 0.1;
-        };
+        }
 
         $_clip_ --;
         this.set_ammo();
@@ -283,7 +283,7 @@ class Weapons {
             $_clip_    = tf2.primary_clip:@s;
             $_maxClip_ = tf2.primary_maxClip:@s;
             $_ammo_    = tf2.primary_ammo:@s;
-        };
+        }
         if (tf2.current_slot:@s == 1) {
             $_clip_    = tf2.secondary_clip:@s;
             $_maxClip_ = tf2.secondary_maxClip:@s;
@@ -295,7 +295,7 @@ class Weapons {
             tf2.primary_clip:@s      = $_clip_;
             tf2.primary_maxClip:@s   = $_maxClip_;
             tf2.primary_ammo:@s      = $_ammo_;
-        };
+        }
         if (tf2.current_slot:@s == 1) {
             tf2.secondary_clip:@s    = $_clip_;
             tf2.secondary_maxClip:@s = $_maxClip_;
