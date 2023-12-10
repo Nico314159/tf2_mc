@@ -320,10 +320,5 @@ class Spawn {
 }
 
 function uninstall() {
-    team remove RED; team remove BLU;
-    Hardcode.repeat("_i_", () => {
-        bossbar remove tf2:timer__i_; 
-        bossbar remove tf2:red_timer__i_; 
-        bossbar remove tf2:blu_timer__i_;
-    }, 1, _INSTANCES_CAP_);
+    kill @e[type=marker];
 }

@@ -1,20 +1,4 @@
-team remove RED
-team remove BLU
-bossbar remove tf2:timer_1
-bossbar remove tf2:red_timer_1
-bossbar remove tf2:blu_timer_1
-bossbar remove tf2:timer_2
-bossbar remove tf2:red_timer_2
-bossbar remove tf2:blu_timer_2
-bossbar remove tf2:timer_3
-bossbar remove tf2:red_timer_3
-bossbar remove tf2:blu_timer_3
-bossbar remove tf2:timer_4
-bossbar remove tf2:red_timer_4
-bossbar remove tf2:blu_timer_4
-bossbar remove tf2:timer_5
-bossbar remove tf2:red_timer_5
-bossbar remove tf2:blu_timer_5
+kill @e[type=marker]
 scoreboard objectives remove tf2.var
 scoreboard objectives remove on_event_1mqyp2x
 scoreboard objectives remove 0008it54g_p_join
