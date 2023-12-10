@@ -16,15 +16,15 @@ Hardcode.repeatList(
         "timer", "timer.min", "timer.sec", "increment",
         "red_timer", "red_timer.min", "red_timer.sec", "red_overtime",
         "blu_timer", "blu_timer.min", "blu_timer.sec", "blu_overtime",
-        "batch_number", "session", "lifetime", 
+        "batch_number", "session", "lifetime",
         "respawn_timer", "respawn_timer.sec", "class", "team", "health", "max_health",
         "time_scoped", "grace_period", "last_slot", "current_slot",
-        "primary_clip", "primary_maxClip", "primary_ammo", 
+        "primary_clip", "primary_maxClip", "primary_ammo",
         "secondary_clip", "secondary_maxClip", "secondary_ammo",
         "attack_delay", "reload_delay", "consecutive_reload",
         "time_revved", "rev_threshold",
         "permanent.games_won", "permanent.games_played", "permanent.double_jumps",
-        "fall_y", "fall_y1", "fall_y2", "fall_y3", 
+        "fall_y", "fall_y1", "fall_y2", "fall_y3",
         "drown_lost", "time_surfaced", "current_air", "last_air"
     ]
 );
@@ -306,7 +306,7 @@ if (!$initialization_complete) {
     // TODO: replace line below when voting system is added
     $Settings.choose_map_randomly = true;
     $Settings.random_crits = $Settings.random_spread
-                           = $Settings.use_server_mods 
+                           = $Settings.use_server_mods
                            = $Settings.chat_bot
                            = false;
     $Settings.max_batches = 3;
@@ -373,11 +373,18 @@ if (!$initialization_complete) {
     Hardcode.repeat("_i_", () => {
         Hardcode.repeat("_j_", () => {
             data modify storage tf2:control_points info[_i_][_j_].main set value '[{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}]';
-        }, start = 0, stop = 7);
-    }, start = 1, stop = _INSTANCES_CAP_);
+        }, start=0, stop=7);
+    }, start=1, stop=_INSTANCES_CAP_);
+
+    Hardcode.repeat("_i_", () => {
+        data modify storage tf2:running_games _i_ set value {};
+    }, start=1, stop=_INSTANCES_CAP_);
     $initialization_complete = true;
 }
-$Settings.max_batches < _INSTANCES_CAP_MINUS_ONE_;
+$Settings.max_batches < _INSTANCES_CAP_;
+if ($Settings.max_batches == _INSTANCES_CAP_) {
+    $Settings.max_batches --;
+}
 
 // markers keep track of gamestate
 $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];

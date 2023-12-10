@@ -41,4 +41,9 @@ data modify storage tf2:control_points info[5][3].main set value "[{\"nbt\":\"in
 data modify storage tf2:control_points info[5][4].main set value "[{\"nbt\":\"info[5][4].owner\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][4].progress\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][4].symbol\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][4].extra\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"}]"
 data modify storage tf2:control_points info[5][5].main set value "[{\"nbt\":\"info[5][5].owner\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][5].progress\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][5].symbol\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][5].extra\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"}]"
 data modify storage tf2:control_points info[5][6].main set value "[{\"nbt\":\"info[5][6].owner\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][6].progress\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][6].symbol\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"},{\"nbt\":\"info[5][6].extra\",\"storage\":\"tf2:control_points\",\"interpret\":true,\"font\":\"tf2:square\"}]"
+data modify storage tf2:running_games 1 set value {}
+data modify storage tf2:running_games 2 set value {}
+data modify storage tf2:running_games 3 set value {}
+data modify storage tf2:running_games 4 set value {}
+data modify storage tf2:running_games 5 set value {}
 scoreboard players set $initialization_complete tf2.var 1

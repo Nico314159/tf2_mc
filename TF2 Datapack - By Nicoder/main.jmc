@@ -270,17 +270,18 @@ function death() {
     // Puts a dead player into spectator mode & starts their respawn timer.
     // Respawn timer length is according to the map and team.
 
-    // Note: `data entity ⟨marker⟩ data.map.spawn_time.(red/blu)[0]` is measured in *seconds*, whereas `tf2.respawn_timer:@s` is measured in *ticks*
+    // Note: `data storage tf2:running_games $(i).spawn_time.(red/blu)[0]` is measured in *seconds*, whereas `tf2.respawn_timer:@s` is measured in *ticks*
     Text.actionbar(@s, "&<red>❤ Health: 0 / &<tf2.max_health:@s>");
     title @s times 0 3 3;
     spawnpoint @s ~ ~ ~;
     tag @s add tf2.dead;
     gamemode spectator @s;
-    tf2.batch_number:$local = tf2.batch_number:@s;
-    execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.temp;
-    tf2.respawn_timer:@s[scores={tf2.team=1}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.red[0] 20;
-    tf2.respawn_timer:@s[scores={tf2.team=2}] = data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.blu[0] 20;
-    tag @e[type=marker] remove tf2.temp;
+   
+    execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
+    execute run {
+        $tf2.respawn_timer:@s[scores={tf2.team=1}] = data get storage tf2:running_games $(i).spawn_time.red[0] 20;
+        $tf2.respawn_timer:@s[scores={tf2.team=2}] = data get storage tf2:running_games $(i).spawn_time.blu[0] 20;
+    } with storage tf2.__temp__:index;
 }
 class Spawn {
     function init() {
@@ -289,16 +290,9 @@ class Spawn {
         //   __tick__()
         //   team_assign()
 
-        scoreboard players operation $local tf2.batch_number = @s tf2.batch_number;
-        execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run {
-            data modify storage tf2.__temp__:coords red_X set from entity @s data.map.spawn.red[0][0];
-            data modify storage tf2.__temp__:coords red_Y set from entity @s data.map.spawn.red[0][1];
-            data modify storage tf2.__temp__:coords red_Z set from entity @s data.map.spawn.red[0][2];
-            data modify storage tf2.__temp__:coords blu_X set from entity @s data.map.spawn.blu[0][0];
-            data modify storage tf2.__temp__:coords blu_Y set from entity @s data.map.spawn.blu[0][1];
-            data modify storage tf2.__temp__:coords blu_Z set from entity @s data.map.spawn.blu[0][2];
-        }
-        Spawn.tp() with storage tf2.__temp__:coords;
+        execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
+        this.get_coords() with storage tf2.__temp__:index;
+        this.tp() with storage tf2.__temp__:coords;
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tf2.health:@s = tf2.max_health:@s;
@@ -308,6 +302,16 @@ class Spawn {
         // Remove "You died!" message
         Text.title(@s, "");
         Text.subtitle(@s, "");
+    }
+    function get_coords() {
+        // Coordinates storage for the teleport function
+        // @within this.init()
+        $data modify storage tf2.__temp__:coords red_X set from storage tf2:running_games $(i).spawn.red[0][0];
+        $data modify storage tf2.__temp__:coords red_Y set from storage tf2:running_games $(i).spawn.red[0][1];
+        $data modify storage tf2.__temp__:coords red_Z set from storage tf2:running_games $(i).spawn.red[0][2];
+        $data modify storage tf2.__temp__:coords blu_X set from storage tf2:running_games $(i).spawn.blu[0][0];
+        $data modify storage tf2.__temp__:coords blu_Y set from storage tf2:running_games $(i).spawn.blu[0][1];
+        $data modify storage tf2.__temp__:coords blu_Z set from storage tf2:running_games $(i).spawn.blu[0][2];
     }
     function tp() {
         // Dynamically teleports the player to their spawn point.

@@ -8,10 +8,10 @@ scoreboard players set 2 tf2.const 2
 scoreboard players set 3 tf2.const 3
 scoreboard players set 900 tf2.const 900
 scoreboard players set 5 tf2.const 5
-scoreboard players set 4 tf2.const 4
-scoreboard players set 0 tf2.const 0
-scoreboard players set 1800 tf2.const 1800
 scoreboard players set 6 tf2.const 6
+scoreboard players set 0 tf2.const 0
+scoreboard players set 4 tf2.const 4
+scoreboard players set 1800 tf2.const 1800
 scoreboard players set 10 tf2.const 10
 scoreboard players set 8 tf2.const 8
 scoreboard players set 13 tf2.const 13
@@ -134,7 +134,8 @@ gamerule showDeathMessages false
 scoreboard players set $Settings.show_debug_messages tf2.var 1
 data merge storage tf2:maps {0:{name:"ad_test",origin:[-500.0d,1.0d,-500.0d],spawn:{red:[[-487.0d,1.0d,-487.0d]],blu:[[-513.0d,1.0d,-513.0d]]},spawn_time:{red:[5.0f],blu:[5.0f]},objectives:[{Pos:[-509.5d,1.0d,-499.5d],Tags:["tf2.objective","tf2.control_point"],data:{capture_threshold:20.0f,team:1b,increment:60.0f}},{Pos:[-499.5d,1.0d,-499.5d],Tags:["tf2.objective","tf2.control_point","tf2.locked"],data:{capture_threshold:20.0f,team:1b,increment:60.0f}},{Pos:[-489.5d,1.0d,-499.5d],Tags:["tf2.objective","tf2.control_point","tf2.locked"],data:{capture_threshold:25.0f,team:1b,increment:60.0f}}],gamemode:1b,timer:480.0f,setup_time:30.0f},1:{name:"cp_test",origin:[-300.0d,1.0d,-300.0d],spawn:{red:[[-279.0d,1.0d,-300.0d]],blu:[[-321.0d,1.0d,-300.0d]]},spawn_time:{red:[5.0f],blu:[5.0f]},objectives:[{Pos:[-311.5d,1.0d,-303.5d],Tags:["tf2.objective","tf2.control_point","tf2.locked"],data:{capture_threshold:5.0f,team:2b,increment:600.0f}},{Pos:[-306.5d,1.0d,-295.5d],Tags:["tf2.objective","tf2.control_point","tf2.locked"],data:{capture_threshold:15.0f,team:2b,increment:600.0f}},{Pos:[-299.5d,1.0d,-299.5d],Tags:["tf2.objective","tf2.control_point"],data:{capture_threshold:30.0f,team:0b,increment:600.0f}},{Pos:[-292.5d,1.0d,-303.5d],Tags:["tf2.objective","tf2.control_point","tf2.locked"],data:{capture_threshold:15.0f,team:1b,increment:600.0f}},{Pos:[-287.5d,1.0d,-295.5d],Tags:["tf2.objective","tf2.control_point","tf2.locked"],data:{capture_threshold:5.0f,team:1b,increment:600.0f}}],gamemode:2b,timer:600.0f},2:{name:"koth_woodlands",origin:[1050.0d,76.0d,910.0d],spawn:{red:[[1002.5d,76.0d,934.5d]],blu:[[1098.0d,68.0d,882.5d]]},spawn_time:{red:[5.0f],blu:[5.0f]},objectives:[{Pos:[1050.5d,104.0d,910.5d],Tags:["tf2.objective","tf2.control_point"],data:{capture_threshold:20.0f,team:0b}},],gamemode:3b,timer:180.0f}}
 execute unless score $initialization_complete tf2.var matches 1.. run function tf2:__private__/if_else/0
-scoreboard players operation $Settings.max_batches tf2.var < 5 tf2.const
+scoreboard players operation $Settings.max_batches tf2.var < 6 tf2.const
+execute if score $Settings.max_batches tf2.var matches 6 run scoreboard players remove $Settings.max_batches tf2.var 1
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $Settings.max_batches tf2.var run function tf2:setup_markers
 execute unless entity @a run function tf2:__private__/anonymous/0

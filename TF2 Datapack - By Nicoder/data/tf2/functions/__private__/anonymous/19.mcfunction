@@ -1,6 +1,2 @@
-data modify storage tf2.__temp__:coords red_X set from entity @s data.map.spawn.red[0][0]
-data modify storage tf2.__temp__:coords red_Y set from entity @s data.map.spawn.red[0][1]
-data modify storage tf2.__temp__:coords red_Z set from entity @s data.map.spawn.red[0][2]
-data modify storage tf2.__temp__:coords blu_X set from entity @s data.map.spawn.blu[0][0]
-data modify storage tf2.__temp__:coords blu_Y set from entity @s data.map.spawn.blu[0][1]
-data modify storage tf2.__temp__:coords blu_Z set from entity @s data.map.spawn.blu[0][2]
+$execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.red[0] 20
+$execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.blu[0] 20

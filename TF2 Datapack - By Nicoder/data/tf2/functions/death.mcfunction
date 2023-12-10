@@ -3,8 +3,5 @@ title @s times 0 3 3
 spawnpoint @s ~ ~ ~
 tag @s add tf2.dead
 gamemode spectator @s
-scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
-execute as @e[type=marker,tag=tf2.batch] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.temp
-execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.red[0] 20
-execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get entity @e[type=marker,tag=tf2.temp,limit=1] data.map.spawn_time.blu[0] 20
-tag @e[type=marker] remove tf2.temp
+execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:__private__/anonymous/19 with storage tf2.__temp__:index
