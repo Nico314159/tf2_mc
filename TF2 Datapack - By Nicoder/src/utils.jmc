@@ -97,3 +97,10 @@ function swap_hands() {
     item replace entity @s weapon.mainhand from entity @s weapon.offhand;
     item replace entity @s weapon.offhand from entity @s enderchest.0;
 }
+
+function change_team() {
+    tf2.team:@s %= 2;
+    tf2.team:@s ++;
+    team join RED @s[scores={tf2.team=1}];
+    team join BLU @s[scores={tf2.team=2}];
+}
