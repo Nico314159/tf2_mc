@@ -78,12 +78,12 @@ function player_tick() {
     tag @s add tf2.self;
     if (predicate tf2:empty_hand) {
         execute as @e[type=item,tag=!tf2.map_item,distance=..2] run {
-            if (Object.isEqual("tf2.__temp__:check_match", UUID, "@s", Thrower)) {
+            if (Object.isEqual("tf2.__temp__:check_match", "UUID", "@s", "Thrower")) {
                 execute as @e[tag=tf2.self] run Weapons.reload(); kill @s;
             }
         }
         execute as @e[type=snowball,distance=..5] run {
-            if (Object.isEqual("tf2.__temp__:check_match", UUID, "@s", Owner)) {
+            if (Object.isEqual("tf2.__temp__:check_match", "UUID", "@s", "Owner")) {
                 execute as @e[tag=tf2.self] run Weapons.main_fire(); kill @s;
             }
         }
@@ -136,20 +136,20 @@ function player_tick() {
     tf2.time_surfaced:@s[predicate=tf2:submerged] = 0;
 }
 function do_fall_damage() {
-    $2nd_previous_∆y = tf2.fall_y3:@s;
-    $2nd_previous_∆y -= tf2.fall_y2:@s;
-    $previous_∆y = tf2.fall_y2:@s;
-    $previous_∆y -= tf2.fall_y1:@s;
-    $current_∆y = tf2.fall_y1:@s;
-    $current_∆y -= tf2.fall_y:@s;
+    $2nd_previous_dy = tf2.fall_y3:@s;
+    $2nd_previous_dy -= tf2.fall_y2:@s;
+    $previous_dy = tf2.fall_y2:@s;
+    $previous_dy -= tf2.fall_y1:@s;
+    $current_dy = tf2.fall_y1:@s;
+    $current_dy -= tf2.fall_y:@s;
 
-    if ($previous_∆y >= $current_∆y) {         
+    if ($previous_dy >= $current_dy) {
         // Most recent interval was interrupted by collision
-        $impact_velocity = $previous_∆y;
-        $impact_velocity += $previous_∆y;
-        $impact_velocity -= $2nd_previous_∆y;  // get the delta with the last 2 ticks.
+        $impact_velocity = $previous_dy;
+        $impact_velocity += $previous_dy;
+        $impact_velocity -= $2nd_previous_dy;  // get the ∆ with the last 2 ticks.
     } else {
-        $impact_velocity = $current_∆y; 
+        $impact_velocity = $current_dy;
     }
     // Conversion factor from cm/tick to hammer units/second ≈ 10.5
     // Extra 100 for scaling since boq won't let us work with decimals
@@ -188,8 +188,8 @@ function do_fall_damage() {
     }
 
     // Clear everything out
-    $previous_∆y 
-    = $current_∆y
+    $previous_dy
+    = $current_dy
     = $impact_velocity
     = $fall_damage
     = tf2.fall_y3:@s
@@ -276,7 +276,7 @@ function death() {
     spawnpoint @s ~ ~ ~;
     tag @s add tf2.dead;
     gamemode spectator @s;
-   
+
     execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
     execute run {
         $tf2.respawn_timer:@s[scores={tf2.team=1}] = data get storage tf2:running_games $(i).spawn_time.red[0] 20;

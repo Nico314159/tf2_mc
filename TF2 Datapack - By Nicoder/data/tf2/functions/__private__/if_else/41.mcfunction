@@ -1,1 +1,1 @@
-scoreboard players operation $impact_velocity tf2.var = $current_∆y tf2.var
+scoreboard players operation $impact_velocity tf2.var = $current_dy tf2.var
