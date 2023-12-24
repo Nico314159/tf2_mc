@@ -22,6 +22,51 @@ Item.create(
 
 class start_game {
     class as_marker {
+	    @lazy function summon_entities() {
+	        data modify storage tf2.__temp__:summon objectives
+	                    set from entity @s data.map.objectives;
+	        tf2.index:$temp = execute if data storage tf2.__temp__:summon objectives[];
+	        tf2.index:$temp *= 10;
+	        while (data storage tf2.__temp__:summon objectives[]) {
+	            tf2.index:$temp -= 10;
+	            execute summon marker run {
+	                // Storage format of `tf2.__temp__:summon objectives[-1]`
+	                //      Pos: double[]
+	                //          Coordinates of where the objective is located on the map.
+	                //      Tags: string[]
+	                //          Specifies info about what type of objective it is. (eg: control point, intelligence, payload cart)
+	                //      data.team: byte
+	                //          Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).
+	                //      data.locked: bool
+	                //          # DEPRECATED, use the `tf2.locked` tag instead. #
+	                //          Whether or not the objective should start out locked.
+	                //      data.capture_threshold: float
+	                //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
+
+	                data modify storage tf2.__temp__:summon entity.Pos
+	                     set from storage tf2.__temp__:summon objectives[-1].Pos;
+	                data modify storage tf2.__temp__:summon entity.Tags
+	                     set from storage tf2.__temp__:summon objectives[-1].Tags;
+	                data modify entity @s {} merge from storage tf2.__temp__:summon entity;
+	                tf2.team:@s              = data get storage tf2.__temp__:summon objectives[-1].data.team 1;
+	                tf2.capture_threshold:@s = data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000;
+	                tf2.increment:@s         = data get storage tf2.__temp__:summon objectives[-1].data.increment 20;
+	                tf2.gamemode:@s          = tf2.gamemode:$temp;
+	                tf2.index:@s             = tf2.index:$temp;
+	                tf2.index:$highest > tf2.index:@s;
+	                tf2.batch_number:@s = tf2.batch_number:$local;
+	                tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
+	                tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
+	                execute if score @s tf2.index = $highest tf2.index 
+                            unless score @s tf2.gamemode matches 3 run tag @s add tf2.last;
+	                tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
+	                $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
+	            } with storage tf2.__temp__:index;
+	            data remove storage tf2.__temp__:summon objectives[-1];
+	        }
+	        data remove entity @s data.map.objectives;
+	        data remove storage tf2.__temp__:summon entity;
+	    }
         function main() {
             // Starts a new running game with the players in the queue. ");
             // @within __tick__()
@@ -40,49 +85,8 @@ class start_game {
 
             tf2.gamemode:@s = data get entity @s data.map.gamemode;
             tf2.gamemode:$temp = tf2.gamemode:@s;
-            data modify storage tf2.__temp__:summon objectives
-                        set from entity @s data.map.objectives;
-            tf2.index:$temp = execute if data storage tf2.__temp__:summon objectives[];
-            tf2.index:$temp *= 10;
-            while (data storage tf2.__temp__:summon objectives[]) {
-                tf2.index:$temp -= 10;
-                execute summon marker run {
-                    // Storage format of `tf2.__temp__:summon objectives[-1]`
-                    //      Pos: double[]
-                    //          Coordinates of where the objective is located on the map.
-                    //      Tags: string[]
-                    //          Specifies info about what type of objective it is. (eg: control point, intelligence, payload cart)
-                    //      data.team: byte
-                    //          Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).
-                    //      data.locked: bool
-                    //          # DEPRECATED, use the `tf2.locked` tag instead. #
-                    //          Whether or not the objective should start out locked.
-                    //      data.capture_threshold: float
-                    //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
-
-                    data modify storage tf2.__temp__:summon entity.Pos
-                       set from storage tf2.__temp__:summon objectives[-1].Pos;
-                    data modify storage tf2.__temp__:summon entity.Tags
-                       set from storage tf2.__temp__:summon objectives[-1].Tags;
-                    data modify entity @s {} merge from storage tf2.__temp__:summon entity;
-                    tf2.team:@s              = data get storage tf2.__temp__:summon objectives[-1].data.team 1;
-                    tf2.capture_threshold:@s = data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000;
-                    tf2.increment:@s         = data get storage tf2.__temp__:summon objectives[-1].data.increment 20;
-                    tf2.gamemode:@s          = tf2.gamemode:$temp;
-                    tf2.index:@s             = tf2.index:$temp;
-                    tf2.index:$highest > tf2.index:@s;
-                    tf2.batch_number:@s = tf2.batch_number:$local;
-                    tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
-                    tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
-                    execute if score @s tf2.index = $highest tf2.index unless score @s tf2.gamemode matches 3 run tag @s add tf2.last;
-                    tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
-                    $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
-                } with storage tf2.__temp__:index;
-                data remove storage tf2.__temp__:summon objectives[-1];
-            }
+            this.summon_entities();
             if (tf2.gamemode:@s matches 1..4) Objectives.control_point.visuals.spacing();
-            data remove entity @s data.map.objectives;
-            data remove storage tf2.__temp__:summon entity;
 
             execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass;
             execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass;
