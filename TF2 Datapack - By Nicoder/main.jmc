@@ -50,6 +50,10 @@ function marker_tick() {
         execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
         execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with storage tf2.__temp__:index;
     }
+
+    if (entity @s[tag=tf2.spawn_door]) {
+        JMC.put("function tf2:spawn/protect with entity @s data");
+    }
 }
 
 function player_tick() {
@@ -316,10 +320,21 @@ class Spawn {
     function tp() {
         // Dynamically teleports the player to their spawn point.
         // @needs_macro
-        // @within spawn.init()
+        // @within this.init()
 
         $tp @s[scores={tf2.team=1}] $(red_X) $(red_Y) $(red_Z);
         $tp @s[scores={tf2.team=2}] $(blu_X) $(blu_Y) $(blu_Z);
+    }
+    function protect() {
+        // Teleports players away from enemy spawn room doors.
+        // @needs_macro
+        // @within __tick__()
+
+        $execute at @s 
+                 as @e[type=#tf2:player_like, dx=$(dx), dy=$(dy), dz=$(dz)] 
+                 positioned as @s
+                 unless score @s tf2.team matches $(team)
+                 run tp @s ^ ^ ^0.5;
     }
 }
 

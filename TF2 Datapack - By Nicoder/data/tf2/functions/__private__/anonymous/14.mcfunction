@@ -1,3 +1,8 @@
-scoreboard players set __if_else__ tf2.var 0
-execute if score @s tf2.team = $winner tf2.var run function tf2:__private__/if_else/22
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/23
+data modify storage tf2.__temp__:summon entity.Pos set from storage tf2.__temp__:summon doors[-1].Pos
+data modify storage tf2.__temp__:summon entity.Rotation set from storage tf2.__temp__:summon doors[-1].Rotation
+data modify storage tf2.__temp__:summon entity.data set from storage tf2.__temp__:summon doors[-1].data
+execute store success score $team tf2.var if score $i tf2.var < $red_length tf2.var
+scoreboard players add $team tf2.var 1
+execute store result storage tf2.__temp__:summon entity.data.team int 1 run scoreboard players get $team tf2.var
+data modify entity @s {} merge from storage tf2.__temp__:summon entity
+tag @s add tf2.spawn_door

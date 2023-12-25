@@ -23,6 +23,7 @@ Item.create(
 class start_game {
     class as_marker {
 	    @lazy function summon_entities() {
+            // Objectives
 	        data modify storage tf2.__temp__:summon objectives
 	                    set from entity @s data.map.objectives;
 	        tf2.index:$temp = execute if data storage tf2.__temp__:summon objectives[];
@@ -64,7 +65,41 @@ class start_game {
 	            } with storage tf2.__temp__:index;
 	            data remove storage tf2.__temp__:summon objectives[-1];
 	        }
-	        data remove entity @s data.map.objectives;
+            data remove storage tf2.__temp__:summon entity;
+	        
+            // RED spawn doors
+            data modify storage tf2.__temp__:summon doors
+	                    set from entity @s data.map.spawn_doors.red;
+            data modify storage tf2.__temp__:summon doors
+	                    append from entity @s data.map.spawn_doors.blu[];
+	        $red_length = execute if data entity @s data.map.spawn_doors.red[];
+	        $i = 0;
+	        while (data storage tf2.__temp__:summon doors[]) {
+	            execute summon marker run {
+	                // Storage format of `tf2.__temp__:summon doors[-1]`
+	                //      Pos: double[3]
+	                //          Coordinates of where the door is located on the map.
+	                //      Rotation: float[2]
+	                //          How the door entity is rotated (affects teleport command)
+	                //      data.dx/y/z: int
+	                //          How large the detection box is in each dimension
+
+	                data modify storage tf2.__temp__:summon entity.Pos
+	                     set from storage tf2.__temp__:summon doors[-1].Pos;
+	                data modify storage tf2.__temp__:summon entity.Rotation
+	                     set from storage tf2.__temp__:summon doors[-1].Rotation;
+                    data modify storage tf2.__temp__:summon entity.data
+	                     set from storage tf2.__temp__:summon doors[-1].data;
+
+                    $team ?= execute if score $i tf2.var < $red_length tf2.var;
+                    $team ++;
+                    execute store result storage tf2.__temp__:summon entity.data.team int 1 run $team.get();
+	                data modify entity @s {} merge from storage tf2.__temp__:summon entity;
+            	    tag @s add tf2.spawn_door;
+	            } with storage tf2.__temp__:index;
+	            data remove storage tf2.__temp__:summon doors[-1];
+	            $i++;
+	        }
 	        data remove storage tf2.__temp__:summon entity;
 	    }
         function main() {

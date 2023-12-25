@@ -1,0 +1,1 @@
+$execute at @s as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz)] positioned as @s unless score @s tf2.team matches $(team) run tp @s ^ ^ ^0.5

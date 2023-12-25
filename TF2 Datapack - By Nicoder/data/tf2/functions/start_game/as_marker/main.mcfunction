@@ -10,7 +10,12 @@ data modify storage tf2.__temp__:summon objectives set from entity @s data.map.o
 execute store result score $temp tf2.index if data storage tf2.__temp__:summon objectives[]
 scoreboard players operation $temp tf2.index *= 10 tf2.const
 execute if data storage tf2.__temp__:summon objectives[] run function tf2:__private__/while_loop/0
-data remove entity @s data.map.objectives
+data remove storage tf2.__temp__:summon entity
+data modify storage tf2.__temp__:summon doors set from entity @s data.map.spawn_doors.red
+data modify storage tf2.__temp__:summon doors append from entity @s data.map.spawn_doors.blu[]
+execute store result score $red_length tf2.var if data entity @s data.map.spawn_doors.red[]
+scoreboard players set $i tf2.var 0
+execute if data storage tf2.__temp__:summon doors[] run function tf2:__private__/while_loop/1
 data remove storage tf2.__temp__:summon entity
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass
