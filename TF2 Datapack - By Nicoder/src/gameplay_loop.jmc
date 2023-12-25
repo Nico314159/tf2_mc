@@ -91,9 +91,16 @@ class start_game {
                     data modify storage tf2.__temp__:summon entity.data
 	                     set from storage tf2.__temp__:summon doors[-1].data;
 
-                    $team ?= execute if score $i tf2.var < $blu_length tf2.var;
+                    execute store result storage tf2.__temp__:summon entity.data.mx float 0.125
+                            run data get storage tf2.__temp__:summon entity.data.dx;
+                    execute store result storage tf2.__temp__:summon entity.data.my float 0.125
+                            run data get storage tf2.__temp__:summon entity.data.dy;
+                    execute store result storage tf2.__temp__:summon entity.data.mz float 0.125
+                            run data get storage tf2.__temp__:summon entity.data.dz;
+
+                    $team ?= execute if score $i tf2.var >= $blu_length tf2.var;
                     $team ++;
-                    execute store result storage tf2.__temp__:summon entity.data.team int 1 run $team.get();
+                    execute store result storage tf2.__temp__:summon entity.data.opp_team int 1 run $team.get();
 	                data modify entity @s {} merge from storage tf2.__temp__:summon entity;
             	    tag @s add tf2.spawn_door;
 	            } with storage tf2.__temp__:index;

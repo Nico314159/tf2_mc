@@ -1,1 +1,2 @@
-$execute at @s as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz)] positioned as @s unless score @s tf2.team matches $(team) run tp @s ^ ^ ^0.5
+$particle block_marker barrier ~ ~ ~ $(mx) $(my) $(mz) 0 5 force @a[scores={tf2.team=$(opp_team)}]
+$execute at @s as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz)] positioned as @s if score @s tf2.team matches $(opp_team) run tp @s ^ ^ ^0.5
