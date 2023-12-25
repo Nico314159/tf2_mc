@@ -13,7 +13,7 @@ execute if data storage tf2.__temp__:summon objectives[] run function tf2:__priv
 data remove storage tf2.__temp__:summon entity
 data modify storage tf2.__temp__:summon doors set from entity @s data.map.spawn_doors.red
 data modify storage tf2.__temp__:summon doors append from entity @s data.map.spawn_doors.blu[]
-execute store result score $red_length tf2.var if data entity @s data.map.spawn_doors.red[]
+execute store result score $blu_length tf2.var if data entity @s data.map.spawn_doors.blu[]
 scoreboard players set $i tf2.var 0
 execute if data storage tf2.__temp__:summon doors[] run function tf2:__private__/while_loop/1
 data remove storage tf2.__temp__:summon entity
