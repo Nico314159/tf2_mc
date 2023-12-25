@@ -52,7 +52,7 @@ function marker_tick() {
     }
 
     if (entity @s[tag=tf2.spawn_door]) {
-        JMC.put("function tf2:spawn/protect with entity @s data");
+        JMC.put("execute at @s run function tf2:spawn/protect with entity @s data");
     }
 }
 
@@ -270,6 +270,65 @@ Player.join(() => {
     );
 });
 
+@lazy function x_checker() {
+    Hardcode.repeat("J", () => {
+        Hardcode.repeat("K", () => {
+            if ($y >= J && $z >= K) {
+                particle block_marker barrier ~0.5 ~J.5 ~K.5
+                         0 0 0 0 1 force @a[tag=tf2.enemy];
+            }
+        }, 0, 6, 2);
+    }, 0, 6, 2);
+
+    Hardcode.repeat("J", () => {
+        Hardcode.repeat("K", () => {
+            if ($y >= J && $z >= K) {
+                particle block_marker barrier ~0.5 ~J.5 ~K.5
+                         0 0 0 0 1 force @a[tag=tf2.enemy];
+            }
+        }, 1, 5, 2);
+    }, 1, 5, 2);
+}
+@lazy function y_checker() {
+    Hardcode.repeat("I", () => {
+        Hardcode.repeat("K", () => {
+            if ($x >= I && $z >= K) {
+                particle block_marker barrier ~I.5 ~0.5 ~K.5
+                         0 0 0 0 1 force @a[tag=tf2.enemy];
+            }
+        }, 0, 6, 2);
+    }, 0, 6, 2);
+
+    Hardcode.repeat("I", () => {
+        Hardcode.repeat("K", () => {
+            if ($x >= I && $z >= K) {
+                particle block_marker barrier ~I.5 ~0.5 ~K.5 
+                         0 0 0 0 1 force @a[tag=tf2.enemy];
+            }
+        }, 1, 5, 2);
+    }, 1, 5, 2);
+}
+@lazy function z_checker() {
+    Hardcode.repeat("I", () => {
+        Hardcode.repeat("J", () => {
+            if ($x >= I && $y >= J) {
+                particle block_marker barrier ~I.5 ~J.5 ~0.5 
+                         0 0 0 0 1 force @a[tag=tf2.enemy];
+            }
+        }, 0, 6, 2);
+    }, 0, 6, 2);
+
+    Hardcode.repeat("I", () => {
+        Hardcode.repeat("J", () => {
+            if ($x >= I && $y >= J) {
+                particle block_marker barrier ~I.5 ~J.5 ~0.5
+                         0 0 0 0 1 force @a[tag=tf2.enemy];
+            }
+        }, 1, 5, 2);
+    }, 1, 5, 2);
+} 
+        
+
 function death() {
     // Puts a dead player into spectator mode & starts their respawn timer.
     // Respawn timer length is according to the map and team.
@@ -330,14 +389,19 @@ class Spawn {
         // @needs_macro
         // @within __tick__()
 
-        $particle block_marker barrier ~ ~ ~ $(mx) $(my) $(mz) 0 5 
-                  force @a[scores={tf2.team=$(opp_team)}];
+        $tag @e[scores={tf2.team=$(opp_team)}] add tf2.enemy;
+        $scoreboard players set $x tf2.var $(dx);
+        $scoreboard players set $y tf2.var $(dy);
+        $scoreboard players set $z tf2.var $(dz);
 
-        $execute at @s 
-                 as @e[type=#tf2:player_like, dx=$(dx), dy=$(dy), dz=$(dz)] 
-                 positioned as @s
-                 if score @s tf2.team matches $(opp_team)
+        if ($x == 0) x_checker();
+        if ($y == 0) y_checker();
+        if ($z == 0) z_checker();
+
+        $execute as @e[type=#tf2:player_like, dx=$(dx), dy=$(dy), dz=$(dz)] 
+                 positioned as @s[tag=tf2.enemy]
                  run tp @s ^ ^ ^0.5;
+        tag @a remove tf2.enemy;
     }
 }
 
