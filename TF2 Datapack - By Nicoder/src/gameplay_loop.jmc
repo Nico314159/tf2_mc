@@ -28,7 +28,6 @@ class start_game {
 	                    set from entity @s data.map.objectives;
 	        tf2.index:$temp = data get storage tf2.__temp__:summon objectives;
 	        tf2.index:$temp *= 10;
-            printf("Start = &<tf2.index:$temp>");
 	        while (data storage tf2.__temp__:summon objectives[]) {
 	            tf2.index:$temp -= 10;
 	            execute summon marker run {
@@ -55,7 +54,6 @@ class start_game {
 	                tf2.increment:@s         = data get storage tf2.__temp__:summon objectives[-1].data.increment 20;
 	                tf2.gamemode:@s          = tf2.gamemode:$temp;
 	                tf2.index:@s             = tf2.index:$temp;
-                    printf("Current iteration = &<tf2.index:@s>");
 	                tf2.index:$highest > tf2.index:@s;
 	                tf2.batch_number:@s = tf2.batch_number:$local;
 	                tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;

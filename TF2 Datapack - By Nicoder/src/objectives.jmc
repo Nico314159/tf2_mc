@@ -408,11 +408,9 @@ class Objectives
                 tf2.index:@s = 70; // Set to 70 so that `Objectives.control_point.find_index.main()` fetches the `info[@s tf2.batch_number][7]` path, which handles spacing.
                 Objectives.control_point.find_index.main();
 
-                printf("Highest = &<tf2.index:$highest>");
                 $temp = tf2.index:$highest;
                 $temp /= 10;
                 $temp ++;
-                printf("Temp = &<$temp>");
                 switch ($temp) {
                 case 1:
                     data modify storage tf2.__temp__:lookup points[0].left set value  '{"text":"430"}';

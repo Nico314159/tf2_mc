@@ -6,7 +6,6 @@ execute store result score @s tf2.capture_threshold run data get storage tf2.__t
 execute store result score @s tf2.increment run data get storage tf2.__temp__:summon objectives[-1].data.increment 20
 scoreboard players operation @s tf2.gamemode = $temp tf2.gamemode
 scoreboard players operation @s tf2.index = $temp tf2.index
-tellraw @a ["",{"text":"Current iteration = "},{"score":{"name":"@s","objective":"tf2.index"},"type":"score"}]
 scoreboard players operation $highest tf2.index > @s tf2.index
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 scoreboard players operation @s[scores={tf2.team=1}] tf2.red_progress = @s tf2.capture_threshold

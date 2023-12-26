@@ -9,7 +9,6 @@ scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode
 data modify storage tf2.__temp__:summon objectives set from entity @s data.map.objectives
 execute store result score $temp tf2.index run data get storage tf2.__temp__:summon objectives
 scoreboard players operation $temp tf2.index *= 10 tf2.const
-tellraw @a ["",{"text":"Start = "},{"score":{"name":"$temp","objective":"tf2.index"},"type":"score"}]
 execute if data storage tf2.__temp__:summon objectives[] run function tf2:__private__/while_loop/0
 data remove storage tf2.__temp__:summon entity
 data modify storage tf2.__temp__:summon doors set from entity @s data.map.spawn_doors.red
