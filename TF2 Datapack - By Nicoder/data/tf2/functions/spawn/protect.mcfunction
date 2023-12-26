@@ -1,3 +1,4 @@
+$execute unless entity @s[tag=tf2.visible] as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz),scores={tf2.team=$(opp_team)}] run return run tp @s $(direct_tp)
 $tag @e[scores={tf2.team=$(opp_team)}] add tf2.enemy
 $scoreboard players set $x tf2.var $(dx)
 $scoreboard players set $y tf2.var $(dy)

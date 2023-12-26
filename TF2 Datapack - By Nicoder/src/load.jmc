@@ -116,8 +116,14 @@ data merge storage tf2:maps {
         },
         spawn_time: {red: [5.0f], blu: [5.0f]},
         spawn_doors: {
-            red: [{Pos: [1008.0d, 67.0d, 932.0d], Rotation: [-90.0f, 0.0f], data: {dx:0, dy:4, dz:4}}],
-            blu: [{Pos: [1097.0d, 68.0d, 864.0d], Rotation: [ 90.0f, 0.0f], data: {dx:0, dy:2, dz:1}}]
+            red: [
+                {Pos: [1008.0d, 67.0d, 932.0d], Rotation: [-90.0f, 0.0f], data: {dx:0, dy:4, dz:4, direct_tp: ""}},
+                {Pos: [ 997.0d, 67.0d, 925.0d], Rotation: [-90.0f, 0.0f], data: {dx:10, dy:14, dz:18, direct_tp: "1009.5 67 934.5"}}
+            ],
+            blu: [
+                {Pos: [1097.0d, 68.0d, 864.0d], Rotation: [ 90.0f, 0.0f], data: {dx:0, dy:3, dz:1, direct_tp: ""}}, 
+                {Pos: [1098.0d, 68.0d, 863.0d], Rotation: [ 90.0f, 0.0f], data: {dx:3, dy:3, dz:4, direct_tp: "1096.0 68 865.0"}}
+            ]
         },
         objectives: [
             {Pos: [1050.5d, 104.0d, 910.5d], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 20.0f, team: 0b}},
