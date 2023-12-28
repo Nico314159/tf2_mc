@@ -288,6 +288,8 @@ Player.join(() => {
             }
         }, 1, 5, 2);
     }, 1, 5, 2);
+
+    $drawn_particles = true;
 }
 @lazy function y_checker() {
     Hardcode.repeat("I", () => {
@@ -307,6 +309,8 @@ Player.join(() => {
             }
         }, 1, 5, 2);
     }, 1, 5, 2);
+
+    $drawn_particles = true;
 }
 @lazy function z_checker() {
     Hardcode.repeat("I", () => {
@@ -326,6 +330,20 @@ Player.join(() => {
             }
         }, 1, 5, 2);
     }, 1, 5, 2);
+
+    $drawn_particles = true;
+} 
+@lazy function full_wall() {
+    Hardcode.repeat("I", () => {
+        Hardcode.repeat("J", () => {
+            Hardcode.repeat("K", () => {
+                if ($x >= I && $y >= J && $z >= K) {
+                    particle block_marker barrier ~I.5 ~J.5 ~K.5 
+                            0 0 0 0 1 force @a[tag=tf2.enemy];
+                }
+            }, 0, 6, 1);
+        }, 0, 6, 1);
+    }, 0, 6, 1);
 } 
         
 
@@ -390,23 +408,26 @@ class Spawn {
         // @within __tick__()
 
         $execute unless entity @s[tag=tf2.visible]
-                 as @e[type=#tf2:player_like, 
-                       dx=$(dx), dy=$(dy), dz=$(dz), 
-                       scores={tf2.team=$(opp_team)}] 
                  run return run
-                 tp @s $(direct_tp);
-        
+                 tp @e[type=#tf2:player_like, 
+                       dx=$(dx), dy=$(dy), dz=$(dz), 
+                       scores={tf2.team=$(opp_team)}] $(direct_tp);
+
+
         $tag @e[scores={tf2.team=$(opp_team)}] add tf2.enemy;
         $scoreboard players set $x tf2.var $(dx);
         $scoreboard players set $y tf2.var $(dy);
         $scoreboard players set $z tf2.var $(dz);
 
-        if ($x == 0) x_checker();
-        if ($y == 0) y_checker();
-        if ($z == 0) z_checker();
+        $drawn_particles = false;
+        if ($x == 0 && $y >= 3 && $z >= 3) x_checker();
+        if ($x >= 3 && $y == 0 && $z >= 3) y_checker();
+        if ($x >= 3 && $y >= 3 && $z == 0) z_checker();
+        if (!$drawn_particles) full_wall();
+
 
         $execute as @e[type=#tf2:player_like, dx=$(dx), dy=$(dy), dz=$(dz)] 
-                 positioned as @s[tag=tf2.enemy]
+                 positioned as @s[scores={tf2.team=$(opp_team)}]
                  run tp @s ^ ^ ^0.5;
         tag @a remove tf2.enemy;
     }

@@ -11,3 +11,4 @@ execute if score $y tf2.var matches 1.. if score $z tf2.var matches 1.. run part
 execute if score $y tf2.var matches 1.. if score $z tf2.var matches 3.. run particle block_marker barrier ~0.5 ~1.5 ~3.5 0 0 0 0 1 force @a[tag=tf2.enemy]
 execute if score $y tf2.var matches 3.. if score $z tf2.var matches 1.. run particle block_marker barrier ~0.5 ~3.5 ~1.5 0 0 0 0 1 force @a[tag=tf2.enemy]
 execute if score $y tf2.var matches 3.. if score $z tf2.var matches 3.. run particle block_marker barrier ~0.5 ~3.5 ~3.5 0 0 0 0 1 force @a[tag=tf2.enemy]
+scoreboard players set $drawn_particles tf2.var 1

@@ -67,7 +67,7 @@ class start_game {
 	        }
             data remove storage tf2.__temp__:summon entity;
 	        
-            // RED spawn doors
+            // Spawn doors
             data modify storage tf2.__temp__:summon doors
 	                    set from entity @s data.map.spawn_doors.red;
             data modify storage tf2.__temp__:summon doors
@@ -102,6 +102,26 @@ class start_game {
                     execute store result storage tf2.__temp__:summon entity.data.opp_team int 1 run $team.get();
 	                data modify entity @s {} merge from storage tf2.__temp__:summon entity;
             	    tag @s add tf2.spawn_door;
+
+                    // // "No entry symbol" visual
+                    // summon armor_stand ~ ~ ~ {
+                    //     Invisible: 1b,
+                    //     Tags: ["tf2.no_entry_sign", "tf2.new"],
+                    //     active_effects: [{id:"minecraft:invisibility", amplifier:0b, duration:-1, show_particles:0b}],
+                    //     ArmorItems: [{},{},{},{id:"minecraft:redstone", Count:1b, CustomModelData:0}]
+                    // };
+                    // $x = data get storage tf2.__temp__:summon entity.data.dx;
+                    // $y = data get storage tf2.__temp__:summon entity.data.dy;
+                    // $z = data get storage tf2.__temp__:summon entity.data.dz;
+                    // if ($x > 0) $shortest = $x;
+                    // if ($y > 0) $shortest < $y;
+                    // if ($z > 0) $shortest < $z;
+                    // $shortest < 10;
+                    // data remove storage tf2.__temp__:summon entity.data;
+                    // data modify entity @e[type=minecraft:armor_stand,limit=1,tag=tf2.new] {} merge from storage tf2.__temp__:summon entity;
+                    // execute store result entity @e[type=minecraft:armor_stand,limit=1,tag=tf2.new] ArmorItems[3].CustomModelData
+                    //         int 1 run $shortest.get();
+                    // tag @e remove tf2.new;
 	            } with storage tf2.__temp__:index;
 	            data remove storage tf2.__temp__:summon doors[-1];
 	            $i++;

@@ -25,7 +25,8 @@ Hardcode.repeatList(
         "time_revved", "rev_threshold",
         "permanent.games_won", "permanent.games_played", "permanent.double_jumps",
         "fall_y", "fall_y1", "fall_y2", "fall_y3",
-        "drown_lost", "time_surfaced", "current_air", "last_air"
+        "drown_lost", "time_surfaced", "current_air", "last_air",
+        "smallest_dim"
     ]
 );
 
