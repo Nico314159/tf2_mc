@@ -270,48 +270,75 @@ Player.join(() => {
     );
 });
 
-@lazy function x_checker() {
-    Hardcode.repeat("J", () => {
-        Hardcode.repeat("K", () => {
-            if ($y >= J && $z >= K) {
-                particle block_marker barrier ~0.5 ~J.5 ~K.5
-                         0 0 0 0 1 force @a[tag=tf2.enemy];
-            }
-        }, 0, 6, 2);
-    }, 0, 6, 2);
-
-    Hardcode.repeat("J", () => {
-        Hardcode.repeat("K", () => {
-            if ($y >= J && $z >= K) {
-                particle block_marker barrier ~0.5 ~J.5 ~K.5
-                         0 0 0 0 1 force @a[tag=tf2.enemy];
-            }
-        }, 1, 5, 2);
-    }, 1, 5, 2);
-
-    $drawn_particles = true;
+@lazy function outline_wrapper() {
+    $i = 0;
+    $line = 1;
+    execute positioned ~ ~1 ~ run outline();
 }
-@lazy function y_checker() {
-    Hardcode.repeat("I", () => {
-        Hardcode.repeat("K", () => {
-            if ($x >= I && $z >= K) {
-                particle block_marker barrier ~I.5 ~0.5 ~K.5
-                         0 0 0 0 1 force @a[tag=tf2.enemy];
-            }
-        }, 0, 6, 2);
-    }, 0, 6, 2);
-
-    Hardcode.repeat("I", () => {
-        Hardcode.repeat("K", () => {
-            if ($x >= I && $z >= K) {
-                particle block_marker barrier ~I.5 ~0.5 ~K.5 
-                         0 0 0 0 1 force @a[tag=tf2.enemy];
-            }
-        }, 1, 5, 2);
-    }, 1, 5, 2);
-
-    $drawn_particles = true;
+function outline() {
+    particle block_marker barrier ~0.5 ~0.5 ~0.5 0 0 0 0 1 force @a[tag=tf2.enemy];
+    $i++;
+    if ($i >= $y && $line matches 1..3 && $line != 2) {
+        $line ++;
+        $i = 0;
+    }
+    if ($i >= $horizontal && $line matches 2..4 && $line != 3) {
+        $line ++;
+        $i = 0;
+    }
+    
+    if ($line == 1) execute positioned ~ ~1 ~ run outline();
+    if ($line == 2 && $x) execute positioned ~1 ~ ~ run outline();
+    if ($line == 2 && $z) execute positioned ~ ~ ~1 run outline();
+    if ($line == 3) execute positioned ~ ~-1 ~ run outline();
+    if ($line == 4 && $x) execute positioned ~-1 ~ ~ run outline();
+    if ($line == 4 && $z) execute positioned ~ ~ ~-1 run outline();
 }
+@lazy function diagonal_wrapper() {
+    // Don't bother with diagonals on very small doors
+    if ($horizontal < 2) return fail;
+    if ($y < 2) return fail;
+    if ($horizontal > $y) {  
+        $num = $y;
+        $denom = $horizontal;
+    }
+    else {
+        $num = $horizontal;
+        $denom = $y;
+    }
+    $num *= 1000; $num /= $denom;
+    execute store result storage tf2.__temp__:index fraction double 0.001 run $num.get();
+    $i = 0;
+    $longest = $y; $longest > $horizontal;
+    execute run {
+        $if ($z == 0 && $x > $y) {
+            data modify storage tf2.__temp__:index param set value "~1 ~$(fraction) ~";
+        };
+        $if ($z == 0 && $x <= $y) {
+            data modify storage tf2.__temp__:index param set value "~$(fraction) ~1 ~";
+        };
+        $if ($x == 0 && $z > $y) {
+            data modify storage tf2.__temp__:index param set value "~ ~$(fraction) ~1";
+        };
+        $if ($x == 0 && $z <= $y) {
+            data modify storage tf2.__temp__:index param set value "~ ~1 ~$(fraction)";
+        };
+    } with storage tf2.__temp__:index;
+    diagonal() with storage tf2.__temp__:index;
+}
+function diagonal() {
+    particle block_marker barrier ~0.5 ~0.5 ~0.5 0 0 0 0 1 force @a[tag=tf2.enemy];
+    $i++;
+    if ($i >= $longest) return 1;
+    $execute positioned $(param)
+                 run diagonal()
+                 with storage tf2.__temp__:index;
+}
+function draw_no_sign() {
+    outline_wrapper();
+    diagonal_wrapper();
+}
+
 @lazy function z_checker() {
     Hardcode.repeat("I", () => {
         Hardcode.repeat("J", () => {
@@ -418,13 +445,8 @@ class Spawn {
         $scoreboard players set $x tf2.var $(dx);
         $scoreboard players set $y tf2.var $(dy);
         $scoreboard players set $z tf2.var $(dz);
-
-        $drawn_particles = false;
-        if ($x == 0 && $y >= 3 && $z >= 3) x_checker();
-        if ($x >= 3 && $y == 0 && $z >= 3) y_checker();
-        if ($x >= 3 && $y >= 3 && $z == 0) z_checker();
-        if (!$drawn_particles) full_wall();
-
+        $horizontal = $x; $horizontal > $z;
+        draw_no_sign();
 
         $execute as @e[type=#tf2:player_like, dx=$(dx), dy=$(dy), dz=$(dz)] 
                  positioned as @s[scores={tf2.team=$(opp_team)}]
