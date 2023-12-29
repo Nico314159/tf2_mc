@@ -349,8 +349,8 @@ class Spawn {
 class NoEntrySign {
     function draw() {
         // Setup
-        tf2.team:$temp = tf2.team:@s;
-        execute as @a unless score @s tf2.team = $temp tf2.team 
+        tf2.team:$opp = data get entity @s data.opp_team;
+        execute as @a if score @s tf2.team = $opp tf2.team 
                 run tag @s add tf2.enemy;
         $x = data get entity @s data.dx;
         $y = data get entity @s data.dy;

@@ -1,5 +1,5 @@
-scoreboard players operation $temp tf2.team = @s tf2.team
-execute as @a unless score @s tf2.team = $temp tf2.team run tag @s add tf2.enemy
+execute store result score $opp tf2.team run data get entity @s data.opp_team
+execute as @a if score @s tf2.team = $opp tf2.team run tag @s add tf2.enemy
 execute store result score $x tf2.var run data get entity @s data.dx
 execute store result score $y tf2.var run data get entity @s data.dy
 execute store result score $z tf2.var run data get entity @s data.dz
