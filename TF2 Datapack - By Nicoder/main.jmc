@@ -270,40 +270,6 @@ Player.join(() => {
     );
 });
 
-@lazy function z_checker() {
-    Hardcode.repeat("I", () => {
-        Hardcode.repeat("J", () => {
-            if ($x >= I && $y >= J) {
-                particle block_marker barrier ~I.5 ~J.5 ~0.5 
-                         0 0 0 0 1 force @a[tag=tf2.enemy];
-            }
-        }, 0, 6, 2);
-    }, 0, 6, 2);
-
-    Hardcode.repeat("I", () => {
-        Hardcode.repeat("J", () => {
-            if ($x >= I && $y >= J) {
-                particle block_marker barrier ~I.5 ~J.5 ~0.5
-                         0 0 0 0 1 force @a[tag=tf2.enemy];
-            }
-        }, 1, 5, 2);
-    }, 1, 5, 2);
-
-    $drawn_particles = true;
-} 
-@lazy function full_wall() {
-    Hardcode.repeat("I", () => {
-        Hardcode.repeat("J", () => {
-            Hardcode.repeat("K", () => {
-                if ($x >= I && $y >= J && $z >= K) {
-                    particle block_marker barrier ~I.5 ~J.5 ~K.5 
-                            0 0 0 0 1 force @a[tag=tf2.enemy];
-                }
-            }, 0, 6, 1);
-        }, 0, 6, 1);
-    }, 0, 6, 1);
-} 
-
 function death() {
     // Puts a dead player into spectator mode & starts their respawn timer.
     // Respawn timer length is according to the map and team.
