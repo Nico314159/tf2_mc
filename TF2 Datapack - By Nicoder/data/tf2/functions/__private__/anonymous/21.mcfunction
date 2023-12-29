@@ -1,2 +1,4 @@
-$execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.red[0] 20
-$execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.blu[0] 20
+$execute if score $z tf2.var matches 0 if score $x tf2.var > $y tf2.var run data modify storage tf2.__temp__:index param set value "~1 ~$(fraction) ~"
+$execute if score $z tf2.var matches 0 if score $x tf2.var <= $y tf2.var run data modify storage tf2.__temp__:index param set value "~$(fraction) ~1 ~"
+$execute if score $x tf2.var matches 0 if score $z tf2.var > $y tf2.var run data modify storage tf2.__temp__:index param set value "~ ~$(fraction) ~1"
+$execute if score $x tf2.var matches 0 if score $z tf2.var <= $y tf2.var run data modify storage tf2.__temp__:index param set value "~ ~1 ~$(fraction)"
