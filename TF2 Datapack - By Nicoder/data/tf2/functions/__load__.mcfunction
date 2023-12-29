@@ -49,6 +49,7 @@ scoreboard objectives add tf2.blu_overtime dummy
 scoreboard objectives add tf2.batch_number dummy
 scoreboard objectives add tf2.session dummy
 scoreboard objectives add tf2.lifetime dummy
+scoreboard objectives add tf2.draw_delay dummy
 scoreboard objectives add tf2.respawn_timer dummy
 scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.class dummy
@@ -81,7 +82,6 @@ scoreboard objectives add tf2.drown_lost dummy
 scoreboard objectives add tf2.time_surfaced dummy
 scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
-scoreboard objectives add tf2.smallest_dim dummy
 scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.fall custom:fall_one_cm

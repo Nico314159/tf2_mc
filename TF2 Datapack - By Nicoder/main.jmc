@@ -370,12 +370,14 @@ class Spawn {
                        dx=$(dx), dy=$(dy), dz=$(dz), 
                        scores={tf2.team=$(opp_team)}] $(direct_tp);
 
-        NoEntrySign.draw();
+        tf2.draw_delay:@s --;
+        if (tf2.draw_delay:@s <= 0) {
+            NoEntrySign.draw();
+        }
 
         $execute as @e[type=#tf2:player_like, dx=$(dx), dy=$(dy), dz=$(dz)] 
                  positioned as @s[scores={tf2.team=$(opp_team)}]
                  run tp @s ^ ^ ^0.5;
-        tag @a remove tf2.enemy;
     }
 }
 class NoEntrySign {
@@ -394,36 +396,37 @@ class NoEntrySign {
         $line = 1;
         execute positioned ~ ~1 ~ run this.outline();
 
-        // Diagonal
-        if ($horizontal < 2) return run tag @a remove tf2.enemy;
-        if ($y < 2) return run tag @a remove tf2.enemy;
-        if ($horizontal > $y) {  
-            $num = $y;
-            $denom = $horizontal;
+        // Diagonal part
+        if ($horizontal >= 2 && $y >= 2) {
+            if ($horizontal > $y) {  
+                $num = $y;
+                $denom = $horizontal;
+            }
+            else {
+                $num = $horizontal;
+                $denom = $y;
+            }
+            $num *= 1000; $num /= $denom;
+            execute store result storage tf2.__temp__:index fraction double 0.001 run $num.get();
+            $i = 0;
+            $longest = $y; $longest > $horizontal;
+            execute run {
+                $if ($z == 0 && $x > $y) {
+                    data modify storage tf2.__temp__:index param set value "~1 ~$(fraction) ~";
+                };
+                $if ($z == 0 && $x <= $y) {
+                    data modify storage tf2.__temp__:index param set value "~$(fraction) ~1 ~";
+                };
+                $if ($x == 0 && $z > $y) {
+                    data modify storage tf2.__temp__:index param set value "~ ~$(fraction) ~1";
+                };
+                $if ($x == 0 && $z <= $y) {
+                    data modify storage tf2.__temp__:index param set value "~ ~1 ~$(fraction)";
+                };
+            } with storage tf2.__temp__:index;
+            this.diagonal() with storage tf2.__temp__:index;
         }
-        else {
-            $num = $horizontal;
-            $denom = $y;
-        }
-        $num *= 1000; $num /= $denom;
-        execute store result storage tf2.__temp__:index fraction double 0.001 run $num.get();
-        $i = 0;
-        $longest = $y; $longest > $horizontal;
-        execute run {
-            $if ($z == 0 && $x > $y) {
-                data modify storage tf2.__temp__:index param set value "~1 ~$(fraction) ~";
-            };
-            $if ($z == 0 && $x <= $y) {
-                data modify storage tf2.__temp__:index param set value "~$(fraction) ~1 ~";
-            };
-            $if ($x == 0 && $z > $y) {
-                data modify storage tf2.__temp__:index param set value "~ ~$(fraction) ~1";
-            };
-            $if ($x == 0 && $z <= $y) {
-                data modify storage tf2.__temp__:index param set value "~ ~1 ~$(fraction)";
-            };
-        } with storage tf2.__temp__:index;
-        this.diagonal() with storage tf2.__temp__:index;
+        tf2.draw_delay:@s = 80;
         tag @a remove tf2.enemy;
     }
     function outline() {

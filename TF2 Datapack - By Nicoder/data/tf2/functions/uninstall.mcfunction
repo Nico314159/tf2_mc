@@ -23,6 +23,7 @@ scoreboard objectives remove tf2.blu_overtime
 scoreboard objectives remove tf2.batch_number
 scoreboard objectives remove tf2.session
 scoreboard objectives remove tf2.lifetime
+scoreboard objectives remove tf2.draw_delay
 scoreboard objectives remove tf2.respawn_timer
 scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.class
@@ -55,7 +56,6 @@ scoreboard objectives remove tf2.drown_lost
 scoreboard objectives remove tf2.time_surfaced
 scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
-scoreboard objectives remove tf2.smallest_dim
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.elytra_detect
 scoreboard objectives remove tf2.fall
