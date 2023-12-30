@@ -460,7 +460,7 @@ class Weapons {
         // @within this.main_fire();
         $execute positioned 0 0.4 0 run summon text_display ~$(X) ~$(Y) ~$(Z) {
             billboard: "center",
-            text: '{"color":"red", "bold":"true", "text":"-$(value)"}',
+            text: '{"color":"red", "bold":true, "text":"-$(value)"}',
             Tags: ["tf2.visual", "tf2.newest"],
             transformation: {
             left_rotation: [0f, 0f, 0f, 1f],
