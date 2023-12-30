@@ -221,6 +221,7 @@ function pickup_tick() {
             if score @s tf2.primary_ammo   = @s tf2.primary_maxAmmo
             if score @s tf2.secondary_ammo = @s tf2.secondary_maxAmmo
             run tag @s add tf2.ineligible;
+    tag @a[gamemode=spectator] add tf2.ineligible;
     execute at @s as @a[distance=..1,limit=1,sort=nearest,tag=!tf2.ineligible] 
             run tag @s add tf2.recipient;
     tag @a remove tf2.ineligible;
