@@ -377,14 +377,20 @@ class NoEntrySign {
             $i = 0;
             $longest = $y; $longest > $horizontal;
             execute run {
-                $if ($horizontal > $y) {
-                    data modify storage tf2.__temp__:index param set value "^-1 ^$(fraction) ^";
+                $if ($z == 0 && $x > $y) {
+                    data modify storage tf2.__temp__:index param set value "~1 ~$(fraction) ~";
                 };
-                $if ($horizontal <= $y) {
-                    data modify storage tf2.__temp__:index param set value "^-$(fraction) ^1 ^";
+                $if ($z == 0 && $x <= $y) {
+                    data modify storage tf2.__temp__:index param set value "~$(fraction) ~1 ~";
+                };
+                $if ($x == 0 && $z > $y) {
+                    data modify storage tf2.__temp__:index param set value "~ ~$(fraction) ~1";
+                };
+                $if ($x == 0 && $z <= $y) {
+                    data modify storage tf2.__temp__:index param set value "~ ~1 ~$(fraction)";
                 };
             } with storage tf2.__temp__:index;
-            execute positioned ~ ~ ~ run this.diagonal() with storage tf2.__temp__:index;
+            this.diagonal() with storage tf2.__temp__:index;
         }
         tf2.draw_delay:@s = 80;
         tag @a remove tf2.enemy;
@@ -401,10 +407,12 @@ class NoEntrySign {
             $i = 0;
         }
         
-        if ($line == 1) execute positioned ^ ^1 ^ run this.outline();
-        if ($line == 2) execute positioned ^-1 ^ ^ run this.outline();
-        if ($line == 3) execute positioned ^ ^-1 ^ run this.outline();
-        if ($line == 4) execute positioned ^1 ^ ^ run this.outline();
+        if ($line == 1) execute positioned ~ ~1 ~ run this.outline();
+        if ($line == 2 && $x) execute positioned ~1 ~ ~ run this.outline();
+        if ($line == 2 && $z) execute positioned ~ ~ ~1 run this.outline();
+        if ($line == 3) execute positioned ~ ~-1 ~ run this.outline();
+        if ($line == 4 && $x) execute positioned ~-1 ~ ~ run this.outline();
+        if ($line == 4 && $z) execute positioned ~ ~ ~-1 run this.outline();
     }
     function diagonal() {
         // @needs_macro

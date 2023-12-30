@@ -8,4 +8,4 @@ scoreboard players set $i tf2.var 0
 scoreboard players operation $longest tf2.var = $y tf2.var
 scoreboard players operation $longest tf2.var > $horizontal tf2.var
 function tf2:__private__/anonymous/21 with storage tf2.__temp__:index
-execute positioned ~ ~ ~ run function tf2:noentrysign/diagonal with storage tf2.__temp__:index
+function tf2:noentrysign/diagonal with storage tf2.__temp__:index
