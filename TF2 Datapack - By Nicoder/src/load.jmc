@@ -135,6 +135,7 @@ data merge storage tf2:maps {
             {Pos: [1061.0d, 71.0d, 893.0d], kind: "health", size: 1b},
             {Pos: [1067.5d, 79.0d, 947.5d], kind: "health", size: 1b},
             {Pos: [1058.5d, 99.5d, 909.5d], kind: "health", size: 1b},
+            {Pos: [1019.5d, 70.0d, 866.5d], kind: "health", size: 1b},
             {Pos: [1048.5d, 67.0d, 865.5d], kind: "health", size: 2b},
             {Pos: [1056.0d, 67.0d, 914.0d], kind: "health", size: 2b},
             {Pos: [1081.0d, 76.0d, 888.0d], kind: "health", size: 2b},
@@ -146,7 +147,6 @@ data merge storage tf2:maps {
             {Pos: [1065.5d, 67.0d, 898.5d],  kind: "ammo",  size: 1b},
             {Pos: [1056.5d, 68.0d, 935.5d],  kind: "ammo",  size: 1b},
             {Pos: [1042.5d, 85.0d, 913.5d],  kind: "ammo",  size: 1b},
-            
             {Pos: [1049.0d, 67.0d, 885.0d],  kind: "ammo",  size: 2b},
             {Pos: [1047.5d, 67.0d, 916.5d],  kind: "ammo",  size: 2b},
             {Pos: [1084.5d, 68.0d, 918.5d],  kind: "ammo",  size: 2b},
