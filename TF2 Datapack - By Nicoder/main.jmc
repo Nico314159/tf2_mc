@@ -33,6 +33,7 @@ function __tick__() {
     execute as @e[type=marker] run marker_tick();
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run player_tick();
     tag @e[type=#tf2:player_like] remove tf2.on_point;
+    execute as @e[type=item_display,tag=tf2.pickup] run pickup_tick();
 }
 
 function marker_tick() {
@@ -204,6 +205,46 @@ function do_fall_damage() {
     = 0;
 }
 
+function pickup_tick() {
+    tf2.respawn_timer:@s --;
+    if (tf2.respawn_timer:@s > 0) return 0;
+
+    data merge entity @s {
+        item: {id: "minecraft:iron_ingot", Count: 1b}
+    };
+
+    // 1 -> 20, 2 -> 50, 3 -> 100
+    $percent = tf2.size:@s;
+    $percent *= $percent;
+    $percent += 1;
+    $percent *= 10;
+    execute at @s as @a[distance=..1,limit=1,sort=nearest] 
+            run tag @s add tf2.recipient;
+
+    if (!entity @a[tag=tf2.recipient]) return 1;
+    $add_amount = $percent;
+    if (entity @s[tag=tf2.health_pack]) {
+        $add_amount *= tf2.max_health:@a[tag=tf2.recipient];
+        $add_amount /= 100;
+        tf2.health:@a[tag=tf2.recipient] += $add_amount;
+        tf2.health:@a[tag=tf2.recipient] < tf2.max_health:@a[tag=tf2.recipient];
+    }
+    if (entity @s[tag=tf2.ammo_pack]) {
+        $add_amount *= tf2.primary_maxAmmo:@a[tag=tf2.recipient];
+        $add_amount /= 100;
+        tf2.primary_ammo:@a[tag=tf2.recipient] += $add_amount;
+        tf2.primary_ammo:@a[tag=tf2.recipient] < tf2.primary_maxAmmo:@a[tag=tf2.recipient];
+
+        $add_amount = $percent;
+        $add_amount *= tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
+        $add_amount /= 100;
+        tf2.secondary_ammo:@a[tag=tf2.recipient] += $add_amount;
+        tf2.secondary_ammo:@a[tag=tf2.recipient] < tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
+    }
+    tf2.respawn_timer:@s = 200;
+    data modify entity @s item.Count set value 0b;
+    tag @a remove tf2.recipient;
+}
 
 Player.join(() => {
     // Teleports a newly joined player to the lobby room, clears their inventory, puts them in adventure mode, resets their gameplay tags, and allows them to join queues.

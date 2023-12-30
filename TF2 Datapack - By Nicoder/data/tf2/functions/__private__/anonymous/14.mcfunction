@@ -8,4 +8,5 @@ execute store success score $team tf2.var if score $i tf2.var >= $blu_length tf2
 scoreboard players add $team tf2.var 1
 execute store result storage tf2.__temp__:summon entity.data.opp_team int 1 run scoreboard players get $team tf2.var
 data modify entity @s {} merge from storage tf2.__temp__:summon entity
+scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 tag @s add tf2.spawn_door

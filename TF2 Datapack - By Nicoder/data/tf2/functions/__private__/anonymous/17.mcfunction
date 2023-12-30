@@ -1,2 +1,3 @@
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/16 with storage tf2.__temp__:index
+scoreboard players set __if_else__ tf2.var 0
+execute if score @s tf2.team = $winner tf2.var run function tf2:__private__/if_else/22
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/23

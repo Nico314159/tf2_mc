@@ -1,2 +1,9 @@
-scoreboard players operation $num tf2.var = $horizontal tf2.var
-scoreboard players operation $denom tf2.var = $y tf2.var
+scoreboard players operation $add_amount tf2.var *= @a[tag=tf2.recipient] tf2.primary_maxAmmo
+scoreboard players operation $add_amount tf2.var /= 100 tf2.const
+scoreboard players operation @a[tag=tf2.recipient] tf2.primary_ammo += $add_amount tf2.var
+scoreboard players operation @a[tag=tf2.recipient] tf2.primary_ammo < @a[tag=tf2.recipient] tf2.primary_maxAmmo
+scoreboard players operation $add_amount tf2.var = $percent tf2.var
+scoreboard players operation $add_amount tf2.var *= @a[tag=tf2.recipient] tf2.secondary_maxAmmo
+scoreboard players operation $add_amount tf2.var /= 100 tf2.const
+scoreboard players operation @a[tag=tf2.recipient] tf2.secondary_ammo += $add_amount tf2.var
+scoreboard players operation @a[tag=tf2.recipient] tf2.secondary_ammo < @a[tag=tf2.recipient] tf2.secondary_maxAmmo

@@ -176,9 +176,9 @@ class Class.Sniper {
         loot replace entity @s armor.legs loot tf2:class/sniper/_model;
 
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
-        tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
-        tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
     }
     @lazy
     function tick() {

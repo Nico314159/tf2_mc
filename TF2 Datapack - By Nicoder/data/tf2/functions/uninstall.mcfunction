@@ -24,6 +24,7 @@ scoreboard objectives remove tf2.batch_number
 scoreboard objectives remove tf2.session
 scoreboard objectives remove tf2.lifetime
 scoreboard objectives remove tf2.draw_delay
+scoreboard objectives remove tf2.size
 scoreboard objectives remove tf2.respawn_timer
 scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.class
@@ -37,9 +38,11 @@ scoreboard objectives remove tf2.current_slot
 scoreboard objectives remove tf2.primary_clip
 scoreboard objectives remove tf2.primary_maxClip
 scoreboard objectives remove tf2.primary_ammo
+scoreboard objectives remove tf2.primary_maxAmmo
 scoreboard objectives remove tf2.secondary_clip
 scoreboard objectives remove tf2.secondary_maxClip
 scoreboard objectives remove tf2.secondary_ammo
+scoreboard objectives remove tf2.secondary_maxAmmo
 scoreboard objectives remove tf2.attack_delay
 scoreboard objectives remove tf2.reload_delay
 scoreboard objectives remove tf2.consecutive_reload
