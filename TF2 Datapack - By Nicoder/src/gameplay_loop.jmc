@@ -129,11 +129,18 @@ class start_game {
                     data modify storage tf2.__temp__:summon entity.item.Count
 	                     set value 1b;
                     data modify storage tf2.__temp__:summon entity.transformation
-                         set value {translation: [0.0f, 1.0f, 0.0f]};
+                         set value {translation: [0.0f, 0.5f, 0.0f]};
                     execute run { $tag @s add tf2.$(kind)_pack; }
                             with storage tf2.__temp__:summon pickups[-1];
 
                     tf2.size:@s = data get storage tf2.__temp__:summon pickups[-1].size;
+                    $model_number = 10;
+                    $model_number += tf2.size:@s;
+                    if (entity @s[tag=tf2.ammo_pack]) {
+                        $model_number -= 10;
+                    }
+                    execute store result storage tf2.__temp__:summon entity.item.tag.CustomModelData
+	                        int 1 run $model_number.get();
                     data modify entity @s {} merge from storage tf2.__temp__:summon entity;
                     tf2.batch_number:@s = tf2.batch_number:$local;
                     tag @s add tf2.pickup;

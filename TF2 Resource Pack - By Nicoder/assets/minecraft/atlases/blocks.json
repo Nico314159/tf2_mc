@@ -21,6 +21,26 @@
                 "red": "tf2:trims/color_palettes/sniper/red",
                 "blu": "tf2:trims/color_palettes/sniper/blu"
             }
+        },
+        {
+            "type": "single",
+            "resource": "tf2:pickup/health/small"
+        },
+        {
+            "type": "single",
+            "resource": "tf2:pickup/health/medium"
+        },
+        {
+            "type": "single",
+            "resource": "tf2:pickup/health/large"
+        },
+        {
+            "type": "single",
+            "resource": "minecraft:trims/items/chestplate_trim_blu"
+        },
+        {
+            "type": "single",
+            "resource": "minecraft:trims/items/chestplate_trim_red"
         }
     ]
 }
