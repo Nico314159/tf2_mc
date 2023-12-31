@@ -219,7 +219,9 @@ function pickup_tick() {
             run tag @s add tf2.ineligible;
     execute if entity @s[tag=tf2.ammo_pack] as @a 
             if score @s tf2.primary_ammo   = @s tf2.primary_maxAmmo
+            if score @s tf2.primary_clip   = @s tf2.primary_maxClip
             if score @s tf2.secondary_ammo = @s tf2.secondary_maxAmmo
+            if score @s tf2.secondary_clip = @s tf2.secondary_maxClip
             run tag @s add tf2.ineligible;
     tag @a[gamemode=spectator] add tf2.ineligible;
     execute at @s as @a[distance=..1,limit=1,sort=nearest,tag=!tf2.ineligible] 
@@ -242,12 +244,24 @@ function pickup_tick() {
     if (entity @s[tag=tf2.ammo_pack]) {
         $add_amount *= tf2.primary_maxAmmo:@a[tag=tf2.recipient];
         $add_amount /= 100;
+        $clip_space = tf2.primary_maxClip:@a[tag=tf2.recipient];
+        $clip_space -= tf2.primary_clip:@a[tag=tf2.recipient];
+        $clip_space < $add_amount;
+        tf2.primary_clip:@a[tag=tf2.recipient] += $clip_space;
+        $add_amount -= $clip_space;
+
         tf2.primary_ammo:@a[tag=tf2.recipient] += $add_amount;
         tf2.primary_ammo:@a[tag=tf2.recipient] < tf2.primary_maxAmmo:@a[tag=tf2.recipient];
 
         $add_amount = $percent;
         $add_amount *= tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
         $add_amount /= 100;
+        $clip_space = tf2.secondary_maxClip:@a[tag=tf2.recipient];
+        $clip_space -= tf2.secondary_clip:@a[tag=tf2.recipient];
+        $clip_space < $add_amount;
+        tf2.secondary_clip:@a[tag=tf2.recipient] += $clip_space;
+        $add_amount -= $clip_space;
+        
         tf2.secondary_ammo:@a[tag=tf2.recipient] += $add_amount;
         tf2.secondary_ammo:@a[tag=tf2.recipient] < tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
     }
