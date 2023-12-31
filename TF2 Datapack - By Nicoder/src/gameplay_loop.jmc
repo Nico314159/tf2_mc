@@ -291,6 +291,7 @@ class reset {
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();
+        kill @e[type=item_display,tag=tf2.pickup,tag=tf2.current];
         if (timekeeper.var:$enabled == -1 && $profiler_installed) timekeeper.var:$enabled = 1;
         kill @s;
         setup_markers();
