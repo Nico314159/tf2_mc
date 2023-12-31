@@ -220,6 +220,17 @@ function pickup_tick() {
     data merge entity @s {
         item: {id: "minecraft:iron_ingot", Count: 1b}
     };
+    tf2.rotation:@s ??= 0;
+    tf2.rotation:@s ++;
+    data modify storage tf2.__temp__:vars rotation
+         set value {axis: [0f, 0f, 0f], angle: 0f};
+    data modify storage tf2.__temp__:vars rotation.axis
+         set value [0.0f, 1.0f, 0.0f];
+    execute store result storage tf2.__temp__:vars rotation.angle
+            float 0.1 run tf2.rotation:@s.get();
+    data modify entity @s transformation.right_rotation
+         set from storage tf2.__temp__:vars rotation;
+    
 
     // 1 -> 20, 2 -> 50, 3 -> 100
     execute if entity @s[tag=tf2.health_pack] as @a 
@@ -446,24 +457,24 @@ class NoEntrySign {
                 $denom = $y;
             }
             $num *= 1000; $num /= $denom;
-            execute store result storage tf2.__temp__:index fraction double 0.001 run $num.get();
+            execute store result storage tf2.__temp__:vars fraction double 0.001 run $num.get();
             $i = 0;
             $longest = $y; $longest > $horizontal;
             execute run {
                 $if ($z == 0 && $x > $y) {
-                    data modify storage tf2.__temp__:index param set value "~1 ~$(fraction) ~";
+                    data modify storage tf2.__temp__:vars param set value "~1 ~$(fraction) ~";
                 };
                 $if ($z == 0 && $x <= $y) {
-                    data modify storage tf2.__temp__:index param set value "~$(fraction) ~1 ~";
+                    data modify storage tf2.__temp__:vars param set value "~$(fraction) ~1 ~";
                 };
                 $if ($x == 0 && $z > $y) {
-                    data modify storage tf2.__temp__:index param set value "~ ~$(fraction) ~1";
+                    data modify storage tf2.__temp__:vars param set value "~ ~$(fraction) ~1";
                 };
                 $if ($x == 0 && $z <= $y) {
-                    data modify storage tf2.__temp__:index param set value "~ ~1 ~$(fraction)";
+                    data modify storage tf2.__temp__:vars param set value "~ ~1 ~$(fraction)";
                 };
-            } with storage tf2.__temp__:index;
-            this.diagonal() with storage tf2.__temp__:index;
+            } with storage tf2.__temp__:vars;
+            this.diagonal() with storage tf2.__temp__:vars;
         }
         tf2.draw_delay:@s = 80;
         tag @a remove tf2.enemy;
@@ -494,7 +505,7 @@ class NoEntrySign {
         if ($i >= $longest) return 1;
         $execute positioned $(param)
                     run this.diagonal()
-                    with storage tf2.__temp__:index;
+                    with storage tf2.__temp__:vars;
     }
 }
 

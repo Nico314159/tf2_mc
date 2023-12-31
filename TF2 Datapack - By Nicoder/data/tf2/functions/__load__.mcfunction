@@ -51,6 +51,7 @@ scoreboard objectives add tf2.session dummy
 scoreboard objectives add tf2.lifetime dummy
 scoreboard objectives add tf2.draw_delay dummy
 scoreboard objectives add tf2.size dummy
+scoreboard objectives add tf2.rotation dummy
 scoreboard objectives add tf2.respawn_timer dummy
 scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.class dummy
