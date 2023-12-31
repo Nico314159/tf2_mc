@@ -125,6 +125,10 @@ data merge storage tf2:maps {
                 {Pos: [1098.0d, 68.0d, 863.0d], Rotation: [ 90.0f, 0.0f], data: {dx:3, dy:3, dz:4, direct_tp: "1096.0 68 865.0"}}
             ]
         },
+        resupply_cabinets: {
+            red: [{Pos: [ 999.5d, 67.5d, 936.5d], Rotation: [-90.0f, 0.0f]}],
+            blu: [{Pos: [1101.5d, 67.5d, 885.0d], Rotation: [ 90.0f, 0.0f]}]
+        },
         objectives: [
             {Pos: [1050.5d, 104.0d, 910.5d], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 20.0f, team: 0b}},
         ],

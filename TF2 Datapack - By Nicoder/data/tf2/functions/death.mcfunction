@@ -4,4 +4,4 @@ spawnpoint @s ~ ~ ~
 tag @s add tf2.dead
 gamemode spectator @s
 execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/22 with storage tf2.__temp__:index
+function tf2:__private__/anonymous/23 with storage tf2.__temp__:index

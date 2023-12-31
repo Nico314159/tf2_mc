@@ -1,4 +1,5 @@
-scoreboard players operation $impact_velocity tf2.var = $previous_dy tf2.var
-scoreboard players operation $impact_velocity tf2.var += $previous_dy tf2.var
-scoreboard players operation $impact_velocity tf2.var -= $2nd_previous_dy tf2.var
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players operation @s tf2.primary_clip = @s tf2.primary_maxClip
+scoreboard players operation @s tf2.primary_ammo = @s tf2.primary_maxAmmo
+scoreboard players operation @s tf2.secondary_clip = @s tf2.secondary_maxClip
+scoreboard players operation @s tf2.secondary_ammo = @s tf2.secondary_maxAmmo
+scoreboard players operation @s tf2.health > @s tf2.max_health

@@ -139,6 +139,14 @@ function player_tick() {
         tf2.time_surfaced:@s = 0;
     }
     tf2.time_surfaced:@s[predicate=tf2:submerged] = 0;
+
+    if (tf2.team:@s == tf2.team:@e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1]) {
+        tf2.primary_clip:@s   = tf2.primary_maxClip:@s;
+        tf2.primary_ammo:@s   = tf2.primary_maxAmmo:@s;
+        tf2.secondary_clip:@s = tf2.secondary_maxClip:@s;
+        tf2.secondary_ammo:@s = tf2.secondary_maxAmmo:@s;
+        tf2.health:@s > tf2.max_health:@s;
+    } 
 }
 function do_fall_damage() {
     $2nd_previous_dy = tf2.fall_y3:@s;

@@ -22,3 +22,4 @@ execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/38
 scoreboard players add @s[predicate=!tf2:submerged] tf2.time_surfaced 1
 execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/39
 scoreboard players set @s[predicate=tf2:submerged] tf2.time_surfaced 0
+execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team run function tf2:__private__/if_else/40

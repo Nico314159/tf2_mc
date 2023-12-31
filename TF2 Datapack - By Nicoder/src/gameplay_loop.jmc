@@ -58,7 +58,7 @@ class start_game {
 	                tf2.batch_number:@s = tf2.batch_number:$local;
 	                tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
 	                tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
-	                execute if score @s tf2.index = $highest tf2.index 
+	                execute if score @s tf2.index = $highest tf2.index
                             unless score @s tf2.gamemode matches 3 run tag @s add tf2.last;
 	                tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
 	                $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
@@ -66,7 +66,7 @@ class start_game {
 	            data remove storage tf2.__temp__:summon objectives[-1];
 	        }
             data remove storage tf2.__temp__:summon entity;
-	        
+
             // Spawn doors
             data modify storage tf2.__temp__:summon doors
 	                    set from entity @s data.map.spawn_doors.red;
@@ -97,9 +97,9 @@ class start_game {
                         data modify storage tf2.__temp__:summon entity.data.direct_tp set value "~ ~ ~";
                     }
 
-                    $team ?= execute if score $i tf2.var >= $blu_length tf2.var;
-                    $team ++;
-                    execute store result storage tf2.__temp__:summon entity.data.opp_team int 1 run $team.get();
+                    $opp_team ?= execute if score $i tf2.var >= $blu_length tf2.var;
+                    $opp_team ++;
+                    execute store result storage tf2.__temp__:summon entity.data.opp_team int 1 run $opp_team.get();
 	                data modify entity @s {} merge from storage tf2.__temp__:summon entity;
                     tf2.batch_number:@s = tf2.batch_number:$local;
             	    tag @s add tf2.spawn_door;
@@ -114,14 +114,14 @@ class start_game {
                         set from entity @s data.map.pickups;
             while (data storage tf2.__temp__:summon pickups[]) {
                 execute summon item_display run {
-                    // Storage format of `tf2.__temp__:summon doors[-1]`
+                    // Storage format of `tf2.__temp__:summon pickups[-1]`
 	                //      Pos: double[3]
-	                //          Coordinates of where the door is located on the map.
+	                //          Coordinates of where the pickup is located on the map.
 	                //      kind: string
 	                //          Whether it is a health or ammo pack.
 	                //      size: byte
 	                //          1 = small (refills 20%), 2 = medium (refills 50%), 3 = large (refills 100%)
-                   
+
                     data modify storage tf2.__temp__:summon entity.Pos
 	                     set from storage tf2.__temp__:summon pickups[-1].Pos;
                     data modify storage tf2.__temp__:summon entity.item.id
@@ -132,13 +132,48 @@ class start_game {
                          set value {translation: [0.0f, 1.0f, 0.0f]};
                     execute run { $tag @s add tf2.$(kind)_pack; }
                             with storage tf2.__temp__:summon pickups[-1];
-                    
+
                     tf2.size:@s = data get storage tf2.__temp__:summon pickups[-1].size;
                     data modify entity @s {} merge from storage tf2.__temp__:summon entity;
                     tf2.batch_number:@s = tf2.batch_number:$local;
                     tag @s add tf2.pickup;
                 }
                 data remove storage tf2.__temp__:summon pickups[-1];
+            }
+            data remove storage tf2.__temp__:summon entity;
+
+            // Resupply cabinets
+            data modify storage tf2.__temp__:summon resupply
+                        set from entity @s data.map.resupply_cabinets.red;
+            data modify storage tf2.__temp__:summon resupply
+	                    append from entity @s data.map.resupply_cabinets.blu[];
+	        $blu_length = data get entity @s data.map.resupply_cabinets.blu;
+	        $i = 0;
+            while (data storage tf2.__temp__:summon resupply[]) {
+                execute summon item_display run {
+                    // Storage format of `tf2.__temp__:summon resupply[-1]`
+	                //      Pos: double[3]
+	                //          Coordinates of where the resupply cabinet is located on the map.
+	                //      Rotation: float[2]
+	                //          Which way the resupply cabinet is facing.
+
+                    data modify storage tf2.__temp__:summon entity.Pos
+	                     set from storage tf2.__temp__:summon resupply[-1].Pos;
+                    data modify storage tf2.__temp__:summon entity.Rotation
+	                     set from storage tf2.__temp__:summon resupply[-1].Rotation;
+                    data modify storage tf2.__temp__:summon entity.item.id
+	                     set value "gold_ingot";
+                    data modify storage tf2.__temp__:summon entity.item.Count
+	                     set value 1b;
+
+                    tf2.team:@s ?= execute if score $i tf2.var < $blu_length tf2.var;
+                    tf2.team:@s ++;
+                    data modify entity @s {} merge from storage tf2.__temp__:summon entity;
+                    tf2.batch_number:@s = tf2.batch_number:$local;
+                    tag @s add tf2.resupply;
+                }
+                data remove storage tf2.__temp__:summon resupply[-1];
+                $i++;
             }
             data remove storage tf2.__temp__:summon entity;
 	    }
@@ -291,7 +326,7 @@ class reset {
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();
-        kill @e[type=item_display,tag=tf2.pickup,tag=tf2.current];
+        kill @e[type=item_display,tag=tf2.current,tag=!tf2.permanent];
         if (timekeeper.var:$enabled == -1 && $profiler_installed) timekeeper.var:$enabled = 1;
         kill @s;
         setup_markers();
