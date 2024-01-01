@@ -254,7 +254,9 @@ function pickup_tick() {
         tf2.health:@a[tag=tf2.recipient] < tf2.max_health:@a[tag=tf2.recipient];
     }
     if (entity @s[tag=tf2.ammo_pack]) {
-        $add_amount *= tf2.primary_maxAmmo:@a[tag=tf2.recipient];
+        $total_ammo = tf2.primary_maxAmmo:@a[tag=tf2.recipient];
+        $total_ammo += tf2.primary_maxClip:@a[tag=tf2.recipient];
+        $add_amount *= $total_ammo;
         $add_amount /= 100;
         $clip_space = tf2.primary_maxClip:@a[tag=tf2.recipient];
         $clip_space -= tf2.primary_clip:@a[tag=tf2.recipient];
@@ -266,7 +268,9 @@ function pickup_tick() {
         tf2.primary_ammo:@a[tag=tf2.recipient] < tf2.primary_maxAmmo:@a[tag=tf2.recipient];
 
         $add_amount = $percent;
-        $add_amount *= tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
+        $total_ammo = tf2.s]econdary_maxAmmo:@a[tag=tf2.recipient];
+        $total_ammo += tf2.secondary_maxClip:@a[tag=tf2.recipient];
+        $add_amount *= $total_ammo;
         $add_amount /= 100;
         $clip_space = tf2.secondary_maxClip:@a[tag=tf2.recipient];
         $clip_space -= tf2.secondary_clip:@a[tag=tf2.recipient];
