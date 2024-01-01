@@ -228,10 +228,9 @@ function pickup_tick() {
          set value [0.0f, 1.0f, 0.0f];
     execute store result storage tf2.__temp__:vars rotation.angle
             float 0.1 run tf2.rotation:@s.get();
-    data modify entity @s transformation.right_rotation
+    data modify entity @s transformation.left_rotation
          set from storage tf2.__temp__:vars rotation;
     
-
     // 1 -> 20, 2 -> 50, 3 -> 100
     execute if entity @s[tag=tf2.health_pack] as @a 
             if score @s tf2.health = @s tf2.max_health

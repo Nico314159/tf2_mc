@@ -129,7 +129,9 @@ class start_game {
                     data modify storage tf2.__temp__:summon entity.item.Count
 	                     set value 1b;
                     data modify storage tf2.__temp__:summon entity.transformation
-                         set value {translation: [0.0f, 0.5f, 0.0f]};
+                         set value {translation: [0.0f, 0.75f, 0.0f]};
+                    data modify storage tf2.__temp__:summon entity.transformation
+                         merge value {right_rotation: {axis: [1f, 0f, 0f]}};
                     execute run { $tag @s add tf2.$(kind)_pack; }
                             with storage tf2.__temp__:summon pickups[-1];
 
@@ -138,6 +140,11 @@ class start_game {
                     $model_number += tf2.size:@s;
                     if (entity @s[tag=tf2.ammo_pack]) {
                         $model_number -= 10;
+                    }
+                    if ($model_number == 11) {
+                        data modify storage tf2.__temp__:summon entity.transformation.right_rotation.angle set value 0.45f;
+                    } if ($model_number == 12) {
+                        data modify storage tf2.__temp__:summon entity.transformation.right_rotation.angle set value 5.22f;
                     }
                     execute store result storage tf2.__temp__:summon entity.item.tag.CustomModelData
 	                        int 1 run $model_number.get();

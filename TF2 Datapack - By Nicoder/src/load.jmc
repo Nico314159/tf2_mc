@@ -145,7 +145,7 @@ data merge storage tf2:maps {
             {Pos: [1081.0d, 76.0d, 888.0d], kind: "health", size: 2b},
             {Pos: [1036.0d, 69.0d, 889.0d], kind: "health", size: 2b},
             {Pos: [1027.0d, 67.0d, 912.0d], kind: "health", size: 2b},
-            {Pos: [1069.5d, 75.0d, 901.5d], kind: "health", size: 3b},
+            {Pos: [1069.0d, 76.0d, 902.0d], kind: "health", size: 3b},
             // ---------------------------------------------------- //
             {Pos: [1043.5d, 101.0d, 907.5d], kind: "ammo",  size: 1b},
             {Pos: [1065.5d, 67.0d, 898.5d],  kind: "ammo",  size: 1b},
