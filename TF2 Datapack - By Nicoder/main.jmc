@@ -222,14 +222,8 @@ function pickup_tick() {
     };
     tf2.rotation:@s ??= 0;
     tf2.rotation:@s ++;
-    data modify storage tf2.__temp__:vars rotation
-         set value {axis: [0f, 0f, 0f], angle: 0f};
-    data modify storage tf2.__temp__:vars rotation.axis
-         set value [0.0f, 1.0f, 0.0f];
-    execute store result storage tf2.__temp__:vars rotation.angle
-            float 0.1 run tf2.rotation:@s.get();
-    data modify entity @s transformation.left_rotation
-         set from storage tf2.__temp__:vars rotation;
+    execute store result entity @s Rotation[0]
+            float 5.73 run tf2.rotation:@s.get();
     
     // 1 -> 20, 2 -> 50, 3 -> 100
     execute if entity @s[tag=tf2.health_pack] as @a 
