@@ -36,6 +36,18 @@
         },
         {
             "type": "single",
+            "resource": "tf2:pickup/ammo/small"
+        },
+        {
+            "type": "single",
+            "resource": "tf2:pickup/ammo/medium"
+        },
+        {
+            "type": "single",
+            "resource": "tf2:pickup/ammo/large"
+        },
+        {
+            "type": "single",
             "resource": "minecraft:trims/items/chestplate_trim_blu"
         },
         {

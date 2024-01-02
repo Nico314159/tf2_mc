@@ -9,4 +9,4 @@ summon blaze ~ ~ ~ {NoAI:1b}
 summon blaze ~ ~ ~ {NoAI:1b}
 summon blaze ~ ~ ~ {NoAI:1b}
 summon blaze ~ ~ ~ {NoAI:1b}
-scoreboard players set @e[type=blaze,limit=11,sort=nearest,tag=tf2.in_queue] tf2.queue_type 1
+scoreboard players set @e[type=blaze,limit=11,sort=nearest] tf2.queue_type 1

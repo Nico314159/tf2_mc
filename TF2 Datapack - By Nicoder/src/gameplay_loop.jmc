@@ -139,7 +139,7 @@ class start_game {
                     $model_number = 10;
                     $model_number += tf2.size:@s;
                     if (entity @s[tag=tf2.ammo_pack]) {
-                        $model_number -= 10;
+                        $model_number += 10;
                     }
                     if ($model_number == 11) {
                         data modify storage tf2.__temp__:summon entity.transformation.right_rotation.angle set value 0.45f;
@@ -380,5 +380,5 @@ function quick_start() {
     Hardcode.repeat("never", () => {
         summon blaze ~ ~ ~ {NoAI: 1b};
     }, start=1, stop=12);
-    tf2.queue_type:@e[type=blaze,limit=11,sort=nearest,tag=tf2.in_queue] = 1;
+    tf2.queue_type:@e[type=blaze,limit=11,sort=nearest] = 1;
 }

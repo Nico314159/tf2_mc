@@ -6,6 +6,9 @@
     "overrides": [      
         { "predicate": {"custom_model_data": 11}, "model": "tf2:pickup/health/small"},
         { "predicate": {"custom_model_data": 12}, "model": "tf2:pickup/health/medium"},
-        { "predicate": {"custom_model_data": 13}, "model": "tf2:pickup/health/large"}
+        { "predicate": {"custom_model_data": 13}, "model": "tf2:pickup/health/large"},
+        { "predicate": {"custom_model_data": 21}, "model": "tf2:pickup/ammo/small"},
+        { "predicate": {"custom_model_data": 22}, "model": "tf2:pickup/ammo/medium"},
+        { "predicate": {"custom_model_data": 23}, "model": "tf2:pickup/ammo/large"}
     ]
 }

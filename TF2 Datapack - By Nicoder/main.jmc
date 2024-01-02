@@ -268,7 +268,7 @@ function pickup_tick() {
         tf2.primary_ammo:@a[tag=tf2.recipient] < tf2.primary_maxAmmo:@a[tag=tf2.recipient];
 
         $add_amount = $percent;
-        $total_ammo = tf2.s]econdary_maxAmmo:@a[tag=tf2.recipient];
+        $total_ammo = tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
         $total_ammo += tf2.secondary_maxClip:@a[tag=tf2.recipient];
         $add_amount *= $total_ammo;
         $add_amount /= 100;

@@ -7,7 +7,7 @@ function tf2:__private__/anonymous/15 with storage tf2.__temp__:summon pickups[-
 execute store result score @s tf2.size run data get storage tf2.__temp__:summon pickups[-1].size
 scoreboard players set $model_number tf2.var 10
 scoreboard players operation $model_number tf2.var += @s tf2.size
-execute if entity @s[tag=tf2.ammo_pack] run scoreboard players remove $model_number tf2.var 10
+execute if entity @s[tag=tf2.ammo_pack] run scoreboard players add $model_number tf2.var 10
 execute if score $model_number tf2.var matches 11 run data modify storage tf2.__temp__:summon entity.transformation.right_rotation.angle set value 0.45f
 execute if score $model_number tf2.var matches 12 run data modify storage tf2.__temp__:summon entity.transformation.right_rotation.angle set value 5.22f
 execute store result storage tf2.__temp__:summon entity.item.tag.CustomModelData int 1 run scoreboard players get $model_number tf2.var
