@@ -157,7 +157,7 @@ data merge storage tf2:maps {
             {Pos: [1084.5d, 68.0d, 918.5d],  kind: "ammo",  size: 2b},
             {Pos: [1017.0d, 67.0d, 962.0d],  kind: "ammo",  size: 2b},
             {Pos: [1057.0d, 74.0d, 884.3d],  kind: "ammo",  size: 2b},
-            {Pos: [1085.5d, 70.0d, 888.5d],  kind: "ammo",  size: 3b}
+            {Pos: [1085.5d, 69.7d, 888.5d],  kind: "ammo",  size: 3b}
         ],
         gamemode: 3b,
         timer: 180.0f
