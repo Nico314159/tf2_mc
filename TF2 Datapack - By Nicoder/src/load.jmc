@@ -149,14 +149,14 @@ data merge storage tf2:maps {
             // ---------------------------------------------------- //
             {Pos: [1043.5d, 101.0d, 907.5d], kind: "ammo",  size: 1b},
             {Pos: [1065.5d, 67.0d, 898.5d],  kind: "ammo",  size: 1b},
-            {Pos: [1056.5d, 68.0d, 935.5d],  kind: "ammo",  size: 1b},
+            {Pos: [1056.5d, 67.5d, 935.5d],  kind: "ammo",  size: 1b},
             {Pos: [1042.5d, 85.0d, 913.5d],  kind: "ammo",  size: 1b},
             {Pos: [1049.0d, 67.0d, 885.0d],  kind: "ammo",  size: 2b},
             {Pos: [1047.5d, 67.0d, 916.5d],  kind: "ammo",  size: 2b},
             {Pos: [1084.5d, 68.0d, 918.5d],  kind: "ammo",  size: 2b},
             {Pos: [1084.5d, 68.0d, 918.5d],  kind: "ammo",  size: 2b},
             {Pos: [1017.0d, 67.0d, 962.0d],  kind: "ammo",  size: 2b},
-            {Pos: [1057.0d, 74.0d, 883.0d],  kind: "ammo",  size: 2b},
+            {Pos: [1057.0d, 74.0d, 884.3d],  kind: "ammo",  size: 2b},
             {Pos: [1085.5d, 70.0d, 888.5d],  kind: "ammo",  size: 3b}
         ],
         gamemode: 3b,
