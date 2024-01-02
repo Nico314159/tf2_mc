@@ -113,7 +113,7 @@ class start_game {
             data modify storage tf2.__temp__:summon pickups
                         set from entity @s data.map.pickups;
             while (data storage tf2.__temp__:summon pickups[]) {
-                summon area_effect_cloud ~ ~-1 ~ {
+                summon area_effect_cloud ~ ~-1.5 ~ {
                     Duration: -1,
                     Age: -2147483648,
                     WaitTime: -2147483648,

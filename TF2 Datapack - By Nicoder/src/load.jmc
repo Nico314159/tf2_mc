@@ -126,7 +126,7 @@ data merge storage tf2:maps {
             ]
         },
         resupply_cabinets: {
-            red: [{Pos: [ 997.45d, 68.52d, 931.0d], Rotation: [-90.0f, 0.0f]}],
+            red: [{Pos: [ 997.45d, 68.52d, 932.0d], Rotation: [-90.0f, 0.0f]}],
             blu: [{Pos: [1101.59d, 69.52d, 885.0d], Rotation: [ 90.0f, 0.0f]}]
         },
         objectives: [
@@ -139,13 +139,13 @@ data merge storage tf2:maps {
             {Pos: [1061.0d, 71.0d, 893.0d], kind: "health", size: 1b},
             {Pos: [1067.5d, 79.0d, 947.5d], kind: "health", size: 1b},
             {Pos: [1058.5d, 99.5d, 909.5d], kind: "health", size: 1b},
-            {Pos: [1019.5d, 70.0d, 866.5d], kind: "health", size: 1b},
+            {Pos: [1019.5d, 69.5d, 866.5d], kind: "health", size: 1b},
             {Pos: [1048.5d, 67.0d, 865.5d], kind: "health", size: 2b},
             {Pos: [1056.0d, 67.0d, 914.0d], kind: "health", size: 2b},
             {Pos: [1081.0d, 76.0d, 888.0d], kind: "health", size: 2b},
             {Pos: [1036.0d, 69.0d, 889.0d], kind: "health", size: 2b},
             {Pos: [1027.0d, 67.0d, 912.0d], kind: "health", size: 2b},
-            {Pos: [1069.0d, 76.0d, 902.0d], kind: "health", size: 3b},
+            {Pos: [1069.0d, 75.5d, 902.0d], kind: "health", size: 3b},
             // ---------------------------------------------------- //
             {Pos: [1043.5d, 101.0d, 907.5d], kind: "ammo",  size: 1b},
             {Pos: [1065.5d, 67.0d, 898.5d],  kind: "ammo",  size: 1b},
@@ -153,7 +153,6 @@ data merge storage tf2:maps {
             {Pos: [1042.5d, 85.0d, 913.5d],  kind: "ammo",  size: 1b},
             {Pos: [1049.0d, 67.0d, 885.0d],  kind: "ammo",  size: 2b},
             {Pos: [1047.5d, 67.0d, 916.5d],  kind: "ammo",  size: 2b},
-            {Pos: [1084.5d, 68.0d, 918.5d],  kind: "ammo",  size: 2b},
             {Pos: [1084.5d, 68.0d, 918.5d],  kind: "ammo",  size: 2b},
             {Pos: [1017.0d, 67.0d, 962.0d],  kind: "ammo",  size: 2b},
             {Pos: [1057.0d, 74.0d, 884.3d],  kind: "ammo",  size: 2b},
