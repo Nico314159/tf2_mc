@@ -113,44 +113,38 @@ class start_game {
             data modify storage tf2.__temp__:summon pickups
                         set from entity @s data.map.pickups;
             while (data storage tf2.__temp__:summon pickups[]) {
-                execute summon item_display run {
-                    // Storage format of `tf2.__temp__:summon pickups[-1]`
-	                //      Pos: double[3]
-	                //          Coordinates of where the pickup is located on the map.
-	                //      kind: string
-	                //          Whether it is a health or ammo pack.
-	                //      size: byte
-	                //          1 = small (refills 20%), 2 = medium (refills 50%), 3 = large (refills 100%)
+                summon area_effect_cloud ~ ~-1 ~ {
+                    Duration: -1,
+                    Age: -2147483648,
+                    WaitTime: -2147483648,
+                    Invulnerable: 1b,
+                    Tags: ["tf2.new"],
+                    Passengers: [{
+                        id: "minecraft:item",
+                        Invulnerable: 1b,
+                        Tags: ["tf2.pickup", "tf2.new"],
+                        Age: -32768s, PickupDelay: 32767s,
+                        Item: {id: "minecraft:iron_ingot", Count: 1b}
+                    }]
+                };
 
-                    data modify storage tf2.__temp__:summon entity.Pos
-	                     set from storage tf2.__temp__:summon pickups[-1].Pos;
-                    data modify storage tf2.__temp__:summon entity.item.id
-	                     set value "iron_ingot";
-                    data modify storage tf2.__temp__:summon entity.item.Count
-	                     set value 1b;
-                    data modify storage tf2.__temp__:summon entity.transformation
-                         set value {translation: [0.0f, 0.75f, 0.0f]};
-                    data modify storage tf2.__temp__:summon entity.transformation
-                         merge value {right_rotation: {axis: [1f, 0f, 0f], angle: 0f}};
+                execute as @e[type=area_effect_cloud,tag=tf2.new] run {
+                    data modify entity @s Pos set from storage tf2.__temp__:summon pickups[-1].Pos;
+                    tf2.batch_number:@s = tf2.batch_number:$local;
+                    tag @s remove tf2.new;
+                }
+                execute as @e[type=item,tag=tf2.new] run {
                     execute run { $tag @s add tf2.$(kind)_pack; }
                             with storage tf2.__temp__:summon pickups[-1];
 
                     tf2.size:@s = data get storage tf2.__temp__:summon pickups[-1].size;
-                    $model_number = 10;
-                    $model_number += tf2.size:@s;
-                    if (entity @s[tag=tf2.ammo_pack]) {
-                        $model_number += 10;
-                    }
-                    if ($model_number == 11) {
-                        data modify storage tf2.__temp__:summon entity.transformation.right_rotation.angle set value 0.45f;
-                    } if ($model_number == 12) {
-                        data modify storage tf2.__temp__:summon entity.transformation.right_rotation.angle set value 5.22f;
-                    }
-                    execute store result storage tf2.__temp__:summon entity.item.tag.CustomModelData
-	                        int 1 run $model_number.get();
-                    data modify entity @s {} merge from storage tf2.__temp__:summon entity;
+                    tf2.model_number:@s = 10;
+                    tf2.model_number:@s += tf2.size:@s;
+                    tf2.model_number:@s[tag=tf2.ammo_pack] += 10;
+
                     tf2.batch_number:@s = tf2.batch_number:$local;
-                    tag @s add tf2.pickup;
+                    tf2.respawn_timer:@s = 1;
+                    tag @s remove tf2.new;
                 }
                 data remove storage tf2.__temp__:summon pickups[-1];
             }
@@ -341,6 +335,8 @@ class reset {
         execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();
         kill @e[type=item_display,tag=tf2.current,tag=!tf2.permanent];
+        kill @e[type=item,tag=tf2.current];
+        kill @e[type=area_effect_cloud,tag=tf2.current];
         if (timekeeper.var:$enabled == -1 && $profiler_installed) timekeeper.var:$enabled = 1;
         kill @s;
         setup_markers();

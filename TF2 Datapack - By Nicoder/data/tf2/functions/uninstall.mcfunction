@@ -25,7 +25,7 @@ scoreboard objectives remove tf2.session
 scoreboard objectives remove tf2.lifetime
 scoreboard objectives remove tf2.draw_delay
 scoreboard objectives remove tf2.size
-scoreboard objectives remove tf2.rotation
+scoreboard objectives remove tf2.model_number
 scoreboard objectives remove tf2.respawn_timer
 scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.class

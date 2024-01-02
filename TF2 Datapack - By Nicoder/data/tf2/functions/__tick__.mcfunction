@@ -16,4 +16,4 @@ execute if score $enough_in_queue tf2.var matches 1.. as @e[type=marker,tag=tf2.
 execute as @e[type=marker] run function tf2:marker_tick
 execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run function tf2:player_tick
 tag @e[type=#tf2:player_like] remove tf2.on_point
-execute as @e[type=item_display,tag=tf2.pickup] run function tf2:pickup_tick
+execute as @e[type=item,tag=tf2.pickup] at @s run function tf2:pickup_tick

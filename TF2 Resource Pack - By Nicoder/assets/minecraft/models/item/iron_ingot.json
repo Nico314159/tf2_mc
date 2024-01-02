@@ -3,7 +3,9 @@
     "textures": {
         "layer0": "item/iron_ingot"
     },
-    "overrides": [      
+    "overrides": [
+        { "predicate": {"custom_model_data": -1}, "model": "tf2:item/empty"},
+        { "predicate": {"custom_model_data":  0}, "model": "item/iron_ingot"},
         { "predicate": {"custom_model_data": 11}, "model": "tf2:pickup/health/small"},
         { "predicate": {"custom_model_data": 12}, "model": "tf2:pickup/health/medium"},
         { "predicate": {"custom_model_data": 13}, "model": "tf2:pickup/health/large"},
