@@ -456,11 +456,12 @@ class Weapons {
         damage @s 0.01 tf2:screenshake by @a[tag=retina.executing, limit=1];
 
         // Death message
-        if (tf2.health:@s <= 0) {
+        if (tf2.health:@s[tag=!tf2.said_death_msg] <= 0) {
             tf2.batch_number:$local = tf2.batch_number:@s;
             execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
             Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
             tag @a remove tf2.current;
+            tag @s add tf2.said_death_msg;
         }
     }
     function damage_numbers() {
