@@ -2,7 +2,7 @@ data modify storage tf2.__temp__:summon entity.Pos set from storage tf2.__temp__
 data modify storage tf2.__temp__:summon entity.item.id set value "iron_ingot"
 data modify storage tf2.__temp__:summon entity.item.Count set value 1b
 data modify storage tf2.__temp__:summon entity.transformation set value {translation:[0.0f,0.75f,0.0f]}
-data modify storage tf2.__temp__:summon entity.transformation merge value {right_rotation:{axis:[1f,0f,0f]}}
+data modify storage tf2.__temp__:summon entity.transformation merge value {right_rotation:{axis:[1f,0f,0f],angle:0f}}
 function tf2:__private__/anonymous/15 with storage tf2.__temp__:summon pickups[-1]
 execute store result score @s tf2.size run data get storage tf2.__temp__:summon pickups[-1].size
 scoreboard players set $model_number tf2.var 10

@@ -48,6 +48,10 @@
         },
         {
             "type": "single",
+            "resource": "tf2:prop/resupply"
+        },
+        {
+            "type": "single",
             "resource": "minecraft:trims/items/chestplate_trim_blu"
         },
         {

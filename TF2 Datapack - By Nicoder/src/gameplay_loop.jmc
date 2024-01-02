@@ -131,7 +131,7 @@ class start_game {
                     data modify storage tf2.__temp__:summon entity.transformation
                          set value {translation: [0.0f, 0.75f, 0.0f]};
                     data modify storage tf2.__temp__:summon entity.transformation
-                         merge value {right_rotation: {axis: [1f, 0f, 0f]}};
+                         merge value {right_rotation: {axis: [1f, 0f, 0f], angle: 0f}};
                     execute run { $tag @s add tf2.$(kind)_pack; }
                             with storage tf2.__temp__:summon pickups[-1];
 
@@ -175,10 +175,8 @@ class start_game {
 	                     set from storage tf2.__temp__:summon resupply[-1].Pos;
                     data modify storage tf2.__temp__:summon entity.Rotation
 	                     set from storage tf2.__temp__:summon resupply[-1].Rotation;
-                    data modify storage tf2.__temp__:summon entity.item.id
-	                     set value "gold_ingot";
-                    data modify storage tf2.__temp__:summon entity.item.Count
-	                     set value 1b;
+                    data modify storage tf2.__temp__:summon entity.item set value 
+                        {id: "iron_ingot", Count: 1b, tag: {CustomModelData: 30}};
 
                     tf2.team:@s ?= execute if score $i tf2.var < $blu_length tf2.var;
                     tf2.team:@s ++;
