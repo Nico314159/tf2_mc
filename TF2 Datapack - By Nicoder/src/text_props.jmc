@@ -32,4 +32,11 @@ TextProps.nbt(
     path         = points[0].wheel._path_,
     interpret    = true
 );
-
+TextProps.nbt(
+    propertyName = "item_of",
+    indexString  = "_selector_",
+    type         = entity,
+    source       = "_selector_",
+    path         = SelectedItem.tag.display.Name,
+    interpret    = true
+);

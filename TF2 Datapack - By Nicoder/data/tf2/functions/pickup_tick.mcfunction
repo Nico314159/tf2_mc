@@ -12,8 +12,8 @@ scoreboard players add $percent tf2.var 1
 scoreboard players operation $percent tf2.var *= 10 tf2.const
 execute unless entity @a[tag=tf2.recipient] run return 1
 scoreboard players operation $add_amount tf2.var = $percent tf2.var
-execute if entity @s[tag=tf2.health_pack] run function tf2:__private__/if_else/43
-execute if entity @s[tag=tf2.ammo_pack] run function tf2:__private__/if_else/44
+execute if entity @s[tag=tf2.health_pack] run function tf2:__private__/if_else/44
+execute if entity @s[tag=tf2.ammo_pack] run function tf2:__private__/if_else/45
 scoreboard players set @s tf2.respawn_timer 200
 data modify entity @s Item.tag.CustomModelData set value -1b
 tag @a remove tf2.recipient

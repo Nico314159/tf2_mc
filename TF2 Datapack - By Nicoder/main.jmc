@@ -58,9 +58,12 @@ function marker_tick() {
 }
 
 function player_tick() {
+    tf2.batch_number:$local = tf2.batch_number:@s;
+    execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+
     if (entity @s[tag=!tf2.dead,y=-45,dy=5]) {
         tf2.health:@s = 0;
-        Text.tellraw(@a, "&<@s> fell into the void.");
+        Text.tellraw(@a[tag=tf2.current], "&<@s> fell into the void.");
         tp @s ~ 5 ~;
     }
     if (entity @s[tag=!tf2.dead,scores={tf2.health=..0}]) {death();}
@@ -74,7 +77,7 @@ function player_tick() {
     }
     if (entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}]) {Spawn.init();}
 
-    if (entity @s[gamemode=spectator]) return 1;
+    if (entity @s[gamemode=spectator]) return run tag @a remove tf2.current;
 
     tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
     tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
@@ -128,6 +131,9 @@ function player_tick() {
     if (tf2.air:@s == -19) {
         tf2.health:@s -= 5;
         tf2.drown_lost:@s += 5;
+        if (tf2.health:@s <= 0) {
+            Text.tellraw(@a[tag=tf2.current], "&<@s> drowned");
+        }
     }
     tf2.time_surfaced:@s[predicate=!tf2:submerged] ++;
     if (tf2.time_surfaced:@s == 40) {
@@ -147,6 +153,7 @@ function player_tick() {
         tf2.secondary_ammo:@s = tf2.secondary_maxAmmo:@s;
         tf2.health:@s > tf2.max_health:@s;
     } 
+    tag @a remove tf2.current;
 }
 function do_fall_damage() {
     $2nd_previous_dy = tf2.fall_y3:@s;
@@ -198,6 +205,10 @@ function do_fall_damage() {
     tf2.health:@s -= $fall_damage;
     if ($fall_damage) {
         damage @s 0.01 tf2:screenshake;
+    }
+
+    if (tf2.health:@s <= 0) {
+        Text.tellraw(@a[tag=tf2.current], "&<@s> fell to their death");
     }
 
     // Clear everything out
