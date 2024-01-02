@@ -177,6 +177,8 @@ class start_game {
 	                     set from storage tf2.__temp__:summon resupply[-1].Rotation;
                     data modify storage tf2.__temp__:summon entity.item set value 
                         {id: "iron_ingot", Count: 1b, tag: {CustomModelData: 30}};
+                    data modify storage tf2.__temp__:summon entity.transformation.scale
+                         set value [1.0f, 1.01f, 1.0f];
 
                     tf2.team:@s ?= execute if score $i tf2.var < $blu_length tf2.var;
                     tf2.team:@s ++;
