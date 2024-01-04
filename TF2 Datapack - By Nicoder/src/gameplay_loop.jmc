@@ -13,7 +13,7 @@ Item.create(
     onClick     = () => {
         tf2.class:@s = Class.SNIPER; 
         class_select();
-        tf2.health:@s = 0;
+        tf2.health:@s[tag=!tf2.in_spawn] = 0;
     }
 );
 Item.create(
@@ -24,7 +24,7 @@ Item.create(
     onClick     = () => {
         tf2.class:@s = Class.SCOUT; 
         class_select();
-        tf2.health:@s = 0;
+        tf2.health:@s[tag=!tf2.in_spawn] = 0;
     }
 );
 Item.create(
@@ -35,7 +35,7 @@ Item.create(
     onClick     = () => {
         tf2.class:@s = Class.HEAVY; 
         class_select();
-        tf2.health:@s = 0;
+        tf2.health:@s[tag=!tf2.in_spawn] = 0;
     }
 );
 
