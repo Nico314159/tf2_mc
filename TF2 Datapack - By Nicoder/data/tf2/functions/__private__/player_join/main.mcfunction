@@ -8,11 +8,10 @@ scoreboard players enable @s tf2.queue_type
 execute store result score @s tf2.batch_number run scoreboard players set @s tf2.queue_type 0
 function tf2:koth_timer/show with storage tf2.__temp__:index
 function tf2:timer/show with storage tf2.__temp__:index
-effect give @s minecraft:saturation infinite 0 true
+effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true
 effect give @s minecraft:resistance infinite 4 true
 attribute @s minecraft:generic.attack_damage base set 0
 attribute @s minecraft:generic.movement_speed base set 0.1
-attribute @s minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67
 attribute @s minecraft:generic.movement_speed modifier remove 736c6f77-7768-696c-6572-657676696e67
 team leave @s
 tag @s remove tf2.in_queue

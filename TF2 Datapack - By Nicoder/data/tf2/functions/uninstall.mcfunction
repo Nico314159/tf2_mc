@@ -64,6 +64,7 @@ scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.elytra_detect
 scoreboard objectives remove tf2.fall
 scoreboard objectives remove tf2.air
+scoreboard objectives remove tf2.food
 team remove RED
 team remove BLU
 bossbar remove tf2:timer_1

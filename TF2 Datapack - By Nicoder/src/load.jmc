@@ -33,6 +33,7 @@ Scoreboard.add(tf2.queue_type, trigger);
 Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
 Scoreboard.add(tf2.fall, custom:fall_one_cm);
 Scoreboard.add(tf2.air, air);
+Scoreboard.add(tf2.food, food);
 
 // when in score format - RED = 1, BLU = 2
 Team.add(RED, "RED", {color: red,  prefix: "\"[RED] \"", friendlyFire: false});

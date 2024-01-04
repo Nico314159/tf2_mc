@@ -90,6 +90,7 @@ scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.fall custom:fall_one_cm
 scoreboard objectives add tf2.air air
+scoreboard objectives add tf2.food food
 team add RED "RED"
 team modify RED color red
 team modify RED prefix "[RED] "

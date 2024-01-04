@@ -20,15 +20,6 @@ function setup_markers() {
     if ($batch_markers != $Settings.max_batches) setup_markers();
 }
 
-function disable_sprint() {
-    // Prevents players from sprinting by giving them an attribute modifier that cancels it out exactly.
-    // Function is executed as all players, *except* those with the tf2.allowed_to_sprint tag (which exists only for debugging)
-
-    // UUID was chosen because it spells out "preventsprinting" in ASCII
-    attribute @s[predicate=tf2:sprinting] minecraft:generic.movement_speed modifier add 70726576-656e-7473-7072-696e74696e67 "preventsprinting" -0.23 multiply;
-    attribute @s[predicate=!tf2:sprinting] minecraft:generic.movement_speed modifier remove 70726576-656e-7473-7072-696e74696e67;
-}
-
 function join_queue() {
     // Adds players to queues when they select them using /trigger.
     // @within __tick()__
