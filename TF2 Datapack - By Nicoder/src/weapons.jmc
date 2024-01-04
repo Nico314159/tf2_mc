@@ -249,7 +249,7 @@ class Weapons {
         }
         else {
             data merge storage retina:input {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
-            for ($_ = 0; $_ < 4; $_++) {function retina:traverse/multicast;}
+            Hardcode.repeat("never", () => {function retina:traverse/multicast;}, start=0, stop=4);
         }
         // retina._variable_:$end_particle = false;
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
