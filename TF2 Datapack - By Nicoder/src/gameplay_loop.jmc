@@ -1,23 +1,42 @@
 Item.create(
+    itemId      = changeClass,
+    itemType    = carrot_on_a_stick,
+    displayName = "Change Class",
+    nbt         = {CustomModelData: 10},
+    onClick     = () => {tf2.class:@s = 0; class_select();}
+);
+Item.create(
     itemId      = selectSniper,
     itemType    = carrot_on_a_stick,
     displayName = "Sniper",
     nbt         = {CustomModelData: Class.SNIPER},
-    onClick     = () => {tf2.class:@s = Class.SNIPER; class_select();}
+    onClick     = () => {
+        tf2.class:@s = Class.SNIPER; 
+        class_select();
+        tf2.health:@s = 0;
+    }
 );
 Item.create(
     itemId      = selectScout,
     itemType    = carrot_on_a_stick,
     displayName = "Scout",
     nbt         = {CustomModelData: Class.SCOUT},
-    onClick     = () => {tf2.class:@s = Class.SCOUT; class_select();}
+    onClick     = () => {
+        tf2.class:@s = Class.SCOUT; 
+        class_select();
+        tf2.health:@s = 0;
+    }
 );
 Item.create(
     itemId      = selectHeavy,
     itemType    = carrot_on_a_stick,
     displayName = "Heavy",
     nbt         = {CustomModelData: Class.HEAVY},
-    onClick     = () => {tf2.class:@s = Class.HEAVY; class_select();}
+    onClick     = () => {
+        tf2.class:@s = Class.HEAVY; 
+        class_select();
+        tf2.health:@s = 0;
+    }
 );
 
 class start_game {
@@ -367,6 +386,7 @@ class reset {
 }
 
 function test_items() {
+    clear @s;
     Item.give(selectSniper, @s);
     Item.give(selectScout,  @s);
     Item.give(selectHeavy,  @s);
