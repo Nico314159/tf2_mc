@@ -1,2 +1,6 @@
-execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run function tf2:start_game/as_players/generic
-scoreboard players set __if_else__ tf2.var 1
+execute if entity @s[gamemode=spectator] run return 0
+scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
+execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
+tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=retina.executing]","type":"selector"},{"text":" killed "},{"selector":"@s","type":"selector"},{"text":" with "},{"type":"nbt","source":"entity","nbt":"SelectedItem.tag.display.Name","interpret":true,"entity":"@a[tag=retina.executing]"}]
+tag @a remove tf2.current
+tag @s add tf2.said_death_msg

@@ -243,7 +243,14 @@ class Weapons {
 
         retina.__variable__:$func_id = 100;
         $_totalDamage_ = 0;
-        function retina:traverse/multicast;
+        $_weaponID_ = data get entity @s SelectedItem.tag.CustomModelData 0.001;
+        if ($_weaponID_ != 61) {
+            function retina:traverse/multicast;
+        }
+        else {
+            data merge storage retina:input {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
+            for ($_ = 0; $_ < 4; $_++) {function retina:traverse/multicast;}
+        }
         // retina._variable_:$end_particle = false;
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
         tf2.attack_delay:@s += $_delay_;

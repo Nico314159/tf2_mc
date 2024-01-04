@@ -1,2 +1,4 @@
-tellraw @s {"text":"Victory.","bold":false,"italic":true,"type":"text"}
-scoreboard players set __if_else__ tf2.var 1
+execute store result score @s tf2.timer run data get entity @s data.map.timer 20
+execute if data entity @s data.map.timer run function tf2:timer/set_max with storage tf2.__temp__:index
+execute if data entity @s data.map.timer run function tf2:timer/show with storage tf2.__temp__:index
+execute if data entity @s data.map.setup_time run function tf2:timer/begin_setup

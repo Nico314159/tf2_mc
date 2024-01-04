@@ -1,6 +1,8 @@
-execute if entity @s[gamemode=spectator] run return 0
-scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
-execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
-tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=retina.executing]","type":"selector"},{"text":" killed "},{"selector":"@s","type":"selector"},{"text":" with "},{"type":"nbt","source":"entity","nbt":"SelectedItem.tag.display.Name","interpret":true,"entity":"@a[tag=retina.executing]"}]
-tag @a remove tf2.current
-tag @s add tf2.said_death_msg
+scoreboard players operation $_multiplier_ tf2.var = @a[tag=retina.executing,limit=1] tf2.time_scoped
+scoreboard players remove $_multiplier_ tf2.var 26
+scoreboard players operation $_multiplier_ tf2.var *= 5 tf2.const
+scoreboard players add $_multiplier_ tf2.var 100
+scoreboard players operation $_multiplier_ tf2.var > 100 tf2.const
+scoreboard players operation $_multiplier_ tf2.var < 300 tf2.const
+execute if data storage retina:output {HitEntityHead: true} run scoreboard players operation $_multiplier_ tf2.var *= 3 tf2.const
+scoreboard players set __if_else__ tf2.var 1
