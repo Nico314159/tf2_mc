@@ -5,7 +5,7 @@ function tf2:__private__/switch_case/1/select with storage tf2:__storage__
 execute unless predicate tf2:has_main_fire run return 0
 function tf2:weapons/get_ammo
 execute if score $_clip_ tf2.var matches ..0 unless predicate tf2:holding_melee run return 0
-execute unless predicate tf2:holding_melee run playsound tf2:item.gun.shoot ambient @s ~ ~ ~ 1.5 1 0.1
+execute unless predicate tf2:holding_melee run playsound tf2:item.gun.shoot player @s ~ ~ ~ 1.5 1 0.1
 scoreboard players operation $current tf2.team = @s tf2.team
 data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina
 execute store result score $_damage_ tf2.var run data get entity @s SelectedItem.tag.attributes.damage.base
