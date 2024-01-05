@@ -5,6 +5,7 @@
     "overrides": [      
         { "predicate": {"custom_model_data": 23000}, "model": "tf2:item/sniper/melee/kukri"},
         { "predicate": {"custom_model_data": 33000}, "model": "tf2:item/scout/melee/baseball_bat"},
+        { "predicate": {"custom_model_data": 43000}, "model": "tf2:item/soldier/melee/shovel"},
         { "predicate": {"custom_model_data": 63000}, "model": "tf2:item/heavy/melee/right_fist"}
     ]
 }

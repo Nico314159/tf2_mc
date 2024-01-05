@@ -1,0 +1,138 @@
+class Class.Soldier {
+    new loot_tables(rocket_launcher) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:crossbow_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Rocket Launcher (DOESN'T WORK YET)",
+                                "color": "white",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 41000,
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 100},
+                                attributes: {damage: {base: 0, maxRamp: 1.25}, attackDelay: 0.8d, reloadDelay: [0.92d, 0.8d], clip: 4, ammo: 20, isProjectile: true},
+                                controls: {main_fire: true, alt_fire: false, reload: 1},
+                                Unbreakable: 1b
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(shotgun) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:crossbow_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Shotgun",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 42000,
+                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [30, 170], MaxRecursionDepth: 100},
+                                attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [0.87d, 0.51d], clip: 6, ammo: 32},
+                                controls: {main_fire: true, alt_fire: false, reload: 1},
+                                Unbreakable: 1b
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(shovel) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:melee_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Shovel",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{
+                                CustomModelData: 43000,
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
+                                attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
+                                controls: {main_fire: true, alt_fire: false, reload: 0}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+
+    @lazy
+    function give() {
+        clear @s;
+        loot replace entity @s hotbar.0 loot tf2:class/soldier/rocket_launcher;
+        loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun;
+        loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
+        // loot replace entity @s armor.legs loot tf2:class/soldier/_model;
+
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+    }
+    @lazy
+    function tick() {
+        Weapons.get_ammo();
+        Weapons.actionbar();
+        Weapons.set_ammo();
+
+        Class.Soldier.inventory_lock();
+    }
+    function inventory_lock() {
+        item replace entity @s weapon.offhand with air;
+        loot replace entity @s hotbar.0 loot tf2:class/soldier/rocket_launcher;
+        $_count_ = clear @s crossbow{CustomModelData: 41000} 0;
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 41000};
+        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/soldier/rocket_launcher;
+
+        loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun;
+        $_count_ = clear @s crossbow{CustomModelData: 42000} 0;
+        if ($_count_ != 1) clear @s crossbow{CustomModelData: 42000};
+        if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun;
+
+        loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
+        $_count_ = clear @s snowball{CustomModelData: 43000} 0;
+        if ($_count_ != 1) clear @s snowball{CustomModelData: 43000};
+        if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
+
+        // loot replace entity @s armor.legs loot tf2:class/soldier/_model;
+        // $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:soldier"}} 0;
+        // if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:soldier"}};
+        // if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/soldier/_model;
+    }
+}

@@ -18,53 +18,43 @@
     },
     "overrides": [
         {
-            "predicate": {
-                "custom_model_data": 21000
-            },
+            "predicate": {"custom_model_data": 21000},
             "model": "tf2:item/sniper/primary/sniper_rifle"
         },
         {
-            "predicate": {
-                "custom_model_data": 22000
-            },
+            "predicate": {"custom_model_data": 22000},
             "model": "tf2:item/sniper/secondary/smg"
         },
         {
-            "predicate": {
-                "custom_model_data": 31000
-            },
+            "predicate": {"custom_model_data": 31000},
             "model": "tf2:item/scout/primary/scattergun"
         },
         {
-            "predicate": {
-                "custom_model_data": 32000
-            },
+            "predicate": {"custom_model_data": 32000},
             "model": "tf2:item/scout/secondary/pistol"
         },
         {
-            "predicate": {
-                "custom_model_data": 61000
-            },
+            "predicate": {"custom_model_data": 41000},
+            "model": "tf2:item/soldier/primary/rocket_launcher"
+        },
+        {
+            "predicate": {"custom_model_data": 42000},
+            "model": "tf2:item/soldier/secondary/shotgun"
+        },
+        {
+            "predicate": {"custom_model_data": 61000},
             "model": "tf2:item/heavy/primary/minigun"
         },
         {
-            "predicate": {
-                "charged": 0,
-                "custom_model_data": 61001
-            },
+            "predicate": {"charged": 0, "custom_model_data": 61001},
             "model": "tf2:item/empty"
         },
         {
-            "predicate": {
-                "charged": 1,
-                "custom_model_data": 61001
-            },
+            "predicate": {"charged": 1, "custom_model_data": 61001},
             "model": "tf2:item/heavy/primary/minigun_spinning"
         },
         {
-            "predicate": {
-                "custom_model_data": 62000
-            },
+            "predicate": {"custom_model_data": 62000},
             "model": "tf2:item/heavy/secondary/shotgun"
         }
     ]

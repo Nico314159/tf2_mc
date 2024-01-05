@@ -61,6 +61,7 @@ function class_select() {
         case Class.SOLDIER:
             tf2.max_health:@s = tf2.health:@s = 200;
             attribute @s minecraft:generic.movement_speed base set 0.1122;
+            Class.Soldier.give();
         case Class.DEMOMAN:
             tf2.max_health:@s = tf2.health:@s = 175;
             attribute @s minecraft:generic.movement_speed base set 0.12276;

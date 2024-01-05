@@ -111,7 +111,7 @@ function player_tick() {
         case Class.SPY: Class.Spy.tick();
         case Class.SNIPER: Class.Sniper.tick();
         case Class.SCOUT: Class.Scout.tick();
-        // case Class.SOLDIER: Class.Soldier.tick();
+        case Class.SOLDIER: Class.Soldier.tick();
         // case Class.DEMOMAN: Class.Demoman.tick();
         case Class.HEAVY: Class.Heavy.tick();
         // case Class.PYRO: Class.Pyro.tick();

@@ -215,7 +215,7 @@ class Weapons {
             case Class.SPY: break; //Class.Spy.inventory_lock();
             case Class.SNIPER: Class.Sniper.inventory_lock();
             case Class.SCOUT: Class.Scout.inventory_lock();
-            // case Class.SOLDIER: Class.Soldier.inventory_lock();
+            case Class.SOLDIER: Class.Soldier.inventory_lock();
             // case Class.DEMOMAN: Class.Demoman.inventory_lock();
             case Class.HEAVY: Class.Heavy.inventory_lock();
             // case Class.PYRO: Class.Pyro.inventory_lock();
@@ -314,7 +314,7 @@ class Weapons {
             case Class.SPY: break; //Class.Spy.inventory_lock();
             case Class.SNIPER: Class.Sniper.inventory_lock();
             case Class.SCOUT: Class.Scout.inventory_lock();
-            // case Class.SOLDIER: Class.Soldier.inventory_lock();
+            case Class.SOLDIER: Class.Soldier.inventory_lock();
             // case Class.DEMOMAN: Class.Demoman.inventory_lock();
             case Class.HEAVY: Class.Heavy.inventory_lock();
             // case Class.PYRO: Class.Pyro.inventory_lock();

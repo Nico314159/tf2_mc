@@ -38,6 +38,17 @@ Item.create(
         tf2.health:@s[tag=!tf2.in_spawn] = 0;
     }
 );
+Item.create(
+    itemId      = selectSoldier,
+    itemType    = carrot_on_a_stick,
+    displayName = "Soldier",
+    nbt         = {CustomModelData: Class.SOLDIER},
+    onClick     = () => {
+        tf2.class:@s = Class.SOLDIER; 
+        class_select();
+        tf2.health:@s[tag=!tf2.in_spawn] = 0;
+    }
+);
 
 class start_game {
     class as_marker {
@@ -389,9 +400,10 @@ class reset {
 
 function test_items() {
     clear @s;
-    Item.give(selectSniper, @s);
-    Item.give(selectScout,  @s);
-    Item.give(selectHeavy,  @s);
+    Item.give(selectSniper,  @s);
+    Item.give(selectScout,   @s);
+    Item.give(selectHeavy,   @s);
+    Item.give(selectSoldier, @s);   
 }
 
 function quick_start() {
