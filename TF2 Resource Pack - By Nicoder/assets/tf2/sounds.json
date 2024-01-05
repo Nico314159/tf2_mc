@@ -111,5 +111,35 @@
 
         ],
         "subtitle": "Melee hits"
+    },
+    "pickup.health": {
+        "sounds": [
+            {
+                "name": "tf2:pickup/health",
+                "pitch": 1,
+                "volume": 1
+            }
+        ],
+        "subtitle": "Health pack plops"
+    },
+    "pickup.ammo": {
+        "sounds": [
+            {
+                "name": "tf2:pickup/ammo",
+                "pitch": 1,
+                "volume": 1
+            }
+        ],
+        "subtitle": "Ammo pack plops"
+    },
+    "pickup.resupply": {
+        "sounds": [
+            {
+                "name": "tf2:pickup/resupply",
+                "pitch": 1,
+                "volume": 1
+            }
+        ],
+        "subtitle": "Player resupplies"
     }
 }
