@@ -192,6 +192,8 @@ class start_game {
                         {id: "iron_ingot", Count: 1b, tag: {CustomModelData: 30}};
                     data modify storage tf2.__temp__:summon entity.transformation.scale
                          set value [1.0f, 1.01f, 1.0f];
+                    data modify storage tf2.__temp__:summon entity.transformation.translation
+                         set value [0.0f, 1.0f, 0.0f];
 
                     tf2.team:@s ?= execute if score $i tf2.var < $blu_length tf2.var;
                     tf2.team:@s ++;
