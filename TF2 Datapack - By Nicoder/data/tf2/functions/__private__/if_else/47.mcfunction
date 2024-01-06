@@ -1,4 +1,4 @@
-playsound tf2:pickup.ammo player @a[tag=tf2.recipient] ~ ~ ~ 0.9 0.6 0.2
+playsound tf2:pickup.ammo player @a[tag=tf2.recipient] ~ ~ ~ 0.6 0.9 0.2
 scoreboard players operation $total_ammo tf2.var = @a[tag=tf2.recipient] tf2.primary_maxAmmo
 scoreboard players operation $total_ammo tf2.var += @a[tag=tf2.recipient] tf2.primary_maxClip
 scoreboard players operation $add_amount tf2.var *= $total_ammo tf2.var

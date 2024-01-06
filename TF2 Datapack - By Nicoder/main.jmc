@@ -270,14 +270,14 @@ function pickup_tick() {
     if (!entity @a[tag=tf2.recipient]) return 1;
     $add_amount = $percent;
     if (entity @s[tag=tf2.health_pack]) {
-        playsound tf2:pickup.health player @a[tag=tf2.recipient] ~ ~ ~ 0.85 0.55 0.2;
+        playsound tf2:pickup.health player @a[tag=tf2.recipient] ~ ~ ~ 0.55 0.85 0.2;
         $add_amount *= tf2.max_health:@a[tag=tf2.recipient];
         $add_amount /= 100;
         tf2.health:@a[tag=tf2.recipient] += $add_amount;
         tf2.health:@a[tag=tf2.recipient] < tf2.max_health:@a[tag=tf2.recipient];
     }
     if (entity @s[tag=tf2.ammo_pack]) {
-        playsound tf2:pickup.ammo player @a[tag=tf2.recipient] ~ ~ ~ 0.9 0.6 0.2;
+        playsound tf2:pickup.ammo player @a[tag=tf2.recipient] ~ ~ ~ 0.6 0.9 0.2;
         $total_ammo = tf2.primary_maxAmmo:@a[tag=tf2.recipient];
         $total_ammo += tf2.primary_maxClip:@a[tag=tf2.recipient];
         $add_amount *= $total_ammo;

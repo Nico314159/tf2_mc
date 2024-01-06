@@ -470,10 +470,10 @@ class Weapons {
             Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
             tag @a remove tf2.current;
             tag @s add tf2.said_death_msg;
-            playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 1 1 0.1;
+            playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
         }
         if (tf2.health:@s[tag=!tf2.said_death_msg] > 0) {
-            playsound tf2:ding.hit player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 1 1 0.1;
+            playsound tf2:ding.hit player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
         }
     }
     function damage_numbers() {

@@ -147,7 +147,7 @@
             {
                 "name": "tf2:ding/hit",
                 "pitch": 1.025,
-                "volume": 0.55
+                "volume": 0.29
             }
         ],
         "subtitle": "Hurt player"
@@ -157,7 +157,7 @@
             {
                 "name": "tf2:ding/kill",
                 "pitch": 0.875,
-                "volume": 0.55
+                "volume": 0.29
             }
         ],
         "subtitle": "Killed player"
