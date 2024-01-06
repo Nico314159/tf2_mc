@@ -1,0 +1,3 @@
+tellraw @a[tag=tf2.is_playing] ["",{"text":"Control Scheme:\n","underlined":true,"type":"text"},{"text":"Main Attack (both guns & melee) = ","type":"text"},{"bold":true,"keybind":"key.use","type":"keybind"},{"text":"\n","bold":true},{"text":"Alt Fire (zoom-in, revving, etc) = ","type":"text"},{"bold":true,"keybind":"key.swapOffhand","type":"keybind"},{"text":"\n","bold":true},{"text":"Reload = ","type":"text"},{"bold":true,"keybind":"key.drop","type":"keybind"},{"text":"\n","bold":true},{"text":"You ","type":"text"},{"text":"NEVER ","bold":true,"italic":true,"color":"dark_red","type":"text"},{"text":"need to press ","type":"text"},{"bold":true,"keybind":"key.attack","type":"keybind"}]
+scoreboard players set @s controls 0
+scoreboard players enable @s controls

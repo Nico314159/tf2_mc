@@ -1,4 +1,5 @@
 scoreboard objectives add tf2.var dummy
+scoreboard objectives add controls trigger
 scoreboard objectives add on_event_1mqyp2x used:carrot_on_a_stick
 scoreboard objectives add 0008it54g_p_join dummy
 scoreboard objectives add tf2.const dummy
@@ -26,9 +27,11 @@ scoreboard players set 60 tf2.const 60
 scoreboard players set 66 tf2.const 66
 scoreboard players set 5833 tf2.const 5833
 scoreboard players set 85 tf2.const 85
+scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000
 scoreboard players set -1 tf2.const -1
+execute as @a run function tf2:__private__/trigger_add/enable
 scoreboard objectives add tf2.gamemode dummy
 scoreboard objectives add tf2.map dummy
 scoreboard objectives add tf2.index dummy

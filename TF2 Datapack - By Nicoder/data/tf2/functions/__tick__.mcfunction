@@ -1,3 +1,4 @@
+function tf2:__private__/trigger_add/main
 execute as @a[scores={on_event_1mqyp2x=1..}] at @s run function tf2:__private__/on_event/used_carrot_on_a_stick
 scoreboard players add $__global__ 0008it54g_p_join 1
 scoreboard players add @a 0008it54g_p_join 1
@@ -19,3 +20,6 @@ execute as @e[type=marker] run function tf2:marker_tick
 execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run function tf2:player_tick
 tag @e[type=#tf2:player_like] remove tf2.on_point
 execute as @e[type=item,tag=tf2.pickup] at @s run function tf2:pickup_tick
+scoreboard players operation $trigger_reminder tf2.var = $__global__ 0008it54g_p_join
+scoreboard players operation $trigger_reminder tf2.var %= 2400 tf2.const
+execute if score $trigger_reminder tf2.var matches 0 run tellraw @a[tag=tf2.is_playing] ["",{"text":"Remember, you can type "},{"text":"/trigger controls ","bold":true,"type":"text"},{"text":"in chat to see the controls","bold":false,"type":"text"}]

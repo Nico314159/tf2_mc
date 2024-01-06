@@ -1,5 +1,6 @@
 kill @e[type=marker]
 scoreboard objectives remove tf2.var
+scoreboard objectives remove controls
 scoreboard objectives remove on_event_1mqyp2x
 scoreboard objectives remove 0008it54g_p_join
 scoreboard objectives remove tf2.gamemode
