@@ -313,9 +313,9 @@
 			"scale": [0.8, 0.8, 0.8]
 		},
 		"firstperson_righthand": {
-			"rotation": [0, 82, 0],
-			"translation": [9.75, 2.75, 3.25],
-			"scale": [0.88, 0.94, 0.93]
+			"rotation": [3, 82, 0],
+			"translation": [10, 3.5, 7.25],
+			"scale": [0.94, 0.94, 0.94]
 		},
 		"ground": {
 			"scale": [0, 0, 0]
