@@ -272,6 +272,7 @@ function pickup_tick() {
     if (entity @s[tag=tf2.health_pack]) {
         playsound tf2:pickup.health player @a[tag=tf2.recipient] ~ ~ ~ 0.55 0.85 0.2;
         $add_amount *= tf2.max_health:@a[tag=tf2.recipient];
+        $add_amount += 99;
         $add_amount /= 100;
         tf2.health:@a[tag=tf2.recipient] += $add_amount;
         tf2.health:@a[tag=tf2.recipient] < tf2.max_health:@a[tag=tf2.recipient];
@@ -281,6 +282,7 @@ function pickup_tick() {
         $total_ammo = tf2.primary_maxAmmo:@a[tag=tf2.recipient];
         $total_ammo += tf2.primary_maxClip:@a[tag=tf2.recipient];
         $add_amount *= $total_ammo;
+        $add_amount += 99;
         $add_amount /= 100;
         $clip_space = tf2.primary_maxClip:@a[tag=tf2.recipient];
         $clip_space -= tf2.primary_clip:@a[tag=tf2.recipient];
@@ -295,6 +297,7 @@ function pickup_tick() {
         $total_ammo = tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
         $total_ammo += tf2.secondary_maxClip:@a[tag=tf2.recipient];
         $add_amount *= $total_ammo;
+        $add_amount += 99;
         $add_amount /= 100;
         $clip_space = tf2.secondary_maxClip:@a[tag=tf2.recipient];
         $clip_space -= tf2.secondary_clip:@a[tag=tf2.recipient];
