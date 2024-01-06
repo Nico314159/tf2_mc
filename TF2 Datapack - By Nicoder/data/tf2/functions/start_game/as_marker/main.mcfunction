@@ -30,11 +30,11 @@ execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/contro
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass
 scoreboard players set __if_else__ tf2.var 0
-execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/17
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/18
+execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/18
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/19
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type
-execute if score @s tf2.gamemode matches 1..2 run function tf2:__private__/if_else/23
-execute if score @s tf2.gamemode matches 3 run function tf2:__private__/if_else/24
+execute if score @s tf2.gamemode matches 1..2 run function tf2:__private__/if_else/24
+execute if score @s tf2.gamemode matches 3 run function tf2:__private__/if_else/25
 function tf2:start_game/as_marker/tell_info
 scoreboard players reset @e[tag=tf2.current] tf2.team
 scoreboard players set $team_temp tf2.var 0
