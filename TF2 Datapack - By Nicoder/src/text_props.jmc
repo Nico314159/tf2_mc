@@ -46,11 +46,15 @@ TextProp.keybind("reload",    "key.drop");
 TextProp.keybind("not_used",  "key.attack");
 TextProps.keybind(propertyName="control", indexString="_i_", keybind="key._i_");
 
-Trigger.add(controls, () => {
-   Text.tellraw(@a[tag=tf2.is_playing], `
+@lazy function controls_reminder() {
+    Text.tellraw(@s, `
 &<underlined>Control Scheme:
-Main Attack (both guns && melee) = &<control(use)>
-Alt Fire (zoom-in, revving, etc) = &<control(swapOffhand)>
-Reload = &<control(drop)>
-`);
+&<gray>Main Attack (both guns && melee) = &<white,bold,main_fire>
+&<gray>Alt Fire (zoom-in, revving, etc) = &<white,bold,alt_fire>
+&<gray>Reload = &<white,bold,reload>
+&<gray>You &<bold,italic,dark_red>NEVER &<gray>need to press &<white,bold,not_used>
+    `);
+}
+Trigger.add(controls, () => {
+    execute as @a[tag=tf2.is_playing] run controls_reminder();
 });
