@@ -238,6 +238,9 @@ function pickup_tick() {
     execute store result entity @s[scores={tf2.respawn_timer=0}] 
             Item.tag.CustomModelData int 1 
             run tf2.model_number:@s.get();
+    execute positioned ~ ~-500.5 ~
+            run ride @s[scores={tf2.respawn_timer=0}] 
+            mount @e[type=area_effect_cloud,distance=..0.01,limit=1];
 
     // 1 -> 20, 2 -> 50, 3 -> 100
     execute if entity @s[tag=tf2.health_pack] as @a 
@@ -298,6 +301,8 @@ function pickup_tick() {
     }
     tf2.respawn_timer:@s = 200;
     data modify entity @s Item.tag.CustomModelData set value -1b;
+    ride @s dismount;
+    tp @s ~ ~500 ~;
     tag @a remove tf2.recipient;
 }
 

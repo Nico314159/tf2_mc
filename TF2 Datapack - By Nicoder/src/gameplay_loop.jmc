@@ -140,6 +140,7 @@ class start_game {
                     Tags: ["tf2.new"],
                     Passengers: [{
                         id: "minecraft:item",
+                        NoGravity: 1b,
                         Invulnerable: 1b,
                         Tags: ["tf2.pickup", "tf2.new"],
                         Age: -32768s, PickupDelay: 32767s,
