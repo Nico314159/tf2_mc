@@ -141,5 +141,25 @@
             }
         ],
         "subtitle": "Player resupplies"
+    },
+    "ding.hit": {
+        "sounds": [
+            {
+                "name": "tf2:ding/hit",
+                "pitch": 1.025,
+                "volume": 0.55
+            }
+        ],
+        "subtitle": "Hurt player"
+    },
+    "ding.kill": {
+        "sounds": [
+            {
+                "name": "tf2:ding/kill",
+                "pitch": 0.875,
+                "volume": 0.55
+            }
+        ],
+        "subtitle": "Killed player"
     }
 }
