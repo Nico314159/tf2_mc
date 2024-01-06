@@ -467,7 +467,11 @@ class Weapons {
             if (entity @s[gamemode=spectator]) return 0;
             tf2.batch_number:$local = tf2.batch_number:@s;
             execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-            Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
+            if ($_isHeadshot_) {
+                Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> headshot &<@s> with &<item_of(@a[tag=retina.executing])>");
+            } if (!$_isHeadshot_) {
+                Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
+            }
             tag @a remove tf2.current;
             tag @s add tf2.said_death_msg;
             playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;

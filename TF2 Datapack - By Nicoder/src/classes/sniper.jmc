@@ -269,7 +269,8 @@ class Class.Sniper {
         $_multiplier_ > 100;
         $_multiplier_ < 300;
 
-        if (data storage retina:output {HitEntityHead: true}) {
+        $_isHeadshot_ = data get storage retina:output HitEntityHead;
+        if ($_isHeadshot_) {
             $_multiplier_ *= 3;
         }
     }
