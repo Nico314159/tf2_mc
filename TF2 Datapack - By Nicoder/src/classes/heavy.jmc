@@ -87,7 +87,7 @@ class Class.Heavy {
                             "function": "minecraft:set_nbt",
                             "tag": "{
                                 CustomModelData: 61001,
-                                retina: {HorizontalCount: 2, VerticalCount: 2, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [210, 370], MaxRecursionDepth: 100},
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [210, 370], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 9, maxRamp: 1.5}, attackDelay: 0.1d, spinupDelay: 0.87d, clip: 200, ammo: 0},
                                 controls: {main_fire: true, alt_fire: false, reload: 0}, 
                                 Unbreakable: 1b, 

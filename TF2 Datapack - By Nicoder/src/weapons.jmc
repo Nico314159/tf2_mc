@@ -244,12 +244,11 @@ class Weapons {
         retina.__variable__:$func_id = 100;
         $_totalDamage_ = 0;
         $_weaponID_ = data get entity @s SelectedItem.tag.CustomModelData 0.001;
+        if ($_weaponID_ == 61) {
+            Hardcode.repeat("never", () => {function retina:traverse/multicast;}, start=0, stop=4);
+        }
         if ($_weaponID_ != 61) {
             function retina:traverse/multicast;
-        }
-        else {
-            data merge storage retina:input {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
-            Hardcode.repeat("never", () => {function retina:traverse/multicast;}, start=0, stop=4);
         }
         // retina._variable_:$end_particle = false;
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;

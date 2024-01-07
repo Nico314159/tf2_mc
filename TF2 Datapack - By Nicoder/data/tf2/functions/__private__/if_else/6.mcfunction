@@ -1,2 +1,4 @@
 function retina:traverse/multicast
-scoreboard players set __if_else__ tf2.var 1
+function retina:traverse/multicast
+function retina:traverse/multicast
+function retina:traverse/multicast

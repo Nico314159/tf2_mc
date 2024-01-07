@@ -1,1 +1,2 @@
-execute if score $winner tf2.var matches 1..2 run function tf2:__private__/if_else/28
+tellraw @s {"text":"You've failed!","bold":false,"italic":true,"type":"text"}
+scoreboard players set __if_else__ tf2.var 1
