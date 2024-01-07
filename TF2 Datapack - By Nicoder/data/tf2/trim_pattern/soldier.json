@@ -1,0 +1,7 @@
+{
+    "asset_id": "tf2:soldier",
+    "description": {
+        "translate": "trim_pattern.tf2.soldier"
+    },
+    "template_item": "minecraft:stick"
+}

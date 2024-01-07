@@ -32,6 +32,17 @@
                 "red": "tf2:trims/color_palettes/heavy/red",
                 "blu": "tf2:trims/color_palettes/heavy/blu"
             }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/soldier_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/soldier/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/soldier/red",
+                "blu": "tf2:trims/color_palettes/soldier/blu"
+            }
         }
     ]
 }

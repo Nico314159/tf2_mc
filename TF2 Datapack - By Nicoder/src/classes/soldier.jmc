@@ -1,3 +1,11 @@
+new trim_pattern(soldier) {
+    "asset_id": "tf2:soldier",
+    "description": {
+        "translate": "trim_pattern.tf2.soldier"
+    },
+    "template_item": "minecraft:stick"
+}
+
 class Class.Soldier {
     new loot_tables(rocket_launcher) {
         "pools": [{
@@ -91,6 +99,25 @@ class Class.Soldier {
             ]
         }]
     }
+    new loot_tables(_model) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [{
+                "type": "minecraft:item",
+                "name": "minecraft:iron_leggings",
+                "functions": [
+                    {
+                        "function": "minecraft:reference",
+                        "name": "tf2:apply_team_material"
+                    },
+                    {
+                        "function": "minecraft:set_nbt",
+                        "tag": "{Trim: {pattern: \"tf2:soldier\"}}"
+                    }
+                ]
+            }]
+        }]
+    }
 
     @lazy
     function give() {
@@ -98,7 +125,7 @@ class Class.Soldier {
         loot replace entity @s hotbar.0 loot tf2:class/soldier/rocket_launcher;
         loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun;
         loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
-        // loot replace entity @s armor.legs loot tf2:class/soldier/_model;
+        loot replace entity @s armor.legs loot tf2:class/soldier/_model;
 
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
         tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
@@ -130,9 +157,9 @@ class Class.Soldier {
         if ($_count_ != 1) clear @s snowball{CustomModelData: 43000};
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
 
-        // loot replace entity @s armor.legs loot tf2:class/soldier/_model;
-        // $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:soldier"}} 0;
-        // if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:soldier"}};
-        // if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/soldier/_model;
+        loot replace entity @s armor.legs loot tf2:class/soldier/_model;
+        $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:soldier"}} 0;
+        if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:soldier"}};
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/soldier/_model;
     }
 }
