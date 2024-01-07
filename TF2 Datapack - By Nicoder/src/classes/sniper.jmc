@@ -150,8 +150,8 @@ class Class.Sniper {
         "pools": [{
             "rolls": 1,
             "entries": [{
-                "type": "minecraft:loot_table",
-                "name": "tf2:melee_base",
+                "type": "minecraft:item",
+                "name": "minecraft:iron_leggings",
                 "functions": [
                     {
                         "function": "minecraft:reference",
