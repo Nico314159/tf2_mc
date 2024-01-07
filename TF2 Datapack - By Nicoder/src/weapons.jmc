@@ -308,7 +308,7 @@ class Weapons {
         retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
         retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
         function retina:math/gimbal_to_vec;
-        execute at @s anchored eyes run summon firework_rocket ~ ~ ~ {
+        execute at @s anchored eyes run summon firework_rocket ^-0.2236 ^-0.05715 ^-0.447675 {
             Life: false,
             LifeTime: 2147483647,
             ShotAtAngle: true,
