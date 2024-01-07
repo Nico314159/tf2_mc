@@ -1,4 +1,1 @@
-scoreboard players set @s tf2.team 0
-scoreboard players reset @s tf2.timer
-function tf2:koth_timer/set_max with storage tf2.__temp__:index
-function tf2:koth_timer/show with storage tf2.__temp__:index
+execute if score $winner tf2.var matches 1..2 run function tf2:__private__/if_else/26

@@ -9,6 +9,17 @@ new predicates(holding_melee) {
         }
     }
 }
+new predicates(holding_projectile) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "equipment": {
+            "mainhand": {
+                "nbt": "{attributes: {isProjectile: 1b}}"
+            }
+        }
+    }
+}
 new predicates(non_damaging) {
     "condition": "minecraft:any_of",
     "terms": [
@@ -243,13 +254,11 @@ class Weapons {
 
         retina.__variable__:$func_id = 100;
         $_totalDamage_ = 0;
-        $_weaponID_ = data get entity @s SelectedItem.tag.CustomModelData 0.001;
-        if ($_weaponID_ != 61) {
-            function retina:traverse/multicast;
+        if (predicate tf2:holding_projectile) {
+            this.projectile();
         }
-        else {
-            data merge storage retina:input {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
-            Hardcode.repeat("never", () => {function retina:traverse/multicast;}, start=0, stop=4);
+        if (!predicate tf2:holding_projectile) {
+            this.hitscan();
         }
         // retina._variable_:$end_particle = false;
         $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
@@ -284,6 +293,37 @@ class Weapons {
         $_clip_ --;
         this.set_ammo();
         tf2.consecutive_reload:@s = false;
+    }
+    function hitscan() {
+        $_weaponID_ = data get entity @s SelectedItem.tag.CustomModelData 0.001;
+        function retina:traverse/multicast;
+        // Heavy minigun {CMD: 61xxx} does 4 at once
+        if ($_weaponID_ != 61) return 1;
+        function retina:traverse/multicast;
+        function retina:traverse/multicast;
+        function retina:traverse/multicast;
+    }
+    function projectile() {
+        // testing code
+        retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
+        retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
+        function retina:math/gimbal_to_vec;
+        execute at @s anchored eyes run summon firework_rocket ~ ~ ~ {
+            Life: false,
+            LifeTime: 2147483647,
+            ShotAtAngle: true,
+            NoGravity: true,
+            Motion: [0.0, 0.0, 0.0],
+            Tags: ["tf2.new"]
+        };
+        execute as @e[type=firework_rocket,tag=tf2.new,sort=nearest,limit=1] run {
+            data modify storage tf2.__temp__:summon Motion set value [0.0, 0.0, 0.0];
+            execute store result storage tf2.__temp__:summon Motion[0] double 0.001048 run retina.__variable__:$output_vec3.X.get();
+            execute store result storage tf2.__temp__:summon Motion[1] double 0.001048 run retina.__variable__:$output_vec3.Y.get();
+            execute store result storage tf2.__temp__:summon Motion[2] double 0.001048 run retina.__variable__:$output_vec3.Z.get();
+            data modify entity @s Motion set from storage tf2.__temp__:summon Motion;
+            tag @s remove tf2.new;
+        }
     }
     function get_ammo() {
         if (tf2.current_slot:@s == 0) return run {
