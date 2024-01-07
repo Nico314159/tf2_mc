@@ -52,7 +52,7 @@ TextProps.keybind(propertyName="control", indexString="_i_", keybind="key._i_");
 &<gray>Main Attack (both guns && melee) = &<white,bold,main_fire>
 &<gray>Alt Fire (zoom-in, revving, etc) = &<white,bold,alt_fire>
 &<gray>Reload = &<white,bold,reload>
-&<gray>You &<bold,italic,dark_red>NEVER &<gray>need to press &<white,bold,not_used>
+&<gray>You &<bold,italic,red>NEVER &<gray>need to press &<white,bold,not_used>
     `);
 }
 Trigger.add(controls, () => {
