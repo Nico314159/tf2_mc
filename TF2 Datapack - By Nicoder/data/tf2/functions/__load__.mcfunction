@@ -63,8 +63,6 @@ scoreboard objectives add tf2.last_class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
 scoreboard objectives add tf2.max_health dummy
-scoreboard objectives add tf2.time_scoped dummy
-scoreboard objectives add tf2.grace_period dummy
 scoreboard objectives add tf2.last_slot dummy
 scoreboard objectives add tf2.current_slot dummy
 scoreboard objectives add tf2.primary_clip dummy
@@ -80,6 +78,8 @@ scoreboard objectives add tf2.reload_delay dummy
 scoreboard objectives add tf2.consecutive_reload dummy
 scoreboard objectives add tf2.time_revved dummy
 scoreboard objectives add tf2.rev_threshold dummy
+scoreboard objectives add tf2.time_scoped dummy
+scoreboard objectives add tf2.grace_period dummy
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
 scoreboard objectives add tf2.permanent.double_jumps dummy

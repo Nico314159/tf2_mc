@@ -17,6 +17,9 @@ execute if entity @s[tag=tf2.health_pack] run function tf2:__private__/if_else/4
 execute if entity @s[tag=tf2.ammo_pack] run function tf2:__private__/if_else/48
 scoreboard players set @s tf2.respawn_timer 200
 data modify entity @s Item.tag.CustomModelData set value -1b
-ride @s dismount
+ride @s[tag=!tf2.no_respawn] dismount
 tp @s ~ ~500 ~
 tag @a remove tf2.recipient
+execute if entity @s[tag=!tf2.no_respawn] run return 2
+execute on vehicle run kill @s
+kill @s

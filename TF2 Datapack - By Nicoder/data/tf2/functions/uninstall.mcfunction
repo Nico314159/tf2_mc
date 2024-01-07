@@ -34,8 +34,6 @@ scoreboard objectives remove tf2.last_class
 scoreboard objectives remove tf2.team
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.max_health
-scoreboard objectives remove tf2.time_scoped
-scoreboard objectives remove tf2.grace_period
 scoreboard objectives remove tf2.last_slot
 scoreboard objectives remove tf2.current_slot
 scoreboard objectives remove tf2.primary_clip
@@ -51,6 +49,8 @@ scoreboard objectives remove tf2.reload_delay
 scoreboard objectives remove tf2.consecutive_reload
 scoreboard objectives remove tf2.time_revved
 scoreboard objectives remove tf2.rev_threshold
+scoreboard objectives remove tf2.time_scoped
+scoreboard objectives remove tf2.grace_period
 scoreboard objectives remove tf2.permanent.games_won
 scoreboard objectives remove tf2.permanent.games_played
 scoreboard objectives remove tf2.permanent.double_jumps

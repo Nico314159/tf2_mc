@@ -72,9 +72,9 @@ Item.create(
             //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
 
             data modify storage tf2.__temp__:summon entity.Pos
-                    set from storage tf2.__temp__:summon objectives[-1].Pos;
+                 set from storage tf2.__temp__:summon objectives[-1].Pos;
             data modify storage tf2.__temp__:summon entity.Tags
-                    set from storage tf2.__temp__:summon objectives[-1].Tags;
+                 set from storage tf2.__temp__:summon objectives[-1].Tags;
             data modify entity @s {} merge from storage tf2.__temp__:summon entity;
             tf2.team:@s              = data get storage tf2.__temp__:summon objectives[-1].data.team 1;
             tf2.capture_threshold:@s = data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000;
@@ -112,11 +112,11 @@ Item.create(
             //          How large the detection box is in each dimension
 
             data modify storage tf2.__temp__:summon entity.Pos
-                    set from storage tf2.__temp__:summon doors[-1].Pos;
+                 set from storage tf2.__temp__:summon doors[-1].Pos;
             data modify storage tf2.__temp__:summon entity.Rotation
-                    set from storage tf2.__temp__:summon doors[-1].Rotation;
+                 set from storage tf2.__temp__:summon doors[-1].Rotation;
             data modify storage tf2.__temp__:summon entity.data
-                    set from storage tf2.__temp__:summon doors[-1].data;
+                 set from storage tf2.__temp__:summon doors[-1].data;
 
             $direct_tp = data get storage tf2.__temp__:summon entity.data.direct_tp;
             if (!$direct_tp) expand {
@@ -194,15 +194,15 @@ Item.create(
             //          Which way the resupply cabinet is facing.
 
             data modify storage tf2.__temp__:summon entity.Pos
-                    set from storage tf2.__temp__:summon resupply[-1].Pos;
+                 set from storage tf2.__temp__:summon resupply[-1].Pos;
             data modify storage tf2.__temp__:summon entity.Rotation
-                    set from storage tf2.__temp__:summon resupply[-1].Rotation;
+                 set from storage tf2.__temp__:summon resupply[-1].Rotation;
             data modify storage tf2.__temp__:summon entity.item set value 
                 {id: "iron_ingot", Count: 1b, tag: {CustomModelData: 30}};
             data modify storage tf2.__temp__:summon entity.transformation.scale
-                    set value [1.0f, 1.01f, 1.0f];
+                 set value [1.0f, 1.01f, 1.0f];
             data modify storage tf2.__temp__:summon entity.transformation.translation
-                    set value [0.0f, 1.0f, 0.0f];
+                 set value [0.0f, 1.0f, 0.0f];
 
             tf2.team:@s ?= execute if score $i tf2.var < $blu_length tf2.var;
             tf2.team:@s ++;

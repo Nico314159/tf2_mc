@@ -310,9 +310,12 @@ function pickup_tick() {
     }
     tf2.respawn_timer:@s = 200;
     data modify entity @s Item.tag.CustomModelData set value -1b;
-    ride @s dismount;
+    ride @s[tag=!tf2.no_respawn] dismount;
     tp @s ~ ~500 ~;
     tag @a remove tf2.recipient;
+    if (entity @s[tag=!tf2.no_respawn]) return 2;
+    execute on vehicle run kill @s;
+    kill @s;
 }
 
 Player.join(() => {
@@ -399,6 +402,21 @@ function death() {
         $tf2.respawn_timer:@s[scores={tf2.team=1}] = data get storage tf2:running_games $(i).spawn_time.red[0] 20;
         $tf2.respawn_timer:@s[scores={tf2.team=2}] = data get storage tf2:running_games $(i).spawn_time.blu[0] 20;
     } with storage tf2.__temp__:index;
+    summon area_effect_cloud ~ ~ ~ {
+        Duration: -1,
+        Age: -2147483648,
+        WaitTime: -2147483648,
+        Invulnerable: 1b,
+        Tags: ["tf2.no_respawn"],
+        Passengers: [{
+            id: "minecraft:item",
+            NoGravity: 1b,
+            Invulnerable: 1b,
+            Tags: ["tf2.pickup", "tf2.ammo_pack", "tf2.no_respawn"],
+            Age: -32768s, PickupDelay: 32767s,
+            Item: {id: "minecraft:iron_ingot", Count: 1b, tag:{CustomModelData:22}}
+        }]
+    };
 }
 class Spawn {
     function init() {
