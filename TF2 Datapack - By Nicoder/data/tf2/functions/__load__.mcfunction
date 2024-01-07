@@ -42,6 +42,8 @@ scoreboard objectives add tf2.timer dummy
 scoreboard objectives add tf2.timer.min dummy
 scoreboard objectives add tf2.timer.sec dummy
 scoreboard objectives add tf2.increment dummy
+scoreboard objectives add tf2.respawn_timer dummy
+scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.red_timer dummy
 scoreboard objectives add tf2.red_timer.min dummy
 scoreboard objectives add tf2.red_timer.sec dummy
@@ -56,9 +58,8 @@ scoreboard objectives add tf2.lifetime dummy
 scoreboard objectives add tf2.draw_delay dummy
 scoreboard objectives add tf2.size dummy
 scoreboard objectives add tf2.model_number dummy
-scoreboard objectives add tf2.respawn_timer dummy
-scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.class dummy
+scoreboard objectives add tf2.last_class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
 scoreboard objectives add tf2.max_health dummy

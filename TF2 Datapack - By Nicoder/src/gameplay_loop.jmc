@@ -3,7 +3,11 @@ Item.create(
     itemType    = carrot_on_a_stick,
     displayName = "Change Class",
     nbt         = {CustomModelData: 10},
-    onClick     = () => {tf2.class:@s = 0; class_select();}
+    onClick     = () => {
+        tf2.last_class:@s = tf2.class:@s; 
+        tf2.class:@s = 0; 
+        class_select();
+    }
 );
 Item.create(
     itemId      = selectSniper,
@@ -13,7 +17,9 @@ Item.create(
     onClick     = () => {
         tf2.class:@s = Class.SNIPER; 
         class_select();
-        tf2.health:@s[tag=!tf2.in_spawn] = 0;
+        if (tf2.last_class:@s[tag=!tf2.in_spawn] != Class.SNIPER) {
+            tf2.health:@s = 0;
+        }
     }
 );
 Item.create(
@@ -24,7 +30,9 @@ Item.create(
     onClick     = () => {
         tf2.class:@s = Class.SCOUT; 
         class_select();
-        tf2.health:@s[tag=!tf2.in_spawn] = 0;
+        if (tf2.last_class:@s[tag=!tf2.in_spawn] != Class.SCOUT) {
+            tf2.health:@s = 0;
+        }
     }
 );
 Item.create(
@@ -35,7 +43,9 @@ Item.create(
     onClick     = () => {
         tf2.class:@s = Class.HEAVY; 
         class_select();
-        tf2.health:@s[tag=!tf2.in_spawn] = 0;
+        if (tf2.last_class:@s[tag=!tf2.in_spawn] != Class.HEAVY) {
+            tf2.health:@s = 0;
+        }
     }
 );
 

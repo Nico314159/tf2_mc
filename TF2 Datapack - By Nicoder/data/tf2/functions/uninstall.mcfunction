@@ -13,6 +13,8 @@ scoreboard objectives remove tf2.timer
 scoreboard objectives remove tf2.timer.min
 scoreboard objectives remove tf2.timer.sec
 scoreboard objectives remove tf2.increment
+scoreboard objectives remove tf2.respawn_timer
+scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.red_timer
 scoreboard objectives remove tf2.red_timer.min
 scoreboard objectives remove tf2.red_timer.sec
@@ -27,9 +29,8 @@ scoreboard objectives remove tf2.lifetime
 scoreboard objectives remove tf2.draw_delay
 scoreboard objectives remove tf2.size
 scoreboard objectives remove tf2.model_number
-scoreboard objectives remove tf2.respawn_timer
-scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.class
+scoreboard objectives remove tf2.last_class
 scoreboard objectives remove tf2.team
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.max_health
