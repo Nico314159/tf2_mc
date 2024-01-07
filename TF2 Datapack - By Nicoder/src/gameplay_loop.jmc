@@ -49,174 +49,175 @@ Item.create(
     }
 );
 
+@lazy function summon_entities() {
+    // Objectives
+    data modify storage tf2.__temp__:summon objectives
+                set from entity @s data.map.objectives;
+    tf2.index:$temp = data get storage tf2.__temp__:summon objectives;
+    tf2.index:$temp *= 10;
+    while (data storage tf2.__temp__:summon objectives[]) {
+        tf2.index:$temp -= 10;
+        execute summon marker run {
+            // Storage format of `tf2.__temp__:summon objectives[-1]`
+            //      Pos: double[]
+            //          Coordinates of where the objective is located on the map.
+            //      Tags: string[]
+            //          Specifies info about what type of objective it is. (eg: control point, intelligence, payload cart)
+            //      data.team: byte
+            //          Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).
+            //      data.locked: bool
+            //          # DEPRECATED, use the `tf2.locked` tag instead. #
+            //          Whether or not the objective should start out locked.
+            //      data.capture_threshold: float
+            //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
+
+            data modify storage tf2.__temp__:summon entity.Pos
+                    set from storage tf2.__temp__:summon objectives[-1].Pos;
+            data modify storage tf2.__temp__:summon entity.Tags
+                    set from storage tf2.__temp__:summon objectives[-1].Tags;
+            data modify entity @s {} merge from storage tf2.__temp__:summon entity;
+            tf2.team:@s              = data get storage tf2.__temp__:summon objectives[-1].data.team 1;
+            tf2.capture_threshold:@s = data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000;
+            tf2.increment:@s         = data get storage tf2.__temp__:summon objectives[-1].data.increment 20;
+            tf2.gamemode:@s          = tf2.gamemode:$temp;
+            tf2.index:@s             = tf2.index:$temp;
+            tf2.index:$highest > tf2.index:@s;
+            tf2.batch_number:@s = tf2.batch_number:$local;
+            tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
+            tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
+            execute if score @s tf2.index = $highest tf2.index
+                    unless score @s tf2.gamemode matches 3 run tag @s add tf2.last;
+            tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
+            $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
+        } with storage tf2.__temp__:index;
+        data remove storage tf2.__temp__:summon objectives[-1];
+    }
+    data remove storage tf2.__temp__:summon entity;
+
+    // Spawn doors
+    data modify storage tf2.__temp__:summon doors
+                set from entity @s data.map.spawn_doors.red;
+    data modify storage tf2.__temp__:summon doors
+                append from entity @s data.map.spawn_doors.blu[];
+    $blu_length = data get entity @s data.map.spawn_doors.blu;
+    $i = 0;
+    while (data storage tf2.__temp__:summon doors[]) {
+        execute summon marker run {
+            // Storage format of `tf2.__temp__:summon doors[-1]`
+            //      Pos: double[3]
+            //          Coordinates of where the door is located on the map.
+            //      Rotation: float[2]
+            //          How the door entity is rotated (affects teleport command)
+            //      data.dx/y/z: int
+            //          How large the detection box is in each dimension
+
+            data modify storage tf2.__temp__:summon entity.Pos
+                    set from storage tf2.__temp__:summon doors[-1].Pos;
+            data modify storage tf2.__temp__:summon entity.Rotation
+                    set from storage tf2.__temp__:summon doors[-1].Rotation;
+            data modify storage tf2.__temp__:summon entity.data
+                    set from storage tf2.__temp__:summon doors[-1].data;
+
+            $direct_tp = data get storage tf2.__temp__:summon entity.data.direct_tp;
+            if (!$direct_tp) expand {
+                tag @s add tf2.visible;
+                data modify storage tf2.__temp__:summon entity.data.direct_tp set value "~ ~ ~";
+            }
+
+            $opp_team ?= execute if score $i tf2.var >= $blu_length tf2.var;
+            $opp_team ++;
+            execute store result storage tf2.__temp__:summon entity.data.opp_team int 1 run $opp_team.get();
+            data modify entity @s {} merge from storage tf2.__temp__:summon entity;
+            tf2.batch_number:@s = tf2.batch_number:$local;
+            tag @s add tf2.spawn_door;
+        } with storage tf2.__temp__:index;
+        data remove storage tf2.__temp__:summon doors[-1];
+        $i++;
+    }
+    data remove storage tf2.__temp__:summon entity;
+
+    // Pickups (health & ammo)
+    data modify storage tf2.__temp__:summon pickups
+                set from entity @s data.map.pickups;
+    while (data storage tf2.__temp__:summon pickups[]) {
+        summon area_effect_cloud ~ ~-1.5 ~ {
+            Duration: -1,
+            Age: -2147483648,
+            WaitTime: -2147483648,
+            Invulnerable: 1b,
+            Tags: ["tf2.new"],
+            Passengers: [{
+                id: "minecraft:item",
+                NoGravity: 1b,
+                Invulnerable: 1b,
+                Tags: ["tf2.pickup", "tf2.new"],
+                Age: -32768s, PickupDelay: 32767s,
+                Item: {id: "minecraft:iron_ingot", Count: 1b}
+            }]
+        };
+
+        execute as @e[type=area_effect_cloud,tag=tf2.new] run {
+            data modify entity @s Pos set from storage tf2.__temp__:summon pickups[-1].Pos;
+            tf2.batch_number:@s = tf2.batch_number:$local;
+            tag @s remove tf2.new;
+        }
+        execute as @e[type=item,tag=tf2.new] run {
+            execute run { $tag @s add tf2.$(kind)_pack; }
+                    with storage tf2.__temp__:summon pickups[-1];
+
+            tf2.size:@s = data get storage tf2.__temp__:summon pickups[-1].size;
+            tf2.model_number:@s = 10;
+            tf2.model_number:@s += tf2.size:@s;
+            tf2.model_number:@s[tag=tf2.ammo_pack] += 10;
+
+            tf2.batch_number:@s = tf2.batch_number:$local;
+            tf2.respawn_timer:@s = 1;
+            tag @s remove tf2.new;
+        }
+        data remove storage tf2.__temp__:summon pickups[-1];
+    }
+    data remove storage tf2.__temp__:summon entity;
+
+    // Resupply cabinets
+    data modify storage tf2.__temp__:summon resupply
+                set from entity @s data.map.resupply_cabinets.red;
+    data modify storage tf2.__temp__:summon resupply
+                append from entity @s data.map.resupply_cabinets.blu[];
+    $blu_length = data get entity @s data.map.resupply_cabinets.blu;
+    $i = 0;
+    while (data storage tf2.__temp__:summon resupply[]) {
+        execute summon item_display run {
+            // Storage format of `tf2.__temp__:summon resupply[-1]`
+            //      Pos: double[3]
+            //          Coordinates of where the resupply cabinet is located on the map.
+            //      Rotation: float[2]
+            //          Which way the resupply cabinet is facing.
+
+            data modify storage tf2.__temp__:summon entity.Pos
+                    set from storage tf2.__temp__:summon resupply[-1].Pos;
+            data modify storage tf2.__temp__:summon entity.Rotation
+                    set from storage tf2.__temp__:summon resupply[-1].Rotation;
+            data modify storage tf2.__temp__:summon entity.item set value 
+                {id: "iron_ingot", Count: 1b, tag: {CustomModelData: 30}};
+            data modify storage tf2.__temp__:summon entity.transformation.scale
+                    set value [1.0f, 1.01f, 1.0f];
+            data modify storage tf2.__temp__:summon entity.transformation.translation
+                    set value [0.0f, 1.0f, 0.0f];
+
+            tf2.team:@s ?= execute if score $i tf2.var < $blu_length tf2.var;
+            tf2.team:@s ++;
+            data modify entity @s {} merge from storage tf2.__temp__:summon entity;
+            tf2.batch_number:@s = tf2.batch_number:$local;
+            tag @s add tf2.resupply;
+        }
+        data remove storage tf2.__temp__:summon resupply[-1];
+        $i++;
+    }
+    data remove storage tf2.__temp__:summon entity;
+}
+
 class start_game {
     class as_marker {
-	    @lazy function summon_entities() {
-            // Objectives
-	        data modify storage tf2.__temp__:summon objectives
-	                    set from entity @s data.map.objectives;
-	        tf2.index:$temp = data get storage tf2.__temp__:summon objectives;
-	        tf2.index:$temp *= 10;
-	        while (data storage tf2.__temp__:summon objectives[]) {
-	            tf2.index:$temp -= 10;
-	            execute summon marker run {
-	                // Storage format of `tf2.__temp__:summon objectives[-1]`
-	                //      Pos: double[]
-	                //          Coordinates of where the objective is located on the map.
-	                //      Tags: string[]
-	                //          Specifies info about what type of objective it is. (eg: control point, intelligence, payload cart)
-	                //      data.team: byte
-	                //          Which team starts out as the owner of the point (0 = unowned, 1 = RED, 2 = BLU).
-	                //      data.locked: bool
-	                //          # DEPRECATED, use the `tf2.locked` tag instead. #
-	                //          Whether or not the objective should start out locked.
-	                //      data.capture_threshold: float
-	                //          Amount of time needed to capture the objective, in *seconds* (converted to *milli-ticks* when in score form).");
-
-	                data modify storage tf2.__temp__:summon entity.Pos
-	                     set from storage tf2.__temp__:summon objectives[-1].Pos;
-	                data modify storage tf2.__temp__:summon entity.Tags
-	                     set from storage tf2.__temp__:summon objectives[-1].Tags;
-	                data modify entity @s {} merge from storage tf2.__temp__:summon entity;
-	                tf2.team:@s              = data get storage tf2.__temp__:summon objectives[-1].data.team 1;
-	                tf2.capture_threshold:@s = data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000;
-	                tf2.increment:@s         = data get storage tf2.__temp__:summon objectives[-1].data.increment 20;
-	                tf2.gamemode:@s          = tf2.gamemode:$temp;
-	                tf2.index:@s             = tf2.index:$temp;
-	                tf2.index:$highest > tf2.index:@s;
-	                tf2.batch_number:@s = tf2.batch_number:$local;
-	                tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
-	                tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
-	                execute if score @s tf2.index = $highest tf2.index
-                            unless score @s tf2.gamemode matches 3 run tag @s add tf2.last;
-	                tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
-	                $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
-	            } with storage tf2.__temp__:index;
-	            data remove storage tf2.__temp__:summon objectives[-1];
-	        }
-            data remove storage tf2.__temp__:summon entity;
-
-            // Spawn doors
-            data modify storage tf2.__temp__:summon doors
-	                    set from entity @s data.map.spawn_doors.red;
-            data modify storage tf2.__temp__:summon doors
-	                    append from entity @s data.map.spawn_doors.blu[];
-	        $blu_length = data get entity @s data.map.spawn_doors.blu;
-	        $i = 0;
-	        while (data storage tf2.__temp__:summon doors[]) {
-	            execute summon marker run {
-	                // Storage format of `tf2.__temp__:summon doors[-1]`
-	                //      Pos: double[3]
-	                //          Coordinates of where the door is located on the map.
-	                //      Rotation: float[2]
-	                //          How the door entity is rotated (affects teleport command)
-	                //      data.dx/y/z: int
-	                //          How large the detection box is in each dimension
-
-	                data modify storage tf2.__temp__:summon entity.Pos
-	                     set from storage tf2.__temp__:summon doors[-1].Pos;
-	                data modify storage tf2.__temp__:summon entity.Rotation
-	                     set from storage tf2.__temp__:summon doors[-1].Rotation;
-                    data modify storage tf2.__temp__:summon entity.data
-	                     set from storage tf2.__temp__:summon doors[-1].data;
-
-                    $direct_tp = data get storage tf2.__temp__:summon entity.data.direct_tp;
-                    if (!$direct_tp) expand {
-                        tag @s add tf2.visible;
-                        data modify storage tf2.__temp__:summon entity.data.direct_tp set value "~ ~ ~";
-                    }
-
-                    $opp_team ?= execute if score $i tf2.var >= $blu_length tf2.var;
-                    $opp_team ++;
-                    execute store result storage tf2.__temp__:summon entity.data.opp_team int 1 run $opp_team.get();
-	                data modify entity @s {} merge from storage tf2.__temp__:summon entity;
-                    tf2.batch_number:@s = tf2.batch_number:$local;
-            	    tag @s add tf2.spawn_door;
-	            } with storage tf2.__temp__:index;
-	            data remove storage tf2.__temp__:summon doors[-1];
-	            $i++;
-	        }
-	        data remove storage tf2.__temp__:summon entity;
-
-            // Pickups (health & ammo)
-            data modify storage tf2.__temp__:summon pickups
-                        set from entity @s data.map.pickups;
-            while (data storage tf2.__temp__:summon pickups[]) {
-                summon area_effect_cloud ~ ~-1.5 ~ {
-                    Duration: -1,
-                    Age: -2147483648,
-                    WaitTime: -2147483648,
-                    Invulnerable: 1b,
-                    Tags: ["tf2.new"],
-                    Passengers: [{
-                        id: "minecraft:item",
-                        NoGravity: 1b,
-                        Invulnerable: 1b,
-                        Tags: ["tf2.pickup", "tf2.new"],
-                        Age: -32768s, PickupDelay: 32767s,
-                        Item: {id: "minecraft:iron_ingot", Count: 1b}
-                    }]
-                };
-
-                execute as @e[type=area_effect_cloud,tag=tf2.new] run {
-                    data modify entity @s Pos set from storage tf2.__temp__:summon pickups[-1].Pos;
-                    tf2.batch_number:@s = tf2.batch_number:$local;
-                    tag @s remove tf2.new;
-                }
-                execute as @e[type=item,tag=tf2.new] run {
-                    execute run { $tag @s add tf2.$(kind)_pack; }
-                            with storage tf2.__temp__:summon pickups[-1];
-
-                    tf2.size:@s = data get storage tf2.__temp__:summon pickups[-1].size;
-                    tf2.model_number:@s = 10;
-                    tf2.model_number:@s += tf2.size:@s;
-                    tf2.model_number:@s[tag=tf2.ammo_pack] += 10;
-
-                    tf2.batch_number:@s = tf2.batch_number:$local;
-                    tf2.respawn_timer:@s = 1;
-                    tag @s remove tf2.new;
-                }
-                data remove storage tf2.__temp__:summon pickups[-1];
-            }
-            data remove storage tf2.__temp__:summon entity;
-
-            // Resupply cabinets
-            data modify storage tf2.__temp__:summon resupply
-                        set from entity @s data.map.resupply_cabinets.red;
-            data modify storage tf2.__temp__:summon resupply
-	                    append from entity @s data.map.resupply_cabinets.blu[];
-	        $blu_length = data get entity @s data.map.resupply_cabinets.blu;
-	        $i = 0;
-            while (data storage tf2.__temp__:summon resupply[]) {
-                execute summon item_display run {
-                    // Storage format of `tf2.__temp__:summon resupply[-1]`
-	                //      Pos: double[3]
-	                //          Coordinates of where the resupply cabinet is located on the map.
-	                //      Rotation: float[2]
-	                //          Which way the resupply cabinet is facing.
-
-                    data modify storage tf2.__temp__:summon entity.Pos
-	                     set from storage tf2.__temp__:summon resupply[-1].Pos;
-                    data modify storage tf2.__temp__:summon entity.Rotation
-	                     set from storage tf2.__temp__:summon resupply[-1].Rotation;
-                    data modify storage tf2.__temp__:summon entity.item set value 
-                        {id: "iron_ingot", Count: 1b, tag: {CustomModelData: 30}};
-                    data modify storage tf2.__temp__:summon entity.transformation.scale
-                         set value [1.0f, 1.01f, 1.0f];
-                    data modify storage tf2.__temp__:summon entity.transformation.translation
-                         set value [0.0f, 1.0f, 0.0f];
-
-                    tf2.team:@s ?= execute if score $i tf2.var < $blu_length tf2.var;
-                    tf2.team:@s ++;
-                    data modify entity @s {} merge from storage tf2.__temp__:summon entity;
-                    tf2.batch_number:@s = tf2.batch_number:$local;
-                    tag @s add tf2.resupply;
-                }
-                data remove storage tf2.__temp__:summon resupply[-1];
-                $i++;
-            }
-            data remove storage tf2.__temp__:summon entity;
-	    }
         function main() {
             // Starts a new running game with the players in the queue. ");
             // @within __tick__()
@@ -235,7 +236,7 @@ class start_game {
 
             tf2.gamemode:@s = data get entity @s data.map.gamemode;
             tf2.gamemode:$temp = tf2.gamemode:@s;
-            this.summon_entities();
+            summon_entities();
             if (tf2.gamemode:@s matches 1..4) Objectives.control_point.visuals.spacing();
 
             execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass;
