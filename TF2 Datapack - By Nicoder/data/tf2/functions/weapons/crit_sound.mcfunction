@@ -1,0 +1,1 @@
+$playsound tf2:crit.hit$(num) player @s ~ ~ ~ 0.85 1 0.05

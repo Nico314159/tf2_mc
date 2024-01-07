@@ -141,5 +141,105 @@
             }
         ],
         "subtitle": "Player resupplies"
+    },
+    "ding.hit": {
+        "sounds": [
+            {
+                "name": "tf2:ding/hit",
+                "pitch": 1.025,
+                "volume": 0.29
+            }
+        ],
+        "subtitle": "Hurt player"
+    },
+    "ding.kill": {
+        "sounds": [
+            {
+                "name": "tf2:ding/kill",
+                "pitch": 0.875,
+                "volume": 0.29
+            }
+        ],
+        "subtitle": "Killed player"
+    },
+    "crit.hit1": {
+        "sounds": [
+            {
+                "name": "tf2:crit/hit1",
+                "pitch": 0.9,
+                "volume": 0.65
+            }
+        ],
+        "subtitle": "Critical hit"
+    },
+    "crit.hit2": {
+        "sounds": [
+            {
+                "name": "tf2:crit/hit2",
+                "pitch": 0.9,
+                "volume": 0.65
+            }
+        ],
+        "subtitle": "Critical hit"
+    },
+    "crit.hit3": {
+        "sounds": [
+            {
+                "name": "tf2:crit/hit3",
+                "pitch": 0.9,
+                "volume": 0.65
+            }
+        ],
+        "subtitle": "Critical hit"
+    },
+    "crit.hit4": {
+        "sounds": [
+            {
+                "name": "tf2:crit/hit4",
+                "pitch": 0.9,
+                "volume": 0.65
+            }
+        ],
+        "subtitle": "Critical hit"
+    },
+    "crit.hit5": {
+        "sounds": [
+            {
+                "name": "tf2:crit/hit5",
+                "pitch": 0.9,
+                "volume": 0.65
+            }
+        ],
+        "subtitle": "Critical hit"
+    },
+    "crit.received1": {
+        "sounds": [
+            {
+                "name": "tf2:crit/received1",
+                "pitch": 0.9,
+                "volume": 0.29
+            }
+        ],
+        "subtitle": "Critical received"
+    },
+    "crit.received2": {
+        "sounds": [
+            {
+                "name": "tf2:crit/received2",
+                "pitch": 0.9,
+                "volume": 0.29
+            }
+        ],
+        "subtitle": "Critical received"
+    },
+    "crit.received3": {
+        "sounds": [
+            {
+                "name": "tf2:crit/received3",
+                "pitch": 0.9,
+                "volume": 0.29
+            }
+        ],
+        "subtitle": "Critical received"
     }
 }

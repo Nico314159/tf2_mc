@@ -1,4 +1,5 @@
 scoreboard objectives add tf2.var dummy
+scoreboard objectives add controls trigger
 scoreboard objectives add on_event_1mqyp2x used:carrot_on_a_stick
 scoreboard objectives add 0008it54g_p_join dummy
 scoreboard objectives add tf2.const dummy
@@ -26,9 +27,11 @@ scoreboard players set 60 tf2.const 60
 scoreboard players set 66 tf2.const 66
 scoreboard players set 5833 tf2.const 5833
 scoreboard players set 85 tf2.const 85
+scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000
 scoreboard players set -1 tf2.const -1
+execute as @a run function tf2:__private__/trigger_add/enable
 scoreboard objectives add tf2.gamemode dummy
 scoreboard objectives add tf2.map dummy
 scoreboard objectives add tf2.index dummy
@@ -39,6 +42,8 @@ scoreboard objectives add tf2.timer dummy
 scoreboard objectives add tf2.timer.min dummy
 scoreboard objectives add tf2.timer.sec dummy
 scoreboard objectives add tf2.increment dummy
+scoreboard objectives add tf2.respawn_timer dummy
+scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.red_timer dummy
 scoreboard objectives add tf2.red_timer.min dummy
 scoreboard objectives add tf2.red_timer.sec dummy
@@ -53,14 +58,11 @@ scoreboard objectives add tf2.lifetime dummy
 scoreboard objectives add tf2.draw_delay dummy
 scoreboard objectives add tf2.size dummy
 scoreboard objectives add tf2.model_number dummy
-scoreboard objectives add tf2.respawn_timer dummy
-scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.class dummy
+scoreboard objectives add tf2.last_class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.health dummy
 scoreboard objectives add tf2.max_health dummy
-scoreboard objectives add tf2.time_scoped dummy
-scoreboard objectives add tf2.grace_period dummy
 scoreboard objectives add tf2.last_slot dummy
 scoreboard objectives add tf2.current_slot dummy
 scoreboard objectives add tf2.primary_clip dummy
@@ -76,6 +78,8 @@ scoreboard objectives add tf2.reload_delay dummy
 scoreboard objectives add tf2.consecutive_reload dummy
 scoreboard objectives add tf2.time_revved dummy
 scoreboard objectives add tf2.rev_threshold dummy
+scoreboard objectives add tf2.time_scoped dummy
+scoreboard objectives add tf2.grace_period dummy
 scoreboard objectives add tf2.permanent.games_won dummy
 scoreboard objectives add tf2.permanent.games_played dummy
 scoreboard objectives add tf2.permanent.double_jumps dummy

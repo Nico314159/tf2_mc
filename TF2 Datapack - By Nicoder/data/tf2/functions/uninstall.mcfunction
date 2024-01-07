@@ -1,5 +1,6 @@
 kill @e[type=marker]
 scoreboard objectives remove tf2.var
+scoreboard objectives remove controls
 scoreboard objectives remove on_event_1mqyp2x
 scoreboard objectives remove 0008it54g_p_join
 scoreboard objectives remove tf2.gamemode
@@ -12,6 +13,8 @@ scoreboard objectives remove tf2.timer
 scoreboard objectives remove tf2.timer.min
 scoreboard objectives remove tf2.timer.sec
 scoreboard objectives remove tf2.increment
+scoreboard objectives remove tf2.respawn_timer
+scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.red_timer
 scoreboard objectives remove tf2.red_timer.min
 scoreboard objectives remove tf2.red_timer.sec
@@ -26,14 +29,11 @@ scoreboard objectives remove tf2.lifetime
 scoreboard objectives remove tf2.draw_delay
 scoreboard objectives remove tf2.size
 scoreboard objectives remove tf2.model_number
-scoreboard objectives remove tf2.respawn_timer
-scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.class
+scoreboard objectives remove tf2.last_class
 scoreboard objectives remove tf2.team
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.max_health
-scoreboard objectives remove tf2.time_scoped
-scoreboard objectives remove tf2.grace_period
 scoreboard objectives remove tf2.last_slot
 scoreboard objectives remove tf2.current_slot
 scoreboard objectives remove tf2.primary_clip
@@ -49,6 +49,8 @@ scoreboard objectives remove tf2.reload_delay
 scoreboard objectives remove tf2.consecutive_reload
 scoreboard objectives remove tf2.time_revved
 scoreboard objectives remove tf2.rev_threshold
+scoreboard objectives remove tf2.time_scoped
+scoreboard objectives remove tf2.grace_period
 scoreboard objectives remove tf2.permanent.games_won
 scoreboard objectives remove tf2.permanent.games_played
 scoreboard objectives remove tf2.permanent.double_jumps

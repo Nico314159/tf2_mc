@@ -36,6 +36,12 @@ function __tick__() {
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run player_tick();
     tag @e[type=#tf2:player_like] remove tf2.on_point;
     execute as @e[type=item,tag=tf2.pickup] at @s run pickup_tick();
+
+    $trigger_reminder = 0008it54g_p_join:$__global__;
+    $trigger_reminder %= 2400;
+    if ($trigger_reminder == 0) {
+        Text.tellraw(@a[tag=tf2.is_playing], "&<gray>Remember, you can type &<white,bold>/trigger controls &<gray>in chat to see the controls.");
+    }
 }
 
 function marker_tick() {
@@ -238,6 +244,9 @@ function pickup_tick() {
     execute store result entity @s[scores={tf2.respawn_timer=0}] 
             Item.tag.CustomModelData int 1 
             run tf2.model_number:@s.get();
+    execute positioned ~ ~-500.5 ~
+            run ride @s[scores={tf2.respawn_timer=0}] 
+            mount @e[type=area_effect_cloud,distance=..0.01,limit=1];
 
     // 1 -> 20, 2 -> 50, 3 -> 100
     execute if entity @s[tag=tf2.health_pack] as @a 
@@ -261,17 +270,19 @@ function pickup_tick() {
     if (!entity @a[tag=tf2.recipient]) return 1;
     $add_amount = $percent;
     if (entity @s[tag=tf2.health_pack]) {
-        playsound tf2:pickup.health player @a[tag=tf2.recipient] ~ ~ ~ 0.85 0.55 0.2;
+        playsound tf2:pickup.health player @a[tag=tf2.recipient] ~ ~ ~ 0.55 0.85 0.2;
         $add_amount *= tf2.max_health:@a[tag=tf2.recipient];
+        $add_amount += 99;
         $add_amount /= 100;
         tf2.health:@a[tag=tf2.recipient] += $add_amount;
         tf2.health:@a[tag=tf2.recipient] < tf2.max_health:@a[tag=tf2.recipient];
     }
     if (entity @s[tag=tf2.ammo_pack]) {
-        playsound tf2:pickup.ammo player @a[tag=tf2.recipient] ~ ~ ~ 0.9 0.6 0.2;
+        playsound tf2:pickup.ammo player @a[tag=tf2.recipient] ~ ~ ~ 0.6 0.9 0.2;
         $total_ammo = tf2.primary_maxAmmo:@a[tag=tf2.recipient];
         $total_ammo += tf2.primary_maxClip:@a[tag=tf2.recipient];
         $add_amount *= $total_ammo;
+        $add_amount += 99;
         $add_amount /= 100;
         $clip_space = tf2.primary_maxClip:@a[tag=tf2.recipient];
         $clip_space -= tf2.primary_clip:@a[tag=tf2.recipient];
@@ -286,6 +297,7 @@ function pickup_tick() {
         $total_ammo = tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
         $total_ammo += tf2.secondary_maxClip:@a[tag=tf2.recipient];
         $add_amount *= $total_ammo;
+        $add_amount += 99;
         $add_amount /= 100;
         $clip_space = tf2.secondary_maxClip:@a[tag=tf2.recipient];
         $clip_space -= tf2.secondary_clip:@a[tag=tf2.recipient];
@@ -298,7 +310,12 @@ function pickup_tick() {
     }
     tf2.respawn_timer:@s = 200;
     data modify entity @s Item.tag.CustomModelData set value -1b;
+    ride @s[tag=!tf2.no_respawn] dismount;
+    tp @s ~ ~500 ~;
     tag @a remove tf2.recipient;
+    if (entity @s[tag=!tf2.no_respawn]) return 2;
+    execute on vehicle run kill @s;
+    kill @s;
 }
 
 Player.join(() => {
@@ -332,7 +349,8 @@ Player.join(() => {
 
     execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
     scoreboard players enable @s tf2.queue_type;
-    tf2.batch_number:@s = tf2.queue_type:@s = 0;
+    scoreboard players enable @s controls;
+    tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = 0;
 
     // Update timer visibility to exclude currrent player
     KOTH_Timer.show() with storage tf2.__temp__:index;
@@ -363,6 +381,9 @@ Player.join(() => {
         "time_revved", "rev_threshold", "time_scoped", "elytra_detect",
         "fall", "fall_y", "fall_y1", "fall_y2", "fall_y3"]
     );
+
+    controls_reminder();
+    Text.tellraw(@s, "&<gray>To see this message again, type &<bold>/trigger controls &<!bold>in chat at any time.");
 });
 
 function death() {
@@ -381,6 +402,21 @@ function death() {
         $tf2.respawn_timer:@s[scores={tf2.team=1}] = data get storage tf2:running_games $(i).spawn_time.red[0] 20;
         $tf2.respawn_timer:@s[scores={tf2.team=2}] = data get storage tf2:running_games $(i).spawn_time.blu[0] 20;
     } with storage tf2.__temp__:index;
+    summon area_effect_cloud ~ ~ ~ {
+        Duration: -1,
+        Age: -2147483648,
+        WaitTime: -2147483648,
+        Invulnerable: 1b,
+        Tags: ["tf2.no_respawn"],
+        Passengers: [{
+            id: "minecraft:item",
+            NoGravity: 1b,
+            Invulnerable: 1b,
+            Tags: ["tf2.pickup", "tf2.ammo_pack", "tf2.no_respawn"],
+            Age: -32768s, PickupDelay: 32767s,
+            Item: {id: "minecraft:iron_ingot", Count: 1b, tag:{CustomModelData:22}}
+        }]
+    };
 }
 class Spawn {
     function init() {

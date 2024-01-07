@@ -228,7 +228,7 @@ class Weapons {
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
 
         if (!predicate tf2:holding_melee) {
-            playsound tf2:item.gun.shoot player @s ~ ~ ~ 1.5 1 0.1;
+            playsound tf2:item.gun.shoot player @s ~ ~ ~ 1.35 1 0.1;
         }
 
         tf2.team:$current = tf2.team:@s;
@@ -415,7 +415,9 @@ class Weapons {
     function calculate_falloff() {
         // @within this.damage()
         if (score @s tf2.team = $current tf2.team) return 0;
+        if (entity @s[gamemode=spectator]) return 0;
         $_distance_ = data get storage retina:output Distance 1000;
+        $_hitHead_ = data get storage retina:output HitEntityHead;
         if ($_distance_ > $_range_) return 0;
         $_finalDamage_ = $_damage_;
 
@@ -462,15 +464,27 @@ class Weapons {
         $_totalDamage_ += $_finalDamage_;
         damage @s 0.01 tf2:screenshake by @a[tag=retina.executing, limit=1];
 
-        // Death message
-        if (tf2.health:@s[tag=!tf2.said_death_msg] <= 0) {
-            if (entity @s[gamemode=spectator]) return 0;
-            tf2.batch_number:$local = tf2.batch_number:@s;
-            execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-            Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
-            tag @a remove tf2.current;
-            tag @s add tf2.said_death_msg;
+        // Death message & sound effects
+        if (entity @s[tag=tf2.said_death_msg]) return 1;
+        if (tf2.health:@s > 0) {
+            return run playsound tf2:ding.hit player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
         }
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        if ($_hitHead_ && entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
+            Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> headshot &<@s> with &<item_of(@a[tag=retina.executing])>");
+            execute store result storage tf2.__temp__:index num int 1 run random value 1..5;
+            // stopsound @a[tag=retina.executing,predicate=!tf2:holding_melee] player tf2:item.gun.shoot;
+            execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] at @s
+                    run this.crit_sound() with storage tf2.__temp__:index;
+            execute store result storage tf2.__temp__:index num int 1 run random value 1..3;
+            execute at @s run this.crit_receive_sound() with storage tf2.__temp__:index;
+        } else {
+            Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
+            playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
+        }
+        tag @a remove tf2.current;
+        tag @s add tf2.said_death_msg;
     }
     function damage_numbers() {
         // @within this.main_fire();
@@ -499,5 +513,13 @@ class Weapons {
             if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
             tf2.consecutive_reload:@s = false;
         }
+    }
+    function crit_sound() {
+        // @needs_macro
+        $ playsound tf2:crit.hit$(num) player @s ~ ~ ~ 0.85 1 0.05;
+    }
+    function crit_receive_sound() {
+        // @needs_macro
+        $ playsound tf2:crit.received$(num) player @s ~ ~ ~ 0.85 1 0.05;
     }
 }

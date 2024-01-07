@@ -1,3 +1,2 @@
-execute store result score @s tf2.attack_delay run data get entity @s SelectedItem.tag.attributes.deployTime 10000
-execute unless data entity @s SelectedItem.tag.attributes.deployTime run scoreboard players set @s tf2.attack_delay 10000
-scoreboard players set @s tf2.consecutive_reload 0
+tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=retina.executing]","type":"selector"},{"text":" killed "},{"selector":"@s","type":"selector"},{"text":" with "},{"type":"nbt","source":"entity","nbt":"SelectedItem.tag.display.Name","interpret":true,"entity":"@a[tag=retina.executing]"}]
+playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05
