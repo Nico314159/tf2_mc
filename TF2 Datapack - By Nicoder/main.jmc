@@ -402,7 +402,7 @@ function death() {
         $tf2.respawn_timer:@s[scores={tf2.team=1}] = data get storage tf2:running_games $(i).spawn_time.red[0] 20;
         $tf2.respawn_timer:@s[scores={tf2.team=2}] = data get storage tf2:running_games $(i).spawn_time.blu[0] 20;
     } with storage tf2.__temp__:index;
-    summon area_effect_cloud ~ ~ ~ {
+    execute at @s[scores={tf2.class=1..}] run summon area_effect_cloud ~ ~ ~ {
         Duration: -1,
         Age: -2147483648,
         WaitTime: -2147483648,
