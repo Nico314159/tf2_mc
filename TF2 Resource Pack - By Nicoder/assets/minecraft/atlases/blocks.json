@@ -52,6 +52,10 @@
         },
         {
             "type": "single",
+            "resource": "tf2:projectile/soldier/rocket"
+        },
+        {
+            "type": "single",
             "resource": "minecraft:trims/items/chestplate_trim_blu"
         },
         {

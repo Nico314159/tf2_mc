@@ -100,12 +100,12 @@ new predicates(ammo_in_clip) {
             "condition": "minecraft:all_of",
             "terms": [
                 {
-                    "condition": "minecraft:entity_scores", 
+                    "condition": "minecraft:entity_scores",
                     "entity": "this",
                     "scores": {"tf2.current_slot": 0}
                 },
                 {
-                    "condition": "minecraft:entity_scores", 
+                    "condition": "minecraft:entity_scores",
                     "entity": "this",
                     "scores": {"tf2.primary_clip": {"min": 1}}
                 }
@@ -115,12 +115,12 @@ new predicates(ammo_in_clip) {
             "condition": "minecraft:all_of",
             "terms": [
                 {
-                    "condition": "minecraft:entity_scores", 
+                    "condition": "minecraft:entity_scores",
                     "entity": "this",
                     "scores": {"tf2.current_slot": 1}
                 },
                 {
-                    "condition": "minecraft:entity_scores", 
+                    "condition": "minecraft:entity_scores",
                     "entity": "this",
                     "scores": {"tf2.secondary_clip": {"min": 1}}
                 }
@@ -308,20 +308,38 @@ class Weapons {
         retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
         retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
         function retina:math/gimbal_to_vec;
-        execute at @s anchored eyes run summon firework_rocket ^-0.2236 ^-0.05715 ^-0.447675 {
-            Life: false,
-            LifeTime: 2147483647,
-            ShotAtAngle: true,
-            NoGravity: true,
-            Motion: [0.0, 0.0, 0.0],
-            Tags: ["tf2.new"]
-        };
-        execute as @e[type=firework_rocket,tag=tf2.new,sort=nearest,limit=1] run {
-            data modify storage tf2.__temp__:summon Motion set value [0.0, 0.0, 0.0];
-            execute store result storage tf2.__temp__:summon Motion[0] double 0.001048 run retina.__variable__:$output_vec3.X.get();
-            execute store result storage tf2.__temp__:summon Motion[1] double 0.001048 run retina.__variable__:$output_vec3.Y.get();
-            execute store result storage tf2.__temp__:summon Motion[2] double 0.001048 run retina.__variable__:$output_vec3.Z.get();
-            data modify entity @s Motion set from storage tf2.__temp__:summon Motion;
+        data modify storage tf2.__temp__:summon projectile set value {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0};
+        execute store result storage tf2.__temp__:summon projectile.X double 0.001048 run retina.__variable__:$output_vec3.X.get();
+        execute store result storage tf2.__temp__:summon projectile.Y double 0.001048 run retina.__variable__:$output_vec3.Y.get();
+        execute store result storage tf2.__temp__:summon projectile.Z double 0.001048 run retina.__variable__:$output_vec3.Z.get();
+        execute store result storage tf2.__temp__:summon projectile.yaw double 0.1 run retina.__variable__:$input_yaw.get();
+        execute store result storage tf2.__temp__:summon projectile.pitch double 0.1 run retina.__variable__:$input_pitch.get();
+        execute at @s anchored eyes run {
+            $summon arrow ^-0.2236 ^-0.05715 ^-0.447675 {
+                NoGravity: true,
+                Silent: true,
+                Invulnerable: true,
+                PersistenceRequired: true,
+                PierceLevel: 2147483647,
+                Tags: ["tf2.projectile"],
+                Motion: [$(X)d, $(Y)d, $(Z)d],
+                active_effects: [{
+                    id: "minecraft:invisibility",
+                    amplifier: false,
+                    show_particles: false,
+                    duration: -1
+                }],
+                Passengers: [{
+                    Rotation: [$(yaw)f, $(pitch)f],
+                    id: "minecraft:item_display",
+                    item: {id: "minecraft:glowstone_dust", Count: 1b, tag:{CustomModelData:41000, Motion:[$(X)d, $(Y)d, $(Z)d]}},
+                    Tags: ["tf2.new", "tf2.projectile"]
+                }]
+            };
+        } with storage tf2.__temp__:summon projectile;
+        execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
+            data modify entity @s Rotation[0] set from storage tf2.__temp__:summon projectile.yaw;
+            data modify entity @s Rotation[1] set from storage tf2.__temp__:summon projectile.pitch;
             tag @s remove tf2.new;
         }
     }

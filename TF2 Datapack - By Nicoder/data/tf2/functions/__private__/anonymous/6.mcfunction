@@ -1,6 +1,1 @@
-data modify storage tf2.__temp__:summon Motion set value [0.0,0.0,0.0]
-execute store result storage tf2.__temp__:summon Motion[0] double 0.001048 run scoreboard players get $output_vec3.X retina.__variable__
-execute store result storage tf2.__temp__:summon Motion[1] double 0.001048 run scoreboard players get $output_vec3.Y retina.__variable__
-execute store result storage tf2.__temp__:summon Motion[2] double 0.001048 run scoreboard players get $output_vec3.Z retina.__variable__
-data modify entity @s Motion set from storage tf2.__temp__:summon Motion
-tag @s remove tf2.new
+$summon arrow ^-0.2236 ^-0.05715 ^-0.447675 {NoGravity:true,Silent:true,Invulnerable:true,PersistenceRequired:true,PierceLevel:2147483647,Tags:["tf2.projectile"],Motion:[$(X)d,$(Y)d,$(Z)d],active_effects:[{id:"minecraft:invisibility",amplifier:false,show_particles:false,duration:-1}],Passengers:[{Rotation:[$(yaw)f,$(pitch)f],id:"minecraft:item_display",item:{id:"minecraft:glowstone_dust",Count:1b,tag:{CustomModelData:41000,Motion:[$(X)d,$(Y)d,$(Z)d]}},Tags:["tf2.new","tf2.projectile"]}]}

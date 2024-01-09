@@ -1,3 +1,3 @@
-scoreboard players operation $_clip_ tf2.var = @s tf2.primary_clip
-scoreboard players operation $_maxClip_ tf2.var = @s tf2.primary_maxClip
-scoreboard players operation $_ammo_ tf2.var = @s tf2.primary_ammo
+data modify entity @s Rotation[0] set from storage tf2.__temp__:summon projectile.yaw
+data modify entity @s Rotation[1] set from storage tf2.__temp__:summon projectile.pitch
+tag @s remove tf2.new
