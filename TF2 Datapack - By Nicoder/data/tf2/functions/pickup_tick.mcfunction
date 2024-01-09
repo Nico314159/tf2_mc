@@ -7,6 +7,7 @@ execute if entity @s[tag=tf2.ammo_pack] as @a if score @s tf2.primary_ammo = @s 
 tag @a[gamemode=spectator] add tf2.ineligible
 tag @a[distance=..1.25,limit=1,sort=nearest,tag=!tf2.ineligible] add tf2.recipient
 tag @a remove tf2.ineligible
+execute unless score @s tf2.size = @s tf2.size run scoreboard players set @s tf2.size 2
 scoreboard players operation $percent tf2.var = @s tf2.size
 scoreboard players operation $percent tf2.var *= $percent tf2.var
 scoreboard players add $percent tf2.var 1

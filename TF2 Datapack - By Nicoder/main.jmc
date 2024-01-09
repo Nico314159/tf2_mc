@@ -262,6 +262,7 @@ function pickup_tick() {
     tag @a[distance=..1.25,limit=1,sort=nearest,tag=!tf2.ineligible] add tf2.recipient;
     tag @a remove tf2.ineligible;
     
+    tf2.size:@s ??= 2;
     $percent = tf2.size:@s;
     $percent *= $percent;
     $percent += 1;
