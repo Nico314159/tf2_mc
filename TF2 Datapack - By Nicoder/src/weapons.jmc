@@ -305,6 +305,7 @@ class Weapons {
     }
     function projectile() {
         // testing code
+        tf2.team:$temp = tf2.team:@s;
         retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
         retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
         function retina:math/gimbal_to_vec;
@@ -314,8 +315,10 @@ class Weapons {
         execute store result storage tf2.__temp__:summon projectile.Z double 0.001048 run retina.__variable__:$output_vec3.Z.get();
         execute store result storage tf2.__temp__:summon projectile.yaw double 0.1 run retina.__variable__:$input_yaw.get();
         execute store result storage tf2.__temp__:summon projectile.pitch double 0.1 run retina.__variable__:$input_pitch.get();
+        data modify storage tf2.__temp__:summon projectile.owner set from entity @s UUID;
         execute at @s anchored eyes run {
             $summon arrow ^-0.2236 ^-0.05715 ^-0.447675 {
+                Owner: $(owner),
                 NoGravity: true,
                 Silent: true,
                 Invulnerable: true,
@@ -340,6 +343,7 @@ class Weapons {
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
             data modify entity @s Rotation[0] set from storage tf2.__temp__:summon projectile.yaw;
             data modify entity @s Rotation[1] set from storage tf2.__temp__:summon projectile.pitch;
+            tf2.team:@s = tf2.team:$temp;
             tag @s remove tf2.new;
         }
     }
@@ -579,5 +583,30 @@ class Weapons {
     function crit_receive_sound() {
         // @needs_macro
         $ playsound tf2:crit.received$(num) player @s ~ ~ ~ 0.85 1 0.05;
+    }
+}
+
+class Projectile {
+    function tick() {
+        execute on passengers run tag @s add tf2.passenger_temp;
+        data modify entity @s Motion set from entity @e[type=item_display,tag=tf2.passenger_temp,limit=1] item.tag.Motion;
+        tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp;
+
+        tf2.team:$temp = tf2.team:@s;
+        execute as @a unless score @s tf2.team = $temp tf2.team 
+                run tag @s add tf2.enemy;
+        execute on origin run tag @s add tf2.enemy;
+        $should_explode = false;
+        if (data entity @s {inGround: 1b}) {$should_explode = true;}
+        if (entity @a[tag=tf2.enemy,distance=..0.1]) {$should_explode = true;}
+        tag @a[tag=tf2.enemy] remove tf2.enemy;
+        if ($should_explode) {
+            this.explode();
+        }
+    }
+    function explode() {
+        printf("explosion placeholder");
+        execute on passengers run kill @s;
+        kill @s;
     }
 }
