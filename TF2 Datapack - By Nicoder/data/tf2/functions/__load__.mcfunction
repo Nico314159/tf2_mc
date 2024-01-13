@@ -58,6 +58,7 @@ scoreboard objectives add tf2.lifetime dummy
 scoreboard objectives add tf2.draw_delay dummy
 scoreboard objectives add tf2.size dummy
 scoreboard objectives add tf2.model_number dummy
+scoreboard objectives add tf2.age dummy
 scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.last_class dummy
 scoreboard objectives add tf2.team dummy
@@ -69,6 +70,7 @@ scoreboard objectives add tf2.primary_clip dummy
 scoreboard objectives add tf2.primary_maxClip dummy
 scoreboard objectives add tf2.primary_ammo dummy
 scoreboard objectives add tf2.primary_maxAmmo dummy
+scoreboard objectives add tf2.damage dummy
 scoreboard objectives add tf2.secondary_clip dummy
 scoreboard objectives add tf2.secondary_maxClip dummy
 scoreboard objectives add tf2.secondary_ammo dummy

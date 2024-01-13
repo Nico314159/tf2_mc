@@ -1,2 +1,3 @@
-$execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.red[0] 20
-$execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.blu[0] 20
+scoreboard players set __if_else__ tf2.var 0
+execute if score @s tf2.team = $winner tf2.var run function tf2:__private__/if_else/24
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/25

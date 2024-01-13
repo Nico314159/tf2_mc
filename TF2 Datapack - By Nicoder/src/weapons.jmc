@@ -296,9 +296,12 @@ class Weapons {
     }
     function hitscan() {
         $_weaponID_ = data get entity @s SelectedItem.tag.CustomModelData 0.001;
-        function retina:traverse/multicast;
+        if ($_weaponID_ != 61) {
+            return run function retina:traverse/multicast;
+        }
         // Heavy minigun {CMD: 61xxx} does 4 at once
-        if ($_weaponID_ != 61) return 1;
+        data merge storage retina:input {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
+        function retina:traverse/multicast;
         function retina:traverse/multicast;
         function retina:traverse/multicast;
         function retina:traverse/multicast;
@@ -306,6 +309,7 @@ class Weapons {
     function projectile() {
         // testing code
         tf2.team:$temp = tf2.team:@s;
+        tf2.batch_number:$local = tf2.batch_number:@s;
         retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
         retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
         function retina:math/gimbal_to_vec;
@@ -319,12 +323,15 @@ class Weapons {
         execute at @s anchored eyes run {
             $summon arrow ^-0.2236 ^-0.05715 ^-0.447675 {
                 Owner: $(owner),
+                damage: 0.0,
+                pickup: false,
                 NoGravity: true,
                 Silent: true,
                 Invulnerable: true,
                 PersistenceRequired: true,
-                PierceLevel: 2147483647,
-                Tags: ["tf2.projectile"],
+                ShotFromCrossbow: true,
+                PierceLevel: 127b,
+                Tags: ["tf2.projectile", "tf2.new"],
                 Motion: [$(X)d, $(Y)d, $(Z)d],
                 active_effects: [{
                     id: "minecraft:invisibility",
@@ -335,7 +342,7 @@ class Weapons {
                 Passengers: [{
                     Rotation: [$(yaw)f, $(pitch)f],
                     id: "minecraft:item_display",
-                    item: {id: "minecraft:glowstone_dust", Count: 1b, tag:{CustomModelData:41000, Motion:[$(X)d, $(Y)d, $(Z)d]}},
+                    item: {id: "minecraft:glowstone_dust", Count: true, tag:{CustomModelData:41000, Motion:[$(X)d, $(Y)d, $(Z)d]}},
                     Tags: ["tf2.new", "tf2.projectile"]
                 }]
             };
@@ -343,7 +350,16 @@ class Weapons {
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
             data modify entity @s Rotation[0] set from storage tf2.__temp__:summon projectile.yaw;
             data modify entity @s Rotation[1] set from storage tf2.__temp__:summon projectile.pitch;
+            tag @s remove tf2.new;
+        }
+        execute as @e[type=arrow,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
+            team join delta.no_collide;
+            tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
+            tf2.batch_number:@s = tf2.batch_number:$local;
+            tf2.damage:@s = execute on origin
+                                    run data get entity @s
+                                    SelectedItem.tag.attributes.damage.base;
             tag @s remove tf2.new;
         }
     }
@@ -592,20 +608,113 @@ class Projectile {
         data modify entity @s Motion set from entity @e[type=item_display,tag=tf2.passenger_temp,limit=1] item.tag.Motion;
         tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp;
 
-        tf2.team:$temp = tf2.team:@s;
-        execute as @a unless score @s tf2.team = $temp tf2.team 
-                run tag @s add tf2.enemy;
-        execute on origin run tag @s add tf2.enemy;
-        $should_explode = false;
-        if (data entity @s {inGround: 1b}) {$should_explode = true;}
-        if (entity @a[tag=tf2.enemy,distance=..0.1]) {$should_explode = true;}
-        tag @a[tag=tf2.enemy] remove tf2.enemy;
-        if ($should_explode) {
-            this.explode();
+        this.check_collision();
+        execute as @e[type=#tf2:player_like,tag=tf2.search] run this.remove_tags();
+        if (entity @s[tag=tf2.cleanup]) return run {
+            this.cleanup();
         }
+        tf2.age:@s++;
+    }
+    function check_collision() {
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @e[type=#tf2:player_like]
+                if score @s tf2.batch_number
+                   = $local tf2.batch_number
+                unless entity @s[gamemode=spectator]
+                run tag @s add tf2.search;
+
+        // Passes through teammates during first 0.25 seconds
+        tf2.team:$temp = tf2.team:@s;
+        execute as @e[type=#tf2:player_like,tag=tf2.search]
+                unless score @s tf2.team = $temp tf2.team
+                run tag @s add tf2.opponent;
+        if (tf2.age:@s < 5) {
+            tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search;
+        }
+        // print(tf2.age:@s);
+
+        $collided = false;
+        if (data entity @s {inGround: 1b}) {$collided = true;}
+        data modify storage tf2.__temp__:vars motion set from entity @s Motion;
+        execute at @s summon marker run {
+            $proj_X = data get entity @s Pos[0] 1000;
+            $proj_Y = data get entity @s Pos[1] 1000;
+            $proj_Z = data get entity @s Pos[2] 1000;
+            data modify entity @s Pos 
+                 set from storage tf2.__temp__:vars motion;
+            execute positioned 0.0 0 0.0 
+                    facing entity @s feet 
+                    run tp @s 0 -10000 0 ~ ~;
+            execute rotated as @s
+                    positioned ^ ^ ^0.5
+                    align xyz
+                    summon marker run {
+                        $next_proj_X = data get entity @s Pos[0] 1000;
+                        $next_proj_Y = data get entity @s Pos[1] 1000;
+                        $next_proj_Z = data get entity @s Pos[2] 1000;
+                        tag @e[type=#tf2:player_like,tag=tf2.search,
+                               dx=0,dy=0,dz=0,sort=nearest,limit=1] add tf2.in_voxel;
+                        kill;
+                    }
+            kill;
+        }
+        execute as @e[type=#tf2:player_like,tag=tf2.in_voxel] at @s run {
+            execute summon marker run {
+                // marker NBT is faster than player NBT
+                $next_diff_X = $diff_X = data get entity @s Pos[0] 1000; 
+                $diff_X -= $proj_X;
+                $next_diff_X -= $next_proj_X;
+                $next_diff_Y = $diff_Y = data get entity @s Pos[1] 1000; 
+                $diff_Y -= $proj_Y;
+                $next_diff_Y -= $next_proj_Y;
+                $next_diff_Z = $diff_Z = data get entity @s Pos[2] 1000; 
+                $diff_Z -= $proj_Z;
+                $next_diff_Z -= $next_proj_Z;
+                kill;
+            }
+            if ($diff_X matches -550..550 
+             && $diff_Y matches -2050..250 
+             && $diff_Z matches -550..550) {
+                tag @s add tf2.hit;
+            }
+            if ($next_diff_X matches -550..550
+             && $next_diff_Y matches -2050..250
+             && $next_diff_Z matches -550..550) {
+                tag @s add tf2.hit;
+            }
+        }
+        tag @e[type=#tf2:player_like,tag=tf2.hit,sort=nearest,limit=1] add tf2.closest_hit;
+        // execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run say "hit";
+        if (entity @e[type=#tf2:player_like,tag=tf2.closest_hit]) {$collided = true;}
+        // print($collided);
+        if (!$collided) return 0;
+        $damage = tf2.damage:@s;
+        // print(tf2.damage:@s);
+        tag @s add tf2.cleanup;
+
+        if (entity @s[tag=!tf2.explosive]) return run {
+            execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run this.simple_damage();
+        }
+
+        this.explode();
+    }
+    function simple_damage() {
+        if (entity @s[tag=!tf2.opponent]) return 0;
+        // say "damaged";
+        tf2.health:@s -= $damage;
+        damage @s 0.01 tf2:screenshake;
     }
     function explode() {
-        printf("explosion placeholder");
+        particle minecraft:explosion ~ ~ ~;
+    }
+    function remove_tags() {
+        tag @s remove tf2.search;
+        tag @s remove tf2.opponent;
+        tag @s remove tf2.in_voxel;
+        tag @s remove tf2.hit;
+        tag @s remove tf2.closest_hit;
+    }
+    function cleanup() {
         execute on passengers run kill @s;
         kill @s;
     }

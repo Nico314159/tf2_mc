@@ -109,7 +109,7 @@ function player_tick() {
 
     Weapons.slot_check();
     if (predicate tf2:unloaded_crossbow) {
-        kill @e[type=arrow];
+        kill @e[type=arrow,tag=!tf2.projectile];
         if (!predicate tf2:ammo_in_clip) return 0;
         Weapons.main_fire();
     }

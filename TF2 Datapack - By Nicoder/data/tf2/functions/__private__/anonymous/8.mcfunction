@@ -1,3 +1,6 @@
-scoreboard players operation $_clip_ tf2.var = @s tf2.primary_clip
-scoreboard players operation $_maxClip_ tf2.var = @s tf2.primary_maxClip
-scoreboard players operation $_ammo_ tf2.var = @s tf2.primary_ammo
+team join delta.no_collide
+scoreboard players set @s tf2.age 0
+scoreboard players operation @s tf2.team = $temp tf2.team
+scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
+execute store result score @s tf2.damage on origin run data get entity @s SelectedItem.tag.attributes.damage.base
+tag @s remove tf2.new

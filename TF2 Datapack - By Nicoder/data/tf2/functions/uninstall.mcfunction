@@ -29,6 +29,7 @@ scoreboard objectives remove tf2.lifetime
 scoreboard objectives remove tf2.draw_delay
 scoreboard objectives remove tf2.size
 scoreboard objectives remove tf2.model_number
+scoreboard objectives remove tf2.age
 scoreboard objectives remove tf2.class
 scoreboard objectives remove tf2.last_class
 scoreboard objectives remove tf2.team
@@ -40,6 +41,7 @@ scoreboard objectives remove tf2.primary_clip
 scoreboard objectives remove tf2.primary_maxClip
 scoreboard objectives remove tf2.primary_ammo
 scoreboard objectives remove tf2.primary_maxAmmo
+scoreboard objectives remove tf2.damage
 scoreboard objectives remove tf2.secondary_clip
 scoreboard objectives remove tf2.secondary_maxClip
 scoreboard objectives remove tf2.secondary_ammo
