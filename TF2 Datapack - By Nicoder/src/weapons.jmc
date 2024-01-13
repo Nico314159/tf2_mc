@@ -331,7 +331,7 @@ class Weapons {
                 PersistenceRequired: true,
                 ShotFromCrossbow: true,
                 PierceLevel: 127b,
-                Tags: ["tf2.projectile", "tf2.new"],
+                Tags: ["tf2.projectile", "tf2.new", "tf2.explosive"],
                 Motion: [$(X)d, $(Y)d, $(Z)d],
                 active_effects: [{
                     id: "minecraft:invisibility",
@@ -357,6 +357,9 @@ class Weapons {
             tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
+            tf2.radius:@s = execute on origin
+                                    run data get entity @s
+                                    SelectedItem.tag.attributes.explosion.radius;
             tf2.damage:@s = execute on origin
                                     run data get entity @s
                                     SelectedItem.tag.attributes.damage.base;
@@ -632,6 +635,7 @@ class Projectile {
             tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search;
         }
         // print(tf2.age:@s);
+        execute on origin run tag @s add tf2.opponent;
 
         $collided = false;
         if (data entity @s {inGround: 1b}) {$collided = true;}
@@ -696,7 +700,8 @@ class Projectile {
             execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run this.simple_damage();
         }
 
-        this.explode();
+        execute store result storage tf2.__temp__:vars radius double 0.01905 run tf2.radius:@s.get();
+        this.explode() with storage tf2.__temp__:vars;
     }
     function simple_damage() {
         if (entity @s[tag=!tf2.opponent]) return 0;
@@ -706,6 +711,30 @@ class Projectile {
     }
     function explode() {
         particle minecraft:explosion ~ ~ ~;
+        execute on origin run tag @s add tf2.origin;
+        $execute as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run {
+            tag @s add tf2.check;
+            execute summon marker at @s 
+                    facing entity @e[type=#tf2:player_like,tag=tf2.check,limit=1] run {
+                function retina:traverse/setup;
+                if (data storage retina:output {Target: "ENTITY"}) {
+                    tag @e[type=#tf2:player_like,tag=tf2.check,limit=1] add tf2.damage;
+                }
+            }
+            tag @s remove tf2.check;
+        }
+        execute as @e[type=#tf2:player_like,tag=tf2.damage] run {
+            tf2.batch_number:$local = tf2.batch_number:@s;
+            execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+            tf2.health:@s -= $damage;
+            damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
+            if (tf2.health:@s <= 0) {
+                Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> blew up &<@s> with &<item_of(@a[tag=tf2.origin])>");
+            }
+            tag @s remove tf2.damage;
+        }
+        execute on origin run tag @s remove tf2.origin;
+        tag @a remove tf2.current;
     }
     function remove_tags() {
         tag @s remove tf2.search;

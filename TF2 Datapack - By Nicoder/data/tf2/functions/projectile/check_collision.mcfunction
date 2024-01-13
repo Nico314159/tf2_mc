@@ -3,6 +3,7 @@ execute as @e[type=#tf2:player_like] if score @s tf2.batch_number = $local tf2.b
 scoreboard players operation $temp tf2.team = @s tf2.team
 execute as @e[type=#tf2:player_like,tag=tf2.search] unless score @s tf2.team = $temp tf2.team run tag @s add tf2.opponent
 execute if score @s tf2.age matches ..4 run tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search
+execute on origin run tag @s add tf2.opponent
 scoreboard players set $collided tf2.var 0
 execute if data entity @s {inGround: 1b} run scoreboard players set $collided tf2.var 1
 data modify storage tf2.__temp__:vars motion set from entity @s Motion
@@ -14,4 +15,5 @@ execute unless score $collided tf2.var matches 1.. run return 0
 scoreboard players operation $damage tf2.var = @s tf2.damage
 tag @s add tf2.cleanup
 execute if entity @s[tag=!tf2.explosive] run return run execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run function tf2:projectile/simple_damage
-function tf2:projectile/explode
+execute store result storage tf2.__temp__:vars radius double 0.01905 run scoreboard players get @s tf2.radius
+function tf2:projectile/explode with storage tf2.__temp__:vars

@@ -1,5 +1,3 @@
-scoreboard players set @s tf2.map 2
-scoreboard players operation @s tf2.batch_number > @e[type=marker,tag=tf2.batch] tf2.batch_number
-scoreboard players add @s tf2.batch_number 1
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/17 with storage tf2.__temp__:index
+tag @s add tf2.check
+execute summon marker at @s facing entity @e[type=#tf2:player_like,tag=tf2.check,limit=1] run function tf2:__private__/anonymous/17
+tag @s remove tf2.check
