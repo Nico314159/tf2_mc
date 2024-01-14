@@ -1,4 +1,5 @@
 particle minecraft:explosion ~ ~ ~
+scoreboard players set $playersHurt tf2.var 0
 execute on origin run tag @s add tf2.origin
 execute on origin run tag @s add tf2.opponent
 tag @s add tf2.projectile

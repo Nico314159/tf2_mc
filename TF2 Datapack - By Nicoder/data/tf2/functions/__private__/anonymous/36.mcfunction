@@ -1,3 +1,2 @@
-data modify storage tf2:__storage__ currentObject set from storage tf2.__temp__:check_match UUID
-execute store success score __bool_result__2 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @s Owner
-execute if score __bool_result__2 tf2.var matches 0 run function tf2:__private__/if_else/35
+$execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.red[0] 20
+$execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.blu[0] 20

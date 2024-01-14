@@ -692,6 +692,7 @@ class Projectile {
         if (!$collided) return 0;
         execute on passengers run {
             $_damage_ = data get entity @s item.tag.attributes.damage.base;
+            $_selfDamage_ = data get entity @s item.tag.attributes.explosion.selfDamage;
             $_maxRamp_ = data get entity @s item.tag.attributes.damage.maxRamp 100;
             if (!data entity @s item.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
             $_rangeDependent_ = data get entity @s item.tag.attributes.damage.uniform;
@@ -717,6 +718,7 @@ class Projectile {
     }
     function explode() {
         particle minecraft:explosion ~ ~ ~;
+        $playersHurt = 0;
         execute on origin run tag @s add tf2.origin;
         execute on origin run tag @s add tf2.opponent;
         tag @s add tf2.projectile;
@@ -748,6 +750,7 @@ class Projectile {
     function splash_damage() {
         this.calculate_splash();
         tf2.health:@s -= $_finalDamage_;
+        $playersHurt++;
         damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
         this.knockback();
 
@@ -803,10 +806,13 @@ class Projectile {
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
         
-        if (entity @s[tag=tf2.closest_hit] && $collided >= 2) {
+        if (entity @s[tag=tf2.closest_hit,tag=!tf2.origin] && $collided >= 2) {
             return run $_finalDamage_.get();
         }
 
+        if (entity @s[tag=tf2.origin]) {
+            $_finalDamage_ = $_selfDamage_;
+        }
         $_splash_multiplier_ = $_centerDist_;
         $_splash_multiplier_ *= 50;
         $_splash_multiplier_ /= $_splashEdge_;
@@ -820,8 +826,11 @@ class Projectile {
             return run $_finalDamage_.get();
         }
 
-        // Less damage from your own explosives
+        // Less damage from your own explosives if nobody else is hurt
         // Soldier: 3/5 as much, Demo: 3/4 as much
+        if ($playersHurt > 1) {
+            return run $_finalDamage_.get();
+        }
         $_finalDamage_ *= 3;
         $_temp_ = 9;
         $_temp_ -= tf2.class:@s;
