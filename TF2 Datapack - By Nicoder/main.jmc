@@ -354,7 +354,6 @@ Player.join(() => {
     tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = 0;
 
     // Update timer visibility to exclude currrent player
-    KOTH_Timer.show() with storage tf2.__temp__:index;
     Timer.show() with storage tf2.__temp__:index;
 
     effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true;

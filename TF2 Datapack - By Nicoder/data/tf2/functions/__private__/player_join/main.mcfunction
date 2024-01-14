@@ -7,7 +7,6 @@ execute store result storage tf2.__temp__:index i int 1 run scoreboard players g
 scoreboard players enable @s tf2.queue_type
 scoreboard players enable @s controls
 execute store result score @s tf2.batch_number store result score @s tf2.queue_type run scoreboard players set @s controls 0
-function tf2:koth_timer/show with storage tf2.__temp__:index
 function tf2:timer/show with storage tf2.__temp__:index
 effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true
 effect give @s minecraft:resistance infinite 4 true
