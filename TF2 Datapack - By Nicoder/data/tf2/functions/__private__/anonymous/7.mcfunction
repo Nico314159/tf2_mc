@@ -1,3 +1,1 @@
-data modify entity @s Rotation[0] set from storage tf2.__temp__:summon projectile.yaw
-data modify entity @s Rotation[1] set from storage tf2.__temp__:summon projectile.pitch
-tag @s remove tf2.new
+$summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {Owner:$(owner),damage:0.0,pickup:false,NoGravity:true,Silent:true,Invulnerable:true,PersistenceRequired:true,ShotFromCrossbow:true,PierceLevel:127b,Tags:["tf2.projectile","tf2.new","tf2.explosive"],Motion:[$(X)d,$(Y)d,$(Z)d],active_effects:[{id:"minecraft:invisibility",amplifier:false,show_particles:false,duration:-1}],Passengers:[{Rotation:[$(yaw)f,$(pitch)f],id:"minecraft:item_display",item:{id:"minecraft:glowstone_dust",Count:true,tag:{CustomModelData:41000,Motion:[$(X)d,$(Y)d,$(Z)d]}},Tags:["tf2.new","tf2.projectile"]}]}

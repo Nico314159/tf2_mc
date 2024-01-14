@@ -313,15 +313,23 @@ class Weapons {
         retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
         retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
         function retina:math/gimbal_to_vec;
-        data modify storage tf2.__temp__:summon projectile set value {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0};
-        execute store result storage tf2.__temp__:summon projectile.X double 0.001048 run retina.__variable__:$output_vec3.X.get();
-        execute store result storage tf2.__temp__:summon projectile.Y double 0.001048 run retina.__variable__:$output_vec3.Y.get();
-        execute store result storage tf2.__temp__:summon projectile.Z double 0.001048 run retina.__variable__:$output_vec3.Z.get();
+        data modify storage tf2.__temp__:summon projectile set value {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
+        execute store result storage tf2.__temp__:summon projectile.speed double 0.01905 run data get entity @s SelectedItem.tag.projectile.speed;
+        execute store result storage tf2.__temp__:summon projectile.speed double 0.05 run data get storage tf2.__temp__:summon projectile.speed;
+        execute store result storage tf2.__temp__:summon projectile.speed double 0.000001 run data get storage tf2.__temp__:summon projectile.speed 1000;
+        execute run {
+            $execute store result storage tf2.__temp__:summon projectile.X double $(speed) run retina.__variable__:$output_vec3.X.get();
+            $execute store result storage tf2.__temp__:summon projectile.Y double $(speed) run retina.__variable__:$output_vec3.Y.get();
+            $execute store result storage tf2.__temp__:summon projectile.Z double $(speed) run retina.__variable__:$output_vec3.Z.get();
+        } with storage tf2.__temp__:summon projectile;
         execute store result storage tf2.__temp__:summon projectile.yaw double 0.1 run retina.__variable__:$input_yaw.get();
         execute store result storage tf2.__temp__:summon projectile.pitch double 0.1 run retina.__variable__:$input_pitch.get();
+        data modify storage tf2.__temp__:summon projectile.spawnX set from entity @s SelectedItem.tag.projectile.spawn[0];
+        data modify storage tf2.__temp__:summon projectile.spawnY set from entity @s SelectedItem.tag.projectile.spawn[1];
+        data modify storage tf2.__temp__:summon projectile.spawnZ set from entity @s SelectedItem.tag.projectile.spawn[2];
         data modify storage tf2.__temp__:summon projectile.owner set from entity @s UUID;
         execute at @s anchored eyes run {
-            $summon arrow ^-0.2236 ^-0.05715 ^-0.447675 {
+            $summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
                 Owner: $(owner),
                 damage: 0.0,
                 pickup: false,
@@ -360,6 +368,8 @@ class Weapons {
             execute on origin run tag @s add tf2.origin;
             execute on passengers run data modify entity @s item.tag.attributes 
                  set from entity @a[tag=tf2.origin,limit=1] SelectedItem.tag.attributes;
+            execute on passengers run data modify entity @s item.tag.projectile 
+                 set from entity @a[tag=tf2.origin,limit=1] SelectedItem.tag.projectile;
             execute on origin run tag @s remove tf2.origin;
             tag @s remove tf2.new;
         }
@@ -692,7 +702,7 @@ class Projectile {
         if (!$collided) return 0;
         execute on passengers run {
             $_damage_ = data get entity @s item.tag.attributes.damage.base;
-            $_selfDamage_ = data get entity @s item.tag.attributes.explosion.selfDamage;
+            $_selfDamage_ = data get entity @s item.tag.projectile.explosion.selfDamage;
             $_maxRamp_ = data get entity @s item.tag.attributes.damage.maxRamp 100;
             if (!data entity @s item.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
             $_rangeDependent_ = data get entity @s item.tag.attributes.damage.uniform;
@@ -707,7 +717,7 @@ class Projectile {
 
         execute on passengers 
                 store result storage tf2.__temp__:vars radius double 0.01905 
-                run data get entity @s item.tag.attributes.explosion.radius;
+                run data get entity @s item.tag.projectile.explosion.radius;
         this.explode() with storage tf2.__temp__:vars;
     }
     function simple_damage() {

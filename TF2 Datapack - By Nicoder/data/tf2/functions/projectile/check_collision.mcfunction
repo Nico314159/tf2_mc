@@ -6,13 +6,13 @@ execute if score @s tf2.age matches ..4 run tag @e[type=#tf2:player_like,tag=tf2
 scoreboard players set $collided tf2.var 0
 execute if data entity @s {inGround: 1b} run scoreboard players add $collided tf2.var 1
 data modify storage tf2.__temp__:vars motion set from entity @s Motion
-execute at @s summon marker run function tf2:__private__/anonymous/14
-execute as @e[type=#tf2:player_like,tag=tf2.in_voxel] at @s run function tf2:__private__/anonymous/16
+execute at @s summon marker run function tf2:__private__/anonymous/15
+execute as @e[type=#tf2:player_like,tag=tf2.in_voxel] at @s run function tf2:__private__/anonymous/17
 tag @e[type=#tf2:player_like,tag=tf2.hit,sort=nearest,limit=1] add tf2.closest_hit
 execute if entity @e[type=#tf2:player_like,tag=tf2.closest_hit] run scoreboard players add $collided tf2.var 2
 execute unless score $collided tf2.var matches 1.. run return 0
-execute on passengers run function tf2:__private__/anonymous/17
+execute on passengers run function tf2:__private__/anonymous/18
 tag @s add tf2.cleanup
 execute if entity @s[tag=!tf2.explosive] run return run execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run function tf2:projectile/simple_damage
-execute on passengers store result storage tf2.__temp__:vars radius double 0.01905 run data get entity @s item.tag.attributes.explosion.radius
+execute on passengers store result storage tf2.__temp__:vars radius double 0.01905 run data get entity @s item.tag.projectile.explosion.radius
 function tf2:projectile/explode with storage tf2.__temp__:vars

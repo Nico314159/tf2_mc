@@ -1,1 +1,4 @@
-$scoreboard players operation @s tf2.session = $global_$(i) tf2.session
+data modify entity @s transformation set value [0f]
+data modify entity @s transformation set from storage tf2.__temp__:summon matrix
+data modify storage retina:output Distance set from entity @s transformation.scale[0]
+kill
