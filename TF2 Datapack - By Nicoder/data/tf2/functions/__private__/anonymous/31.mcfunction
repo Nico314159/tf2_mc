@@ -1,3 +1,3 @@
-data modify storage tf2:__storage__ currentObject set from storage tf2.__temp__:check_match UUID
-execute store success score __bool_result__0 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @s Thrower
-execute if score __bool_result__0 tf2.var matches 0 run function tf2:__private__/if_else/34
+scoreboard players set __if_else__ tf2.var 0
+execute if score @s tf2.team = $winner tf2.var run function tf2:__private__/if_else/24
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/25

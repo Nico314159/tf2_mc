@@ -2,5 +2,6 @@
 #include "header/values.hjmc"
 
 #override minecraft
+#override retina
 #nometa
 #uninstall

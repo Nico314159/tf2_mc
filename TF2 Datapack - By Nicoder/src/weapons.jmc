@@ -147,7 +147,7 @@ new item_modifiers(load_crossbow) {
 
 new tags.functions(retina.on_hit) {
     "values": [
-        "tf2:weapons/damage"
+        "tf2:weapons/on_hit"
     ],
     "replace": false
 }
@@ -357,12 +357,10 @@ class Weapons {
             tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
-            tf2.radius:@s = execute on origin
-                                    run data get entity @s
-                                    SelectedItem.tag.attributes.explosion.radius;
-            tf2.damage:@s = execute on origin
-                                    run data get entity @s
-                                    SelectedItem.tag.attributes.damage.base;
+            execute on origin run tag @s add tf2.origin;
+            execute on passengers run data modify entity @s item.tag.attributes 
+                 set from entity @a[tag=tf2.origin,limit=1] SelectedItem.tag.attributes;
+            execute on origin run tag @s remove tf2.origin;
             tag @s remove tf2.new;
         }
     }
@@ -445,11 +443,11 @@ class Weapons {
         }
         Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>             &<gray>Ammo: &<$_clip_> &<dark_gray>(&<$_ammo_>)");
     }
-    function damage() {
+    function on_hit() {
         if (retina.__variable__:$func_id !== 100) return 0;
 
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
-        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}, tag=!tf2.dead] run Weapons.calculate_falloff();
+        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}, tag=!tf2.dead] run this.apply_damage();
     }
     function draw_line() {
         // @within this.damage()
@@ -493,7 +491,7 @@ class Weapons {
         } with storage tf2.__temp__:summon line;
         data remove storage tf2.__temp__:summon line;
     }
-    function calculate_falloff() {
+    function apply_damage() {
         // @within this.damage()
         if (score @s tf2.team = $current tf2.team) return 0;
         if (entity @s[gamemode=spectator]) return 0;
@@ -501,7 +499,38 @@ class Weapons {
         $_hitHead_ = data get storage retina:output HitEntityHead;
         if ($_distance_ > $_range_) return 0;
         $_finalDamage_ = $_damage_;
+        
+        this.calculate_falloff();
+        $_finalDamage_ *= $_multiplier_;
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+        tf2.health:@s -= $_finalDamage_;
+        $_totalDamage_ += $_finalDamage_;
+        damage @s 0.01 tf2:screenshake by @a[tag=retina.executing, limit=1];
 
+        // Death message & sound effects
+        if (entity @s[tag=tf2.said_death_msg]) return 1;
+        if (tf2.health:@s > 0) {
+            return run playsound tf2:ding.hit player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
+        }
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        if ($_hitHead_ && entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
+            Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> headshot &<@s> with &<item_of(@a[tag=retina.executing])>");
+            execute store result storage tf2.__temp__:index num int 1 run random value 1..5;
+            // stopsound @a[tag=retina.executing,predicate=!tf2:holding_melee] player tf2:item.gun.shoot;
+            execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] at @s
+                    run this.crit_sound() with storage tf2.__temp__:index;
+            execute store result storage tf2.__temp__:index num int 1 run random value 1..3;
+            execute at @s run this.crit_receive_sound() with storage tf2.__temp__:index;
+        } else {
+            Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
+            playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
+        }
+        tag @a remove tf2.current;
+        tag @s add tf2.said_death_msg;
+    }
+    function calculate_falloff() {
         if ($_rangeDependent_) {
             $_hammerUnits_ = data get storage retina:output Distance 52.49343832021;
             $_hammerUnits_ < 1024;
@@ -537,35 +566,6 @@ class Weapons {
             Class.Sniper.damage_scale();
         }
         else {$_multiplier_ = 100;}
-
-        $_finalDamage_ *= $_multiplier_;
-        $_finalDamage_ += 99;
-        $_finalDamage_ /= 100;
-        tf2.health:@s -= $_finalDamage_;
-        $_totalDamage_ += $_finalDamage_;
-        damage @s 0.01 tf2:screenshake by @a[tag=retina.executing, limit=1];
-
-        // Death message & sound effects
-        if (entity @s[tag=tf2.said_death_msg]) return 1;
-        if (tf2.health:@s > 0) {
-            return run playsound tf2:ding.hit player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
-        }
-        tf2.batch_number:$local = tf2.batch_number:@s;
-        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        if ($_hitHead_ && entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
-            Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> headshot &<@s> with &<item_of(@a[tag=retina.executing])>");
-            execute store result storage tf2.__temp__:index num int 1 run random value 1..5;
-            // stopsound @a[tag=retina.executing,predicate=!tf2:holding_melee] player tf2:item.gun.shoot;
-            execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] at @s
-                    run this.crit_sound() with storage tf2.__temp__:index;
-            execute store result storage tf2.__temp__:index num int 1 run random value 1..3;
-            execute at @s run this.crit_receive_sound() with storage tf2.__temp__:index;
-        } else {
-            Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
-            playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
-        }
-        tag @a remove tf2.current;
-        tag @s add tf2.said_death_msg;
     }
     function damage_numbers() {
         // @within this.main_fire();
@@ -634,11 +634,9 @@ class Projectile {
         if (tf2.age:@s < 5) {
             tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search;
         }
-        // print(tf2.age:@s);
-        execute on origin run tag @s add tf2.opponent;
 
         $collided = false;
-        if (data entity @s {inGround: 1b}) {$collided = true;}
+        if (data entity @s {inGround: 1b}) {$collided++;}
         data modify storage tf2.__temp__:vars motion set from entity @s Motion;
         execute at @s summon marker run {
             $proj_X = data get entity @s Pos[0] 1000;
@@ -689,10 +687,10 @@ class Projectile {
         }
         tag @e[type=#tf2:player_like,tag=tf2.hit,sort=nearest,limit=1] add tf2.closest_hit;
         // execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run say "hit";
-        if (entity @e[type=#tf2:player_like,tag=tf2.closest_hit]) {$collided = true;}
+        if (entity @e[type=#tf2:player_like,tag=tf2.closest_hit]) {$collided += 2;}
         // print($collided);
         if (!$collided) return 0;
-        $damage = tf2.damage:@s;
+        $_damage_ = execute on passengers run data get entity @s item.tag.attributes.damage.base;
         // print(tf2.damage:@s);
         tag @s add tf2.cleanup;
 
@@ -700,41 +698,118 @@ class Projectile {
             execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run this.simple_damage();
         }
 
-        execute store result storage tf2.__temp__:vars radius double 0.01905 run tf2.radius:@s.get();
+        execute on passengers 
+                store result storage tf2.__temp__:vars radius double 0.01905 
+                run data get entity @s item.tag.attributes.explosion.radius;
         this.explode() with storage tf2.__temp__:vars;
     }
     function simple_damage() {
         if (entity @s[tag=!tf2.opponent]) return 0;
         // say "damaged";
-        tf2.health:@s -= $damage;
+        tf2.health:@s -= $_damage_;
         damage @s 0.01 tf2:screenshake;
     }
     function explode() {
         particle minecraft:explosion ~ ~ ~;
         execute on origin run tag @s add tf2.origin;
-        $execute as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run {
-            tag @s add tf2.check;
-            execute summon marker at @s 
-                    facing entity @e[type=#tf2:player_like,tag=tf2.check,limit=1] run {
-                function retina:traverse/setup;
-                if (data storage retina:output {Target: "ENTITY"}) {
-                    tag @e[type=#tf2:player_like,tag=tf2.check,limit=1] add tf2.damage;
-                }
-            }
-            tag @s remove tf2.check;
-        }
-        execute as @e[type=#tf2:player_like,tag=tf2.damage] run {
-            tf2.batch_number:$local = tf2.batch_number:@s;
-            execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-            tf2.health:@s -= $damage;
-            damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
-            if (tf2.health:@s <= 0) {
-                Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> blew up &<@s> with &<item_of(@a[tag=tf2.origin])>");
-            }
-            tag @s remove tf2.damage;
-        }
+        execute on origin run tag @s add tf2.opponent;
+        tag @s add tf2.projectile;
+        $execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
+        tag @s remove tf2.projectile;
         execute on origin run tag @s remove tf2.origin;
+    }
+    function wall_check() {
+        tag @s add tf2.player;
+        execute summon marker at @s run {
+            data modify entity @s NoAI set value 1b;
+            data modify storage retina:input MaxRecursionDepth set value 127b;
+            tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] feet;
+            function retina:traverse/setup;
+            kill @s;
+        }
+        tag @s remove tf2.player;
+        if (data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
+            this.splash_damage();
+        }
+        data modify storage tf2.__temp__:summon number.X set from storage retina:output ContactCoordinates[0];
+        data modify storage tf2.__temp__:summon number.Y set from storage retina:output ContactCoordinates[1];
+        data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
+        execute store result storage tf2.__temp__:summon number.value int 1 run $_totalDamage_.get();
+        if ($_totalDamage_ >= 1) {
+            Weapons.damage_numbers() with storage tf2.__temp__:summon number;
+        }
+    }
+    function splash_damage() {
+        this.calculate_splash();
+        tf2.health:@s -= $_finalDamage_;
+        $_totalDamage_ = $_finalDamage_;
+        damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
+
+        // Death message & sound effects
+        if (entity @s[tag=tf2.said_death_msg]) return 1;
+        if (tf2.health:@s > 0) {
+            return run playsound tf2:ding.hit player @a[tag=tf2.origin] ~ ~ ~ 0.9 1 0.05;
+        }
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> blew up &<@s> with &<item_of(@a[tag=tf2.origin])>");
+        playsound tf2:ding.kill player @a[tag=tf2.origin] ~ ~ ~ 0.9 1 0.05;
         tag @a remove tf2.current;
+        tag @s add tf2.said_death_msg;
+    }
+    function calculate_splash() {
+        $_centerDist_ = data get storage retina:output Distance 52.49343832021;
+        $_splashEdge_ = data get storage tf2.__temp__:vars radius 52.49343832021;
+        execute as @e[tag=tf2.origin] at @s summon marker run {
+            $X0 = data get entity @s Pos[0] 100;
+            $Y0 = data get entity @s Pos[1] 100;
+            $Z0 = data get entity @s Pos[2] 100;
+            kill;
+        }
+        execute at @s summon marker run {
+            $Xf = data get entity @s Pos[0] 100;
+            $Yf = data get entity @s Pos[1] 100;
+            $Zf = data get entity @s Pos[2] 100;
+            kill;
+        }
+        $deltaX = $Xf; $deltaX -= $X0; 
+        execute store result storage tf2.__temp__:summon pythag.X float 0.01 run $deltaX.get();
+        $deltaY = $Yf; $deltaY -= $Y0; 
+        execute store result storage tf2.__temp__:summon pythag.Y float 0.01 run $deltaY.get();
+        $deltaZ = $Zf; $deltaZ -= $Z0; 
+        execute store result storage tf2.__temp__:summon pythag.Z float 0.01 run $deltaZ.get();
+        execute summon item_display run {
+            $data modify entity @s transformation set value [$(X)f,0f,0f,0f,$(Y)f,0f,0f,0f,$(Z)f,0f,0f,0f,0f,0f,0f,1f];
+            data modify storage retina:output Distance set from entity @s transformation.scale[0];
+            kill;
+        } with storage tf2.__temp__:summon pythag;
+        $_finalDamage_ = $_damage_;
+        execute on passengers run {
+            $_maxRamp_ = data get entity @s item.tag.attributes.damage.maxRamp 100;
+            if (!data entity @s item.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
+            $_rangeDependent_ = data get entity @s item.tag.attributes.damage.uniform;
+            $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
+        }
+        Weapons.calculate_falloff();
+        $_finalDamage_ *= $_multiplier_;
+        // printf("mult = &<$_multiplier_>");
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+        
+        if (entity @s[tag=tf2.closest_hit] && $collided >= 2) {
+            return run $_finalDamage_.get();
+        }
+
+        $_splash_multiplier_ = $_centerDist_;
+        $_splash_multiplier_ *= 50;
+        $_splash_multiplier_ /= $_splashEdge_;
+        $_splash_multiplier_ *= -1;
+        $_splash_multiplier_ += 100;
+        // printf("splash = &<$_splash_multiplier_>");
+        $_finalDamage_ *= $_splash_multiplier_;
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+        return run $_finalDamage_.get();
     }
     function remove_tags() {
         tag @s remove tf2.search;

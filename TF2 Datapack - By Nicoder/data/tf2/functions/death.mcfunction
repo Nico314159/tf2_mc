@@ -4,5 +4,5 @@ spawnpoint @s ~ ~ ~
 tag @s add tf2.dead
 gamemode spectator @s
 execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/33 with storage tf2.__temp__:index
+function tf2:__private__/anonymous/36 with storage tf2.__temp__:index
 summon area_effect_cloud ~ ~ ~ {Duration:-1,Age:-2147483648,WaitTime:-2147483648,Invulnerable:1b,Tags:["tf2.no_respawn"],Passengers:[{id:"minecraft:item",NoGravity:1b,Invulnerable:1b,Tags:["tf2.pickup","tf2.ammo_pack","tf2.no_respawn"],Age:-32768s,PickupDelay:32767s,Item:{id:"minecraft:iron_ingot",Count:1b,tag:{CustomModelData:22}}}]}

@@ -1,6 +1,6 @@
 {
     "values": [
-        "tf2:weapons/damage"
+        "tf2:weapons/on_hit"
     ],
     "replace": false
 }

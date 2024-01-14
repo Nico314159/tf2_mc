@@ -1,4 +1,7 @@
 particle minecraft:explosion ~ ~ ~
 execute on origin run tag @s add tf2.origin
-$execute as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run function tf2:__private__/anonymous/18
-tag @a remove tf2.current
+execute on origin run tag @s add tf2.opponent
+tag @s add tf2.projectile
+$execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run function tf2:projectile/wall_check
+tag @s remove tf2.projectile
+execute on origin run tag @s remove tf2.origin

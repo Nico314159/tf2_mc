@@ -1,2 +1,5 @@
+data modify entity @s NoAI set value 1b
+data modify storage retina:input MaxRecursionDepth set value 127b
+tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] feet
 function retina:traverse/setup
-execute if data storage retina:output {Target: "ENTITY"} run tag @e[type=#tf2:player_like,tag=tf2.check,limit=1] add tf2.damage
+kill @s

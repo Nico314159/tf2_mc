@@ -1,2 +1,2 @@
-$execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.red[0] 20
-$execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.blu[0] 20
+execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:__private__/anonymous/32 with storage tf2.__temp__:index

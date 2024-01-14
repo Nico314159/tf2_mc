@@ -41,7 +41,6 @@ scoreboard objectives remove tf2.primary_clip
 scoreboard objectives remove tf2.primary_maxClip
 scoreboard objectives remove tf2.primary_ammo
 scoreboard objectives remove tf2.primary_maxAmmo
-scoreboard objectives remove tf2.damage
 scoreboard objectives remove tf2.secondary_clip
 scoreboard objectives remove tf2.secondary_maxClip
 scoreboard objectives remove tf2.secondary_ammo

@@ -18,7 +18,7 @@ Hardcode.repeatList(
         "blu_timer", "blu_timer.min", "blu_timer.sec", "blu_overtime",
         "batch_number", "session", "lifetime", "draw_delay", "size", "model_number", "age",
         "class", "last_class", "team", "health", "max_health", "last_slot", "current_slot",
-        "primary_clip", "primary_maxClip", "primary_ammo", "primary_maxAmmo", "damage",
+        "primary_clip", "primary_maxClip", "primary_ammo", "primary_maxAmmo",
         "secondary_clip", "secondary_maxClip", "secondary_ammo", "secondary_maxAmmo",
         "attack_delay", "reload_delay", "consecutive_reload",
         "time_revved", "rev_threshold", "time_scoped", "grace_period",

@@ -1,5 +1,3 @@
-scoreboard players set @s tf2.map 2
-scoreboard players operation @s tf2.batch_number > @e[type=marker,tag=tf2.batch] tf2.batch_number
-scoreboard players add @s tf2.batch_number 1
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/19 with storage tf2.__temp__:index
+$data modify entity @s transformation set value [$(X)f,0f,0f,0f,$(Y)f,0f,0f,0f,$(Z)f,0f,0f,0f,0f,0f,0f,1f]
+data modify storage retina:output Distance set from entity @s transformation.scale[0]
+kill
