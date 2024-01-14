@@ -1,5 +1,5 @@
 tag @s add tf2.player
-execute summon marker at @s run function tf2:__private__/anonymous/17
+execute summon marker at @s run function tf2:__private__/anonymous/18
 tag @s remove tf2.player
 data modify storage tf2:__storage__ currentObject set from storage retina:output TargetedEntity.UUID
 execute store success score __bool_result__0 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @e[type=#tf2:player_like,tag=tf2.check,limit=1] UUID

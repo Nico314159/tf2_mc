@@ -690,7 +690,13 @@ class Projectile {
         if (entity @e[type=#tf2:player_like,tag=tf2.closest_hit]) {$collided += 2;}
         // print($collided);
         if (!$collided) return 0;
-        $_damage_ = execute on passengers run data get entity @s item.tag.attributes.damage.base;
+        execute on passengers run {
+            $_damage_ = data get entity @s item.tag.attributes.damage.base;
+            $_maxRamp_ = data get entity @s item.tag.attributes.damage.maxRamp 100;
+            if (!data entity @s item.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
+            $_rangeDependent_ = data get entity @s item.tag.attributes.damage.uniform;
+            $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
+        }
         // print(tf2.damage:@s);
         tag @s add tf2.cleanup;
 
@@ -791,12 +797,6 @@ class Projectile {
             kill;
         } with storage tf2.__temp__:summon matrix;
         $_finalDamage_ = $_damage_;
-        execute on passengers run {
-            $_maxRamp_ = data get entity @s item.tag.attributes.damage.maxRamp 100;
-            if (!data entity @s item.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
-            $_rangeDependent_ = data get entity @s item.tag.attributes.damage.uniform;
-            $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
-        }
         Weapons.calculate_falloff();
         $_finalDamage_ *= $_multiplier_;
         // printf("mult = &<$_multiplier_>");

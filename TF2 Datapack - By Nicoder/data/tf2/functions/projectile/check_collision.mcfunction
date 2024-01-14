@@ -11,7 +11,7 @@ execute as @e[type=#tf2:player_like,tag=tf2.in_voxel] at @s run function tf2:__p
 tag @e[type=#tf2:player_like,tag=tf2.hit,sort=nearest,limit=1] add tf2.closest_hit
 execute if entity @e[type=#tf2:player_like,tag=tf2.closest_hit] run scoreboard players add $collided tf2.var 2
 execute unless score $collided tf2.var matches 1.. run return 0
-execute store result score $_damage_ tf2.var on passengers run data get entity @s item.tag.attributes.damage.base
+execute on passengers run function tf2:__private__/anonymous/17
 tag @s add tf2.cleanup
 execute if entity @s[tag=!tf2.explosive] run return run execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run function tf2:projectile/simple_damage
 execute on passengers store result storage tf2.__temp__:vars radius double 0.01905 run data get entity @s item.tag.attributes.explosion.radius
