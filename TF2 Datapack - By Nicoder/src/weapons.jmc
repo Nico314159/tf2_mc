@@ -734,15 +734,14 @@ class Projectile {
         data modify storage tf2.__temp__:summon number.X set from storage retina:output ContactCoordinates[0];
         data modify storage tf2.__temp__:summon number.Y set from storage retina:output ContactCoordinates[1];
         data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
-        execute store result storage tf2.__temp__:summon number.value int 1 run $_totalDamage_.get();
-        if ($_totalDamage_ >= 1) {
+        execute store result storage tf2.__temp__:summon number.value int 1 run $_finalDamage_.get();
+        if ($_finalDamage_ >= 1) {
             Weapons.damage_numbers() with storage tf2.__temp__:summon number;
         }
     }
     function splash_damage() {
         this.calculate_splash();
         tf2.health:@s -= $_finalDamage_;
-        $_totalDamage_ = $_finalDamage_;
         damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
 
         // Death message & sound effects
@@ -773,16 +772,23 @@ class Projectile {
             kill;
         }
         $deltaX = $Xf; $deltaX -= $X0; 
-        execute store result storage tf2.__temp__:summon pythag.X float 0.01 run $deltaX.get();
         $deltaY = $Yf; $deltaY -= $Y0; 
-        execute store result storage tf2.__temp__:summon pythag.Y float 0.01 run $deltaY.get();
         $deltaZ = $Zf; $deltaZ -= $Z0; 
-        execute store result storage tf2.__temp__:summon pythag.Z float 0.01 run $deltaZ.get();
+        data modify storage tf2.__temp__:summon matrix set value [
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 1f
+        ];
+        execute store result storage tf2.__temp__:summon matrix[0] float 1 run $deltaX.get();
+        execute store result storage tf2.__temp__:summon matrix[4] float 1 run $deltaY.get();
+        execute store result storage tf2.__temp__:summon matrix[8] float 1 run $deltaZ.get();
         execute summon item_display run {
-            $data modify entity @s transformation set value [$(X)f,0f,0f,0f,$(Y)f,0f,0f,0f,$(Z)f,0f,0f,0f,0f,0f,0f,1f];
+            data modify entity @s transformation set value [0f];
+            data modify entity @s transformation set from storage tf2.__temp__:summon matrix;
             data modify storage retina:output Distance set from entity @s transformation.scale[0];
             kill;
-        } with storage tf2.__temp__:summon pythag;
+        } with storage tf2.__temp__:summon matrix;
         $_finalDamage_ = $_damage_;
         execute on passengers run {
             $_maxRamp_ = data get entity @s item.tag.attributes.damage.maxRamp 100;
