@@ -728,7 +728,7 @@ class Projectile {
     }
     function explode() {
         particle minecraft:explosion ~ ~ ~;
-        $playersHurt = 0;
+        $playersHurt = $_totalDamage_ = 0;
         execute on origin run tag @s add tf2.origin;
         execute on origin run tag @s add tf2.opponent;
         tag @s add tf2.projectile;
@@ -752,14 +752,15 @@ class Projectile {
         data modify storage tf2.__temp__:summon number.X set from storage retina:output ContactCoordinates[0];
         data modify storage tf2.__temp__:summon number.Y set from storage retina:output ContactCoordinates[1];
         data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
-        execute store result storage tf2.__temp__:summon number.value int 1 run $_finalDamage_.get();
-        if ($_finalDamage_ >= 1) {
+        execute store result storage tf2.__temp__:summon number.value int 1 run $_totalDamage_.get();
+        if ($_totalDamage_ >= 1) {
             Weapons.damage_numbers() with storage tf2.__temp__:summon number;
         }
     }
     function splash_damage() {
         this.calculate_splash();
         tf2.health:@s -= $_finalDamage_;
+        $_totalDamage_ = $_finalDamage_;
         $playersHurt++;
         damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
         this.knockback();
