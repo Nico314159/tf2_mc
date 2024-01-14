@@ -816,6 +816,16 @@ class Projectile {
         $_finalDamage_ *= $_splash_multiplier_;
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
+        if (!entity @s[tag=tf2.origin,scores={tf2.class=4..5}]) {
+            return run $_finalDamage_.get();
+        }
+
+        // Less damage from your own explosives
+        // Soldier: 3/5 as much, Demo: 3/4 as much
+        $_finalDamage_ *= 3;
+        $_temp_ = 9;
+        $_temp_ -= tf2.class:@s;
+        $_finalDamage_ /= $_temp_;
         return run $_finalDamage_.get();
     }
     function knockback() {
@@ -823,7 +833,7 @@ class Projectile {
         delta.api.launch:$x *= 12000;
         delta.api.launch:$x /= 480;
         delta.api.launch:$y = retina.__variable__:$output_vec3.Y;
-        delta.api.launch:$y *= 9000;
+        delta.api.launch:$y *= 12000;
         delta.api.launch:$y /= 480;
         delta.api.launch:$z = retina.__variable__:$output_vec3.Z;
         delta.api.launch:$z *= 12000;
