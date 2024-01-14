@@ -1,6 +1,7 @@
 function tf2:projectile/calculate_splash
 scoreboard players operation @s tf2.health -= $_finalDamage_ tf2.var
 damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin,limit=1]
+function tf2:projectile/knockback
 execute if entity @s[tag=tf2.said_death_msg] run return 1
 execute if score @s tf2.health matches 1.. run return run playsound tf2:ding.hit player @a[tag=tf2.origin] ~ ~ ~ 0.9 1 0.05
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number

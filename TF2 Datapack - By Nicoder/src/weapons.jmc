@@ -723,7 +723,7 @@ class Projectile {
         execute summon marker at @s run {
             data modify entity @s NoAI set value 1b;
             data modify storage retina:input MaxRecursionDepth set value 127b;
-            tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] feet;
+            tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] eyes;
             function retina:traverse/setup;
             kill @s;
         }
@@ -743,6 +743,7 @@ class Projectile {
         this.calculate_splash();
         tf2.health:@s -= $_finalDamage_;
         damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
+        this.knockback();
 
         // Death message & sound effects
         if (entity @s[tag=tf2.said_death_msg]) return 1;
@@ -816,6 +817,18 @@ class Projectile {
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
         return run $_finalDamage_.get();
+    }
+    function knockback() {
+        delta.api.launch:$x = retina.__variable__:$output_vec3.X;
+        delta.api.launch:$x *= 12000;
+        delta.api.launch:$x /= 480;
+        delta.api.launch:$y = retina.__variable__:$output_vec3.Y;
+        delta.api.launch:$y *= 9000;
+        delta.api.launch:$y /= 480;
+        delta.api.launch:$z = retina.__variable__:$output_vec3.Z;
+        delta.api.launch:$z *= 12000;
+        delta.api.launch:$z /= 480;
+        function delta:api/launch_xyz;
     }
     function remove_tags() {
         tag @s remove tf2.search;
