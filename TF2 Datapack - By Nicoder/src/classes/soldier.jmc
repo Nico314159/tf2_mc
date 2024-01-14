@@ -18,7 +18,7 @@ class Class.Soldier {
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "Rocket Launcher (DOESN'T WORK YET)",
+                                "text": "Rocket Launcher",
                                 "color": "white",
                                 "italic": true
                             }
