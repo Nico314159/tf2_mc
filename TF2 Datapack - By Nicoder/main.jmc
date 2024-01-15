@@ -94,7 +94,7 @@ function player_tick() {
     data modify storage tf2.__temp__:check_match UUID set from entity @s UUID;
     tag @s add tf2.self;
     if (predicate tf2:empty_hand) {
-        execute as @e[type=item,tag=!tf2.map_item,distance=..2] run {
+        execute as @e[type=item,tag=!tf2.map_item,tag=!tf2.pickup,distance=..2] run {
             if (Object.isEqual("tf2.__temp__:check_match", "UUID", "@s", "Thrower")) {
                 execute as @e[tag=tf2.self] run Weapons.reload(); kill @s;
             }
