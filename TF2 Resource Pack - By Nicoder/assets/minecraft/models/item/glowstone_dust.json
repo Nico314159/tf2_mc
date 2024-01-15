@@ -4,6 +4,7 @@
         "layer0": "item/glowstone_dust"
     },
     "overrides": [      
-        { "predicate": {"custom_model_data": 0}, "model": "tf2:bullet/normal"}
+        { "predicate": {"custom_model_data": 0}, "model": "tf2:bullet/normal"},
+        { "predicate": {"custom_model_data": 41000}, "model": "tf2:projectile/soldier/rocket"}
     ]
 }

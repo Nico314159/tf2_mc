@@ -1,0 +1,27 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "name": "tf2:crossbow_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Rocket Launcher",
+                                "color": "white",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{\n                                CustomModelData: 41000,\n                                attributes: {damage: {base: 90, maxRamp: 1.25}, attackDelay: 0.8d, reloadDelay: [0.92d, 0.8d], clip: 4, ammo: 20, isProjectile: true},\n                                projectile: {spawn: [-0.2236, -0.05715, -0.447675], explosion: {radius: 146, selfDamage: 54}, speed: 1100},\n                                controls: {main_fire: true, alt_fire: false, reload: 1},\n                                Unbreakable: 1b\n                            }"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

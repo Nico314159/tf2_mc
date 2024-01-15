@@ -36,6 +36,7 @@ function __tick__() {
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run player_tick();
     tag @e[type=#tf2:player_like] remove tf2.on_point;
     execute as @e[type=item,tag=tf2.pickup] at @s run pickup_tick();
+    execute as @e[type=arrow,tag=tf2.projectile] at @s run Projectile.tick();
 
     $trigger_reminder = 0008it54g_p_join:$__global__;
     $trigger_reminder %= 2400;
@@ -108,7 +109,7 @@ function player_tick() {
 
     Weapons.slot_check();
     if (predicate tf2:unloaded_crossbow) {
-        kill @e[type=arrow];
+        kill @e[type=arrow,tag=!tf2.projectile];
         if (!predicate tf2:ammo_in_clip) return 0;
         Weapons.main_fire();
     }
@@ -117,7 +118,7 @@ function player_tick() {
         case Class.SPY: Class.Spy.tick();
         case Class.SNIPER: Class.Sniper.tick();
         case Class.SCOUT: Class.Scout.tick();
-        // case Class.SOLDIER: Class.Soldier.tick();
+        case Class.SOLDIER: Class.Soldier.tick();
         // case Class.DEMOMAN: Class.Demoman.tick();
         case Class.HEAVY: Class.Heavy.tick();
         // case Class.PYRO: Class.Pyro.tick();
@@ -192,8 +193,8 @@ function do_fall_damage() {
     }
 
     $fall_damage = $impact_velocity;
-    // Made it 85 instead of 60 from TF2, because Minecraft has higher gravity
-    $fall_damage /= 85;
+    // Made it 100 instead of 60 from TF2, because Minecraft has higher gravity
+    $fall_damage /= 100;
     $fall_damage < 5833; // Means 58.33% max health due to the scale
 
     $fall_damage *= tf2.max_health:@s;

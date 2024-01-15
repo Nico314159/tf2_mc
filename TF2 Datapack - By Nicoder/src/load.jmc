@@ -16,7 +16,7 @@ Hardcode.repeatList(
         "timer", "timer.min", "timer.sec", "increment", "respawn_timer", "respawn_timer.sec", 
         "red_timer", "red_timer.min", "red_timer.sec", "red_overtime",
         "blu_timer", "blu_timer.min", "blu_timer.sec", "blu_overtime",
-        "batch_number", "session", "lifetime", "draw_delay", "size", "model_number",
+        "batch_number", "session", "lifetime", "draw_delay", "size", "model_number", "age",
         "class", "last_class", "team", "health", "max_health", "last_slot", "current_slot",
         "primary_clip", "primary_maxClip", "primary_ammo", "primary_maxAmmo",
         "secondary_clip", "secondary_maxClip", "secondary_ammo", "secondary_maxAmmo",

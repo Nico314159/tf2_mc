@@ -1,3 +1,9 @@
-$execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {item:{id:"glowstone_dust",Count:1b,tag:{CustomModelData:0}},Rotation:[$(yaw)f,$(pitch)f],Tags:["tf2.visual","tf2.newest"],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1f,1f,$(scale)f]}}
-scoreboard players set @e[type=item_display,tag=tf2.visual,tag=tf2.newest] tf2.lifetime 4
-tag @e[type=item_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest
+team join delta.no_collide
+scoreboard players set @s tf2.age 0
+scoreboard players operation @s tf2.team = $temp tf2.team
+scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
+execute on origin run tag @s add tf2.origin
+execute on passengers run data modify entity @s item.tag.attributes set from entity @a[tag=tf2.origin,limit=1] SelectedItem.tag.attributes
+execute on passengers run data modify entity @s item.tag.projectile set from entity @a[tag=tf2.origin,limit=1] SelectedItem.tag.projectile
+execute on origin run tag @s remove tf2.origin
+tag @s remove tf2.new

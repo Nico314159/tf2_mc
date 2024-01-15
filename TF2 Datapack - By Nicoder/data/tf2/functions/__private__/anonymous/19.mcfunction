@@ -1,3 +1,5 @@
-scoreboard players set __if_else__ tf2.var 0
-execute if score @s tf2.team = $winner tf2.var run function tf2:__private__/if_else/25
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/26
+data modify entity @s NoAI set value 1b
+data modify storage retina:input MaxRecursionDepth set value 127b
+tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] eyes
+function retina:traverse/setup
+kill @s

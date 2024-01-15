@@ -16,9 +16,8 @@ execute unless data entity @s SelectedItem.tag.attributes.damage.maxRamp run sco
 execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
 scoreboard players set $func_id retina.__variable__ 100
 scoreboard players set $_totalDamage_ tf2.var 0
-execute store result score $_weaponID_ tf2.var run data get entity @s SelectedItem.tag.CustomModelData 0.001
-execute if score $_weaponID_ tf2.var matches 61 run function tf2:__private__/if_else/6
-execute unless score $_weaponID_ tf2.var matches 61 run function retina:traverse/multicast
+execute if predicate tf2:holding_projectile run function tf2:weapons/projectile
+execute unless predicate tf2:holding_projectile run function tf2:weapons/hitscan
 execute store result score $_delay_ tf2.var run data get entity @s SelectedItem.tag.attributes.attackDelay 20000
 scoreboard players operation @s tf2.attack_delay += $_delay_ tf2.var
 scoreboard players reset $func_id retina.__variable__

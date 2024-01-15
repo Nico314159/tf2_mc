@@ -1,2 +1,4 @@
-$execute as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz)] unless score @s tf2.team matches $(opp_team) run tag @s add tf2.in_spawn
-$tp @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz),scores={tf2.team=$(opp_team)}] $(direct_tp)
+$scoreboard players add $global_$(i) tf2.session 1
+$scoreboard players operation @s tf2.session = $global_$(i) tf2.session
+$data modify entity @s data.map set from storage tf2:maps $(map_id)
+$data modify storage tf2:running_games $(i) set from storage tf2:maps $(map_id)

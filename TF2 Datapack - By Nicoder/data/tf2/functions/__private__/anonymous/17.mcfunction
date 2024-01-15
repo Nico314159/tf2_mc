@@ -1,8 +1,3 @@
-function tf2:__private__/anonymous/16 with storage tf2.__temp__:summon pickups[-1]
-execute store result score @s tf2.size run data get storage tf2.__temp__:summon pickups[-1].size
-scoreboard players set @s tf2.model_number 10
-scoreboard players operation @s tf2.model_number += @s tf2.size
-scoreboard players add @s[tag=tf2.ammo_pack] tf2.model_number 10
-scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
-scoreboard players set @s tf2.respawn_timer 1
-tag @s remove tf2.new
+execute summon marker run function tf2:__private__/anonymous/16
+execute if score $diff_X tf2.var matches -550..550 if score $diff_Y tf2.var matches -2050..250 if score $diff_Z tf2.var matches -550..550 run tag @s add tf2.hit
+execute if score $next_diff_X tf2.var matches -550..550 if score $next_diff_Y tf2.var matches -2050..250 if score $next_diff_Z tf2.var matches -550..550 run tag @s add tf2.hit

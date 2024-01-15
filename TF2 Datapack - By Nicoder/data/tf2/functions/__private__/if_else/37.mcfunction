@@ -1,2 +1,3 @@
-execute as @e[type=item,tag=!tf2.map_item,distance=..2] run function tf2:__private__/anonymous/22
-execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/23
+kill @e[type=arrow,tag=!tf2.projectile]
+execute unless predicate tf2:ammo_in_clip run return 0
+function tf2:weapons/main_fire

@@ -29,6 +29,7 @@ scoreboard objectives remove tf2.lifetime
 scoreboard objectives remove tf2.draw_delay
 scoreboard objectives remove tf2.size
 scoreboard objectives remove tf2.model_number
+scoreboard objectives remove tf2.age
 scoreboard objectives remove tf2.class
 scoreboard objectives remove tf2.last_class
 scoreboard objectives remove tf2.team

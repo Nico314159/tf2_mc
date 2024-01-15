@@ -1,2 +1,4 @@
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/20 with storage tf2.__temp__:index
+execute store result score $Xf tf2.var run data get entity @s Pos[0] 100
+execute store result score $Yf tf2.var run data get entity @s Pos[1] 100
+execute store result score $Zf tf2.var run data get entity @s Pos[2] 100
+kill
