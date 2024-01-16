@@ -11,7 +11,7 @@
                             "function": "minecraft:set_name",
                             "name": {
                                 "text": "Rocket Launcher",
-                                "color": "white",
+                                "color": "gray",
                                 "italic": true
                             }
                         },

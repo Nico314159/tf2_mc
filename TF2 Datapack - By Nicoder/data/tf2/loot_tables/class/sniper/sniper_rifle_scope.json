@@ -8,6 +8,13 @@
                     "name": "minecraft:spyglass",
                     "functions": [
                         {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "",
+                                "color": "white"
+                            }
+                        },
+                        {
                             "function": "minecraft:set_nbt",
                             "tag": "{CustomModelData: 21000}"
                         }
