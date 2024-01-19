@@ -117,7 +117,7 @@
             {
                 "name": "tf2:pickup/health",
                 "pitch": 1,
-                "volume": 1
+                "volume": 0.67
             }
         ],
         "subtitle": "Health pack plops"
@@ -127,7 +127,7 @@
             {
                 "name": "tf2:pickup/ammo",
                 "pitch": 1,
-                "volume": 1
+                "volume": 0.67
             }
         ],
         "subtitle": "Ammo pack plops"
@@ -137,7 +137,7 @@
             {
                 "name": "tf2:pickup/resupply",
                 "pitch": 1,
-                "volume": 1
+                "volume": 0.67
             }
         ],
         "subtitle": "Player resupplies"
