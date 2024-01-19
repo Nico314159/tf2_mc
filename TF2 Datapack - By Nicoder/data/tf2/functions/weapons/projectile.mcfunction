@@ -6,7 +6,7 @@ function retina:math/gimbal_to_vec
 data modify storage tf2.__temp__:summon projectile set value {X:0.0,Y:0.0,Z:0.0,yaw:0.0,pitch:0.0,spawnX:0.0,spawnY:0.0,spawnZ:0.0}
 execute store result storage tf2.__temp__:summon projectile.speed double 0.01905 run data get entity @s SelectedItem.tag.projectile.speed
 execute store result storage tf2.__temp__:summon projectile.speed double 0.05 run data get storage tf2.__temp__:summon projectile.speed
-execute store result storage tf2.__temp__:summon projectile.speed double 0.000001 run data get storage tf2.__temp__:summon projectile.speed 1000
+execute store result storage tf2.__temp__:summon projectile.speed double 0.0000020833 run data get storage tf2.__temp__:summon projectile.speed 1000
 function tf2:__private__/anonymous/6 with storage tf2.__temp__:summon projectile
 execute store result storage tf2.__temp__:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw retina.__variable__
 execute store result storage tf2.__temp__:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch retina.__variable__
