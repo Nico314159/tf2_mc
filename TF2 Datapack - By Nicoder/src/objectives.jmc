@@ -71,7 +71,7 @@ class Objectives
             // Handles capture progress & associated visuals for the current control point.
 
             // Amount of capture progress = Nth partial sum of harmonic series, where N is how many players are standing on the point.
-            $bound > $red_on_point;
+            $bound = $red_on_point;
             $bound > $blu_on_point;
             $bound < 4;
             Math.harmonic_series();

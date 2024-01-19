@@ -1,4 +1,4 @@
-scoreboard players operation $bound tf2.var > $red_on_point tf2.var
+scoreboard players operation $bound tf2.var = $red_on_point tf2.var
 scoreboard players operation $bound tf2.var > $blu_on_point tf2.var
 scoreboard players operation $bound tf2.var < 4 tf2.const
 function tf2:math/harmonic_series
