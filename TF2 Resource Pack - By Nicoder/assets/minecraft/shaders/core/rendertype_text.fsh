@@ -23,11 +23,11 @@ void main() {
         discard;
     }
     if(texColor.a <= 254.0/255.0 && texColor.a >= 100.0/255.0) { // added: check for opacity. 100.0 - 254.0 is opacity of text that should have shadow removed
-        if(depthLevel == 2200) discard; // added: remove shadow by detecting depth level
+        if(depthLevel == 2400) discard; // added: remove shadow by detecting depth level
         else color = vec4(texColor.rgb, texColor.a == 254.0/255.0 ? 1 : texColor.a) * vertexColor * ColorModulator;
     } 
     if(texColor.rgb == vec3(78/255., 92/255., 36/255.)) {
-        if(depthLevel == 2200) discard; // added: remove shadow by detecting depth level
+        if(depthLevel == 2400) discard; // added: remove shadow by detecting depth level
         else color = vec4(2, 2, 2, texColor.a) * vertexColor * ColorModulator;
     }
     fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, FogColor);
