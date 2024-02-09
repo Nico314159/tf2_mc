@@ -158,19 +158,19 @@ if (ivec4(texelFetch(Sampler0, topleft, 0)*255) == ivec4(12,34,56,78)) {
 //custom entity rotation
 #ifdef ENTITY
         posoffset *= scale;
-        if (isHand + isGUI == 0) {
-            if (any(greaterThan(autorotate,vec2(0)))) {
-                //normal estimated rotation calculation from The Der Discohund
-                vec3 local = IViewRotMat * Normal;
-                float yaw = -atan(local.x, local.z);
-                float pitch = -atan(local.y, length(local.xz));
-                posoffset = rotate(vec3(vec2(pitch,yaw)*autorotate,0) + rotation) * posoffset * IViewRotMat;
-            }
-            //pure color rotation
-            else {
-                posoffset = rotate(rotation) * posoffset * IViewRotMat;
-            }
-        }
+        // if (isHand + isGUI == 0) {
+        //     if (any(greaterThan(autorotate,vec2(0)))) {
+        //         //normal estimated rotation calculation from The Der Discohund
+        //         vec3 local = IViewRotMat * Normal;
+        //         float yaw = -atan(local.x, local.z);
+        //         float pitch = -atan(local.y, length(local.xz));
+        //         posoffset = rotate(vec3(vec2(pitch,yaw)*autorotate,0) + rotation) * posoffset * IViewRotMat;
+        //     }
+        //     //pure color rotation
+        //     else {
+        //         posoffset = rotate(rotation) * posoffset * IViewRotMat;
+        //     }
+        // }
         if (isGUI == 1) {
             posoffset *= 16.0;
             posoffset.zy *= -1.0;
