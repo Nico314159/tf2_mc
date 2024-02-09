@@ -246,6 +246,8 @@ class Class.Heavy {
 
         attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier add 736c6f77-7768-696c-6572-657676696e67 "slowwhilerevving" -0.476 multiply;
         attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier remove 736c6f77-7768-696c-6572-657676696e67;
+        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.jump_strength modifier add 00000000-0000-0000-0000-6e6f6a756d70 "no jump" -1 multiply;
+        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.jump_strength modifier remove 00000000-0000-0000-0000-6e6f6a756d70;
         tf2.time_revved:@s[predicate=tf2:class/heavy/is_revving] += 1000;
         
         if (tf2.current_slot:@s != 0 && tf2.time_revved:@s != 0) {
