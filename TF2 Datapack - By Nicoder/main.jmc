@@ -114,6 +114,10 @@ function player_tick() {
         Weapons.main_fire();
     }
 
+    if (entity @s[scores={tf2.class=0},predicate=tf2:active_offhand]) {
+        tf2.class:@s = tf2.last_class:@s;
+        class_select();
+    }
     switch (tf2.class:@s) {
         case Class.SPY: Class.Spy.tick();
         case Class.SNIPER: Class.Sniper.tick();

@@ -49,6 +49,17 @@ new predicates(empty_hand) {
         }
     }
 }
+new predicates(active_offhand) {
+	"condition": "minecraft:entity_properties",
+	"entity": "this",
+	"predicate": {
+		"equipment": {
+			"offhand": {
+                "count": {"min": 1}
+            }
+		}
+	}
+}
 new predicates(hide_ammo) {
     "condition": "minecraft:any_of",
     "terms": [

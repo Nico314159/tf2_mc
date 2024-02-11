@@ -13,6 +13,7 @@ execute if predicate tf2:empty_hand run function tf2:__private__/if_else/36
 tag @s remove tf2.self
 function tf2:weapons/slot_check
 execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/37
+execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run function tf2:__private__/if_else/38
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/13/select with storage tf2:__storage__
 item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick{CustomModelData:10,__item_id__:1,display:{Name:'"Change Class"'}} 1
@@ -24,11 +25,11 @@ scoreboard players operation @s tf2.fall_y2 = @s tf2.fall_y1
 scoreboard players operation @s tf2.fall_y1 = @s tf2.fall_y
 execute store result score @s tf2.fall_y run data get entity @s Pos[1] 100
 execute if predicate tf2:grounded if score @s tf2.fall matches 1.. run function tf2:do_fall_damage
-execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/40
+execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/41
 scoreboard players add @s[predicate=!tf2:submerged] tf2.time_surfaced 1
-execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/41
+execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/42
 scoreboard players set @s[predicate=tf2:submerged] tf2.time_surfaced 0
 scoreboard players operation $tick_cycle tf2.var = $__global__ 0008it54g_p_join
 scoreboard players operation $tick_cycle tf2.var %= 40 tf2.const
-execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/42
+execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/43
 tag @a remove tf2.current
