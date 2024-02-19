@@ -176,24 +176,33 @@ data merge storage tf2:maps {
         },
         spawn_doors: {
             red: [
-                {Pos: [1145.0, 124.0, -785.0], Rotation: [- 90.0, 0.0], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
-                {Pos: [1133.0, 124.0, -787.0], Rotation: [- 90.0, 0.0], data: {dx:11, dy:1, dz:4, direct_tp: "1147.0 124 -784.5"}},
-                {Pos: [1129.0, 124.0, -792.0], Rotation: [-135.0, 0.0], data: {dx:1, dy:1, dz:1, direct_tp: ""}},
-                {Pos: [1131.0, 124.0, -791.0], Rotation: [-135.0, 0.0], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
-                {Pos: [1118.0, 124.0, -790.0], Rotation: [- 90.0, 0.0], data: {dx:13, dy:2, dz:12, direct_tp: "1132.0 124 -793.0"}},
-                {Pos: [1121.0, 124.0, -793.0], Rotation: [- 90.0, 0.0], data: {dx:7, dy:2, dz:2, direct_tp: "1132.0 124 -793.0"}}
+                {Pos: [1145.0, 124.0, -785.0], Rotation: [- 90.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [1133.0, 124.0, -787.0], Rotation: [- 90.0f, 0.0f], data: {dx:11, dy:1, dz:4, direct_tp: "1147.0 124 -784.5"}},
+                {Pos: [1129.0, 124.0, -792.0], Rotation: [-135.0f, 0.0f], data: {dx:1, dy:1, dz:1, direct_tp: ""}},
+                {Pos: [1131.0, 124.0, -791.0], Rotation: [-135.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [1118.0, 124.0, -790.0], Rotation: [- 90.0f, 0.0f], data: {dx:13, dy:2, dz:12, direct_tp: "1132.0 124 -793.0"}},
+                {Pos: [1121.0, 124.0, -793.0], Rotation: [- 90.0f, 0.0f], data: {dx:7, dy:2, dz:2, direct_tp: "1132.0 124 -793.0"}}
             ],
             blu: [
-                {Pos: [1181.0, 115.0, -952.0], Rotation: [   0.0, 0.0], data: {dx:3, dy:2, dz:1, direct_tp: ""}},
-                {Pos: [1173.0, 115.0, -965.3], Rotation: [   0.0, 0.0], data: {dx:11, dy:3, dz:12, direct_tp: "1183.0 115 -949.5"}},
-                {Pos: [1166.0, 115.0, -952.0], Rotation: [   0.0, 0.0], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
-                {Pos: [1156.0, 115.0, -957.0], Rotation: [   0.0, 0.0], data: {dx:3, dy:3, dz:4, direct_tp: "1168.0 115 -950.5"}},
-                {Pos: [1152.0, 115.0, -957.0], Rotation: [   0.0, 0.0], data: {dx:3, dy:5, dz:4, direct_tp: "1168.0 115 -950.5"}},
-                {Pos: [1142.0, 118.0, -959.0], Rotation: [  45.0, 0.0], data: {dx:1, dy:2, dz:1, direct_tp: ""}},
-                {Pos: [1144.0, 118.0, -970.0], Rotation: [  45.0, 0.0], data: {dx:7, dy:2, dz:17, direct_tp: "1141.5 118 -956.5"}},
-                {Pos: [1141.0, 118.0, -964.0], Rotation: [  45.0, 0.0], data: {dx:2, dy:2, dz:4, direct_tp: "1141.5 118 -956.5"}}
+                {Pos: [1181.0, 115.0, -952.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:2, dz:1, direct_tp: ""}},
+                {Pos: [1173.0, 115.0, -965.3], Rotation: [   0.0f, 0.0f], data: {dx:11, dy:3, dz:12, direct_tp: "1183.0 115 -949.5"}},
+                {Pos: [1166.0, 115.0, -952.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
+                {Pos: [1156.0, 115.0, -957.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:3, dz:4, direct_tp: "1168.0 115 -950.5"}},
+                {Pos: [1152.0, 115.0, -957.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:5, dz:4, direct_tp: "1168.0 115 -950.5"}},
+                {Pos: [1142.0, 118.0, -959.0], Rotation: [  45.0f, 0.0f], data: {dx:1, dy:2, dz:1, direct_tp: ""}},
+                {Pos: [1144.0, 118.0, -970.0], Rotation: [  45.0f, 0.0f], data: {dx:7, dy:2, dz:17, direct_tp: "1141.5 118 -956.5"}},
+                {Pos: [1141.0, 118.0, -964.0], Rotation: [  45.0f, 0.0f], data: {dx:2, dy:2, dz:4, direct_tp: "1141.5 118 -956.5"}}
             ]
         },
+        resupply_cabinets: {
+            red: [{Pos: [1131.0, 124.52, -778.45], Rotation: [180.0f, 0.0f]}],
+            blu: [{Pos: [1159.0, 127.52, -898.49], Rotation: [180.0f, 0.0f]},
+                  {Pos: [1165.0, 115.52, -957.42], Rotation: [180.0f, 0.0f]}]
+        },
+        objectives: [
+            {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 60.0f, team: 1b}},
+            {Pos: [1149.5, 118.0, -811.5], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 12.0f, team: 1b}},
+        ],
         pickups: [
             // toll booth
             {Pos: [1141.5, 118.5, -932.5], kind: "health", size: 2b},
