@@ -162,6 +162,77 @@ data merge storage tf2:maps {
         ],
         gamemode: 3b,
         timer: 180.0f
+    },
+    3: {
+        name: "ad_gorge",
+        origin: [1000.0, 100.0, -1000.0],
+        spawn: {
+            red: [[1126.5, 124.0, -787.5]],
+            blu: [[1165.0, 115.0, -969.5], [1165.0, 115.0, -969.5], [1154.5, 127.0, -903.5]]
+        },
+        spawn_time: {
+            red: [7.0, 7.0, 8.0],
+            blu: [2.0, 2.0, 3.0]
+        },
+        spawn_doors: {
+            red: [
+                {Pos: [1145.0, 124.0, -785.0], Rotation: [- 90.0, 0.0], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [1133.0, 124.0, -787.0], Rotation: [- 90.0, 0.0], data: {dx:11, dy:1, dz:4, direct_tp: "1147.0 124 -784.5"}},
+                {Pos: [1129.0, 124.0, -792.0], Rotation: [-135.0, 0.0], data: {dx:1, dy:1, dz:1, direct_tp: ""}},
+                {Pos: [1131.0, 124.0, -791.0], Rotation: [-135.0, 0.0], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [1118.0, 124.0, -790.0], Rotation: [- 90.0, 0.0], data: {dx:13, dy:2, dz:12, direct_tp: "1132.0 124 -793.0"}},
+                {Pos: [1121.0, 124.0, -793.0], Rotation: [- 90.0, 0.0], data: {dx:7, dy:2, dz:2, direct_tp: "1132.0 124 -793.0"}}
+            ],
+            blu: [
+                {Pos: [1181.0, 115.0, -952.0], Rotation: [   0.0, 0.0], data: {dx:3, dy:2, dz:1, direct_tp: ""}},
+                {Pos: [1173.0, 115.0, -965.3], Rotation: [   0.0, 0.0], data: {dx:11, dy:3, dz:12, direct_tp: "1183.0 115 -949.5"}},
+                {Pos: [1166.0, 115.0, -952.0], Rotation: [   0.0, 0.0], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
+                {Pos: [1156.0, 115.0, -957.0], Rotation: [   0.0, 0.0], data: {dx:3, dy:3, dz:4, direct_tp: "1168.0 115 -950.5"}},
+                {Pos: [1152.0, 115.0, -957.0], Rotation: [   0.0, 0.0], data: {dx:3, dy:5, dz:4, direct_tp: "1168.0 115 -950.5"}},
+                {Pos: [1142.0, 118.0, -959.0], Rotation: [  45.0, 0.0], data: {dx:1, dy:2, dz:1, direct_tp: ""}},
+                {Pos: [1144.0, 118.0, -970.0], Rotation: [  45.0, 0.0], data: {dx:7, dy:2, dz:17, direct_tp: "1141.5 118 -956.5"}},
+                {Pos: [1141.0, 118.0, -964.0], Rotation: [  45.0, 0.0], data: {dx:2, dy:2, dz:4, direct_tp: "1141.5 118 -956.5"}}
+            ]
+        },
+        pickups: [
+            // toll booth
+            {Pos: [1141.5, 118.5, -932.5], kind: "health", size: 2b},
+            {Pos: [1142.5, 118.5, -932.5], kind: "ammo",   size: 3b},
+            // upper deck
+            {Pos: [1156.5, 122.0, -916.5], kind: "ammo",   size: 3b},
+            {Pos: [1183.5, 122.0, -919.8], kind: "health", size: 2b},
+            {Pos: [1183.5, 122.0, -921.2], kind: "ammo",   size: 3b},
+            // checkpoint / water tank building
+            {Pos: [1150.2, 118.0, -899.5], kind: "health", size: 2b},
+            {Pos: [1148.8, 118.0, -899.5], kind: "ammo",   size: 2b},
+            // under the point A bridge
+            {Pos: [1149.5, 116.0, -885.0], kind: "health", size: 2b},
+            // end of bridge outside facility
+            {Pos: [1150.2, 121.0, -864.5], kind: "ammo",   size: 2b},
+            {Pos: [1148.8, 121.0, -864.5], kind: "health", size: 2b},
+            // flank hallway beneath stairs
+            {Pos: [1169.5, 121.0, -844.5], kind: "ammo",   size: 3b},
+            {Pos: [1167.5, 121.0, -844.5], kind: "health", size: 2b},
+            // main hallway
+            {Pos: [1126.5, 127.0, -852.5], kind: "ammo",   size: 2b},
+            {Pos: [1131.2, 122.0, -833.5], kind: "ammo",   size: 2b},
+            {Pos: [1132.8, 122.0, -833.5], kind: "health", size: 2b},
+            // 2nd floor outside private room
+            {Pos: [1160.5, 127.0, -832.2], kind: "ammo",   size: 2b},
+            {Pos: [1160.5, 127.0, -830.8], kind: "health", size: 2b},
+            // 2nd floor corner above octagon
+            {Pos: [1166.8, 127.0, -821.5], kind: "health", size: 1b},
+            {Pos: [1165.2, 127.0, -821.5], kind: "ammo",   size: 2b},
+            // final room - lower octagon
+            {Pos: [1170.2, 122.0, -803.6], kind: "health", size: 2b},
+            {Pos: [1170.2, 122.0, -802.4], kind: "ammo",   size: 2b},
+            {Pos: [1149.5, 118.0, -798.5], kind: "health", size: 2b},
+            {Pos: [1139.5, 118.0, -813.5], kind: "ammo",   size: 2b},
+            {Pos: [1159.5, 118.0, -813.5], kind: "ammo",   size: 2b}
+        ],
+        gamemode: 1,
+        timer: 240.0,
+        setup_time: 60.0
     }
 };
 
@@ -351,7 +422,7 @@ if (!$initialization_complete) {
                            = $Settings.use_server_mods
                            = $Settings.chat_bot
                            = false;
-    $Settings.max_batches = 3;
+    $Settings.max_batches = 1;
 
     data merge storage tf2.__temp__:actionbar {string:'[""]'};
     data merge storage tf2.__temp__:summon {};

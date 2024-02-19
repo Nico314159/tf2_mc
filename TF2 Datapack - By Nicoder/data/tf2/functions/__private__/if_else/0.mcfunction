@@ -1,6 +1,6 @@
 scoreboard players set $Settings.choose_map_randomly tf2.var 1
 execute store result score $Settings.random_crits tf2.var store result score $Settings.random_spread tf2.var store result score $Settings.use_server_mods tf2.var run scoreboard players set $Settings.chat_bot tf2.var 0
-scoreboard players set $Settings.max_batches tf2.var 3
+scoreboard players set $Settings.max_batches tf2.var 1
 data merge storage tf2.__temp__:actionbar {string:'[""]'}
 data merge storage tf2.__temp__:summon {}
 data merge storage tf2.__temp__:index {}
