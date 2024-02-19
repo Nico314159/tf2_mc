@@ -178,20 +178,24 @@ data merge storage tf2:maps {
             red: [
                 {Pos: [1145.0, 124.0, -785.0], Rotation: [- 90.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
                 {Pos: [1133.0, 124.0, -787.0], Rotation: [- 90.0f, 0.0f], data: {dx:11, dy:1, dz:4, direct_tp: "1147.0 124 -784.5"}},
-                {Pos: [1129.0, 124.0, -792.0], Rotation: [-135.0f, 0.0f], data: {dx:1, dy:1, dz:1, direct_tp: ""}},
+                {Pos: [1129.0, 124.0, -792.0], Rotation: [-180.0f, 0.0f], data: {dx:1, dy:1, dz:1, direct_tp: ""}},
                 {Pos: [1131.0, 124.0, -791.0], Rotation: [-135.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
-                {Pos: [1118.0, 124.0, -790.0], Rotation: [- 90.0f, 0.0f], data: {dx:13, dy:2, dz:12, direct_tp: "1132.0 124 -793.0"}},
-                {Pos: [1121.0, 124.0, -793.0], Rotation: [- 90.0f, 0.0f], data: {dx:7, dy:2, dz:2, direct_tp: "1132.0 124 -793.0"}}
+                {Pos: [1118.0, 124.0, -790.0], Rotation: [- 90.0f, 0.0f], data: {dx:13, dy:2, dz:12, direct_tp: "1131.5 124 -792.5"}},
+                {Pos: [1121.0, 124.0, -793.0], Rotation: [- 90.0f, 0.0f], data: {dx:7, dy:2, dz:2, direct_tp: "1131.5 124 -792.5"}}
             ],
             blu: [
-                {Pos: [1181.0, 115.0, -952.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:2, dz:1, direct_tp: ""}},
+                {Pos: [1181.0, 115.0, -951.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
                 {Pos: [1173.0, 115.0, -965.3], Rotation: [   0.0f, 0.0f], data: {dx:11, dy:3, dz:12, direct_tp: "1183.0 115 -949.5"}},
                 {Pos: [1166.0, 115.0, -952.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
                 {Pos: [1156.0, 115.0, -957.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:3, dz:4, direct_tp: "1168.0 115 -950.5"}},
                 {Pos: [1152.0, 115.0, -957.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:5, dz:4, direct_tp: "1168.0 115 -950.5"}},
-                {Pos: [1142.0, 118.0, -959.0], Rotation: [  45.0f, 0.0f], data: {dx:1, dy:2, dz:1, direct_tp: ""}},
+                {Pos: [1153.0, 115.0, -974.0], Rotation: [ 180.0f, 0.0f], data: {dx:19, dy:5, dz:16, direct_tp: "1168.0 115 -950.5"}},
+                {Pos: [1142.0, 118.0, -959.0], Rotation: [  45.0f, 0.0f], data: {dx:1, dy:2, dz:0, direct_tp: ""}},
+                {Pos: [1143.0, 118.0, -958.0], Rotation: [  45.0f, 0.0f], data: {dx:0, dy:2, dz:0, direct_tp: ""}},
                 {Pos: [1144.0, 118.0, -970.0], Rotation: [  45.0f, 0.0f], data: {dx:7, dy:2, dz:17, direct_tp: "1141.5 118 -956.5"}},
-                {Pos: [1141.0, 118.0, -964.0], Rotation: [  45.0f, 0.0f], data: {dx:2, dy:2, dz:4, direct_tp: "1141.5 118 -956.5"}}
+                {Pos: [1141.0, 118.0, -964.0], Rotation: [  45.0f, 0.0f], data: {dx:2, dy:2, dz:4, direct_tp: "1141.5 118 -956.5"}},
+                {Pos: [1153.0, 127.0, -898.0], Rotation: [   0.0f, 0.0f], data: {dx:2, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [1152.0, 127.0, -911.3], Rotation: [   0.0f, 0.0f], data: {dx:9, dy:2, dz:12, direct_tp: "1154.5 127 -896.5"}}
             ]
         },
         resupply_cabinets: {
