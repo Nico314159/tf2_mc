@@ -4,6 +4,7 @@ function tf2:timer/set_value with storage tf2.__temp__:index
 scoreboard players operation @s tf2.timer.sec = @s tf2.timer
 scoreboard players add @s tf2.timer.sec 19
 scoreboard players operation @s tf2.timer.sec /= 20 tf2.const
+scoreboard players operation @s tf2.timer.sec > 0 tf2.const
 scoreboard players operation @s tf2.timer.min = @s tf2.timer.sec
 scoreboard players operation @s tf2.timer.sec %= 60 tf2.const
 scoreboard players operation @s tf2.timer.min /= 60 tf2.const

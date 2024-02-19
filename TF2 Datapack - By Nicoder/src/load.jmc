@@ -204,7 +204,7 @@ data merge storage tf2:maps {
                   {Pos: [1165.0, 115.52, -957.42], Rotation: [180.0f, 0.0f]}]
         },
         objectives: [
-            {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 60.0f, team: 1b}},
+            {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 60.0f, team: 1b, increment: 480.0f}},
             {Pos: [1149.5, 118.0, -811.5], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 12.0f, team: 1b}},
         ],
         pickups: [
@@ -244,7 +244,7 @@ data merge storage tf2:maps {
             {Pos: [1159.5, 118.0, -813.5], kind: "ammo",   size: 2b}
         ],
         gamemode: 1,
-        timer: 240.0,
+        timer: 360.0,
         setup_time: 60.0
     }
 };
