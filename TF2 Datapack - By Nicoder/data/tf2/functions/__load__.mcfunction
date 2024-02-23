@@ -44,6 +44,7 @@ scoreboard objectives add tf2.timer dummy
 scoreboard objectives add tf2.timer.min dummy
 scoreboard objectives add tf2.timer.sec dummy
 scoreboard objectives add tf2.increment dummy
+scoreboard objectives add tf2.max_timer dummy
 scoreboard objectives add tf2.respawn_timer dummy
 scoreboard objectives add tf2.respawn_timer.sec dummy
 scoreboard objectives add tf2.red_timer dummy

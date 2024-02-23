@@ -75,6 +75,7 @@ class Objectives
             $bound > $blu_on_point;
             $bound < 4;
             Math.harmonic_series();
+            if (tf2.team:@s != 0) {$sum *= 2;}
 
             // apply capture progress to team that has players on point, but you can't capture a point you already own
             if ($red_on_point && tf2.team:@s != 1) this.capture_progress.red();
@@ -112,6 +113,14 @@ class Objectives
             if ($winner == $winner && !tf2.timer:@s <= -1) reset.announce_winner();
 
             tag @e[type=marker,tag=tf2.control_point,tag=tf2.current] remove tf2.current;
+        }
+        function cancel_overtime() {
+            tag @s remove tf2.overtime;
+            execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
+            tf2.batch_number:$local = tf2.batch_number:@s;
+            execute as @e[type=marker,tag=tf2.in_use] at @s
+	    	        if score @s tf2.batch_number = $local tf2.batch_number
+					run Timer.cancel_overtime() with storage tf2.__temp__:index;
         }
         function lock() {
             tag @s add tf2.locked;
@@ -188,9 +197,10 @@ class Objectives
 
                 $sum = tf2.capture_threshold:@s;
                 $sum /= 1800; // Takes 90 seconds to fully revert progress.
+                if (tf2.team:@s != 0) $sum *= 2;
                 if (entity @s[tag=tf2.overtime]) $sum *= 6;
                 tf2.batch_number:$local = tf2.batch_number:@s;
-                execute as @e[type=marker] if score $local tf2.batch_number = @s tf2.batch_number run tag @s add tf2.current;
+                execute as @e[type=marker,tag=tf2.in_use] if score $local tf2.batch_number = @s tf2.batch_number run tag @s add tf2.current;
 
                 // revert in direction of owner team
                 if (tf2.team:@s == 1) Objectives.control_point.capture_progress.red();
@@ -318,6 +328,7 @@ class Objectives
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 if (tf2.team:$last == tf2.team:@s) return 0;
 
+                if (entity @s[tag=tf2.overtime]) {Objectives.control_point.cancel_overtime();}
                 if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
                 if (tf2.gamemode:@s == 3) Objectives.control_point.on_capture.red.koth();
                 if (tf2.increment:@s) Objectives.control_point.on_capture.add_time();
@@ -347,6 +358,7 @@ class Objectives
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 if (tf2.team:$last == tf2.team:@s) return 0;
 
+                if (entity @s[tag=tf2.overtime]) {Objectives.control_point.cancel_overtime();}
                 if (tf2.gamemode:@s == 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
                 if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.blu.symmetric();
                 if (tf2.gamemode:@s == 3) execute at @s run Objectives.control_point.on_capture.blu.koth();

@@ -13,6 +13,7 @@ scoreboard objectives remove tf2.timer
 scoreboard objectives remove tf2.timer.min
 scoreboard objectives remove tf2.timer.sec
 scoreboard objectives remove tf2.increment
+scoreboard objectives remove tf2.max_timer
 scoreboard objectives remove tf2.respawn_timer
 scoreboard objectives remove tf2.respawn_timer.sec
 scoreboard objectives remove tf2.red_timer

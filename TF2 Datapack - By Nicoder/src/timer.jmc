@@ -74,10 +74,11 @@ class Timer
         //  Timer.begin_setup()
         //  Timer.exit_setup()
         //  Timer.overtime()
+        //  Timer.cancel_overtime()
         //  start_game.as_marker.main()
         $execute store result bossbar tf2:timer_$(i) max
                  store result bossbar tf2:timer_$(i) value
-                 run tf2.timer:@s.get();
+                 run tf2.max_timer:@s.get();
     }
 
     function show() {
@@ -146,16 +147,25 @@ class Timer
 
         // Otherwise, end the game.
         tag @e[type=marker] remove tf2.current;
-        if (tf2.timer:@s == 0) Timer.end_game();
+        if (tf2.timer:@s == 0) {Timer.end_game();}
     }
     function overtime() {
         // @needs_macro
         // @within Timer.zero()
         tag @s add tf2.overtime;
-        tf2.timer:@s = 1200; // overtime lasts 1 minute
+        tf2.max_timer:@s = tf2.timer:@s = 1200; // overtime lasts 1 minute
         $bossbar set tf2:timer_$(i) color red;
         Timer.set_max() with storage tf2.__temp__:index;
     }
+    function cancel_overtime() {
+        // @needs_macro
+        tag @s remove tf2.overtime;
+        $bossbar set tf2:timer_$(i) color white;
+        $tf2.max_timer:@s = data get storage tf2:running_games $(i).timer 20;
+        this.set_max() with storage tf2.__temp__:index;
+        this.set_value() with storage tf2.__temp__:index;
+    }
+
     function end_game() {
         // @within
         //  Timer.zero()

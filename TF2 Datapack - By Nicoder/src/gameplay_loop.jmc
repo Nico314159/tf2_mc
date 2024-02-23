@@ -265,7 +265,7 @@ class start_game {
             }
             scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type;
             if (tf2.gamemode:@s matches 1..2) {
-                tf2.timer:@s = data get entity @s data.map.timer 20;
+                tf2.max_timer:@s = tf2.timer:@s = data get entity @s data.map.timer 20;
                 if (data entity @s data.map.timer) Timer.set_max() with storage tf2.__temp__:index;
                 if (data entity @s data.map.timer) Timer.show() with storage tf2.__temp__:index;
                 if (data entity @s data.map.setup_time) Timer.begin_setup();
