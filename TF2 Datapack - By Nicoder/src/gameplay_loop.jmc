@@ -268,7 +268,7 @@ class start_game {
                 tf2.max_timer:@s = tf2.timer:@s = data get entity @s data.map.timer 20;
                 if (data entity @s data.map.timer) Timer.set_max() with storage tf2.__temp__:index;
                 if (data entity @s data.map.timer) Timer.show() with storage tf2.__temp__:index;
-                if (data entity @s data.map.setup_time) Timer.begin_setup();
+                if (data entity @s data.map.setup_time) Timer.begin_setup() with storage tf2.__temp__:index;
             }
             if (tf2.gamemode:@s == 3) {
                 tf2.team:@s = 0;

@@ -104,7 +104,7 @@ class Timer
         // @needs_macro
         // @within start_game.as_marker.main()
         tag @s add tf2.setup_time;
-        $tf2.timer:@s = data get storage tf2:running_games $(i).setup_time 20;
+        $tf2.max_timer:@s = tf2.timer:@s = data get storage tf2:running_games $(i).setup_time 20;
         $bossbar set tf2:timer_$(i) color green;
         Timer.set_max() with storage tf2.__temp__:index;
 
