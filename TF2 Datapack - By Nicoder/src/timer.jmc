@@ -116,7 +116,7 @@ class Timer
     function exit_setup() {
         // @needs_macro
         // @within Timer.main()
-        $tf2.timer:@s = data get storage tf2:running_games $(i).timer 20;
+        $tf2.max_timer:@s = tf2.timer:@s = data get storage tf2:running_games $(i).timer 20;
         Timer.set_max() with storage tf2.__temp__:index;
         Timer.show() with storage tf2.__temp__:index;
         tag @s remove tf2.setup_time;
