@@ -86,7 +86,7 @@ Item.create(
                  set from storage tf2.__temp__:summon objectives[-1].Pos;
             data modify storage tf2.__temp__:summon entity.Tags
                  set from storage tf2.__temp__:summon objectives[-1].Tags;
-            data modify entity @s {} merge from storage tf2.__temp__:summon entity;
+            data modify entity @s {} merge from storage tf2.__temp__:summon entity; tag @s add tf2.objective;
             tf2.team:@s              = data get storage tf2.__temp__:summon objectives[-1].data.team 1;
             tf2.capture_threshold:@s = data get storage tf2.__temp__:summon objectives[-1].data.capture_threshold 20000;
             tf2.increment:@s         = data get storage tf2.__temp__:summon objectives[-1].data.increment 20;

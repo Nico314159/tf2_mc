@@ -81,9 +81,9 @@ data merge storage tf2:maps {
         },
         spawn_time: {red: [5.0f], blu: [5.0f]},
         objectives: [
-            {Pos: [-509.5d, 1.0d, -499.5d], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 20.0f, team: 1b, increment: 60.0f}},
-            {Pos: [-499.5d, 1.0d, -499.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 20.0f, team: 1b, increment: 60.0f}},
-            {Pos: [-489.5d, 1.0d, -499.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 25.0f, team: 1b, increment: 60.0f}}
+            {Pos: [-509.5d, 1.0d, -499.5d], Tags: ["tf2.control_point"], data: {capture_threshold: 20.0f, team: 1b, increment: 60.0f}},
+            {Pos: [-499.5d, 1.0d, -499.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {capture_threshold: 20.0f, team: 1b, increment: 60.0f}},
+            {Pos: [-489.5d, 1.0d, -499.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {capture_threshold: 25.0f, team: 1b, increment: 60.0f}}
         ],
         gamemode: 1b,
         timer: 480.0f,
@@ -98,11 +98,11 @@ data merge storage tf2:maps {
         },
         spawn_time: {red: [5.0f], blu: [5.0f]},
         objectives: [
-            {Pos: [-311.5d, 1.0d, -303.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 5.0f, team: 2b, increment: 600.0f}},
-            {Pos: [-306.5d, 1.0d, -295.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 15.0f, team: 2b, increment: 600.0f}},
-            {Pos: [-299.5d, 1.0d, -299.5d], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 30.0f, team: 0b, increment: 600.0f}},
-            {Pos: [-292.5d, 1.0d, -303.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 15.0f, team: 1b, increment: 600.0f}},
-            {Pos: [-287.5d, 1.0d, -295.5d], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 5.0f, team: 1b, increment: 600.0f}}
+            {Pos: [-311.5d, 1.0d, -303.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {capture_threshold: 5.0f, team: 2b, increment: 600.0f}},
+            {Pos: [-306.5d, 1.0d, -295.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {capture_threshold: 15.0f, team: 2b, increment: 600.0f}},
+            {Pos: [-299.5d, 1.0d, -299.5d], Tags: ["tf2.control_point"], data: {capture_threshold: 30.0f, team: 0b, increment: 600.0f}},
+            {Pos: [-292.5d, 1.0d, -303.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {capture_threshold: 15.0f, team: 1b, increment: 600.0f}},
+            {Pos: [-287.5d, 1.0d, -295.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {capture_threshold: 5.0f, team: 1b, increment: 600.0f}}
         ],
         gamemode: 2b,
         timer: 600.0f
@@ -132,7 +132,7 @@ data merge storage tf2:maps {
             blu: [{Pos: [1101.59d, 68.52d, 885.0d], Rotation: [ 90.0f, 0.0f]}]
         },
         objectives: [
-            {Pos: [1050.5d, 104.0d, 910.5d], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 20.0f, team: 0b}},
+            {Pos: [1050.5d, 104.0d, 910.5d], Tags: ["tf2.control_point"], data: {capture_threshold: 20.0f, team: 0b}},
         ],
         pickups: [
             {Pos: [1054.5d, 67.0d, 946.5d], kind: "health", size: 1b},
@@ -204,8 +204,8 @@ data merge storage tf2:maps {
                   {Pos: [1165.0, 115.52, -957.42], Rotation: [180.0f, 0.0f]}]
         },
         objectives: [
-            {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.objective", "tf2.control_point"], data: {capture_threshold: 60.0f, team: 1b, increment: 480.0f}},
-            {Pos: [1149.5, 118.0, -811.5], Tags: ["tf2.objective", "tf2.control_point", "tf2.locked"], data: {capture_threshold: 12.0f, team: 1b}},
+            {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.control_point"], data: {capture_threshold: 60.0f, team: 1b, increment: 480.0f}},
+            {Pos: [1149.5, 118.0, -811.5], Tags: ["tf2.control_point", "tf2.locked"], data: {capture_threshold: 12.0f, team: 1b}},
         ],
         pickups: [
             // toll booth
