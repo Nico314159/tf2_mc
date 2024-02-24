@@ -472,18 +472,18 @@ class Objectives
                 $wheel_spacing /= 5;
 
                 switch ($wheel_spacing) {
-                case -6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%$#\"}]";
-                case -5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^%@\"}]";
-                case -4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"^$\"}]";
-                case -3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%$#@\"}]";
-                case -2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"%#\"}]";
-                case -1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{\"text\":\"$@\"}]";
-                case  0: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[\"\"]";
-                case  1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "41";
-                case  2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "52";
-                case  3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "543";
-                case  4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "632";
-                case  5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "65";
+                case -6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'^%$#'}]";
+                case -5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'^%@'}]";
+                case -4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'^$'}]";
+                case -3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'%$#@'}]";
+                case -2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'%#'}]";
+                case -1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'$@'}]";
+                case  0: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "['']";
+                case  1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'41'";
+                case  2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'52'";
+                case  3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'543'";
+                case  4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'632'";
+                case  5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'65'";
                 case  6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "6542";
                 }
             }
