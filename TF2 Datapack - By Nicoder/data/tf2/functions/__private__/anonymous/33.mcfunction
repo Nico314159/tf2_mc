@@ -1,1 +1,1 @@
-$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s
+$data modify storage tf2.__temp__:lookup events set from storage tf2:running_games $(i).objectives[$(j)].data.events

@@ -75,7 +75,7 @@ data merge storage tf2:maps {
     0: {
         name: "ad_test",
         origin: [-500.0d, 1.0d, -500.0d],
-        spawn: {
+        spawn_point: {
             red: [[-487.0d, 1.0d, -487.0d]],
             blu: [[-513.0d, 1.0d, -513.0d]]
         },
@@ -92,7 +92,7 @@ data merge storage tf2:maps {
     1: {
         name: "cp_test",
         origin: [-300.0d, 1.0d, -300.0d],
-        spawn: {
+        spawn_point: {
             red: [[-279.0d, 1.0d, -300.0d]],
             blu: [[-321.0d, 1.0d, -300.0d]]
         },
@@ -110,7 +110,7 @@ data merge storage tf2:maps {
     2: {
         name: "koth_woodlands",
         origin: [1050.0d, 76.0d, 910.0d],
-        spawn: {
+        spawn_point: {
             red: [[1002.5d, 76.0d, 934.5d]],
             blu: [[1098.0d, 68.0d, 882.5d]]
         },
@@ -166,9 +166,9 @@ data merge storage tf2:maps {
     3: {
         name: "ad_gorge",
         origin: [1000.0, 100.0, -1000.0],
-        spawn: {
+        spawn_point: {
             red: [[1126.5, 124.0, -787.5]],
-            blu: [[1165.0, 115.0, -969.5], [1165.0, 115.0, -969.5], [1154.5, 127.0, -903.5]]
+            blu: [[1165.0, 115.0, -969.5], [1165.0, 115.0, -969.5], [1159.0, 127.0, -902.5]]
         },
         spawn_time: {
             red: [7.0, 7.0, 8.0],
@@ -204,7 +204,10 @@ data merge storage tf2:maps {
                   {Pos: [1165.0, 115.52, -957.42], Rotation: [180.0f, 0.0f]}]
         },
         objectives: [
-            {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.control_point"], data: {capture_threshold: 60.0f, team: 1b, increment: 480.0f}},
+            {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.control_point"], data: {
+                capture_threshold: 60.0f, team: 1b, increment: 480.0f,
+                events: {spawn_point: {blu:2}, spawn_time: {blu:2}}
+            }},
             {Pos: [1149.5, 118.0, -811.5], Tags: ["tf2.control_point", "tf2.locked"], data: {capture_threshold: 12.0f, team: 1b}},
         ],
         pickups: [

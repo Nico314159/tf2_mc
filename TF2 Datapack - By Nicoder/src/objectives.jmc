@@ -300,6 +300,31 @@ class Objectives
                 }
             }
         }
+        class map_events {
+            function handle() {
+                execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:$local.get();
+                execute store result storage tf2.__temp__:index j int 0.1 run tf2.index:@s.get();
+                execute run {
+                    $data modify storage tf2.__temp__:lookup events set from storage tf2:running_games $(i).objectives[$(j)].data.events;
+                } with storage tf2.__temp__:index;
+
+                Hardcode.repeatList("`prop`", () => {
+                    function Objectives.control_point.map_events.spawn_`prop`() {
+                        say "spawn_`prop`";
+                        // default value of 0 means it will do nothing if unspecified
+                        data modify storage tf2.__temp__:index red set value 0;
+                        data modify storage tf2.__temp__:index red set from storage tf2.__temp__:lookup events.spawn_`prop`.red;
+                        data modify storage tf2.__temp__:index blu set value 0;
+                        data modify storage tf2.__temp__:index blu set from storage tf2.__temp__:lookup events.spawn_`prop`.blu;
+                        execute run {
+                            $data modify storage tf2:running_games $(i).spawn_`prop`.red[0] set from storage tf2:running_games $(i).spawn_`prop`.red[$(red)];
+                            $data modify storage tf2:running_games $(i).spawn_`prop`.blu[0] set from storage tf2:running_games $(i).spawn_`prop`.blu[$(blu)];
+                        } with storage tf2.__temp__:index;
+                    }
+                    if (data storage tf2.__temp__:lookup {events:{spawn_`prop`:{}}}) {this.spawn_`prop`();}
+                }, strings=["point", "time"]);
+            }
+        }
         class set_owner {
             function red() {
                 // @within Objectives.control_point.capture_progress.red()
@@ -327,6 +352,8 @@ class Objectives
                 tag @e[type=marker,tag=tf2.current] remove tf2.current;
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 if (tf2.team:$last == tf2.team:@s) return 0;
+
+                Objectives.control_point.map_events.handle() with storage tf2.__temp__:index;
 
                 if (entity @s[tag=tf2.overtime]) {Objectives.control_point.cancel_overtime();}
                 if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
@@ -357,6 +384,9 @@ class Objectives
                 tag @e[type=marker,tag=tf2.current] remove tf2.current;
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 if (tf2.team:$last == tf2.team:@s) return 0;
+
+                
+                Objectives.control_point.map_events.handle() with storage tf2.__temp__:index;
 
                 if (entity @s[tag=tf2.overtime]) {Objectives.control_point.cancel_overtime();}
                 if (tf2.gamemode:@s == 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
