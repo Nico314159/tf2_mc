@@ -1,5 +1,5 @@
 tag @s remove tf2.contested
-execute positioned ~3 ~-1 ~3 run tag @e[type=#tf2:player_like,dx=5,dy=1,dz=5,tag=!tf2.unable_to_cap] add tf2.on_point
+execute positioned ~-3 ~-1 ~-3 run tag @e[type=#tf2:player_like,dx=5,dy=1,dz=5,tag=!tf2.unable_to_cap] add tf2.on_point
 tag @a[gamemode=spectator] remove tf2.on_point
 execute store result score $red_on_point tf2.var if entity @e[tag=tf2.on_point,scores={tf2.team=1}]
 execute store result score $red_scouts tf2.var if entity @e[tag=tf2.on_point,scores={tf2.team=1,tf2.class=3}]

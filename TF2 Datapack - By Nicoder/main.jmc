@@ -418,11 +418,15 @@ function death() {
             id: "minecraft:item",
             NoGravity: 1b,
             Invulnerable: 1b,
-            Tags: ["tf2.pickup", "tf2.ammo_pack", "tf2.no_respawn"],
+            Tags: ["tf2.pickup", "tf2.ammo_pack", "tf2.no_respawn", "tf2.new"],
             Age: -32768s, PickupDelay: 32767s,
             Item: {id: "minecraft:iron_ingot", Count: 1b, tag:{CustomModelData:22}}
         }]
     };
+    execute as @e[type=area_effect_cloud,tag=tf2.new] expand {
+        tf2.batch_number:@s = data get storage tf2.__temp__:index i;
+        tag @s remove tf2.new;
+    }
 }
 class Spawn {
     function init() {
