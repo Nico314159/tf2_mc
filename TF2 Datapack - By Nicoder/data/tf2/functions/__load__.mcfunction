@@ -154,4 +154,7 @@ execute if score $Settings.max_batches tf2.var matches 6 run scoreboard players 
 execute store result score $batch_markers tf2.var if entity @e[type=marker,tag=tf2.batch]
 execute unless score $batch_markers tf2.var = $Settings.max_batches tf2.var run function tf2:setup_markers
 execute unless entity @a run function tf2:__private__/anonymous/0
+forceload add 1136 -960
+forceload add 1152 -960
+forceload add 1168 -960
 return 1

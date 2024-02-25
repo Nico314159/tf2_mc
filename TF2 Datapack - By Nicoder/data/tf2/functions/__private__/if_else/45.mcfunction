@@ -1,1 +1,2 @@
-scoreboard players operation $impact_velocity tf2.var = $current_dy tf2.var
+function tf2:class_select
+playsound tf2:pickup.resupply player @s ~ ~ ~ 1.5 0.8 0.2

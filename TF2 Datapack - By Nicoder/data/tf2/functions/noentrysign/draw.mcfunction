@@ -8,6 +8,6 @@ scoreboard players operation $horizontal tf2.var > $z tf2.var
 scoreboard players set $i tf2.var 0
 scoreboard players set $line tf2.var 1
 execute positioned ~ ~1 ~ run function tf2:noentrysign/outline
-execute if score $horizontal tf2.var matches 2.. if score $y tf2.var matches 2.. run function tf2:__private__/if_else/50
+execute if score $horizontal tf2.var matches 2.. if score $y tf2.var matches 2.. run function tf2:__private__/if_else/52
 scoreboard players set @s tf2.draw_delay 80
 tag @a remove tf2.enemy

@@ -519,4 +519,9 @@ if ($batch_markers != $Settings.max_batches) setup_markers();
 // restart failsafe
 execute unless entity @a run {Hardcode.repeat("[i]", () => {tf2.session:$global_[i]++;}, start = 1, stop = _INSTANCES_CAP_);}
 
+// temporary workaround
+forceload add 1136 -960;
+forceload add 1152 -960;
+forceload add 1168 -960;
+
 return 1;

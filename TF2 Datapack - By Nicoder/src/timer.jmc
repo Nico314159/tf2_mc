@@ -109,8 +109,14 @@ class Timer
         Timer.set_max() with storage tf2.__temp__:index;
 
         if (data entity @s {data:{map:{name: "ad_test"}}}) {
-            // placeholder
+            // placeholder (TODO replace this)
             fill -508 1 -517 -517 1 -508 minecraft:cobblestone_wall replace minecraft:blue_carpet;
+        }
+        if (data entity @s {data:{map:{name: "ad_gorge"}}}) {
+            fill 1166 115 -952 1169 117 -952 minecraft:waxed_copper_grate;
+            fill 1181 115 -952 1184 117 -952 minecraft:waxed_copper_grate;
+            fill 1142 118 -959 1142 120 -959 minecraft:waxed_copper_grate;
+            fill 1143 118 -958 1143 120 -958 minecraft:waxed_copper_grate;
         }
     }
     function exit_setup() {
@@ -122,8 +128,14 @@ class Timer
         tag @s remove tf2.setup_time;
 
         if (data entity @s {data:{map:{name: "ad_test"}}}) {
-            // placeholder
+            // placeholder (TODO replace this)
             fill -508 1 -517 -517 1 -508 minecraft:blue_carpet replace minecraft:cobblestone_wall;
+        }
+        if (data entity @s {data:{map:{name: "ad_gorge"}}}) {
+            fill 1166 115 -952 1169 117 -952 minecraft:air;
+            fill 1181 115 -952 1184 117 -952 minecraft:air;
+            fill 1142 118 -959 1142 120 -959 minecraft:air;
+            fill 1143 118 -958 1143 120 -958 minecraft:air;
         }
     }
 
