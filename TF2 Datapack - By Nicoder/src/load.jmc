@@ -187,6 +187,7 @@ data merge storage tf2:maps {
                 {Pos: [1181.0, 115.0, -951.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
                 {Pos: [1173.0, 115.0, -965.3], Rotation: [   0.0f, 0.0f], data: {dx:11, dy:3, dz:12, direct_tp: "1183.0 115 -949.5"}},
                 {Pos: [1166.0, 115.0, -952.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
+                {Pos: [1160.3, 115.0, -956.0], Rotation: [   0.0f, 0.0f], data: {dx:12, dy:2, dz:3, direct_tp: "1168.0 115 -950.5"}},
                 {Pos: [1156.0, 115.0, -957.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:3, dz:4, direct_tp: "1168.0 115 -950.5"}},
                 {Pos: [1152.0, 115.0, -957.0], Rotation: [   0.0f, 0.0f], data: {dx:3, dy:5, dz:4, direct_tp: "1168.0 115 -950.5"}},
                 {Pos: [1153.0, 115.0, -974.0], Rotation: [ 180.0f, 0.0f], data: {dx:19, dy:5, dz:16, direct_tp: "1168.0 115 -950.5"}},
