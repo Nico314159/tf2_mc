@@ -23,4 +23,4 @@ execute as @e[type=item,tag=tf2.pickup] at @s run function tf2:pickup_tick
 execute as @e[type=arrow,tag=tf2.projectile] at @s run function tf2:projectile/tick
 scoreboard players operation $trigger_reminder tf2.var = $__global__ 0008it54g_p_join
 scoreboard players operation $trigger_reminder tf2.var %= 2400 tf2.const
-execute if score $trigger_reminder tf2.var matches 0 run tellraw @a[tag=tf2.is_playing] ["",{"text":"Remember, you can type ","color":"gray","type":"text"},{"text":"/trigger controls ","color":"white","bold":true,"type":"text"},{"text":"in chat to see the controls.","color":"gray","type":"text"}]
+execute if score $trigger_reminder tf2.var matches 0 run tellraw @a ["",{"text":"Remember, you can type ","color":"gray","type":"text"},{"text":"/trigger controls ","color":"white","bold":true,"type":"text"},{"text":"in chat to see the controls.","color":"gray","type":"text"}]
