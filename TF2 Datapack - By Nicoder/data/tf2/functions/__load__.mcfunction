@@ -157,4 +157,6 @@ execute unless entity @a run function tf2:__private__/anonymous/0
 forceload add 1136 -960
 forceload add 1152 -960
 forceload add 1168 -960
+execute store result score $static_props tf2.var if entity @e[tag=tf2.static_prop]
+execute unless score $static_props tf2.var matches 12 run function tf2:load_static_props
 return 1
