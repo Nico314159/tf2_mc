@@ -1,5 +1,5 @@
 function tf2:weapons/get_ammo
-function tf2:weapons/actionbar
+function tf2:hud/actionbar
 function tf2:weapons/set_ammo
 attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier add 736c6f77-7768-696c-6572-657676696e67 "slowwhilerevving" -0.476 multiply
 attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier remove 736c6f77-7768-696c-6572-657676696e67

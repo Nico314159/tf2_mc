@@ -8,4 +8,4 @@ data modify storage tf2.__temp__:summon number.X set from storage retina:output 
 data modify storage tf2.__temp__:summon number.Y set from storage retina:output ContactCoordinates[1]
 data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2]
 execute store result storage tf2.__temp__:summon number.value int 1 run scoreboard players get $_totalDamage_ tf2.var
-execute if score $_totalDamage_ tf2.var matches 1.. run function tf2:weapons/damage_numbers with storage tf2.__temp__:summon number
+execute if score $_totalDamage_ tf2.var matches 1.. run function tf2:hud/damage_numbers with storage tf2.__temp__:summon number

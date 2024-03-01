@@ -194,7 +194,7 @@ class Class.Sniper {
         tag @s[tag=tf2.scoped] remove tf2.scoped;
 
         Weapons.get_ammo();
-        Weapons.actionbar();
+        HUD.actionbar();
         Weapons.set_ammo();
 
         if (entity @s[scores={tf2.class=2, tf2.time_scoped=1..}]) {

@@ -241,7 +241,7 @@ class Class.Heavy {
     @lazy
     function tick() {
         Weapons.get_ammo();
-        Weapons.actionbar();
+        HUD.actionbar();
         Weapons.set_ammo();
 
         attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier add 736c6f77-7768-696c-6572-657676696e67 "slowwhilerevving" -0.476 multiply;

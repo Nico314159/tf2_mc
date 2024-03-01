@@ -144,7 +144,7 @@ class Class.Soldier {
     @lazy
     function tick() {
         Weapons.get_ammo();
-        Weapons.actionbar();
+        HUD.actionbar();
         Weapons.set_ammo();
 
         Class.Soldier.inventory_lock();

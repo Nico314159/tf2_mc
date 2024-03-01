@@ -137,7 +137,7 @@ class Class.Scout {
     @lazy
     function tick() {
         Weapons.get_ammo();
-        Weapons.actionbar();
+        HUD.actionbar();
         Weapons.set_ammo();
 
         if (predicate tf2:grounded) tag @s add tf2.can_double_jump;

@@ -292,7 +292,7 @@ class Weapons {
         data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
         execute store result storage tf2.__temp__:summon number.value int 1 run $_totalDamage_.get();
         if ($_totalDamage_ >= 1) {
-            Weapons.damage_numbers() with storage tf2.__temp__:summon number;
+            HUD.damage_numbers() with storage tf2.__temp__:summon number;
         }
 
         // Melee sound effects
@@ -464,26 +464,6 @@ class Weapons {
             item modify entity @s weapon.mainhand tf2:load_crossbow;
         }
     }
-    function actionbar() {
-        data modify storage tf2:actionbar health set value [
-            {"score":{"name":"@s","objective":"tf2.health"},"color":"red","type":"score"}, 
-            {"text":" / ","color":"red"}, 
-            {"score":{"name":"@s","objective":"tf2.max_health"},"color":"red","type":"score"}
-        ];
-        data modify storage tf2:actionbar clip_ammo set value '[{"text": "Ammo: ", "color":"gray"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score"}]';
-        if ($_clip_ == $_maxClip_) {
-            data modify storage tf2:actionbar clip_ammo set value '[{"text": "Ammo: ", "color":"white"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score","underlined":true}, {"text": "", "underlined": false}]';
-        }
-        data modify storage tf2:actionbar reserve_ammo set value [
-            {"text":"(","type":"text"},
-            {"score":{"name":"$_ammo_","objective":"tf2.var"},"type":"score"},
-            {"text":")","type":"text"}
-        ];
-        if (predicate tf2:hide_ammo) {
-            data merge storage tf2:actionbar {clip_ammo: [""], reserve_ammo: [""]};
-        }
-        Text.actionbar(@s, "&<red>❤ Health: &<HUD(health)>             &<reset> &<HUD(clip_ammo)> &<dark_gray>&<HUD(reserve_ammo)>");
-    }
     function on_hit() {
         if (retina.__variable__:$func_id !== 100) return 0;
 
@@ -607,23 +587,6 @@ class Weapons {
             Class.Sniper.damage_scale();
         }
         else {$_multiplier_ = 100;}
-    }
-    function damage_numbers() {
-        // @within this.main_fire();
-        $execute positioned 0 0.4 0 run summon text_display ~$(X) ~$(Y) ~$(Z) {
-            billboard: "center",
-            text: '{"color":"red", "bold":true, "text":"-$(value)"}',
-            Tags: ["tf2.visual", "tf2.newest"],
-            transformation: {
-            left_rotation: [0f, 0f, 0f, 1f],
-            right_rotation: [0f, 0f, 0f, 1f],
-            translation: [0f, 0f, 0f],
-            scale: [2f, 2f, 2f]
-            }
-        };
-        tf2.lifetime:@e[type=text_display,tag=tf2.visual,tag=tf2.newest] = 12;
-        tag @e[type=text_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
-        data remove storage tf2.__temp__:summon number;
     }
     function slot_check() {
         tf2.current_slot:@s ??= 0;
@@ -786,7 +749,7 @@ class Projectile {
         data modify storage tf2.__temp__:summon number.Z set from storage retina:output ContactCoordinates[2];
         execute store result storage tf2.__temp__:summon number.value int 1 run $_totalDamage_.get();
         if ($_totalDamage_ >= 1) {
-            Weapons.damage_numbers() with storage tf2.__temp__:summon number;
+            HUD.damage_numbers() with storage tf2.__temp__:summon number;
         }
     }
     function splash_damage() {
