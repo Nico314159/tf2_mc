@@ -40,6 +40,14 @@ TextProps.nbt(
     path         = SelectedItem.tag.display.Name,
     interpret    = true
 );
+TextProps.nbt(
+    propertyName = "HUD",
+    indexString  = "key",
+    type         = storage,
+    source       = "tf2:actionbar",
+    path         = key,
+    interpret    = true
+);
 TextProp.keybind("main_fire", "key.use");
 TextProp.keybind("alt_fire",  "key.swapOffhand");
 TextProp.keybind("reload",    "key.drop");

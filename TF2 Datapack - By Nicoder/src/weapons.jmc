@@ -465,10 +465,24 @@ class Weapons {
         }
     }
     function actionbar() {
-        if (predicate tf2:hide_ammo) {
-            return run Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>");
+        data modify storage tf2:actionbar health set value [
+            {"score":{"name":"@s","objective":"tf2.health"},"color":"red","type":"score"}, 
+            {"text":" / ","color":"red"}, 
+            {"score":{"name":"@s","objective":"tf2.max_health"},"color":"red","type":"score"}
+        ];
+        data modify storage tf2:actionbar clip_ammo set value '[{"text": "Ammo: ", "color":"gray"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score"}]';
+        if ($_clip_ == $_maxClip_) {
+            data modify storage tf2:actionbar clip_ammo set value '[{"text": "Ammo: ", "color":"white"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score","underlined":true}, {"text": "", "underlined": false}]';
         }
-        Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>             &<gray>Ammo: &<$_clip_> &<dark_gray>(&<$_ammo_>)");
+        data modify storage tf2:actionbar reserve_ammo set value [
+            {"text":"(","type":"text"},
+            {"score":{"name":"$_ammo_","objective":"tf2.var"},"type":"score"},
+            {"text":")","type":"text"}
+        ];
+        if (predicate tf2:hide_ammo) {
+            data merge storage tf2:actionbar {clip_ammo: [""], reserve_ammo: [""]};
+        }
+        Text.actionbar(@s, "&<red>❤ Health: &<HUD(health)>             &<reset> &<HUD(clip_ammo)> &<dark_gray>&<HUD(reserve_ammo)>");
     }
     function on_hit() {
         if (retina.__variable__:$func_id !== 100) return 0;
