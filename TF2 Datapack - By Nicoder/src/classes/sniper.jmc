@@ -47,7 +47,9 @@ class Class.Sniper {
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "Sniper Rifle",
+                                "translate": "tf2.sniper_rifle",
+                                "fallback": "Sniper Rifle (%s to enable zoom)",
+                                "with": [{"keybind": "key.swapOffhand"}],
                                 "color": "gray",
                                 "italic": true
                             }
@@ -79,8 +81,11 @@ class Class.Sniper {
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "",
-                                "color": "white"
+                                "translate": "tf2.sniper_rifle",
+                                "fallback": "Scope (%1$s to zoom, %2$s to shoot)",
+                                "with": [{"keybind": "key.swapOffhand"}, {"keybind": "key.use"}],
+                                "color": "gray",
+                                "italic": true
                             }
                         },
                         {

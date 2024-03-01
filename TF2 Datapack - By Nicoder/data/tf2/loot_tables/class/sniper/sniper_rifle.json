@@ -10,7 +10,13 @@
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "Sniper Rifle",
+                                "translate": "tf2.sniper_rifle",
+                                "fallback": "Sniper Rifle (%s to enable zoom)",
+                                "with": [
+                                    {
+                                        "keybind": "key.swapOffhand"
+                                    }
+                                ],
                                 "color": "gray",
                                 "italic": true
                             }

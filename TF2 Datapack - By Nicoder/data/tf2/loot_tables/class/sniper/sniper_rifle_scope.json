@@ -10,8 +10,18 @@
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "",
-                                "color": "white"
+                                "translate": "tf2.sniper_rifle",
+                                "fallback": "Scope (%1$s to zoom, %2$s to shoot)",
+                                "with": [
+                                    {
+                                        "keybind": "key.swapOffhand"
+                                    },
+                                    {
+                                        "keybind": "key.use"
+                                    }
+                                ],
+                                "color": "gray",
+                                "italic": false
                             }
                         },
                         {

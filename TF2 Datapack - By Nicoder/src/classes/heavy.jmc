@@ -49,7 +49,9 @@ class Class.Heavy {
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "Minigun",
+                                "translate": "tf2.minigun",
+                                "fallback": "Minigun (rev up with %s)",
+                                "with": [{"keybind": "key.swapOffhand"}],
                                 "color": "gray",
                                 "italic": true
                             }
