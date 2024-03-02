@@ -326,7 +326,7 @@ function pickup_tick() {
     tp @s ~ ~500 ~;
     tag @a remove tf2.recipient;
     if (entity @s[tag=!tf2.no_respawn]) return 2;
-    execute on vehicle run kill @s;
+    execute on vehicle run tp @s ~ ~-500 ~;
     kill @s;
 }
 
@@ -423,7 +423,7 @@ function death() {
         Invulnerable: 1b,
         Silent: 1b,
         Tags: ["tf2.no_respawn", "tf2.new"],
-        active_effects: [{id:"minecraft:invisibility",amplifier:1b,duration:-1,show_particles:0b,show_icon:0b,ambient:0b}]
+        active_effects: [{id:"minecraft:invisibility",amplifier:1b,duration:-1,show_particles:0b,show_icon:0b,ambient:0b}],
         Passengers: [{
             id: "minecraft:item",
             NoGravity: 0b,

@@ -22,5 +22,5 @@ ride @s[tag=!tf2.no_respawn] dismount
 tp @s ~ ~500 ~
 tag @a remove tf2.recipient
 execute if entity @s[tag=!tf2.no_respawn] run return 2
-execute on vehicle run kill @s
+execute on vehicle run tp @s ~ ~-500 ~
 kill @s
