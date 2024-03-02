@@ -341,6 +341,16 @@ new predicates(grounded) {
         }
     }
 }
+new predicates(no_vehicle) {
+    "condition": "minecraft:inverted",
+    "term": {
+        "condition": "minecraft:entity_properties",
+        "entity": "this",
+        "predicate": {
+            "vehicle": {}
+        }
+    }
+}
 new tags.entity_types(player_like) {
     "replace": false,
     "values": ["minecraft:player", "minecraft:villager", "minecraft:blaze"]

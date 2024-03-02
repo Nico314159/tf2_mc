@@ -414,23 +414,29 @@ function death() {
         $tf2.respawn_timer:@s[scores={tf2.team=1}] = data get storage tf2:running_games $(i).spawn_time.red[0] 20;
         $tf2.respawn_timer:@s[scores={tf2.team=2}] = data get storage tf2:running_games $(i).spawn_time.blu[0] 20;
     } with storage tf2.__temp__:index;
-    execute at @s[scores={tf2.class=1..}] run summon area_effect_cloud ~ ~ ~ {
-        Duration: -1,
-        Age: -2147483648,
-        WaitTime: -2147483648,
+    execute at @s[scores={tf2.class=1..}] run summon axolotl ~ ~ ~ {
+        Attributes: [
+            {Name: "minecraft:generic.movement_speed", Base: 0.0d},
+            {Name: "minecraft:generic.jump_strength", Base: 0.0d},
+            {Name: "minecraft:generic.scale", Base: 0.0625d}
+        ],
         Invulnerable: 1b,
-        Tags: ["tf2.no_respawn"],
+        Silent: 1b,
+        Tags: ["tf2.no_respawn", "tf2.new"],
+        active_effects: [{id:"minecraft:invisibility",amplifier:1b,duration:-1,show_particles:0b,show_icon:0b,ambient:0b}]
         Passengers: [{
             id: "minecraft:item",
-            NoGravity: 1b,
+            NoGravity: 0b,
             Invulnerable: 1b,
-            Tags: ["tf2.pickup", "tf2.ammo_pack", "tf2.no_respawn", "tf2.new"],
+            Tags: ["tf2.pickup", "tf2.ammo_pack", "tf2.no_respawn"],
             Age: -32768s, PickupDelay: 32767s,
             Item: {id: "minecraft:iron_ingot", Count: 1b, tag:{CustomModelData:22}}
         }]
     };
-    execute as @e[type=area_effect_cloud,tag=tf2.new] expand {
-        tf2.batch_number:@s = data get storage tf2.__temp__:index i;
+    execute as @e[type=axolotl,tag=tf2.new,tag=tf2.no_respawn] expand {
+        tf2.batch_number:@s = execute on passengers run tf2.batch_number:@s 
+                            = data get storage tf2.__temp__:index i 1.0;
+        team join delta.no_collide;
         tag @s remove tf2.new;
     }
 }
