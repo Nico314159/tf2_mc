@@ -540,7 +540,6 @@ forceload add 1168 -960;
 
 // also temporary until I set up a better system
 import "static_props";
-$static_props = execute if entity @e[tag=tf2.static_prop];
-if ($static_props != 12) {load_static_props();}
+load_static_props();
 
 return 1;

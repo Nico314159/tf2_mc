@@ -1,0 +1,12 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "item/iron_ingot"
+    },
+    "overrides": [
+        { "predicate": {"custom_model_data":  -1}, "model": "tf2:item/empty"},
+        { "predicate": {"custom_model_data":   0}, "model": "item/gold_ingot"},
+        { "predicate": {"custom_model_data": 101}, "model": "tf2:prop/computer/flat/terminal1"},
+        { "predicate": {"custom_model_data": 201}, "model": "tf2:prop/computer/chonky/tape_storage"}
+    ]
+}
