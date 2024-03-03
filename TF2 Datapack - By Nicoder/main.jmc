@@ -203,8 +203,8 @@ function do_fall_damage() {
     }
 
     $fall_damage = $impact_velocity;
-    // Made it 100 instead of 60 from TF2, because Minecraft has higher gravity
-    $fall_damage /= 100;
+    // Made it 120 instead of 60 from TF2, because Minecraft has higher gravity
+    $fall_damage /= 120;
     $fall_damage < 5833; // Means 58.33% max health due to the scale
 
     $fall_damage *= tf2.max_health:@s;

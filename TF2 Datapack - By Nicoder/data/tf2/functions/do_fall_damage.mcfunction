@@ -10,7 +10,7 @@ execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_e
 scoreboard players operation $impact_velocity tf2.var *= 1050 tf2.const
 execute if score $impact_velocity tf2.var matches ..92000 run scoreboard players set $impact_velocity tf2.var 0
 scoreboard players operation $fall_damage tf2.var = $impact_velocity tf2.var
-scoreboard players operation $fall_damage tf2.var /= 100 tf2.const
+scoreboard players operation $fall_damage tf2.var /= 120 tf2.const
 scoreboard players operation $fall_damage tf2.var < 5833 tf2.const
 scoreboard players operation $fall_damage tf2.var *= @s tf2.max_health
 scoreboard players operation $fall_damage tf2.var /= 100 tf2.const
