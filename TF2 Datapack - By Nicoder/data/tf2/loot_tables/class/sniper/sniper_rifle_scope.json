@@ -14,10 +14,10 @@
                                 "fallback": "Scope (%1$s to zoom, %2$s to shoot)",
                                 "with": [
                                     {
-                                        "keybind": "key.swapOffhand"
+                                        "keybind": "key.use"
                                     },
                                     {
-                                        "keybind": "key.use"
+                                        "keybind": "key.swapOffhand"
                                     }
                                 ],
                                 "color": "gray",

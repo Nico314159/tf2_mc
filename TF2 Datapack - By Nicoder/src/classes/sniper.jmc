@@ -83,7 +83,7 @@ class Class.Sniper {
                             "name": {
                                 "translate": "tf2.sniper_rifle",
                                 "fallback": "Scope (%1$s to zoom, %2$s to shoot)",
-                                "with": [{"keybind": "key.swapOffhand"}, {"keybind": "key.use"}],
+                                "with": [{"keybind": "key.use"}, {"keybind": "key.swapOffhand"}],
                                 "color": "gray",
                                 "italic": true
                             }
