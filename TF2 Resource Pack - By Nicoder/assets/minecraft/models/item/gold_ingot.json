@@ -1,12 +1,16 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "item/iron_ingot"
+        "layer0": "item/gold_ingot"
     },
     "overrides": [
         { "predicate": {"custom_model_data":  -1}, "model": "tf2:item/empty"},
         { "predicate": {"custom_model_data":   0}, "model": "item/gold_ingot"},
-        { "predicate": {"custom_model_data": 101}, "model": "tf2:prop/computer/flat/terminal1"},
-        { "predicate": {"custom_model_data": 201}, "model": "tf2:prop/computer/chonky/tape_storage"}
+        { "predicate": {"custom_model_data": 101}, "model": "tf2:static_prop/computer/flat/terminal1"},
+        { "predicate": {"custom_model_data": 200}, "model": "tf2:static_prop/computer/chonky/wall_cabinet"},
+        { "predicate": {"custom_model_data": 201}, "model": "tf2:static_prop/computer/chonky/wall"},
+        { "predicate": {"custom_model_data": 203}, "model": "tf2:static_prop/computer/chonky/wall03"},
+        { "predicate": {"custom_model_data": 204}, "model": "tf2:static_prop/computer/chonky/wall04"},
+        { "predicate": {"custom_model_data": 205}, "model": "tf2:static_prop/computer/chonky/wall05"}
     ]
 }

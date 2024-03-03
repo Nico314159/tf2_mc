@@ -2,13 +2,13 @@
 	"credit": "Made by Miffen Kop!",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "tf2:block/terminal_back",
+		"0": "tf2:static_prop/computer/flat/terminal_back",
 		"1": "block/yellow_concrete",
 		"2": "block/yellow_terracotta",
 		"3": "block/red_concrete",
 		"4": "block/red_terracotta",
 		"5": "block/black_concrete",
-		"particle": "block/terminal_back"
+		"particle": "tf2:static_prop/computer/flat/terminal_back"
 	},
 	"elements": [
 		{

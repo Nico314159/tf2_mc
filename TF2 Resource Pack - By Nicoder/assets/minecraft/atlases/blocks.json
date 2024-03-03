@@ -23,36 +23,24 @@
             }
         },
         {
-            "type": "single",
-            "resource": "tf2:pickup/health/small"
+            "type": "directory",
+            "source": "pickup",
+            "prefix": "pickup/"
         },
         {
-            "type": "single",
-            "resource": "tf2:pickup/health/medium"
+            "type": "directory",
+            "source": "map_element",
+            "prefix": "map_element/"
         },
         {
-            "type": "single",
-            "resource": "tf2:pickup/health/large"
+            "type": "directory",
+            "source": "projectile",
+            "prefix": "projectile/"
         },
         {
-            "type": "single",
-            "resource": "tf2:pickup/ammo/small"
-        },
-        {
-            "type": "single",
-            "resource": "tf2:pickup/ammo/medium"
-        },
-        {
-            "type": "single",
-            "resource": "tf2:pickup/ammo/large"
-        },
-        {
-            "type": "single",
-            "resource": "tf2:prop/resupply"
-        },
-        {
-            "type": "single",
-            "resource": "tf2:projectile/soldier/rocket"
+            "type": "directory",
+            "source": "static_prop",
+            "prefix": "static_prop/"
         },
         {
             "type": "single",

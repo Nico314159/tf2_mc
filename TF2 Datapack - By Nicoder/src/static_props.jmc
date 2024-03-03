@@ -2,7 +2,6 @@ function load_static_props() {
     kill @e[tag=tf2.static_prop];
     // Gorge lighting
     summon block_display 1157.0 120.0 -967.0 {
-        glow_color_override: -1,
         transformation: {
             translation: [0f, 0f, 0f],
             right_rotation: [0f, 0f, 0f, 1f],
@@ -17,7 +16,6 @@ function load_static_props() {
         Tags: ["tf2.static_prop"],
     };
     summon block_display 1169.0 120.0 -967.0 {
-        glow_color_override: -1,
         transformation: {
             translation: [0f, 0f, 0f],
             right_rotation: [0f, 0f, 0f, 1f],
@@ -326,7 +324,8 @@ function load_static_props() {
         Fixed: 1b
     };
 
-    // Gorge computers
+    //* -- Gorge computers -- *//
+    // Upper deck data link
     summon item_display 1177.5 122.5 -923.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:101}}, Tags: ["tf2.static_prop"]};
     summon item_display 1178.5 122.5 -923.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:101}}, Tags: ["tf2.static_prop"]};
     summon item_display 1179.5 122.5 -923.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:101}}, Tags: ["tf2.static_prop"]};
@@ -346,7 +345,7 @@ function load_static_props() {
         text:'"DATA LINK"', 
         Tags: ["tf2.static_prop"]
     };
-
+    // Main hallway data link
     summon minecraft:item_display 1133.5 127.5 -828.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:101}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
     summon minecraft:item_display 1132.5 127.5 -828.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:101}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
     summon minecraft:item_display 1131.5 127.5 -828.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:101}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
@@ -362,4 +361,59 @@ function load_static_props() {
         Tags: ["tf2.static_prop"],
         Rotation: [-180f,0f]
     };
+    // BLU spawn #2
+    summon item_display 1161.25 127.5 -901.5 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"],
+        Rotation:[90F,0F],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.5f,1.5f,1.5f]},
+    };
+    summon item_display 1161.25 127.5 -901.5 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:201}}, Tags: ["tf2.static_prop"],
+        Rotation:[90F,0F],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.5f,1.5f,1.5f]},
+    };
+    summon item_display 1161.25 127.5 -900.0 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"],
+        Rotation:[90F,0F],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.5f,1.5f,1.5f]},
+    };
+    summon item_display 1161.25 127.5 -900.0 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:201}}, Tags: ["tf2.static_prop"],
+        Rotation:[90F,0F],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.5f,1.5f,1.5f]},
+    };
+    
+    summon item_display 1153.667 127.750 -910.25 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"],
+        transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
+    };
+    summon item_display 1153.667 127.750 -910.25 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:204}}, Tags: ["tf2.static_prop"],
+        transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
+    };
+    summon item_display 1155.00 127.750 -910.25 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"],
+        transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
+    };
+    summon item_display 1155.00 127.750 -910.25 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:205}}, Tags: ["tf2.static_prop"],
+        transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
+    };
+    summon item_display 1156.333 127.750 -910.25 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"],
+        transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
+    };
+    summon item_display 1156.333 127.750 -910.25 {
+        item:{id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:203}}, Tags: ["tf2.static_prop"],
+        transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
+    };
+
+    // upper octagon data link
+    summon minecraft:item_display 1168.5 127.5 -807.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:101}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
+    summon minecraft:item_display 1169.5 127.5 -807.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:101}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
+
+    summon minecraft:item_display 1129.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"]};
+    summon minecraft:item_display 1129.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:204}}, Tags: ["tf2.static_prop"]};
+    summon minecraft:item_display 1130.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"]};
+    summon minecraft:item_display 1130.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:203}}, Tags: ["tf2.static_prop"]};
+    summon minecraft:item_display 1132.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"]};
+    summon minecraft:item_display 1132.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:205}}, Tags: ["tf2.static_prop"]};
+    summon minecraft:item_display 1133.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:200}}, Tags: ["tf2.static_prop"]};
+    summon minecraft:item_display 1133.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",Count:1b,tag:{CustomModelData:203}}, Tags: ["tf2.static_prop"]};
 }

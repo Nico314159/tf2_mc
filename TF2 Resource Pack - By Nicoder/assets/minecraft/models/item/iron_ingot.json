@@ -12,6 +12,6 @@
         { "predicate": {"custom_model_data": 21}, "model": "tf2:pickup/ammo/small"},
         { "predicate": {"custom_model_data": 22}, "model": "tf2:pickup/ammo/medium"},
         { "predicate": {"custom_model_data": 23}, "model": "tf2:pickup/ammo/large"},
-        { "predicate": {"custom_model_data": 30}, "model": "tf2:prop/resupply"}
+        { "predicate": {"custom_model_data": 30}, "model": "tf2:map_element/resupply"}
     ]
 }

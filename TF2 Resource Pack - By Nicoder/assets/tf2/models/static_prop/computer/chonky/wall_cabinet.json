@@ -1,0 +1,53 @@
+{
+	"credit": "Made by Miffen Kop!",
+	"texture_size": [32, 32],
+	"textures": {
+		"1": "tf2:static_prop/computer/chonky/wall_cabinet"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 2],
+			"to": [16, 32, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 7, 16], "texture": "#1"},
+				"west": {"uv": [7, 0, 0, 16], "texture": "#1"},
+				"up": {"uv": [0, 8, 8, 15], "texture": "#1"},
+				"down": {"uv": [0, 8, 8, 15], "texture": "#1"}
+			}
+		},
+		{
+			"from": [15, 0, 1],
+			"to": [16, 32, 2],
+			"faces": {
+				"north": {"uv": [0, 0, 0.5, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 0.5, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 0.5, 16], "texture": "#1"},
+				"up": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"down": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"}
+			}
+		},
+		{
+			"from": [0, 0, 1],
+			"to": [1, 32, 2],
+			"faces": {
+				"north": {"uv": [7.5, 0, 8, 16], "texture": "#1"},
+				"east": {"uv": [7.5, 0, 8, 16], "texture": "#1"},
+				"west": {"uv": [7.5, 0, 8, 16], "texture": "#1"},
+				"up": {"uv": [7.5, 0, 8, 0.5], "texture": "#1"},
+				"down": {"uv": [7.5, 0, 8, 0.5], "texture": "#1"}
+			}
+		},
+		{
+			"from": [-0.5, 24, 5],
+			"to": [16.5, 29, 14],
+			"faces": {
+				"north": {"uv": [7.5, 1.5, 8, 4], "texture": "#1"},
+				"east": {"uv": [9, 1.5, 13.5, 4], "texture": "#1"},
+				"south": {"uv": [0, 1.5, 0.5, 4], "texture": "#1"},
+				"west": {"uv": [9, 1.5, 13.5, 4], "texture": "#1"},
+				"up": {"uv": [1, 1, 5.5, 1.5], "rotation": 90, "texture": "#1"},
+				"down": {"uv": [1, 4, 5.5, 4.5], "rotation": 90, "texture": "#1"}
+			}
+		}
+	]
+}
