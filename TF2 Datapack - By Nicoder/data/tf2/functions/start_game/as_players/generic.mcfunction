@@ -1,4 +1,4 @@
-effect give @s glowing 1000 0 true
+effect give @s glowing 10 0 true
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 tag @s remove tf2.in_queue
 tag @s add tf2.is_playing
