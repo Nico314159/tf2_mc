@@ -5,7 +5,7 @@ class Timer
         // @within __tick__()
 
         execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
-        tf2.timer:@s --;
+        tf2.timer:@s[tag=!tf2.overtime]--;
         Timer.set_value() with storage tf2.__temp__:index;
         tf2.timer.sec:@s = tf2.timer:@s;
         tf2.timer.sec:@s += 19;
@@ -165,7 +165,7 @@ class Timer
         // @needs_macro
         // @within Timer.zero()
         tag @s add tf2.overtime;
-        tf2.max_timer:@s = tf2.timer:@s = 1200; // overtime lasts 1 minute
+        tf2.timer:@s = 1;
         $bossbar set tf2:timer_$(i) color red;
         Timer.set_max() with storage tf2.__temp__:index;
     }
@@ -183,6 +183,7 @@ class Timer
         //  Timer.zero()
         //  Objectives.control_point.decay.main()
         scoreboard players reset $winner tf2.var;
+        tag @s remove tf2.overtime;
         $temp = tf2.gamemode:@s;
         $temp %= 4; // determines whether gamemode is symmetric or not (see gamemode key).
         if ($temp == 1) $winner = 1; // RED wins in asymmetric gamemodes (like A/D or Payload)
@@ -205,8 +206,7 @@ class Timer
             $execute if entity @s[scores={tf2.timer.sec=0..9}] run Bossbar.setName(tf2:timer_$(i), "&<space(left),font(square)>Setup - &<tf2.timer.min:@s>:0&<tf2.timer.sec:@s> remaining&<space(mid),font(square)>&<point(0),font(square)>&<point(1),font(square)>&<point(2),font(square)>&<point(3),font(square)>&<point(4),font(square)>&<point(5),font(square)>&<point(6),font(square)>&<space(right),font(square)>");
         }
         function overtime() {
-            $execute if entity @s[scores={tf2.timer.sec=10..59}] run Bossbar.setName(tf2:timer_$(i), "&<space(left),font(square)>Overtime! - &<tf2.timer.min:@s>:&<tf2.timer.sec:@s> remaining&<space(mid),font(square)>&<point(0),font(square)>&<point(1),font(square)>&<point(2),font(square)>&<point(3),font(square)>&<point(4),font(square)>&<point(5),font(square)>&<point(6),font(square)>&<space(right),font(square)>");
-            $execute if entity @s[scores={tf2.timer.sec=0..9}] run Bossbar.setName(tf2:timer_$(i), "&<space(left),font(square)>Overtime! - &<tf2.timer.min:@s>:0&<tf2.timer.sec:@s> remaining&<space(mid),font(square)>&<point(0),font(square)>&<point(1),font(square)>&<point(2),font(square)>&<point(3),font(square)>&<point(4),font(square)>&<point(5),font(square)>&<point(6),font(square)>&<space(right),font(square)>");
+            $ Bossbar.setName(tf2:timer_$(i), "&<space(left),font(square)>&<font(square)>#@)&<reset>Round - Overtime!&<font(square)>#@)&<space(mid),font(square)>&<point(0),font(square)>&<point(1),font(square)>&<point(2),font(square)>&<point(3),font(square)>&<point(4),font(square)>&<point(5),font(square)>&<point(6),font(square)>&<space(right),font(square)>");
         }
     }
 }
