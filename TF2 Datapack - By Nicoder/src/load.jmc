@@ -17,7 +17,7 @@ Hardcode.repeatList(
         "red_timer", "red_timer.min", "red_timer.sec", "red_overtime",
         "blu_timer", "blu_timer.min", "blu_timer.sec", "blu_overtime",
         "batch_number", "session", "lifetime", "draw_delay", "size", "model_number", "age",
-        "class", "last_class", "team", "health", "max_health", "last_slot", "current_slot",
+        "class", "last_class", "team", "max_health", "last_slot", "current_slot",
         "primary_clip", "primary_maxClip", "primary_ammo", "primary_maxAmmo",
         "secondary_clip", "secondary_maxClip", "secondary_ammo", "secondary_maxAmmo",
         "attack_delay", "reload_delay", "consecutive_reload",
@@ -28,6 +28,8 @@ Hardcode.repeatList(
     ]
 );
 
+Scoreboard.add(tf2.health, dummy, "❤");
+scoreboard objectives setdisplay below_name tf2.health;
 Scoreboard.add(tf2.queue_type, trigger);
 Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
 Scoreboard.add(tf2.fall, custom:fall_one_cm);
@@ -35,8 +37,8 @@ Scoreboard.add(tf2.air, air);
 Scoreboard.add(tf2.food, food);
 
 // when in score format - RED = 1, BLU = 2
-Team.add(RED, "RED", {color: red,  prefix: "\"[RED] \"", friendlyFire: false});
-Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false});
+Team.add(RED, "RED", {color: red,  prefix: "\"[RED] \"", friendlyFire: false, nametagVisibility: hideForOtherTeams});
+Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false, nametagVisibility: hideForOtherTeams});
 
 Hardcode.repeat("_i_", () => {
     Bossbar.add(tf2:timer__i_, "");

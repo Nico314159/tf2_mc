@@ -34,7 +34,6 @@ scoreboard objectives remove tf2.age
 scoreboard objectives remove tf2.class
 scoreboard objectives remove tf2.last_class
 scoreboard objectives remove tf2.team
-scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.max_health
 scoreboard objectives remove tf2.last_slot
 scoreboard objectives remove tf2.current_slot
@@ -64,6 +63,7 @@ scoreboard objectives remove tf2.drown_lost
 scoreboard objectives remove tf2.time_surfaced
 scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
+scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.elytra_detect
 scoreboard objectives remove tf2.fall

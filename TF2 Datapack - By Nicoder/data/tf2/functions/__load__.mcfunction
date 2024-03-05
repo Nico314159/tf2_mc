@@ -66,7 +66,6 @@ scoreboard objectives add tf2.age dummy
 scoreboard objectives add tf2.class dummy
 scoreboard objectives add tf2.last_class dummy
 scoreboard objectives add tf2.team dummy
-scoreboard objectives add tf2.health dummy
 scoreboard objectives add tf2.max_health dummy
 scoreboard objectives add tf2.last_slot dummy
 scoreboard objectives add tf2.current_slot dummy
@@ -96,6 +95,8 @@ scoreboard objectives add tf2.drown_lost dummy
 scoreboard objectives add tf2.time_surfaced dummy
 scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
+scoreboard objectives add tf2.health dummy "\u2764"
+scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.fall custom:fall_one_cm
@@ -105,10 +106,12 @@ team add RED "RED"
 team modify RED color red
 team modify RED prefix "[RED] "
 team modify RED friendlyFire false
+team modify RED nametagVisibility hideForOtherTeams
 team add BLU "BLU"
 team modify BLU color blue
 team modify BLU prefix "[BLU] "
 team modify BLU friendlyFire false
+team modify BLU nametagVisibility hideForOtherTeams
 bossbar add tf2:timer_1 ""
 bossbar add tf2:red_timer_1 ""
 bossbar set tf2:red_timer_1 color red
