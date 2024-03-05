@@ -178,6 +178,25 @@ function player_tick() {
         playsound tf2:pickup.resupply player @s ~ ~ ~ 1.5 0.8 0.2;
     } 
     tag @a remove tf2.current;
+
+    function coas_input() {
+        tf2.coas:@s = 0;
+        $__item_id__ = data get entity @s SelectedItem.tag.CustomModelData;
+        if ($__item_id__ == 0) return fail;
+        if ($__item_id__ == 10) {
+            tf2.last_class:@s = tf2.class:@s; 
+        }
+        tf2.class:@s = $__item_id__;
+        tf2.class:@s %= 10;
+        class_select();
+        if ($__item_id__ matches 1..9 && tf2.last_class:@s[tag=!tf2.in_spawn] != tf2.class:@s) {
+            // Kill player if they change class outside of spawn
+            tf2.health:@s = 0;
+        }
+    }
+    if (tf2.coas:@s) {
+        coas_input();
+    }
 }
 function do_fall_damage() {
     $2nd_previous_dy = tf2.fall_y3:@s;

@@ -2,62 +2,31 @@ Item.create(
     itemId      = changeClass,
     itemType    = carrot_on_a_stick,
     displayName = "Change Class",
-    nbt         = {CustomModelData: 10},
-    onClick     = () => {
-        tf2.last_class:@s = tf2.class:@s; 
-        tf2.class:@s = 0; 
-        class_select();
-    }
+    nbt         = {CustomModelData: 10}
 );
 Item.create(
     itemId      = selectSniper,
     itemType    = carrot_on_a_stick,
     displayName = "Sniper",
-    nbt         = {CustomModelData: Class.SNIPER},
-    onClick     = () => {
-        tf2.class:@s = Class.SNIPER; 
-        class_select();
-        if (tf2.last_class:@s[tag=!tf2.in_spawn] != Class.SNIPER) {
-            tf2.health:@s = 0;
-        }
-    }
+    nbt         = {CustomModelData: Class.SNIPER}
 );
 Item.create(
     itemId      = selectScout,
     itemType    = carrot_on_a_stick,
     displayName = "Scout",
-    nbt         = {CustomModelData: Class.SCOUT},
-    onClick     = () => {
-        tf2.class:@s = Class.SCOUT; 
-        class_select();
-        if (tf2.last_class:@s[tag=!tf2.in_spawn] != Class.SCOUT) {
-            tf2.health:@s = 0;
-        }
-    }
+    nbt         = {CustomModelData: Class.SCOUT}
 );
 Item.create(
     itemId      = selectHeavy,
     itemType    = carrot_on_a_stick,
     displayName = "Heavy",
-    nbt         = {CustomModelData: Class.HEAVY},
-    onClick     = () => {
-        tf2.class:@s = Class.HEAVY; 
-        class_select();
-        if (tf2.last_class:@s[tag=!tf2.in_spawn] != Class.HEAVY) {
-            tf2.health:@s = 0;
-        }
-    }
+    nbt         = {CustomModelData: Class.HEAVY}
 );
 Item.create(
     itemId      = selectSoldier,
     itemType    = carrot_on_a_stick,
     displayName = "Soldier",
-    nbt         = {CustomModelData: Class.SOLDIER},
-    onClick     = () => {
-        tf2.class:@s = Class.SOLDIER; 
-        class_select();
-        tf2.health:@s[tag=!tf2.in_spawn] = 0;
-    }
+    nbt         = {CustomModelData: Class.SOLDIER}
 );
 
 @lazy function summon_entities() {

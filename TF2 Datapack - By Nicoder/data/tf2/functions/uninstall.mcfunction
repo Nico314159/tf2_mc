@@ -1,7 +1,6 @@
 kill @e[type=marker]
 scoreboard objectives remove tf2.var
 scoreboard objectives remove controls
-scoreboard objectives remove on_event_1mqyp2x
 scoreboard objectives remove 0008it54g_p_join
 scoreboard objectives remove tf2.gamemode
 scoreboard objectives remove tf2.map
@@ -65,6 +64,7 @@ scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
+scoreboard objectives remove tf2.coas
 scoreboard objectives remove tf2.elytra_detect
 scoreboard objectives remove tf2.fall
 scoreboard objectives remove tf2.air

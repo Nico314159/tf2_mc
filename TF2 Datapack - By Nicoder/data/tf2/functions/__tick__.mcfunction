@@ -1,5 +1,4 @@
 function tf2:__private__/trigger_add/main
-execute as @a[scores={on_event_1mqyp2x=1..}] at @s run function tf2:__private__/on_event/used_carrot_on_a_stick
 scoreboard players add $__global__ 0008it54g_p_join 1
 scoreboard players add @a 0008it54g_p_join 1
 execute as @a unless score @s 0008it54g_p_join = $__global__ 0008it54g_p_join run function tf2:__private__/player_join/main

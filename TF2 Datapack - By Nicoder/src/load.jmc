@@ -31,6 +31,7 @@ Hardcode.repeatList(
 Scoreboard.add(tf2.health, dummy, "❤");
 scoreboard objectives setdisplay below_name tf2.health;
 Scoreboard.add(tf2.queue_type, trigger);
+Scoreboard.add(tf2.coas, used:carrot_on_a_stick);
 Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
 Scoreboard.add(tf2.fall, custom:fall_one_cm);
 Scoreboard.add(tf2.air, air);

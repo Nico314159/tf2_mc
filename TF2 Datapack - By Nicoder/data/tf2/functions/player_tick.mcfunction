@@ -16,10 +16,10 @@ execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/
 execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run function tf2:__private__/if_else/40
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/13/select with storage tf2:__storage__
-item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick{CustomModelData:10,__item_id__:1,display:{Name:'"Change Class"'}} 1
-execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick{CustomModelData:10,__item_id__:1,display:{Name:'"Change Class"'}} 0
-execute unless score $_count_ tf2.var matches 1 run clear @s carrot_on_a_stick{CustomModelData:10,__item_id__:1,display:{Name:'"Change Class"'}} 
-execute unless score $_count_ tf2.var matches 1 run item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick{CustomModelData:10,__item_id__:1,display:{Name:'"Change Class"'}} 1
+item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick{CustomModelData:10,display:{Name:'"Change Class"'}} 1
+execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick{CustomModelData:10,display:{Name:'"Change Class"'}} 0
+execute unless score $_count_ tf2.var matches 1 run clear @s carrot_on_a_stick{CustomModelData:10,display:{Name:'"Change Class"'}} 
+execute unless score $_count_ tf2.var matches 1 run item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick{CustomModelData:10,display:{Name:'"Change Class"'}} 1
 scoreboard players operation @s tf2.fall_y3 = @s tf2.fall_y2
 scoreboard players operation @s tf2.fall_y2 = @s tf2.fall_y1
 scoreboard players operation @s tf2.fall_y1 = @s tf2.fall_y
@@ -33,3 +33,4 @@ scoreboard players operation $tick_cycle tf2.var = $__global__ 0008it54g_p_join
 scoreboard players operation $tick_cycle tf2.var %= 40 tf2.const
 execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/45
 tag @a remove tf2.current
+execute if score @s tf2.coas matches 1.. run function tf2:coas_input

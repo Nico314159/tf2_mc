@@ -1,6 +1,5 @@
 scoreboard objectives add tf2.var dummy
 scoreboard objectives add controls trigger
-scoreboard objectives add on_event_1mqyp2x used:carrot_on_a_stick
 scoreboard objectives add 0008it54g_p_join dummy
 scoreboard objectives add tf2.const dummy
 scoreboard players set 1024 tf2.const 1024
@@ -98,6 +97,7 @@ scoreboard objectives add tf2.last_air dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
+scoreboard objectives add tf2.coas used:carrot_on_a_stick
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.fall custom:fall_one_cm
 scoreboard objectives add tf2.air air
