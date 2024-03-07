@@ -104,13 +104,13 @@ class Objectives
             // no need to count total number of control points, as that is already given by `tf2.index` [see `Objectives.control_point.visuals.spacing()` for more info]
 
             scoreboard players reset $winner tf2.var;
-            if ($red_cp_count = tf2.index:@s && tf2.gamemode:@s[tag=!tf2.multistage] == 2) $winner = 1;
-            if ($blu_cp_count = tf2.index:@s && score @s[tag=!tf2.multistage] tf2.gamemode matches 1..2) $winner = 2;
+            if ($red_cp_count == tf2.index:@s[tag=!tf2.multistage,scores={tf2.gamemode=2}]) $winner = 1;
+            if ($blu_cp_count == tf2.index:@s[tag=!tf2.multistage,scores={tf2.gamemode=1..2}]) $winner = 2;
             // execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
             // execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
 
             // Negative time means the game is already over but players haven't been relogged yet. `$winner == $winner` checks if score is set.
-            if ($winner == $winner && !tf2.timer:@s <= -1) reset.announce_winner();
+            if ($winner == $winner && tf2.timer:@s > -1) reset.announce_winner();
 
             tag @e[type=marker,tag=tf2.control_point,tag=tf2.current] remove tf2.current;
         }

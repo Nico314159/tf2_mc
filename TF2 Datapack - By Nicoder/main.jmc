@@ -13,7 +13,7 @@ function __tick__() {
     // @handles #minecraft:tick
     // @context root
 
-    if (!$found_dependency) return -1;
+    if (!$found_dependency) return fail;
 
     tag @e[type=#tf2:player_like] remove tf2.in_spawn;
 	tf2.lifetime:@e[tag=tf2.visual]--;
@@ -53,8 +53,8 @@ function marker_tick() {
     if (entity @s[tag=tf2.in_use] && tf2.gamemode:@s != 3) Timer.main();
     if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=3}]) KOTH_Timer.main();
 
-    execute if entity @s[tag=tf2.control_point,tag=!tf2.init  ] at @s run Objectives.control_point.visuals.init();
-    execute if entity @s[tag=tf2.control_point,tag=!tf2.locked] at @s run Objectives.control_point.check_for_players();
+    execute at @s[tag=tf2.control_point,tag=!tf2.init  ] run Objectives.control_point.visuals.init();
+    execute at @s[tag=tf2.control_point,tag=!tf2.locked] run Objectives.control_point.check_for_players();
 
     // honetly
     execute if entity @s[tag=tf2.batch] run {
@@ -62,9 +62,7 @@ function marker_tick() {
         execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with storage tf2.__temp__:index;
     }
 
-    if (entity @s[tag=tf2.spawn_door]) {
-        JMC.put("execute at @s run function tf2:spawn/protect with entity @s data");
-    }
+    JMC.put("execute at @s[tag=tf2.spawn_door] run function tf2:spawn/protect with entity @s data");
 }
 
 function player_tick() {
