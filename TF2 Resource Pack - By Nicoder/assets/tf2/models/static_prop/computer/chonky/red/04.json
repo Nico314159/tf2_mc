@@ -2,7 +2,7 @@
 	"credit": "Made by Miffen Kop!",
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "tf2:static_prop/computer/chonky/wall05"
+		"1": "tf2:static_prop/computer/chonky/red/04"
 	},
 	"elements": [
 		{
@@ -24,14 +24,14 @@
 			}
 		},
 		{
-			"from": [1, 14, 1],
+			"from": [1, 16, 1],
 			"to": [15, 28, 3],
 			"faces": {
-				"north": {"uv": [0.5, 2, 7.5, 9], "texture": "#1"},
-				"east": {"uv": [0.5, 2, 1, 9], "texture": "#1"},
-				"west": {"uv": [7, 2, 7.5, 9], "texture": "#1"},
-				"up": {"uv": [0.5, 2, 7.5, 2.5], "texture": "#1"},
-				"down": {"uv": [0.5, 8.5, 7.5, 9], "texture": "#1"}
+				"north": {"uv": [8.5, 2, 15.5, 8], "texture": "#1"},
+				"east": {"uv": [8.5, 2, 9, 8], "texture": "#1"},
+				"west": {"uv": [15, 2, 15.5, 8], "texture": "#1"},
+				"up": {"uv": [8.5, 2, 15.5, 2.5], "texture": "#1"},
+				"down": {"uv": [8.5, 7.5, 15.5, 8], "texture": "#1"}
 			}
 		},
 		{
@@ -54,6 +54,16 @@
 				"west": {"uv": [14.5, 1, 15, 1.5], "texture": "#1"},
 				"up": {"uv": [1, 0.5, 7, 1], "texture": "#1"},
 				"down": {"uv": [1, 1.5, 7, 2], "texture": "#1"}
+			}
+		},
+		{
+			"from": [14, 24, 3],
+			"to": [2, 19, 1],
+			"faces": {
+				"east": {"uv": [15, 4, 15.5, 6.5], "texture": "#1"},
+				"west": {"uv": [8.5, 4, 9, 6.5], "texture": "#1"},
+				"up": {"uv": [9, 6.5, 15, 7], "texture": "#1"},
+				"down": {"uv": [9, 3.5, 15, 4], "texture": "#1"}
 			}
 		}
 	]

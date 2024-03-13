@@ -1,0 +1,6 @@
+{
+	"parent": "tf2:static_prop/computer/chonky/red/01",
+	"textures": {
+		"2": "tf2:static_prop/computer/chonky/blu/01"
+	}
+}
