@@ -1,6 +1,6 @@
-execute store result storage tf2.__temp__:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:spawn/get_coords with storage tf2.__temp__:index
-function tf2:spawn/tp with storage tf2.__temp__:coords
+execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:spawn/get_coords with storage tf2:index
+function tf2:spawn/tp with storage tf2:coords
 gamemode adventure @s
 tag @s remove tf2.dead
 tag @s remove tf2.said_death_msg

@@ -28,7 +28,7 @@ TextProps.nbt(
     propertyName = "gui_wheel",
     indexString  = "_path_",
     type         = storage,
-    source       = "tf2.__temp__:lookup",
+    source       = "tf2:lookup",
     path         = points[0].wheel._path_,
     interpret    = true
 );

@@ -1,5 +1,5 @@
-function tf2:__private__/anonymous/29 with storage tf2.__temp__:summon pickups[-1]
-execute store result score @s tf2.size run data get storage tf2.__temp__:summon pickups[-1].size
+function tf2:__private__/anonymous/29 with storage tf2:summon pickups[-1]
+execute store result score @s tf2.size run data get storage tf2:summon pickups[-1].size
 scoreboard players set @s tf2.model_number 10
 scoreboard players operation @s tf2.model_number += @s tf2.size
 scoreboard players add @s[tag=tf2.ammo_pack] tf2.model_number 10

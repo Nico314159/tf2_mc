@@ -23,25 +23,25 @@ class Objectives
                 //      wheel.spacing: RawTextComponent (font = tf2:wheel)
                 //          Space characters used to make sure the wheel indicator points to the correct control point.
 
-                // @output `storage tf2.__temp__:lookup points[0]`
+                // @output `storage tf2:lookup points[0]`
                 //  Dynamically-editable copy of all data in the `tf2:control_points info[$local...][tf2.index:@s]` storage path.
                 //  Can be copied back to the original path using `Objectives.control_point.find_index.reinsert()`
 
-                execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:$local.get();
-                execute store result storage tf2.__temp__:index j int 0.1 run tf2.index:@s.get();
+                execute store result storage tf2:index i int 1 run tf2.batch_number:$local.get();
+                execute store result storage tf2:index j int 0.1 run tf2.index:@s.get();
                 $_access_mode_ = 1;
-                this.private() with storage tf2.__temp__:index;
+                this.private() with storage tf2:index;
             } function reinsert() {
-                // Copies the edited data at `tf2.__temp__:lookup points[0]` back to the matching address in `storage tf2:control_points info[$local...][@s tf2.index]`
+                // Copies the edited data at `tf2:lookup points[0]` back to the matching address in `storage tf2:control_points info[$local...][@s tf2.index]`
 
-                execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:$local.get();
-                execute store result storage tf2.__temp__:index j int 0.1 run tf2.index:@s.get();
+                execute store result storage tf2:index i int 1 run tf2.batch_number:$local.get();
+                execute store result storage tf2:index j int 0.1 run tf2.index:@s.get();
                 $_access_mode_ = 2;
-                this.private() with storage tf2.__temp__:index;
+                this.private() with storage tf2:index;
             }
             function private() {
-                $execute if score $_access_mode_ tf2.var matches 1 run data modify storage tf2.__temp__:lookup points[0] set from storage tf2:control_points info[$(i)][$(j)];
-                $execute if score $_access_mode_ tf2.var matches 2 run data modify storage tf2:control_points info[$(i)][$(j)] set from storage tf2.__temp__:lookup points[0];
+                $execute if score $_access_mode_ tf2.var matches 1 run data modify storage tf2:lookup points[0] set from storage tf2:control_points info[$(i)][$(j)];
+                $execute if score $_access_mode_ tf2.var matches 2 run data modify storage tf2:control_points info[$(i)][$(j)] set from storage tf2:lookup points[0];
             }
         }
 
@@ -116,11 +116,11 @@ class Objectives
         }
         function cancel_overtime() {
             tag @s remove tf2.overtime;
-            execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:@s.get();
+            execute store result storage tf2:index i int 1 run tf2.batch_number:@s.get();
             tf2.batch_number:$local = tf2.batch_number:@s;
             execute as @e[type=marker,tag=tf2.in_use] at @s
 	    	        if score @s tf2.batch_number = $local tf2.batch_number
-					run Timer.cancel_overtime() with storage tf2.__temp__:index;
+					run Timer.cancel_overtime() with storage tf2:index;
         }
         function lock() {
             tag @s add tf2.locked;
@@ -129,17 +129,17 @@ class Objectives
             tf2.red_progress:@s[scores={tf2.team=2}] = 0;
             tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
             this.find_index.main();
-            if (tf2.team:@s == 1) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
-            if (tf2.team:@s == 2) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
-            data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
-            data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
+            if (tf2.team:@s == 1) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
+            if (tf2.team:@s == 2) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
+            data modify storage tf2:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+            data modify storage tf2:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
             this.find_index.reinsert();
             setblock ~ ~ ~ stone_slab;
         }
         function unlock() {
             tag @s remove tf2.locked;
             this.find_index.main();
-            data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320#)@","font":"tf2:square"}]';
+            data modify storage tf2:lookup points[0].symbol set value '[{"text":"320#)@","font":"tf2:square"}]';
             this.find_index.reinsert();
             setblock ~ ~ ~ air;
         }
@@ -302,25 +302,25 @@ class Objectives
         }
         class map_events {
             function handle() {
-                execute store result storage tf2.__temp__:index i int 1 run tf2.batch_number:$local.get();
-                execute store result storage tf2.__temp__:index j int 0.1 run tf2.index:@s.get();
+                execute store result storage tf2:index i int 1 run tf2.batch_number:$local.get();
+                execute store result storage tf2:index j int 0.1 run tf2.index:@s.get();
                 execute run {
-                    $data modify storage tf2.__temp__:lookup events set from storage tf2:running_games $(i).objectives[$(j)].data.events;
-                } with storage tf2.__temp__:index;
+                    $data modify storage tf2:lookup events set from storage tf2:running_games $(i).objectives[$(j)].data.events;
+                } with storage tf2:index;
 
                 Hardcode.repeatList("`prop`", () => {
                     function spawn_`prop`() {
                         // default value of 0 means it will do nothing if unspecified
-                        data modify storage tf2.__temp__:index red set value 0;
-                        data modify storage tf2.__temp__:index red set from storage tf2.__temp__:lookup events.spawn_`prop`.red;
-                        data modify storage tf2.__temp__:index blu set value 0;
-                        data modify storage tf2.__temp__:index blu set from storage tf2.__temp__:lookup events.spawn_`prop`.blu;
+                        data modify storage tf2:index red set value 0;
+                        data modify storage tf2:index red set from storage tf2:lookup events.spawn_`prop`.red;
+                        data modify storage tf2:index blu set value 0;
+                        data modify storage tf2:index blu set from storage tf2:lookup events.spawn_`prop`.blu;
                         execute run {
                             $data modify storage tf2:running_games $(i).spawn_`prop`.red[0] set from storage tf2:running_games $(i).spawn_`prop`.red[$(red)];
                             $data modify storage tf2:running_games $(i).spawn_`prop`.blu[0] set from storage tf2:running_games $(i).spawn_`prop`.blu[$(blu)];
-                        } with storage tf2.__temp__:index;
+                        } with storage tf2:index;
                     }
-                    if (data storage tf2.__temp__:lookup {events:{spawn_`prop`:{}}}) {this.spawn_`prop`();}
+                    if (data storage tf2:lookup {events:{spawn_`prop`:{}}}) {this.spawn_`prop`();}
                 }, strings=["point", "time"]);
             }
         }
@@ -334,9 +334,9 @@ class Objectives
                 tf2.red_progress:@s = tf2.capture_threshold:@s;
 
                 Objectives.control_point.find_index.main();
-                data modify storage tf2.__temp__:lookup points[0].owner
+                data modify storage tf2:lookup points[0].owner
 					 set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
-                data modify storage tf2.__temp__:lookup points[0].progress
+                data modify storage tf2:lookup points[0].progress
 				     set value '[{"text":"321))))))))))))))","color":"gray"}]';
                 Objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
@@ -352,7 +352,7 @@ class Objectives
                 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 if (tf2.team:$last == tf2.team:@s) return 0;
 
-                Objectives.control_point.map_events.handle() with storage tf2.__temp__:index;
+                Objectives.control_point.map_events.handle() with storage tf2:index;
 
                 if (entity @s[tag=tf2.overtime]) {Objectives.control_point.cancel_overtime();}
                 if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
@@ -368,8 +368,8 @@ class Objectives
                 tf2.blu_progress:@s = tf2.capture_threshold:@s;
 
                 Objectives.control_point.find_index.main();
-                data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
-                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
+                data modify storage tf2:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
                 Objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
 
@@ -385,7 +385,7 @@ class Objectives
                 if (tf2.team:$last == tf2.team:@s) return 0;
 
                 
-                Objectives.control_point.map_events.handle() with storage tf2.__temp__:index;
+                Objectives.control_point.map_events.handle() with storage tf2:index;
 
                 if (entity @s[tag=tf2.overtime]) {Objectives.control_point.cancel_overtime();}
                 if (tf2.gamemode:@s == 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
@@ -408,24 +408,24 @@ class Objectives
                 Hardcode.repeatLists(
                     ["_num_", "_color_", "_hex_"],
                     () => {
-                        if (tf2.team:@s == _num_) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
+                        if (tf2.team:@s == _num_) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
                         if (tf2.team:@s == _num_) setblock ~ ~-1 ~ _color__stained_glass;
                     },
                     [["0", "1", "2"], ["white", "red", "blue"], ["A1A1A1", "D95A58", "517AB8"]]
                 );
-                data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                data modify storage tf2:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
 
                 this.add_symbol();
 
                 if (entity @s[tag=!tf2.letter]) {
-					data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]';
+					data modify storage tf2:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]';
 				}
 
                 // Puts a letter in the corner of the HUD icon, if the `tf2.letter` tag is present.
                 Hardcode.repeatLists(
                     ["_num_", "_letter_"],
                     () => {
-                        if (tf2.index:@s[tag=tf2.letter] == _num_) data modify storage tf2.__temp__:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';
+                        if (tf2.index:@s[tag=tf2.letter] == _num_) data modify storage tf2:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';
                     },
                     [["0", "10", "20", "30", "40"], ["A", "B", "C", "D", "E"]]
                 );
@@ -435,12 +435,12 @@ class Objectives
             function add_symbol() {
 				// @within this.init()
                 if (entity @s[tag=tf2.locked]) {
-	                return run data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
+	                return run data modify storage tf2:lookup points[0].symbol set value '[{"text":"320L@","font":"tf2:square"}]';
     		    }
                 if (entity @s[tag=tf2.star]) {
-    	        	return run data modify storage tf2.__temp__:lookup points[0].symbol set value '[{"text":"321S!)","font":"tf2:square"}]';
+    	        	return run data modify storage tf2:lookup points[0].symbol set value '[{"text":"321S!)","font":"tf2:square"}]';
                 }
-                data modify storage tf2.__temp__:lookup points[0].symbol set value '[""]';
+                data modify storage tf2:lookup points[0].symbol set value '[""]';
             }
             function spacing() {
                 // Determines the spacing to use in the HUD bar.
@@ -454,33 +454,33 @@ class Objectives
                 $temp ++;
                 switch ($temp) {
                 case 1:
-                    data modify storage tf2.__temp__:lookup points[0].left set value  '{"text":"430"}';
-                    data modify storage tf2.__temp__:lookup points[0].mid set value   '{"text":"60"}';
-                    data modify storage tf2.__temp__:lookup points[0].right set value '{"text":""}';
+                    data modify storage tf2:lookup points[0].left set value  '{"text":"430"}';
+                    data modify storage tf2:lookup points[0].mid set value   '{"text":"60"}';
+                    data modify storage tf2:lookup points[0].right set value '{"text":""}';
                 case 2:
-                    data modify storage tf2.__temp__:lookup points[0].left set value  '{"text":"20"}';
-                    data modify storage tf2.__temp__:lookup points[0].mid set value   '{"text":"6420"}';
-                    data modify storage tf2.__temp__:lookup points[0].right set value '{"text":""}';
+                    data modify storage tf2:lookup points[0].left set value  '{"text":"20"}';
+                    data modify storage tf2:lookup points[0].mid set value   '{"text":"6420"}';
+                    data modify storage tf2:lookup points[0].right set value '{"text":""}';
                 case 3:
-                    data modify storage tf2.__temp__:lookup points[0].left set value  '{"text":""}';
-                    data modify storage tf2.__temp__:lookup points[0].mid set value   '{"text":"6530"}';
-                    data modify storage tf2.__temp__:lookup points[0].right set value '{"text":"3210"}';
+                    data modify storage tf2:lookup points[0].left set value  '{"text":""}';
+                    data modify storage tf2:lookup points[0].mid set value   '{"text":"6530"}';
+                    data modify storage tf2:lookup points[0].right set value '{"text":"3210"}';
                 case 4:
-                    data modify storage tf2.__temp__:lookup points[0].left set value  '{"text":""}';
-                    data modify storage tf2.__temp__:lookup points[0].mid set value   '{"text":"654320"}';
-                    data modify storage tf2.__temp__:lookup points[0].right set value '{"text":"510"}';
+                    data modify storage tf2:lookup points[0].left set value  '{"text":""}';
+                    data modify storage tf2:lookup points[0].mid set value   '{"text":"654320"}';
+                    data modify storage tf2:lookup points[0].right set value '{"text":"510"}';
                 case 5:
-                    data modify storage tf2.__temp__:lookup points[0].left set value  '{"text":""}';
-                    data modify storage tf2.__temp__:lookup points[0].mid set value   '{"text":"740"}';
-                    data modify storage tf2.__temp__:lookup points[0].right set value '{"text":"54210"}';
+                    data modify storage tf2:lookup points[0].left set value  '{"text":""}';
+                    data modify storage tf2:lookup points[0].mid set value   '{"text":"740"}';
+                    data modify storage tf2:lookup points[0].right set value '{"text":"54210"}';
                 case 6:
-                    data modify storage tf2.__temp__:lookup points[0].left set value  '{"text":""}';
-                    data modify storage tf2.__temp__:lookup points[0].mid set value   '{"text":"7520"}';
-                    data modify storage tf2.__temp__:lookup points[0].right set value '{"text":"6310"}';
+                    data modify storage tf2:lookup points[0].left set value  '{"text":""}';
+                    data modify storage tf2:lookup points[0].mid set value   '{"text":"7520"}';
+                    data modify storage tf2:lookup points[0].right set value '{"text":"6310"}';
                 case 7:
-                    data modify storage tf2.__temp__:lookup points[0].left set value  '{"text":""}';
-                    data modify storage tf2.__temp__:lookup points[0].mid set value   '{"text":"75430"}';
-                    data modify storage tf2.__temp__:lookup points[0].right set value '{"text":"643210"}';
+                    data modify storage tf2:lookup points[0].left set value  '{"text":""}';
+                    data modify storage tf2:lookup points[0].mid set value   '{"text":"75430"}';
+                    data modify storage tf2:lookup points[0].right set value '{"text":"643210"}';
                 }
                 Objectives.control_point.find_index.reinsert();
 
@@ -501,19 +501,19 @@ class Objectives
                 $wheel_spacing /= 5;
 
                 switch ($wheel_spacing) {
-                case -6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'^%$#'}]";
-                case -5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'^%@'}]";
-                case -4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'^$'}]";
-                case -3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'%$#@'}]";
-                case -2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'%#'}]";
-                case -1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "[{'text':'$@'}]";
-                case  0: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "['']";
-                case  1: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'41'";
-                case  2: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'52'";
-                case  3: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'543'";
-                case  4: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'632'";
-                case  5: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "'65'";
-                case  6: data modify storage tf2.__temp__:lookup points[0].wheel.spacing set value "6542";
+                case -6: data modify storage tf2:lookup points[0].wheel.spacing set value "[{'text':'^%$#'}]";
+                case -5: data modify storage tf2:lookup points[0].wheel.spacing set value "[{'text':'^%@'}]";
+                case -4: data modify storage tf2:lookup points[0].wheel.spacing set value "[{'text':'^$'}]";
+                case -3: data modify storage tf2:lookup points[0].wheel.spacing set value "[{'text':'%$#@'}]";
+                case -2: data modify storage tf2:lookup points[0].wheel.spacing set value "[{'text':'%#'}]";
+                case -1: data modify storage tf2:lookup points[0].wheel.spacing set value "[{'text':'$@'}]";
+                case  0: data modify storage tf2:lookup points[0].wheel.spacing set value "['']";
+                case  1: data modify storage tf2:lookup points[0].wheel.spacing set value "'41'";
+                case  2: data modify storage tf2:lookup points[0].wheel.spacing set value "'52'";
+                case  3: data modify storage tf2:lookup points[0].wheel.spacing set value "'543'";
+                case  4: data modify storage tf2:lookup points[0].wheel.spacing set value "'632'";
+                case  5: data modify storage tf2:lookup points[0].wheel.spacing set value "'65'";
+                case  6: data modify storage tf2:lookup points[0].wheel.spacing set value "6542";
                 }
             }
             class capture_progress {
@@ -533,25 +533,25 @@ class Objectives
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.red.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
-                            case  0: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#@|a0)","color":"#D95A58"}]';
-                            case  1: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#!)|a0b0)","color":"#D95A58"}]';
-                            case  2: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#!|a0b0c0)","color":"#D95A58"}]';
-                            case  3: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#)|a0b0c0d0)","color":"#D95A58"}]';
-                            case  4: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321#|a0b0c0d0e0)","color":"#D95A58"}]';
-                            case  5: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@!)|a0b0c0d0e0e0)","color":"#D95A58"}]';
-                            case  6: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@!|a0b0c0d0e0e0e0)","color":"#D95A58"}]';
-                            case  7: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@)|a0b0c0d0e0e0e0e0)","color":"#D95A58"}]';
-                            case  8: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321@|a0b0c0d0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case  9: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321!)|a0b0c0d0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 10: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321!|a0b0c0d0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 11: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321)|a0b0c0d0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 12: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|a0b0c0d0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 13: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|b0c0d0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 14: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|c0d0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 15: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321|d0e0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case  0: data modify storage tf2:lookup points[0].progress set value '[{"text":"321#@|a0)","color":"#D95A58"}]';
+                            case  1: data modify storage tf2:lookup points[0].progress set value '[{"text":"321#!)|a0b0)","color":"#D95A58"}]';
+                            case  2: data modify storage tf2:lookup points[0].progress set value '[{"text":"321#!|a0b0c0)","color":"#D95A58"}]';
+                            case  3: data modify storage tf2:lookup points[0].progress set value '[{"text":"321#)|a0b0c0d0)","color":"#D95A58"}]';
+                            case  4: data modify storage tf2:lookup points[0].progress set value '[{"text":"321#|a0b0c0d0e0)","color":"#D95A58"}]';
+                            case  5: data modify storage tf2:lookup points[0].progress set value '[{"text":"321@!)|a0b0c0d0e0e0)","color":"#D95A58"}]';
+                            case  6: data modify storage tf2:lookup points[0].progress set value '[{"text":"321@!|a0b0c0d0e0e0e0)","color":"#D95A58"}]';
+                            case  7: data modify storage tf2:lookup points[0].progress set value '[{"text":"321@)|a0b0c0d0e0e0e0e0)","color":"#D95A58"}]';
+                            case  8: data modify storage tf2:lookup points[0].progress set value '[{"text":"321@|a0b0c0d0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case  9: data modify storage tf2:lookup points[0].progress set value '[{"text":"321!)|a0b0c0d0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 10: data modify storage tf2:lookup points[0].progress set value '[{"text":"321!|a0b0c0d0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 11: data modify storage tf2:lookup points[0].progress set value '[{"text":"321)|a0b0c0d0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 12: data modify storage tf2:lookup points[0].progress set value '[{"text":"321|a0b0c0d0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 13: data modify storage tf2:lookup points[0].progress set value '[{"text":"321|b0c0d0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 14: data modify storage tf2:lookup points[0].progress set value '[{"text":"321|c0d0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case 15: data modify storage tf2:lookup points[0].progress set value '[{"text":"321|d0e0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
                         }
-                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
-                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
+                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) data modify storage tf2:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
                         if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) tf2.red_progress:@s --;
                         if (tf2.team:@s[scores={tf2.red_progress=1..}] == 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
                         if (tf2.team:@s == 2) Objectives.control_point.visuals.capture_progress.blu.flicker();
@@ -566,60 +566,60 @@ class Objectives
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
                         Objectives.control_point.visuals.wheel_spacing();
-                        if (tf2.team:@s == 0) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
-                        if (tf2.team:@s == 2) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#517AB8"}]';
+                        if (tf2.team:@s == 0) data modify storage tf2:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
+                        if (tf2.team:@s == 2) data modify storage tf2:lookup points[0].wheel.owner set value '[{"text":"=","color":"#517AB8"}]';
                         switch ($wheel_frame) {
-                            case  0: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#D95A58"}]';
-                            case  1: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  2: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  3: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  4: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  5: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  6: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  7: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  8: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  9: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 10: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 11: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  0: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#D95A58"}]';
+                            case  1: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  2: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  3: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  4: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  5: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  6: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  7: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  8: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  9: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 10: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 11: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
 
-                            case 12: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 13: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 14: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 15: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 16: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 17: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 18: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 19: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 20: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 21: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 22: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#D95A58"}]';
-                            case 23: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#D95A58"}]';
+                            case 12: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 13: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 14: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 15: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 16: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 17: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 18: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 19: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 20: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 21: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case 22: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#D95A58"}]';
+                            case 23: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#D95A58"}]';
 
-                            case 24: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#D95A58"}]';
-                            case 25: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#D95A58"}]';
-                            case 26: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#D95A58"}]';
-                            case 27: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#D95A58"}]';
-                            case 28: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#D95A58"}]';
-                            case 29: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#D95A58"}]';
-                            case 30: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#D95A58"}]';
-                            case 31: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#D95A58"}]';
-                            case 32: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#D95A58"}]';
-                            case 33: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#D95A58"}]';
-                            case 34: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#D95A58"}]';
-                            case 35: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#D95A58"}]';
+                            case 24: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#D95A58"}]';
+                            case 25: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#D95A58"}]';
+                            case 26: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#D95A58"}]';
+                            case 27: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#D95A58"}]';
+                            case 28: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#D95A58"}]';
+                            case 29: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#D95A58"}]';
+                            case 30: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#D95A58"}]';
+                            case 31: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#D95A58"}]';
+                            case 32: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#D95A58"}]';
+                            case 33: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#D95A58"}]';
+                            case 34: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#D95A58"}]';
+                            case 35: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#D95A58"}]';
 
-                            case 36: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#D95A58"}]';
-                            case 37: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 38: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 39: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 40: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 41: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 42: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 43: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 44: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 45: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 46: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 47: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 36: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#D95A58"}]';
+                            case 37: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 38: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 39: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 40: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 41: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 42: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 43: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 44: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 45: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 46: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 47: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
                         if (tf2.gamemode:@s == 3) {
@@ -630,15 +630,15 @@ class Objectives
                     function flicker() {
                         $flicker = 0008it54g_p_join:$__global__;
                         $flicker %= 20;
-                        if ($flicker == 0)           data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
-                        if ($flicker matches  1..2 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
-                        if ($flicker matches  3..4 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
-                        if ($flicker matches  5..7 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
-                        if ($flicker matches  8..11) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CABCC0"}]';
-                        if ($flicker matches 12..14) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
-                        if ($flicker matches 15..16) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
-                        if ($flicker matches 17..18) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
-                        if ($flicker == 19)          data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
+                        if ($flicker == 0)           data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
+                        if ($flicker matches  1..2 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
+                        if ($flicker matches  3..4 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
+                        if ($flicker matches  5..7 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
+                        if ($flicker matches  8..11) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CABCC0"}]';
+                        if ($flicker matches 12..14) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
+                        if ($flicker matches 15..16) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
+                        if ($flicker matches 17..18) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
+                        if ($flicker == 19)          data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
                     }
                 } class blu {
                     function main() {
@@ -656,25 +656,25 @@ class Objectives
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.blu.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
-                            case  0: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321a0#@)","color":"#517AB8"}]';
-                            case  1: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321b0a0#@","color":"#517AB8"}]';
-                            case  2: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321c0b0a0#!)","color":"#517AB8"}]';
-                            case  3: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321d0c0b0a0#!","color":"#517AB8"}]';
-                            case  4: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0d0c0b0a0#)","color":"#517AB8"}]';
-                            case  5: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0d0c0b0a0#","color":"#517AB8"}]';
-                            case  6: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0d0c0b0a0@!)","color":"#517AB8"}]';
-                            case  7: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0d0c0|b0a0@!","color":"#517AB8"}]';
-                            case  8: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0d0c0|b0a0@)","color":"#517AB8"}]';
-                            case  9: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0|d0c0b0a0@","color":"#517AB8"}]';
-                            case 10: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|d0c0b0a0!)","color":"#517AB8"}]';
-                            case 11: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0d0c0b0a0!","color":"#517AB8"}]';
-                            case 12: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0d0c0b0a0)","color":"#517AB8"}]';
-                            case 13: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0d0c0b0)","color":"#517AB8"}]';
-                            case 14: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0d0c0)","color":"#517AB8"}]';
-                            case 15: data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0e0d0)","color":"#517AB8"}]';
+                            case  0: data modify storage tf2:lookup points[0].progress set value '[{"text":"321a0#@)","color":"#517AB8"}]';
+                            case  1: data modify storage tf2:lookup points[0].progress set value '[{"text":"321b0a0#@","color":"#517AB8"}]';
+                            case  2: data modify storage tf2:lookup points[0].progress set value '[{"text":"321c0b0a0#!)","color":"#517AB8"}]';
+                            case  3: data modify storage tf2:lookup points[0].progress set value '[{"text":"321d0c0b0a0#!","color":"#517AB8"}]';
+                            case  4: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0d0c0b0a0#)","color":"#517AB8"}]';
+                            case  5: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0d0c0b0a0#","color":"#517AB8"}]';
+                            case  6: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0d0c0b0a0@!)","color":"#517AB8"}]';
+                            case  7: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0d0c0|b0a0@!","color":"#517AB8"}]';
+                            case  8: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0d0c0|b0a0@)","color":"#517AB8"}]';
+                            case  9: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0|d0c0b0a0@","color":"#517AB8"}]';
+                            case 10: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|d0c0b0a0!)","color":"#517AB8"}]';
+                            case 11: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0d0c0b0a0!","color":"#517AB8"}]';
+                            case 12: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0d0c0b0a0)","color":"#517AB8"}]';
+                            case 13: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0d0c0b0)","color":"#517AB8"}]';
+                            case 14: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0d0c0)","color":"#517AB8"}]';
+                            case 15: data modify storage tf2:lookup points[0].progress set value '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0e0d0)","color":"#517AB8"}]';
                         }
-                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
-                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) data modify storage tf2.__temp__:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
+                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
+                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) data modify storage tf2:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]';
                         if (tf2.team:@s[scores={tf2.blu_progress=1..}] == 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
                         if (tf2.team:@s == 1) Objectives.control_point.visuals.capture_progress.red.flicker();
                         this.wheel();
@@ -688,60 +688,60 @@ class Objectives
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
                         Objectives.control_point.visuals.wheel_spacing();
-                        if (tf2.team:@s == 0) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
-                        if (tf2.team:@s == 1) data modify storage tf2.__temp__:lookup points[0].wheel.owner set value '[{"text":"=","color":"#D95A58"}]';
+                        if (tf2.team:@s == 0) data modify storage tf2:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]';
+                        if (tf2.team:@s == 1) data modify storage tf2:lookup points[0].wheel.owner set value '[{"text":"=","color":"#D95A58"}]';
                         switch ($wheel_frame) {
-                            case  0: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#517AB8"}]';
-                            case  1: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  2: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  3: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  4: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  5: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  6: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  7: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  8: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  9: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 10: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 11: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  0: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"))))))))a10a2b2c#!","color":"#517AB8"}]';
+                            case  1: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  2: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  3: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  4: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  5: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  6: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  7: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  8: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  9: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 10: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 11: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
 
-                            case 12: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 13: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 14: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 15: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 16: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 17: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 18: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 19: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 20: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 21: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 22: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#517AB8"}]';
-                            case 23: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#517AB8"}]';
+                            case 12: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 13: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 14: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 15: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 16: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 17: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 18: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 19: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 20: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 21: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case 22: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#517AB8"}]';
+                            case 23: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#517AB8"}]';
 
-                            case 24: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#517AB8"}]';
-                            case 25: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#517AB8"}]';
-                            case 26: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#517AB8"}]';
-                            case 27: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#517AB8"}]';
-                            case 28: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#517AB8"}]';
-                            case 29: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#517AB8"}]';
-                            case 30: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#517AB8"}]';
-                            case 31: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#517AB8"}]';
-                            case 32: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#517AB8"}]';
-                            case 33: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#517AB8"}]';
-                            case 34: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#517AB8"}]';
-                            case 35: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#517AB8"}]';
+                            case 24: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#517AB8"}]';
+                            case 25: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#517AB8"}]';
+                            case 26: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#517AB8"}]';
+                            case 27: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#517AB8"}]';
+                            case 28: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#517AB8"}]';
+                            case 29: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#517AB8"}]';
+                            case 30: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#517AB8"}]';
+                            case 31: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#517AB8"}]';
+                            case 32: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#517AB8"}]';
+                            case 33: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#517AB8"}]';
+                            case 34: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#517AB8"}]';
+                            case 35: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#517AB8"}]';
 
-                            case 36: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#517AB8"}]';
-                            case 37: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 38: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 39: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 40: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 41: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 42: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 43: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 44: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 45: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 46: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 47: data modify storage tf2.__temp__:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 36: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#517AB8"}]';
+                            case 37: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 38: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 39: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 40: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 41: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 42: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 43: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 44: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 45: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 46: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 47: data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
                         if (tf2.gamemode:@s == 3) {
@@ -752,28 +752,28 @@ class Objectives
                     function flicker() {
                         $flicker = 0008it54g_p_join:$__global__;
                         $flicker %= 20;
-                        if ($flicker == 0)           data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
-                        if ($flicker matches  1..2 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
-                        if ($flicker matches  3..4 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
-                        if ($flicker matches  5..7 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
-                        if ($flicker matches  8..11) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B4BECA"}]';
-                        if ($flicker matches 12..14) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
-                        if ($flicker matches 15..16) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
-                        if ($flicker matches 17..18) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
-                        if ($flicker == 19)          data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
+                        if ($flicker == 0)           data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
+                        if ($flicker matches  1..2 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
+                        if ($flicker matches  3..4 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
+                        if ($flicker matches  5..7 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
+                        if ($flicker matches  8..11) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B4BECA"}]';
+                        if ($flicker matches 12..14) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
+                        if ($flicker matches 15..16) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
+                        if ($flicker matches 17..18) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
+                        if ($flicker == 19)          data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
                     }
                 } function neutral_flicker() {
                     $flicker = 0008it54g_p_join:$__global__;
                     $flicker %= 20;
-                    if ($flicker == 0)           data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
-                    if ($flicker matches  1..2 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
-                    if ($flicker matches  3..4 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
-                    if ($flicker matches  5..7 ) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
-                    if ($flicker matches  8..11) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#C4C4C4"}]';
-                    if ($flicker matches 12..14) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
-                    if ($flicker matches 15..16) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
-                    if ($flicker matches 17..18) data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
-                    if ($flicker == 19)          data modify storage tf2.__temp__:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
+                    if ($flicker == 0)           data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
+                    if ($flicker matches  1..2 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
+                    if ($flicker matches  3..4 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
+                    if ($flicker matches  5..7 ) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
+                    if ($flicker matches  8..11) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#C4C4C4"}]';
+                    if ($flicker matches 12..14) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
+                    if ($flicker matches 15..16) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
+                    if ($flicker matches 17..18) data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
+                    if ($flicker == 19)          data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
                 }
             }
         }

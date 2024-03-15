@@ -49,6 +49,6 @@ class HUD {
         };
         tf2.lifetime:@e[type=text_display,tag=tf2.visual,tag=tf2.newest] = 12;
         tag @e[type=text_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
-        data remove storage tf2.__temp__:summon number;
+        data remove storage tf2:summon number;
     }
 }

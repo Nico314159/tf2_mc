@@ -7,7 +7,7 @@ execute if entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}] run function t
 execute if entity @s[gamemode=spectator] run return run tag @a remove tf2.current
 scoreboard players remove @s[scores={tf2.attack_delay=0..}] tf2.attack_delay 1000
 scoreboard players remove @s[scores={tf2.reload_delay=0..}] tf2.reload_delay 1000
-data modify storage tf2.__temp__:check_match UUID set from entity @s UUID
+data modify storage tf2:check_match UUID set from entity @s UUID
 tag @s add tf2.self
 execute if predicate tf2:empty_hand run function tf2:__private__/if_else/38
 tag @s remove tf2.self

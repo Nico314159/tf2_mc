@@ -1,1 +1,1 @@
-$data modify storage tf2.__temp__:lookup events set from storage tf2:running_games $(i).objectives[$(j)].data.events
+$data modify storage tf2:lookup events set from storage tf2:running_games $(i).objectives[$(j)].data.events
