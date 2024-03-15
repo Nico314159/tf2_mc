@@ -309,7 +309,7 @@ class Objectives
                 } with storage tf2.__temp__:index;
 
                 Hardcode.repeatList("`prop`", () => {
-                    function Objectives.control_point.map_events.spawn_`prop`() {
+                    function spawn_`prop`() {
                         // default value of 0 means it will do nothing if unspecified
                         data modify storage tf2.__temp__:index red set value 0;
                         data modify storage tf2.__temp__:index red set from storage tf2.__temp__:lookup events.spawn_`prop`.red;
