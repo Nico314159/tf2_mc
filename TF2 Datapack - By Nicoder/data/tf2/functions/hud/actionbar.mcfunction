@@ -1,9 +1,9 @@
 data modify storage tf2:actionbar health set value [{score:{"name":"@s","objective":"tf2.health"},color:"red",type:"score"},{text:" / ",type:"text",color:"red"},{score:{"name":"@s","objective":"tf2.max_health"},color:"red",type:"score"}]
 scoreboard players operation $threshold tf2.var = @s tf2.max_health
 scoreboard players operation $threshold tf2.var /= 2 tf2.const
-execute if score @s[scores={tf2.health=1..}] tf2.health < $threshold tf2.var if score $flicker tf2.var matches 0..15 run data modify storage tf2:actionbar health[0].color set value "dark_red"
-execute if score @s[scores={tf2.health=1..}] tf2.health < $threshold tf2.var if score $flicker tf2.var matches 16..19 unless score $flicker tf2.var matches 17..18 run data modify storage tf2:actionbar health[0].color set value "red"
-execute if score @s[scores={tf2.health=1..}] tf2.health < $threshold tf2.var if score $flicker tf2.var matches 17..18 run data modify storage tf2:actionbar health[0].color set value "white"
+execute if score @s[scores={tf2.health=1..}] tf2.health < $threshold tf2.var if score $flicker tf2.var matches 0..15 run data modify storage tf2:actionbar health[0].color set value 'dark_red'
+execute if score @s[scores={tf2.health=1..}] tf2.health < $threshold tf2.var if score $flicker tf2.var matches 16..19 unless score $flicker tf2.var matches 17..18 run data modify storage tf2:actionbar health[0].color set value 'red'
+execute if score @s[scores={tf2.health=1..}] tf2.health < $threshold tf2.var if score $flicker tf2.var matches 17..18 run data modify storage tf2:actionbar health[0].color set value 'white'
 data merge storage tf2:actionbar {spacing:[""],clip_ammo:[""],reserve_ammo:[""]}
 execute unless predicate tf2:hide_ammo run function tf2:hud/handle_ammo
 title @s actionbar ["",{"text":"\u2764 Health:","color":"red","type":"text"},{"text":" ","type":"text"},{"type":"nbt","source":"storage","nbt":"health","interpret":true,"storage":"tf2:actionbar"},{"type":"nbt","source":"storage","nbt":"spacing","interpret":true,"storage":"tf2:actionbar"},{"type":"nbt","source":"storage","nbt":"clip_ammo","interpret":true,"storage":"tf2:actionbar"},{"text":" "},{"color":"dark_gray","type":"nbt","source":"storage","nbt":"reserve_ammo","interpret":true,"storage":"tf2:actionbar"}]

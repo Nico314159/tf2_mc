@@ -1,4 +1,4 @@
 data modify storage tf2:actionbar spacing set value {text:"             ",color:"white"}
-data modify storage tf2:actionbar clip_ammo set value "[{\"text\": \"Ammo: \", \"color\":\"gray\"}, {\"score\":{\"name\":\"$_clip_\",\"objective\":\"tf2.var\"},\"type\":\"score\"}]"
-execute if score $_clip_ tf2.var = $_maxClip_ tf2.var run data modify storage tf2:actionbar clip_ammo set value "[{\"text\": \"Ammo: \", \"color\":\"white\"}, {\"score\":{\"name\":\"$_clip_\",\"objective\":\"tf2.var\"},\"type\":\"score\",\"underlined\":true}, {\"text\": \"\", \"underlined\": false}]"
+data modify storage tf2:actionbar clip_ammo set value '[{"text": "Ammo: ", "color":"gray"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score"}]'
+execute if score $_clip_ tf2.var = $_maxClip_ tf2.var run data modify storage tf2:actionbar clip_ammo set value '[{"text": "Ammo: ", "color":"white"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score","underlined":true}, {"text": "", "underlined": false}]'
 data modify storage tf2:actionbar reserve_ammo set value [{text:"(",type:"text"},{score:{"name":"$_ammo_","objective":"tf2.var"},type:"score"},{text:")",type:"text"}]

@@ -1,8 +1,8 @@
 scoreboard players operation $wheel_frame tf2.var *= 3 tf2.const
 scoreboard players operation $wheel_frame tf2.var /= @s tf2.capture_threshold
 function tf2:objectives/control_point/visuals/wheel_spacing
-execute if score @s tf2.team matches 0 run data modify storage tf2:lookup points[0].wheel.owner set value "[{\"text\":\"=\",\"color\":\"#A1A1A1\"}]"
-execute if score @s tf2.team matches 2 run data modify storage tf2:lookup points[0].wheel.owner set value "[{\"text\":\"=\",\"color\":\"#517AB8\"}]"
+execute if score @s tf2.team matches 0 run data modify storage tf2:lookup points[0].wheel.owner set value '[{"text":"=","color":"#A1A1A1"}]'
+execute if score @s tf2.team matches 2 run data modify storage tf2:lookup points[0].wheel.owner set value '[{"text":"=","color":"#517AB8"}]'
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $wheel_frame tf2.var
 function tf2:__private__/switch_case/8/select with storage tf2:__storage__
 title @a[tag=tf2.on_point] times 0 4 5

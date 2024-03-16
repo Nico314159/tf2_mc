@@ -1,1 +1,1 @@
-data modify storage tf2:lookup points[0].wheel.progress set value "[{\"text\":\")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!\",\"color\":\"#517AB8\"}]"
+data modify storage tf2:lookup points[0].wheel.progress set value '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]'
