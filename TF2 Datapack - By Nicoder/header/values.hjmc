@@ -1,5 +1,5 @@
+#bind EVAL
 #define _INSTANCES_CAP_ 6
-#define _INSTANCES_CAP_MINUS_ONE_ 5
 
 // Gamemode IDs
 #define Gamemode.ATK_DEF 1
@@ -17,18 +17,6 @@
 #define Gamemode.VIP_RACE 14
 #define Gamemode.OTHER 15
 
-#define Class.SPY 1
-#define Class.SNIPER 2
-#define Class.SCOUT 3
-#define Class.SOLDIER 4
-#define Class.DEMOMAN 5
-#define Class.HEAVY 6
-#define Class.PYRO 7
-#define Class.ENGINEER 8
-#define Class.MEDIC 9
-#define Class.CIVILIAN 10
+#enum Class 1 SPY SNIPER SCOUT SOLDIER DEMOMAN HEAVY PYRO ENGINEER MEDIC CIVILIAN
 
-#define Reload.NONE 0
-#define Reload.SINGLE 1
-#define Reload.LOSSY 2
-#define Reload.LOSSLESS 3
+#enum Reload NONE SINGLE LOSSY LOSSLESS

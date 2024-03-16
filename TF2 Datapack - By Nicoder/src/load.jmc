@@ -524,10 +524,7 @@ if (!$initialization_complete) {
     }, start=1, stop=_INSTANCES_CAP_);
     $initialization_complete = true;
 }
-$Settings.max_batches < _INSTANCES_CAP_;
-if ($Settings.max_batches == _INSTANCES_CAP_) {
-    $Settings.max_batches --;
-}
+$Settings.max_batches < EVAL(_INSTANCES_CAP_ - 1);
 
 // markers keep track of gamestate
 $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];

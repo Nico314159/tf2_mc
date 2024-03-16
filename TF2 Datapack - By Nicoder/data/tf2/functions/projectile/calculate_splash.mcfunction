@@ -1,5 +1,5 @@
-execute store result score $_centerDist_ tf2.var run data get storage retina:output Distance 52.49343832021
-execute store result score $_splashEdge_ tf2.var run data get storage tf2:vars radius 52.49343832021
+execute store result score $_centerDist_ tf2.var run data get storage retina:output Distance 52.493
+execute store result score $_splashEdge_ tf2.var run data get storage tf2:vars radius 52.493
 execute as @e[tag=tf2.origin] at @s summon marker run function tf2:__private__/anonymous/20
 execute at @s summon marker run function tf2:__private__/anonymous/21
 scoreboard players operation $deltaX tf2.var = $Xf tf2.var

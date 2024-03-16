@@ -330,7 +330,7 @@ class Weapons {
         summon::projectile = {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
         summon::projectile.speed = 0.01905 * (double) @s::SelectedItem.tag.projectile.speed;
         summon::projectile.speed = 0.05 * (double) summon::projectile.speed;
-        summon::projectile.speed = 0.0000020833 * (double) summon::projectile.speed * 1000;
+        summon::projectile.speed = EVAL(1 / 480_000) * (double) summon::projectile.speed * 1000;
         execute run {
             $execute store result storage tf2:summon projectile.X double $(speed) run scoreboard players get $output_vec3.X retina.__variable__;
             $execute store result storage tf2:summon projectile.Y double $(speed) run scoreboard players get $output_vec3.Y retina.__variable__;
@@ -551,7 +551,7 @@ class Weapons {
     }
     function calculate_falloff() {
         if ($_rangeDependent_) {
-            $_hammerUnits_ = retina:output::Distance * 52.49343832021;
+            $_hammerUnits_ = retina:output::Distance * EVAL (1 / 0.01905);
             $_hammerUnits_ < 1024;
 
             $_temp1_ = $_hammerUnits_;
@@ -768,8 +768,8 @@ class Projectile {
         tag @s add tf2.said_death_msg;
     }
     function calculate_splash() {
-        $_centerDist_ = retina:output::Distance * 52.49343832021;
-        $_splashEdge_ = vars::radius * 52.49343832021;
+        $_centerDist_ = retina:output::Distance * EVAL (1 / 0.01905);
+        $_splashEdge_ = vars::radius * EVAL (1 / 0.01905);
         execute as @e[tag=tf2.origin] at @s summon marker run {
             $X0 = @s::Pos[0] * 100;
             $Y0 = @s::Pos[1] * 100;
