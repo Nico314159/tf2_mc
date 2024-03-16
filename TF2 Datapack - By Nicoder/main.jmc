@@ -58,8 +58,8 @@ function marker_tick() {
 
     // honetly
     execute if entity @s[tag=tf2.batch] run {
-        execute store result storage tf2:index i int 1 run tf2.batch_number:@s.get();
-        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with storage tf2:index;
+        index::i = tf2.batch_number:@s;
+        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with index::;
     }
 
     JMC.put("execute at @s[tag=tf2.spawn_door] run function tf2:spawn/protect with entity @s data");
@@ -90,7 +90,7 @@ function player_tick() {
     tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
     tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
 
-    data modify storage tf2:check_match UUID set from entity @s UUID;
+    check_match::UUID = @s::UUID;
     tag @s add tf2.self;
     if (predicate tf2:empty_hand) {
         execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run {
@@ -139,7 +139,7 @@ function player_tick() {
     tf2.fall_y3:@s = tf2.fall_y2:@s;
     tf2.fall_y2:@s = tf2.fall_y1:@s;
     tf2.fall_y1:@s = tf2.fall_y:@s;
-    tf2.fall_y:@s = data get entity @s Pos[1] 100;
+    tf2.fall_y:@s = @s::Pos[1] * 100;
 
     if (predicate tf2:grounded && tf2.fall:@s > 0) {
         do_fall_damage();
@@ -179,7 +179,7 @@ function player_tick() {
 
     function coas_input() {
         tf2.coas:@s = 0;
-        $__item_id__ = data get entity @s SelectedItem.tag.CustomModelData;
+        $__item_id__ = @s::SelectedItem.tag.CustomModelData;
         if ($__item_id__ == 0) return fail;
         if ($__item_id__ == 10) {
             tf2.last_class:@s = tf2.class:@s; 
@@ -269,9 +269,7 @@ function pickup_tick() {
     tf2.respawn_timer:@s --;
     if (tf2.respawn_timer:@s > 0) return 0;
 
-    execute store result entity @s[scores={tf2.respawn_timer=0}] 
-            Item.tag.CustomModelData int 1 
-            run tf2.model_number:@s.get();
+    @s[scores={tf2.respawn_timer=0}]::Item.tag.CustomModelData = tf2.model_number:@s;
     execute positioned ~ ~-500.5 ~
             run ride @s[scores={tf2.respawn_timer=0}] 
             mount @e[type=area_effect_cloud,distance=..0.01,limit=1];
@@ -338,7 +336,7 @@ function pickup_tick() {
         tf2.secondary_ammo:@a[tag=tf2.recipient] < tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
     }
     tf2.respawn_timer:@s = 200;
-    data modify entity @s Item.tag.CustomModelData set value -1b;
+    @s::Item.tag.CustomModelData = -1b;
     ride @s[tag=!tf2.no_respawn] dismount;
     tp @s ~ ~500 ~;
     tag @a remove tf2.recipient;
@@ -376,13 +374,13 @@ Player.join(() => {
 		author: LazyHarpSeal
 	};
 
-    execute store result storage tf2:index i int 1 run tf2.batch_number:@s.get();
+    index::i = tf2.batch_number:@s;
     scoreboard players enable @s tf2.queue_type;
     scoreboard players enable @s controls;
     tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = 0;
 
     // Update timer visibility to exclude currrent player
-    Timer.show() with storage tf2:index;
+    Timer.show() with index::;
 
     effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true;
     effect give @s minecraft:resistance infinite 4 true;
@@ -426,11 +424,11 @@ function death() {
     tag @s add tf2.dead;
     gamemode spectator @s;
 
-    execute store result storage tf2:index i int 1 run tf2.batch_number:@s.get();
+    index::i = tf2.batch_number:@s;
     execute run {
-        $tf2.respawn_timer:@s[scores={tf2.team=1}] = data get storage tf2:running_games $(i).spawn_time.red[0] 20;
-        $tf2.respawn_timer:@s[scores={tf2.team=2}] = data get storage tf2:running_games $(i).spawn_time.blu[0] 20;
-    } with storage tf2:index;
+        $ tf2.respawn_timer:@s[scores={tf2.team=1}] = running_games::$(i).spawn_time.red[0] * 20;
+        $ tf2.respawn_timer:@s[scores={tf2.team=2}] = running_games::$(i).spawn_time.blu[0] * 20;
+    } with index::;
     execute at @s[scores={tf2.class=1..}] run summon axolotl ~ ~ ~ {
         Attributes: [
             {Name: "minecraft:generic.movement_speed", Base: 0.0d},
@@ -451,8 +449,9 @@ function death() {
         }]
     };
     execute as @e[type=axolotl,tag=tf2.new,tag=tf2.no_respawn] expand {
-        tf2.batch_number:@s = execute on passengers run tf2.batch_number:@s 
-                            = data get storage tf2:index i 1.0;
+        tf2.batch_number:@s = execute on passengers 
+                              run tf2.batch_number:@s 
+                            = index::i * 1.0;
         team join delta.no_collide;
         tag @s remove tf2.new;
     }
@@ -464,9 +463,9 @@ class Spawn {
         //   __tick__()
         //   team_assign()
 
-        execute store result storage tf2:index i int 1 run tf2.batch_number:@s.get();
-        this.get_coords() with storage tf2:index;
-        this.tp() with storage tf2:coords;
+        index::i = tf2.batch_number:@s;
+        this.get_coords() with index::;
+        this.tp() with coords::;
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tag @s remove tf2.said_death_msg;
@@ -481,12 +480,12 @@ class Spawn {
     function get_coords() {
         // Coordinates storage for the teleport function
         // @within this.init()
-        $data modify storage tf2:coords red_X set from storage tf2:running_games $(i).spawn_point.red[0][0];
-        $data modify storage tf2:coords red_Y set from storage tf2:running_games $(i).spawn_point.red[0][1];
-        $data modify storage tf2:coords red_Z set from storage tf2:running_games $(i).spawn_point.red[0][2];
-        $data modify storage tf2:coords blu_X set from storage tf2:running_games $(i).spawn_point.blu[0][0];
-        $data modify storage tf2:coords blu_Y set from storage tf2:running_games $(i).spawn_point.blu[0][1];
-        $data modify storage tf2:coords blu_Z set from storage tf2:running_games $(i).spawn_point.blu[0][2];
+        $ coords::red_X = running_games::$(i).spawn_point.red[0][0];
+        $ coords::red_Y = running_games::$(i).spawn_point.red[0][1];
+        $ coords::red_Z = running_games::$(i).spawn_point.red[0][2];
+        $ coords::blu_X = running_games::$(i).spawn_point.blu[0][0];
+        $ coords::blu_Y = running_games::$(i).spawn_point.blu[0][1];
+        $ coords::blu_Z = running_games::$(i).spawn_point.blu[0][2];
     }
     function tp() {
         // Dynamically teleports the player to their spawn point.
@@ -508,7 +507,7 @@ class Spawn {
             $tp @e[type=#tf2:player_like,
                    dx=$(dx),dy=$(dy),dz=$(dz),
                    scores={tf2.team=$(opp_team)}] $(direct_tp);
-        } with entity @s data;
+        } with @s::data;
 
         tf2.draw_delay:@s --;
         if (tf2.draw_delay:@s <= 0) {
@@ -523,12 +522,12 @@ class Spawn {
 class NoEntrySign {
     function draw() {
         // Setup
-        tf2.team:$opp = data get entity @s data.opp_team;
+        tf2.team:$opp = @s::data.opp_team;
         execute as @a if score @s tf2.team = $opp tf2.team 
                 run tag @s add tf2.enemy;
-        $x = data get entity @s data.dx;
-        $y = data get entity @s data.dy;
-        $z = data get entity @s data.dz;
+        $x = @s::data.dx;
+        $y = @s::data.dy;
+        $z = @s::data.dz;
         $horizontal = $x; $horizontal > $z;
 
         // Outline
@@ -547,24 +546,24 @@ class NoEntrySign {
                 $denom = $y;
             }
             $num *= 1000; $num /= $denom;
-            execute store result storage tf2:vars fraction double 0.001 run $num.get();
+            vars::fraction = 0.001 * (double) $num;
             $i = 0;
             $longest = $y; $longest > $horizontal;
             execute run {
                 $if ($z == 0 && $x > $y) {
-                    data modify storage tf2:vars param set value "~1 ~$(fraction) ~";
+                    vars::param = "~1 ~$(fraction) ~";
                 };
                 $if ($z == 0 && $x <= $y) {
-                    data modify storage tf2:vars param set value "~$(fraction) ~1 ~";
+                    vars::param = "~$(fraction) ~1 ~";
                 };
                 $if ($x == 0 && $z > $y) {
-                    data modify storage tf2:vars param set value "~ ~$(fraction) ~1";
+                    vars::param = "~ ~$(fraction) ~1";
                 };
                 $if ($x == 0 && $z <= $y) {
-                    data modify storage tf2:vars param set value "~ ~1 ~$(fraction)";
+                    vars::param = "~ ~1 ~$(fraction)";
                 };
-            } with storage tf2:vars;
-            this.diagonal() with storage tf2:vars;
+            } with vars::;
+            this.diagonal() with vars::;
         }
         tf2.draw_delay:@s = 80;
         tag @a remove tf2.enemy;
@@ -595,7 +594,7 @@ class NoEntrySign {
         if ($i >= $longest) return 1;
         $execute positioned $(param)
                     run this.diagonal()
-                    with storage tf2:vars;
+                    with vars::;
     }
 }
 

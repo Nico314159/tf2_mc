@@ -187,10 +187,10 @@ class Class.Sniper {
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
         loot replace entity @s armor.legs loot tf2:class/sniper/_model;
 
-        tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
-        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
-        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
-        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = @s::Inventory[0].tag.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = @s::Inventory[0].tag.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = @s::Inventory[1].tag.attributes.clip;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = @s::Inventory[1].tag.attributes.ammo;
     }
     @lazy
     function tick() {
@@ -226,7 +226,7 @@ class Class.Sniper {
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/sniper/_model;
 
         // gets first 2 digits
-        $_crossbow_id_ = data get entity @s Inventory[-1].tag.CustomModelData 0.001;
+        $_crossbow_id_ = @s::Inventory[-1].tag.CustomModelData * 0.001;
         if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21 && tf2.attack_delay:@s <= 0) return run {
             loot replace entity @s weapon.mainhand loot tf2:class/sniper/sniper_rifle_scope;
             item modify entity @s weapon.offhand tf2:load_crossbow;
@@ -245,7 +245,7 @@ class Class.Sniper {
         tag @s add tf2.scoped;
         execute at @s run function retina:traverse/setup;
         execute summon marker run {
-            data modify entity @s Pos set from storage retina:output ContactCoordinates;
+            @s::Pos = retina:output::ContactCoordinates;
             tag @s add tf2.temp;
         }
         tag @s add tf2.self;

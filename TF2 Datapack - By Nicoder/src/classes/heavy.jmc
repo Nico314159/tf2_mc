@@ -234,11 +234,11 @@ class Class.Heavy {
         loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
         loot replace entity @s armor.legs loot tf2:class/heavy/_model;
 
-        tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[{Slot:-106b}].tag.attributes.clip;
-        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[{Slot:-106b}].tag.attributes.ammo;
-        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
-        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
-        tf2.rev_threshold:@s = data get entity @s Inventory[{Slot:-106b}].tag.attributes.spinupDelay 20000;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = @s::Inventory[{Slot:-106b}].tag.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = @s::Inventory[{Slot:-106b}].tag.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = @s::Inventory[1].tag.attributes.clip;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = @s::Inventory[1].tag.attributes.ammo;
+        tf2.rev_threshold:@s = @s::Inventory[{Slot:-106b}].tag.attributes.spinupDelay * 20000;
     }
     @lazy
     function tick() {
@@ -290,7 +290,7 @@ class Class.Heavy {
         if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:heavy"}};
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/heavy/_model;
 
-        $_crossbow_id_ = data get entity @s Inventory[-1].tag.CustomModelData 0.001;
+        $_crossbow_id_ = @s::Inventory[-1].tag.CustomModelData * 0.001;
 
         if (predicate tf2:class/heavy/is_revving && $_crossbow_id_ === 61) return run {
             loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;

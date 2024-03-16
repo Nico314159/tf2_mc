@@ -3,19 +3,19 @@ class HUD {
         $threshold = tf2.max_health:@s;
         $threshold /= 2;
         if (tf2.health:@s[scores={tf2.health=1..}] < $threshold) expand {
-            if ($flicker matches 0..15) {data modify storage tf2:actionbar health[0].color set value "dark_red";}
-            if ($flicker matches 16..19 && !$flicker matches 17..18) {data modify storage tf2:actionbar health[0].color set value "red";}
-            if ($flicker matches 17..18) {data modify storage tf2:actionbar health[0].color set value "white";}
+            if ($flicker matches 0..15) {actionbar::health[0].color = "dark_red";}
+            if ($flicker matches 16..19 && !$flicker matches 17..18) {actionbar::health[0].color = "red";}
+            if ($flicker matches 17..18) {actionbar::health[0].color = "white";}
         }
     }
     function actionbar() {      
-        data modify storage tf2:actionbar health set value [
+        actionbar::health = [
             {score: {"name":"@s","objective":"tf2.health"}, color: "red", type: "score"}, 
             {text: " / ", type: "text", color: "red"}, 
             {score: {"name":"@s","objective":"tf2.max_health"}, color: "red", type: "score"}
         ];
         this.check_low_health();
-        data merge storage tf2:actionbar {spacing: [""], clip_ammo: [""], reserve_ammo: [""]};
+        actionbar:: += {spacing: [""], clip_ammo: [""], reserve_ammo: [""]};
 
         if (!predicate tf2:hide_ammo) {
             this.handle_ammo();
@@ -23,12 +23,12 @@ class HUD {
         Text.actionbar(@s, "&<red>❤ Health:&<reset> &<HUD(health)>&<HUD(spacing)>&<HUD(clip_ammo)> &<dark_gray>&<HUD(reserve_ammo)>");
     }
     function handle_ammo() {
-        data modify storage tf2:actionbar spacing set value {text: "             ", color: "white"};
-        data modify storage tf2:actionbar clip_ammo set value '[{"text": "Ammo: ", "color":"gray"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score"}]';
+        actionbar::spacing = {text: "             ", color: "white"};
+        actionbar::clip_ammo = '[{"text": "Ammo: ", "color":"gray"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score"}]';
         if ($_clip_ == $_maxClip_) {
-            data modify storage tf2:actionbar clip_ammo set value '[{"text": "Ammo: ", "color":"white"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score","underlined":true}, {"text": "", "underlined": false}]';
+            actionbar::clip_ammo = '[{"text": "Ammo: ", "color":"white"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score","underlined":true}, {"text": "", "underlined": false}]';
         }
-        data modify storage tf2:actionbar reserve_ammo set value [
+        actionbar::reserve_ammo = [
             {text: "(", type: "text"},
             {score: {"name":"$_ammo_", "objective":"tf2.var"}, type: "score"},
             {text: ")", type: "text"}
@@ -49,6 +49,6 @@ class HUD {
         };
         tf2.lifetime:@e[type=text_display,tag=tf2.visual,tag=tf2.newest] = 12;
         tag @e[type=text_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
-        data remove storage tf2:summon number;
+        summon::number.del();
     }
 }

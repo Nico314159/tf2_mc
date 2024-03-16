@@ -4,9 +4,9 @@ class Timer
         // Handles the timer mechanic, which is essential to almost all gamemodes
         // @within __tick__()
 
-        execute store result storage tf2:index i int 1 run tf2.batch_number:@s.get();
+        index::i = tf2.batch_number:@s;
         tf2.timer:@s[tag=!tf2.overtime]--;
-        Timer.set_value() with storage tf2:index;
+        Timer.set_value() with index::;
         tf2.timer.sec:@s = tf2.timer:@s;
         tf2.timer.sec:@s += 19;
         tf2.timer.sec:@s /= 20;
@@ -15,14 +15,14 @@ class Timer
         tf2.timer.sec:@s %= 60;
         tf2.timer.min:@s /= 60;
 
-        if (entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.singlestage() with storage tf2:index;
-        // if (entity @s[tag=tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.multistage() with storage tf2:index;
-        if (entity @s[tag=tf2.setup_time]) Timer.display.setup_time() with storage tf2:index;
-        if (entity @s[tag=tf2.overtime]) Timer.display.overtime() with storage tf2:index;
+        if (entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.singlestage() with index::;
+        // if (entity @s[tag=tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.multistage() with index::;
+        if (entity @s[tag=tf2.setup_time]) Timer.display.setup_time() with index::;
+        if (entity @s[tag=tf2.overtime]) Timer.display.overtime() with index::;
 
         if (tf2.timer:@s <= 1200) Timer.chat();
-        if (tf2.timer:@s[tag=tf2.setup_time] == 0) Timer.exit_setup() with storage tf2:index;
-        if (tf2.timer:@s[tag=!tf2.setup_time] == 0) Timer.zero() with storage tf2:index;
+        if (tf2.timer:@s[tag=tf2.setup_time] == 0) Timer.exit_setup() with index::;
+        if (tf2.timer:@s[tag=!tf2.setup_time] == 0) Timer.zero() with index::;
         if (tf2.timer:@s == -100) reset.as_marker();
     }
     function chat() {
@@ -88,7 +88,7 @@ class Timer
         //  Timer.exit_setup()
         //  start_game.as_marker.main()
         $execute if entity @e[type=marker,scores={tf2.batch_number=$(i),tf2.gamemode=3}]
-                 run return run KOTH_Timer.show() with storage tf2:index;
+                 run return run KOTH_Timer.show() with index::;
         $bossbar set tf2:timer_$(i) visible true;
         $bossbar set tf2:timer_$(i) players @a[scores={tf2.batch_number=$(i)}];
         $bossbar set tf2:timer_$(i) color white;
@@ -104,9 +104,9 @@ class Timer
         // @needs_macro
         // @within start_game.as_marker.main()
         tag @s add tf2.setup_time;
-        $tf2.max_timer:@s = tf2.timer:@s = data get storage tf2:running_games $(i).setup_time 20;
-        $bossbar set tf2:timer_$(i) color green;
-        Timer.set_max() with storage tf2:index;
+        $ tf2.max_timer:@s = tf2.timer:@s = running_games::$(i).setup_time * 20;
+        $ bossbar set tf2:timer_$(i) color green;
+        Timer.set_max() with index::;
 
         if (data entity @s {data:{map:{name: "ad_test"}}}) {
             // placeholder (TODO replace this)
@@ -122,9 +122,9 @@ class Timer
     function exit_setup() {
         // @needs_macro
         // @within Timer.main()
-        $tf2.max_timer:@s = tf2.timer:@s = data get storage tf2:running_games $(i).timer 20;
-        Timer.set_max() with storage tf2:index;
-        Timer.show() with storage tf2:index;
+        $ tf2.max_timer:@s = tf2.timer:@s = running_games::$(i).timer * 20;
+        Timer.set_max() with index::;
+        Timer.show() with index::;
         tag @s remove tf2.setup_time;
 
         if (data entity @s {data:{map:{name: "ad_test"}}}) {
@@ -155,7 +155,7 @@ class Timer
                 run  tag @s add tf2.overtime;
         execute unless entity @s[tag=tf2.overtime]
                 if entity @e[type=marker,tag=tf2.current,tag=tf2.overtime]
-                run Timer.overtime() with storage tf2:index;
+                run Timer.overtime() with index::;
 
         // Otherwise, end the game.
         tag @e[type=marker] remove tf2.current;
@@ -167,15 +167,15 @@ class Timer
         tag @s add tf2.overtime;
         tf2.timer:@s = 1;
         $bossbar set tf2:timer_$(i) color red;
-        Timer.set_max() with storage tf2:index;
+        Timer.set_max() with index::;
     }
     function cancel_overtime() {
         // @needs_macro
         tag @s remove tf2.overtime;
-        $bossbar set tf2:timer_$(i) color white;
-        $tf2.max_timer:@s = data get storage tf2:running_games $(i).timer 20;
-        this.set_max() with storage tf2:index;
-        this.set_value() with storage tf2:index;
+        $ bossbar set tf2:timer_$(i) color white;
+        $ tf2.max_timer:@s = running_games::$(i).timer * 20;
+        this.set_max() with index::;
+        this.set_value() with index::;
     }
 
     function end_game() {
@@ -217,15 +217,15 @@ class KOTH_Timer
         // Handles the timer mechanic, which is essential to almost all gamemodes
         // @within __tick__()
 
-        execute store result storage tf2:index i int 1 run tf2.batch_number:@s.get();
-        this.display() with storage tf2:index;
+        index::i = tf2.batch_number:@s;
+        this.display() with index::;
 
         if (tf2.team:@s == 0) return 0;
         if (tf2.team:@s[scores={tf2.red_overtime=0},tag=!tf2.ended] == 1) {
-            this.update.red() with storage tf2:index;
+            this.update.red() with index::;
         }
         if (tf2.team:@s[scores={tf2.blu_overtime=0},tag=!tf2.ended] == 2) {
-            this.update.blu() with storage tf2:index;
+            this.update.blu() with index::;
         }
 
         if (tf2.red_timer:@s[tag=!tf2.ended, scores={tf2.team=1}] == 0) {this.zero.red();}
@@ -269,7 +269,7 @@ class KOTH_Timer
                  store result bossbar  tf2:blu_timer_$(i) max
                  store result bossbar  tf2:blu_timer_$(i) value
                  store result score @s tf2.blu_timer
-                 run data get storage  tf2:running_games $(i).timer 20;
+                 run tf2:running_games::$(i).timer * 20;
 
         tf2.red_overtime:@s = tf2.blu_overtime:@s = false;
 

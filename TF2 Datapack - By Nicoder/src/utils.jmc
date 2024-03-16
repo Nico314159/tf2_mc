@@ -12,10 +12,10 @@ function setup_markers() {
         tf2.map:@s = 3;
         tf2.batch_number:@s > tf2.batch_number:@e[type=marker,tag=tf2.batch];
         tf2.batch_number:@s ++;
-        execute store result storage tf2:index i int 1 run tf2.batch_number:@s.get();
+        index::i = tf2.batch_number:@s;
         execute run {
             $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
-        } with storage tf2:index;
+        } with index::;
     }
     if ($batch_markers != $Settings.max_batches) setup_markers();
 }

@@ -265,10 +265,10 @@ class Weapons {
         }
 
         tf2.team:$current = tf2.team:@s;
-        data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina;
-        $_damage_  = data get entity @s SelectedItem.tag.attributes.damage.base;
-        $_range_   = data get entity @s SelectedItem.tag.attributes.range 1000;
-        $_maxRamp_ = data get entity @s SelectedItem.tag.attributes.damage.maxRamp 100;
+        retina:input::{} += @s::SelectedItem.tag.retina;
+        $_damage_  = @s::SelectedItem.tag.attributes.damage.base;
+        $_range_   = @s::SelectedItem.tag.attributes.range * 1000;
+        $_maxRamp_ = @s::SelectedItem.tag.attributes.damage.maxRamp * 100;
         if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
         if (!data entity @s SelectedItem.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
@@ -283,16 +283,16 @@ class Weapons {
             this.hitscan();
         }
         // retina._variable_:$end_particle = false;
-        $_delay_ = data get entity @s SelectedItem.tag.attributes.attackDelay 20000;
+        $_delay_ = @s::SelectedItem.tag.attributes.attackDelay * 20000;
         tf2.attack_delay:@s += $_delay_;
         scoreboard players reset $func_id retina.__variable__;
 
-        data modify storage tf2:summon number.X set from storage retina:output ContactCoordinates[0];
-        data modify storage tf2:summon number.Y set from storage retina:output ContactCoordinates[1];
-        data modify storage tf2:summon number.Z set from storage retina:output ContactCoordinates[2];
-        execute store result storage tf2:summon number.value int 1 run $_totalDamage_.get();
+        summon::number.X = retina:output::ContactCoordinates[0];
+        summon::number.Y = retina:output::ContactCoordinates[1];
+        summon::number.Z = retina:output::ContactCoordinates[2];
+        summon::number.value = $_totalDamage_;
         if ($_totalDamage_ >= 1) {
-            HUD.damage_numbers() with storage tf2:summon number;
+            HUD.damage_numbers() with summon::number;
         }
 
         // Melee sound effects
@@ -309,12 +309,12 @@ class Weapons {
         tf2.consecutive_reload:@s = false;
     }
     function hitscan() {
-        $_weaponID_ = data get entity @s SelectedItem.tag.CustomModelData 0.001;
+        $_weaponID_ = @s::SelectedItem.tag.CustomModelData * 0.001;
         if ($_weaponID_ != 61) {
             return run function retina:traverse/multicast;
         }
         // Heavy minigun {CMD: 61xxx} does 4 at once
-        data merge storage retina:input {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
+        retina:input:: += {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
         function retina:traverse/multicast;
         function retina:traverse/multicast;
         function retina:traverse/multicast;
@@ -324,24 +324,24 @@ class Weapons {
         // testing code
         tf2.team:$temp = tf2.team:@s;
         tf2.batch_number:$local = tf2.batch_number:@s;
-        retina.__variable__:$input_pitch = data get entity @s Rotation[1] 10;
-        retina.__variable__:$input_yaw = data get entity @s Rotation[0] 10;
+        retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
+        retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
         function retina:math/gimbal_to_vec;
-        data modify storage tf2:summon projectile set value {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
-        execute store result storage tf2:summon projectile.speed double 0.01905 run data get entity @s SelectedItem.tag.projectile.speed;
-        execute store result storage tf2:summon projectile.speed double 0.05 run data get storage tf2:summon projectile.speed;
-        execute store result storage tf2:summon projectile.speed double 0.0000020833 run data get storage tf2:summon projectile.speed 1000;
+        summon::projectile = {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
+        summon::projectile.speed = 0.01905 * (double) @s::SelectedItem.tag.projectile.speed;
+        summon::projectile.speed = 0.05 * (double) summon::projectile.speed;
+        summon::projectile.speed = 0.0000020833 * (double) summon::projectile.speed * 1000;
         execute run {
-            $execute store result storage tf2:summon projectile.X double $(speed) run retina.__variable__:$output_vec3.X.get();
-            $execute store result storage tf2:summon projectile.Y double $(speed) run retina.__variable__:$output_vec3.Y.get();
-            $execute store result storage tf2:summon projectile.Z double $(speed) run retina.__variable__:$output_vec3.Z.get();
-        } with storage tf2:summon projectile;
-        execute store result storage tf2:summon projectile.yaw double 0.1 run retina.__variable__:$input_yaw.get();
-        execute store result storage tf2:summon projectile.pitch double 0.1 run retina.__variable__:$input_pitch.get();
-        data modify storage tf2:summon projectile.spawnX set from entity @s SelectedItem.tag.projectile.spawn[0];
-        data modify storage tf2:summon projectile.spawnY set from entity @s SelectedItem.tag.projectile.spawn[1];
-        data modify storage tf2:summon projectile.spawnZ set from entity @s SelectedItem.tag.projectile.spawn[2];
-        data modify storage tf2:summon projectile.owner set from entity @s UUID;
+            $execute store result storage tf2:summon projectile.X double $(speed) run scoreboard players get $output_vec3.X retina.__variable__;
+            $execute store result storage tf2:summon projectile.Y double $(speed) run scoreboard players get $output_vec3.Y retina.__variable__;
+            $execute store result storage tf2:summon projectile.Z double $(speed) run scoreboard players get $output_vec3.Z retina.__variable__;
+        } with summon::projectile;
+        summon::projectile.yaw = 0.1 * (double) retina.__variable__:$input_yaw;
+        summon::projectile.pitch = 0.1 * (double) retina.__variable__:$input_pitch;
+        summon::projectile.spawnX = @s::SelectedItem.tag.projectile.spawn[0];
+        summon::projectile.spawnY = @s::SelectedItem.tag.projectile.spawn[1];
+        summon::projectile.spawnZ = @s::SelectedItem.tag.projectile.spawn[2];
+        summon::projectile.owner = @s::UUID;
         execute at @s anchored eyes run {
             $summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
                 Owner: $(owner),
@@ -368,10 +368,10 @@ class Weapons {
                     Tags: ["tf2.new", "tf2.projectile"]
                 }]
             };
-        } with storage tf2:summon projectile;
+        } with summon::projectile;
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
-            data modify entity @s Rotation[0] set from storage tf2:summon projectile.yaw;
-            data modify entity @s Rotation[1] set from storage tf2:summon projectile.pitch;
+            @s::Rotation[0] = summon::projectile.yaw;
+            @s::Rotation[1] = summon::projectile.pitch;
             tag @s remove tf2.new;
             // if (!block ~ ~ ~ #retina:airs) {
             //     execute at @s run tp ^ ^ ^1;
@@ -383,10 +383,8 @@ class Weapons {
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
             execute on origin run tag @s add tf2.origin;
-            execute on passengers run data modify entity @s item.tag.attributes 
-                 set from entity @a[tag=tf2.origin,limit=1] SelectedItem.tag.attributes;
-            execute on passengers run data modify entity @s item.tag.projectile 
-                 set from entity @a[tag=tf2.origin,limit=1] SelectedItem.tag.projectile;
+            execute on passengers run @s::item.tag.attributes = @a[tag=tf2.origin,limit=1]::SelectedItem.tag.attributes;
+            execute on passengers run @s::item.tag.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.tag.projectile;
             execute on origin run tag @s remove tf2.origin;
             tag @s remove tf2.new;
         }
@@ -433,7 +431,7 @@ class Weapons {
         if ($_clip_ >= $_maxClip_) return 0;
         if ($_ammo_ == 0) return 0;
 
-        $_reloadType_ = data get entity @s SelectedItem.tag.controls.reload;
+        $_reloadType_ = @s::SelectedItem.tag.controls.reload;
         switch ($_reloadType_) {
             case Reload.NONE:
                 break;
@@ -454,8 +452,8 @@ class Weapons {
         }
         this.set_ammo();
 
-        if (tf2.consecutive_reload:@s == 0) $_reloadDelay_ = data get entity @s SelectedItem.tag.attributes.reloadDelay[0] 20000;
-        if (tf2.consecutive_reload:@s == 1) $_reloadDelay_ = data get entity @s SelectedItem.tag.attributes.reloadDelay[1] 20000;
+        if (tf2.consecutive_reload:@s == 0) $_reloadDelay_ = @s::SelectedItem.tag.attributes.reloadDelay[0] * 20000;
+        if (tf2.consecutive_reload:@s == 1) $_reloadDelay_ = @s::SelectedItem.tag.attributes.reloadDelay[1] * 20000;
         tf2.reload_delay:@s += $_reloadDelay_;
         tf2.consecutive_reload:@s = true;
 
@@ -477,9 +475,9 @@ class Weapons {
             if (retina.__variable__:$offset_Y matches 608..610) {tp @s ~ ~1.07 ~;}
             if (retina.__variable__:$offset_Y === 192)          {tp @s ~ ~0.20 ~;}
             tag @s add tf2.height;
-            data modify storage tf2:summon line.X set from entity @s Pos[0];
-            data modify storage tf2:summon line.Y set from entity @s Pos[1];
-            data modify storage tf2:summon line.Z set from entity @s Pos[2];
+            summon::line.X = @s::Pos[0];
+            summon::line.Y = @s::Pos[1];
+            summon::line.Z = @s::Pos[2];
             kill @s;
         }
         // rotate according to player vector
@@ -487,12 +485,12 @@ class Weapons {
         $input_vec3.Y = retina.__variable__:$output_vec3.Y;
         $input_vec3.Z = retina.__variable__:$output_vec3.Z;
         Math.vec_to_gimbal();
-        execute store result storage tf2:summon line.yaw float 0.1 run $output_yaw.get();
-        execute store result storage tf2:summon line.pitch float 0.1 run $output_pitch.get();
+        summon::line.yaw = 0.1 * (float) $output_yaw;
+        summon::line.pitch = 0.1 * (float) $output_pitch;
 
-        $scale_length = data get storage retina:output Distance 2000;
+        $scale_length = retina:output::Distance * 2000;
         //$scale_length -= 400;
-        execute store result storage tf2:summon line.scale float 0.001 run $scale_length.get();
+        summon::line.scale = 0.001 * (float) $scale_length;
 
         execute run {
             $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
@@ -509,15 +507,15 @@ class Weapons {
             tf2.lifetime:@e[type=item_display,tag=tf2.visual,tag=tf2.newest] = 4;
             tag @e[type=item_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
             // damage @s 1 arrow;
-        } with storage tf2:summon line;
-        data remove storage tf2:summon line;
+        } with summon::line;
+        summon::line.del();
     }
     function apply_damage() {
         // @within this.damage()
         if (score @s tf2.team = $current tf2.team) return 0;
         if (entity @s[gamemode=spectator]) return 0;
-        $_distance_ = data get storage retina:output Distance 1000;
-        $_hitHead_ = data get storage retina:output HitEntityHead;
+        $_distance_ = retina:output::Distance * 1000;
+        $_hitHead_ = retina:output::HitEntityHead;
         if ($_distance_ > $_range_) return 0;
         $_finalDamage_ = $_damage_;
         
@@ -538,12 +536,12 @@ class Weapons {
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         if ($_hitHead_ && entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
             Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> headshot &<@s> with &<item_of(@a[tag=retina.executing])>");
-            execute store result storage tf2:index num int 1 run random value 1..5;
+            index::num = random value 1..5;
             // stopsound @a[tag=retina.executing,predicate=!tf2:holding_melee] player tf2:item.gun.shoot;
             execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] at @s
-                    run this.crit_sound() with storage tf2:index;
-            execute store result storage tf2:index num int 1 run random value 1..3;
-            execute at @s run this.crit_receive_sound() with storage tf2:index;
+                    run this.crit_sound() with index::;
+            index::num = random value 1..3;
+            execute at @s run this.crit_receive_sound() with index::;
         } else {
             Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> killed &<@s> with &<item_of(@a[tag=retina.executing])>");
             playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
@@ -553,7 +551,7 @@ class Weapons {
     }
     function calculate_falloff() {
         if ($_rangeDependent_) {
-            $_hammerUnits_ = data get storage retina:output Distance 52.49343832021;
+            $_hammerUnits_ = retina:output::Distance * 52.49343832021;
             $_hammerUnits_ < 1024;
 
             $_temp1_ = $_hammerUnits_;
@@ -591,10 +589,10 @@ class Weapons {
     function slot_check() {
         tf2.current_slot:@s ??= 0;
         tf2.last_slot:@s = tf2.current_slot:@s;
-        tf2.current_slot:@s = data get entity @s SelectedItemSlot;
+        tf2.current_slot:@s = @s::SelectedItemSlot;
 
         if (tf2.last_slot:@s != tf2.current_slot:@s) {
-            tf2.attack_delay:@s = data get entity @s SelectedItem.tag.attributes.deployTime 10000;
+            tf2.attack_delay:@s = @s::SelectedItem.tag.attributes.deployTime * 10000;
             if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
             tf2.consecutive_reload:@s = false;
         }
@@ -612,7 +610,7 @@ class Weapons {
 class Projectile {
     function tick() {
         execute on passengers run tag @s add tf2.passenger_temp;
-        data modify entity @s Motion set from entity @e[type=item_display,tag=tf2.passenger_temp,limit=1] item.tag.Motion;
+        @s::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]::item.tag.Motion;
         tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp;
 
         this.check_collision();
@@ -642,13 +640,12 @@ class Projectile {
 
         $collided = false;
         if (data entity @s {inGround: 1b}) {$collided++;}
-        data modify storage tf2:vars motion set from entity @s Motion;
+        vars::motion = @s::Motion;
         execute at @s summon marker run {
-            $proj_X = data get entity @s Pos[0] 1000;
-            $proj_Y = data get entity @s Pos[1] 1000;
-            $proj_Z = data get entity @s Pos[2] 1000;
-            data modify entity @s Pos 
-                 set from storage tf2:vars motion;
+            $proj_X = @s::Pos[0] * 1000;
+            $proj_Y = @s::Pos[1] * 1000;
+            $proj_Z = @s::Pos[2] * 1000;
+            @s::Pos = vars::motion;
             execute positioned 0.0 0 0.0 
                     facing entity @s feet 
                     run tp @s 0 -10000 0 ~ ~;
@@ -656,9 +653,9 @@ class Projectile {
                     positioned ^ ^ ^0.5
                     align xyz
                     summon marker run {
-                        $next_proj_X = data get entity @s Pos[0] 1000;
-                        $next_proj_Y = data get entity @s Pos[1] 1000;
-                        $next_proj_Z = data get entity @s Pos[2] 1000;
+                        $next_proj_X = @s::Pos[0] * 1000;
+                        $next_proj_Y = @s::Pos[1] * 1000;
+                        $next_proj_Z = @s::Pos[2] * 1000;
                         tag @e[type=#tf2:player_like,tag=tf2.search,
                                dx=0,dy=0,dz=0,sort=nearest,limit=1] add tf2.in_voxel;
                         kill;
@@ -668,13 +665,13 @@ class Projectile {
         execute as @e[type=#tf2:player_like,tag=tf2.in_voxel] at @s run {
             execute summon marker run {
                 // marker NBT is faster than player NBT
-                $next_diff_X = $diff_X = data get entity @s Pos[0] 1000; 
+                $next_diff_X = $diff_X = @s::Pos[0] * 1000; 
                 $diff_X -= $proj_X;
                 $next_diff_X -= $next_proj_X;
-                $next_diff_Y = $diff_Y = data get entity @s Pos[1] 1000; 
+                $next_diff_Y = $diff_Y = @s::Pos[1] * 1000; 
                 $diff_Y -= $proj_Y;
                 $next_diff_Y -= $next_proj_Y;
-                $next_diff_Z = $diff_Z = data get entity @s Pos[2] 1000; 
+                $next_diff_Z = $diff_Z = @s::Pos[2] * 1000; 
                 $diff_Z -= $proj_Z;
                 $next_diff_Z -= $next_proj_Z;
                 kill;
@@ -696,11 +693,11 @@ class Projectile {
         // print($collided);
         if (!$collided) return 0;
         execute on passengers run {
-            $_damage_ = data get entity @s item.tag.attributes.damage.base;
-            $_selfDamage_ = data get entity @s item.tag.projectile.explosion.selfDamage;
-            $_maxRamp_ = data get entity @s item.tag.attributes.damage.maxRamp 100;
+            $_damage_ = @s::item.tag.attributes.damage.base;
+            $_selfDamage_ = @s::item.tag.projectile.explosion.selfDamage;
+            $_maxRamp_ = @s::item.tag.attributes.damage.maxRamp * 100;
             if (!data entity @s item.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
-            $_rangeDependent_ = data get entity @s item.tag.attributes.damage.uniform;
+            $_rangeDependent_ = @s::item.tag.attributes.damage.uniform;
             $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
         }
         // print(tf2.damage:@s);
@@ -710,10 +707,8 @@ class Projectile {
             execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run this.simple_damage();
         }
 
-        execute on passengers 
-                store result storage tf2:vars radius double 0.01905 
-                run data get entity @s item.tag.projectile.explosion.radius;
-        this.explode() with storage tf2:vars;
+        execute on passengers run vars::radius = 0.01905 * (double) @s::item.tag.projectile.explosion.radius;
+        this.explode() with vars::;
     }
     function simple_damage() {
         if (entity @s[tag=!tf2.opponent]) return 0;
@@ -734,8 +729,8 @@ class Projectile {
     function wall_check() {
         tag @s add tf2.player;
         execute summon marker at @s run {
-            data modify entity @s NoAI set value 1b;
-            data modify storage retina:input MaxRecursionDepth set value 127b;
+            @s::NoAI = 1b;
+            retina:input::MaxRecursionDepth = 127b;
             tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] eyes;
             function retina:traverse/setup;
             kill @s;
@@ -744,12 +739,12 @@ class Projectile {
         if (data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
             this.splash_damage();
         }
-        data modify storage tf2:summon number.X set from storage retina:output ContactCoordinates[0];
-        data modify storage tf2:summon number.Y set from storage retina:output ContactCoordinates[1];
-        data modify storage tf2:summon number.Z set from storage retina:output ContactCoordinates[2];
-        execute store result storage tf2:summon number.value int 1 run $_totalDamage_.get();
+        summon::number.X = retina:output::ContactCoordinates[0];
+        summon::number.Y = retina:output::ContactCoordinates[1];
+        summon::number.Z = retina:output::ContactCoordinates[2];
+        summon::number.value = $_totalDamage_;
         if ($_totalDamage_ >= 1) {
-            HUD.damage_numbers() with storage tf2:summon number;
+            HUD.damage_numbers() with summon::number;
         }
     }
     function splash_damage() {
@@ -773,38 +768,38 @@ class Projectile {
         tag @s add tf2.said_death_msg;
     }
     function calculate_splash() {
-        $_centerDist_ = data get storage retina:output Distance 52.49343832021;
-        $_splashEdge_ = data get storage tf2:vars radius 52.49343832021;
+        $_centerDist_ = retina:output::Distance * 52.49343832021;
+        $_splashEdge_ = vars::radius * 52.49343832021;
         execute as @e[tag=tf2.origin] at @s summon marker run {
-            $X0 = data get entity @s Pos[0] 100;
-            $Y0 = data get entity @s Pos[1] 100;
-            $Z0 = data get entity @s Pos[2] 100;
+            $X0 = @s::Pos[0] * 100;
+            $Y0 = @s::Pos[1] * 100;
+            $Z0 = @s::Pos[2] * 100;
             kill;
         }
         execute at @s summon marker run {
-            $Xf = data get entity @s Pos[0] 100;
-            $Yf = data get entity @s Pos[1] 100;
-            $Zf = data get entity @s Pos[2] 100;
+            $Xf = @s::Pos[0] * 100;
+            $Yf = @s::Pos[1] * 100;
+            $Zf = @s::Pos[2] * 100;
             kill;
         }
         $deltaX = $Xf; $deltaX -= $X0; 
         $deltaY = $Yf; $deltaY -= $Y0; 
         $deltaZ = $Zf; $deltaZ -= $Z0; 
-        data modify storage tf2:summon matrix set value [
+        summon::matrix = [
             0f, 0f, 0f, 0f,
             0f, 0f, 0f, 0f,
             0f, 0f, 0f, 0f,
             0f, 0f, 0f, 1f
         ];
-        execute store result storage tf2:summon matrix[0] float 1 run $deltaX.get();
-        execute store result storage tf2:summon matrix[4] float 1 run $deltaY.get();
-        execute store result storage tf2:summon matrix[8] float 1 run $deltaZ.get();
+        summon::matrix[0] = (float) $deltaX;
+        summon::matrix[4] = (float) $deltaY;
+        summon::matrix[8] = (float) $deltaZ;
         execute summon item_display run {
-            data modify entity @s transformation set value [0f];
-            data modify entity @s transformation set from storage tf2:summon matrix;
-            data modify storage retina:output Distance set from entity @s transformation.scale[0];
+            @s::transformation = [0f];
+            @s::transformation = tf2:summon::matrix;
+            retina:output::Distance = @s::transformation.scale[0];
             kill;
-        } with storage tf2:summon matrix;
+        } with summon::matrix;
         $_finalDamage_ = $_damage_;
         Weapons.calculate_falloff();
         $_finalDamage_ *= $_multiplier_;
