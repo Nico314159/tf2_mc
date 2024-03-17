@@ -1,6 +1,4 @@
-scoreboard players remove @s tf2.respawn_timer 1
-scoreboard players operation @s tf2.respawn_timer.sec = @s tf2.respawn_timer
-scoreboard players add @s tf2.respawn_timer.sec 19
-scoreboard players operation @s tf2.respawn_timer.sec /= 20 tf2.const
-title @s title {"text":"You died!","color":"white","type":"text"}
-title @s subtitle ["",{"text":"Respawn in... ","color":"gray","type":"text"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"dark_gray","type":"score"}]
+fill 1166 115 -952 1169 117 -952 minecraft:air
+fill 1181 115 -952 1184 117 -952 minecraft:air
+fill 1142 118 -959 1142 120 -959 minecraft:air
+fill 1143 118 -958 1143 120 -958 minecraft:air

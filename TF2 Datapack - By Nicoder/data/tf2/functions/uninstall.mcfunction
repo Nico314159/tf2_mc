@@ -1,6 +1,7 @@
 kill @e[type=marker]
 scoreboard objectives remove tf2.var
 scoreboard objectives remove controls
+scoreboard objectives remove autoreload
 scoreboard objectives remove 0008it54g_p_join
 scoreboard objectives remove tf2.gamemode
 scoreboard objectives remove tf2.map
@@ -47,6 +48,7 @@ scoreboard objectives remove tf2.secondary_maxAmmo
 scoreboard objectives remove tf2.attack_delay
 scoreboard objectives remove tf2.reload_delay
 scoreboard objectives remove tf2.consecutive_reload
+scoreboard objectives remove tf2.time_idle
 scoreboard objectives remove tf2.time_revved
 scoreboard objectives remove tf2.rev_threshold
 scoreboard objectives remove tf2.time_scoped

@@ -89,6 +89,7 @@ function player_tick() {
 
     tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
     tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
+    tf2.time_idle:@s++;
 
     check_match::UUID = @s::UUID;
     tag @s add tf2.self;
@@ -109,9 +110,13 @@ function player_tick() {
     Weapons.slot_check();
     if (predicate tf2:unloaded_crossbow) {
         kill @e[type=arrow,tag=!tf2.projectile];
+        clear @s arrow;
         if (!predicate tf2:ammo_in_clip) return 0;
         Weapons.main_fire();
     }
+    execute as @s[tag=tf2.autoreload, 
+                  scores={tf2.time_idle=30.., tf2.reload_delay=..0}, 
+                  predicate=!tf2:hide_ammo] run Weapons.attempt_autoreload();
 
     if (entity @s[scores={tf2.class=0},predicate=tf2:active_offhand]) {
         tf2.class:@s = tf2.last_class:@s;
@@ -403,7 +408,7 @@ Player.join(() => {
         () => {
             scoreboard players reset @s tf2.objectiveName;
         },
-        ["class", "health", "max_health", "team", "respawn_timer",
+        ["class", "health", "max_health", "team", "respawn_timer", "time_idle",
         "attack_delay", "reload_delay", "consecutive_reload", "current_slot", "last_slot",
         "time_revved", "rev_threshold", "time_scoped", "elytra_detect",
         "fall", "fall_y", "fall_y1", "fall_y2", "fall_y3"]

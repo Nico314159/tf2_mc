@@ -1,5 +1,6 @@
 scoreboard objectives add tf2.var dummy
 scoreboard objectives add controls trigger
+scoreboard objectives add autoreload trigger
 scoreboard objectives add 0008it54g_p_join dummy
 scoreboard objectives add tf2.const dummy
 scoreboard players set 1024 tf2.const 1024
@@ -79,6 +80,7 @@ scoreboard objectives add tf2.secondary_maxAmmo dummy
 scoreboard objectives add tf2.attack_delay dummy
 scoreboard objectives add tf2.reload_delay dummy
 scoreboard objectives add tf2.consecutive_reload dummy
+scoreboard objectives add tf2.time_idle dummy
 scoreboard objectives add tf2.time_revved dummy
 scoreboard objectives add tf2.rev_threshold dummy
 scoreboard objectives add tf2.time_scoped dummy

@@ -20,7 +20,7 @@ Hardcode.repeatList(
         "class", "last_class", "team", "max_health", "last_slot", "current_slot",
         "primary_clip", "primary_maxClip", "primary_ammo", "primary_maxAmmo",
         "secondary_clip", "secondary_maxClip", "secondary_ammo", "secondary_maxAmmo",
-        "attack_delay", "reload_delay", "consecutive_reload",
+        "attack_delay", "reload_delay", "consecutive_reload", "time_idle",
         "time_revved", "rev_threshold", "time_scoped", "grace_period",
         "permanent.games_won", "permanent.games_played", "permanent.double_jumps",
         "fall_y", "fall_y1", "fall_y2", "fall_y3",

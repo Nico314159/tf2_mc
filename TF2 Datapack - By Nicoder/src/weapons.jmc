@@ -307,6 +307,7 @@ class Weapons {
         $_clip_ --;
         this.set_ammo();
         tf2.consecutive_reload:@s = false;
+        tf2.time_idle:@s = 0;
     }
     function hitscan() {
         $_weaponID_ = @s::SelectedItem.tag.CustomModelData * 0.001;
@@ -461,6 +462,15 @@ class Weapons {
             // Prevents it from seeing "unloaded crossbow" the next tick and assuming the fire button was hit
             item modify entity @s weapon.mainhand tf2:load_crossbow;
         }
+        return 1;
+    }
+    function attempt_autoreload() {
+        $should_animate = this.reload();
+        if (!$should_animate) return fail;
+        item replace entity @s enderchest.0 from entity @s weapon.mainhand;
+        item replace entity @s weapon.mainhand with air;
+        item replace entity @s weapon.mainhand from entity @s enderchest.0;
+        return 1;
     }
     function on_hit() {
         if (retina.__variable__:$func_id !== 100) return 0;
@@ -595,6 +605,7 @@ class Weapons {
             tf2.attack_delay:@s = @s::SelectedItem.tag.attributes.deployTime * 10000;
             if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
             tf2.consecutive_reload:@s = false;
+            tf2.time_idle:@s = 0;
         }
     }
     function crit_sound() {

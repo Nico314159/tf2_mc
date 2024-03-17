@@ -31,6 +31,7 @@ scoreboard players reset @s tf2.health
 scoreboard players reset @s tf2.max_health
 scoreboard players reset @s tf2.team
 scoreboard players reset @s tf2.respawn_timer
+scoreboard players reset @s tf2.time_idle
 scoreboard players reset @s tf2.attack_delay
 scoreboard players reset @s tf2.reload_delay
 scoreboard players reset @s tf2.consecutive_reload
@@ -45,6 +46,6 @@ scoreboard players reset @s tf2.fall_y
 scoreboard players reset @s tf2.fall_y1
 scoreboard players reset @s tf2.fall_y2
 scoreboard players reset @s tf2.fall_y3
-tellraw @s ["",{"text":"Control Scheme:\n","underlined":true,"type":"text"},{"text":"Main Attack (both guns & melee) = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.use","type":"keybind"},{"text":"\n","color":"white","bold":true},{"text":"Alt Fire (zoom-in, revving, etc) = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.swapOffhand","type":"keybind"},{"text":"\n","color":"white","bold":true},{"text":"Reload = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.drop","type":"keybind"},{"text":"\n","color":"white","bold":true},{"text":"You ","color":"gray","type":"text"},{"text":"NEVER ","bold":true,"italic":true,"color":"red","type":"text"},{"text":"need to press ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.attack","type":"keybind"}]
+tellraw @s ["",{"text":"Control Scheme:\n","underlined":true,"type":"text"},{"text":"Main Attack (both guns & melee) = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.use","type":"keybind"},{"text":"\n","color":"white","bold":true},{"text":"Alt Fire (zoom-in, revving, etc) = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.swapOffhand","type":"keybind"},{"text":"\n","color":"white","bold":true},{"text":"Reload = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.drop","type":"keybind"},{"text":" ","color":"white","bold":true},{"text":"[Toggle Autoreload]\n","color":"white","underlined":true,"clickEvent":{"action":"run_command","value":"/trigger autoreload"},"type":"text"},{"text":"You ","color":"gray","type":"text"},{"text":"NEVER ","bold":true,"italic":true,"color":"red","type":"text"},{"text":"need to press ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.attack","type":"keybind"}]
 tellraw @s ["",{"text":"To see this message again, type ","color":"gray","type":"text"},{"text":"/trigger controls ","bold":true,"color":"gray","type":"text"},{"text":"in chat at any time.","bold":false,"color":"gray","type":"text"}]
 scoreboard players operation @s 0008it54g_p_join = $__global__ 0008it54g_p_join

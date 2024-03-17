@@ -1,2 +1,2 @@
-scoreboard players operation @s tf2.class = @s tf2.last_class
-function tf2:class_select
+execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run function tf2:__private__/anonymous/38
+execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/39

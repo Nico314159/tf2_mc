@@ -1,2 +1,2 @@
-execute if entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}] run function tf2:__private__/if_else/13
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/14
+tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=retina.executing]","type":"selector"},{"text":" killed "},{"selector":"@s","type":"selector"},{"text":" with "},{"type":"nbt","source":"entity","nbt":"SelectedItem.tag.display.Name","interpret":true,"entity":"@a[tag=retina.executing]"}]
+playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05

@@ -53,14 +53,25 @@ TextProp.keybind("alt_fire",  "key.swapOffhand");
 TextProp.keybind("reload",    "key.drop");
 TextProp.keybind("not_used",  "key.attack");
 TextProps.keybind(propertyName="control", indexString="_i_", keybind="key._i_");
+TextProp.clickCommand("toggle_autoreload", () => {trigger autoreload;});
 
 @lazy function controls_reminder() {
     Text.tellraw(@s, `
 &<underlined>Control Scheme:
 &<gray>Main Attack (both guns && melee) = &<white,bold,main_fire>
 &<gray>Alt Fire (zoom-in, revving, etc) = &<white,bold,alt_fire>
-&<gray>Reload = &<white,bold,reload>
+&<gray>Reload = &<white,bold,reload> &<white,underlined,toggle_autoreload>[Toggle Autoreload]
 &<gray>You &<bold,italic,red>NEVER &<gray>need to press &<white,bold,not_used>
     `);
 }
 Trigger.add(controls, () => {controls_reminder();});
+Trigger.add(autoreload, () => {
+    if (entity @s[tag=tf2.autoreload]) {
+        Text.tellraw(@s, "Autoreload is now &<gray,bold>disabled.");
+        tag @s remove tf2.autoreload;
+    }
+    else {
+        Text.tellraw(@s, "Autoreload is now &<yellow,bold>enabled.");
+        tag @s add tf2.autoreload;
+    }
+});
