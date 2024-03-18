@@ -3,5 +3,6 @@
     "trim_pattern.tf2.sniper": "Class: Sniper",
     "trim_pattern.tf2.heavy": "Class: Heavy",
     "trim_material.tf2.red": "Team: RED",
-    "trim_material.tf2.blu": "Team: BLU"
+    "trim_material.tf2.blu": "Team: BLU",
+    "commands.trigger.simple.success": ""
 }

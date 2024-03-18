@@ -6,7 +6,8 @@ item replace entity @s[tag=!tf2.admin] hotbar.8 with written_book{pages:['["", {
 execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
 scoreboard players enable @s tf2.queue_type
 scoreboard players enable @s controls
-execute store result score @s tf2.batch_number store result score @s tf2.queue_type run scoreboard players set @s controls 0
+scoreboard players enable @s autoreload
+execute store result score @s tf2.batch_number store result score @s tf2.queue_type store result score @s controls run scoreboard players set @s autoreload 0
 function tf2:timer/show with storage tf2:index
 effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true
 effect give @s minecraft:resistance infinite 4 true

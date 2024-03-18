@@ -382,7 +382,8 @@ Player.join(() => {
     index::i = tf2.batch_number:@s;
     scoreboard players enable @s tf2.queue_type;
     scoreboard players enable @s controls;
-    tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = 0;
+    scoreboard players enable @s autoreload;
+    tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = autoreload:@s = 0;
 
     // Update timer visibility to exclude currrent player
     Timer.show() with index::;
