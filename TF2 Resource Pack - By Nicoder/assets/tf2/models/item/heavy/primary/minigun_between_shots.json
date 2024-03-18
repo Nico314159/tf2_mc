@@ -1,0 +1,31 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "tf2:item/heavy/primary/minigun_spinning",
+	"texture_size": [64, 64],
+	"textures": {
+		"1": "tf2:item/heavy/primary/minigun",
+		"particle": "tf2:item/transparent"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, -20, 0],
+			"translation": [1.5, -7.5, 0.5]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0, 0, 0]
+		},
+		"firstperson_righthand": {
+			"rotation": [7, 21, 0],
+			"translation": [-3, 5, 3],
+			"scale": [0.56, 0.46, 0.4]
+		},
+		"firstperson_lefthand": {
+			"scale": [0, 0, 0]
+		},
+		"gui": {
+			"rotation": [0, -75, 0],
+			"scale": [0, 0, 0]
+		},
+		"ground": {"scale": [0, 0, 0]}
+	}
+}

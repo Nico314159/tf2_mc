@@ -47,7 +47,7 @@
         },
         {
             "predicate": {"charged": 0, "custom_model_data": 61001},
-            "model": "tf2:item/empty"
+            "model": "tf2:item/heavy/primary/minigun_between_shots"
         },
         {
             "predicate": {"charged": 1, "custom_model_data": 61001},
