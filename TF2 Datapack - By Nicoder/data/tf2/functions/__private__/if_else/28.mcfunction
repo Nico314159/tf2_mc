@@ -1,2 +1,2 @@
-tellraw @s {"text":"You've failed!","bold":false,"italic":true,"type":"text"}
-scoreboard players set __if_else__ tf2.var 1
+execute as @e[tag=tf2.self] run function tf2:weapons/reload
+kill @s

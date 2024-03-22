@@ -1,13 +1,11 @@
-execute store result score $input_pitch retina.__variable__ run data get entity @s Rotation[1] 10
-execute store result score $input_yaw retina.__variable__ run data get entity @s Rotation[0] 10
-function retina:math/gimbal_to_vec
-scoreboard players operation $x delta.api.launch = $output_vec3.X retina.__variable__
-scoreboard players operation $x delta.api.launch *= 2 tf2.const
-scoreboard players set $y delta.api.launch 5000
-scoreboard players operation $z delta.api.launch = $output_vec3.Z retina.__variable__
-scoreboard players operation $z delta.api.launch *= 2 tf2.const
-function delta:api/launch_xyz
-clear @s elytra{} 
-scoreboard players set @s tf2.elytra_detect 0
-scoreboard players add @s tf2.permanent.double_jumps 1
-tag @s remove tf2.can_double_jump
+scoreboard players set __if_else__ tf2.var 0
+execute if score $horizontal tf2.var > $y tf2.var run function tf2:__private__/if_else/41
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/42
+scoreboard players operation $num tf2.var *= 1000 tf2.const
+scoreboard players operation $num tf2.var /= $denom tf2.var
+execute store result storage tf2:vars fraction double 0.001 run scoreboard players get $num tf2.var
+scoreboard players set $i tf2.var 0
+scoreboard players operation $longest tf2.var = $y tf2.var
+scoreboard players operation $longest tf2.var > $horizontal tf2.var
+function tf2:__private__/anonymous/42 with storage tf2:vars
+function tf2:noentrysign/diagonal with storage tf2:vars

@@ -1,2 +1,4 @@
-execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2,tf2.batch_number=0},limit=24,sort=random] run function tf2:start_game/as_players/generic
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players set @s tf2.team 0
+scoreboard players reset @s tf2.timer
+function tf2:koth_timer/set_max with storage tf2:index
+function tf2:koth_timer/show with storage tf2:index

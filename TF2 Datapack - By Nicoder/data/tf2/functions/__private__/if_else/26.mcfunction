@@ -1,2 +1,3 @@
-tellraw @s {"text":"Victory.","bold":false,"italic":true,"type":"text"}
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players set @s tf2.health 0
+tellraw @a[tag=tf2.current] ["",{"selector":"@s","type":"selector"},{"text":" fell into the void."}]
+tp @s ~ 5 ~

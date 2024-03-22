@@ -1,2 +1,3 @@
-execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run function tf2:start_game/as_players/generic
+execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.timer
+function tf2:__private__/switch_case/11/select with storage tf2:__storage__
 scoreboard players set __if_else__ tf2.var 1

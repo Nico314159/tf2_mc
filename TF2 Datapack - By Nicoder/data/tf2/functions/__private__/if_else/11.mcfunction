@@ -1,2 +1,3 @@
-tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=retina.executing]","type":"selector"},{"text":" killed "},{"selector":"@s","type":"selector"},{"text":" with "},{"type":"nbt","source":"entity","nbt":"SelectedItem.tag.display.Name","interpret":true,"entity":"@a[tag=retina.executing]"}]
-playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05
+scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
+scoreboard players remove $_temp3_ tf2.var 100
+scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const

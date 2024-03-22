@@ -1,2 +1,2 @@
-scoreboard players operation @s tf2.class = @s tf2.last_class
-function tf2:class_select
+scoreboard players operation $num tf2.var = $horizontal tf2.var
+scoreboard players operation $denom tf2.var = $y tf2.var

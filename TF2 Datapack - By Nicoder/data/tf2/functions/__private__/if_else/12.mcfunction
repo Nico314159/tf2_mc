@@ -15,7 +15,7 @@ scoreboard players operation $_multiplier_ tf2.var *= -100 tf2.const
 scoreboard players operation $_multiplier_ tf2.var /= 1048576 tf2.const
 scoreboard players add $_multiplier_ tf2.var 50
 scoreboard players set $_temp3_ tf2.var 100
-execute if score $_hammerUnits_ tf2.var matches ..511 run function tf2:__private__/if_else/14
+execute if score $_hammerUnits_ tf2.var matches ..511 run function tf2:__private__/if_else/11
 scoreboard players operation $_multiplier_ tf2.var *= $_temp3_ tf2.var
 scoreboard players operation $_multiplier_ tf2.var /= 100 tf2.const
 scoreboard players add $_multiplier_ tf2.var 100

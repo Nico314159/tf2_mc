@@ -1,4 +1,3 @@
-kill @e[type=arrow,tag=!tf2.projectile]
-clear @s arrow
-execute unless predicate tf2:ammo_in_clip run return 0
-function tf2:weapons/main_fire
+scoreboard players operation $num tf2.var = $y tf2.var
+scoreboard players operation $denom tf2.var = $horizontal tf2.var
+scoreboard players set __if_else__ tf2.var 1
