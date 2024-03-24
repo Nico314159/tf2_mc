@@ -4,7 +4,9 @@
     "predicate": {
         "equipment": {
             "mainhand": {
-                "nbt": "{attributes: {isProjectile: 1b}}"
+                "predicates": {
+                    "minecraft:custom_data": "{attributes: {isProjectile: 1b}}"
+                }
             }
         }
     }

@@ -5,7 +5,7 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "tf2:melee_base",
+                    "value": "tf2:melee_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -16,8 +16,14 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
-                            "tag": "{\n                                CustomModelData: 23000,\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},\n                                attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}\n                            }"
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 23000
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},\n                                attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}\n                            }"
                         }
                     ]
                 }

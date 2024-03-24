@@ -1,5 +1,5 @@
 execute on passengers run tag @s add tf2.passenger_temp
-data modify entity @s Motion set from entity @e[type=item_display,tag=tf2.passenger_temp,limit=1] item.tag.Motion
+data modify entity @s Motion set from entity @e[type=item_display,tag=tf2.passenger_temp,limit=1] item.components.minecraft:custom_data.Motion
 tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp
 function tf2:projectile/check_collision
 execute as @e[type=#tf2:player_like,tag=tf2.batch] run function tf2:projectile/remove_tags

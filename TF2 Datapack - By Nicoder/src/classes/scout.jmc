@@ -1,5 +1,3 @@
-Item.create(elytra, elytra);
-
 new trim_pattern(scout) {
     "asset_id": "tf2:scout",
     "description": {
@@ -7,6 +5,7 @@ new trim_pattern(scout) {
     },
     "template_item": "minecraft:stick"
 }
+generate_body_model(scout);
 
 class Class.Scout {
     new loot_tables(scattergun) {
@@ -15,7 +14,7 @@ class Class.Scout {
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "tf2:crossbow_base",
+                    "value": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -26,13 +25,18 @@ class Class.Scout {
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 31000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
                             "tag": "{
-                                CustomModelData: 31000,
                                 retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [100, 250], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 6, maxRamp: 1.75}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
-                                controls: {main_fire: true, alt_fire: false, reload: 1},
-                                Unbreakable: 1b
+                                controls: {main_fire: true, alt_fire: false, reload: 1}
                             }"
                         }
                     ]
@@ -46,7 +50,7 @@ class Class.Scout {
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "tf2:crossbow_base",
+                    "value": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -57,13 +61,18 @@ class Class.Scout {
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 32000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
                             "tag": "{
-                                CustomModelData: 32000,
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
-                                controls: {main_fire: true, alt_fire: false, reload: 3},
-                                Unbreakable: 1b
+                                controls: {main_fire: true, alt_fire: false, reload: 3}
                             }"
                         }
                     ]
@@ -77,7 +86,7 @@ class Class.Scout {
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "tf2:melee_base",
+                    "value": "tf2:melee_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -88,9 +97,15 @@ class Class.Scout {
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 33000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
                             "tag": "{
-                                CustomModelData: 33000,
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
                                 attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true},
                                 controls: {main_fire: true, alt_fire: false, reload: 0}
@@ -101,27 +116,7 @@ class Class.Scout {
             ]
         }]
     }
-    new loot_tables(_model) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [{
-                "type": "minecraft:item",
-                "name": "minecraft:iron_leggings",
-                "functions": [
-                    {
-                        "function": "minecraft:reference",
-                        "name": "tf2:apply_team_material"
-                    },
-                    {
-                        "function": "minecraft:set_nbt",
-                        "tag": "{Trim: {pattern: \"tf2:scout\"}}"
-                    }
-                ]
-            }]
-        }]
-    }
 
-    @lazy
     function give() {
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
@@ -129,10 +124,10 @@ class Class.Scout {
         loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
         loot replace entity @s armor.legs loot tf2:class/scout/_model;
 
-        tf2.primary_maxClip:@s = tf2.primary_clip:@s = @s::Inventory[0].tag.attributes.clip;
-        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = @s::Inventory[0].tag.attributes.ammo;
-        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = @s::Inventory[1].tag.attributes.clip;
-        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = @s::Inventory[1].tag.attributes.ammo;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = @s::Inventory[0].components.minecraft:custom_data.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = @s::Inventory[0].components.minecraft:custom_data.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = @s::Inventory[1].components.minecraft:custom_data.attributes.clip;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = @s::Inventory[1].components.minecraft:custom_data.attributes.ammo;
     }
     @lazy
     function tick() {
@@ -145,14 +140,14 @@ class Class.Scout {
             retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
             retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
             function retina:math/gimbal_to_vec;
-            delta.api.launch:$x = retina.__variable__:$output_vec3.X;
-            delta.api.launch:$x *= 2;
-            delta.api.launch:$y = 5000;
-            delta.api.launch:$z = retina.__variable__:$output_vec3.Z;
-            delta.api.launch:$z *= 2;
-            function delta:api/launch_xyz;
+            player_motion.api.launch:$x = retina.__variable__:$output_vec3.X;
+            player_motion.api.launch:$x *= 2;
+            player_motion.api.launch:$y = 5000;
+            player_motion.api.launch:$z = retina.__variable__:$output_vec3.Z;
+            player_motion.api.launch:$z *= 2;
+            function player_motion:api/launch_xyz;
 
-            Item.clear(elytra, @s);
+            clear @s elytra;
             tf2.elytra_detect:@s = 0;
             tf2.permanent.double_jumps:@s++;
             tag @s remove tf2.can_double_jump;
@@ -163,30 +158,32 @@ class Class.Scout {
     function inventory_lock() {
         item replace entity @s weapon.offhand with air;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
-        $_count_ = clear @s crossbow{CustomModelData: 31000} 0;
-        if ($_count_ != 1) clear @s crossbow{CustomModelData: 31000};
+        $_count_ = clear @s crossbow[custom_model_data=31000] 0;
+        if ($_count_ != 1) clear @s crossbow[custom_model_data=31000];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
 
         loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
-        $_count_ = clear @s crossbow{CustomModelData: 32000} 0;
-        if ($_count_ != 1) clear @s crossbow{CustomModelData: 32000};
+        $_count_ = clear @s crossbow[custom_model_data=32000] 0;
+        if ($_count_ != 1) clear @s crossbow[custom_model_data=32000];
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
 
         loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
-        $_count_ = clear @s snowball{CustomModelData: 33000} 0;
-        if ($_count_ != 1) clear @s snowball{CustomModelData: 33000};
+        $_count_ = clear @s snowball[custom_model_data=33000] 0;
+        if ($_count_ != 1) clear @s snowball[custom_model_data=33000];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
         loot replace entity @s armor.legs loot tf2:class/scout/_model;
-        $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:scout"}} 0;
-        if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:scout"}};
+        $_count_ = clear @s iron_leggings 0;
+        if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/scout/_model;
 
         if (entity @s[tag=tf2.can_double_jump]) {
-            Item.replaceEntity(elytra, @s, "armor.chest");
-            $_count_ = Item.clear(elytra, @s, 0);
-            if ($_count_ != 1) Item.clear(elytra, @s);
-            if ($_count_ != 1) Item.replaceEntity(elytra, @s, "armor.chest");
+            item replace entity @s armor.chest with Item.ELYTRA;
+            $_count_ = clear @s elytra 0;
+            if ($_count_ != 1) expand {
+                clear @s elytra;
+                item replace entity @s armor.chest with Item.ELYTRA;
+            }
         }
     }
 }

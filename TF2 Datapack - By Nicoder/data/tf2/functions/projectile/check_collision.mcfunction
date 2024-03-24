@@ -15,5 +15,5 @@ execute unless score $collided tf2.var matches 1.. run return 0
 execute on passengers run function tf2:__private__/anonymous/18
 tag @s add tf2.cleanup
 execute if entity @s[tag=!tf2.explosive] run return run execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run function tf2:projectile/simple_damage
-execute on passengers store result storage tf2:vars radius double 0.01905 run data get entity @s item.tag.projectile.explosion.radius
+execute on passengers store result storage tf2:vars radius double 0.01905 run data get entity @s item.components.minecraft:custom_data.projectile.explosion.radius
 function tf2:projectile/explode with storage tf2:vars

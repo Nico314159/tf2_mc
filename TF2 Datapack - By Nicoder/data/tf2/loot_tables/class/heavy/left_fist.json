@@ -14,8 +14,14 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
-                            "tag": "{ CustomModelData: 63000, attributes: {isMelee: true} }"
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 63000
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{ attributes: {isMelee: true} }"
                         }
                     ]
                 }

@@ -5,7 +5,7 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "tf2:crossbow_base",
+                    "value": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -16,8 +16,17 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
-                            "tag": "{\n                                CustomModelData: 22000,\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [25, 60], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 8}, attackDelay: 0.105d, reloadDelay: [1.1d, 1.1d], clip: 25, ammo: 75},\n                                controls: {main_fire: true, alt_fire: false, reload: 3},\n                                Unbreakable: 1b\n                            }"
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 22000,
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [25, 60], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 8}, attackDelay: 0.105d, reloadDelay: [1.1d, 1.1d], clip: 25, ammo: 75},\n                                controls: {main_fire: true, alt_fire: false, reload: 3}\n                            }"
                         }
                     ]
                 }

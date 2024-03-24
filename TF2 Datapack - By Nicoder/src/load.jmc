@@ -54,10 +54,10 @@ TextProp.hoverText("retina_hover", "https://github.com/Nico314159/Retina_v2", tr
 $found_dependency ?= execute run function retina:__load__;
 if (!$found_dependency) return run Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,retina_link,retina_hover>Retina 2&<red> was not found.");
 
-TextProp.clickURL("delta_link", "https://github.com/BigPapi13/Delta", true);
-TextProp.hoverText("delta_hover", "https://github.com/BigPapi13/Delta", true);
-$found_dependency ?= execute run function delta:internal/technical/load;
-if (!$found_dependency) return run Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,delta_link,delta_hover>Delta&<red> was not found.");
+TextProp.clickURL("delta_link", "https://github.com/MulverineX/player_motion", true);
+TextProp.hoverText("delta_hover", "https://github.com/MulverineX/player_motion", true);
+$found_dependency ?= execute run function player_motion:internal/technical/load;
+if (!$found_dependency) return run Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,delta_link,delta_hover>player_motion&<red> was not found.");
 
 $profiler_installed ?= execute run function timekeeper:__load__;
 

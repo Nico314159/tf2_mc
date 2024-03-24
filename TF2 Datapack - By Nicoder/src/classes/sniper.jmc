@@ -5,6 +5,7 @@ new trim_pattern(sniper) {
     },
     "template_item": "minecraft:arrow"
 }
+generate_body_model(sniper);
 
 class Class.Sniper {
     new advancements(scope) {
@@ -42,7 +43,7 @@ class Class.Sniper {
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "tf2:crossbow_base",
+                    "value": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -55,16 +56,20 @@ class Class.Sniper {
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 21000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
                             "tag": "{
-                                CustomModelData: 21000,
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},
                                 attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},
-                                controls: {main_fire: true, alt_fire: false, reload: 0},
-                                Unbreakable: 1b
+                                controls: {main_fire: true, alt_fire: false, reload: 0}
                             }"
                         }
-                        
                     ]
                 }
             ]
@@ -89,8 +94,8 @@ class Class.Sniper {
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
-                            "tag": "{CustomModelData: 21000}"
+                            "function": "minecraft:set_components",
+                            "components": {"minecraft:custom_model_data": 21000}
                         }
                     ]
                 }
@@ -103,7 +108,7 @@ class Class.Sniper {
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "tf2:crossbow_base",
+                    "value": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -114,13 +119,18 @@ class Class.Sniper {
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 22000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
                             "tag": "{
-                                CustomModelData: 22000,
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [25, 60], MaxRecursionDepth: 100},
                                 attributes: {damage: {base: 8}, attackDelay: 0.105d, reloadDelay: [1.1d, 1.1d], clip: 25, ammo: 75},
-                                controls: {main_fire: true, alt_fire: false, reload: 3},
-                                Unbreakable: 1b
+                                controls: {main_fire: true, alt_fire: false, reload: 3}
                             }"
                         }
                     ]
@@ -134,7 +144,7 @@ class Class.Sniper {
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "name": "tf2:melee_base",
+                    "value": "tf2:melee_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -145,9 +155,12 @@ class Class.Sniper {
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
+                            "function": "minecraft:set_components",
+                            "components": {"minecraft:custom_model_data": 23000}
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
                             "tag": "{
-                                CustomModelData: 23000,
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
                                 attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
                                 controls: {main_fire: true, alt_fire: false, reload: 0}
@@ -158,27 +171,7 @@ class Class.Sniper {
             ]
         }]
     }
-    new loot_tables(_model) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [{
-                "type": "minecraft:item",
-                "name": "minecraft:iron_leggings",
-                "functions": [
-                    {
-                        "function": "minecraft:reference",
-                        "name": "tf2:apply_team_material"
-                    },
-                    {
-                        "function": "minecraft:set_nbt",
-                        "tag": "{Trim: {pattern: \"tf2:sniper\"}}"
-                    }
-                ]
-            }]
-        }]
-    }
 
-    @lazy
     function give() {
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
@@ -187,10 +180,10 @@ class Class.Sniper {
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
         loot replace entity @s armor.legs loot tf2:class/sniper/_model;
 
-        tf2.primary_maxClip:@s = tf2.primary_clip:@s = @s::Inventory[0].tag.attributes.clip;
-        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = @s::Inventory[0].tag.attributes.ammo;
-        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = @s::Inventory[1].tag.attributes.clip;
-        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = @s::Inventory[1].tag.attributes.ammo;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = @s::Inventory[0].components.minecraft:custom_data.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = @s::Inventory[0].components.minecraft:custom_data.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = @s::Inventory[1].components.minecraft:custom_data.attributes.clip;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = @s::Inventory[1].components.minecraft:custom_data.attributes.ammo;
     }
     @lazy
     function tick() {
@@ -211,30 +204,30 @@ class Class.Sniper {
     function inventory_lock() {
         item replace entity @s armor.chest with air;
         loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
-        $_count_ = clear @s crossbow{CustomModelData: 22000} 0;
-        if ($_count_ != 1) clear @s crossbow{CustomModelData: 22000};
+        $_count_ = clear @s crossbow[custom_model_data=22000] 0;
+        if ($_count_ != 1) clear @s crossbow[custom_model_data=22000];
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
 
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
-        $_count_ = clear @s snowball{CustomModelData: 23000} 0;
-        if ($_count_ != 1) clear @s snowball{CustomModelData: 23000};
+        $_count_ = clear @s snowball[custom_model_data=23000] 0;
+        if ($_count_ != 1) clear @s snowball[custom_model_data=23000];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
 
         loot replace entity @s armor.legs loot tf2:class/sniper/_model;
-        $_count_ = clear @s iron_leggings{Trim: {pattern: "tf2:sniper"}} 0;
-        if ($_count_ != 1) clear @s iron_leggings{Trim: {pattern: "tf2:sniper"}};
+        $_count_ = clear @s iron_leggings 0;
+        if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/sniper/_model;
 
         // gets first 2 digits
-        $_crossbow_id_ = @s::Inventory[-1].tag.CustomModelData * 0.001;
+        $_crossbow_id_ = @s::Inventory[-1].components."minecraft:custom_model_data" * 0.001;
         if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21 && tf2.attack_delay:@s <= 0) return run {
             loot replace entity @s weapon.mainhand loot tf2:class/sniper/sniper_rifle_scope;
             item modify entity @s weapon.offhand tf2:load_crossbow;
         }
 
         loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
-        $_count_ = clear @s crossbow{CustomModelData: 21000} 0;
-        if ($_count_ != 1) clear @s crossbow{CustomModelData: 21000};
+        $_count_ = clear @s crossbow[custom_model_data=21000] 0;
+        if ($_count_ != 1) clear @s crossbow[custom_model_data=21000];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
 
         clear @s spyglass;

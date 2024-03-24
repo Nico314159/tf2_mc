@@ -22,8 +22,23 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_nbt",
-                            "tag": "{\n                                CustomModelData: 61000,\n                                Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b,\n                                kind: \"fake\"\n                            }"
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{kind: \"fake\"}"
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 61000,
+                                "minecraft:charged_projectiles": [
+                                    {
+                                        "id": "minecraft:arrow",
+                                        "count": 1
+                                    }
+                                ],
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
+                            }
                         }
                     ]
                 }

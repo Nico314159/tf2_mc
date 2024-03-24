@@ -8,12 +8,49 @@
                     "name": "minecraft:iron_leggings",
                     "functions": [
                         {
-                            "function": "minecraft:reference",
-                            "name": "tf2:apply_team_material"
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:trim": {
+                                    "material": "tf2:red",
+                                    "pattern": "tf2:scout"
+                                }
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.team": 1
+                                    }
+                                }
+                            ]
                         },
                         {
-                            "function": "minecraft:set_nbt",
-                            "tag": "{Trim: {pattern: \"tf2:scout\"}}"
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:trim": {
+                                    "material": "tf2:blu",
+                                    "pattern": "tf2:scout"
+                                }
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.team": 2
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:enchantments": {
+                                    "minecraft:binding_curse": 1
+                                },
+                                "minecraft:enchantment_glint_override": false
+                            }
                         }
                     ]
                 }

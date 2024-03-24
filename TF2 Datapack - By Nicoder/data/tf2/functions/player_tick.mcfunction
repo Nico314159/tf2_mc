@@ -13,15 +13,16 @@ tag @s add tf2.self
 execute if predicate tf2:empty_hand run function tf2:__private__/if_else/30
 tag @s remove tf2.self
 function tf2:weapons/slot_check
-execute if predicate tf2:unloaded_crossbow run function tf2:__private__/if_else/31
+execute store result score @s tf2.test if items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[]]
+execute if items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[]] run function tf2:__private__/if_else/31
 execute if entity @s[tag=tf2.autoreload,scores={tf2.time_idle=30..,tf2.reload_delay=..0},predicate=!tf2:hide_ammo] run function tf2:weapons/attempt_autoreload
 execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run function tf2:__private__/if_else/32
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/13/select with storage tf2:__storage__
-item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick{CustomModelData:10,display:{Name:'"Change Class"'}} 1
-execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick{CustomModelData:10,display:{Name:'"Change Class"'}} 0
-execute unless score $_count_ tf2.var matches 1 run clear @s carrot_on_a_stick{CustomModelData:10,display:{Name:'"Change Class"'}} 
-execute unless score $_count_ tf2.var matches 1 run item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick{CustomModelData:10,display:{Name:'"Change Class"'}} 1
+item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
+execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"'] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
+execute unless score $_count_ tf2.var matches 1 run item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
 scoreboard players operation @s tf2.fall_y3 = @s tf2.fall_y2
 scoreboard players operation @s tf2.fall_y2 = @s tf2.fall_y1
 scoreboard players operation @s tf2.fall_y1 = @s tf2.fall_y

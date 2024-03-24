@@ -7,18 +7,18 @@ function tf2:weapons/get_ammo
 execute if score $_clip_ tf2.var matches ..0 unless predicate tf2:holding_melee run return 0
 execute unless predicate tf2:holding_melee run playsound tf2:item.gun.shoot player @s ~ ~ ~ 1.35 1 0.1
 scoreboard players operation $current tf2.team = @s tf2.team
-data modify storage retina:input {} merge from entity @s SelectedItem.tag.retina
-execute store result score $_damage_ tf2.var run data get entity @s SelectedItem.tag.attributes.damage.base
-execute store result score $_range_ tf2.var run data get entity @s SelectedItem.tag.attributes.range 1000
-execute store result score $_maxRamp_ tf2.var run data get entity @s SelectedItem.tag.attributes.damage.maxRamp 100
-execute unless data entity @s SelectedItem.tag.attributes.range run scoreboard players set $_range_ tf2.var 2147483647
-execute unless data entity @s SelectedItem.tag.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
+data modify storage retina:input {} merge from entity @s SelectedItem.components.minecraft:custom_data.retina
+execute store result score $_damage_ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.damage.base
+execute store result score $_range_ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.range 1000
+execute store result score $_maxRamp_ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.damage.maxRamp 100
+execute unless data entity @s SelectedItem.components.minecraft:custom_data.attributes.range run scoreboard players set $_range_ tf2.var 2147483647
+execute unless data entity @s SelectedItem.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
 execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
 scoreboard players set $func_id retina.__variable__ 100
 scoreboard players set $_totalDamage_ tf2.var 0
 execute if predicate tf2:holding_projectile run function tf2:weapons/projectile
 execute unless predicate tf2:holding_projectile run function tf2:weapons/hitscan
-execute store result score $_delay_ tf2.var run data get entity @s SelectedItem.tag.attributes.attackDelay 20000
+execute store result score $_delay_ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.attackDelay 20000
 scoreboard players operation @s tf2.attack_delay += $_delay_ tf2.var
 scoreboard players reset $func_id retina.__variable__
 data modify storage tf2:summon number.X set from storage retina:output ContactCoordinates[0]

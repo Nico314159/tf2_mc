@@ -4,7 +4,9 @@ new predicates(holding_melee) {
     "predicate": {
         "equipment": {
             "mainhand": {
-                "nbt": "{attributes: {isMelee: 1b}}"
+                "predicates": {
+                    "minecraft:custom_data": "{attributes: {isMelee: 1b}}"
+                }
             }
         }
     }
@@ -15,7 +17,9 @@ new predicates(holding_projectile) {
     "predicate": {
         "equipment": {
             "mainhand": {
-                "nbt": "{attributes: {isProjectile: 1b}}"
+                "predicates": {
+                    "minecraft:custom_data": "{attributes: {isProjectile: 1b}}"
+                }
             }
         }
     }
@@ -29,7 +33,11 @@ new predicates(non_damaging) {
             "predicate": {
                 "equipment": {
                     "mainhand": {
-                        "nbt": "{attributes: {damage: {base: 0}}}"
+                        "predicates": {
+                            "minecraft:custom_data": {
+                                "attributes": {"damage": {"base": 0}}
+                            }
+                        }
                     }
                 }
             }
@@ -150,21 +158,12 @@ new predicates(ammo_in_clip) {
         }
     ]
 }
-new predicates(unloaded_crossbow) {
-    "condition": "minecraft:entity_properties",
-    "entity": "this",
-    "predicate": {
-        "equipment": {
-            "mainhand": {
-                "items": ["minecraft:crossbow"],
-                "nbt": "{Charged: 0b}"
-            }
-        }
-    }
-}
 new item_modifiers(load_crossbow) {
-    "function": "minecraft:set_nbt",
-    "tag": "{Charged: 1b, ChargedProjectiles:[{id: \"minecraft:arrow\", Count: 1b}], Unbreakable: 1b}"
+    "function": "minecraft:set_components",
+    "components": {
+        "minecraft:charged_projectiles": [{"id": "minecraft:arrow"}],
+        "minecraft:unbreakable": {"show_in_tooltip": false}
+    }
 }
 
 new tags.functions(retina.on_hit) {
@@ -210,34 +209,6 @@ new tags.items(minecraft.trim_materials) {
         "minecraft:blue_banner"
     ]
 }
-new item_modifiers(apply_team_material) [
-    {
-        "function": "minecraft:set_nbt",
-        "tag": "{Trim: {material: \"tf2:red\"}}",
-        "conditions": [
-            {
-                "condition": "minecraft:entity_scores",
-                "entity": "this",
-                "scores": {
-                    "tf2.team": 1
-                }
-            }
-        ]
-    },
-    {
-        "function": "minecraft:set_nbt",
-        "tag": "{Trim: {material: \"tf2:blu\"}}",
-        "conditions": [
-            {
-                "condition": "minecraft:entity_scores",
-                "entity": "this",
-                "scores": {
-                    "tf2.team": 2
-                }
-            }
-        ]
-    }
-];
 
 class Weapons {
     function main_fire() {
@@ -265,12 +236,12 @@ class Weapons {
         }
 
         tf2.team:$current = tf2.team:@s;
-        retina:input::{} += @s::SelectedItem.tag.retina;
-        $_damage_  = @s::SelectedItem.tag.attributes.damage.base;
-        $_range_   = @s::SelectedItem.tag.attributes.range * 1000;
-        $_maxRamp_ = @s::SelectedItem.tag.attributes.damage.maxRamp * 100;
-        if (!data entity @s SelectedItem.tag.attributes.range) $_range_ = 2147483647;
-        if (!data entity @s SelectedItem.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
+        retina:input::{} += @s::SelectedItem.components.minecraft:custom_data.retina;
+        $_damage_  = @s::SelectedItem.components.minecraft:custom_data.attributes.damage.base;
+        $_range_   = @s::SelectedItem.components.minecraft:custom_data.attributes.range * 1000;
+        $_maxRamp_ = @s::SelectedItem.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
+        if (!data entity @s SelectedItem.components.minecraft:custom_data.attributes.range) $_range_ = 2147483647;
+        if (!data entity @s SelectedItem.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
         // retina._variable_:$end_particle = true;
 
@@ -283,7 +254,7 @@ class Weapons {
             this.hitscan();
         }
         // retina._variable_:$end_particle = false;
-        $_delay_ = @s::SelectedItem.tag.attributes.attackDelay * 20000;
+        $_delay_ = @s::SelectedItem.components.minecraft:custom_data.attributes.attackDelay * 20000;
         tf2.attack_delay:@s += $_delay_;
         scoreboard players reset $func_id retina.__variable__;
 
@@ -310,7 +281,7 @@ class Weapons {
         tf2.time_idle:@s = 0;
     }
     function hitscan() {
-        $_weaponID_ = @s::SelectedItem.tag.CustomModelData * 0.001;
+        $_weaponID_ = @s::SelectedItem.components."minecraft:custom_model_data" * 0.001;
         if ($_weaponID_ != 61) {
             return run function retina:traverse/multicast;
         }
@@ -329,7 +300,7 @@ class Weapons {
         retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
         function retina:math/gimbal_to_vec;
         summon::projectile = {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
-        summon::projectile.speed = 0.01905 * (double) @s::SelectedItem.tag.projectile.speed;
+        summon::projectile.speed = 0.01905 * (double) @s::SelectedItem.components.minecraft:custom_data.projectile.speed;
         summon::projectile.speed = EVAL(1  / 20_000) * (double) summon::projectile.speed * 1000;
         summon::projectile.speed = EVAL(1 / 480_000) * (double) summon::projectile.speed * 1000;
         execute run {
@@ -339,9 +310,9 @@ class Weapons {
         } with summon::projectile;
         summon::projectile.yaw = 0.1 * (double) retina.__variable__:$input_yaw;
         summon::projectile.pitch = 0.1 * (double) retina.__variable__:$input_pitch;
-        summon::projectile.spawnX = @s::SelectedItem.tag.projectile.spawn[0];
-        summon::projectile.spawnY = @s::SelectedItem.tag.projectile.spawn[1];
-        summon::projectile.spawnZ = @s::SelectedItem.tag.projectile.spawn[2];
+        summon::projectile.spawnX = @s::SelectedItem.components.minecraft:custom_data.projectile.spawn[0];
+        summon::projectile.spawnY = @s::SelectedItem.components.minecraft:custom_data.projectile.spawn[1];
+        summon::projectile.spawnZ = @s::SelectedItem.components.minecraft:custom_data.projectile.spawn[2];
         summon::projectile.owner = @s::UUID;
         execute at @s anchored eyes run {
             $summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
@@ -365,7 +336,10 @@ class Weapons {
                 Passengers: [{
                     Rotation: [$(yaw)f, $(pitch)f],
                     id: "minecraft:item_display",
-                    item: {id: "minecraft:glowstone_dust", Count: true, tag:{CustomModelData:41000, Motion:[$(X)d, $(Y)d, $(Z)d]}},
+                    item: {id: "minecraft:glowstone_dust", components:{
+                        "minecraft:custom_model_data": 41000, 
+                        "minecraft:custom_data": {Motion:[$(X)d, $(Y)d, $(Z)d]}
+                    }},
                     Tags: ["tf2.new", "tf2.projectile"]
                 }]
             };
@@ -379,13 +353,13 @@ class Weapons {
             // }
         }
         execute as @e[type=arrow,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
-            team join delta.no_collide;
+            team join player_motion.no_collide;
             tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
             execute on origin run tag @s add tf2.origin;
-            execute on passengers run @s::item.tag.attributes = @a[tag=tf2.origin,limit=1]::SelectedItem.tag.attributes;
-            execute on passengers run @s::item.tag.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.tag.projectile;
+            execute on passengers run @s::item.components.minecraft:custom_data.attributes = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.attributes;
+            execute on passengers run @s::item.components.minecraft:custom_data.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.projectile;
             execute on origin run tag @s remove tf2.origin;
             tag @s remove tf2.new;
         }
@@ -432,7 +406,7 @@ class Weapons {
         if ($_clip_ >= $_maxClip_) return 0;
         if ($_ammo_ == 0) return 0;
 
-        $_reloadType_ = @s::SelectedItem.tag.controls.reload;
+        $_reloadType_ = @s::SelectedItem.components.minecraft:custom_data.controls.reload;
         switch ($_reloadType_) {
             case Reload.NONE:
                 break;
@@ -453,8 +427,8 @@ class Weapons {
         }
         this.set_ammo();
 
-        if (tf2.consecutive_reload:@s == 0) $_reloadDelay_ = @s::SelectedItem.tag.attributes.reloadDelay[0] * 20000;
-        if (tf2.consecutive_reload:@s == 1) $_reloadDelay_ = @s::SelectedItem.tag.attributes.reloadDelay[1] * 20000;
+        if (tf2.consecutive_reload:@s == 0) $_reloadDelay_ = @s::SelectedItem.components.minecraft:custom_data.attributes.reloadDelay[0] * 20000;
+        if (tf2.consecutive_reload:@s == 1) $_reloadDelay_ = @s::SelectedItem.components.minecraft:custom_data.attributes.reloadDelay[1] * 20000;
         tf2.reload_delay:@s += $_reloadDelay_;
         tf2.consecutive_reload:@s = true;
 
@@ -504,7 +478,7 @@ class Weapons {
 
         execute run {
             $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
-                item: {id: "glowstone_dust", Count: 1b, tag: {CustomModelData: 0}},
+                item: {id: "glowstone_dust", components: {"minecraft:custom_model_data": 0}},
                 Rotation: [$(yaw)f, $(pitch)f],
                 Tags: ["tf2.visual", "tf2.newest"],
                 transformation: {
@@ -602,8 +576,8 @@ class Weapons {
         tf2.current_slot:@s = @s::SelectedItemSlot;
 
         if (tf2.last_slot:@s != tf2.current_slot:@s) {
-            tf2.attack_delay:@s = @s::SelectedItem.tag.attributes.deployTime * 10000;
-            if (!data entity @s SelectedItem.tag.attributes.deployTime) tf2.attack_delay:@s = 10000;
+            tf2.attack_delay:@s = @s::SelectedItem.components.minecraft:custom_data.attributes.deployTime * 10000;
+            if (!data entity @s SelectedItem.components.minecraft:custom_data.attributes.deployTime) tf2.attack_delay:@s = 10000;
             tf2.consecutive_reload:@s = false;
             tf2.time_idle:@s = 0;
         }
@@ -621,7 +595,7 @@ class Weapons {
 class Projectile {
     function tick() {
         execute on passengers run tag @s add tf2.passenger_temp;
-        @s::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]::item.tag.Motion;
+        @s::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]::item.components.minecraft:custom_data.Motion;
         tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp;
 
         this.check_collision();
@@ -704,11 +678,11 @@ class Projectile {
         // print($collided);
         if (!$collided) return 0;
         execute on passengers run {
-            $_damage_ = @s::item.tag.attributes.damage.base;
-            $_selfDamage_ = @s::item.tag.projectile.explosion.selfDamage;
-            $_maxRamp_ = @s::item.tag.attributes.damage.maxRamp * 100;
-            if (!data entity @s item.tag.attributes.damage.maxRamp) $_maxRamp_ = 150;
-            $_rangeDependent_ = @s::item.tag.attributes.damage.uniform;
+            $_damage_ = @s::item.components.minecraft:custom_data.attributes.damage.base;
+            $_selfDamage_ = @s::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
+            $_maxRamp_ = @s::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
+            if (!data entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+            $_rangeDependent_ = @s::item.components.minecraft:custom_data.attributes.damage.uniform;
             $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
         }
         // print(tf2.damage:@s);
@@ -718,7 +692,7 @@ class Projectile {
             execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run this.simple_damage();
         }
 
-        execute on passengers run vars::radius = 0.01905 * (double) @s::item.tag.projectile.explosion.radius;
+        execute on passengers run vars::radius = 0.01905 * (double) @s::item.components.minecraft:custom_data.projectile.explosion.radius;
         this.explode() with vars::;
     }
     function simple_damage() {
@@ -850,16 +824,16 @@ class Projectile {
         return run $_finalDamage_.get();
     }
     function knockback() {
-        delta.api.launch:$x = retina.__variable__:$output_vec3.X;
-        delta.api.launch:$x *= 12000;
-        delta.api.launch:$x /= 480;
-        delta.api.launch:$y = retina.__variable__:$output_vec3.Y;
-        delta.api.launch:$y *= 12000;
-        delta.api.launch:$y /= 480;
-        delta.api.launch:$z = retina.__variable__:$output_vec3.Z;
-        delta.api.launch:$z *= 12000;
-        delta.api.launch:$z /= 480;
-        function delta:api/launch_xyz;
+        player_motion.api.launch:$x = retina.__variable__:$output_vec3.X;
+        player_motion.api.launch:$x *= 12000;
+        player_motion.api.launch:$x /= 480;
+        player_motion.api.launch:$y = retina.__variable__:$output_vec3.Y;
+        player_motion.api.launch:$y *= 12000;
+        player_motion.api.launch:$y /= 480;
+        player_motion.api.launch:$z = retina.__variable__:$output_vec3.Z;
+        player_motion.api.launch:$z *= 12000;
+        player_motion.api.launch:$z /= 480;
+        function player_motion:api/launch_xyz;
     }
     function remove_tags() {
         tag @s remove tf2.batch;
