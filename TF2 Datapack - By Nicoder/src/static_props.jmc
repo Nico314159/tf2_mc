@@ -39,14 +39,12 @@ function load_static_props() {
             Item: {
                 id: "minecraft:player_head",
                 Count: 1b,
-                tag: {
-                    SkullOwner: {
-                        Properties: {
-                            textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkNTRkODY2YTMzYWNhMjhkNTE0NTJkNTY5ZWZiZDRhZmRhNTNlM2M0ZTk1YjMwYzlkMzQwZjZkZDc1MSJ9fX0="}
-                            ]
-                        },
-                        Id: [I;1516136205,-661763732,-1810063701,-1822038133]
+                components: {
+                    "minecraft:profile": {
+                        properties: [
+                            {name: "textures", value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkNTRkODY2YTMzYWNhMjhkNTE0NTJkNTY5ZWZiZDRhZmRhNTNlM2M0ZTk1YjMwYzlkMzQwZjZkZDc1MSJ9fX0="}
+                        ],
+                        id: [I;1516136205,-661763732,-1810063701,-1822038133]
                     }
                 }
             },
@@ -69,14 +67,12 @@ function load_static_props() {
             Item: {
                 id: "minecraft:player_head",
                 Count: 1b,
-                tag: {
-                    SkullOwner: {
-                        Properties: {
-                            textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkNTRkODY2YTMzYWNhMjhkNTE0NTJkNTY5ZWZiZDRhZmRhNTNlM2M0ZTk1YjMwYzlkMzQwZjZkZDc1MSJ9fX0="}
-                            ]
-                        },
-                        Id: [I;1516136205,-661763732,-1810063701,-1822038133]
+                components: {
+                    "minecraft:profile": {
+                        properties: [
+                            {name: "textures", value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkNTRkODY2YTMzYWNhMjhkNTE0NTJkNTY5ZWZiZDRhZmRhNTNlM2M0ZTk1YjMwYzlkMzQwZjZkZDc1MSJ9fX0="}
+                        ],
+                        id: [I;1516136205,-661763732,-1810063701,-1822038133]
                     }
                 }
             },
@@ -103,7 +99,7 @@ function load_static_props() {
                     SkullOwner: {
                         Properties: {
                             textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjNGEyNTRiZWM0NmUyNzQ3NTdjMDc5NzlmMGRkYWUzNmM3YjM2NTQ4N2M4ZjM1ZmZlYWQ0Y2IyZTMxMWI5In19fQ=="}
+                                {name: "textures", Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjNGEyNTRiZWM0NmUyNzQ3NTdjMDc5NzlmMGRkYWUzNmM3YjM2NTQ4N2M4ZjM1ZmZlYWQ0Y2IyZTMxMWI5In19fQ=="}
                             ]
                         },
                         Id: [I;132254731,999703457,-1724735074,-102206061]
@@ -133,7 +129,7 @@ function load_static_props() {
                     SkullOwner: {
                         Properties: {
                             textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjNGEyNTRiZWM0NmUyNzQ3NTdjMDc5NzlmMGRkYWUzNmM3YjM2NTQ4N2M4ZjM1ZmZlYWQ0Y2IyZTMxMWI5In19fQ=="}
+                                {name: "textures", Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjNGEyNTRiZWM0NmUyNzQ3NTdjMDc5NzlmMGRkYWUzNmM3YjM2NTQ4N2M4ZjM1ZmZlYWQ0Y2IyZTMxMWI5In19fQ=="}
                             ]
                         },
                         Id: [I;132254731,999703457,-1724735074,-102206061]
@@ -158,14 +154,12 @@ function load_static_props() {
             Item: {
                 id: "minecraft:player_head",
                 Count: 1b,
-                tag: {
-                    SkullOwner: {
-                        Properties: {
-                            textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkNTRkODY2YTMzYWNhMjhkNTE0NTJkNTY5ZWZiZDRhZmRhNTNlM2M0ZTk1YjMwYzlkMzQwZjZkZDc1MSJ9fX0="}
-                            ]
-                        },
-                        Id: [I;1516136205,-661763732,-1810063701,-1822038133]
+                components: {
+                    "minecraft:profile": {
+                        properties: [
+                            {name: "textures", value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkNTRkODY2YTMzYWNhMjhkNTE0NTJkNTY5ZWZiZDRhZmRhNTNlM2M0ZTk1YjMwYzlkMzQwZjZkZDc1MSJ9fX0="}
+                        ],
+                        id: [I;1516136205,-661763732,-1810063701,-1822038133]
                     }
                 }
             },
@@ -192,7 +186,7 @@ function load_static_props() {
                     SkullOwner: {
                         Properties: {
                             textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjNGEyNTRiZWM0NmUyNzQ3NTdjMDc5NzlmMGRkYWUzNmM3YjM2NTQ4N2M4ZjM1ZmZlYWQ0Y2IyZTMxMWI5In19fQ=="}
+                                {name: "textures", Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjNGEyNTRiZWM0NmUyNzQ3NTdjMDc5NzlmMGRkYWUzNmM3YjM2NTQ4N2M4ZjM1ZmZlYWQ0Y2IyZTMxMWI5In19fQ=="}
                             ]
                         },
                         Id: [I;132254731,999703457,-1724735074,-102206061]
@@ -222,7 +216,7 @@ function load_static_props() {
                     SkullOwner: {
                         Properties: {
                             textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjNGEyNTRiZWM0NmUyNzQ3NTdjMDc5NzlmMGRkYWUzNmM3YjM2NTQ4N2M4ZjM1ZmZlYWQ0Y2IyZTMxMWI5In19fQ=="}
+                                {name: "textures", Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjNGEyNTRiZWM0NmUyNzQ3NTdjMDc5NzlmMGRkYWUzNmM3YjM2NTQ4N2M4ZjM1ZmZlYWQ0Y2IyZTMxMWI5In19fQ=="}
                             ]
                         },
                         Id: [I;132254731,999703457,-1724735074,-102206061]
@@ -247,14 +241,12 @@ function load_static_props() {
             Item: {
                 id: "minecraft:player_head",
                 Count: 1b,
-                tag: {
-                    SkullOwner: {
-                        Properties: {
-                            textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkNTRkODY2YTMzYWNhMjhkNTE0NTJkNTY5ZWZiZDRhZmRhNTNlM2M0ZTk1YjMwYzlkMzQwZjZkZDc1MSJ9fX0="}
-                            ]
-                        },
-                        Id: [I;1516136205,-661763732,-1810063701,-1822038133]
+                components: {
+                    "minecraft:profile": {
+                        properties: [
+                            {name: "textures", value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkNTRkODY2YTMzYWNhMjhkNTE0NTJkNTY5ZWZiZDRhZmRhNTNlM2M0ZTk1YjMwYzlkMzQwZjZkZDc1MSJ9fX0="}
+                        ],
+                        id: [I;1516136205,-661763732,-1810063701,-1822038133]
                     }
                 }
             },
@@ -276,14 +268,12 @@ function load_static_props() {
             Item: {
                 id: "minecraft:player_head",
                 Count: 1b,
-                tag: {
-                    SkullOwner: {
-                        Properties: {
-                            textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTFkMzgzNDAxZjc3YmVmZmNiOTk4YzJjZjc5YjdhZmVlMjNmMThjNDFkOGE1NmFmZmVkNzliYjU2ZTIyNjdhMyJ9fX0="}
-                            ]
-                        },
-                        Id: [I;518065356,351159546,-1709551866,533950267]
+                components: {
+                    "minecraft:profile": {
+                        properties: [
+                            {name: "textures", value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTFkMzgzNDAxZjc3YmVmZmNiOTk4YzJjZjc5YjdhZmVlMjNmMThjNDFkOGE1NmFmZmVkNzliYjU2ZTIyNjdhMyJ9fX0="}
+                        ],
+                        id: [I;518065356,351159546,-1709551866,533950267]
                     }
                 }
             },
@@ -305,14 +295,12 @@ function load_static_props() {
             Item: {
                 id: "minecraft:player_head",
                 Count: 1b,
-                tag: {
-                    SkullOwner: {
-                        Properties: {
-                            textures: [
-                                {Value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTFkMzgzNDAxZjc3YmVmZmNiOTk4YzJjZjc5YjdhZmVlMjNmMThjNDFkOGE1NmFmZmVkNzliYjU2ZTIyNjdhMyJ9fX0="}
-                            ]
-                        },
-                        Id: [I;518065356,351159546,-1709551866,533950267]
+                components: {
+                    "minecraft:profile": {
+                        properties: [
+                            {name: "textures", value: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTFkMzgzNDAxZjc3YmVmZmNiOTk4YzJjZjc5YjdhZmVlMjNmMThjNDFkOGE1NmFmZmVkNzliYjU2ZTIyNjdhMyJ9fX0="}
+                        ],
+                        id: [I;518065356,351159546,-1709551866,533950267]
                     }
                 }
             },
