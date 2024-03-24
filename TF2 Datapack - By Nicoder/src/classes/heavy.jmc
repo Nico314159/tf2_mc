@@ -244,11 +244,12 @@ class Class.Heavy {
         loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
         loot replace entity @s armor.legs loot tf2:class/heavy/_model;
 
-        tf2.primary_maxClip:@s = tf2.primary_clip:@s = @s::Inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.clip;
-        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = @s::Inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.ammo;
-        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = @s::Inventory[1].components.minecraft:custom_data.attributes.clip;
-        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = @s::Inventory[1].components.minecraft:custom_data.attributes.ammo;
-        tf2.rev_threshold:@s = @s::Inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.spinupDelay * 20000;
+        lookup::inventory = @s::Inventory;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
+        tf2.rev_threshold:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.spinupDelay * 20000;
     }
     @lazy
     function tick() {
