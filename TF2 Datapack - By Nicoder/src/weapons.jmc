@@ -158,13 +158,18 @@ new predicates(ammo_in_clip) {
         }
     ]
 }
-new item_modifiers(load_crossbow) {
-    "function": "minecraft:set_components",
-    "components": {
-        "minecraft:charged_projectiles": [{"id": "minecraft:arrow"}],
-        "minecraft:unbreakable": {"show_in_tooltip": false}
-    }
-}
+new item_modifiers(load_crossbow) [
+	{
+		"function": "minecraft:set_components",
+		"components": {
+			"minecraft:charged_projectiles": [{"id": "minecraft:arrow"}]
+		}
+	},
+	{
+		"function": "minecraft:set_custom_data",
+		"tag": "{should_detect_click: true}"
+	}
+];
 
 new tags.functions(retina.on_hit) {
     "values": [

@@ -108,8 +108,7 @@ function player_tick() {
     tag @s remove tf2.self;
 
     Weapons.slot_check();
-    tf2.test:@s = execute if items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[]];
-    if (items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[]]) {
+    if (items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[], minecraft:custom_data~{should_detect_click: true}]) {
         kill @e[type=arrow,tag=!tf2.projectile];
         clear @s arrow;
         if (!predicate tf2:ammo_in_clip) return 0;

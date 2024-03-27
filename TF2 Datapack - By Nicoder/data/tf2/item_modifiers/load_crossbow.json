@@ -1,13 +1,16 @@
-{
-    "function": "minecraft:set_components",
-    "components": {
-        "minecraft:charged_projectiles": [
-            {
-                "id": "minecraft:arrow"
-            }
-        ],
-        "minecraft:unbreakable": {
-            "show_in_tooltip": false
+[
+    {
+        "function": "minecraft:set_components",
+        "components": {
+            "minecraft:charged_projectiles": [
+                {
+                    "id": "minecraft:arrow"
+                }
+            ]
         }
+    },
+    {
+        "function": "minecraft:set_custom_data",
+        "tag": "{should_detect_click: true}"
     }
-}
+]
