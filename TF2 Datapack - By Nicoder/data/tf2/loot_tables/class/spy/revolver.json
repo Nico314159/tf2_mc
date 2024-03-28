@@ -1,0 +1,36 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "tf2:crossbow_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Revolver",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 11000,
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [10, 20], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 40, maxRamp: 1.5}, attackDelay: 0.5d, reloadDelay: [1.133d, 1.133d], clip: 6, ammo: 24},\n                                controls: {main_fire: true, alt_fire: false, reload: 1}\n                            }"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -373,6 +373,7 @@ class reset {
 
 function test_items() {
     clear @s;
+    give @s Select.SPY;
     give @s Select.SNIPER;
     give @s Select.SCOUT;
     give @s Select.HEAVY;

@@ -51,6 +51,7 @@ function class_select() {
         case Class.SPY:
             tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.132;
+            Class.Spy.give();
         case Class.SNIPER:
             tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.132;

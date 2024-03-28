@@ -1,3 +1,215 @@
 class Class.Spy {
-    function tick() {}
+    new loot_tables(revolver) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "tf2:crossbow_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Revolver",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 11000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [10, 20], MaxRecursionDepth: 100},
+                                attributes: {damage: {base: 40, maxRamp: 1.5}, attackDelay: 0.5d, reloadDelay: [1.133d, 1.133d], clip: 6, ammo: 24},
+                                controls: {main_fire: true, alt_fire: false, reload: 1}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(sapper) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+					"name": "minecraft:clay_ball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Sapper",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 12000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(butterfly_knife) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "tf2:melee_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Butterfly Knife",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 13000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
+                                attributes: {damage: {base: 40}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
+                                controls: {main_fire: true, alt_fire: false, reload: 0}
+                            }"
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(disguise_kit) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+					"name": "minecraft:clay_ball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Disguise Kit",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 14000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+    new loot_tables(invis_watch) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+					"name": "minecraft:clay_ball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Invis Watch",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 15000,
+                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                            }
+                        }
+                    ]
+                }
+            ]
+        }]
+    }
+
+    function give() {
+        clear @s;
+        loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
+        loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
+        loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
+        loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
+        loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
+        // loot replace entity @s armor.legs loot tf2:class/spy/_model;
+
+        lookup::inventory = @s::Inventory;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
+    }
+
+    function tick() {
+        Weapons.get_ammo();
+        HUD.actionbar();
+        Weapons.set_ammo();
+
+        this.inventory_lock();
+    }
+    
+    function inventory_lock() {
+        item replace entity @s armor.chest with air;
+
+        loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
+        $_count_ = clear @s crossbow[custom_model_data=11000] 0;
+        if ($_count_ != 1) clear @s crossbow[custom_model_data=11000];
+        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
+
+        loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
+        $_count_ = clear @s clay_ball[custom_model_data=12000] 0;
+        if ($_count_ != 1) clear @s clay_ball[custom_model_data=12000];
+        if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
+
+        loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
+        $_count_ = clear @s snowball[custom_model_data=13000] 0;
+        if ($_count_ != 1) clear @s snowball[custom_model_data=13000];
+        if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
+
+        loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
+        $_count_ = clear @s clay_ball[custom_model_data=14000] 0;
+        if ($_count_ != 1) clear @s clay_ball[custom_model_data=14000];
+        if ($_count_ != 1) loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
+
+        loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
+        $_count_ = clear @s clay_ball[custom_model_data=15000] 0;
+        if ($_count_ != 1) clear @s clay_ball[custom_model_data=15000];
+        if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
+
+        // loot replace entity @s armor.legs loot tf2:class/spy/_model;
+        // $_count_ = clear @s iron_leggings 0;
+        // if ($_count_ != 1) clear @s iron_leggings;
+        // if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/spy/_model;
+    }
 }
