@@ -18,6 +18,10 @@
     },
     "overrides": [
         {
+            "predicate": {"custom_model_data": 11000},
+            "model": "tf2:item/spy/primary/revolver"
+        },
+        {
             "predicate": {"custom_model_data": 21000},
             "model": "tf2:item/sniper/primary/sniper_rifle"
         },
@@ -56,10 +60,6 @@
         {
             "predicate": {"custom_model_data": 62000},
             "model": "tf2:item/heavy/secondary/shotgun"
-        },
-        {
-            "predicate": {"custom_model_data": 11000},
-            "model": "tf2:item/spy/primary/revolver"
         }
     ]
 }

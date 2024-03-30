@@ -2,7 +2,8 @@
     "textures": {
         "layer0": "item/carrot_on_a_stick"
     },
-    "overrides": [      
+    "overrides": [  
+        { "predicate": {"custom_model_data": 1}, "model": "tf2:item/spy/icon"},    
         { "predicate": {"custom_model_data": 2}, "model": "tf2:item/sniper/icon"},
         { "predicate": {"custom_model_data": 3}, "model": "tf2:item/scout/icon"},
         { "predicate": {"custom_model_data": 4}, "model": "tf2:item/soldier/icon"},
