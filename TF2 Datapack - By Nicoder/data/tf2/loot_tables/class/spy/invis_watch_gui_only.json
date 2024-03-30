@@ -4,13 +4,9 @@
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-                    "name": "minecraft:clay_ball",
+                    "type": "minecraft:loot_table",
+                    "value": "tf2:class/spy/invis_watch",
                     "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": ""
-                        },
                         {
                             "function": "minecraft:set_components",
                             "components": {

@@ -9,3 +9,4 @@ execute store result score @s tf2.primary_maxClip store result score @s tf2.prim
 execute store result score @s tf2.primary_maxAmmo store result score @s tf2.primary_ammo run data get storage tf2:lookup inventory[0].components.minecraft:custom_data.attributes.ammo
 execute store result score @s tf2.secondary_maxClip store result score @s tf2.secondary_clip store result score @s tf2.secondary_maxAmmo run scoreboard players set @s tf2.secondary_ammo 0
 scoreboard players set @s tf2.is_invisible 0
+scoreboard players set @s tf2.cloak 600

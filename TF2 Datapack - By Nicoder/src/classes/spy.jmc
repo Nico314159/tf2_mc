@@ -149,10 +149,23 @@ class Class.Spy {
                             "function": "minecraft:set_components",
                             "components": {
                                 "minecraft:custom_model_data": 15000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                                "minecraft:max_damage": 600,
+                                "minecraft:damage": 0
                             }
                         },
-                        {"function": "minecraft:set_custom_data", "tag": "{cloak: 'cloak'}"}
+                        { 
+                            "function": "minecraft:set_custom_data", 
+                            "tag": "{cloak: 'cloak'}" 
+                        },
+                        {
+							"function": "minecraft:set_damage",
+							"damage": {
+								"type": "minecraft:score",
+								"target": "this",
+								"score": "tf2.cloak",
+								"scale": 0.001666
+							}
+						}
                     ]
                 }
             ]
@@ -163,14 +176,17 @@ class Class.Spy {
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-					"name": "minecraft:clay_ball",
+                    "type": "minecraft:loot_table",
+					"value": "tf2:class/spy/invis_watch",
                     "functions": [
-                        { "function": "minecraft:set_name", "name": "" },
-
-                        { "function": "minecraft:set_components", "components": {"minecraft:custom_model_data": 15001} },
-
-                        { "function": "minecraft:set_custom_data",  "tag": "{cloak: 'uncloak'}" }
+                        {
+                            "function": "minecraft:set_components", 
+                            "components": {"minecraft:custom_model_data": 15001} 
+                        },
+                        { 
+                            "function": "minecraft:set_custom_data", 
+                            "tag": "{cloak: 'uncloak'}" 
+                        }
                     ]
                 }
             ]
@@ -191,6 +207,7 @@ class Class.Spy {
         tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
         tf2.is_invisible:@s = 0;
+        tf2.cloak:@s = 600;
     }
 
     function cloak() {
@@ -210,10 +227,18 @@ class Class.Spy {
         HUD.actionbar();
         Weapons.set_ammo();
 
+        // Toggle cloak by switching hands
         if (items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand clay_ball[custom_data~{cloak: 'cloak'}]) {
             this.cloak();
         }
         if (items entity @s[scores={tf2.is_invisible=1}] weapon.mainhand clay_ball[custom_data~{cloak: 'uncloak'}]) {
+            this.uncloak();
+        }
+
+        // Cloak drain and replenishment over time
+        tf2.cloak:@s[scores={tf2.is_invisible=0, tf2.cloak=..599}]++;
+        tf2.cloak:@s[scores={tf2.is_invisible=1}] -= 3;
+        if (tf2.cloak:@s[scores={tf2.is_invisible=1}] <= 0) {
             this.uncloak();
         }
 
