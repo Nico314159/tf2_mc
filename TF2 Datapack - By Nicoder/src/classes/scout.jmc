@@ -71,7 +71,7 @@ class Class.Scout {
                             "function": "minecraft:set_custom_data",
                             "tag": "{
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40},
+                                attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40, spreadRecovery: 25},
                                 controls: {main_fire: true, alt_fire: false, reload: 3}
                             }"
                         }

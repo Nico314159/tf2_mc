@@ -8,6 +8,8 @@ execute if score $_clip_ tf2.var matches ..0 unless predicate tf2:holding_melee 
 execute unless predicate tf2:holding_melee run playsound tf2:item.gun.shoot player @s ~ ~ ~ 1.35 1 0.1
 scoreboard players operation $current tf2.team = @s tf2.team
 data modify storage retina:input {} merge from entity @s SelectedItem.components.minecraft:custom_data.retina
+execute if data entity @s SelectedItem.components.minecraft:custom_data.attributes.spreadRecovery store result score $_sr_ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.spreadRecovery
+execute if data entity @s SelectedItem.components.minecraft:custom_data.attributes.spreadRecovery if score @s tf2.time_idle > $_sr_ tf2.var run data modify storage retina:input SpreadFactor set value [0,0]
 execute store result score $_damage_ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.damage.base
 execute store result score $_range_ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.range 1000
 execute store result score $_maxRamp_ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.damage.maxRamp 100
