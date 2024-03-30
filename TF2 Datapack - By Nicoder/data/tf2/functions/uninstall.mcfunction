@@ -64,6 +64,8 @@ scoreboard objectives remove tf2.drown_lost
 scoreboard objectives remove tf2.time_surfaced
 scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
+scoreboard objectives remove tf2.is_invisible
+scoreboard objectives remove tf2.cloak
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.coas

@@ -10,7 +10,13 @@
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "Invis Watch",
+                                "translate": "tf2.invis_watch",
+                                "fallback": "Invis Watch (%s to cloak)",
+                                "with": [
+                                    {
+                                        "keybind": "key.swapOffhand"
+                                    }
+                                ],
                                 "color": "gray",
                                 "italic": true
                             }
@@ -23,6 +29,10 @@
                                     "show_in_tooltip": false
                                 }
                             }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{cloak: 'cloak'}"
                         }
                     ]
                 }

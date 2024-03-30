@@ -96,6 +96,8 @@ scoreboard objectives add tf2.drown_lost dummy
 scoreboard objectives add tf2.time_surfaced dummy
 scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
+scoreboard objectives add tf2.is_invisible dummy
+scoreboard objectives add tf2.cloak dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
