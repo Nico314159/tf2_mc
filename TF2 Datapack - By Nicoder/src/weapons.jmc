@@ -242,6 +242,14 @@ class Weapons {
 
         tf2.team:$current = tf2.team:@s;
         retina:input::{} += @s::SelectedItem.components.minecraft:custom_data.retina;
+        
+        if (data entity @s SelectedItem.components.minecraft:custom_data.attributes.spreadRecovery) expand {
+            $_sr_ = @s::SelectedItem.components.minecraft:custom_data.attributes.spreadRecovery;
+            if (tf2.time_idle:@s > $_sr_) {
+                // say "doggo 2!";
+                retina:input::SpreadFactor = [0, 0];
+            }
+        }
         $_damage_  = @s::SelectedItem.components.minecraft:custom_data.attributes.damage.base;
         $_range_   = @s::SelectedItem.components.minecraft:custom_data.attributes.range * 1000;
         $_maxRamp_ = @s::SelectedItem.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
