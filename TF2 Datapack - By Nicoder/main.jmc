@@ -117,7 +117,7 @@ function player_tick() {
         if (!predicate tf2:ammo_in_clip) return 0;
         Weapons.main_fire();
     }
-    execute as @s[tag=tf2.autoreload, 
+    execute as @s[tag=tf2.autoreload,
                   scores={tf2.time_idle=30.., tf2.reload_delay=..0}, 
                   predicate=!tf2:hide_ammo] run Weapons.attempt_autoreload();
 

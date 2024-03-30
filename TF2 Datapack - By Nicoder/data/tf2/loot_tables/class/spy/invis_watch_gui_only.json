@@ -1,0 +1,29 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:clay_ball",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_name",
+                            "name": ""
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 15001
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{cloak: 'uncloak'}"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

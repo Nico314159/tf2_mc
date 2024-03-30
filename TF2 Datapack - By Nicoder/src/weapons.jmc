@@ -43,6 +43,24 @@ new predicates(non_damaging) {
             }
         },
         {
+	    	"condition": "minecraft:inverted",
+			"term": {
+				"condition": "minecraft:entity_properties",
+				"entity": "this",
+				"predicate": {
+					"equipment": {
+						"mainhand": {
+							"predicates": {
+								"minecraft:custom_data": {
+                                    "attributes": {"damage": {}}
+                                }
+							}   
+						}
+					}
+				}
+			}
+		},
+        {
             "condition": "minecraft:reference",
             "name": "tf2:empty_hand"
         }
@@ -71,17 +89,6 @@ new predicates(active_offhand) {
 new predicates(hide_ammo) {
     "condition": "minecraft:any_of",
     "terms": [
-        {
-			"condition": "minecraft:entity_properties",
-			"entity": "this",
-			"predicate": {
-				"equipment": {
-					"mainhand": {
-						"items": ["minecraft:carrot_on_a_stick"]
-					}
-				}
-			}
-		},
         {
             "condition": "minecraft:reference",
             "name": "tf2:holding_melee"
@@ -452,6 +459,9 @@ class Weapons {
         return 1;
     }
     function attempt_autoreload() {
+        // if (items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand clay_ball[custom_data~{cloak: 'cloak'}]) {
+        //     return fail;
+        // }
         $should_animate = this.reload();
         if (!$should_animate) return fail;
         item replace entity @s enderchest.0 from entity @s weapon.mainhand;

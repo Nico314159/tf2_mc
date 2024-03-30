@@ -25,8 +25,7 @@ Hardcode.repeatList(
         "permanent.games_won", "permanent.games_played", "permanent.double_jumps",
         "fall_y", "fall_y1", "fall_y2", "fall_y3",
         "drown_lost", "time_surfaced", "current_air", "last_air",
-        "door.wait", "door.time_open", "door.state", "door.id",
-        "door.length", "door.pos", "door.vel", "door.accel", 
+        "is_invisible", "cloak"
     ]
 );
 

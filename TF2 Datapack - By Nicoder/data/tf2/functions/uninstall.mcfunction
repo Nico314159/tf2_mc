@@ -64,14 +64,8 @@ scoreboard objectives remove tf2.drown_lost
 scoreboard objectives remove tf2.time_surfaced
 scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
-scoreboard objectives remove tf2.door.wait
-scoreboard objectives remove tf2.door.time_open
-scoreboard objectives remove tf2.door.state
-scoreboard objectives remove tf2.door.id
-scoreboard objectives remove tf2.door.length
-scoreboard objectives remove tf2.door.pos
-scoreboard objectives remove tf2.door.vel
-scoreboard objectives remove tf2.door.accel
+scoreboard objectives remove tf2.is_invisible
+scoreboard objectives remove tf2.cloak
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.coas

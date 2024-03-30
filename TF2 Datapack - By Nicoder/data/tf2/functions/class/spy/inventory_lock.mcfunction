@@ -1,3 +1,4 @@
+execute if score @s tf2.is_invisible matches 1.. run return run function tf2:class/spy/disable_attacking
 item replace entity @s armor.chest with air
 loot replace entity @s hotbar.0 loot tf2:class/spy/revolver
 execute store result score $_count_ tf2.var run clear @s crossbow[custom_model_data=11000] 0
@@ -19,3 +20,4 @@ loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch
 execute store result score $_count_ tf2.var run clear @s clay_ball[custom_model_data=15000] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s clay_ball[custom_model_data=15000]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch
+clear @s clay_ball[minecraft:custom_data~{cloak:"uncloak"}]
