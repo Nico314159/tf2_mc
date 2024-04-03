@@ -1,0 +1,81 @@
+class Door {
+    function summon() {
+        $ execute positioned $(x) $(y) $(z) align xyz run summon item_display ~ ~ ~ {
+            Tags: ["tf2.door", "tf2.newest"],
+            item: {
+                id: "minecraft:gold_ingot",
+                count: 1,
+                components: {
+                    "minecraft:custom_model_data": 100,
+                    "minecraft:custom_data": {
+                        size_x: $(size_x),
+                        size_y: $(size_y),
+                        size_z: $(size_z)
+            }   }   },
+            item_display: "ground",
+            transformation: {
+                left_rotation: [0f, 0f, 0f, 1f],
+                right_rotation: [0f, 0f, 0f, 1f],
+                translation: [0f, 0f, 0f],
+                scale: [$(size_x), $(size_y), $(size_z)]
+            }
+        };
+        $ scoreboard players set @e[tag=tf2.door,tag=tf2.newest] tf2.wait $(wait);
+        execute as @e[tag=tf2.door,tag=tf2.newest] run this.close();
+    }
+
+    function tick() {
+        particle flame ~ ~ ~;
+        $players_nearby = this.check_for_players() with @s::item.components.minecraft:custom_data;
+        tf2.time_open:@s[tag=tf2.is_open]++;
+        if ($players_nearby) {
+            return run this.open();
+        }
+        if (tf2.time_open:@s[scores={tf2.wait=0..}] >= tf2.wait:@s) {
+            this.close();
+        }
+    }
+
+    function check_for_players() {
+        $ execute positioned ~-.5 ~-.5 ~-.5
+                  if entity @a[dx=$(size_x), dy=$(size_y), dz=$(size_z)]
+                  run return true;
+        return false;
+    }
+
+    @lazy function determine_fill_coords() {
+        lookup::entity = @s::{};
+        Hardcode.repeatLists(["|axis|", "|#|"], () => {
+            $|axis|_from = lookup::entity.Pos[|#|];
+            $|axis|_to = lookup::entity.item.components.minecraft:custom_data.size_|axis|;
+            $|axis|_to > 1;
+            $|axis|_to += $|axis|_from;
+            $|axis|_to --;
+            vars::|axis|_from = $|axis|_from;
+            vars::|axis|_to   = $|axis|_to;
+        }, [["x", "y", "z"], ["0", "1", "2"]]);
+    }
+
+    function open() {
+        tag @s add tf2.is_open;
+        this.determine_fill_coords();
+        this.remove_blocks() with vars::;
+    }
+    function close() {
+        tag @s remove tf2.is_open;
+        tag @s remove tf2.newest;
+        tf2.time_open:@s = 0;
+        this.determine_fill_coords();
+        this.place_blocks() with vars::;
+    }
+    function remove_blocks() {
+        $ fill $(x_from) $(y_from) $(z_from)
+               $(x_to)   $(y_to)   $(z_to)
+               air replace white_stained_glass;
+    }
+    function place_blocks() {
+        $ fill $(x_from) $(y_from) $(z_from)
+               $(x_to)   $(y_to)   $(z_to)
+               white_stained_glass replace air;
+    }
+}

@@ -8,6 +8,8 @@ import "src/gameplay_loop";
 import "src/math";
 import "src/objectives";
 import "src/timer";
+import "src/door";
+// not using wildcard import because import order matters
 
 function __tick__() {
     // @handles #minecraft:tick
@@ -38,6 +40,7 @@ function __tick__() {
     tag @e[type=#tf2:player_like] remove tf2.on_point;
     execute as @e[type=item,tag=tf2.pickup] at @s run pickup_tick();
     execute as @e[type=arrow,tag=tf2.projectile] at @s run Projectile.tick();
+    execute as @e[type=item_display,tag=tf2.door] at @s run Door.tick();
 
     $flicker = $trigger_reminder = 0008it54g_p_join:$__global__;
     $flicker %= 20; $trigger_reminder %= 2400;
@@ -601,8 +604,8 @@ class NoEntrySign {
         $i++;
         if ($i >= $longest) return 1;
         $execute positioned $(param)
-                    run this.diagonal()
-                    with vars::;
+                 run this.diagonal()
+                 with vars::;
     }
 }
 

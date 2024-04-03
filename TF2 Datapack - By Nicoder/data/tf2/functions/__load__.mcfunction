@@ -15,6 +15,7 @@ scoreboard players set 1800 tf2.const 1800
 scoreboard players set 6 tf2.const 6
 scoreboard players set 10 tf2.const 10
 scoreboard players set 8 tf2.const 8
+scoreboard players set 1 tf2.const 1
 scoreboard players set 13 tf2.const 13
 scoreboard players set 10000 tf2.const 10000
 scoreboard players set 20 tf2.const 20
@@ -96,6 +97,8 @@ scoreboard objectives add tf2.drown_lost dummy
 scoreboard objectives add tf2.time_surfaced dummy
 scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
+scoreboard objectives add tf2.wait dummy
+scoreboard objectives add tf2.time_open dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger

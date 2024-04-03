@@ -6,6 +6,7 @@
     "overrides": [
         { "predicate": {"custom_model_data":   -1}, "model": "tf2:item/empty"},
         { "predicate": {"custom_model_data":    0}, "model": "item/gold_ingot"},
+        { "predicate": {"custom_model_data":  100}, "model": "tf2:map_element/door/standard_metal"},
         { "predicate": {"custom_model_data": 1001}, "model": "tf2:static_prop/computer/flat/terminal1"},
         { "predicate": {"custom_model_data": 2000}, "model": "tf2:static_prop/computer/chonky/wall_cabinet"},
         { "predicate": {"custom_model_data": 2101}, "model": "tf2:static_prop/computer/chonky/red/01"},
