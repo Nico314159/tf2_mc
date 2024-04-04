@@ -66,6 +66,9 @@ scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
 scoreboard objectives remove tf2.wait
 scoreboard objectives remove tf2.time_open
+scoreboard objectives remove tf2.anim_ticks
+scoreboard objectives remove tf2.accel
+scoreboard objectives remove tf2.vel_Y
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.coas

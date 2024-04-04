@@ -99,6 +99,9 @@ scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
 scoreboard objectives add tf2.wait dummy
 scoreboard objectives add tf2.time_open dummy
+scoreboard objectives add tf2.anim_ticks dummy
+scoreboard objectives add tf2.accel dummy
+scoreboard objectives add tf2.vel_Y dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger

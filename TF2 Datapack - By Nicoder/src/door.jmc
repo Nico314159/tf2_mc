@@ -21,17 +21,21 @@ class Door {
             }
         };
         $ scoreboard players set @e[tag=tf2.door,tag=tf2.newest] tf2.wait $(wait);
-        execute as @e[tag=tf2.door,tag=tf2.newest] run this.close();
+        tag @e[tag=tf2.door,tag=tf2.newest] remove tf2.newest;
     }
 
     function tick() {
         particle flame ~ ~ ~;
+        if (tf2.anim_ticks:@s < Door.ANIM_LENGTH) {
+            this.animate();
+        }
+        // tf2.vel_Y:@s[scores={tf2.anim_ticks=15..}] = 0;
         $players_nearby = this.check_for_players() with @s::item.components.minecraft:custom_data;
         tf2.time_open:@s[tag=tf2.is_open]++;
-        if ($players_nearby) {
-            return run this.open();
+        if ($players_nearby && entity @s[tag=!tf2.is_open]) {
+            this.open();
         }
-        if (tf2.time_open:@s[scores={tf2.wait=0..}] >= tf2.wait:@s) {
+        if (!$players_nearby && tf2.time_open:@s[scores={tf2.wait=0..}] >= tf2.wait:@s) {
             this.close();
         }
     }
@@ -56,15 +60,28 @@ class Door {
         }, [["x", "y", "z"], ["0", "1", "2"]]);
     }
 
+    @lazy function calculate_accel() {
+        tf2.accel:@s = @s::item.components.minecraft:custom_data.size_y;
+        tf2.accel:@s *= 10_000;
+        tf2.accel:@s /= Door.ANIM_LENGTH;
+        tf2.accel:@s /= Door.ANIM_LENGTH;
+        // Value of tf2.accel:@s is actually ½a according to kinematics
+        // Makes it easier to deal with the fencepost condition in the animate function
+    }
+
     function open() {
         tag @s add tf2.is_open;
+        this.calculate_accel();
+        tf2.anim_ticks:@s = tf2.vel_Y:@s = 0;
         this.determine_fill_coords();
         this.remove_blocks() with vars::;
     }
     function close() {
         tag @s remove tf2.is_open;
-        tag @s remove tf2.newest;
         tf2.time_open:@s = 0;
+        tf2.anim_ticks:@s = tf2.vel_Y:@s = 0;
+        this.calculate_accel();
+        tf2.accel:@s *= -1;
         this.determine_fill_coords();
         this.place_blocks() with vars::;
     }
@@ -77,5 +94,17 @@ class Door {
         $ fill $(x_from) $(y_from) $(z_from)
                $(x_to)   $(y_to)   $(z_to)
                white_stained_glass replace air;
+    }
+
+    function animate() {
+        tf2.vel_Y:@s += tf2.accel:@s; 
+        $temp_Y = @s::transformation.translation[1] * 10000;
+        $temp_Y += tf2.vel_Y:@s;
+        if (tf2.anim_ticks:@s < EVAL(Door.ANIM_LENGTH - 1)) {
+            $temp_Y += tf2.vel_Y:@s;
+            // Every step gets two ticks of movement, except for the last which only gets one
+        }
+        @s::transformation.translation[1] = 0.0001 * (float) $temp_Y;
+        tf2.anim_ticks:@s++;
     }
 }

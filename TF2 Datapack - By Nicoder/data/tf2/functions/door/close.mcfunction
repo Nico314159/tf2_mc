@@ -1,6 +1,11 @@
 tag @s remove tf2.is_open
-tag @s remove tf2.newest
 scoreboard players set @s tf2.time_open 0
+execute store result score @s tf2.anim_ticks run scoreboard players set @s tf2.vel_Y 0
+execute store result score @s tf2.accel run data get entity @s item.components.minecraft:custom_data.size_y
+scoreboard players operation @s tf2.accel *= 10000 tf2.const
+scoreboard players operation @s tf2.accel /= 20 tf2.const
+scoreboard players operation @s tf2.accel /= 20 tf2.const
+scoreboard players operation @s tf2.accel *= -1 tf2.const
 data modify storage tf2:lookup entity set from entity @s {}
 execute store result score $x_from tf2.var run data get storage tf2:lookup entity.Pos[0]
 execute store result score $x_to tf2.var run data get storage tf2:lookup entity.item.components.minecraft:custom_data.size_x

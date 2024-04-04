@@ -1,5 +1,6 @@
 #bind EVAL
 #define _INSTANCES_CAP_ 6
+#define Door.ANIM_LENGTH 20
 
 // Gamemode IDs
 #define Gamemode.ATK_DEF 1
