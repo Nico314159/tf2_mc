@@ -1,6 +1,9 @@
-scoreboard players operation @s tf2.vel_Y += @s tf2.accel
-execute store result score $temp_Y tf2.var run data get entity @s transformation.translation[1] 10000
-scoreboard players operation $temp_Y tf2.var += @s tf2.vel_Y
-execute if score @s tf2.anim_ticks matches ..18 run scoreboard players operation $temp_Y tf2.var += @s tf2.vel_Y
-execute store result entity @s transformation.translation[1] float 0.0001 run scoreboard players get $temp_Y tf2.var
-scoreboard players add @s tf2.anim_ticks 1
+execute store result score @s tf2.door.pos run data get storage tf2:lookup entity.transformation.translation[1] 10000
+execute store result score $closed_goal tf2.var run data get storage tf2:lookup entity.item.components.minecraft:custom_data.goal_positions.closed[1] 10000
+execute store result score $min_goal tf2.var store result score $max_goal tf2.var run data get storage tf2:lookup entity.item.components.minecraft:custom_data.goal_positions.open[1] 10000
+scoreboard players operation $min_goal tf2.var < $closed_goal tf2.var
+scoreboard players operation $max_goal tf2.var > $closed_goal tf2.var
+scoreboard players operation @s tf2.door.vel += @s tf2.door.accel
+scoreboard players operation @s tf2.door.pos += @s tf2.door.vel
+function tf2:door/clamp
+function tf2:door/projection

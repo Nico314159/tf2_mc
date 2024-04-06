@@ -30,6 +30,7 @@ scoreboard players set 66 tf2.const 66
 scoreboard players set 5833 tf2.const 5833
 scoreboard players set 12000 tf2.const 12000
 scoreboard players set 480 tf2.const 480
+scoreboard players set 225 tf2.const 225
 scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000
@@ -99,9 +100,9 @@ scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
 scoreboard objectives add tf2.wait dummy
 scoreboard objectives add tf2.time_open dummy
-scoreboard objectives add tf2.anim_ticks dummy
-scoreboard objectives add tf2.accel dummy
-scoreboard objectives add tf2.vel_Y dummy
+scoreboard objectives add tf2.door.pos dummy
+scoreboard objectives add tf2.door.vel dummy
+scoreboard objectives add tf2.door.accel dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
