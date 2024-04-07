@@ -73,19 +73,15 @@ class Door {
         return false;
     }
 
-    @lazy function calculate_accel(vertex) {
-        tf2.door.vel:@s = 0;
-        tf2.door.accel:@s = lookup::entity.item.components.minecraft:custom_data.goal_positions.$vertex * 10000;
-        tf2.door.pos:@s = lookup::entity.transformation.translation[1] * 10000;
-        tf2.door.accel:@s -= tf2.door.pos:@s;
-        tf2.door.accel:@s *= 2;
-        tf2.door.accel:@s /= EVAL(Door.ANIM_LENGTH ** 2);
+    @lazy function calculate_accel() {
+        // Result of inputting D=3, T=15, F=0.1 to the following graph: https://www.desmos.com/calculator/q9vlt1hdsb
+        tf2.door.accel:@s = 414;
     }
 
     function open() {
         tag @s add tf2.is_open;
         tag @s remove tf2.anim_over;
-        this.calculate_accel(open);
+        this.calculate_accel();
         this.determine_fill_coords();
         this.remove_blocks() with @s::item.components.minecraft:custom_data.fill;
     }
@@ -93,7 +89,8 @@ class Door {
         tag @s remove tf2.is_open;
         tag @s remove tf2.anim_over;
         tf2.time_open:@s = 0;
-        this.calculate_accel(closed);
+        this.calculate_accel();
+        tf2.door.accel:@s *= -1;
     }
     function remove_blocks() {
         $ fill $(x_from) $(y_from) $(z_from)
@@ -113,6 +110,8 @@ class Door {
         $min_goal < $closed_goal;
         $max_goal > $closed_goal;
 
+        tf2.door.vel:@s *= 9;
+        tf2.door.vel:@s /= 10;
         tf2.door.vel:@s += tf2.door.accel:@s; 
         tf2.door.pos:@s += tf2.door.vel:@s;
         this.clamp();
