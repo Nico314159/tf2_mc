@@ -1,2 +1,2 @@
 $execute positioned $(x) $(y) $(z) align xyz run summon item_display ~ ~ ~ {Tags:["tf2.door","tf2.newest"],item:{id:"minecraft:gold_ingot",count:1,components:{"minecraft:custom_model_data":100,"minecraft:custom_data":{size_x:$(size_x)f,size_y:$(size_y)f,size_z:$(size_z)f,path:$(path)}}},item_display:"ground",transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[$(size_x),$(size_y),$(size_z)]}}
-$execute as @e[tag=tf2.door,tag=tf2.newest] run function tf2:door/initialize_path {wait:$(wait)}
+$execute as @e[tag=tf2.door,tag=tf2.newest] run function tf2:door/initialize_path {wait:$(wait),path_length:$(path_length)}

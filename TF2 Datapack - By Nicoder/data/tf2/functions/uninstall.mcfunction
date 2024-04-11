@@ -66,6 +66,7 @@ scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
 scoreboard objectives remove tf2.wait
 scoreboard objectives remove tf2.time_open
+scoreboard objectives remove tf2.door.length
 scoreboard objectives remove tf2.door.pos
 scoreboard objectives remove tf2.door.vel
 scoreboard objectives remove tf2.door.accel

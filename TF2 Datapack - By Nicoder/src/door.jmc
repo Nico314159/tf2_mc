@@ -21,8 +21,9 @@ class Door {
                 scale: [$(size_x), $(size_y), $(size_z)]
             }
         };
+        
         $ execute as @e[tag=tf2.door,tag=tf2.newest] 
-                  run this.initialize_path({wait: $(wait)});
+                  run this.initialize_path({wait: $(wait), path_length: $(path_length)});
     }
 
     @lazy function determine_fill_coords() {
@@ -41,8 +42,8 @@ class Door {
         $ scoreboard players set @s tf2.wait $(wait);
         tag @s remove tf2.newest;
         lookup::entity = @s::{};
-        lookup::entity.item.components.minecraft:custom_data.goal_positions.closed = 0f;
-        lookup::entity.item.components.minecraft:custom_data.goal_positions.open = (float) lookup::entity.item.components.minecraft:custom_data.size_y;
+        $ scoreboard players set @s tf2.door.length $(path_length);
+        tf2.door.length:@s *= 10000;
         this.determine_fill_coords();
         @s::item.components = lookup::entity.item.components;
     }
@@ -104,32 +105,41 @@ class Door {
     }
 
     function animate() {
-        tf2.door.pos:@s = lookup::entity.transformation.translation[1] * 10000;
-        $closed_goal = lookup::entity.item.components.minecraft:custom_data.goal_positions.closed * 10000;
-        $min_goal = $max_goal = lookup::entity.item.components.minecraft:custom_data.goal_positions.open * 10000;
-        $min_goal < $closed_goal;
-        $max_goal > $closed_goal;
-
         tf2.door.vel:@s *= 9;
         tf2.door.vel:@s /= 10;
         tf2.door.vel:@s += tf2.door.accel:@s; 
         tf2.door.pos:@s += tf2.door.vel:@s;
         this.clamp();
-        this.projection();
+        this.projection() with lookup::entity.item.components.minecraft:custom_data;
     }
     function clamp() {
-        if (tf2.door.pos:@s > $min_goal && tf2.door.pos:@s < $max_goal) {
+        if (tf2.door.pos:@s > 0 && tf2.door.pos:@s < tf2.door.length:@s) {
             return true;
         }
         tf2.door.vel:@s = tf2.door.accel:@s = 0;
-        tf2.door.pos:@s > $min_goal;
-        tf2.door.pos:@s < $max_goal;
+        tf2.door.pos:@s > 0;
+        tf2.door.pos:@s < tf2.door.length:@s;
         tag @s add tf2.anim_over;
     }
     function projection() {
-        if (!String.isEqual("tf2:lookup", "entity.item.components.minecraft:custom_data.path", "linear")) {
-            return fail;
-        }
-        @s::transformation.translation[1] = 0.0001 * (float) tf2.door.pos:@s;
+        JMC.put("$function tf2:door/projection_$(path)");
+    }
+    function projection_east() {
+        @s::transformation.translation[0] =  0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_west() {
+        @s::transformation.translation[0] = -0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_up() {
+        @s::transformation.translation[1] =  0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_down() {
+        @s::transformation.translation[1] = -0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_south() {
+        @s::transformation.translation[2] =  0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_north() {
+        @s::transformation.translation[2] = -0.0001 * (float) tf2.door.pos:@s;
     }
 }
