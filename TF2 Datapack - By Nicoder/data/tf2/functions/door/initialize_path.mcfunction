@@ -25,3 +25,4 @@ scoreboard players remove $z_to tf2.var 1
 execute store result storage tf2:lookup entity.item.components.minecraft:custom_data.fill.z_from int 1 run scoreboard players get $z_from tf2.var
 execute store result storage tf2:lookup entity.item.components.minecraft:custom_data.fill.z_to int 1 run scoreboard players get $z_to tf2.var
 data modify entity @s item.components set from storage tf2:lookup entity.item.components
+scoreboard players set @s tf2.door.state 4

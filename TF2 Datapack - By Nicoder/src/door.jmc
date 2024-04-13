@@ -46,6 +46,9 @@ class Door {
         tf2.door.length:@s *= 10000;
         this.determine_fill_coords();
         @s::item.components = lookup::entity.item.components;
+
+        // temporary
+        tf2.door.state:@s = Door.ALL_PROXIMITY;
     }
 
     function tick() {
@@ -54,6 +57,13 @@ class Door {
         if (entity @s[tag=!tf2.anim_over]) {
             this.animate();
         }
+        if (tf2.door.state:@s == Door.OPEN) {
+            return run execute if entity @s[tag=!tf2.is_open] run this.open();
+        }
+        if (tf2.door.state:@s == Door.CLOSED) {
+            return run execute if entity @s[tag=tf2.is_open] run this.close();
+        }
+
         $players_nearby = this.check_for_players() with lookup::entity.item.components.minecraft:custom_data;
         tf2.time_open:@s[tag=tf2.is_open]++;
         if ($players_nearby && entity @s[tag=!tf2.is_open]) {
@@ -68,10 +78,17 @@ class Door {
     }
 
     function check_for_players() {
-        $ execute positioned ~-.5 ~-.5 ~-.5
-                  if entity @a[dx=$(size_x), dy=$(size_y), dz=$(size_z)]
-                  run return true;
-        return false;
+        if (tf2.door.state:@s matches 0..1) {
+            return run printf("&<dark_red>[ERROR] &<red>Unexpected value for door state: &<tf2.door.state:@s>");
+        }
+        tf2.team:$wrong = tf2.door.state:@s;
+        tf2.team:$wrong *= -1;
+        tf2.team:$wrong += 4;
+
+        $ return run execute 
+                 positioned ~-.5 ~-.5 ~-.5
+                 as @a[dx=$(size_x), dy=$(size_y), dz=$(size_z)]
+                 unless score @s tf2.team = $wrong tf2.team;
     }
 
     @lazy function calculate_accel() {
