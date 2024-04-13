@@ -57,6 +57,10 @@ class Door {
         if (entity @s[tag=!tf2.anim_over]) {
             this.animate();
         }
+        if (entity @s[tag=tf2.anim_over,tag=!tf2.is_open]) {
+            this.place_blocks() with @s::item.components.minecraft:custom_data.fill;
+        }
+
         if (tf2.door.state:@s == Door.OPEN) {
             return run execute if entity @s[tag=!tf2.is_open] run this.open();
         }
@@ -72,18 +76,15 @@ class Door {
         if (!$players_nearby && tf2.time_open:@s[scores={tf2.wait=0..}] >= tf2.wait:@s) {
             this.close();
         }
-        if (entity @s[tag=tf2.anim_over,tag=!tf2.is_open]) {
-            this.place_blocks() with @s::item.components.minecraft:custom_data.fill;
-        }
     }
 
     function check_for_players() {
         if (tf2.door.state:@s matches 0..1) {
+            // Should never execute
             return run printf("&<dark_red>[ERROR] &<red>Unexpected value for door state: &<tf2.door.state:@s>");
         }
-        tf2.team:$wrong = tf2.door.state:@s;
-        tf2.team:$wrong *= -1;
-        tf2.team:$wrong += 4;
+        tf2.team:$wrong = 4;
+        tf2.team:$wrong -= tf2.door.state:@s;
 
         $ return run execute 
                  positioned ~-.5 ~-.5 ~-.5
@@ -137,6 +138,9 @@ class Door {
         tf2.door.pos:@s > 0;
         tf2.door.pos:@s < tf2.door.length:@s;
         tag @s add tf2.anim_over;
+        // this.place_blocks() with @s[tag=!tf2.is_open]::item;
+        // execute as @s[tag=!tf2.is_open] run this.place_blocks() 
+        //         with @s::item.components.minecraft:custom_data.fill;
     }
     function projection() {
         JMC.put("$function tf2:door/projection_$(path)");
