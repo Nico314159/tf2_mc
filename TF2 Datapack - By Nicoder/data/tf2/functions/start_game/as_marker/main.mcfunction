@@ -17,14 +17,17 @@ execute store result score $blu_length tf2.var run data get entity @s data.map.s
 scoreboard players set $i tf2.var 0
 execute if data storage tf2:summon doors[] run function tf2:__private__/while_loop/1
 data remove storage tf2:summon entity
+data modify storage tf2:summon doors set from entity @s data.map.automatic_doors
+execute if data storage tf2:summon doors[] run function tf2:__private__/while_loop/2
+data remove storage tf2:summon entity
 data modify storage tf2:summon pickups set from entity @s data.map.pickups
-execute if data storage tf2:summon pickups[] run function tf2:__private__/while_loop/2
+execute if data storage tf2:summon pickups[] run function tf2:__private__/while_loop/3
 data remove storage tf2:summon entity
 data modify storage tf2:summon resupply set from entity @s data.map.resupply_cabinets.red
 data modify storage tf2:summon resupply append from entity @s data.map.resupply_cabinets.blu[]
 execute store result score $blu_length tf2.var run data get entity @s data.map.resupply_cabinets.blu
 scoreboard players set $i tf2.var 0
-execute if data storage tf2:summon resupply[] run function tf2:__private__/while_loop/3
+execute if data storage tf2:summon resupply[] run function tf2:__private__/while_loop/4
 data remove storage tf2:summon entity
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
 execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass

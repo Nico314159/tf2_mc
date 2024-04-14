@@ -1,54 +1,54 @@
 class Door {
     function summon() {
-        $ execute positioned $(x) $(y) $(z) align xyz run summon item_display ~ ~ ~ {
-            Tags: ["tf2.door", "tf2.newest"],
-            item: {
-                id: "minecraft:gold_ingot",
-                count: 1,
-                components: {
-                    "minecraft:custom_model_data": 100,
-                    "minecraft:custom_data": {
-                        size_x: $(size_x)f,
-                        size_y: $(size_y)f,
-                        size_z: $(size_z)f,
-                        path: $(path)
-            }   }   },
-            item_display: "ground",
-            transformation: {
-                left_rotation: [0f, 0f, 0f, 1f],
-                right_rotation: [0f, 0f, 0f, 1f],
-                translation: [0f, 0f, 0f],
-                scale: [$(size_x), $(size_y), $(size_z)]
-            }
+        $ summon::doors << {
+            Pos:  $(Pos),
+            size: $(size),
+            wait: $(wait),
+            path: $(path),
+            path_length: $(path_length),
+            state: $(state)
         };
-        
-        $ execute as @e[tag=tf2.door,tag=tf2.newest] 
-                  run this.initialize_path({wait: $(wait), path_length: $(path_length)});
+        execute summon item_display run Door.initialize_path();
     }
 
     @lazy function determine_fill_coords() {
         Hardcode.repeatLists(["|axis|", "|#|"], () => {
-            $|axis|_from = lookup::entity.Pos[|#|];
-            $|axis|_to = lookup::entity.item.components.minecraft:custom_data.size_|axis|;
+            $|axis|_from = summon::entity.Pos[|#|];
+            $|axis|_to = summon::entity.item.components.minecraft:custom_data.size_|axis|;
             $|axis|_to > 1;
             $|axis|_to += $|axis|_from;
             $|axis|_to --;
-            lookup::entity.item.components.minecraft:custom_data.fill.|axis|_from = $|axis|_from;
-            lookup::entity.item.components.minecraft:custom_data.fill.|axis|_to   = $|axis|_to;
+            summon::entity.item.components.minecraft:custom_data.fill.|axis|_from = $|axis|_from;
+            summon::entity.item.components.minecraft:custom_data.fill.|axis|_to   = $|axis|_to;
         }, [["x", "y", "z"], ["0", "1", "2"]]);
     }
 
     function initialize_path() {
-        $ scoreboard players set @s tf2.wait $(wait);
-        tag @s remove tf2.newest;
-        lookup::entity = @s::{};
-        $ scoreboard players set @s tf2.door.length $(path_length);
-        tf2.door.length:@s *= 10000;
+        summon::entity.Pos = summon::doors[-1].Pos;
+        summon::entity.item = {id: "gold_ingot", components: {"minecraft:custom_model_data": 100}};
+        summon::entity.item_display = "ground";
+
+        summon::entity.item.components.minecraft:custom_data.path = summon::doors[-1].path;
+        summon::entity.item.components.minecraft:custom_data.size_x = summon::doors[-1].size[0];
+        summon::entity.item.components.minecraft:custom_data.size_y = summon::doors[-1].size[1];
+        summon::entity.item.components.minecraft:custom_data.size_z = summon::doors[-1].size[2];
+        summon::entity.transformation.scale = summon::doors[-1].size;
+
+        tf2.wait:@s = summon::doors[-1].wait;
+        tf2.door.length:@s = summon::doors[-1].path_length * 10000;
         this.determine_fill_coords();
-        @s::item.components = lookup::entity.item.components;
+        @s::item.components += summon::entity.item.components;
 
         // temporary
         tf2.door.state:@s = Door.ALL_PROXIMITY;
+        if (data storage tf2:summon doors[-1].state) {
+            tf2.door.state:@s = summon::doors[-1].state;
+        }
+        
+        @s::{} += summon::entity;
+        tf2.batch_number:@s = tf2.batch_number:$local;
+        tag @s add tf2.door;
+        tag @s add tf2.anim_over;
     }
 
     function tick() {

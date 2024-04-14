@@ -109,6 +109,14 @@
     }
     summon::entity.del();
 
+    // Animated doors
+    summon::doors = @s::data.map.automatic_doors;
+    while (data storage tf2:summon doors[]) {
+        execute summon item_display run Door.initialize_path();
+        summon::doors[-1].del();
+    }
+    summon::entity.del();
+
     // Pickups (health & ammo)
     summon::pickups = @s::data.map.pickups;
     while (data storage tf2:summon pickups[]) {
