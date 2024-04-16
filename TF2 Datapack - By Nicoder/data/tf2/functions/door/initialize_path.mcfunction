@@ -8,6 +8,7 @@ data modify storage tf2:summon entity.item.components.minecraft:custom_data.size
 data modify storage tf2:summon entity.transformation.scale set from storage tf2:summon doors[-1].size
 execute store result score @s tf2.wait run data get storage tf2:summon doors[-1].wait
 execute store result score @s tf2.door.length run data get storage tf2:summon doors[-1].path_length 10000
+scoreboard players add @s tf2.door.length 10
 execute store result score $x_from tf2.var run data get storage tf2:summon entity.Pos[0]
 execute store result score $x_to tf2.var run data get storage tf2:summon entity.item.components.minecraft:custom_data.size_x
 scoreboard players operation $x_to tf2.var > 1 tf2.const
@@ -29,6 +30,7 @@ scoreboard players operation $z_to tf2.var += $z_from tf2.var
 scoreboard players remove $z_to tf2.var 1
 execute store result storage tf2:summon entity.item.components.minecraft:custom_data.fill.z_from int 1 run scoreboard players get $z_from tf2.var
 execute store result storage tf2:summon entity.item.components.minecraft:custom_data.fill.z_to int 1 run scoreboard players get $z_to tf2.var
+data modify storage tf2:summon entity.item.components.minecraft:custom_data.fill.block set from storage tf2:summon doors[-1].block
 data modify entity @s item.components merge from storage tf2:summon entity.item.components
 scoreboard players set @s tf2.door.state 4
 execute if data storage tf2:summon doors[-1].state store result score @s tf2.door.state run data get storage tf2:summon doors[-1].state

@@ -209,13 +209,13 @@ maps:: += {
                   {Pos: [1165.0, 115.52, -957.42], Rotation: [180.0f, 0.0f]}]
         },
         automatic_doors: [
-            {Pos: [1166.00, 121d, -859.75], size: [6.0, 3.0, 0.5], wait: -1, path: "up", path_length: 3, state: Door.ALL_PROXIMITY},
-            {Pos: [1126.00, 122d, -859.75], size: [7.0, 2.0, 0.5], wait: -1, path: "up", path_length: 2, state: Door.ALL_PROXIMITY},
-            {Pos: [1152.00, 127d, -896.75], size: [5.0, 3.0, 0.5], wait: 15, path: "up", path_length: 3, state: Door.BLU_PROXIMITY},
-            {Pos: [1145.02, 124d, -785.00], size: [.96, 2.0, 1.0], wait: 15, path: "up", path_length: 3, state: Door.RED_PROXIMITY},
-            {Pos: [1148.00, 127d, -827.98], size: [3.0, 3.0, .96], wait: -1, path: "up", path_length: 3, state: Door.CLOSED},
-            {Pos: [1162.25, 122d, -839.00], size: [0.5, 3.0, 4.0], wait: -1, path: "up", path_length: 4, state: Door.CLOSED},
-            {Pos: [1165.00, 122d, -820.625], size: [5.0, 3.0, 0.5], wait: -1, path: "up", path_length: 2.75, state: Door.CLOSED}
+            {Pos: [1166.00, 121d, -859.75], size: [6.0, 3.0, 0.5], wait: 600, path: "up", path_length: 3, state: Door.ALL_PROXIMITY, block: "oak_fence"},
+            {Pos: [1126.00, 122d, -859.75], size: [7.0, 2.0, 0.5], wait: 600, path: "up", path_length: 2, state: Door.ALL_PROXIMITY, block: "oak_fence"},
+            {Pos: [1152.00, 127d, -896.75], size: [5.0, 3.0, 0.5], wait: 15, path: "up", path_length: 2, state: Door.BLU_PROXIMITY, block: "oak_fence"},
+            {Pos: [1145.00, 124d, -785.00], size: [1.0, 2.0, 1.0], wait: 15, path: "up", path_length: 3, state: Door.RED_PROXIMITY, block: "barrier"},
+            {Pos: [1148.00, 127d, -828.00], size: [3.0, 3.0, 1.0], wait: -1, path: "east", path_length: 3, state: Door.CLOSED, block: "barrier"},
+            {Pos: [1162.25, 122d, -839.00], size: [0.5, 3.0, 4.0], wait: -1, path: "up", path_length: 4, state: Door.CLOSED, block: "oak_fence"},
+            {Pos: [1165.00, 122d, -820.625], size: [5.0, 3.0, 0.5], wait: -1, path: "up", path_length: 2.75, state: Door.CLOSED, block: "oak_fence"}
         ],
         objectives: [
             {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.control_point"], data: {

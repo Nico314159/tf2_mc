@@ -22,4 +22,5 @@ scoreboard players operation $z_to tf2.var += $z_from tf2.var
 scoreboard players remove $z_to tf2.var 1
 execute store result storage tf2:summon entity.item.components.minecraft:custom_data.fill.z_from int 1 run scoreboard players get $z_from tf2.var
 execute store result storage tf2:summon entity.item.components.minecraft:custom_data.fill.z_to int 1 run scoreboard players get $z_to tf2.var
+data modify storage tf2:summon entity.item.components.minecraft:custom_data.fill.block set from storage tf2:summon doors[-1].block
 function tf2:door/remove_blocks with entity @s item.components.minecraft:custom_data.fill

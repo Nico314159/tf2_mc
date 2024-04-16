@@ -6,7 +6,8 @@ class Door {
             wait: $(wait),
             path: $(path),
             path_length: $(path_length),
-            state: $(state)
+            state: $(state),
+            block: $(block)
         };
         execute summon item_display run Door.initialize_path();
     }
@@ -21,6 +22,7 @@ class Door {
             summon::entity.item.components.minecraft:custom_data.fill.|axis|_from = $|axis|_from;
             summon::entity.item.components.minecraft:custom_data.fill.|axis|_to   = $|axis|_to;
         }, [["x", "y", "z"], ["0", "1", "2"]]);
+        summon::entity.item.components.minecraft:custom_data.fill.block = summon::doors[-1].block;
     }
 
     function initialize_path() {
@@ -36,6 +38,8 @@ class Door {
 
         tf2.wait:@s = summon::doors[-1].wait;
         tf2.door.length:@s = summon::doors[-1].path_length * 10000;
+        // prevent Z-fighting
+        tf2.door.length:@s += 10;
         this.determine_fill_coords();
         @s::item.components += summon::entity.item.components;
 
@@ -114,12 +118,13 @@ class Door {
     function remove_blocks() {
         $ fill $(x_from) $(y_from) $(z_from)
                $(x_to)   $(y_to)   $(z_to)
-               air replace white_stained_glass;
+               air replace $(block);
     }
     function place_blocks() {
+        // $say "$(block)x";
         $ fill $(x_from) $(y_from) $(z_from)
                $(x_to)   $(y_to)   $(z_to)
-               white_stained_glass replace air;
+               $(block) replace air;
     }
 
     function animate() {
