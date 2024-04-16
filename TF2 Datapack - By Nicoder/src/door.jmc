@@ -36,7 +36,7 @@ class Door {
         summon::entity.item.components.minecraft:custom_data.size_z = summon::doors[-1].size[2];
         summon::entity.transformation.scale = summon::doors[-1].size;
 
-        tf2.wait:@s = summon::doors[-1].wait;
+        tf2.door.wait:@s = summon::doors[-1].wait;
         tf2.door.length:@s = summon::doors[-1].path_length * 10000;
         // prevent Z-fighting
         tf2.door.length:@s += 10;
@@ -73,11 +73,11 @@ class Door {
         }
 
         $players_nearby = this.check_for_players() with lookup::entity.item.components.minecraft:custom_data;
-        tf2.time_open:@s[tag=tf2.is_open]++;
+        tf2.door.time_open:@s[tag=tf2.is_open]++;
         if ($players_nearby && entity @s[tag=!tf2.is_open]) {
             this.open();
         }
-        if (!$players_nearby && tf2.time_open:@s[scores={tf2.wait=0..}] >= tf2.wait:@s) {
+        if (!$players_nearby && tf2.door.time_open:@s[scores={tf2.door.wait=0..}] >= tf2.door.wait:@s) {
             this.close();
         }
     }
@@ -111,7 +111,7 @@ class Door {
     function close() {
         tag @s remove tf2.is_open;
         tag @s remove tf2.anim_over;
-        tf2.time_open:@s = 0;
+        tf2.door.time_open:@s = 0;
         this.calculate_accel();
         tf2.door.accel:@s *= -1;
     }
