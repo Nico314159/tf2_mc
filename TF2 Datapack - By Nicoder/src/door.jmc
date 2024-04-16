@@ -53,6 +53,10 @@ class Door {
         tf2.batch_number:@s = tf2.batch_number:$local;
         tag @s add tf2.door;
         tag @s add tf2.anim_over;
+
+        if (tf2.door.id:$i == tf2.door.id:$i) {
+            tf2.door.id:@s = tf2.door.id:$i;
+        }
     }
 
     function tick() {

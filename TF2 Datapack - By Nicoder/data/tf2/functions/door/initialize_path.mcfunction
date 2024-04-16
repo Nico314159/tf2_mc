@@ -38,3 +38,4 @@ data modify entity @s {} merge from storage tf2:summon entity
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 tag @s add tf2.door
 tag @s add tf2.anim_over
+execute if score $i tf2.door.id = $i tf2.door.id run scoreboard players operation @s tf2.door.id = $i tf2.door.id

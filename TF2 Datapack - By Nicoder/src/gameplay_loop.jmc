@@ -111,7 +111,9 @@
 
     // Animated doors
     summon::doors = @s::data.map.automatic_doors;
-    while (data storage tf2:summon doors[]) {
+    tf2.door.id:$i = summon::doors;
+    while (tf2.door.id:$i) {
+        tf2.door.id:$i--;
         execute summon item_display run Door.initialize_path();
         summon::doors[-1].del();
     }

@@ -18,7 +18,8 @@ scoreboard players set $i tf2.var 0
 execute if data storage tf2:summon doors[] run function tf2:__private__/while_loop/1
 data remove storage tf2:summon entity
 data modify storage tf2:summon doors set from entity @s data.map.automatic_doors
-execute if data storage tf2:summon doors[] run function tf2:__private__/while_loop/2
+execute store result score $i tf2.door.id run data get storage tf2:summon doors
+execute if score $i tf2.door.id matches 1.. run function tf2:__private__/while_loop/2
 data remove storage tf2:summon entity
 data modify storage tf2:summon pickups set from entity @s data.map.pickups
 execute if data storage tf2:summon pickups[] run function tf2:__private__/while_loop/3

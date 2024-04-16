@@ -101,6 +101,7 @@ scoreboard objectives add tf2.last_air dummy
 scoreboard objectives add tf2.door.wait dummy
 scoreboard objectives add tf2.door.time_open dummy
 scoreboard objectives add tf2.door.state dummy
+scoreboard objectives add tf2.door.id dummy
 scoreboard objectives add tf2.door.length dummy
 scoreboard objectives add tf2.door.pos dummy
 scoreboard objectives add tf2.door.vel dummy
