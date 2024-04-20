@@ -96,7 +96,7 @@ class Door {
 
         $ return run execute 
                  positioned ~-.5 ~-.5 ~-.5
-                 as @a[dx=$(size_x), dy=$(size_y), dz=$(size_z)]
+                 as @a[dx=$(size_x), dy=$(size_y), dz=$(size_z), gamemode=!spectator]
                  unless score @s tf2.team = $wrong tf2.team;
     }
 
