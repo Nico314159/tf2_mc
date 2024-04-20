@@ -60,7 +60,6 @@ class Door {
     }
 
     function tick() {
-        particle flame ~ ~ ~;
         lookup::entity = @s::{};
         if (entity @s[tag=!tf2.anim_over]) {
             this.animate();
