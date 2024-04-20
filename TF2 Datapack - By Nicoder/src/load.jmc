@@ -214,7 +214,7 @@ maps:: += {
             {Pos: [1126.00, 122d, -859.75], size: [7.0, 2.0, 0.5], wait: 600, path: "up", path_length: 2, state: Door.ALL_PROXIMITY, block: "oak_fence"},
             {Pos: [1152.00, 127d, -896.75], size: [5.0, 3.0, 0.5], wait: 15, path: "up", path_length: 2, state: Door.CLOSED, block: "oak_fence"},
             {Pos: [1145.00, 124d, -785.00], size: [0.999, 2.0, 1.0], wait: 15, path: "up", path_length: 3, state: Door.RED_PROXIMITY, block: "barrier"},
-            {Pos: [1148.00, 127d, -827.85], size: [3.0, 3.0, 0.7], wait: -1, path: "east", path_length: 2.5, state: Door.CLOSED, block: "andesite_wall"},
+            {Pos: [1148.00, 127d, -827.80], size: [3.0, 3.0, 0.6], wait: -1, path: "east", path_length: 2.75, state: Door.CLOSED, block: "andesite_wall"},
             {Pos: [1162.25, 122d, -839.00], size: [0.5, 3.0, 4.0], wait: -1, path: "up", path_length: 4, state: Door.CLOSED, block: "oak_fence"},
             {Pos: [1165.00, 122d, -820.625], size: [5.0, 3.0, 0.5], wait: -1, path: "up", path_length: 2.75, state: Door.CLOSED, block: "oak_fence"}
         ],
