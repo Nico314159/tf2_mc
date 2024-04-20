@@ -1,4 +1,3 @@
-particle flame ~ ~ ~
 data modify storage tf2:lookup entity set from entity @s {}
 execute if entity @s[tag=!tf2.anim_over] run function tf2:door/animate
 execute if entity @s[tag=tf2.anim_over,tag=!tf2.is_open] run function tf2:door/place_blocks with entity @s item.components.minecraft:custom_data.fill
