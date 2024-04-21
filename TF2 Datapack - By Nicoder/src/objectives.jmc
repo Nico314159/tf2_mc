@@ -322,6 +322,21 @@ class Objectives
                     }
                     if (data storage tf2:lookup {events:{spawn_`prop`:{}}}) {this.spawn_`prop`();}
                 }, strings=["point", "time"]);
+
+                while (data storage tf2:lookup events.doors[]) {
+                    tf2.door.id:$i = lookup::events.doors[-1].id;
+                    // printf("&<yellow>Checking for door #&<tf2.door.id:$i>...");
+                    execute as @e[type=item_display, tag=tf2.door]
+                            if score @s tf2.batch_number = $local tf2.batch_number
+                            if score @s tf2.door.id = $i tf2.door.id
+                            run {
+                                // printf("&<green> Hi, this is door #&<tf2.door.id:@s>");
+                                // printf("Prev door state: &<tf2.door.state:@s>");
+                                tf2.door.state:@s = lookup::events.doors[-1].state;
+                                // printf("New door state: &<tf2.door.state:@s>");
+                            }
+                    lookup::events.doors[-1].del();
+                }
             }
         }
         class set_owner {

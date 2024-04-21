@@ -1,0 +1,174 @@
+class Door {
+    function summon() {
+        $ summon::doors << {
+            Pos:  $(Pos),
+            size: $(size),
+            wait: $(wait),
+            path: $(path),
+            path_length: $(path_length),
+            state: $(state),
+            block: $(block)
+        };
+        execute summon item_display run Door.initialize_path();
+    }
+
+    @lazy function determine_fill_coords() {
+        Hardcode.repeatLists(["|axis|", "|#|"], () => {
+            $|axis|_from = summon::entity.Pos[|#|];
+            $|axis|_to = summon::entity.item.components.minecraft:custom_data.size_|axis|;
+            $|axis|_to > 1;
+            $|axis|_to += $|axis|_from;
+            $|axis|_to --;
+            summon::entity.item.components.minecraft:custom_data.fill.|axis|_from = $|axis|_from;
+            summon::entity.item.components.minecraft:custom_data.fill.|axis|_to   = $|axis|_to;
+        }, [["x", "y", "z"], ["0", "1", "2"]]);
+        summon::entity.item.components.minecraft:custom_data.fill.block = summon::doors[-1].block;
+    }
+
+    function initialize_path() {
+        summon::entity.Pos = summon::doors[-1].Pos;
+        summon::entity.item = {id: "gold_ingot", components: {"minecraft:custom_model_data": 100}};
+        summon::entity.item_display = "ground";
+
+        summon::entity.item.components.minecraft:custom_data.path = summon::doors[-1].path;
+        summon::entity.item.components.minecraft:custom_data.size_x = summon::doors[-1].size[0];
+        summon::entity.item.components.minecraft:custom_data.size_y = summon::doors[-1].size[1];
+        summon::entity.item.components.minecraft:custom_data.size_z = summon::doors[-1].size[2];
+        summon::entity.transformation.scale = summon::doors[-1].size;
+
+        tf2.door.wait:@s = summon::doors[-1].wait;
+        tf2.door.length:@s = summon::doors[-1].path_length * 10000;
+        // prevent Z-fighting
+        tf2.door.length:@s += 10;
+        this.determine_fill_coords();
+        @s::item.components += summon::entity.item.components;
+
+        // temporary
+        tf2.door.state:@s = Door.ALL_PROXIMITY;
+        if (data storage tf2:summon doors[-1].state) {
+            tf2.door.state:@s = summon::doors[-1].state;
+        }
+        
+        @s::{} += summon::entity;
+        tf2.batch_number:@s = tf2.batch_number:$local;
+        tag @s add tf2.door;
+        tag @s add tf2.anim_over;
+
+        if (tf2.door.id:$i == tf2.door.id:$i) {
+            tf2.door.id:@s = tf2.door.id:$i;
+        }
+    }
+
+    function tick() {
+        lookup::entity = @s::{};
+        if (entity @s[tag=!tf2.anim_over]) {
+            this.animate();
+        }
+        if (entity @s[tag=tf2.anim_over,tag=!tf2.is_open]) {
+            this.place_blocks() with @s::item.components.minecraft:custom_data.fill;
+        }
+
+        if (tf2.door.state:@s == Door.OPEN) {
+            return run execute if entity @s[tag=!tf2.is_open] run this.open();
+        }
+        if (tf2.door.state:@s == Door.CLOSED) {
+            return run execute if entity @s[tag=tf2.is_open] run this.close();
+        }
+
+        $players_nearby = this.check_for_players() with lookup::entity.item.components.minecraft:custom_data;
+        tf2.door.time_open:@s[tag=tf2.is_open]++;
+        if ($players_nearby && entity @s[tag=!tf2.is_open]) {
+            this.open();
+        }
+        if (!$players_nearby && tf2.door.time_open:@s[scores={tf2.door.wait=0..}] >= tf2.door.wait:@s) {
+            this.close();
+        }
+    }
+
+    function check_for_players() {
+        if (tf2.door.state:@s matches 0..1) {
+            // Should never execute
+            return run printf("&<dark_red>[ERROR] &<red>Unexpected value for door state: &<tf2.door.state:@s>");
+        }
+        tf2.team:$wrong = 4;
+        tf2.team:$wrong -= tf2.door.state:@s;
+
+        $ return run execute 
+                 positioned ~-.5 ~-.5 ~-.5
+                 as @a[dx=$(size_x), dy=$(size_y), dz=$(size_z), gamemode=!spectator]
+                 unless score @s tf2.team = $wrong tf2.team;
+    }
+
+    @lazy function calculate_accel() {
+        // Result of inputting D=3, T=15, F=0.1 to the following graph: https://www.desmos.com/calculator/q9vlt1hdsb
+        tf2.door.accel:@s = 414;
+    }
+
+    function open() {
+        tag @s add tf2.is_open;
+        tag @s remove tf2.anim_over;
+        this.calculate_accel();
+        this.determine_fill_coords();
+        this.remove_blocks() with @s::item.components.minecraft:custom_data.fill;
+    }
+    function close() {
+        tag @s remove tf2.is_open;
+        tag @s remove tf2.anim_over;
+        tf2.door.time_open:@s = 0;
+        this.calculate_accel();
+        tf2.door.accel:@s *= -1;
+    }
+    function remove_blocks() {
+        $ fill $(x_from) $(y_from) $(z_from)
+               $(x_to)   $(y_to)   $(z_to)
+               air replace $(block);
+    }
+    function place_blocks() {
+        // $say "$(block)x";
+        $ fill $(x_from) $(y_from) $(z_from)
+               $(x_to)   $(y_to)   $(z_to)
+               $(block) replace air;
+    }
+
+    function animate() {
+        tf2.door.vel:@s *= 9;
+        tf2.door.vel:@s /= 10;
+        tf2.door.vel:@s += tf2.door.accel:@s; 
+        tf2.door.pos:@s += tf2.door.vel:@s;
+        this.clamp();
+        this.projection() with lookup::entity.item.components.minecraft:custom_data;
+    }
+    function clamp() {
+        if (tf2.door.pos:@s > 0 && tf2.door.pos:@s < tf2.door.length:@s) {
+            return true;
+        }
+        tf2.door.vel:@s = tf2.door.accel:@s = 0;
+        tf2.door.pos:@s > 0;
+        tf2.door.pos:@s < tf2.door.length:@s;
+        tag @s add tf2.anim_over;
+        // this.place_blocks() with @s[tag=!tf2.is_open]::item;
+        // execute as @s[tag=!tf2.is_open] run this.place_blocks() 
+        //         with @s::item.components.minecraft:custom_data.fill;
+    }
+    function projection() {
+        JMC.put("$function tf2:door/projection_$(path)");
+    }
+    function projection_east() {
+        @s::transformation.translation[0] =  0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_west() {
+        @s::transformation.translation[0] = -0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_up() {
+        @s::transformation.translation[1] =  0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_down() {
+        @s::transformation.translation[1] = -0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_south() {
+        @s::transformation.translation[2] =  0.0001 * (float) tf2.door.pos:@s;
+    }
+    function projection_north() {
+        @s::transformation.translation[2] = -0.0001 * (float) tf2.door.pos:@s;
+    }
+}

@@ -1,0 +1,2 @@
+$data modify storage tf2:summon doors append value {Pos:$(Pos),size:$(size),wait:$(wait),path:$(path),path_length:$(path_length),state:$(state),block:$(block)}
+execute summon item_display run function tf2:door/initialize_path
