@@ -5,7 +5,7 @@
 // 	},
 //     "template_item": "minecraft:stick"
 // }
-generate_body_model(pyro);
+// generate_body_model(pyro);
 
 class Class.Pyro {
 	new loot_table(flamethrower) {
@@ -108,7 +108,7 @@ class Class.Pyro {
 						{
 							"function": "minecraft:set_components",
 							"components": {
-								"minecraft:custom_model_data": 33000,
+								"minecraft:custom_model_data": 73000,
 								"minecraft:unbreakable": {"show_in_tooltip": false}
 							}
 						},
