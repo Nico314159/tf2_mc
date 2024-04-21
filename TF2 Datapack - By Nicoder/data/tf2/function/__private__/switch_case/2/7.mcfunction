@@ -1,0 +1,1 @@
+function tf2:class/pyro/inventory_lock

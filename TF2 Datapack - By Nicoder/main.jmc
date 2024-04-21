@@ -141,7 +141,7 @@ function player_tick() {
         case Class.SOLDIER: Class.Soldier.tick();
         // case Class.DEMOMAN: Class.Demoman.tick();
         case Class.HEAVY: Class.Heavy.tick();
-        // case Class.PYRO: Class.Pyro.tick();
+        case Class.PYRO: Class.Pyro.tick();
         // case Class.ENGINEER: Class.Engineer.tick();
         // case Class.MEDIC: Class.Medic.tick();
     }
