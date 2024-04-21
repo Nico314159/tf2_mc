@@ -1,2 +1,2 @@
-tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=retina.executing]","type":"selector"},{"text":" killed "},{"selector":"@s","type":"selector"},{"text":" with "},{"type":"nbt","source":"entity","nbt":"SelectedItem.components.minecraft:custom_name","interpret":true,"entity":"@a[tag=retina.executing]"}]
+data modify storage tf2:vars kill_verb set value 'killed'
 playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05

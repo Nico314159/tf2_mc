@@ -1,4 +1,4 @@
-tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=retina.executing]","type":"selector"},{"text":" headshot "},{"selector":"@s","type":"selector"},{"text":" with "},{"type":"nbt","source":"entity","nbt":"SelectedItem.components.minecraft:custom_name","interpret":true,"entity":"@a[tag=retina.executing]"}]
+data modify storage tf2:vars kill_verb set value 'headshot'
 execute store result storage tf2:index num int 1 run random value 1..5
 execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] at @s run function tf2:weapons/crit_sound with storage tf2:index
 execute store result storage tf2:index num int 1 run random value 1..3

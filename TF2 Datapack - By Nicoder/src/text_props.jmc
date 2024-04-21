@@ -48,6 +48,12 @@ TextProps.nbt(
     path         = key,
     interpret    = true
 );
+TextProp.nbt(
+    propertyName = "kill_verb",
+    type         = storage,
+    source       = "tf2:vars",
+    path         = kill_verb
+);
 TextProp.keybind("main_fire", "key.use");
 TextProp.keybind("alt_fire",  "key.swapOffhand");
 TextProp.keybind("reload",    "key.drop");
