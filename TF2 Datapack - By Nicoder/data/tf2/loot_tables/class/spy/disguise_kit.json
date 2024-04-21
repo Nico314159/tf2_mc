@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "Disguise Kit",
+                                "text": "Disguise Kit (not yet implemented)",
                                 "color": "gray",
                                 "italic": true
                             }

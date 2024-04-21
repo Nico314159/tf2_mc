@@ -1,7 +1,7 @@
 // This file will be removed once JMC Item.create is made to work with Minecraft 1.20.5+ item components
 #define Item.CHANGE_CLASS carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
 
-#define Select.SPY     carrot_on_a_stick[custom_model_data=1,custom_name='"Spy"'] 1
+#define Select.SPY     carrot_on_a_stick[custom_model_data=1,custom_name='"Spy (WIP)"'] 1
 #define Select.SNIPER  carrot_on_a_stick[custom_model_data=2,custom_name='"Sniper"'] 1
 #define Select.SCOUT   carrot_on_a_stick[custom_model_data=3,custom_name='"Scout"'] 1
 #define Select.HEAVY   carrot_on_a_stick[custom_model_data=6,custom_name='"Heavy"'] 1

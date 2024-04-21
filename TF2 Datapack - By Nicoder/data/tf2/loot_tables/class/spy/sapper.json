@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "Sapper",
+                                "text": "Sapper (not yet implemented)",
                                 "color": "gray",
                                 "italic": true
                             }
