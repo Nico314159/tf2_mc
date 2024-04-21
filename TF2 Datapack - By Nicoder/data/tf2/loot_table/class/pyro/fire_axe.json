@@ -18,7 +18,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 33000,
+                                "minecraft:custom_model_data": 73000,
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }
