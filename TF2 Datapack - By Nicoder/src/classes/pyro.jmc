@@ -1,0 +1,170 @@
+// new trim_pattern(pyro) {
+// 	"asset_id": "tf2:pyro",
+// 	"description": {
+// 	    "translate": "trim_pattern.tf2.pyro"
+// 	},
+//     "template_item": "minecraft:stick"
+// }
+generate_body_model(pyro);
+
+class Class.Pyro {
+	new loot_table(flamethrower) {
+		"pools": [
+			{
+				"rolls": 1,
+				"entries": [
+					{
+						"type": "minecraft:loot_table",
+						"value": "tf2:crossbow_base",
+						"functions": [
+		        			{
+								"function": "minecraft:set_name",
+								"name": {
+									"text": "Flamethrower (WIP)",
+									"color": "gray",
+									"italic": true
+								}
+							},
+							{
+								"function": "minecraft:set_components",
+		   	 					"components": {
+									"minecraft:custom_model_data": 71001,
+	 						   		"minecraft:unbreakable": {"show_in_tooltip": false}
+								},
+								"conditions": [
+									{ "condition": "minecraft:entity_scores",
+								      "entity": "this", "scores": {"tf2.team": 1} }
+								]
+							},
+							{
+								"function": "minecraft:set_components",
+								"components": {
+									"minecraft:custom_model_data": 71002,
+									"minecraft:unbreakable": {"show_in_tooltip": false}
+								},
+								"conditions": [
+									{ "condition": "minecraft:entity_scores",
+									  "entity": "this", "scores": {"tf2.team": 2} }
+								]
+ 							}
+						]
+					}
+				]
+			}
+		]
+	}
+	new loot_table(shotgun) {
+		"pools": [{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:loot_table",
+					"value": "tf2:crossbow_base",
+					"functions": [
+						{
+							"function": "minecraft:set_name",
+							"name": {
+								"text": "Shotgun",
+								"color": "gray",
+								"italic": true
+							}
+						},
+						{
+							"function": "minecraft:set_components",
+	    				    "components": {
+								"minecraft:custom_model_data": 72000,
+								"minecraft:unbreakable": {"show_in_tooltip": false}
+							}
+						},
+						{
+							"function": "minecraft:set_custom_data",
+							"tag": "{
+								retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [100, 250], MaxRecursionDepth: 100},
+								attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [1.035d, 0.51d], clip: 6, ammo: 32},
+    	  	  	      		  	controls: {main_fire: true, alt_fire: false, reload: 1}
+							}"
+						}
+					]
+				}
+			]
+	  	}]
+	}
+  	new loot_table(fire_axe) {
+ 		"pools": [{
+			"rolls": 1,
+			"entries": [
+				{
+    				"type": "minecraft:loot_table",
+					"value": "tf2:melee_base",
+					"functions": [
+						{
+							"function": "minecraft:set_name",
+							"name": {
+								"text": "Fire Axe",
+								"color": "gray",
+								"italic": true
+							}
+						},
+						{
+							"function": "minecraft:set_components",
+							"components": {
+								"minecraft:custom_model_data": 33000,
+								"minecraft:unbreakable": {"show_in_tooltip": false}
+							}
+						},
+						{
+							"function": "minecraft:set_custom_data",
+							"tag": "{
+								retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
+			  		 			attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
+								controls: {main_fire: true, alt_fire: false, reload: 0}
+							}"
+					  	}
+					]
+	  			}
+			]
+		}]
+	}
+
+	function give() {
+		clear @s;
+		loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
+		loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
+		loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
+		// loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+
+		tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
+		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
+		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
+		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+	}
+	function tick() {
+		Weapons.get_ammo();
+		HUD.actionbar();
+		Weapons.set_ammo();
+
+		this.inventory_lock();
+	}
+	function inventory_lock() {
+		item replace entity @s weapon.offhand with air;
+        loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
+        $_count_ = clear @s crossbow[custom_model_data=71001|custom_model_data=71002] 0;
+        if ($_count_ != 1) clear @s crossbow[custom_model_data=71001|custom_model_data=71002] 0;
+        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
+
+        loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
+        $_count_ = clear @s crossbow[custom_model_data=72000] 0;
+    	if ($_count_ != 1) clear @s crossbow[custom_model_data=72000];
+ 		if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
+
+        loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
+        $_count_ = clear @s snowball[custom_model_data=73000] 0;
+        if ($_count_ != 1) clear @s snowball[custom_model_data=73000];
+		if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
+
+		// loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+		// $_count_ = clear @s iron_leggings 0;
+		// if ($_count_ != 1) clear @s iron_leggings;
+		// if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+	}
+}

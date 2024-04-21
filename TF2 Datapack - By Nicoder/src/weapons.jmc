@@ -260,7 +260,7 @@ class Weapons {
             case Class.SOLDIER: Class.Soldier.inventory_lock();
             // case Class.DEMOMAN: Class.Demoman.inventory_lock();
             case Class.HEAVY: Class.Heavy.inventory_lock();
-            // case Class.PYRO: Class.Pyro.inventory_lock();
+            case Class.PYRO: Class.Pyro.inventory_lock();
             // case Class.ENGINEER: Class.Engineer.inventory_lock();
             // case Class.MEDIC: Class.Medic.inventory_lock();
         }
@@ -428,8 +428,7 @@ class Weapons {
             $_clip_    = tf2.secondary_clip:@s;
             $_maxClip_ = tf2.secondary_maxClip:@s;
             $_ammo_    = tf2.secondary_ammo:@s;
-        }
-    }
+	}	}
     function set_ammo() {
         if (tf2.current_slot:@s == 0) return run {
             tf2.primary_clip:@s      = $_clip_;
@@ -439,9 +438,8 @@ class Weapons {
         if (tf2.current_slot:@s == 1) {
             tf2.secondary_clip:@s    = $_clip_;
             tf2.secondary_maxClip:@s = $_maxClip_;
-            tf2.secondary_ammo:@s    = $_ammo_;
-        }
-    }
+            tf2.secondary_ammo:@s      = $_ammo_;
+	}	}
     function reload() {
         switch (tf2.class:@s) {
             case Class.SPY: Class.Spy.inventory_lock();
@@ -450,7 +448,7 @@ class Weapons {
             case Class.SOLDIER: Class.Soldier.inventory_lock();
             // case Class.DEMOMAN: Class.Demoman.inventory_lock();
             case Class.HEAVY: Class.Heavy.inventory_lock();
-            // case Class.PYRO: Class.Pyro.inventory_lock();
+            case Class.PYRO: Class.Pyro.inventory_lock();
             // case Class.ENGINEER: Class.Engineer.inventory_lock();
             // case Class.MEDIC: Class.Medic.inventory_lock();
         }
