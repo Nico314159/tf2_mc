@@ -4,7 +4,13 @@
     "predicate": {
         "equipment": {
             "mainhand": {
-                "nbt": "{controls: {main_fire: true}}"
+                "predicates": {
+                    "minecraft:custom_data": {
+                        "controls": {
+                            "main_fire": true
+                        }
+                    }
+                }
             }
         }
     }

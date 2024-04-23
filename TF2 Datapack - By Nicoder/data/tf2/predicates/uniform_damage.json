@@ -11,7 +11,15 @@
             "predicate": {
                 "equipment": {
                     "mainhand": {
-                        "nbt": "{attributes: {damage: {uniform: true}}}"
+                        "predicates": {
+                            "minecraft:custom_data": {
+                                "attributes": {
+                                    "damage": {
+                                        "uniform": true
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

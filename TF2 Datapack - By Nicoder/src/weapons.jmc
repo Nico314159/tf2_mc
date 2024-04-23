@@ -112,7 +112,11 @@ new predicates(uniform_damage) {
             "predicate": {
                 "equipment": {
                     "mainhand": {
-                        "nbt": "{attributes: {damage: {uniform: true}}}"
+                        "predicates": {
+                            "minecraft:custom_data": {
+                                "attributes": {"damage": {"uniform": true}}
+                            }
+                        }
                     }
                 }
             }
@@ -125,7 +129,11 @@ new predicates(has_main_fire) {
     "predicate": {
         "equipment": {
             "mainhand": {
-                "nbt": "{controls: {main_fire: true}}"
+                "predicates": {
+                    "minecraft:custom_data": {
+                        "controls": {"main_fire": true}
+                    }
+                }
             }
         }
     }
