@@ -26,7 +26,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},\n                                attributes: {damage: {base: 40}, attackDelay: 0.8d, range: 3.2d, isMelee: true, canBackstab: true},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}\n                            }"
+                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},\n                                attributes: {damage: {base: 40}, attackDelay: 0.8d, range: 3.2d, isMelee: true, canBackstab: false},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}\n                            }"
                         }
                     ]
                 }

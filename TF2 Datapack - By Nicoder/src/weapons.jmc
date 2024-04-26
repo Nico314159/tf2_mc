@@ -482,7 +482,7 @@ class Weapons {
 
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 
-        $potentialBackstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
+        $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
     }
     function draw_line() {
@@ -541,8 +541,10 @@ class Weapons {
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
 
-        if ($potentialBackstab) {
-            Class.Spy.determine_backstab();
+        if ($backstab) expand {
+            vars::kill_verb = "backstabbed";
+            $_finalDamage_ = tf2.max_health:@s;
+            $_finalDamage_ *= 6;
         }
         // TODO: implement critical hits and resistances
 
