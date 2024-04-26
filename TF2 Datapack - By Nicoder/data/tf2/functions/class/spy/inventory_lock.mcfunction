@@ -21,3 +21,4 @@ execute store result score $_count_ tf2.var run clear @s clay_ball[custom_model_
 execute unless score $_count_ tf2.var matches 1 run clear @s clay_ball[custom_model_data=15000]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch
 clear @s clay_ball[minecraft:custom_data~{cloak:"uncloak"}]
+execute if score @s tf2.current_slot matches 2 run function tf2:class/spy/determine_backstab

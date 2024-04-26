@@ -90,7 +90,7 @@ class Class.Spy {
                             "function": "minecraft:set_custom_data",
                             "tag": "{
                                 retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
-                                attributes: {damage: {base: 40}, attackDelay: 0.8d, range: 3.2d, isMelee: true, canBackstab: true},
+                                attributes: {damage: {base: 40}, attackDelay: 0.8d, range: 3.2d, isMelee: true, canBackstab: false},
                                 controls: {main_fire: true, alt_fire: false, reload: 0}
                             }"
                         }
@@ -99,6 +99,25 @@ class Class.Spy {
             ]
         }]
     }
+    new item_modifiers(raise_knife) [
+        {
+            "function": "minecraft:set_custom_data",
+            "tag": "{attributes: {canBackstab: true}}"
+        },
+        {
+            "function": "minecraft:set_custom_model_data",
+            "value": {
+                "type": "minecraft:score",
+                "target": {
+                    "type": "minecraft:fixed",
+                    "name": "$CMD"
+                },
+                "score": "tf2.var",
+                "scale": 1
+            }
+        }
+    ];
+    
     new loot_tables(disguise_kit) {
         "pools": [{
             "rolls": 1,
@@ -279,6 +298,10 @@ class Class.Spy {
         if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
 
         clear @s clay_ball[minecraft:custom_data~{cloak: 'uncloak'}];
+
+        if (tf2.current_slot:@s == 2) {
+            this.determine_backstab();
+        }
         // loot replace entity @s armor.legs loot tf2:class/spy/_model;
         // $_count_ = clear @s iron_leggings 0;
         // if ($_count_ != 1) clear @s iron_leggings;
@@ -290,12 +313,31 @@ class Class.Spy {
     }
 
     function determine_backstab() {
-        $theta_1 = @s::Rotation[0];
-        $theta_2 = @a[tag=retina.executing,limit=1]::Rotation[0];
-        $theta_1 -= $theta_2;
-        if (!$theta_1 matches -90..90) return fail;
+        function retina:traverse/setup;
+        if (!data storage retina:output {Target: "ENTITY"}) {
+            return fail;
+        }
+        if (entity @a[tag=retina.target,gamemode=spectator]) {
+            return fail;
+        }
 
-        $_finalDamage_ = tf2.max_health:@s;
-        vars::kill_verb = "backstabbed";
+        tf2.team:$current = tf2.team:@s;
+        execute as @a[tag=retina.target,limit=1]
+                if score @s tf2.team = $current tf2.team
+                run return fail;
+
+        $enemy_dist = retina:output::Distance * 10;
+        $backstab_range = @s::SelectedItem.components."minecraft:custom_data".attributes.range * 10;
+        if ($enemy_dist > $backstab_range) {return fail;}
+
+        $theta_1 = @s::Rotation[0];
+        $theta_2 = @a[tag=retina.target,limit=1]::Rotation[0];
+        $theta_1 -= $theta_2;
+        if (!$theta_1 matches -90..90) {return fail;}
+
+        $CMD = @s::SelectedItem.components."minecraft:custom_model_data" * 0.1;
+        $CMD *= 10;
+        $CMD ++;
+        item modify entity @s weapon.mainhand tf2:class/spy/raise_knife;
     }
 }

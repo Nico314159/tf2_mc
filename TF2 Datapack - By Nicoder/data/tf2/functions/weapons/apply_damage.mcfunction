@@ -8,7 +8,9 @@ function tf2:weapons/calculate_falloff
 scoreboard players operation $_finalDamage_ tf2.var *= $_multiplier_ tf2.var
 scoreboard players add $_finalDamage_ tf2.var 99
 scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const
-execute if score $potentialBackstab tf2.var matches 1.. run function tf2:class/spy/determine_backstab
+execute if score $backstab tf2.var matches 1.. run data modify storage tf2:vars kill_verb set value 'backstabbed'
+execute if score $backstab tf2.var matches 1.. run scoreboard players operation $_finalDamage_ tf2.var = @s tf2.max_health
+execute if score $backstab tf2.var matches 1.. run scoreboard players operation $_finalDamage_ tf2.var *= 6 tf2.const
 scoreboard players operation @s tf2.health -= $_finalDamage_ tf2.var
 scoreboard players operation $_totalDamage_ tf2.var += $_finalDamage_ tf2.var
 damage @s 0.01 tf2:screenshake by @a[tag=retina.executing,limit=1]
