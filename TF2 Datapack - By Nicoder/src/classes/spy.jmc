@@ -1,3 +1,12 @@
+new trim_pattern(spy) {
+    "asset_id": "tf2:spy",
+    "description": {
+        "translate": "trim_pattern.tf2.spy"
+    },
+    "template_item": "minecraft:stick"
+}
+generate_body_model(spy);
+
 class Class.Spy {
     new loot_tables(revolver) {
         "pools": [{
@@ -220,7 +229,7 @@ class Class.Spy {
         loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
         loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
-        // loot replace entity @s armor.legs loot tf2:class/spy/_model;
+        loot replace entity @s armor.legs loot tf2:class/spy/_model;
 
         lookup::inventory = @s::Inventory;
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
@@ -286,6 +295,10 @@ class Class.Spy {
         $_count_ = clear @s snowball[custom_model_data=13000] 0;
         if ($_count_ != 1) clear @s snowball[custom_model_data=13000];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
+        
+        if (tf2.current_slot:@s == 2) {
+            this.determine_backstab();
+        }
 
         loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
         $_count_ = clear @s clay_ball[custom_model_data=14000] 0;
@@ -299,13 +312,10 @@ class Class.Spy {
 
         clear @s clay_ball[minecraft:custom_data~{cloak: 'uncloak'}];
 
-        if (tf2.current_slot:@s == 2) {
-            this.determine_backstab();
-        }
-        // loot replace entity @s armor.legs loot tf2:class/spy/_model;
-        // $_count_ = clear @s iron_leggings 0;
-        // if ($_count_ != 1) clear @s iron_leggings;
-        // if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/spy/_model;
+        loot replace entity @s armor.legs loot tf2:class/spy/_model;
+        $_count_ = clear @s iron_leggings 0;
+        if ($_count_ != 1) clear @s iron_leggings;
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/spy/_model;
     }
     function disable_attacking() {
         clear @s *[!custom_data~{cloak: 'uncloak'}, !custom_model_data=10];
