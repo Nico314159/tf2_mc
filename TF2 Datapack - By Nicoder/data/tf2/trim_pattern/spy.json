@@ -1,0 +1,7 @@
+{
+    "asset_id": "tf2:spy",
+    "description": {
+        "translate": "trim_pattern.tf2.spy"
+    },
+    "template_item": "minecraft:stick"
+}

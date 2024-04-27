@@ -43,6 +43,61 @@
                 "red": "tf2:trims/color_palettes/soldier/red",
                 "blu": "tf2:trims/color_palettes/soldier/blu"
             }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/spy_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/spy/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/spy/red",
+                "blu": "tf2:trims/color_palettes/spy/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/pyro_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/pyro/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/pyro/red",
+                "blu": "tf2:trims/color_palettes/pyro/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/medic_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/medic/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/medic/red",
+                "blu": "tf2:trims/color_palettes/medic/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/demo_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/demo/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/demo/red",
+                "blu": "tf2:trims/color_palettes/demo/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/models/armor/engineer_leggings"
+            ],
+            "palette_key": "tf2:trims/color_palettes/engineer/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/engineer/red",
+                "blu": "tf2:trims/color_palettes/engineer/blu"
+            }
         }
     ]
 }
