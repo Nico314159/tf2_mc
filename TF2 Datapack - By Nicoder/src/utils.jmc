@@ -46,6 +46,7 @@ function team_assign() {
 
 function class_select() {
     clear @s;
+    effect clear @s invisibility;
     attribute @s minecraft:generic.jump_strength modifier remove 00000000-0000-0000-0000-6e6f6a756d70;
     switch (tf2.class:@s) {
         case Class.SPY:

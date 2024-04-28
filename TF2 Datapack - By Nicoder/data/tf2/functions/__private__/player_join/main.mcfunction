@@ -11,6 +11,7 @@ execute store result score @s tf2.batch_number store result score @s tf2.queue_t
 function tf2:timer/show with storage tf2:index
 effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true
 effect give @s minecraft:resistance infinite 4 true
+effect clear @s invisibility
 attribute @s minecraft:generic.attack_damage base set 0
 attribute @s minecraft:generic.movement_speed base set 0.1
 attribute @s minecraft:generic.movement_speed modifier remove 736c6f77-7768-696c-6572-657676696e67
