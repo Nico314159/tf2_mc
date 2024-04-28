@@ -101,6 +101,8 @@ scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
 scoreboard objectives add tf2.is_invisible dummy
 scoreboard objectives add tf2.cloak dummy
+scoreboard objectives add tf2.disguise.class dummy
+scoreboard objectives add tf2.disguise.team dummy
 scoreboard objectives add tf2.door.wait dummy
 scoreboard objectives add tf2.door.time_open dummy
 scoreboard objectives add tf2.door.state dummy

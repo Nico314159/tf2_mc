@@ -1,0 +1,1 @@
+$loot replace entity @s armor.legs loot {"pools":[{"rolls":1,"entries":[{"type":"minecraft:item","name":"minecraft:iron_leggings"}],"functions":[{"function":"minecraft:set_components","components":{"minecraft:enchantments":{"minecraft:binding_curse":1},"minecraft:enchantment_glint_override":false,"minecraft:trim":{"material":"tf2:$(material)","pattern":"tf2:$(pattern)"}}}]}]}

@@ -236,6 +236,7 @@ class Class.Spy {
         tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
         tf2.is_invisible:@s = 0;
+        tag @s remove tf2.disguised;
         tf2.cloak:@s = 600;
     }
 
@@ -278,6 +279,9 @@ class Class.Spy {
         if (tf2.is_invisible:@s) {
             return run this.disable_attacking();
         }
+        if (entity @s[tag=tf2.disguised]) {
+            return run this.fake_inventory_lock();
+        }
 
         item replace entity @s armor.chest with air;
 
@@ -296,9 +300,8 @@ class Class.Spy {
         if ($_count_ != 1) clear @s snowball[custom_model_data=13000];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
         
-        $exit_code = 0;
         if (tf2.current_slot:@s == 2) {
-            $exit_code = this.determine_backstab();
+            this.determine_backstab();
         }
 
         loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
@@ -326,6 +329,52 @@ class Class.Spy {
     function disable_attacking() {
         clear @s *[!custom_data~{cloak: 'uncloak'}, !custom_model_data=10];
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch_gui_only;
+    }
+    function fake_inventory_lock() {
+        switch (tf2.disguise.class:@s) {
+            case 1: vars::pattern = "spy";
+            case 2: vars::pattern = "sniper";
+            case 3: vars::pattern = "scout";
+            case 4: vars::pattern = "soldier";
+            case 5: vars::pattern = "demoman";
+            case 6: vars::pattern = "heavy";
+            case 7: vars::pattern = "pyro";
+            case 8: vars::pattern = "engineer";
+            case 9: vars::pattern = "medic";
+        }
+
+        if (tf2.disguise.team:@s == 1) {vars::material = "red";}
+        if (tf2.disguise.team:@s == 2) {vars::material = "blu";}
+
+        this.fake_leggings() with vars::;
+        $_count_ = clear @s iron_leggings 0;
+        if ($_count_ != 1) clear @s iron_leggings;
+        if ($_count_ != 1) this.fake_leggings() with vars::;
+
+        tf2.model_number:@s = tf2.disguise.class:@s;
+        tf2.model_number:@s *= 10;
+        tf2.model_number:@s += tf2.disguise.team:@s;
+
+        loot replace entity @s armor.head loot tf2:head;
+        $_count_ = clear @s paper 0;
+        if ($_count_ != 1) clear @s paper;
+        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
+    }
+    function fake_leggings() {
+        $ loot replace entity @s armor.legs loot {
+            "pools": [{
+                "rolls": 1,
+                "entries": [{"type": "minecraft:item", "name": "minecraft:iron_leggings"}],
+                "functions": [{
+                    "function": "minecraft:set_components",
+                    "components": {
+                        "minecraft:enchantments": {"minecraft:binding_curse": 1},
+                        "minecraft:enchantment_glint_override": false,
+                        "minecraft:trim": {"material": "tf2:$(material)", "pattern": "tf2:$(pattern)"}
+                    }
+                }]
+            }]
+        };   
     }
 
     function determine_backstab() {
