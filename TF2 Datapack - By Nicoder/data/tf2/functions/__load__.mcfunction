@@ -10,13 +10,14 @@ scoreboard players set 3 tf2.const 3
 scoreboard players set 900 tf2.const 900
 scoreboard players set 5 tf2.const 5
 scoreboard players set 6 tf2.const 6
+scoreboard players set 230400 tf2.const 230400
 scoreboard players set 4 tf2.const 4
 scoreboard players set 0 tf2.const 0
-scoreboard players set 1800 tf2.const 1800
 scoreboard players set 10 tf2.const 10
+scoreboard players set 1800 tf2.const 1800
 scoreboard players set 8 tf2.const 8
-scoreboard players set 1 tf2.const 1
 scoreboard players set 13 tf2.const 13
+scoreboard players set 1 tf2.const 1
 scoreboard players set 9 tf2.const 9
 scoreboard players set 10000 tf2.const 10000
 scoreboard players set 20 tf2.const 20

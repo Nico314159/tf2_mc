@@ -1,0 +1,11 @@
+scoreboard players operation $math_term_0 tf2.var = $in1_vec3.X tf2.var
+scoreboard players operation $math_term_0 tf2.var *= $in2_vec3.X tf2.var
+scoreboard players operation $math_term_1 tf2.var = $in1_vec3.Y tf2.var
+scoreboard players operation $math_term_1 tf2.var *= $in2_vec3.Y tf2.var
+scoreboard players operation $math_term_2 tf2.var = $in1_vec3.Z tf2.var
+scoreboard players operation $math_term_2 tf2.var *= $in2_vec3.Z tf2.var
+scoreboard players operation $output tf2.var = $math_term_0 tf2.var
+scoreboard players operation $output tf2.var += $math_term_1 tf2.var
+scoreboard players operation $output tf2.var += $math_term_2 tf2.var
+scoreboard players operation $output tf2.var *= 1000 tf2.const
+execute store result score $dot_product tf2.var run scoreboard players operation $output tf2.var /= 230400 tf2.const

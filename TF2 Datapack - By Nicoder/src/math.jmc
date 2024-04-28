@@ -102,4 +102,32 @@ class Math {
         Math.arctangent();
         $output_pitch = $output;
     }
+
+    function facing_vec() {
+        retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
+        retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
+        function retina:math/gimbal_to_vec;
+    }
+
+    function dot_product() {
+        $math_term_0 = $in1_vec3.X;
+        $math_term_0 *= $in2_vec3.X;
+        $math_term_1 = $in1_vec3.Y;
+        $math_term_1 *= $in2_vec3.Y;
+        $math_term_2 = $in1_vec3.Z;
+        $math_term_2 *= $in2_vec3.Z;
+        $output = $math_term_0;
+        $output += $math_term_1;
+        $output += $math_term_2;
+        $output *= 1000;
+        $dot_product = $output /= EVAL(480 ** 2);
+    }
+   
+    function feed_left() {
+        Hardcode.repeatList("[axis]", () => {$in1_vec3.[axis] = retina.__variable__:$output_vec3.[axis];}, ["X", "Y", "Z"]);
+    }
+
+    function feed_right() {
+        Hardcode.repeatList("[axis]", () => {$in2_vec3.[axis] = retina.__variable__:$output_vec3.[axis];}, ["X", "Y", "Z"]);
+    }
 }

@@ -2,6 +2,6 @@
 	"credit": "Made with Blockbench",
 	"parent": "tf2:head/_default_",
 	"textures": {
-		"0": "tf2:head/engineer_blu"
+		"0": "tf2:head/soldier_blu"
 	}
 }
