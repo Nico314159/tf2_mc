@@ -168,5 +168,10 @@ class Class.Soldier {
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/soldier/_model;
+
+        loot replace entity @s armor.head loot tf2:head;
+        $_count_ = clear @s paper 0;
+        if ($_count_ != 1) clear @s paper;
+        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
     }
 }

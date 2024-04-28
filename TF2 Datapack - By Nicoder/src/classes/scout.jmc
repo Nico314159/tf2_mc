@@ -178,6 +178,11 @@ class Class.Scout {
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/scout/_model;
 
+        loot replace entity @s armor.head loot tf2:head;
+        $_count_ = clear @s paper 0;
+        if ($_count_ != 1) clear @s paper;
+        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
+
         if (entity @s[tag=tf2.can_double_jump]) {
             item replace entity @s armor.chest with Item.ELYTRA;
             $_count_ = clear @s elytra 0;

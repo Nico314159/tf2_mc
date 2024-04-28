@@ -219,6 +219,11 @@ class Class.Sniper {
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/sniper/_model;
 
+        loot replace entity @s armor.head loot tf2:head;
+        $_count_ = clear @s paper 0;
+        if ($_count_ != 1) clear @s paper;
+        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
+
         // gets first 2 digits
         $_crossbow_id_ = @s::Inventory[-1].components."minecraft:custom_model_data" * 0.001;
         if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21 && tf2.attack_delay:@s <= 0) return run {
