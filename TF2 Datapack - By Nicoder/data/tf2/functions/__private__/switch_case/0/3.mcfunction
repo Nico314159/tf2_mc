@@ -1,1 +1,1 @@
-title @s subtitle ["",{"text":"_abc","color":"gray","font":"tf2:zoom_meter","type":"text"},{"text":"defghijklm","color":"dark_gray","font":"tf2:zoom_meter","type":"text"}]
+data modify storage tf2:vars pattern set value 'scout'

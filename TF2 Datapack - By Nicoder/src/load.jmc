@@ -26,7 +26,9 @@ Hardcode.repeatList(
         "fall_y", "fall_y1", "fall_y2", "fall_y3",
         "last_x", "now_x", "last_z", "now_z",
         "drown_lost", "time_surfaced", "current_air", "last_air",
-        "is_invisible", "cloak"
+        "is_invisible", "cloak", "disguise.class", "disguise.team",
+        "door.wait", "door.time_open", "door.state", "door.id",
+        "door.length", "door.pos", "door.vel", "door.accel", 
     ]
 );
 

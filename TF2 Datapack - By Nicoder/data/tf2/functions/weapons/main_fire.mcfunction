@@ -1,7 +1,7 @@
 execute if score @s tf2.attack_delay matches 1.. run return 0
 execute if score @s tf2.class matches 6 if score @s tf2.current_slot matches 0 if score @s tf2.time_revved < @s tf2.rev_threshold run return 0
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
-function tf2:__private__/switch_case/1/select with storage tf2:__storage__
+function tf2:__private__/switch_case/2/select with storage tf2:__storage__
 execute unless predicate tf2:has_main_fire run return 0
 function tf2:weapons/get_ammo
 execute if score $_clip_ tf2.var matches ..0 unless predicate tf2:holding_melee run return 0
