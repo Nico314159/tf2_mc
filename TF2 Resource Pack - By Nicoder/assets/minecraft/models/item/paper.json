@@ -1,0 +1,23 @@
+{
+	"parent": "item/generated",
+	"overrides": [      
+		{ "predicate": {"custom_model_data": 11}, "model": "tf2:head/spy_red"},
+		{ "predicate": {"custom_model_data": 12}, "model": "tf2:head/spy_blu"},
+		{ "predicate": {"custom_model_data": 21}, "model": "tf2:head/sniper"},
+		{ "predicate": {"custom_model_data": 22}, "model": "tf2:head/sniper"},
+		{ "predicate": {"custom_model_data": 31}, "model": "tf2:head/scout_red"},
+		{ "predicate": {"custom_model_data": 32}, "model": "tf2:head/scout_blu"},
+		{ "predicate": {"custom_model_data": 41}, "model": "tf2:head/soldier_red"},
+		{ "predicate": {"custom_model_data": 42}, "model": "tf2:head/soldier_blu"},
+		{ "predicate": {"custom_model_data": 51}, "model": "tf2:head/demoman"},
+		{ "predicate": {"custom_model_data": 52}, "model": "tf2:head/demoman"},
+		{ "predicate": {"custom_model_data": 61}, "model": "tf2:head/heavy"},
+		{ "predicate": {"custom_model_data": 62}, "model": "tf2:head/heavy"},
+		{ "predicate": {"custom_model_data": 71}, "model": "tf2:head/pyro"},
+		{ "predicate": {"custom_model_data": 72}, "model": "tf2:head/pyro"},
+		{ "predicate": {"custom_model_data": 81}, "model": "tf2:head/engineer_red"},
+		{ "predicate": {"custom_model_data": 82}, "model": "tf2:head/engineer_blu"},
+		{ "predicate": {"custom_model_data": 91}, "model": "tf2:head/medic"},
+		{ "predicate": {"custom_model_data": 92}, "model": "tf2:head/medic"}
+	]
+}

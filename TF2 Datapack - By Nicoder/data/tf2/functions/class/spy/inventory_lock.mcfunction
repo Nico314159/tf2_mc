@@ -26,3 +26,7 @@ loot replace entity @s armor.legs loot tf2:class/spy/_model
 execute store result score $_count_ tf2.var run clear @s iron_leggings 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/spy/_model
+loot replace entity @s armor.head loot tf2:head
+execute store result score $_count_ tf2.var run clear @s paper 0
+execute unless score $_count_ tf2.var matches 1 run clear @s paper
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:head
