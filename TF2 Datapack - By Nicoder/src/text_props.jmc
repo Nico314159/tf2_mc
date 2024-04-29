@@ -54,6 +54,13 @@ TextProp.nbt(
     source       = "tf2:vars",
     path         = kill_verb
 );
+TextProp.nbt(
+    propertyName = "weapon_name",
+    type         = storage,
+    source       = "tf2:vars",
+    path         = weapon_name,
+    interpret    = true
+);
 TextProp.keybind("main_fire", "key.use");
 TextProp.keybind("alt_fire",  "key.swapOffhand");
 TextProp.keybind("reload",    "key.drop");
