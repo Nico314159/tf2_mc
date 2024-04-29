@@ -303,7 +303,7 @@ class Class.Heavy {
 
         $_crossbow_id_ = @s::Inventory[-1].components."minecraft:custom_model_data" * 0.001;
 
-        if (predicate tf2:class/heavy/is_revving && $_crossbow_id_ === 61) return run {
+        if (predicate tf2:class/heavy/is_revving && $_crossbow_id_ === 61 && tf2.current_slot:@s == 0) return run {
             loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;
             $_count_ = clear @s crossbow[custom_model_data=61001, custom_data={kind: "real"}] 0;
             if ($_count_ != 1) clear @s crossbow[custom_model_data=61001, custom_data={kind: "real"}];
