@@ -18,7 +18,7 @@ scoreboard players set __if_else__ tf2.var 0
 execute if score @s tf2.current_slot matches 2 run function tf2:__private__/if_else/3
 execute if score __if_else__ tf2.var matches 0 run clear @s clay_ball[custom_model_data=63000]
 execute store result score $_crossbow_id_ tf2.var run data get entity @s Inventory[-1].components.minecraft:custom_model_data 0.001
-execute if predicate tf2:class/heavy/is_revving if score $_crossbow_id_ tf2.var matches 61 run return run function tf2:__private__/anonymous/1
+execute if predicate tf2:class/heavy/is_revving if score $_crossbow_id_ tf2.var matches 61 if score @s tf2.current_slot matches 0 run return run function tf2:__private__/anonymous/1
 loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy
 execute store result score $_count_ tf2.var run clear @s crossbow[custom_model_data=61000,custom_data={kind:"fake"}] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s crossbow[custom_model_data=61000,custom_data={kind:"fake"}]
