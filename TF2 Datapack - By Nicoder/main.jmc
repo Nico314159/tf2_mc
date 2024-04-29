@@ -23,6 +23,7 @@ function __tick__() {
 
     execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run join_queue();
     effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true;
+    effect clear @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] saturation;
     effect give @a[scores={tf2.food=..1}] saturation 1 2 true;
 
     $comp_queue_length   = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}];
@@ -94,6 +95,7 @@ function player_tick() {
     tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
     tf2.time_idle:@s++;
 
+    clear @s arrow;
     check_match::UUID = @s::UUID;
     tag @s add tf2.self;
     if (predicate tf2:empty_hand) {
@@ -113,7 +115,6 @@ function player_tick() {
     Weapons.slot_check();
     if (items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[], minecraft:custom_data~{should_detect_click: true}]) {
         kill @e[type=arrow,tag=!tf2.projectile];
-        clear @s arrow;
         if (!predicate tf2:ammo_in_clip) return 0;
         Weapons.main_fire();
     }
