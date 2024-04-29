@@ -356,9 +356,11 @@ class Weapons {
         } with summon::projectile;
         summon::projectile.yaw = 0.1 * (double) retina.__variable__:$input_yaw;
         summon::projectile.pitch = 0.1 * (double) retina.__variable__:$input_pitch;
-        summon::projectile.spawnX = @s::SelectedItem.components.minecraft:custom_data.projectile.spawn[0];
-        summon::projectile.spawnY = @s::SelectedItem.components.minecraft:custom_data.projectile.spawn[1];
-        summon::projectile.spawnZ = @s::SelectedItem.components.minecraft:custom_data.projectile.spawn[2];
+        summon::projectile.weapon = @s::SelectedItem;
+        summon::projectile.spawnX = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[0];
+        summon::projectile.spawnY = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[1];
+        summon::projectile.spawnZ = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[2];
+        summon::projectile.weapon_name = summon::projectile.weapon.components.minecraft:custom_name;
         summon::projectile.owner = @s::UUID;
         execute at @s anchored eyes run {
             $summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
@@ -393,6 +395,7 @@ class Weapons {
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
             @s::Rotation[0] = summon::projectile.yaw;
             @s::Rotation[1] = summon::projectile.pitch;
+            @s::item.components.minecraft:custom_name = summon::projectile.weapon_name;           
             tag @s remove tf2.new;
             // if (!block ~ ~ ~ #retina:airs) {
             //     execute at @s run tp ^ ^ ^1;
@@ -767,9 +770,9 @@ class Projectile {
         $playersHurt = $_totalDamage_ = 0;
         execute on origin run tag @s add tf2.origin;
         execute on origin run tag @s add tf2.opponent;
-        tag @s add tf2.projectile;
+
+        execute on passengers run vars::weapon_name = @s::item.components.minecraft:custom_name;
         $execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
-        tag @s remove tf2.projectile;
         execute on origin run tag @s remove tf2.origin;
     }
     function wall_check() {
@@ -808,7 +811,8 @@ class Projectile {
         }
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> blew up &<@s> with &<item_of(@a[tag=tf2.origin])>");
+        vars::kill_verb = "blew up";
+        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@s> with &<weapon_name>");
         playsound tf2:ding.kill player @a[tag=tf2.origin] ~ ~ ~ 0.9 1 0.05;
         tag @a remove tf2.current;
         tag @s add tf2.said_death_msg;

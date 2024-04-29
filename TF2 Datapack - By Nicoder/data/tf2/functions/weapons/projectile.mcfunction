@@ -10,9 +10,11 @@ execute store result storage tf2:summon projectile.speed double 0.0000020833 run
 function tf2:__private__/anonymous/6 with storage tf2:summon projectile
 execute store result storage tf2:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw retina.__variable__
 execute store result storage tf2:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch retina.__variable__
-data modify storage tf2:summon projectile.spawnX set from entity @s SelectedItem.components.minecraft:custom_data.projectile.spawn[0]
-data modify storage tf2:summon projectile.spawnY set from entity @s SelectedItem.components.minecraft:custom_data.projectile.spawn[1]
-data modify storage tf2:summon projectile.spawnZ set from entity @s SelectedItem.components.minecraft:custom_data.projectile.spawn[2]
+data modify storage tf2:summon projectile.weapon set from entity @s SelectedItem
+data modify storage tf2:summon projectile.spawnX set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.spawn[0]
+data modify storage tf2:summon projectile.spawnY set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.spawn[1]
+data modify storage tf2:summon projectile.spawnZ set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.spawn[2]
+data modify storage tf2:summon projectile.weapon_name set from storage tf2:summon projectile.weapon.components.minecraft:custom_name
 data modify storage tf2:summon projectile.owner set from entity @s UUID
 execute at @s anchored eyes run function tf2:__private__/anonymous/7 with storage tf2:summon projectile
 execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run function tf2:__private__/anonymous/8
