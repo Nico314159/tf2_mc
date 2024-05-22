@@ -373,7 +373,7 @@ class Weapons {
                 PersistenceRequired: true,
                 ShotFromCrossbow: true,
                 PierceLevel: 127b,
-                Tags: ["tf2.projectile", "tf2.new", "tf2.explosive"],
+                Tags: ["tf2.projectile", "tf2.new", "tf2.explosive", "tf2.has_trail"],
                 Motion: [$(X)d, $(Y)d, $(Z)d],
                 active_effects: [{
                     id: "minecraft:invisibility",
@@ -410,6 +410,7 @@ class Weapons {
             execute on passengers run @s::item.components.minecraft:custom_data.attributes = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.attributes;
             execute on passengers run @s::item.components.minecraft:custom_data.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.projectile;
             execute on origin run tag @s remove tf2.origin;
+            // execute at @s[tag=tf2.has_trail] run particle minecraft:flame ^ ^ ^0.2;
             tag @s remove tf2.new;
         }
     }
@@ -661,6 +662,9 @@ class Projectile {
         execute on passengers run tag @s add tf2.passenger_temp;
         @s::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]::item.components.minecraft:custom_data.Motion;
         tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp;
+        if (entity @s[tag=tf2.has_trail]) {
+            execute on passengers at @s run this.trail();
+        }
 
         this.check_collision();
         execute as @e[type=#tf2:player_like,tag=tf2.batch] run this.remove_tags();
@@ -668,6 +672,11 @@ class Projectile {
             this.cleanup();
         }
         tf2.age:@s++;
+    }
+    function trail() {
+        Hardcode.repeat("|z|", () => {
+            particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc(|z| / -3) 0 0 0 0 10;
+        }, start=1, stop=4);
     }
     function check_collision() {
         tf2.batch_number:$local = tf2.batch_number:@s;
@@ -890,14 +899,11 @@ class Projectile {
     }
     function knockback() {
         player_motion.api.launch:$x = retina.__variable__:$output_vec3.X;
-        player_motion.api.launch:$x *= 12000;
-        player_motion.api.launch:$x /= 480;
+        player_motion.api.launch:$x *= EVAL (12000 / Retina.SCALE);
         player_motion.api.launch:$y = retina.__variable__:$output_vec3.Y;
-        player_motion.api.launch:$y *= 12000;
-        player_motion.api.launch:$y /= 480;
+        player_motion.api.launch:$y *= EVAL (12000 / Retina.SCALE);
         player_motion.api.launch:$z = retina.__variable__:$output_vec3.Z;
-        player_motion.api.launch:$z *= 12000;
-        player_motion.api.launch:$z /= 480;
+        player_motion.api.launch:$z *= EVAL (12000 / Retina.SCALE);
         function player_motion:api/launch_xyz;
     }
     function remove_tags() {
