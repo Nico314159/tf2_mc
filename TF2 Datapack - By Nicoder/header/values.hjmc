@@ -1,6 +1,7 @@
 #bind EVAL
 #define _INSTANCES_CAP_ 6
 #define Door.ANIM_LENGTH 15
+#define Retina.SCALE 480
 
 // Gamemode IDs
 #define Gamemode.ATK_DEF 1
