@@ -1,3 +1,6 @@
-scoreboard players remove @s tf2.health 5
-scoreboard players add @s tf2.drown_lost 5
-execute if score @s tf2.health matches ..0 run tellraw @a[tag=tf2.current] ["",{"selector":"@s","type":"selector"},{"text":" drowned"}]
+scoreboard players operation $temp tf2.var = @s tf2.drown_lost
+scoreboard players operation $temp tf2.var < 10 tf2.const
+scoreboard players operation @s tf2.health += $temp tf2.var
+scoreboard players operation @s tf2.health < @s tf2.max_health
+scoreboard players operation @s tf2.drown_lost -= $temp tf2.var
+scoreboard players set @s tf2.time_surfaced 0

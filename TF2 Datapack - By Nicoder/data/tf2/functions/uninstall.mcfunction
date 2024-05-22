@@ -60,6 +60,10 @@ scoreboard objectives remove tf2.fall_y
 scoreboard objectives remove tf2.fall_y1
 scoreboard objectives remove tf2.fall_y2
 scoreboard objectives remove tf2.fall_y3
+scoreboard objectives remove tf2.last_x
+scoreboard objectives remove tf2.now_x
+scoreboard objectives remove tf2.last_z
+scoreboard objectives remove tf2.now_z
 scoreboard objectives remove tf2.drown_lost
 scoreboard objectives remove tf2.time_surfaced
 scoreboard objectives remove tf2.current_air

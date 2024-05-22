@@ -138,23 +138,32 @@ class Class.Scout {
 
         if (predicate tf2:grounded) tag @s add tf2.can_double_jump;
         if (tf2.elytra_detect:@s >= 1) {
-            retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
-            retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
-            function retina:math/gimbal_to_vec;
-            player_motion.api.launch:$x = retina.__variable__:$output_vec3.X;
-            player_motion.api.launch:$x *= 2;
-            player_motion.api.launch:$y = 5000;
-            player_motion.api.launch:$z = retina.__variable__:$output_vec3.Z;
-            player_motion.api.launch:$z *= 2;
-            function player_motion:api/launch_xyz;
-
-            clear @s elytra;
-            tf2.elytra_detect:@s = 0;
-            tf2.permanent.double_jumps:@s++;
-            tag @s remove tf2.can_double_jump;
+            this.double_jump();
         }
 
         Class.Scout.inventory_lock();
+    }
+    function double_jump() {
+		retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
+		retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
+		function retina:math/gimbal_to_vec;
+
+		player_motion.api.launch:$x = tf2.now_x:@s;
+		player_motion.api.launch:$x -= tf2.last_x:@s;
+		player_motion.api.launch:$x *= 125;
+		// printf("X: &<player_motion.api.launch:$x>");
+		player_motion.api.launch:$y = 5000;
+		// printf("y: &<player_motion.api.launch:$y>");
+		player_motion.api.launch:$z = tf2.now_z:@s;
+		player_motion.api.launch:$z -= tf2.last_z:@s;
+		player_motion.api.launch:$z *= 125;
+		// printf("Z: &<player_motion.api.launch:$z>");
+		function player_motion:api/launch_xyz;
+
+		clear @s elytra;
+		tf2.elytra_detect:@s = 0;
+		tf2.permanent.double_jumps:@s++;
+		tag @s remove tf2.can_double_jump;
     }
     function inventory_lock() {
         item replace entity @s weapon.offhand with air;

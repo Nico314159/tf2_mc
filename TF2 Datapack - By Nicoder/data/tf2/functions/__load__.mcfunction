@@ -36,6 +36,7 @@ scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000
 scoreboard players set 120 tf2.const 120
+scoreboard players set 125 tf2.const 125
 scoreboard players set -1 tf2.const -1
 execute as @a run function tf2:__private__/trigger_add/enable
 scoreboard objectives add tf2.gamemode dummy
@@ -95,6 +96,10 @@ scoreboard objectives add tf2.fall_y dummy
 scoreboard objectives add tf2.fall_y1 dummy
 scoreboard objectives add tf2.fall_y2 dummy
 scoreboard objectives add tf2.fall_y3 dummy
+scoreboard objectives add tf2.last_x dummy
+scoreboard objectives add tf2.now_x dummy
+scoreboard objectives add tf2.last_z dummy
+scoreboard objectives add tf2.now_z dummy
 scoreboard objectives add tf2.drown_lost dummy
 scoreboard objectives add tf2.time_surfaced dummy
 scoreboard objectives add tf2.current_air dummy
