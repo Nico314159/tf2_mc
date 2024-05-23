@@ -235,9 +235,9 @@ maps:: += {
             {Pos: [1141.5, 118.5, -932.5], kind: "health", size: 2b},
             {Pos: [1143.0, 118.5, -932.5], kind: "ammo",   size: 3b},
             // upper deck
-            {Pos: [1156.5, 122.0, -916.5], kind: "ammo",   size: 3b},
-            {Pos: [1183.0, 122.0, -919.5], kind: "health", size: 2b},
-            {Pos: [1183.0, 122.0, -921.5], kind: "ammo",   size: 3b},
+            {Pos: [1156.5, 122.5, -916.5], kind: "ammo",   size: 3b},
+            {Pos: [1183.0, 122.5, -919.5], kind: "health", size: 2b},
+            {Pos: [1183.0, 122.5, -921.5], kind: "ammo",   size: 3b},
             // checkpoint / water tank building
             {Pos: [1150.3, 118.0, -899.5], kind: "health", size: 2b},
             {Pos: [1148.7, 118.0, -899.5], kind: "ammo",   size: 2b},
