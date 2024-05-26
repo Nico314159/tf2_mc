@@ -31,6 +31,7 @@ scoreboard players set 50 tf2.const 50
 scoreboard players set 60 tf2.const 60
 scoreboard players set 66 tf2.const 66
 scoreboard players set 5833 tf2.const 5833
+scoreboard players set 600 tf2.const 600
 scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000

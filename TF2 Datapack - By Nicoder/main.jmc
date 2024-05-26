@@ -39,7 +39,7 @@ function __tick__() {
     execute as @e[type=marker] run marker_tick();
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run player_tick();
     tag @e[type=#tf2:player_like] remove tf2.on_point;
-    execute as @e[type=item,tag=tf2.pickup] at @s run pickup_tick();
+    execute as @e[type=item,tag=tf2.pickup] at @s run Pickup.Tick();
     execute as @e[type=arrow,tag=tf2.projectile] at @s run Projectile.tick();
     execute as @e[type=item_display,tag=tf2.door] at @s run Door.tick();
 
@@ -279,38 +279,55 @@ function do_fall_damage() {
     = 0;
 }
 
-function pickup_tick() {
-    tf2.respawn_timer:@s --;
-    if (tf2.respawn_timer:@s > 0) return 0;
+class Pickup {
+    function tick() {
+        tf2.respawn_timer:@s --;
+        if (tf2.respawn_timer:@s > 0) return 0;
 
-    @s[scores={tf2.respawn_timer=0}]::Item.components."minecraft:custom_model_data" = tf2.model_number:@s;
-    execute positioned ~ ~-500.5 ~
-            run ride @s[scores={tf2.respawn_timer=0}] 
-            mount @e[type=area_effect_cloud,distance=..0.01,limit=1];
+        @s[scores={tf2.respawn_timer=0}]::Item.components."minecraft:custom_model_data" = tf2.model_number:@s;
+        execute positioned ~ ~-500.5 ~
+                run ride @s[scores={tf2.respawn_timer=0}] 
+                mount @e[type=area_effect_cloud,distance=..0.01,limit=1];
 
-    // 1 -> 20, 2 -> 50, 3 -> 100
-    execute if entity @s[tag=tf2.health_pack] as @a 
-            if score @s tf2.health = @s tf2.max_health
-            run tag @s add tf2.ineligible;
-    execute if entity @s[tag=tf2.ammo_pack] as @a 
-            if score @s tf2.primary_ammo   = @s tf2.primary_maxAmmo
-            if score @s tf2.primary_clip   = @s tf2.primary_maxClip
-            if score @s tf2.secondary_ammo = @s tf2.secondary_maxAmmo
-            if score @s tf2.secondary_clip = @s tf2.secondary_maxClip
-            run tag @s add tf2.ineligible;
-    tag @a[gamemode=spectator] add tf2.ineligible;
-    tag @a[distance=..1.25,limit=1,sort=nearest,tag=!tf2.ineligible] add tf2.recipient;
-    tag @a remove tf2.ineligible;
-    
-    tf2.size:@s ??= 2;
-    $percent = tf2.size:@s;
-    $percent *= $percent;
-    $percent += 1;
-    $percent *= 10;
+        // 1 -> 20, 2 -> 50, 3 -> 100
+        execute if entity @s[tag=tf2.health_pack] as @a 
+                if score @s tf2.health = @s tf2.max_health
+                run tag @s add tf2.ineligible;
+        execute if entity @s[tag=tf2.ammo_pack] as @a 
+                if score @s tf2.primary_ammo   = @s tf2.primary_maxAmmo
+                if score @s tf2.primary_clip   = @s tf2.primary_maxClip
+                if score @s tf2.secondary_ammo = @s tf2.secondary_maxAmmo
+                if score @s tf2.secondary_clip = @s tf2.secondary_maxClip
+                run tag @s add tf2.ineligible;
+        tag @a[scores={tf2.class=Class.SPY, tf2.cloak=..599}] remove tf2.ineligible;
+        tag @a[gamemode=spectator] add tf2.ineligible;
+        tag @a[distance=..1.25,limit=1,sort=nearest,tag=!tf2.ineligible] add tf2.recipient;
+        tag @a remove tf2.ineligible;
+        
+        tf2.size:@s ??= 2;
+        $percent = tf2.size:@s;
+        $percent *= $percent;
+        $percent += 1;
+        $percent *= 10;
 
-    if (!entity @a[tag=tf2.recipient]) return 1;
-    $add_amount = $percent;
-    if (entity @s[tag=tf2.health_pack]) {
+        if (!entity @a[tag=tf2.recipient]) return 1;
+        $add_amount = $percent;
+        if (entity @s[tag=tf2.health_pack]) {
+            this.give_health();
+        }
+        if (entity @s[tag=tf2.ammo_pack]) {
+            this.give_ammo();
+        }
+        tf2.respawn_timer:@s = 200;
+        @s::Item.components."minecraft:custom_model_data" = -1b;
+        ride @s[tag=!tf2.no_respawn] dismount;
+        tp @s ~ ~500 ~;
+        tag @a remove tf2.recipient;
+        if (entity @s[tag=!tf2.no_respawn]) return 2;
+        execute on vehicle run tp @s ~ ~-500 ~;
+        kill @s;
+    }
+    function give_health() {
         playsound tf2:pickup.health player @a[tag=tf2.recipient] ~ ~ ~ 0.55 0.85 0.2;
         $add_amount *= tf2.max_health:@a[tag=tf2.recipient];
         $add_amount += 99;
@@ -318,7 +335,7 @@ function pickup_tick() {
         tf2.health:@a[tag=tf2.recipient] += $add_amount;
         tf2.health:@a[tag=tf2.recipient] < tf2.max_health:@a[tag=tf2.recipient];
     }
-    if (entity @s[tag=tf2.ammo_pack]) {
+    function give_ammo() {
         playsound tf2:pickup.ammo player @a[tag=tf2.recipient] ~ ~ ~ 0.6 0.9 0.2;
         $total_ammo = tf2.primary_maxAmmo:@a[tag=tf2.recipient];
         $total_ammo += tf2.primary_maxClip:@a[tag=tf2.recipient];
@@ -348,15 +365,18 @@ function pickup_tick() {
         
         tf2.secondary_ammo:@a[tag=tf2.recipient] += $add_amount;
         tf2.secondary_ammo:@a[tag=tf2.recipient] < tf2.secondary_maxAmmo:@a[tag=tf2.recipient];
+
+        if (tf2.class:@a[tag=tf2.recipient,limit=1] != Class.SPY) {
+            return 1;
+        }
+
+        $add_amount = $percent;
+        $add_amount *= FULL_CLOAK;
+        $add_amount += 99;
+        $add_amount /= 100;
+        tf2.cloak:@a[tag=tf2.recipient] += $add_amount;
+        tf2.cloak:@a[tag=tf2.recipient] < FULL_CLOAK;
     }
-    tf2.respawn_timer:@s = 200;
-    @s::Item.components."minecraft:custom_model_data" = -1b;
-    ride @s[tag=!tf2.no_respawn] dismount;
-    tp @s ~ ~500 ~;
-    tag @a remove tf2.recipient;
-    if (entity @s[tag=!tf2.no_respawn]) return 2;
-    execute on vehicle run tp @s ~ ~-500 ~;
-    kill @s;
 }
 
 Player.join(() => {
