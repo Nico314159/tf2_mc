@@ -109,3 +109,14 @@ function change_team() {
     tf2.model_number:@s *= 10;
     tf2.model_number:@s += tf2.team:@s;
 }
+
+function insert_into_batch() {
+    // @needs_macro
+    // @context chat
+    $ tf2.batch_number:@s = $(batch);
+    $ tf2.team:@s = $(team);
+    team join RED @s[scores={tf2.team=1}];
+    team join BLU @s[scores={tf2.team=2}];
+    tf2.health:@s = 0;
+    tag @s add tf2.is_playing;
+}
