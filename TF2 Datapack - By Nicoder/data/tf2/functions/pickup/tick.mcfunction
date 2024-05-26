@@ -15,8 +15,8 @@ scoreboard players add $percent tf2.var 1
 scoreboard players operation $percent tf2.var *= 10 tf2.const
 execute unless entity @a[tag=tf2.recipient] run return 1
 scoreboard players operation $add_amount tf2.var = $percent tf2.var
-execute if entity @s[tag=tf2.health_pack] run function tf2:pickup/give_health
-execute if entity @s[tag=tf2.ammo_pack] run function tf2:pickup/give_ammo
+execute if entity @s[tag=tf2.health_pack] as @a[tag=tf2.recipient] run function tf2:pickup/give_health
+execute if entity @s[tag=tf2.ammo_pack] as @a[tag=tf2.recipient] run function tf2:pickup/give_ammo
 scoreboard players set @s tf2.respawn_timer 200
 data modify entity @s Item.components.minecraft:custom_model_data set value -1b
 ride @s[tag=!tf2.no_respawn] dismount
