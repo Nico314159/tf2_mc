@@ -43,8 +43,9 @@ function tf2:start_game/as_marker/tell_info
 scoreboard players reset @e[tag=tf2.current] tf2.team
 scoreboard players set $team_temp tf2.var 0
 execute store result score $count tf2.var if entity @e[tag=tf2.current]
-execute as @e[tag=tf2.current,sort=random] run function tf2:team_assign
+execute as @a[tag=tf2.current,sort=random] run function tf2:team_assign
 scoreboard players operation $count tf2.var %= 2 tf2.const
-execute if score $count tf2.var matches 1 if predicate tf2:coin_flip run scoreboard players set @e[tag=tf2.current,sort=random,limit=1,scores={tf2.team=1}] tf2.team 2
+execute if score $count tf2.var matches 1 if predicate tf2:coin_flip run scoreboard players set @r[tag=tf2.current,scores={tf2.team=1}] tf2.team 2
+execute as @e[type=!player,tag=tf2.current,sort=random] run function tf2:team_assign
 tag @s add tf2.in_use
 tag @e remove tf2.current
