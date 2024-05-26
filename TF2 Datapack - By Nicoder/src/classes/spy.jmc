@@ -236,7 +236,7 @@ class Class.Spy {
         tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
         tf2.is_invisible:@s = 0;
-        tf2.cloak:@s = 600;
+        tf2.cloak:@s = FULL_CLOAK;
     }
 
     function cloak() {

@@ -19,7 +19,7 @@ execute if score $enough_in_queue tf2.var matches 1.. as @e[type=marker,tag=tf2.
 execute as @e[type=marker] run function tf2:marker_tick
 execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run function tf2:player_tick
 tag @e[type=#tf2:player_like] remove tf2.on_point
-execute as @e[type=item,tag=tf2.pickup] at @s run function tf2:pickup_tick
+execute as @e[type=item,tag=tf2.pickup] at @s run function tf2:pickup/tick
 execute as @e[type=arrow,tag=tf2.projectile] at @s run function tf2:projectile/tick
 execute as @e[type=item_display,tag=tf2.door] at @s run function tf2:door/tick
 execute store result score $flicker tf2.var run scoreboard players operation $trigger_reminder tf2.var = $__global__ 0008it54g_p_join
