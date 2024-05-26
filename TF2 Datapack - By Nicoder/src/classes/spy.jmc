@@ -330,6 +330,13 @@ class Class.Spy {
         clear @s *[!custom_data~{cloak: 'uncloak'}, !custom_model_data=10];
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch_gui_only;
     }
+    function disguise_as() {
+        // @needs_macro
+        // @context chat
+        $ scoreboard players set @s tf2.disguise.team $(team);
+        $ scoreboard players set @s tf2.disguise.class $(class);
+        tag @s add tf2.disguised;
+    }
     function fake_inventory_lock() {
         switch (tf2.disguise.class:@s) {
             case 1: vars::pattern = "spy";
