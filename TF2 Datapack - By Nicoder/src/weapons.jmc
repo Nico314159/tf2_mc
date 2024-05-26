@@ -268,6 +268,7 @@ class Weapons {
         if (!predicate tf2:has_main_fire) return 0;
         this.get_ammo();
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
+        tag @s remove tf2.disguised;
 
         if (!predicate tf2:holding_melee) {
             playsound tf2:item.gun.shoot player @s ~ ~ ~ 1.35 1 0.1;
