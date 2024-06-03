@@ -8,6 +8,14 @@
         { "predicate": {"custom_model_data": 23000}, "model": "tf2:item/sniper/melee/kukri"},
         { "predicate": {"custom_model_data": 33000}, "model": "tf2:item/scout/melee/baseball_bat"},
         { "predicate": {"custom_model_data": 43000}, "model": "tf2:item/soldier/melee/shovel"},
-        { "predicate": {"custom_model_data": 63000}, "model": "tf2:item/heavy/melee/right_fist"}
+        { "predicate": {"custom_model_data": 63000}, "model": "tf2:item/heavy/melee/right_fist"},
+
+
+        { "predicate": {"custom_model_data": 1013000}, "model": "tf2:disguise/melee/butterfly_knife_as_butterfly_knife"},
+        { "predicate": {"custom_model_data": 1013001}, "model": "tf2:disguise/melee/butterfly_knife_as_butterfly_knife_raised"},
+        { "predicate": {"custom_model_data": 1023000}, "model": "tf2:disguise/melee/butterfly_knife_as_kukri"},
+        { "predicate": {"custom_model_data": 1033000}, "model": "tf2:disguise/melee/butterfly_knife_as_baseball_bat"},
+        { "predicate": {"custom_model_data": 1043000}, "model": "tf2:disguise/melee/butterfly_knife_as_shovel"},
+        { "predicate": {"custom_model_data": 1063000}, "model": "tf2:disguise/melee/butterfly_knife_as_right_fist"}
     ]
 }
