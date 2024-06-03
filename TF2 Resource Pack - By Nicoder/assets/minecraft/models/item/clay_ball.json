@@ -16,9 +16,9 @@
         { "predicate": {"custom_model_data": 63000}, "model": "tf2:item/heavy/melee/left_fist"},
 
 
-        { "predicate": {"custom_model_data": 1022000}, "model": "tf2:disguise/secondary/sapper_as_smg"},
-        { "predicate": {"custom_model_data": 1032000}, "model": "tf2:disguise/secondary/sapper_as_pistol"},
-        { "predicate": {"custom_model_data": 1042000}, "model": "tf2:disguise/secondary/sapper_as_shotgun"},
-        { "predicate": {"custom_model_data": 1062000}, "model": "tf2:disguise/secondary/sapper_as_shotgun"}
+        { "predicate": {"custom_model_data": 200022000}, "model": "tf2:disguise/secondary/sapper_as_smg"},
+        { "predicate": {"custom_model_data": 200032000}, "model": "tf2:disguise/secondary/sapper_as_pistol"},
+        { "predicate": {"custom_model_data": 200042000}, "model": "tf2:disguise/secondary/sapper_as_shotgun"},
+        { "predicate": {"custom_model_data": 200062000}, "model": "tf2:disguise/secondary/sapper_as_shotgun"}
     ]
 }

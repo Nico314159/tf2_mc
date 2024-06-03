@@ -272,15 +272,15 @@ class Class.Spy {
             this.uncloak();
         }
 
+        if (entity @s[tag=tf2.disguised]) {
+            return run this.fake_inventory_lock();
+        }
         this.inventory_lock();
     }
 
     function inventory_lock() {
         if (tf2.is_invisible:@s) {
             return run this.disable_attacking();
-        }
-        if (entity @s[tag=tf2.disguised]) {
-            return run this.fake_inventory_lock();
         }
 
         item replace entity @s armor.chest with air;
@@ -356,30 +356,20 @@ class Class.Spy {
         if (tf2.disguise.team:@s == 1) {vars::material = "red";}
         if (tf2.disguise.team:@s == 2) {vars::material = "blu";}
 
+        this.inventory_lock();
         this.fake_primary();
-        $_count_ = clear @s crossbow[minecraft:custom_data~{fake_slot: 'primary'}] 0;
-        if ($_count_ != 1) clear @s crossbow[minecraft:custom_data~{fake_slot: 'primary'}];
-        if ($_count_ != 1) this.fake_primary();
-
         this.fake_secondary();
-        $_count_ = clear @s crossbow[minecraft:custom_data~{fake_slot: 'secondary'}] 0;
-        if ($_count_ != 1) clear @s crossbow[minecraft:custom_data~{fake_slot: 'secondary'}];
-        if ($_count_ != 1) this.fake_secondary();
-
         this.fake_melee();
-        $_count_ = clear @s crossbow[minecraft:custom_data~{fake_slot: 'melee'}] 0;
-        if ($_count_ != 1) clear @s crossbow[minecraft:custom_data~{fake_slot: 'melee'}];
-        if ($_count_ != 1) this.fake_melee();
 
         this.fake_leggings() with vars::;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) this.fake_leggings() with vars::;
 
-        loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
-        $_count_ = clear @s clay_ball[custom_model_data=15000] 0;
-        if ($_count_ != 1) clear @s clay_ball[custom_model_data=15000];
-        if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
+        // loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
+        // $_count_ = clear @s clay_ball[custom_model_data=15000] 0;
+        // if ($_count_ != 1) clear @s clay_ball[custom_model_data=15000];
+        // if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
         item modify entity @s weapon.offhand {
             "function": "minecraft:set_custom_model_data", "value": 15001
         };
@@ -394,14 +384,17 @@ class Class.Spy {
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
     }
     function fake_primary() {
-        loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
-        $fake_CMD = tf2.disguise.class:@s;
-        $fake_CMD *= 10000;
-        $fake_CMD += 1000;
-        if (tf2.disguise.class:@s != Class.SPY) {
-            $fake_CMD += 1000000;
-        }
+        $fake_CMD = @s::Inventory[{Slot:0b}].components.minecraft:custom_model_data * 10; // 130010
+        $fake_CMD += tf2.disguise.class:@s;
+        $fake_CMD *= 10;
+        $fake_CMD ++;
+        $fake_CMD *= 1000;
         $fake_CMD += tf2.disguise.team:@s;
+        $fake_CMD %= EVAL(1_000_000_000);
+        if (tf2.disguise.class:@s == Class.SPY) {
+            $fake_CMD %= 100000;
+        }
+
         item modify entity @s hotbar.0 {
             "function": "minecraft:set_custom_model_data",
             "value": {
@@ -415,14 +408,18 @@ class Class.Spy {
         };
     }
     function fake_secondary() {
-        loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
-        $fake_CMD = tf2.disguise.class:@s;
-        $fake_CMD *= 10000;
-        $fake_CMD += 2000;
-        if (tf2.disguise.class:@s != Class.SPY) {
-            $fake_CMD += 1000000;
-        }
+        // loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
+        $fake_CMD = @s::Inventory[{Slot:1b}].components.minecraft:custom_model_data * 10;
+        $fake_CMD += tf2.disguise.class:@s;
+        $fake_CMD *= 10;
+        $fake_CMD += 2;
+        $fake_CMD *= 1000;
         $fake_CMD += tf2.disguise.team:@s;
+        $fake_CMD %= EVAL(1_000_000_000);
+        if (tf2.disguise.class:@s == Class.SPY) {
+            $fake_CMD %= 100000;
+        }
+
         item modify entity @s hotbar.1 {
             "function": "minecraft:set_custom_model_data",
             "value": {
@@ -436,14 +433,18 @@ class Class.Spy {
         };
     }
     function fake_melee() {
-        loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
-        $fake_CMD = tf2.disguise.class:@s;
-        $fake_CMD *= 10000;
-        $fake_CMD += 3000;
-        if (tf2.disguise.class:@s != Class.SPY) {
-            $fake_CMD += 1000000;
-        }
+        // loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
+        $fake_CMD = @s::Inventory[{Slot:2b}].components.minecraft:custom_model_data * 10;
+        $fake_CMD += tf2.disguise.class:@s;
+        $fake_CMD *= 10;
+        $fake_CMD += 3;
+        $fake_CMD *= 1000;
         $fake_CMD += tf2.disguise.team:@s;
+        $fake_CMD %= EVAL(1_000_000_000);
+        if (tf2.disguise.class:@s == Class.SPY) {
+            $fake_CMD %= 100000;
+        }
+
         item modify entity @s hotbar.2 {
             "function": "minecraft:set_custom_model_data",
             "value": {
