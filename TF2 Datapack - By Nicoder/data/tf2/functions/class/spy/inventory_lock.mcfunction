@@ -1,5 +1,4 @@
 execute if score @s tf2.is_invisible matches 1.. run return run function tf2:class/spy/disable_attacking
-execute if entity @s[tag=tf2.disguised] run return run function tf2:class/spy/fake_inventory_lock
 item replace entity @s armor.chest with air
 loot replace entity @s hotbar.0 loot tf2:class/spy/revolver
 execute store result score $_count_ tf2.var run clear @s crossbow[custom_model_data=11000] 0
