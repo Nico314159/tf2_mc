@@ -398,6 +398,9 @@ class Class.Spy {
         $fake_CMD = tf2.disguise.class:@s;
         $fake_CMD *= 10000;
         $fake_CMD += 1000;
+        if (tf2.disguise.class:@s != Class.SPY) {
+            $fake_CMD += 1000000;
+        }
         $fake_CMD += tf2.disguise.team:@s;
         item modify entity @s hotbar.0 {
             "function": "minecraft:set_custom_model_data",
@@ -416,6 +419,9 @@ class Class.Spy {
         $fake_CMD = tf2.disguise.class:@s;
         $fake_CMD *= 10000;
         $fake_CMD += 2000;
+        if (tf2.disguise.class:@s != Class.SPY) {
+            $fake_CMD += 1000000;
+        }
         $fake_CMD += tf2.disguise.team:@s;
         item modify entity @s hotbar.1 {
             "function": "minecraft:set_custom_model_data",
@@ -434,6 +440,9 @@ class Class.Spy {
         $fake_CMD = tf2.disguise.class:@s;
         $fake_CMD *= 10000;
         $fake_CMD += 3000;
+        if (tf2.disguise.class:@s != Class.SPY) {
+            $fake_CMD += 1000000;
+        }
         $fake_CMD += tf2.disguise.team:@s;
         item modify entity @s hotbar.2 {
             "function": "minecraft:set_custom_model_data",
