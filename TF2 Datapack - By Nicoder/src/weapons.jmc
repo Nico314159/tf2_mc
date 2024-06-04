@@ -818,13 +818,17 @@ class Projectile {
         // Death message & sound effects
         if (entity @s[tag=tf2.said_death_msg]) return 1;
         if (tf2.health:@s > 0) {
-            return run execute as @a[tag=tf2.origin] at @s run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05;
+            return run execute if entity @s[tag=!tf2.origin] 
+                               as @a[tag=tf2.origin] at @s
+                               run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05;
         }
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         vars::kill_verb = "blew up";
         Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@s> with &<weapon_name>");
-        playsound tf2:ding.kill player @a[tag=tf2.origin] ~ ~ ~ 0.9 1 0.05;
+        execute if entity @s[tag=!tf2.origin] 
+                as @a[tag=tf2.origin] at @s
+                run playsound tf2:ding.kill player @s ~ ~ ~ 0.9 1 0.05;
         tag @a remove tf2.current;
         tag @s add tf2.said_death_msg;
     }
