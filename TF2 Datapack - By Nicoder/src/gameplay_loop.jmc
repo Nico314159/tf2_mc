@@ -393,7 +393,7 @@ function test_items() {
 
 function quick_start() {
     Hardcode.repeat("never", () => {
-        summon blaze ~ ~ ~ {NoAI: 1b};
+        summon blaze ~ ~ ~ {NoAI: 1b, Silent: 1b};
     }, start=1, stop=12);
     tf2.queue_type:@e[type=blaze,limit=11,sort=nearest] = 1;
 }

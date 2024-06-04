@@ -146,8 +146,8 @@
         "sounds": [
             {
                 "name": "tf2:ding/hit",
-                "pitch": 1.025,
-                "volume": 0.29
+                "pitch": 0.85,
+                "volume": 0.7
             }
         ],
         "subtitle": "Hurt player"
