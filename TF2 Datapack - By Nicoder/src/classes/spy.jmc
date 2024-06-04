@@ -356,6 +356,9 @@ class Class.Spy {
         if (tf2.disguise.team:@s == 1) {vars::material = "red";}
         if (tf2.disguise.team:@s == 2) {vars::material = "blu";}
 
+        if (items entity @s player.cursor *) {
+            item replace entity @s player.cursor with air;
+        }
         this.inventory_lock();
         this.fake_primary();
         this.fake_secondary();

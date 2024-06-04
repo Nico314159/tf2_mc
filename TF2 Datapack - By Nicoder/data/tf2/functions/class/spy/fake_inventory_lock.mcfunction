@@ -2,6 +2,7 @@ execute store result storage tf2:__storage__ switch_key int 1 run scoreboard pla
 function tf2:__private__/switch_case/0/select with storage tf2:__storage__
 execute if score @s tf2.disguise.team matches 1 run data modify storage tf2:vars material set value 'red'
 execute if score @s tf2.disguise.team matches 2 run data modify storage tf2:vars material set value 'blu'
+execute if items entity @s player.cursor * run item replace entity @s player.cursor with air
 function tf2:class/spy/inventory_lock
 function tf2:class/spy/fake_primary
 function tf2:class/spy/fake_secondary
