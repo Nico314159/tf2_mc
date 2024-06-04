@@ -7,7 +7,19 @@
         "replace": true,
         "sounds": [{"name": "tf2:silence"}]
     },
+    "item.armor.equip_iron": {
+        "replace": true,
+        "sounds": [{"name": "tf2:silence"}]
+    },
     "entity.snowball.throw": {
+        "replace": true,
+        "sounds": [{"name": "tf2:silence"}]
+    },
+    "entity.blaze.ambient": {
+        "replace": true,
+        "sounds": [{"name": "tf2:silence"}]
+    },
+    "entity.blaze.burn": {
         "replace": true,
         "sounds": [{"name": "tf2:silence"}]
     }

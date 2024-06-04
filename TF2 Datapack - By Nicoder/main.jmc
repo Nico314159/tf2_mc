@@ -205,6 +205,7 @@ function player_tick() {
             // Kill player if they change class outside of spawn
             tf2.health:@s = 0;
         }
+        playsound tf2:pickup.ammo player @s[scores={tf2.health=1..,tf2.class=1..9}];
     }
     if (tf2.coas:@s) {
         coas_input();
