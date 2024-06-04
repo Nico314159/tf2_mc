@@ -577,7 +577,8 @@ class Weapons {
         // Death message & sound effects
         if (entity @s[tag=tf2.said_death_msg]) return 1;
         if (tf2.health:@s > 0) {
-            return run playsound tf2:ding.hit player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
+            return run execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] 
+                               at @s run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05;
         }
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
@@ -592,7 +593,8 @@ class Weapons {
             execute at @s run this.crit_receive_sound() with index::;
         } else if (!data storage tf2:vars kill_verb) {
             vars::kill_verb = "killed";
-            playsound tf2:ding.kill player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05;
+            execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] 
+                    at @s run playsound tf2:ding.kill player @s ~ ~ ~ 0.9 1 0.05;
         }
         Text.tellraw(@a[tag=tf2.current], "&<@a[tag=retina.executing]> &<kill_verb> &<@s> with &<item_of(@a[tag=retina.executing])>");
         tag @a remove tf2.current;
@@ -816,7 +818,7 @@ class Projectile {
         // Death message & sound effects
         if (entity @s[tag=tf2.said_death_msg]) return 1;
         if (tf2.health:@s > 0) {
-            return run playsound tf2:ding.hit player @a[tag=tf2.origin] ~ ~ ~ 0.9 1 0.05;
+            return run execute as @a[tag=tf2.origin] at @s run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05;
         }
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;

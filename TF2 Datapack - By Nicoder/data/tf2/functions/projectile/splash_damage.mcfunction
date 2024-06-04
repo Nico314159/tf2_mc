@@ -5,7 +5,7 @@ scoreboard players add $playersHurt tf2.var 1
 damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin,limit=1]
 function tf2:projectile/knockback
 execute if entity @s[tag=tf2.said_death_msg] run return 1
-execute if score @s tf2.health matches 1.. run return run playsound tf2:ding.hit player @a[tag=tf2.origin] ~ ~ ~ 0.9 1 0.05
+execute if score @s tf2.health matches 1.. run return run execute as @a[tag=tf2.origin] at @s run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 data modify storage tf2:vars kill_verb set value 'blew up'
