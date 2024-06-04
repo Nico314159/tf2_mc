@@ -15,7 +15,7 @@ scoreboard players operation @s tf2.health -= $_finalDamage_ tf2.var
 scoreboard players operation $_totalDamage_ tf2.var += $_finalDamage_ tf2.var
 damage @s 0.01 tf2:screenshake by @a[tag=retina.executing,limit=1]
 execute if entity @s[tag=tf2.said_death_msg] run return 1
-execute if score @s tf2.health matches 1.. run return run playsound tf2:ding.hit player @a[tag=retina.executing,predicate=!tf2:holding_melee] ~ ~ ~ 0.9 1 0.05
+execute if score @s tf2.health matches 1.. run return run execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] at @s run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 scoreboard players set __if_else__ tf2.var 0
