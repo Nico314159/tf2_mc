@@ -325,7 +325,7 @@ class Class.Spy {
             this.uncloak();
         }
 
-        if (entity @s[tag=tf2.disguised]) {
+        if (entity @s[tag=tf2.disguised, scores={tf2.is_invisible=0}]) {
             return run this.fake_inventory_lock();
         }
         this.inventory_lock();

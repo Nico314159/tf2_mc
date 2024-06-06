@@ -6,5 +6,5 @@ execute if items entity @s[scores={tf2.is_invisible=1}] weapon.mainhand clay_bal
 scoreboard players add @s[scores={tf2.is_invisible=0,tf2.cloak=..599}] tf2.cloak 1
 scoreboard players remove @s[scores={tf2.is_invisible=1}] tf2.cloak 3
 execute if score @s[scores={tf2.is_invisible=1}] tf2.cloak matches ..0 run function tf2:class/spy/uncloak
-execute if entity @s[tag=tf2.disguised] run return run function tf2:class/spy/fake_inventory_lock
+execute if entity @s[tag=tf2.disguised, scores={tf2.is_invisible=0}] run return run function tf2:class/spy/fake_inventory_lock
 function tf2:class/spy/inventory_lock
