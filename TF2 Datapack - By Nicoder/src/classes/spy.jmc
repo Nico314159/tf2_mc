@@ -607,13 +607,41 @@ class Class.Spy {
         $CMD ++;
         item modify entity @s weapon.mainhand tf2:class/spy/raise_knife;
     }
+
+    function light_smoke() {
+        particle minecraft:white_smoke ~ ~0.75 ~ 0.2 0.6 0.2 0 25 normal @a[tag=!self];
+        particle minecraft:white_smoke ~ ~1.25 ~ 0.2 0 0.2 0 25 normal @a[tag=!self];
+    }
+    function thick_smoke() {
+        particle minecraft:poof ~ ~ ~ 0.07 0.7 0.07 0 200 normal @a[tag=!self];
+        if (tf2.team:@s == 1) expand {
+            particle minecraft:item{item: "red_stained_glass"} ~ ~1.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self];
+            particle minecraft:item{item: "red_stained_glass"} ~ ~0.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self];
+        }
+        if (tf2.team:@s == 2) expand {
+            particle minecraft:item{item:"blue_stained_glass"} ~ ~1.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self];
+            particle minecraft:item{item:"blue_stained_glass"} ~ ~0.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self];
+        }
+    }
+    function apply_disguise() {
+        tag @s add self;
+
+        if (entity @s[tag=!tf2.disguised,scores={tf2.is_invisible=0}]) {
+            this.thick_smoke();
+        }
+
+        if (entity @s[tag=tf2.disguised,scores={tf2.is_invisible=0}]) {
+            this.light_smoke();
+        }
+
+        tag @s remove self;
+        tag @s add tf2.disguised;
+    }
 }
 
 Trigger.add(
     disguise,
     () => {
-        tag @s remove tf2.disguised;
-
         $error = false;
         if (tf2.class:@s != Class.SPY) {
             $error = Text.tellraw(@s, "&<yellow, italic>ERROR: You can't use disguises if you're not playing as the Spy.");
@@ -631,7 +659,10 @@ Trigger.add(
         }
 
         if (!$error) {
-            tag @s add tf2.disguised;
+            Class.Spy.apply_disguise();
+        }
+        if ($error) {
+            tag @s remove tf2.disguised;
         }
     }
 );

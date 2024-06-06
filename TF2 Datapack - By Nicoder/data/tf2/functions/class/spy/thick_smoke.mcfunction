@@ -1,0 +1,5 @@
+particle minecraft:poof ~ ~ ~ 0.07 0.7 0.07 0 200 normal @a[tag=!self]
+execute if score @s tf2.team matches 1 run particle minecraft:item{item:"red_stained_glass"} ~ ~1.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self]
+execute if score @s tf2.team matches 1 run particle minecraft:item{item:"red_stained_glass"} ~ ~0.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self]
+execute if score @s tf2.team matches 2 run particle minecraft:item{item:"blue_stained_glass"} ~ ~1.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self]
+execute if score @s tf2.team matches 2 run particle minecraft:item{item:"blue_stained_glass"} ~ ~0.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self]
