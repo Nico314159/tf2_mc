@@ -87,7 +87,7 @@ class Timer
         // @within
         //  Timer.exit_setup()
         //  start_game.as_marker.main()
-        $execute if entity @e[type=marker,scores={tf2.batch_number=$(i),tf2.gamemode=3}]
+        $execute if entity @e[type=marker,scores={tf2.batch_number=$(i),tf2.gamemode=Gamemode.KOTH}]
                  run return run KOTH_Timer.show() with index::;
         $bossbar set tf2:timer_$(i) visible true;
         $bossbar set tf2:timer_$(i) players @a[scores={tf2.batch_number=$(i)}];
