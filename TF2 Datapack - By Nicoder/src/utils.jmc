@@ -113,6 +113,7 @@ function change_team() {
 function insert_into_batch() {
     // @needs_macro
     // @context chat
+
     $ scoreboard players set @s tf2.batch_number $(batch);
     $ scoreboard players set @s tf2.team $(team);
     team join RED @s[scores={tf2.team=1}];
@@ -120,4 +121,8 @@ function insert_into_batch() {
     tf2.max_health:@s = 100;
     Spawn.init();
     tag @s add tf2.is_playing;
+
+    // Update timer visibility
+    index::i = tf2.batch_number:@s;
+    Timer.show() with index::;
 }
