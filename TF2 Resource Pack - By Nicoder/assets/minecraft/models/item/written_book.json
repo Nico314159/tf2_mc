@@ -1,0 +1,9 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "minecraft:item/written_book"
+    },
+    "overrides": [    
+        { "predicate": {"custom_model_data": 14000}, "model": "tf2:item/spy/disguise_kit/disguise_kit"}
+    ]
+}  

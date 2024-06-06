@@ -7,6 +7,36 @@ new trim_pattern(spy) {
 }
 generate_body_model(spy);
 
+
+JMC.python(
+`
+import json
+classes = ('Sniper', 'Scout', 'Heavy', 'Soldier', 'Spy')
+ids = (2, 3, 6, 4, 1)
+
+pages = []
+for (color, COLOR, N) in zip(('red', 'blue'), ('RED', 'BLU'), (1, 2)):
+    pages.append([
+        {
+            "text": f"[{COLOR} {class_name}]\\n\\n",
+            "color": f"{color}",
+            "bold": True,
+            "clickEvent": {
+                "action": "run_command", 
+                "value": f"/trigger disguise set {N * 10 + id}"
+            }
+        }
+        for (class_name, id) in zip(classes, ids)
+    ])
+    
+r1 = {"function": "minecraft:set_written_book_pages", "pages": pages, "mode": "replace_all"}
+b1 = {"function": "minecraft:set_written_book_pages", "pages": list(reversed(pages)), "mode": "replace_all"}
+emit(f'new item_modifiers(class.spy.red_menu) {json.dumps(b1)}')
+emit(f'new item_modifiers(class.spy.blu_menu) {json.dumps(r1)}')
+`,
+    jmc=true
+);
+
 class Class.Spy {
     new loot_tables(revolver) {
         "pools": [{
@@ -133,12 +163,12 @@ class Class.Spy {
             "entries": [
                 {
                     "type": "minecraft:item",
-					"name": "minecraft:clay_ball",
+					"name": "minecraft:written_book",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
                             "name": {
-                                "text": "Disguise Kit (not yet implemented)",
+                                "text": "Disguise Kit",
                                 "color": "gray",
                                 "italic": true
                             }
@@ -147,9 +177,32 @@ class Class.Spy {
                             "function": "minecraft:set_components",
                             "components": {
                                 "minecraft:custom_model_data": 14000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
+                                "minecraft:unbreakable": {"show_in_tooltip": false},
+                                "minecraft:enchantment_glint_override": false
                             }
-                        }
+                        },
+                        {
+							"function": "minecraft:reference",
+							"name": "tf2:class/spy/red_menu",
+							"conditions": [
+								{
+									"condition": "minecraft:entity_scores",
+									"entity": "this",
+									"scores": {"tf2.team": 1}
+								}
+							]
+						},
+						{
+							"function": "minecraft:reference",
+							"name": "tf2:class/spy/blu_menu",
+							"conditions": [
+								{
+									"condition": "minecraft:entity_scores",
+									"entity": "this",
+									"scores": {"tf2.team": 2}
+								}
+							]
+						}
                     ]
                 }
             ]
@@ -542,3 +595,30 @@ class Class.Spy {
         item modify entity @s weapon.mainhand tf2:class/spy/raise_knife;
     }
 }
+
+Trigger.add(
+    disguise,
+    () => {
+        tag @s remove tf2.disguised;
+
+        $error = false;
+        if (tf2.class:@s != Class.SPY) {
+            $error = Text.tellraw(@s, "&<yellow, italic>ERROR: You can't use disguises if you're not playing as the Spy.");
+        }
+        if (!disguise:@s matches 11..19 && !disguise:@s matches 21..29) {
+            $error = Text.tellraw(@s, "&<yellow, italic>ERROR: Cannot interpret disguise value of &<bold, disguise:@s>.");
+        }
+
+        tf2.disguise.team:@s = tf2.disguise.class:@s = disguise:@s;
+        tf2.disguise.team:@s /= 10;
+        tf2.disguise.class:@s %= 10;
+        if (tf2.disguise.class:@s == Class.SPY && tf2.disguise.team:@s == tf2.team:@s) {
+            // Disguising as a friendly Spy simply removes your disguise without an error message;
+            $error = true;
+        }
+
+        if (!$error) {
+            tag @s add tf2.disguised;
+        }
+    }
+);

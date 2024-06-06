@@ -4,7 +4,6 @@
     },
     "overrides": [      
         { "predicate": {"custom_model_data": 12000}, "model": "tf2:item/spy/secondary/sapper"},
-        { "predicate": {"custom_model_data": 14000}, "model": "tf2:item/spy/disguise_kit/disguise_kit"},
         { "predicate": {"custom_model_data": 15000}, "model": "tf2:item/spy/watch/invis_watch"},
         { "predicate": {"custom_model_data": 15001}, "model": "tf2:item/spy/watch/invis_watch_gui_only"},
 
