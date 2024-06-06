@@ -462,6 +462,19 @@ class Class.Spy {
                 "score": "tf2.var"
             }
         };
+
+        $fake_CMD += EVAL(300_000_000);
+        item modify entity @s hotbar.3 {
+            "function": "minecraft:set_custom_model_data",
+            "value": {
+                "type": "minecraft:score",
+                "target": {
+                    "type": "minecraft:fixed",
+                    "name": "$fake_CMD"
+                },
+                "score": "tf2.var"
+            }
+        };
     }
     function fake_secondary() {
         // loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
