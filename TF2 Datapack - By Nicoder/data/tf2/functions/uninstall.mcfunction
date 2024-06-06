@@ -2,6 +2,7 @@ kill @e[type=marker]
 scoreboard objectives remove tf2.var
 scoreboard objectives remove controls
 scoreboard objectives remove autoreload
+scoreboard objectives remove disguise
 scoreboard objectives remove 0008it54g_p_join
 scoreboard objectives remove tf2.gamemode
 scoreboard objectives remove tf2.map

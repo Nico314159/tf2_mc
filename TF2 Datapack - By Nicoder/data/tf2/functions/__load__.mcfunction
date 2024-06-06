@@ -1,6 +1,7 @@
 scoreboard objectives add tf2.var dummy
 scoreboard objectives add controls trigger
 scoreboard objectives add autoreload trigger
+scoreboard objectives add disguise trigger
 scoreboard objectives add 0008it54g_p_join dummy
 scoreboard objectives add tf2.const dummy
 scoreboard players set 1000000000 tf2.const 1000000000
