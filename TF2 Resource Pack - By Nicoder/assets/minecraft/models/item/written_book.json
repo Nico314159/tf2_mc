@@ -4,6 +4,12 @@
         "layer0": "minecraft:item/written_book"
     },
     "overrides": [    
-        { "predicate": {"custom_model_data": 14000}, "model": "tf2:item/spy/disguise_kit/disguise_kit"}
+        { "predicate": {"custom_model_data": 14000}, "model": "tf2:item/spy/disguise_kit/disguise_kit"},
+
+        { "predicate": {"custom_model_data": 400021000}, "model": "tf2:disguise/primary/disguise_kit_as_sniper_rifle"},
+        { "predicate": {"custom_model_data": 400031000}, "model": "tf2:disguise/primary/disguise_kit_as_scattergun"},
+        { "predicate": {"custom_model_data": 400041000}, "model": "tf2:disguise/primary/disguise_kit_as_rocket_launcher"},
+        { "predicate": {"custom_model_data": 400061000}, "model": "tf2:disguise/primary/disguise_kit_as_minigun"},
+        { "predicate": {"custom_model_data": 400061001}, "model": "tf2:disguise/primary/disguise_kit_as_minigun_spinning"}
     ]
 }  

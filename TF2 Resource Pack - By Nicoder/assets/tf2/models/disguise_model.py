@@ -16,7 +16,7 @@ def make_empty_folder(path: Path):
         elif content.is_dir():
             rmtree(content)
         
-def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any]):
+def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any], compensate_rotation=False):
     output = {}
     # output.pop("texture_size", None)
     out_textures: dict[str, str] = {}
@@ -48,13 +48,19 @@ def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any]):
 
             out_textures[new_k] = "tf2:disguise/world/" + "/".join(textures2[k].split("/")[2:]) 
 
+    pov3rd = {
+        k: v for (k, v) in model2['display'].items() if k == "thirdperson_righthand"
+    }
+
+    if compensate_rotation:
+        try: pov3rd["thirdperson_righthand"]["rotation"][0] += 0
+        except KeyError: pass
+    
     return {
         "credit": "Made with Blockbench",
         "textures": out_textures,
         "elements": out_elements,
-        "display": model1['display'] | {
-            "thirdperson_righthand": model2['display'].get("thirdperson_righthand", None)
-        }
+        "display": model1['display'] | pov3rd
     }
 
 def format_json(obj) -> str:
@@ -115,6 +121,9 @@ for model_path in items_path.rglob('*.json'):
         continue
 
     matching_slot = list((model_path.parents[2] / 'spy' / slot).iterdir())
+    if slot == 'primary':
+        matching_slot += list((model_path.parents[2] / 'spy' / 'disguise_kit').iterdir())
+
     for spy_weapon in matching_slot:
         if spy_weapon == model_path or model_path.stem == "butterfly_knife_raised":
             continue
@@ -128,7 +137,7 @@ for model_path in items_path.rglob('*.json'):
             spy_json: dict = json.load(f)
             disguise_json: dict = json.load(m)
 
-            new_model = blockbench_merge(spy_json, disguise_json)
+            new_model = blockbench_merge(spy_json, disguise_json, compensate_rotation=(spy_weapon.parent.stem=="disguise_kit"))
         
             out.write(format_json(new_model))
 
