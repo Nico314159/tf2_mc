@@ -623,6 +623,10 @@ class Class.Spy {
             particle minecraft:item{item:"blue_stained_glass"} ~ ~0.5 ~ 0.15 0 0.15 0.01 100 normal @a[tag=!self];
         }
     }
+    function title_image() {
+        Text.title(@s, "&<font(disguise)>S");
+        title @s times 5t 8t 5t;
+    }
     function apply_disguise() {
         tag @s add self;
 
@@ -633,6 +637,7 @@ class Class.Spy {
         if (entity @s[tag=tf2.disguised,scores={tf2.is_invisible=0}]) {
             this.light_smoke();
         }
+        this.title_image();
 
         tag @s remove self;
         tag @s add tf2.disguised;

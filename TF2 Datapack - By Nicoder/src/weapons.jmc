@@ -268,6 +268,9 @@ class Weapons {
         if (!predicate tf2:has_main_fire) return 0;
         this.get_ammo();
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
+        if (entity @s[tag=tf2.disguised]) {
+            Class.Spy.title_image();
+        }
         tag @s remove tf2.disguised;
 
         if (!predicate tf2:holding_melee) {

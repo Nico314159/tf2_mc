@@ -1,0 +1,11 @@
+{
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "tf2:font/disguise/spy_outline.png",
+            "ascent": 45,
+            "height": 90,
+            "chars": ["S"]
+        }
+    ]
+}
