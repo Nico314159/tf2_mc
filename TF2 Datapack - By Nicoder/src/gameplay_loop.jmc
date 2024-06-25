@@ -247,7 +247,7 @@ class start_game {
             $count = execute if entity @e[tag=tf2.current];
             execute as @e[tag=tf2.current,sort=random] run team_assign();
             $count %= 2; // in case of an odd player count, the extra player has a 50/50 change of going to either team
-            if ($count = 1 && predicate tf2:coin_flip) {tf2.team:@e[tag=tf2.current,sort=random,limit=1,scores={tf2.team=1}] = 2;}
+            if ($count == 1 && predicate tf2:coin_flip) {tf2.team:@e[tag=tf2.current,sort=random,limit=1,scores={tf2.team=1}] = 2;}
             tag @s add tf2.in_use;
             tag @e remove tf2.current;
         } function tell_info() {

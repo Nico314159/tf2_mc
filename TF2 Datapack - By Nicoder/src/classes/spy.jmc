@@ -9,31 +9,31 @@ generate_body_model(spy);
 
 
 JMC.python(
-`
-import json
-classes = ('Sniper', 'Scout', 'Heavy', 'Soldier', 'Spy')
-ids = (2, 3, 6, 4, 1)
+    `
+    import json
+    classes = ('Sniper', 'Scout', 'Heavy', 'Soldier', 'Spy')
+    ids = (2, 3, 6, 4, 1)
 
-pages = []
-for (color, COLOR, N) in zip(('red', 'blue'), ('RED', 'BLU'), (1, 2)):
-    pages.append([
-        {
-            "text": f"[{COLOR} {class_name}]\\n\\n",
-            "color": f"{color}",
-            "bold": True,
-            "clickEvent": {
-                "action": "run_command", 
-                "value": f"/trigger disguise set {N * 10 + id}"
+    pages = []
+    for (color, COLOR, N) in zip(('red', 'blue'), ('RED', 'BLU'), (1, 2)):
+        pages.append([
+            {
+                "text": f"[{COLOR} {class_name}]\\n\\n",
+                "color": f"{color}",
+                "bold": True,
+                "clickEvent": {
+                    "action": "run_command", 
+                    "value": f"/trigger disguise set {N * 10 + id}"
+                }
             }
-        }
-        for (class_name, id) in zip(classes, ids)
-    ])
-    
-r1 = {"function": "minecraft:set_written_book_pages", "pages": pages, "mode": "replace_all"}
-b1 = {"function": "minecraft:set_written_book_pages", "pages": list(reversed(pages)), "mode": "replace_all"}
-emit(f'new item_modifiers(class.spy.red_menu) {json.dumps(b1)}')
-emit(f'new item_modifiers(class.spy.blu_menu) {json.dumps(r1)}')
-`,
+            for (class_name, id) in zip(classes, ids)
+        ])
+        
+    r1 = {"function": "minecraft:set_written_book_pages", "pages": pages, "mode": "replace_all"}
+    b1 = {"function": "minecraft:set_written_book_pages", "pages": list(reversed(pages)), "mode": "replace_all"}
+    emit(f'new item_modifiers(class.spy.red_menu) {json.dumps(b1)}')
+    emit(f'new item_modifiers(class.spy.blu_menu) {json.dumps(r1)}')
+    `,
     jmc=true
 );
 
@@ -310,6 +310,13 @@ class Class.Spy {
         HUD.actionbar();
         Weapons.set_ammo();
 
+        if (entity @s[tag=tf2.disguised]) {
+            this.nametag.follow();
+        }
+        if (entity @s[tag=!tf2.disguised]) {
+            this.nametag.delete();
+        }
+
         // Toggle cloak by switching hands
         if (items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand clay_ball[custom_data~{cloak: 'cloak'}]) {
             this.cloak();
@@ -542,6 +549,65 @@ class Class.Spy {
             }]
         };   
     }
+    class nametag {
+        function create() {
+            team leave @s;
+            setblock 0 0 0 decorated_pot;
+            loot replace block 0 0 0 contents loot {
+                pools: [{
+                    rolls: 1, 
+                    entries: [{
+                        type: "item", name: "stone",
+                        functions: [
+                            {function: "set_name", entity: "this", name: {selector: "@s"}}
+                        ]
+                    }]
+                }]
+            };
+
+            $disguise_team = tf2.disguise.team:@s;
+            function player_motion:internal/subtick/get_player_uuid;
+            execute summon turtle run this.set_data();
+
+            team join RED @s[scores={tf2.team=1}];
+            team join BLU @s[scores={tf2.team=2}];
+        }
+        // @private
+        function set_data() {
+
+            @s::CustomName = [0,0,0]::item.components.minecraft:custom_name;
+            @s:: += {CustomNameVisible: true, Age: -2147483647, NoGravity: true};
+            attribute @s minecraft:generic.scale base set 0;
+
+            if ($disguise_team == 1) { team join RED @s; }
+            if ($disguise_team == 2) { team join BLU @s; }
+
+            Hardcode.repeat("_i_", () => {
+                player_motion.internal.uuid._i_:@s = player_motion:storage::UUID[_i_];
+            }, 0, 4);
+            
+        }
+        @lazy 
+        function linked_tp(x, y, z) {
+            Hardcode.repeat("_i_", () => {
+                $uuid._i_ = player_motion.internal.uuid._i_:@s;
+            }, 0, 4);
+
+            execute positioned as @s 
+                    as @e[type=turtle]
+                    if score @s player_motion.internal.uuid.0 = $uuid.0 tf2.var
+                    if score @s player_motion.internal.uuid.1 = $uuid.1 tf2.var
+                    if score @s player_motion.internal.uuid.2 = $uuid.2 tf2.var
+                    if score @s player_motion.internal.uuid.3 = $uuid.3 tf2.var
+                    run tp @s $x $y $z;
+        }
+        function follow() {
+            this.linked_tp(~, ~2, ~);
+        }
+        function delete() {
+            this.linked_tp(0, -1000, 0);
+        }
+    }
 
     function determine_backstab() {
         function retina:traverse/setup;
@@ -638,6 +704,10 @@ class Class.Spy {
             this.light_smoke();
         }
         this.title_image();
+
+        execute unless score @s tf2.team = @s tf2.disguise.team
+                at @s anchored eyes  
+                run this.nametag.create();
 
         tag @s remove self;
         tag @s add tf2.disguised;
