@@ -8,7 +8,7 @@ new trim_pattern(scout) {
 generate_body_model(scout);
 
 class Class.Scout {
-    new loot_tables(scattergun) {
+    new loot_table(scattergun) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -44,7 +44,7 @@ class Class.Scout {
             ]
         }]
     }
-    new loot_tables(pistol) {
+    new loot_table(pistol) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -80,7 +80,7 @@ class Class.Scout {
             ]
         }]
     }
-    new loot_tables(baseball_bat) {
+    new loot_table(baseball_bat) {
         "pools": [{
             "rolls": 1,
             "entries": [
