@@ -8,7 +8,7 @@ new trim_pattern(soldier) {
 generate_body_model(soldier);
 
 class Class.Soldier {
-    new loot_tables(rocket_launcher) {
+    new loot_table(rocket_launcher) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -44,7 +44,7 @@ class Class.Soldier {
             ]
         }]
     }
-    new loot_tables(shotgun) {
+    new loot_table(shotgun) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -80,7 +80,7 @@ class Class.Soldier {
             ]
         }]
     }
-    new loot_tables(shovel) {
+    new loot_table(shovel) {
         "pools": [{
             "rolls": 1,
             "entries": [

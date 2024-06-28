@@ -8,7 +8,7 @@ new trim_pattern(sniper) {
 generate_body_model(sniper);
 
 class Class.Sniper {
-    new advancements(scope) {
+    new advancement(scope) {
         "criteria": {
             "requirement": {
                 "trigger": "minecraft:using_item",
@@ -21,7 +21,7 @@ class Class.Sniper {
             "function": "tf2:class/sniper/scope"
         }
     }
-    new predicates(holding_scope) {
+    new predicate(holding_scope) {
         "condition": "minecraft:all_of",
         "terms": [{
             "condition": "minecraft:entity_properties",
@@ -37,7 +37,7 @@ class Class.Sniper {
     }
 
 
-    new loot_tables(sniper_rifle) {
+    new loot_table(sniper_rifle) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -75,7 +75,7 @@ class Class.Sniper {
             ]
         }]
     }
-    new loot_tables(sniper_rifle_scope) {
+    new loot_table(sniper_rifle_scope) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -102,7 +102,7 @@ class Class.Sniper {
             ]
         }]
     }
-    new loot_tables(smg) {
+    new loot_table(smg) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -138,7 +138,7 @@ class Class.Sniper {
             ]
         }]
     }
-    new loot_tables(kukri) {
+    new loot_table(kukri) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -268,7 +268,7 @@ class Class.Sniper {
         }
         tag @s remove tf2.self;
         kill @e[type=marker, tag=tf2.temp];
-        Advancement.revoke(@s, only, class/sniper/scope);
+        JMC.put("advancement revoke @s only tf2:class/sniper/scope");
     }
     @lazy
     function damage_scale() {

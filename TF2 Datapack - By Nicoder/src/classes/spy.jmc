@@ -31,14 +31,14 @@ JMC.python(
         
     r1 = {"function": "minecraft:set_written_book_pages", "pages": pages, "mode": "replace_all"}
     b1 = {"function": "minecraft:set_written_book_pages", "pages": list(reversed(pages)), "mode": "replace_all"}
-    emit(f'new item_modifiers(class.spy.red_menu) {json.dumps(b1)}')
-    emit(f'new item_modifiers(class.spy.blu_menu) {json.dumps(r1)}')
+    emit(f'new item_modifier(class.spy.red_menu) {json.dumps(b1)}')
+    emit(f'new item_modifier(class.spy.blu_menu) {json.dumps(r1)}')
     `,
     jmc=true
 );
 
 class Class.Spy {
-    new loot_tables(revolver) {
+    new loot_table(revolver) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -74,7 +74,7 @@ class Class.Spy {
             ]
         }]
     }
-    new loot_tables(sapper) {
+    new loot_table(sapper) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -102,7 +102,7 @@ class Class.Spy {
             ]
         }]
     }
-    new loot_tables(butterfly_knife) {
+    new loot_table(butterfly_knife) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -138,7 +138,7 @@ class Class.Spy {
             ]
         }]
     }
-    new item_modifiers(raise_knife) [
+    new item_modifier(raise_knife) [
         {
             "function": "minecraft:set_custom_data",
             "tag": "{attributes: {canBackstab: true}}"
@@ -157,7 +157,7 @@ class Class.Spy {
         }
     ];
     
-    new loot_tables(disguise_kit) {
+    new loot_table(disguise_kit) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -208,7 +208,7 @@ class Class.Spy {
             ]
         }]
     }
-    new loot_tables(invis_watch) {
+    new loot_table(invis_watch) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -253,7 +253,7 @@ class Class.Spy {
             ]
         }]
     }
-    new loot_tables(invis_watch_gui_only) {
+    new loot_table(invis_watch_gui_only) {
         "pools": [{
             "rolls": 1,
             "entries": [

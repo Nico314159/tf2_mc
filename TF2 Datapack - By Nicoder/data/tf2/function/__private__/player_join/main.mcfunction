@@ -14,7 +14,7 @@ effect give @s minecraft:resistance infinite 4 true
 effect clear @s invisibility
 attribute @s minecraft:generic.attack_damage base set 0
 attribute @s minecraft:generic.movement_speed base set 0.1
-attribute @s minecraft:generic.movement_speed modifier remove 736c6f77-7768-696c-6572-657676696e67
+attribute @s minecraft:generic.movement_speed modifier remove tf2:slow_while_revving
 attribute @s minecraft:player.block_interaction_range base set 4.5
 team leave @s
 tag @s remove tf2.in_queue

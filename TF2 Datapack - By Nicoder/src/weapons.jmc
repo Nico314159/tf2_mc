@@ -1,4 +1,4 @@
-new predicates(holding_melee) {
+new predicate(holding_melee) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
     "predicate": {
@@ -11,7 +11,7 @@ new predicates(holding_melee) {
         }
     }
 }
-new predicates(holding_projectile) {
+new predicate(holding_projectile) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
     "predicate": {
@@ -24,7 +24,7 @@ new predicates(holding_projectile) {
         }
     }
 }
-new predicates(non_damaging) {
+new predicate(non_damaging) {
     "condition": "minecraft:any_of",
     "terms": [
         {
@@ -66,7 +66,7 @@ new predicates(non_damaging) {
         }
     ]
 }
-new predicates(empty_hand) {
+new predicate(empty_hand) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
     "predicate": {
@@ -75,7 +75,7 @@ new predicates(empty_hand) {
         }
     }
 }
-new predicates(active_offhand) {
+new predicate(active_offhand) {
 	"condition": "minecraft:entity_properties",
 	"entity": "this",
 	"predicate": {
@@ -86,7 +86,7 @@ new predicates(active_offhand) {
 		}
 	}
 }
-new predicates(hide_ammo) {
+new predicate(hide_ammo) {
     "condition": "minecraft:any_of",
     "terms": [
         {
@@ -99,7 +99,7 @@ new predicates(hide_ammo) {
         }
     ]
 }
-new predicates(uniform_damage) {
+new predicate(uniform_damage) {
     "condition": "minecraft:any_of",
     "terms": [
         {
@@ -123,7 +123,7 @@ new predicates(uniform_damage) {
         }
     ]
 }
-new predicates(has_main_fire) {
+new predicate(has_main_fire) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
     "predicate": {
@@ -138,7 +138,7 @@ new predicates(has_main_fire) {
         }
     }
 }
-new predicates(ammo_in_clip) {
+new predicate(ammo_in_clip) {
     "condition": "minecraft:any_of",
     "terms": [
         {
@@ -173,7 +173,7 @@ new predicates(ammo_in_clip) {
         }
     ]
 }
-new item_modifiers(load_crossbow) [
+new item_modifier(load_crossbow) [
 	{
 		"function": "minecraft:set_components",
 		"components": {
@@ -186,7 +186,7 @@ new item_modifiers(load_crossbow) [
 	}
 ];
 
-new tags.functions(retina.on_hit) {
+new tags.function(retina.on_hit) {
     "values": [
         "tf2:weapons/on_hit"
     ],
@@ -223,14 +223,14 @@ new trim_material(blu) {
     "ingredient": "minecraft:blue_banner",
     "item_model_index": 0.02
 }
-new tags.items(minecraft.trim_materials) {
+new tags.item(minecraft.trim_materials) {
     "values": [
         "minecraft:red_banner",
         "minecraft:blue_banner"
     ]
 }
 
-new loot_tables(head) {
+new loot_table(head) {
 	"pools": [{
 		"rolls": 1,
 		"entries": [{
