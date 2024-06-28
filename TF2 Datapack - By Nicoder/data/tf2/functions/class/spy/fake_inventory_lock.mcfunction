@@ -19,3 +19,4 @@ loot replace entity @s armor.head loot tf2:head
 execute store result score $_count_ tf2.var run clear @s paper 0
 execute unless score $_count_ tf2.var matches 1 run clear @s paper
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:head
+function tf2:class/spy/true_team_trail
