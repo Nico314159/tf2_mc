@@ -8,7 +8,7 @@ new trim_pattern(heavy) {
 generate_body_model(heavy);
 
 class Class.Heavy {
-    new predicates(is_revving) {
+    new predicate(is_revving) {
         "condition": "minecraft:all_of",
         "terms": [
             {
@@ -45,7 +45,7 @@ class Class.Heavy {
             }
         ]
     }
-    new loot_tables(minigun_decoy) {
+    new loot_table(minigun_decoy) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -80,7 +80,7 @@ class Class.Heavy {
             ]
         }]
     }
-    new loot_tables(minigun_spinning) {
+    new loot_table(minigun_spinning) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -137,7 +137,7 @@ class Class.Heavy {
             ]
         }]
     }
-    new loot_tables(shotgun) {
+    new loot_table(shotgun) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -174,7 +174,7 @@ class Class.Heavy {
             ]
         }]
     }
-    new loot_tables(right_fist) {
+    new loot_table(right_fist) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -210,7 +210,7 @@ class Class.Heavy {
             ]
         }]
     }
-    new loot_tables(left_fist) {
+    new loot_table(left_fist) {
         "pools": [{
             "rolls": 1,
             "entries": [
@@ -257,10 +257,10 @@ class Class.Heavy {
         HUD.actionbar();
         Weapons.set_ammo();
 
-        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier add 736c6f77-7768-696c-6572-657676696e67 "slowwhilerevving" -0.476 add_multiplied_total;
-        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier remove 736c6f77-7768-696c-6572-657676696e67;
-        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.jump_strength modifier add 00000000-0000-0000-0000-6e6f6a756d70 "no jump" -1 add_multiplied_total;
-        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.jump_strength modifier remove 00000000-0000-0000-0000-6e6f6a756d70;
+        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier add tf2:slow_while_revving -0.476 add_multiplied_total;
+        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier remove tf2:slow_while_revving;
+        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.jump_strength modifier add tf2:no_jump -1 add_multiplied_total;
+        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.jump_strength modifier remove tf2:no_jump;
         tf2.time_revved:@s[predicate=tf2:class/heavy/is_revving] += 1000;
         
         if (tf2.current_slot:@s != 0 && tf2.time_revved:@s != 0) {

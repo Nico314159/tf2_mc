@@ -90,7 +90,7 @@ Trigger.add(autoreload, () => {
 });
 
 @lazy function generate_body_model(x) {
-    new loot_tables(class.$x._model) {
+    new loot_table(class.$x._model) {
         "pools": [{
             "rolls": 1,
             "entries": [{

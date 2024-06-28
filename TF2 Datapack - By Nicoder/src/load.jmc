@@ -272,11 +272,11 @@ maps:: += {
     }
 };
 
-new predicates(coin_flip) {
+new predicate(coin_flip) {
     "condition": "minecraft:random_chance",
     "chance": 0.5
 }
-new predicates(sprinting) {
+new predicate(sprinting) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
 	"predicate": {
@@ -285,7 +285,7 @@ new predicates(sprinting) {
 		}
 	}
 }
-new predicates(sneaking) {
+new predicate(sneaking) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
 	"predicate": {
@@ -294,7 +294,7 @@ new predicates(sneaking) {
 		}
 	}
 }
-new predicates(submerged) {
+new predicate(submerged) {
     "condition": "minecraft:any_of",
     "terms": [
         {
@@ -337,7 +337,7 @@ new predicates(submerged) {
         }
     ]
 }
-new predicates(burning) {
+new predicate(burning) {
     "condition": "minecraft:entity_properties",
     "entity": "this",
 	"predicate": {
@@ -346,7 +346,7 @@ new predicates(burning) {
 		}
 	}
 }
-new predicates(grounded) {
+new predicate(grounded) {
     "condition": "minecraft:inverted",
     "term": {
         "condition": "minecraft:entity_properties",
@@ -360,7 +360,7 @@ new predicates(grounded) {
         }
     }
 }
-new predicates(no_vehicle) {
+new predicate(no_vehicle) {
     "condition": "minecraft:inverted",
     "term": {
         "condition": "minecraft:entity_properties",
@@ -370,11 +370,11 @@ new predicates(no_vehicle) {
         }
     }
 }
-new tags.entity_types(player_like) {
+new tags.entity_type(player_like) {
     "replace": false,
     "values": ["minecraft:player", "minecraft:villager", "minecraft:blaze"]
 }
-new tag.blocks(no_fall_dmg) {
+new tag.block(no_fall_dmg) {
     "values": [
         "minecraft:powder_snow",
         "minecraft:sweet_berry_bush",
@@ -384,7 +384,7 @@ new tag.blocks(no_fall_dmg) {
         "minecraft:water"
     ]
 }
-new tag.blocks(reduce_fall_dmg) {
+new tag.block(reduce_fall_dmg) {
     "values": [
         "minecraft:hay_block",
         "minecraft:honey_block"
@@ -392,7 +392,7 @@ new tag.blocks(reduce_fall_dmg) {
 }
 
 // Need to define this *before* importing weapon/class files
-new loot_tables(crossbow_base) {
+new loot_table(crossbow_base) {
     "pools": [
         {
             "rolls": 1,
@@ -425,7 +425,7 @@ new loot_tables(crossbow_base) {
     ]
 }
 
-new loot_tables(melee_base) {
+new loot_table(melee_base) {
     "pools": [
         {
             "rolls": 1,
