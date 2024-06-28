@@ -1,1 +1,1 @@
-function tf2:class/scout/inventory_lock
+title @s subtitle ["",{"text":"_abc","color":"gray","font":"tf2:zoom_meter","type":"text"},{"text":"defghijklm","color":"dark_gray","font":"tf2:zoom_meter","type":"text"}]

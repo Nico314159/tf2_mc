@@ -1,29 +1,32 @@
 scoreboard objectives add tf2.var dummy
 scoreboard objectives add controls trigger
 scoreboard objectives add autoreload trigger
+scoreboard objectives add disguise trigger
 scoreboard objectives add 0008it54g_p_join dummy
 scoreboard objectives add tf2.const dummy
+scoreboard players set 1000000000 tf2.const 1000000000
 scoreboard players set 1024 tf2.const 1024
-scoreboard players set 1048576 tf2.const 1048576
 scoreboard players set 2 tf2.const 2
 scoreboard players set 3 tf2.const 3
-scoreboard players set 900 tf2.const 900
+scoreboard players set 1048576 tf2.const 1048576
 scoreboard players set 5 tf2.const 5
 scoreboard players set 6 tf2.const 6
+scoreboard players set 900 tf2.const 900
 scoreboard players set 230400 tf2.const 230400
 scoreboard players set 4 tf2.const 4
-scoreboard players set 0 tf2.const 0
 scoreboard players set 10 tf2.const 10
+scoreboard players set 0 tf2.const 0
 scoreboard players set 1800 tf2.const 1800
-scoreboard players set 8 tf2.const 8
 scoreboard players set 13 tf2.const 13
+scoreboard players set 8 tf2.const 8
 scoreboard players set 1 tf2.const 1
-scoreboard players set 9 tf2.const 9
 scoreboard players set 10000 tf2.const 10000
+scoreboard players set 9 tf2.const 9
 scoreboard players set 20 tf2.const 20
 scoreboard players set 25 tf2.const 25
 scoreboard players set 1050 tf2.const 1050
 scoreboard players set -100 tf2.const -100
+scoreboard players set 100000 tf2.const 100000
 scoreboard players set 1570 tf2.const 1570
 scoreboard players set 40 tf2.const 40
 scoreboard players set 300 tf2.const 300
@@ -106,6 +109,8 @@ scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
 scoreboard objectives add tf2.is_invisible dummy
 scoreboard objectives add tf2.cloak dummy
+scoreboard objectives add tf2.disguise.class dummy
+scoreboard objectives add tf2.disguise.team dummy
 scoreboard objectives add tf2.door.wait dummy
 scoreboard objectives add tf2.door.time_open dummy
 scoreboard objectives add tf2.door.state dummy

@@ -435,7 +435,7 @@ Player.join(() => {
         () => {
             tag @s remove tf2.tagName;
         },
-        ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "unable_to_cap", "dead"]
+        ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "unable_to_cap", "dead", "disguised"]
     );
     Hardcode.repeatList(
         "objectiveName",
@@ -540,7 +540,8 @@ class Spawn {
         // @within __tick__()
 
         execute unless entity @s[tag=tf2.visible] run return run {
-            $execute as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz)] 
+            $execute as @e[type=#tf2:player_like,
+                           dx=$(dx),dy=$(dy),dz=$(dz)] 
                      unless score @s tf2.team matches $(opp_team) 
                      run tag @s add tf2.in_spawn;
             $tp @e[type=#tf2:player_like,
