@@ -577,7 +577,7 @@ class Class.Spy {
 
             @s::CustomName = [0,0,0]::item.components.minecraft:custom_name;
             @s:: += {CustomNameVisible: true, Age: -2147483647, NoGravity: true};
-            attribute @s minecraft:generic.scale base set 0;
+            attribute @s minecraft:generic.scale base set 1.75;
 
             if ($disguise_team == 1) { team join RED @s; }
             if ($disguise_team == 2) { team join BLU @s; }
@@ -728,6 +728,7 @@ Trigger.add(
         tf2.disguise.team:@s = tf2.disguise.class:@s = disguise:@s;
         tf2.disguise.team:@s /= 10;
         tf2.disguise.class:@s %= 10;
+        
         if (tf2.disguise.class:@s == Class.SPY && tf2.disguise.team:@s == tf2.team:@s) {
             // Disguising as a friendly Spy simply removes your disguise without an error message;
             $error = true;
