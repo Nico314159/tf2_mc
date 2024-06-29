@@ -133,10 +133,11 @@ class Class.Pyro {
 		loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
 		// loot replace entity @s armor.legs loot tf2:class/pyro/_model;
 
-		tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
-		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
-		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
-		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+		lookup::inventory = @s::Inventory;
+		tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
+		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
+		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
+		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
 	}
 	function tick() {
 		Weapons.get_ammo();

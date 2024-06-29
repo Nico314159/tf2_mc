@@ -75,6 +75,7 @@ function class_select() {
         case Class.PYRO:
             tf2.max_health:@s = tf2.health:@s = 175;
             attribute @s minecraft:generic.movement_speed base set 0.132;
+            Class.Pyro.give();
         case Class.ENGINEER:
             tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.132;
