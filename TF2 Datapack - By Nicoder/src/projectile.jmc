@@ -1,0 +1,266 @@
+class Projectile {
+    function tick() {
+        execute on passengers run tag @s add tf2.passenger_temp;
+        @s::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]::item.components.minecraft:custom_data.Motion;
+        tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp;
+        if (entity @s[tag=tf2.has_trail]) {
+            execute on passengers at @s run this.trail();
+        }
+
+        this.check_collision();
+        execute as @e[type=#tf2:player_like,tag=tf2.batch] run this.remove_tags();
+        if (entity @s[tag=tf2.cleanup]) return run {
+            this.cleanup();
+        }
+        tf2.age:@s++;
+    }
+    function trail() {
+        Hardcode.repeat("|z|", () => {
+            particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc(|z| / -3) 0 0 0 0 10;
+        }, start=1, stop=4);
+    }
+    function check_collision() {
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @e[type=#tf2:player_like]
+                if score @s tf2.batch_number
+                   = $local tf2.batch_number
+                unless entity @s[gamemode=spectator]
+                run tag @s add tf2.batch; 
+        tag @e[type=#tf2:player_like,tag=tf2.batch] add tf2.search;
+
+        // Passes through teammates during first 0.25 seconds
+        tf2.team:$temp = tf2.team:@s;
+        execute as @e[type=#tf2:player_like,tag=tf2.search]
+                unless score @s tf2.team = $temp tf2.team
+                run tag @s add tf2.opponent;
+        if (tf2.age:@s < 5) {
+            tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search;
+        }
+
+        $collided = false;
+        if (data entity @s {inGround: 1b}) {$collided++;}
+        vars::motion = @s::Motion;
+        execute at @s summon marker run {
+            $proj_X = @s::Pos[0] * 1000;
+            $proj_Y = @s::Pos[1] * 1000;
+            $proj_Z = @s::Pos[2] * 1000;
+            @s::Pos = vars::motion;
+            execute positioned 0.0 0 0.0 
+                    facing entity @s feet 
+                    run tp @s 0 -10000 0 ~ ~;
+            execute rotated as @s
+                    positioned ^ ^ ^0.5
+                    align xyz
+                    summon marker run {
+                        $next_proj_X = @s::Pos[0] * 1000;
+                        $next_proj_Y = @s::Pos[1] * 1000;
+                        $next_proj_Z = @s::Pos[2] * 1000;
+                        tag @e[type=#tf2:player_like,tag=tf2.search,
+                               dx=0,dy=0,dz=0,sort=nearest,limit=1] add tf2.in_voxel;
+                        kill;
+                    }
+            kill;
+        }
+        execute as @e[type=#tf2:player_like,tag=tf2.in_voxel] at @s run {
+            execute summon marker run {
+                // marker NBT is faster than player NBT
+                $next_diff_X = $diff_X = @s::Pos[0] * 1000; 
+                $diff_X -= $proj_X;
+                $next_diff_X -= $next_proj_X;
+                $next_diff_Y = $diff_Y = @s::Pos[1] * 1000; 
+                $diff_Y -= $proj_Y;
+                $next_diff_Y -= $next_proj_Y;
+                $next_diff_Z = $diff_Z = @s::Pos[2] * 1000; 
+                $diff_Z -= $proj_Z;
+                $next_diff_Z -= $next_proj_Z;
+                kill;
+            }
+            if ($diff_X matches -550..550 
+             && $diff_Y matches -2050..250 
+             && $diff_Z matches -550..550) {
+                tag @s add tf2.hit;
+            }
+            if ($next_diff_X matches -550..550
+             && $next_diff_Y matches -2050..250
+             && $next_diff_Z matches -550..550) {
+                tag @s add tf2.hit;
+            }
+        }
+        tag @e[type=#tf2:player_like,tag=tf2.hit,sort=nearest,limit=1] add tf2.closest_hit;
+        // execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run say "hit";
+        if (entity @e[type=#tf2:player_like,tag=tf2.closest_hit]) {$collided += 2;}
+        // print($collided);
+        if (!$collided) return 0;
+        execute on passengers run {
+            $_damage_ = @s::item.components.minecraft:custom_data.attributes.damage.base;
+            $_selfDamage_ = @s::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
+            $_maxRamp_ = @s::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
+            if (!data entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+            $_rangeDependent_ = @s::item.components.minecraft:custom_data.attributes.damage.uniform;
+            $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
+        }
+        // print(tf2.damage:@s);
+        tag @s add tf2.cleanup;
+
+        if (entity @s[tag=!tf2.explosive]) return run {
+            execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run this.simple_damage();
+        }
+
+        execute on passengers run vars::radius = 0.01905 * (double) @s::item.components.minecraft:custom_data.projectile.explosion.radius;
+        this.explode() with vars::;
+    }
+    function simple_damage() {
+        if (entity @s[tag=!tf2.opponent]) return 0;
+        // say "damaged";
+        tf2.health:@s -= $_damage_;
+        damage @s 0.01 tf2:screenshake;
+    }
+    function explode() {
+        particle minecraft:explosion ~ ~ ~;
+        $playersHurt = $_totalDamage_ = 0;
+        execute on origin run tag @s add tf2.origin;
+        execute on origin run tag @s add tf2.opponent;
+
+        execute on passengers run vars::weapon_name = @s::item.components.minecraft:custom_name;
+        $execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
+        execute on origin run tag @s remove tf2.origin;
+    }
+    function wall_check() {
+        tag @s add tf2.player;
+        execute summon marker at @s run {
+            @s::NoAI = 1b;
+            retina:input::MaxRecursionDepth = 127b;
+            tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] eyes;
+            function retina:traverse/setup;
+            kill @s;
+        }
+        tag @s remove tf2.player;
+        if (data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
+            this.splash_damage();
+        }
+        summon::number.X = retina:output::ContactCoordinates[0];
+        summon::number.Y = retina:output::ContactCoordinates[1];
+        summon::number.Z = retina:output::ContactCoordinates[2];
+        summon::number.value = $_totalDamage_;
+        if ($_totalDamage_ >= 1) {
+            HUD.damage_numbers() with summon::number;
+        }
+    }
+    function splash_damage() {
+        this.calculate_splash();
+        tf2.health:@s -= $_finalDamage_;
+        $_totalDamage_ = $_finalDamage_;
+        $playersHurt++;
+        damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
+        this.knockback();
+
+        // Death message & sound effects
+        if (entity @s[tag=tf2.said_death_msg]) return 1;
+        if (tf2.health:@s > 0) {
+            return run execute if entity @s[tag=!tf2.origin] 
+                               as @a[tag=tf2.origin] at @s
+                               run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05;
+        }
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        vars::kill_verb = "blew up";
+        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@s> with &<weapon_name>");
+        execute if entity @s[tag=!tf2.origin] 
+                as @a[tag=tf2.origin] at @s
+                run playsound tf2:ding.kill player @s ~ ~ ~ 0.9 1 0.05;
+        tag @a remove tf2.current;
+        tag @s add tf2.said_death_msg;
+    }
+    function calculate_splash() {
+        $_centerDist_ = retina:output::Distance * EVAL (1 / 0.01905);
+        $_splashEdge_ = vars::radius * EVAL (1 / 0.01905);
+        execute as @e[tag=tf2.origin] at @s summon marker run {
+            $X0 = @s::Pos[0] * 100;
+            $Y0 = @s::Pos[1] * 100;
+            $Z0 = @s::Pos[2] * 100;
+            kill;
+        }
+        execute at @s summon marker run {
+            $Xf = @s::Pos[0] * 100;
+            $Yf = @s::Pos[1] * 100;
+            $Zf = @s::Pos[2] * 100;
+            kill;
+        }
+        $deltaX = $Xf; $deltaX -= $X0; 
+        $deltaY = $Yf; $deltaY -= $Y0; 
+        $deltaZ = $Zf; $deltaZ -= $Z0; 
+        summon::matrix = [
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 1f
+        ];
+        summon::matrix[0] = (float) $deltaX;
+        summon::matrix[4] = (float) $deltaY;
+        summon::matrix[8] = (float) $deltaZ;
+        execute summon item_display run {
+            @s::transformation = [0f];
+            @s::transformation = tf2:summon::matrix;
+            retina:output::Distance = @s::transformation.scale[0];
+            kill;
+        } with summon::matrix;
+        $_finalDamage_ = $_damage_;
+        Weapons.calculate_falloff();
+        $_finalDamage_ *= $_multiplier_;
+        // printf("mult = &<$_multiplier_>");
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+        
+        if (entity @s[tag=tf2.closest_hit,tag=!tf2.origin] && $collided >= 2) {
+            return run $_finalDamage_.get();
+        }
+
+        if (entity @s[tag=tf2.origin]) {
+            $_finalDamage_ = $_selfDamage_;
+        }
+        $_splash_multiplier_ = $_centerDist_;
+        $_splash_multiplier_ *= 50;
+        $_splash_multiplier_ /= $_splashEdge_;
+        $_splash_multiplier_ *= -1;
+        $_splash_multiplier_ += 100;
+        // printf("splash = &<$_splash_multiplier_>");
+        $_finalDamage_ *= $_splash_multiplier_;
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+        if (!entity @s[tag=tf2.origin,scores={tf2.class=4..5}]) {
+            return run $_finalDamage_.get();
+        }
+
+        // Less damage from your own explosives if nobody else is hurt
+        // Soldier: 3/5 as much, Demo: 3/4 as much
+        if ($playersHurt > 1) {
+            return run $_finalDamage_.get();
+        }
+        $_finalDamage_ *= 3;
+        $_temp_ = 9;
+        $_temp_ -= tf2.class:@s;
+        $_finalDamage_ /= $_temp_;
+        return run $_finalDamage_.get();
+    }
+    function knockback() {
+        player_motion.api.launch:$x = retina.__variable__:$output_vec3.X;
+        player_motion.api.launch:$x *= EVAL (12000 / Retina.SCALE);
+        player_motion.api.launch:$y = retina.__variable__:$output_vec3.Y;
+        player_motion.api.launch:$y *= EVAL (12000 / Retina.SCALE);
+        player_motion.api.launch:$z = retina.__variable__:$output_vec3.Z;
+        player_motion.api.launch:$z *= EVAL (12000 / Retina.SCALE);
+        function player_motion:api/launch_xyz;
+    }
+    function remove_tags() {
+        tag @s remove tf2.batch;
+        tag @s remove tf2.search;
+        tag @s remove tf2.opponent;
+        tag @s remove tf2.in_voxel;
+        tag @s remove tf2.hit;
+        tag @s remove tf2.closest_hit;
+    }
+    function cleanup() {
+        execute on passengers run kill @s;
+        kill @s;
+    }
+}
