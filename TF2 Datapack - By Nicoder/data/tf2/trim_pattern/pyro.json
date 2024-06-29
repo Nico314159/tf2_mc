@@ -1,0 +1,7 @@
+{
+    "asset_id": "tf2:pyro",
+    "description": {
+        "translate": "trim_pattern.tf2.pyro"
+    },
+    "template_item": "minecraft:flint_and_steel"
+}
