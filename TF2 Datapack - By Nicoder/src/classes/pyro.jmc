@@ -1,11 +1,11 @@
-// new trim_pattern(pyro) {
-// 	"asset_id": "tf2:pyro",
-// 	"description": {
-// 	    "translate": "trim_pattern.tf2.pyro"
-// 	},
-//     "template_item": "minecraft:stick"
-// }
-// generate_body_model(pyro);
+new trim_pattern(pyro) {
+	"asset_id": "tf2:pyro",
+	"description": {
+		"translate": "trim_pattern.tf2.pyro"
+	},
+	"template_item": "minecraft:flint_and_steel"
+}
+generate_body_model(pyro);
 
 class Class.Pyro {
 	new loot_table(flamethrower) {
@@ -131,7 +131,7 @@ class Class.Pyro {
 		loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
 		loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
 		loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
-		// loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+		loot replace entity @s armor.legs loot tf2:class/pyro/_model;
 
 		tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
 		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
@@ -157,14 +157,19 @@ class Class.Pyro {
     	if ($_count_ != 1) clear @s crossbow[custom_model_data=72000];
  		if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
 
-        loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
-        $_count_ = clear @s snowball[custom_model_data=73000] 0;
-        if ($_count_ != 1) clear @s snowball[custom_model_data=73000];
+		loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
+		$_count_ = clear @s snowball[custom_model_data=73000] 0;
+		if ($_count_ != 1) clear @s snowball[custom_model_data=73000];
 		if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
 
-		// loot replace entity @s armor.legs loot tf2:class/pyro/_model;
-		// $_count_ = clear @s iron_leggings 0;
-		// if ($_count_ != 1) clear @s iron_leggings;
-		// if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+		loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+		$_count_ = clear @s iron_leggings 0;
+		if ($_count_ != 1) clear @s iron_leggings;
+		if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+
+		loot replace entity @s armor.head loot tf2:head;
+		$_count_ = clear @s paper 0;
+		if ($_count_ != 1) clear @s paper;
+		if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
 	}
 }
