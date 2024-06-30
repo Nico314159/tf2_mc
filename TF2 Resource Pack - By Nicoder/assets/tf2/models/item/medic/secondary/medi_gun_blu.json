@@ -1,0 +1,8 @@
+{
+	"parent": "tf2:item/medic/secondary/medi_gun_red",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "tf2:item/medic/secondary/medi_gun_blu",
+		"particle": "tf2:item/transparent"
+	}
+}

@@ -61,12 +61,20 @@
             "model": "tf2:item/heavy/secondary/shotgun"
         },
         {
-            "predicate": {"custom_model_data": 91000},
-            "model": "tf2:item/medic/primary/syringe_gun"
+            "predicate": {"custom_model_data": 91001},
+            "model": "tf2:item/medic/primary/syringe_gun_red"
         },
         {
-            "predicate": {"custom_model_data": 92000},
-            "model": "tf2:item/medic/secondary/medigun"
+            "predicate": {"custom_model_data": 91002},
+            "model": "tf2:item/medic/primary/syringe_gun_blu"
+        },
+        {
+            "predicate": {"custom_model_data": 92001},
+            "model": "tf2:item/medic/secondary/medi_gun_red"
+        },
+        {
+            "predicate": {"custom_model_data": 92002},
+            "model": "tf2:item/medic/secondary/medi_gun_blu"
         },
 
 
