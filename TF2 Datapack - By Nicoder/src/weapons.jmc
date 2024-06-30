@@ -354,9 +354,9 @@ class Weapons {
         summon::projectile.speed = EVAL(1  / 20_000) * (double) summon::projectile.speed * 1000;
         summon::projectile.speed = EVAL(1 / (Retina.SCALE * 1000)) * (double) summon::projectile.speed * 1000;
         execute run {
-            $execute store result storage tf2:summon projectile.X double $(speed) run scoreboard players get $output_vec3.X retina.__variable__;
-            $execute store result storage tf2:summon projectile.Y double $(speed) run scoreboard players get $output_vec3.Y retina.__variable__;
-            $execute store result storage tf2:summon projectile.Z double $(speed) run scoreboard players get $output_vec3.Z retina.__variable__;
+            $ execute store result storage tf2:summon projectile.X double $(speed) run scoreboard players get $output_vec3.X retina.__variable__;
+            $ execute store result storage tf2:summon projectile.Y double $(speed) run scoreboard players get $output_vec3.Y retina.__variable__;
+            $ execute store result storage tf2:summon projectile.Z double $(speed) run scoreboard players get $output_vec3.Z retina.__variable__;
         } with summon::projectile;
         summon::projectile.yaw = 0.1 * (double) retina.__variable__:$input_yaw;
         summon::projectile.pitch = 0.1 * (double) retina.__variable__:$input_pitch;
@@ -365,9 +365,12 @@ class Weapons {
         summon::projectile.spawnY = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[1];
         summon::projectile.spawnZ = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[2];
         summon::projectile.weapon_name = summon::projectile.weapon.components.minecraft:custom_name;
+        summon::projectile.CMD = summon::projectile.weapon.components.minecraft:custom_model_data;
         summon::projectile.owner = @s::UUID;
+        $explosive = summon::projectile.weapon.components.minecraft:custom_data.projectile.explosion;
+        $has_trail = summon::projectile.weapon.components.minecraft:custom_data.projectile.has_trail;
         execute at @s anchored eyes run {
-            $summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
+            $ summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
                 Owner: $(owner),
                 damage: 0.0,
                 pickup: false,
@@ -377,7 +380,7 @@ class Weapons {
                 PersistenceRequired: true,
                 ShotFromCrossbow: true,
                 PierceLevel: 127b,
-                Tags: ["tf2.projectile", "tf2.new", "tf2.explosive", "tf2.has_trail"],
+                Tags: ["tf2.projectile", "tf2.new"],
                 Motion: [$(X)d, $(Y)d, $(Z)d],
                 active_effects: [{
                     id: "minecraft:invisibility",
@@ -389,7 +392,7 @@ class Weapons {
                     Rotation: [$(yaw)f, $(pitch)f],
                     id: "minecraft:item_display",
                     item: {id: "minecraft:glowstone_dust", components:{
-                        "minecraft:custom_model_data": 41000, 
+                        "minecraft:custom_model_data": $(CMD), 
                         "minecraft:custom_data": {Motion:[$(X)d, $(Y)d, $(Z)d]}
                     }},
                     Tags: ["tf2.new", "tf2.projectile"]
@@ -414,6 +417,12 @@ class Weapons {
             execute on passengers run @s::item.components.minecraft:custom_data.attributes = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.attributes;
             execute on passengers run @s::item.components.minecraft:custom_data.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.projectile;
             execute on origin run tag @s remove tf2.origin;
+            if ($explosive) {
+                tag @s add tf2.explosive;
+            }
+            if ($has_trail) {
+                tag @s add tf2.has_trail;
+            }
             // execute at @s[tag=tf2.has_trail] run particle minecraft:flame ^ ^ ^0.2;
             tag @s remove tf2.new;
         }
@@ -438,7 +447,7 @@ class Weapons {
         if (tf2.current_slot:@s == 1) {
             tf2.secondary_clip:@s    = $_clip_;
             tf2.secondary_maxClip:@s = $_maxClip_;
-            tf2.secondary_ammo:@s      = $_ammo_;
+            tf2.secondary_ammo:@s    = $_ammo_;
 	}	}
     function reload() {
         switch (tf2.class:@s) {
@@ -589,8 +598,8 @@ class Weapons {
             
             index::num = random value 1..5;
             // stopsound @a[tag=retina.executing,predicate=!tf2:holding_melee] player tf2:item.gun.shoot;
-            execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] at @s
-                    run this.crit_sound() with index::;
+            execute as @a[tag=retina.executing,predicate=!tf2:holding_melee]
+                    at @s run this.crit_sound() with index::;
             index::num = random value 1..3;
             execute at @s run this.crit_receive_sound() with index::;
         } else if (!data storage tf2:vars kill_verb) {

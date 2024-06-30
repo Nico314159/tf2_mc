@@ -15,7 +15,10 @@ data modify storage tf2:summon projectile.spawnX set from storage tf2:summon pro
 data modify storage tf2:summon projectile.spawnY set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.spawn[1]
 data modify storage tf2:summon projectile.spawnZ set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.spawn[2]
 data modify storage tf2:summon projectile.weapon_name set from storage tf2:summon projectile.weapon.components.minecraft:custom_name
+data modify storage tf2:summon projectile.CMD set from storage tf2:summon projectile.weapon.components.minecraft:custom_model_data
 data modify storage tf2:summon projectile.owner set from entity @s UUID
+execute store result score $explosive tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.explosion
+execute store result score $has_trail tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.has_trail
 execute at @s anchored eyes run function tf2:__private__/anonymous/7 with storage tf2:summon projectile
 execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run function tf2:__private__/anonymous/8
 execute as @e[type=arrow,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run function tf2:__private__/anonymous/9
