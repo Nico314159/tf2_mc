@@ -8,4 +8,5 @@ execute on passengers run data modify entity @s item.components.minecraft:custom
 execute on origin run tag @s remove tf2.origin
 execute if score $explosive tf2.var matches 1.. run tag @s add tf2.explosive
 execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
+execute if score $drag tf2.var matches 1.. run tag @s add tf2.drag
 tag @s remove tf2.new

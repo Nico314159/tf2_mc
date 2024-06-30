@@ -1,7 +1,7 @@
 class Projectile {
     function tick() {
         execute on passengers run tag @s add tf2.passenger_temp;
-        @s::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]::item.components.minecraft:custom_data.Motion;
+        @s[tag=!tf2.drag]::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]::item.components.minecraft:custom_data.Motion;
         tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp;
         if (entity @s[tag=tf2.has_trail]) {
             execute on passengers at @s run this.trail();
