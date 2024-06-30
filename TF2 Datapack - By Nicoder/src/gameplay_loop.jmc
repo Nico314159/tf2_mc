@@ -389,6 +389,7 @@ function test_items() {
     give @s Select.HEAVY;
     give @s Select.SOLDIER;
     give @s Select.SPY;
+    give @s Select.MEDIC;
 }
 
 function quick_start() {

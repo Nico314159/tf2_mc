@@ -9,7 +9,7 @@
         { "predicate": {"custom_model_data": 33000}, "model": "tf2:item/scout/melee/baseball_bat"},
         { "predicate": {"custom_model_data": 43000}, "model": "tf2:item/soldier/melee/shovel"},
         { "predicate": {"custom_model_data": 63000}, "model": "tf2:item/heavy/melee/right_fist"},
-
+        { "predicate": {"custom_model_data": 93000}, "model": "tf2:item/medic/melee/bonesaw"},
 
         { "predicate": {"custom_model_data": 300013000}, "model": "tf2:disguise/melee/butterfly_knife_as_butterfly_knife"},
         { "predicate": {"custom_model_data": 300013001}, "model": "tf2:disguise/melee/butterfly_knife_as_butterfly_knife_raised"},

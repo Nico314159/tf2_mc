@@ -60,6 +60,14 @@
             "predicate": {"custom_model_data": 62000},
             "model": "tf2:item/heavy/secondary/shotgun"
         },
+        {
+            "predicate": {"custom_model_data": 91000},
+            "model": "tf2:item/medic/primary/syringe_gun"
+        },
+        {
+            "predicate": {"custom_model_data": 92000},
+            "model": "tf2:item/medic/secondary/medigun"
+        },
 
 
         {

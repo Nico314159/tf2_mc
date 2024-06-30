@@ -1,0 +1,1 @@
+function tf2:class/medic/inventory_lock

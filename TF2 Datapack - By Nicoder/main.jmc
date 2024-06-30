@@ -140,7 +140,7 @@ function player_tick() {
         case Class.HEAVY: Class.Heavy.tick();
         // case Class.PYRO: Class.Pyro.tick();
         // case Class.ENGINEER: Class.Engineer.tick();
-        // case Class.MEDIC: Class.Medic.tick();
+        case Class.MEDIC: Class.Medic.tick();
     }
     item replace entity @s[scores={tf2.class=1..}] hotbar.8 with Item.CHANGE_CLASS;
     $_count_ = clear @s Item.CHANGE_CLASS 0;
