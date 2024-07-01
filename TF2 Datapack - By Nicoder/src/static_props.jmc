@@ -38,7 +38,7 @@ function load_static_props() {
             FallDistance: 0f,
             Item: {
                 id: "minecraft:player_head",
-                Count: 1b,
+                count: 1b,
                 components: {
                     "minecraft:profile": {
                         properties: [
@@ -66,7 +66,7 @@ function load_static_props() {
             FallDistance: 0f,
             Item: {
                 id: "minecraft:player_head",
-                Count: 1b,
+                count: 1b,
                 components: {
                     "minecraft:profile": {
                         properties: [
@@ -93,7 +93,7 @@ function load_static_props() {
             FallDistance: 0f,
             Item: {
                 id: "minecraft:player_head",
-                Count: 1b,
+                count: 1b,
                 components: {
                     "minecraft:profile": {
                         properties: [
@@ -120,7 +120,7 @@ function load_static_props() {
             FallDistance: 0f,
             Item: {
                 id: "minecraft:player_head",
-                Count: 1b,
+                count: 1b,
                 components: {
                     "minecraft:profile": {
                         properties: [
@@ -149,7 +149,7 @@ function load_static_props() {
             FallDistance: 0f,
             Item: {
                 id: "minecraft:player_head",
-                Count: 1b,
+                count: 1b,
                 components: {
                     "minecraft:profile": {
                         properties: [
@@ -176,7 +176,7 @@ function load_static_props() {
             FallDistance: 0f,
             Item: {
                 id: "minecraft:player_head",
-                Count: 1b,
+                count: 1b,
                 components: {
                     "minecraft:profile": {
                         properties: [
