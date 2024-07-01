@@ -29,7 +29,7 @@ class Class.Pyro {
 								"function": "minecraft:set_custom_data",
 								"tag": "{
 									attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.125d, clip: 200, ammo: 0, isProjectile: true},
-									projectile: {spawn: [0.0, -0.6, 0.247675], speed: 200, drag: true, lifetime: 200},
+									projectile: {spawn: [0.0, -0.6, 0.247675], speed: 400, drag: true, lifetime: 200, ignore_env: true},
 									controls: {main_fire: true, alt_fire: false, reload: 0}
 								}"
 							},

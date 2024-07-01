@@ -369,6 +369,7 @@ class Weapons {
         summon::projectile.owner = @s::UUID;
         $explosive  = summon::projectile.weapon.components.minecraft:custom_data.projectile.explosion;
         $has_trail  = summon::projectile.weapon.components.minecraft:custom_data.projectile.has_trail;
+        $ignore_env = summon::projectile.weapon.components.minecraft:custom_data.projectile.ignore_env;
         $drag = summon::projectile.weapon.components.minecraft:custom_data.projectile.drag;
         execute at @s anchored eyes run {
             $ summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
@@ -420,15 +421,13 @@ class Weapons {
                 @s::item.components.minecraft:custom_data.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.projectile;
             } 
             execute on origin run tag @s remove tf2.origin;
-            if ($explosive) {
-                tag @s add tf2.explosive;
-            }
-            if ($has_trail) {
-                tag @s add tf2.has_trail;
-            }
-            if ($drag) {
-                tag @s add tf2.drag;
-            }
+            
+            Hardcode.repeatList("|property|", () => {
+                if ($|property|) {
+                    tag @s add tf2.|property|;
+                }
+            }, ["explosive", "has_trail", "drag", "ignore_env"]);
+
             if (data storage  tf2:summon  projectile.weapon.components.minecraft:custom_data.projectile.lifetime) expand {
                 tf2.lifetime:@s = summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime;
                 tag @s add tf2.visual;
