@@ -367,8 +367,8 @@ class Weapons {
         summon::projectile.weapon_name = summon::projectile.weapon.components.minecraft:custom_name;
         summon::projectile.CMD = summon::projectile.weapon.components.minecraft:custom_model_data;
         summon::projectile.owner = @s::UUID;
-        $explosive = summon::projectile.weapon.components.minecraft:custom_data.projectile.explosion;
-        $has_trail = summon::projectile.weapon.components.minecraft:custom_data.projectile.has_trail;
+        $explosive  = summon::projectile.weapon.components.minecraft:custom_data.projectile.explosion;
+        $has_trail  = summon::projectile.weapon.components.minecraft:custom_data.projectile.has_trail;
         $drag = summon::projectile.weapon.components.minecraft:custom_data.projectile.drag;
         execute at @s anchored eyes run {
             $ summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
@@ -415,8 +415,10 @@ class Weapons {
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
             execute on origin run tag @s add tf2.origin;
-            execute on passengers run @s::item.components.minecraft:custom_data.attributes = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.attributes;
-            execute on passengers run @s::item.components.minecraft:custom_data.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.projectile;
+            execute on passengers expand {
+                @s::item.components.minecraft:custom_data.attributes = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.attributes;
+                @s::item.components.minecraft:custom_data.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.projectile;
+            } 
             execute on origin run tag @s remove tf2.origin;
             if ($explosive) {
                 tag @s add tf2.explosive;
@@ -426,6 +428,10 @@ class Weapons {
             }
             if ($drag) {
                 tag @s add tf2.drag;
+            }
+            if (data storage  tf2:summon  projectile.weapon.components.minecraft:custom_data.projectile.lifetime) expand {
+                tf2.lifetime:@s = summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime;
+                tag @s add tf2.visual;
             }
             // execute at @s[tag=tf2.has_trail] run particle minecraft:flame ^ ^ ^0.2;
             tag @s remove tf2.new;

@@ -260,7 +260,7 @@ class Projectile {
         tag @s remove tf2.closest_hit;
     }
     function cleanup() {
-        execute on passengers run kill @s;
+        execute on passengers run this.cleanup();
         kill @s;
     }
 }
