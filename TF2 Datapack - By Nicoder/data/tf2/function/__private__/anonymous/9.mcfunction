@@ -9,4 +9,6 @@ execute on origin run tag @s remove tf2.origin
 execute if score $explosive tf2.var matches 1.. run tag @s add tf2.explosive
 execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
 execute if score $drag tf2.var matches 1.. run tag @s add tf2.drag
+execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime store result score @s tf2.lifetime run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime
+execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime run tag @s add tf2.visual
 tag @s remove tf2.new

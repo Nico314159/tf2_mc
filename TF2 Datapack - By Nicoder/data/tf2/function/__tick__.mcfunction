@@ -5,7 +5,7 @@ execute as @a unless score @s 0008it54g_p_join = $__global__ 0008it54g_p_join ru
 execute unless score $found_dependency tf2.var matches 1.. run return fail
 tag @e[type=#tf2:player_like] remove tf2.in_spawn
 scoreboard players remove @e[tag=tf2.visual] tf2.lifetime 1
-kill @e[tag=tf2.visual,scores={tf2.lifetime=..0}]
+execute as @e[tag=tf2.visual,scores={tf2.lifetime=..0}] run function tf2:projectile/cleanup
 execute as @e[type=#tf2:player_like,tag=!tf2.in_queue,tag=!tf2.is_playing,scores={tf2.queue_type=1..3}] run function tf2:join_queue
 effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true
 effect clear @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] saturation
