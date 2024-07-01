@@ -469,10 +469,10 @@ function death() {
         $ tf2.respawn_timer:@s[scores={tf2.team=2}] = running_games::$(i).spawn_time.blu[0] * 20;
     } with index::;
     execute at @s[scores={tf2.class=1..}] run summon axolotl ~ ~ ~ {
-        Attributes: [
-            {Name: "minecraft:generic.movement_speed", Base: 0.0d},
-            {Name: "minecraft:generic.jump_strength", Base: 0.0d},
-            {Name: "minecraft:generic.scale", Base: 0.0625d}
+        attributes: [
+            {id: "minecraft:generic.movement_speed", base: 0.0d},
+            {id: "minecraft:generic.jump_strength", base: 0.0d},
+            {id: "minecraft:generic.scale", base: 0.0625d}
         ],
         Invulnerable: 1b,
         Silent: 1b,
