@@ -16,7 +16,7 @@ JMC.python(
 
     pages = []
     for (color, COLOR, N) in zip(('red', 'blue'), ('RED', 'BLU'), (1, 2)):
-        pages.append([
+        pages += [
             {
                 "text": f"[{COLOR} {class_name}]\\n\\n",
                 "color": f"{color}",
@@ -27,7 +27,7 @@ JMC.python(
                 }
             }
             for (class_name, id) in zip(classes, ids)
-        ])
+        ]
         
     r1 = {"function": "minecraft:set_written_book_pages", "pages": pages, "mode": "replace_all"}
     b1 = {"function": "minecraft:set_written_book_pages", "pages": list(reversed(pages)), "mode": "replace_all"}
