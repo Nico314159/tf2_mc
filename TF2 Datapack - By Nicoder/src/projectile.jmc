@@ -19,6 +19,10 @@ class Projectile {
             particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc(|z| / -3) 0 0 0 0 10;
         }, start=1, stop=4);
     }
+    function speed_range() {
+        $ summon::projectile.speed = 0.01905 * (double) random value $(min)..$(max);
+        tellraw @a {"nbt":"projectile.speed","storage":"tf2:summon"};
+    }
     function check_collision() {
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @e[type=#tf2:player_like]
