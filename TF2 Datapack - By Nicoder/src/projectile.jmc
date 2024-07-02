@@ -1,7 +1,8 @@
 class Projectile {
     function tick() {
         execute on passengers run tag @s add tf2.passenger_temp;
-        @s[tag=!tf2.drag]::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]::item.components.minecraft:custom_data.Motion;
+        @s[tag=!tf2.drag]::Motion = @e[type=item_display,tag=tf2.passenger_temp,limit=1]
+                                       ::item.components.minecraft:custom_data.Motion;
         tag @e[type=item_display,tag=tf2.passenger_temp] remove tf2.passenger_temp;
         if (entity @s[tag=tf2.has_trail]) {
             execute on passengers at @s run this.trail();
@@ -22,6 +23,16 @@ class Projectile {
     function speed_range() {
         $ summon::projectile.speed = 0.01905 * (double) random value $(min)..$(max);
         tellraw @a {"nbt":"projectile.speed","storage":"tf2:summon"};
+    }
+    function deviation() {
+        function retina:math/gimbal_to_matrix;
+
+        retina.__variable__:$horizontal_count = retina.__variable__:$vertical_count = 10;
+        retina.__variable__:$spread_least = summon::projectile.deviation.min;
+        retina.__variable__:$spread_most = summon::projectile.deviation.max;
+
+        function retina:math/sway_heave_surge/find;
+        function retina:math/sway_heave_surge/apply;
     }
     function check_collision() {
         tf2.batch_number:$local = tf2.batch_number:@s;

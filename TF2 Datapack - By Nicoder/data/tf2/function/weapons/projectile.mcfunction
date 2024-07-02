@@ -9,6 +9,8 @@ data modify storage tf2:summon projectile.speed_range set from entity @s Selecte
 execute if data storage tf2:summon projectile.speed_range run function tf2:projectile/speed_range with storage tf2:summon projectile.speed_range
 execute store result storage tf2:summon projectile.speed double 0.00005 run data get storage tf2:summon projectile.speed 1000
 execute store result storage tf2:summon projectile.speed double 0.0000020833 run data get storage tf2:summon projectile.speed 1000
+data modify storage tf2:summon projectile.deviation set from entity @s SelectedItem.components.minecraft:custom_data.projectile.deviation
+execute if data storage tf2:summon projectile.deviation run function tf2:projectile/deviation
 function tf2:__private__/anonymous/6 with storage tf2:summon projectile
 execute store result storage tf2:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw retina.__variable__
 execute store result storage tf2:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch retina.__variable__
