@@ -587,7 +587,8 @@ class Class.Spy {
             Hardcode.repeat("_i_", () => {
                 player_motion.internal.uuid._i_:@s = player_motion:storage::UUID[_i_];
             }, 0, 4);
-            
+
+            tag @s add retina.ignore;
         }
         @lazy 
         function linked_tp(x, y, z) {
