@@ -7,3 +7,4 @@ execute store result score @s player_motion.internal.uuid.0 run data get storage
 execute store result score @s player_motion.internal.uuid.1 run data get storage player_motion:storage UUID[1]
 execute store result score @s player_motion.internal.uuid.2 run data get storage player_motion:storage UUID[2]
 execute store result score @s player_motion.internal.uuid.3 run data get storage player_motion:storage UUID[3]
+tag @s add retina.ignore
