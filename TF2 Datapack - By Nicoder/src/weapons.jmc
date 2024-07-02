@@ -359,12 +359,19 @@ class Weapons {
         }
         // Convert blocks/sec -> blocks/tick
         summon::projectile.speed = EVAL(1  / 20_000) * (double) summon::projectile.speed * 1000;
+        // Prepare for multiplication by Retina vector (which is normalized to length of 480)
         summon::projectile.speed = EVAL(1 / (Retina.SCALE * 1000)) * (double) summon::projectile.speed * 1000;
+
+        summon::projectile.deviation = @s::SelectedItem.components.minecraft:custom_data.projectile.deviation;
+        if (data storage tf2:summon projectile.deviation) {
+            Projectile.deviation();
+        }
         execute run {
             $ execute store result storage tf2:summon projectile.X double $(speed) run scoreboard players get $output_vec3.X retina.__variable__;
             $ execute store result storage tf2:summon projectile.Y double $(speed) run scoreboard players get $output_vec3.Y retina.__variable__;
             $ execute store result storage tf2:summon projectile.Z double $(speed) run scoreboard players get $output_vec3.Z retina.__variable__;
         } with summon::projectile;
+
         summon::projectile.yaw = 0.1 * (double) retina.__variable__:$input_yaw;
         summon::projectile.pitch = 0.1 * (double) retina.__variable__:$input_pitch;
         summon::projectile.weapon = @s::SelectedItem;
