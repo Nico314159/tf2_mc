@@ -269,6 +269,37 @@ maps:: += {
         gamemode: 1,
         timer: 360.0,
         setup_time: 60.0
+    },
+    4: {
+        name: "koth_harvest",
+        origin: [-1000.0, 100.0, -1000.0],
+        spawn_point: {
+            red: [[-1083.5, 74.0, -1048.5]],
+            blu: [[-1008.5, 74.0, -1027.5]]
+        },
+        spawn_time: {
+            red: [6.0],
+            blu: [6.0]
+        },
+        spawn_doors: {
+            red: [
+                {Pos: [-1082.0, 74.0, -1053.0], Rotation: [180.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [-1091.0, 74.0, -1052.0], Rotation: [180.0f, 0.0f], data: {dx:10, dy:1, dz:3, direct_tp: "-1081.5 74 -1053.5"}},
+                {Pos: [-1091.0, 74.0, -1049.0], Rotation: [  0.0f, 0.0f], data: {dx:10, dy:1, dz:3, direct_tp: "-1081.5 74 -1043.5"}},
+                {Pos: [-1082.0, 74.0, -1045.0], Rotation: [  0.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}}
+            ],
+            blu: [
+                {Pos: [-1011.0, 74.0, -1032.0], Rotation: [180.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [-1012.0, 74.0, -1031.0], Rotation: [180.0f, 0.0f], data: {dx:10, dy:1, dz:3, direct_tp: "-1010.5 74 -1032.5"}},
+                {Pos: [-1012.0, 74.0, -1028.0], Rotation: [  0.0f, 0.0f], data: {dx:10, dy:1, dz:3, direct_tp: "-1010.5 74 -1022.5"}},
+                {Pos: [-1011.0, 74.0, -1024.0], Rotation: [  0.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}}
+            ]
+        },
+        objectives: [
+            {Pos: [-1046d, 76d, -1038d], Tags: ["tf2.control_point"], data: {capture_threshold: 16.0f, team: 0b}}
+        ],
+        gamemode: 3b,
+        timer: 180.0f
     }
 };
 
