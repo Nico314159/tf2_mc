@@ -9,7 +9,7 @@ function setup_markers() {
     $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
     scoreboard players reset $index tf2.batch_number;
     execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run {
-        tf2.map:@s = 3;
+        tf2.map:@s = 4;
         tf2.batch_number:@s > tf2.batch_number:@e[type=marker,tag=tf2.batch];
         tf2.batch_number:@s ++;
         index::i = tf2.batch_number:@s;
