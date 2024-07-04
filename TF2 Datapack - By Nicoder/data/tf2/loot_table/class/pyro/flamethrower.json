@@ -17,7 +17,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{\n\t\t\t\t\t\t\t\t\tattributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.125d, clip: 200, ammo: 0, isProjectile: true},\n\t\t\t\t\t\t\t\t\tprojectile: {spawn: [0.0, -0.6, 0.247675], speed_range: {min:100, max:300}, deviation: {min:50, max:500}, drag: true, lifetime: 60, ignore_env: true},\n\t\t\t\t\t\t\t\t\tcontrols: {main_fire: true, alt_fire: false, reload: 0}\n\t\t\t\t\t\t\t\t}"
+                            "tag": "{\n\t\t\t\t\t\t\t\t\tattributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.125d, clip: 200, ammo: 0, isProjectile: true},\n\t\t\t\t\t\t\t\t\tprojectile: {\n\t\t\t\t\t\t\t\t\t\tspawn: [0.0, -0.6, 0.247675], \n\t\t\t\t\t\t\t\t\t\tspeed_range: {min:100, max:300}, \n\t\t\t\t\t\t\t\t\t    deviation: {min:50, max:500}, \n\t\t\t\t\t\t\t\t\t\tlifetime_range: {min:10, max:15}, \n\t\t\t\t\t\t\t\t\t\tdrag: true, ignore_env: true\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tcontrols: {main_fire: true, alt_fire: false, reload: 0}\n\t\t\t\t\t\t\t\t}"
                         },
                         {
                             "function": "minecraft:set_components",
