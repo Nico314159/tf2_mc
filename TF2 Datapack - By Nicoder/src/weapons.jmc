@@ -354,8 +354,11 @@ class Weapons {
         // Convert HU/sec -> blocks/sec
         summon::projectile.speed = 0.01905 * (double) @s::SelectedItem.components.minecraft:custom_data.projectile.speed;
         summon::projectile.speed_range = @s::SelectedItem.components.minecraft:custom_data.projectile.speed_range;
-        if (data storage tf2:summon projectile.speed_range) {
-            Projectile.speed_range() with summon::projectile.speed_range;
+        if (data storage tf2:summon projectile.speed_range) expand {
+            summon::projectile.speed = 0.01905 * (double) Math.macro_random() 
+                                       with summon::projectile.speed_range;
+
+            tellraw @a {"nbt":"projectile.speed","storage":"tf2:summon"};
         }
         // Convert blocks/sec -> blocks/tick
         summon::projectile.speed = EVAL(1  / 20_000) * (double) summon::projectile.speed * 1000;
@@ -442,10 +445,8 @@ class Weapons {
                 }
             }, ["explosive", "has_trail", "drag", "ignore_env"]);
 
-            if (data storage  tf2:summon  projectile.weapon.components.minecraft:custom_data.projectile.lifetime) expand {
-                tf2.lifetime:@s = summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime;
-                tag @s add tf2.visual;
-            }
+            tf2.lifetime:@s = Projectile.calc_lifetime();
+
             // execute at @s[tag=tf2.has_trail] run particle minecraft:flame ^ ^ ^0.2;
             tag @s remove tf2.new;
         }
