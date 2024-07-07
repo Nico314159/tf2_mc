@@ -1,1 +1,2 @@
-$data modify storage tf2:lookup events set from storage tf2:running_games $(i).objectives[$(j)].data.events
+$execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.red[0] 20
+$execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.blu[0] 20

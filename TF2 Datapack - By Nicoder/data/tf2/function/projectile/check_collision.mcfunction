@@ -5,15 +5,19 @@ scoreboard players operation $temp tf2.team = @s tf2.team
 execute as @e[type=#tf2:player_like,tag=tf2.search] unless score @s tf2.team = $temp tf2.team run tag @s add tf2.opponent
 execute if score @s tf2.age matches ..4 run tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search
 scoreboard players set $collided tf2.var 0
-execute if data entity @s {inGround: 1b} run scoreboard players add $collided tf2.var 1
-data modify storage tf2:vars motion set from entity @s Motion
-execute at @s summon marker run function tf2:__private__/anonymous/15
-execute as @e[type=#tf2:player_like,tag=tf2.in_voxel] at @s run function tf2:__private__/anonymous/17
-tag @e[type=#tf2:player_like,tag=tf2.hit,sort=nearest,limit=1] add tf2.closest_hit
-execute if entity @e[type=#tf2:player_like,tag=tf2.closest_hit] run scoreboard players add $collided tf2.var 2
+execute on vehicle if data entity @s {inGround:true} run scoreboard players add $collided tf2.var 1
+execute on vehicle at @s as @p[scores={tf2.hits_taken=1..},tag=tf2.search] run tag @s add tf2.hit
+execute as @a[tag=tf2.hit] run tellraw @a ["",{"selector":"@s","type":"selector"},{"text":" in HIT on tick "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"},"type":"score"},{"text":" "}]
+execute as @a[tag=tf2.hit] run scoreboard players remove @s tf2.hits_taken 1
+execute if entity @a[tag=tf2.hit] run scoreboard players add $collided tf2.var 2
 execute unless score $collided tf2.var matches 1.. run return 0
-execute on passengers run function tf2:__private__/anonymous/18
+execute store result score $_damage_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.base
+execute store result score $_selfDamage_ tf2.var run data get entity @s item.components.minecraft:custom_data.projectile.explosion.selfDamage
+execute store result score $_maxRamp_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp 100
+execute unless data entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
+execute store result score $_rangeDependent_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.uniform
+execute store success score $_rangeDependent_ tf2.var if score $_rangeDependent_ tf2.var matches 0
 tag @s[tag=!tf2.ignore_env] add tf2.cleanup
-execute if entity @s[tag=!tf2.explosive] run return run execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run function tf2:projectile/simple_damage
-execute on passengers store result storage tf2:vars radius double 0.01905 run data get entity @s item.components.minecraft:custom_data.projectile.explosion.radius
+execute if entity @s[tag=!tf2.explosive] run return run execute as @p[tag=tf2.hit] run function tf2:projectile/simple_damage
+execute store result storage tf2:vars radius double 0.01905 run data get entity @s item.components.minecraft:custom_data.projectile.explosion.radius
 function tf2:projectile/explode with storage tf2:vars

@@ -29,6 +29,7 @@ Hardcode.repeatList(
         "is_invisible", "cloak", "disguise.class", "disguise.team",
         "door.wait", "door.time_open", "door.state", "door.id",
         "door.length", "door.pos", "door.vel", "door.accel", 
+        "hits_taken"
     ]
 );
 
