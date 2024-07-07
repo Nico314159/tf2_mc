@@ -12,15 +12,10 @@ data modify storage tf2:summon matrix set value [0f,0f,0f,0f,0f,0f,0f,0f,0f,0f,0
 execute store result storage tf2:summon matrix[0] float 1 run scoreboard players get $deltaX tf2.var
 execute store result storage tf2:summon matrix[4] float 1 run scoreboard players get $deltaY tf2.var
 execute store result storage tf2:summon matrix[8] float 1 run scoreboard players get $deltaZ tf2.var
-tellraw @a ["",{"text":"deltaX = "},{"score":{"name":"$deltaX","objective":"tf2.var"},"type":"score"}]
-tellraw @a ["",{"text":"deltaY = "},{"score":{"name":"$deltaY","objective":"tf2.var"},"type":"score"}]
-tellraw @a ["",{"text":"deltaZ = "},{"score":{"name":"$deltaZ","objective":"tf2.var"},"type":"score"}]
 execute summon item_display run function tf2:__private__/anonymous/15
 scoreboard players operation $_finalDamage_ tf2.var = $_damage_ tf2.var
 function tf2:weapons/calculate_falloff
 scoreboard players operation $_finalDamage_ tf2.var *= $_multiplier_ tf2.var
-tellraw @a ["",{"text":"$_hammerUnits_ = "},{"score":{"name":"$_hammerUnits_","objective":"tf2.var"},"type":"score"}]
-tellraw @a ["",{"text":"mult = "},{"score":{"name":"$_multiplier_","objective":"tf2.var"},"type":"score"}]
 scoreboard players add $_finalDamage_ tf2.var 99
 scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const
 execute if entity @s[tag=tf2.hit,tag=!tf2.origin] if score $collided tf2.var matches 2.. run return run scoreboard players get $_finalDamage_ tf2.var

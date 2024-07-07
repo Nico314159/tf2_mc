@@ -24,8 +24,6 @@ class Projectile {
             @e[tag=self,limit=1]::Motion = @s[tag=!tf2.drag]::item.components.minecraft:custom_data.Motion;
             @e[tag=self,limit=1]::Pos[0] = @s::Pos[0];
             @e[tag=self,limit=1]::Pos[2] = @s::Pos[2];
-            // tellraw @p {"selector":"@s"};                               
-            // tellraw @p {"nbt":"item.components.minecraft:custom_data.Motion","entity":"@s[tag=!tf2.drag]"};
         } 
 
         tag @s remove self;
@@ -96,31 +94,6 @@ class Projectile {
             }]
         };
     }
-    function replace_arrow() {
-        if (!predicate tf2:no_vehicle) {
-            return fail;
-        }
-
-        summon::projectile.spawnX = 0;
-        summon::projectile.spawnY = 0;
-        summon::projectile.spawnZ = 0;
-        summon::projectile.owner = @r::UUID;
-        summon::projectile.X = @s::item.components.minecraft:custom_data.Motion[0];
-        summon::projectile.Y = @s::item.components.minecraft:custom_data.Motion[1];
-        summon::projectile.Z = @s::item.components.minecraft:custom_data.Motion[2];
-        summon::projectile.yaw = (float) @s::Rotation[0];
-        summon::projectile.pitch = (float) @s::Rotation[1];
-        summon::projectile.CMD = @s::item.components.minecraft:custom_model_data;
-
-        Projectile.init_arrow() with summon::projectile;
-
-        execute as @n[type=arrow,tag=tf2.new] 
-                on passengers run kill @s;
-
-        ride @s mount @n[type=arrow,tag=tf2.new];
-
-        tag @e remove tf2.new;
-    }
     function deviation() {
         function retina:math/gimbal_to_matrix;
 
@@ -155,79 +128,20 @@ class Projectile {
         }
 
         execute on vehicle at @s as @p[scores={tf2.hits_taken=1..}, tag=tf2.search] run tag @s add tf2.hit;
-
-        execute as @a[tag=tf2.hit] run printf("&<@s> in HIT on tick &<0008it54g_p_join:$__global__> ");
         execute as @a[tag=tf2.hit] run tf2.hits_taken:@s--;
-
         if (entity @a[tag=tf2.hit]) {
             $collided += 2;
         }
-        
-
-        // volumetric detection attempt
-        // vars::motion = @s::item.components.minecraft:custom_data.Motion;
-        // execute at @s summon marker run {
-        //     $proj_X = @s::Pos[0] * 1000;
-        //     $proj_Y = @s::Pos[1] * 1000;
-        //     $proj_Z = @s::Pos[2] * 1000;
-        //     @s::Pos = vars::motion;
-        //     execute positioned 0.0 0 0.0 
-        //             facing entity @s feet 
-        //             run tp @s 0 -10000 0 ~ ~;
-        //     execute rotated as @s
-        //             positioned ^ ^ ^0.5
-        //             align xyz
-        //             summon marker run {
-        //                 $next_proj_X = @s::Pos[0] * 1000;
-        //                 $next_proj_Y = @s::Pos[1] * 1000;
-        //                 $next_proj_Z = @s::Pos[2] * 1000;
-        //                 tag @e[type=#tf2:player_like,tag=tf2.search,
-        //                        dx=0,dy=0,dz=0,sort=nearest,limit=1] add tf2.in_voxel;
-        //                 kill;
-        //             }
-        //     kill;
-        // }
-        // execute as @e[type=#tf2:player_like,tag=tf2.in_voxel] at @s run {
-        //     execute summon marker run {
-        //         // marker NBT is faster than player NBT
-        //         $next_diff_X = $diff_X = @s::Pos[0] * 1000; 
-        //         $diff_X -= $proj_X;
-        //         $next_diff_X -= $next_proj_X;
-        //         $next_diff_Y = $diff_Y = @s::Pos[1] * 1000; 
-        //         $diff_Y -= $proj_Y;
-        //         $next_diff_Y -= $next_proj_Y;
-        //         $next_diff_Z = $diff_Z = @s::Pos[2] * 1000; 
-        //         $diff_Z -= $proj_Z;
-        //         $next_diff_Z -= $next_proj_Z;
-        //         kill;
-        //     }
-        //     if ($diff_X matches -550..550 
-        //      && $diff_Y matches -2050..250 
-        //      && $diff_Z matches -550..550) {
-        //         tag @s add tf2.hit;
-        //     }
-        //     if ($next_diff_X matches -550..550
-        //      && $next_diff_Y matches -2050..250
-        //      && $next_diff_Z matches -550..550) {
-        //         tag @s add tf2.hit;
-        //     }
-        // }
-        // printf("$diff_Y = &<$diff_Y>");
-        // printf("$next_diff_Y = &<$next_diff_Y>");
-        // tag @e[type=#tf2:player_like,tag=tf2.hit,sort=nearest,limit=1] add tf2.closest_hit;
-        // // execute as @e[type=#tf2:player_like,tag=tf2.closest_hit] run say "hit";
-        // if (entity @e[type=#tf2:player_like,tag=tf2.closest_hit]) {$collided += 2;}
-        // print($collided);
 
         if (!$collided) return 0;
 
-            $_damage_ = @s::item.components.minecraft:custom_data.attributes.damage.base;
-            $_selfDamage_ = @s::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
-            $_maxRamp_ = @s::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
-            if (!data entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
-            $_rangeDependent_ = @s::item.components.minecraft:custom_data.attributes.damage.uniform;
-            $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
-        // print(tf2.damage:@s);
+        $_damage_ = @s::item.components.minecraft:custom_data.attributes.damage.base;
+        $_selfDamage_ = @s::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
+        $_maxRamp_ = @s::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
+        if (!data entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+        $_rangeDependent_ = @s::item.components.minecraft:custom_data.attributes.damage.uniform;
+        $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
+
         tag @s[tag=!tf2.ignore_env] add tf2.cleanup;
 
         if (entity @s[tag=!tf2.explosive]) return run {
@@ -239,7 +153,6 @@ class Projectile {
     }
     function simple_damage() {
         if (entity @s[tag=!tf2.opponent]) return 0;
-        // say "damaged";
         tf2.health:@s -= $_damage_;
         damage @s 0.01 tf2:screenshake;
     }
@@ -254,7 +167,6 @@ class Projectile {
         execute on vehicle on origin run tag @s remove tf2.origin;
     }
     function wall_check() {
-        say "wall check";
         tag @s add tf2.player;
         execute summon marker at @s run {
             @s::NoAI = 1b;
@@ -327,20 +239,15 @@ class Projectile {
         summon::matrix[0] = (float) $deltaX;
         summon::matrix[4] = (float) $deltaY;
         summon::matrix[8] = (float) $deltaZ;
-        printf ("deltaX = &<$deltaX>");
-        printf ("deltaY = &<$deltaY>");
-        printf ("deltaZ = &<$deltaZ>");
         execute summon item_display run {
             @s::transformation = tf2:summon::matrix;
             retina:output::Distance = 0.01 * (double) @s::transformation.scale[0];
-            tellraw @a {"nbt":"Distance","storage":"retina:output"};
             kill;
         }
         $_finalDamage_ = $_damage_;
         Weapons.calculate_falloff();
         $_finalDamage_ *= $_multiplier_;
-        printf ("$_hammerUnits_ = &<$_hammerUnits_>");
-        printf ("mult = &<$_multiplier_>");
+        // printf ("mult = &<$_multiplier_>");
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
         

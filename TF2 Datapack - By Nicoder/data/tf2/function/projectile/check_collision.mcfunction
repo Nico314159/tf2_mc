@@ -7,7 +7,6 @@ execute if score @s tf2.age matches ..4 run tag @e[type=#tf2:player_like,tag=tf2
 scoreboard players set $collided tf2.var 0
 execute on vehicle if data entity @s {inGround:true} run scoreboard players add $collided tf2.var 1
 execute on vehicle at @s as @p[scores={tf2.hits_taken=1..},tag=tf2.search] run tag @s add tf2.hit
-execute as @a[tag=tf2.hit] run tellraw @a ["",{"selector":"@s","type":"selector"},{"text":" in HIT on tick "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"},"type":"score"},{"text":" "}]
 execute as @a[tag=tf2.hit] run scoreboard players remove @s tf2.hits_taken 1
 execute if entity @a[tag=tf2.hit] run scoreboard players add $collided tf2.var 2
 execute unless score $collided tf2.var matches 1.. run return 0
