@@ -1,4 +1,3 @@
-say wall check
 tag @s add tf2.player
 execute summon marker at @s run function tf2:__private__/anonymous/12
 tag @s remove tf2.player
