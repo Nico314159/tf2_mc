@@ -1,4 +1,3 @@
-execute store result score $Xf tf2.var run data get entity @s Pos[0] 100
-execute store result score $Yf tf2.var run data get entity @s Pos[1] 100
-execute store result score $Zf tf2.var run data get entity @s Pos[2] 100
-kill
+data modify entity @s Pos set from storage tf2:summon pickups[-1].Pos
+scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
+tag @s remove tf2.new

@@ -81,6 +81,7 @@ scoreboard objectives remove tf2.door.length
 scoreboard objectives remove tf2.door.pos
 scoreboard objectives remove tf2.door.vel
 scoreboard objectives remove tf2.door.accel
+scoreboard objectives remove tf2.hits_taken
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.coas

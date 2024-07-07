@@ -7,5 +7,5 @@ execute store result storage tf2:vars fraction double 0.001 run scoreboard playe
 scoreboard players set $i tf2.var 0
 scoreboard players operation $longest tf2.var = $y tf2.var
 scoreboard players operation $longest tf2.var > $horizontal tf2.var
-function tf2:__private__/anonymous/42 with storage tf2:vars
+function tf2:__private__/anonymous/35 with storage tf2:vars
 function tf2:noentrysign/diagonal with storage tf2:vars

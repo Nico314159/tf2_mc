@@ -195,7 +195,21 @@ new tags.function(retina.on_hit) {
 
 new tags.damage_type(minecraft.no_impact) {
     "values": [
-        "tf2:screenshake"
+        "tf2:screenshake",
+        "minecraft:arrow"
+    ],
+    "replace": false
+}
+new tags.damage_type(minecraft.no_knockback) {
+    "values": [
+        "tf2:screenshake",
+        "minecraft:arrow"
+    ],
+    "replace": false
+}
+new tags.damage_type(minecraft.bypasses_cooldown) {
+    "values": [
+        "minecraft:arrow"
     ],
     "replace": false
 }
@@ -388,56 +402,14 @@ class Weapons {
         $has_trail  = summon::projectile.weapon.components.minecraft:custom_data.projectile.has_trail;
         $ignore_env = summon::projectile.weapon.components.minecraft:custom_data.projectile.ignore_env;
         $drag = summon::projectile.weapon.components.minecraft:custom_data.projectile.drag;
-        execute at @s anchored eyes run {
-            $ summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
-                Owner: $(owner),
-                damage: 0.0,
-                pickup: false,
-                NoGravity: true,
-                Silent: true,
-                Invulnerable: true,
-                PersistenceRequired: true,
-                ShotFromCrossbow: true,
-                PierceLevel: 127b,
-                Tags: ["tf2.projectile", "tf2.new"],
-                Motion: [$(X)d, $(Y)d, $(Z)d],
-                active_effects: [{
-                    id: "minecraft:invisibility",
-                    amplifier: false,
-                    show_particles: false,
-                    duration: -1
-                }],
-                Passengers: [{
-                    Rotation: [$(yaw)f, $(pitch)f],
-                    id: "minecraft:item_display",
-                    item: {id: "minecraft:glowstone_dust", components:{
-                        "minecraft:custom_model_data": $(CMD), 
-                        "minecraft:custom_data": {Motion:[$(X)d, $(Y)d, $(Z)d]}
-                    }},
-                    Tags: ["tf2.new", "tf2.projectile"]
-                }]
-            };
-        } with summon::projectile;
+        execute at @s anchored eyes run Projectile.init_arrow() with summon::projectile;
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
-            @s::Rotation[0] = summon::projectile.yaw;
-            @s::Rotation[1] = summon::projectile.pitch;
-            @s::item.components.minecraft:custom_name = summon::projectile.weapon_name;           
-            tag @s remove tf2.new;
-            // if (!block ~ ~ ~ #retina:airs) {
-            //     execute at @s run tp ^ ^ ^1;
-            // }
-        }
-        execute as @e[type=arrow,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
-            team join player_motion.no_collide;
             tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
-            execute on origin run tag @s add tf2.origin;
-            execute on passengers expand {
-                @s::item.components.minecraft:custom_data.attributes = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.attributes;
-                @s::item.components.minecraft:custom_data.projectile = @a[tag=tf2.origin,limit=1]::SelectedItem.components.minecraft:custom_data.projectile;
-            } 
-            execute on origin run tag @s remove tf2.origin;
+
+            @s::item.components.minecraft:custom_data.attributes = summon::projectile.weapon.components.minecraft:custom_data.attributes;
+            @s::item.components.minecraft:custom_data.projectile = summon::projectile.weapon.components.minecraft:custom_data.projectile;
             
             Hardcode.repeatList("|property|", () => {
                 if ($|property|) {
@@ -448,6 +420,22 @@ class Weapons {
             tf2.lifetime:@s = Projectile.calc_lifetime();
 
             // execute at @s[tag=tf2.has_trail] run particle minecraft:flame ^ ^ ^0.2;
+
+            tf2.lifetime:@s = Projectile.calc_lifetime();
+
+            @s::Rotation[0] = summon::projectile.yaw;
+            @s::Rotation[1] = summon::projectile.pitch;
+            @s::item.components.minecraft:custom_name = summon::projectile.weapon_name; 
+
+            Hardcode.repeatList("|property|", () => {
+                if ($|property|) {
+                    tag @s add tf2.|property|;
+                }
+            }, ["explosive", "has_trail", "drag", "ignore_env"]);
+
+            tag @s remove tf2.new;
+        }
+        execute as @e[type=arrow,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
             tag @s remove tf2.new;
         }
     }

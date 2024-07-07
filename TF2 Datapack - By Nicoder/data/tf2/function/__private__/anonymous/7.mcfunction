@@ -1,1 +1,19 @@
-$summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {Owner:$(owner),damage:0.0,pickup:false,NoGravity:true,Silent:true,Invulnerable:true,PersistenceRequired:true,ShotFromCrossbow:true,PierceLevel:127b,Tags:["tf2.projectile","tf2.new"],Motion:[$(X)d,$(Y)d,$(Z)d],active_effects:[{id:"minecraft:invisibility",amplifier:false,show_particles:false,duration:-1}],Passengers:[{Rotation:[$(yaw)f,$(pitch)f],id:"minecraft:item_display",item:{id:"minecraft:glowstone_dust",components:{"minecraft:custom_model_data":$(CMD),"minecraft:custom_data":{Motion:[$(X)d,$(Y)d,$(Z)d]}}},Tags:["tf2.new","tf2.projectile"]}]}
+scoreboard players set @s tf2.age 0
+scoreboard players operation @s tf2.team = $temp tf2.team
+scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
+data modify entity @s item.components.minecraft:custom_data.attributes set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.attributes
+data modify entity @s item.components.minecraft:custom_data.projectile set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile
+execute if score $explosive tf2.var matches 1.. run tag @s add tf2.explosive
+execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
+execute if score $drag tf2.var matches 1.. run tag @s add tf2.drag
+execute if score $ignore_env tf2.var matches 1.. run tag @s add tf2.ignore_env
+execute store result score @s tf2.lifetime run function tf2:projectile/calc_lifetime
+execute store result score @s tf2.lifetime run function tf2:projectile/calc_lifetime
+data modify entity @s Rotation[0] set from storage tf2:summon projectile.yaw
+data modify entity @s Rotation[1] set from storage tf2:summon projectile.pitch
+data modify entity @s item.components.minecraft:custom_name set from storage tf2:summon projectile.weapon_name
+execute if score $explosive tf2.var matches 1.. run tag @s add tf2.explosive
+execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
+execute if score $drag tf2.var matches 1.. run tag @s add tf2.drag
+execute if score $ignore_env tf2.var matches 1.. run tag @s add tf2.ignore_env
+tag @s remove tf2.new
