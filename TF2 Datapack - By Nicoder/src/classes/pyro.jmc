@@ -31,8 +31,8 @@ class Class.Pyro {
 									attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.125d, clip: 200, ammo: 0, isProjectile: true},
 									projectile: {
 										spawn: [0.0, -0.6, 0.247675], 
-										speed_range: {min: 100, max: 300}, 
-									    deviation: {min: 50, max: 500}, 
+										speed_range: {min: 400, max: 550}, 
+									    deviation: {min: 75, max: 300}, 
 										lifetime_range: {min: 10, max: 15}, 
 										drag: true, ignore_env: true
 									},
