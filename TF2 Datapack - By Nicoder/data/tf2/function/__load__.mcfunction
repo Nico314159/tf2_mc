@@ -121,6 +121,7 @@ scoreboard objectives add tf2.door.pos dummy
 scoreboard objectives add tf2.door.vel dummy
 scoreboard objectives add tf2.door.accel dummy
 scoreboard objectives add tf2.hits_taken dummy
+scoreboard objectives add tf2.interpolate_rmb dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger

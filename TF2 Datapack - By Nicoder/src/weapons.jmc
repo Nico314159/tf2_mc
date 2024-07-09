@@ -342,7 +342,24 @@ class Weapons {
         $_clip_ --;
         this.set_ammo();
         tf2.consecutive_reload:@s = false;
+
+        if (!$the_interpolation && data entity @s[scores={tf2.time_idle=..10}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb) {
+            tf2.interpolate_rmb:@s = @s::SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb;
+        }
+
         tf2.time_idle:@s = 0;
+    }
+    function interpolate_rmb() {
+        $the_interpolation = true;
+
+        // $interp = @s::SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb;
+        // if (tf2.time_idle:@s < $interp) expand {
+
+            this.main_fire();
+        // }
+        tf2.interpolate_rmb:@s--;
+
+        $the_interpolation = false;
     }
     function hitscan() {
         $_weaponID_ = @s::SelectedItem.components."minecraft:custom_model_data" * 0.001;
