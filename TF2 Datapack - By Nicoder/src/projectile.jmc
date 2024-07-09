@@ -104,6 +104,23 @@ class Projectile {
         function retina:math/sway_heave_surge/find;
         function retina:math/sway_heave_surge/apply;
     }
+    function compensate_velocity() {
+        $vel_x = summon::projectile.X * 100;
+        $vel_x += tf2.now_x:@s;
+        $vel_x -= tf2.last_x:@s;
+        summon::projectile.X = 0.01 * (double) $vel_x;
+
+        $vel_y = summon::projectile.Y * 100;
+        $vel_y += tf2.fall_y1:@s;
+        $vel_y -= tf2.fall_y2:@s;
+        summon::projectile.Y = 0.01 * (double) $vel_y;
+
+        $vel_z = summon::projectile.Z * 100;
+        $vel_z += tf2.now_z:@s;
+        $vel_z -= tf2.last_z:@s;
+        summon::projectile.Z = 0.01 * (double) $vel_z;
+    }
+
     function check_collision() {
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @e[type=#tf2:player_like]

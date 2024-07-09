@@ -35,7 +35,8 @@ class Class.Pyro {
 									    deviation: {min: 75, max: 300}, 
 										lifetime_range: {min: 10, max: 15}, 
 										drag: true, ignore_env: true,
-										billboard: center
+										billboard: center,
+										relative_to_player: true
 									},
 									controls: {main_fire: true, alt_fire: false, reload: 0}
 								}"

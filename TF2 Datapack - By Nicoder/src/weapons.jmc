@@ -351,14 +351,8 @@ class Weapons {
     }
     function interpolate_rmb() {
         $the_interpolation = true;
-
-        // $interp = @s::SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb;
-        // if (tf2.time_idle:@s < $interp) expand {
-
-            this.main_fire();
-        // }
+        this.main_fire();
         tf2.interpolate_rmb:@s--;
-
         $the_interpolation = false;
     }
     function hitscan() {
@@ -407,6 +401,10 @@ class Weapons {
         summon::projectile.yaw = 0.1 * (double) retina.__variable__:$input_yaw;
         summon::projectile.pitch = 0.1 * (double) retina.__variable__:$input_pitch;
         summon::projectile.weapon = @s::SelectedItem;
+
+        $relative_to_player = summon::projectile.weapon.components.minecraft:custom_data.projectile.relative_to_player;
+        if ($relative_to_player) { Projectile.compensate_velocity(); }
+
         summon::projectile.spawnX = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[0];
         summon::projectile.spawnY = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[1];
         summon::projectile.spawnZ = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[2];
