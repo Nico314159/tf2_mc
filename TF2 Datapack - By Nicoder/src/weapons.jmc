@@ -406,6 +406,7 @@ class Weapons {
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
 
+            @s::billboard = summon::projectile.weapon.components.minecraft:custom_data.projectile.billboard;
             @s::item.components.minecraft:custom_data.attributes = summon::projectile.weapon.components.minecraft:custom_data.attributes;
             @s::item.components.minecraft:custom_data.projectile = summon::projectile.weapon.components.minecraft:custom_data.projectile;
             
