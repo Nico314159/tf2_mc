@@ -15,6 +15,8 @@ function tf2:__private__/anonymous/6 with storage tf2:summon projectile
 execute store result storage tf2:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw retina.__variable__
 execute store result storage tf2:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch retina.__variable__
 data modify storage tf2:summon projectile.weapon set from entity @s SelectedItem
+execute store result score $relative_to_player tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.relative_to_player
+execute if score $relative_to_player tf2.var matches 1.. run function tf2:projectile/compensate_velocity
 data modify storage tf2:summon projectile.spawnX set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.spawn[0]
 data modify storage tf2:summon projectile.spawnY set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.spawn[1]
 data modify storage tf2:summon projectile.spawnZ set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.spawn[2]
