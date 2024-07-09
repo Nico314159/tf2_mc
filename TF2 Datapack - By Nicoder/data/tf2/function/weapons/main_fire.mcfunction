@@ -34,4 +34,5 @@ execute if predicate tf2:holding_melee run return run function tf2:__private__/a
 scoreboard players remove $_clip_ tf2.var 1
 function tf2:weapons/set_ammo
 scoreboard players set @s tf2.consecutive_reload 0
+execute unless score $the_interpolation tf2.var matches 1.. if data entity @s[scores={tf2.time_idle=..10}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb store result score @s tf2.interpolate_rmb run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb
 scoreboard players set @s tf2.time_idle 0

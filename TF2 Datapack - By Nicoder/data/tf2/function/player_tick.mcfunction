@@ -18,7 +18,9 @@ tag @s add tf2.self
 execute if predicate tf2:empty_hand run function tf2:__private__/if_else/30
 tag @s remove tf2.self
 function tf2:weapons/slot_check
+scoreboard players set __if_else__ tf2.var 0
 execute if items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[], minecraft:custom_data~{should_detect_click: true}] run function tf2:__private__/if_else/31
+execute if score __if_else__ tf2.var matches 0 if data entity @s[scores={tf2.interpolate_rmb=1..}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb run function tf2:weapons/interpolate_rmb
 execute if entity @s[tag=tf2.autoreload,scores={tf2.time_idle=30..,tf2.reload_delay=..0},predicate=!tf2:hide_ammo] run function tf2:weapons/attempt_autoreload
 execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run function tf2:__private__/if_else/32
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class

@@ -127,6 +127,9 @@ function player_tick() {
         if (!predicate tf2:ammo_in_clip) return 0;
         Weapons.main_fire();
     }
+    else if (data entity @s[scores={tf2.interpolate_rmb=1..}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb) {
+        Weapons.interpolate_rmb();
+    }
     execute as @s[tag=tf2.autoreload,
                   scores={tf2.time_idle=30.., tf2.reload_delay=..0}, 
                   predicate=!tf2:hide_ammo] run Weapons.attempt_autoreload();
