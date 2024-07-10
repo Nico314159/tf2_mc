@@ -190,7 +190,7 @@ class Projectile {
         this.explode() with vars::;
     }
     function simple_damage() {
-        if (!entity @a[tag=tf2.hit,tag=tf2.opponent]) {return fail;}
+        if (!entity @a[tag=tf2.hit,tag=tf2.opponent,scores={tf2.health=1..}]) {return fail;}
 
         execute on vehicle on origin run tag @s add tf2.origin;
 
@@ -210,7 +210,25 @@ class Projectile {
         tf2.health:@p[tag=tf2.hit] -= $_finalDamage_;
         damage @p[tag=tf2.hit] 0.01 tf2:screenshake;
 
-        execute on vehicle on origin run tag @s remove tf2.origin;
+        summon::number.X = @s::Pos[0];
+        summon::number.Y = @s::Pos[1];
+        summon::number.Z = @s::Pos[2];
+        summon::number.value = $_finalDamage_;
+        if ($_finalDamage_ >= 1) {
+            HUD.damage_numbers() with summon::number;
+        }
+
+        if (tf2.health:@p[tag=tf2.hit] > 0) return run {
+            execute on vehicle on origin run tag @s remove tf2.origin;
+        }
+
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @a if score @s tf2.batch_number 
+                         = $local tf2.batch_number 
+                      run tag @s add tf2.current;
+                    
+        vars::kill_verb = "killed";
+        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@p[tag=tf2.hit]> with &<weapon_name>");
     }
     function pythagorean_3D() {
         execute as @e[tag=tf2.origin] at @s summon marker run {
