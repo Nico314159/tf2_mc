@@ -29,4 +29,4 @@
 
 #define FULL_CLOAK 600
 
-#define Projectile.SPECIAL_PROPERTIES ["explosive", "has_trail", "drag", "ignore_env", "flight_accel"]
+#define Projectile.SPECIAL_PROPERTIES ["explosion", "has_trail", "drag", "ignore_env", "flight_accel"]
