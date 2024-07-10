@@ -186,7 +186,7 @@ class Projectile {
 
         tag @s[tag=!tf2.ignore_env] add tf2.cleanup;
 
-        if (entity @s[tag=!tf2.explosive]) return run {
+        if (entity @s[tag=!tf2.explosion]) return run {
             execute as @p[tag=tf2.hit] run this.simple_damage();
         }
 
@@ -313,7 +313,7 @@ class Projectile {
             return run $_finalDamage_.get();
         }
 
-        // Less damage from your own explosives if nobody else is hurt
+        // Less damage from your own explosions if nobody else is hurt
         // Soldier: 3/5 as much, Demo: 3/4 as much
         if ($playersHurt > 1) {
             return run $_finalDamage_.get();
