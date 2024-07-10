@@ -117,11 +117,6 @@ class Projectile {
         $velocity -= tf2.last_x:@s;
         summon::projectile.X = 0.01 * (double) $velocity;
 
-        $velocity = summon::projectile.Y * 100;
-        $velocity += tf2.fall_y1:@s;
-        $velocity -= tf2.fall_y2:@s;
-        summon::projectile.Y = 0.01 * (double) $velocity;
-
         $velocity = summon::projectile.Z * 100;
         $velocity += tf2.now_z:@s;
         $velocity -= tf2.last_z:@s;
