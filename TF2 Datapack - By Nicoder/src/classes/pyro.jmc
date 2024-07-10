@@ -36,7 +36,8 @@ class Class.Pyro {
 										lifetime_range: {min: 10, max: 15}, 
 										drag: true, ignore_env: true,
 										billboard: center,
-										relative_to_player: true
+										relative_to_player: true,
+										flight_accel: [0.0, 0.007, 0.0]
 									},
 									controls: {main_fire: true, alt_fire: false, reload: 0}
 								}"
