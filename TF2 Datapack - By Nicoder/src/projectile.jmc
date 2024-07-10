@@ -176,22 +176,81 @@ class Projectile {
         $_selfDamage_ = @s::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
         $_maxRamp_ = @s::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
         if (!data entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+        $_temporalFalloff_ = @s::item.components.minecraft:custom_data.attributes.damage.temporalFalloff;
         $_rangeDependent_ = @s::item.components.minecraft:custom_data.attributes.damage.uniform;
         $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
 
         tag @s[tag=!tf2.ignore_env] add tf2.cleanup;
 
         if (entity @s[tag=!tf2.explosion]) return run {
-            execute as @p[tag=tf2.hit] run this.simple_damage();
+            this.simple_damage();
         }
 
         vars::radius = 0.01905 * (double) @s::item.components.minecraft:custom_data.projectile.explosion.radius;
         this.explode() with vars::;
     }
     function simple_damage() {
-        if (entity @s[tag=!tf2.opponent]) return 0;
-        tf2.health:@s -= $_damage_;
-        damage @s 0.01 tf2:screenshake;
+        if (!entity @a[tag=tf2.hit,tag=tf2.opponent]) {return fail;}
+
+        execute on vehicle on origin run tag @s add tf2.origin;
+
+        $_finalDamage_ = $_damage_;
+        if (!$_temporalFalloff_) expand {
+            this.pythagorean_3D();
+            Weapons.calculate_falloff();
+        }
+        if ($_temporalFalloff_) {
+            this.temporal_falloff();
+        }
+        $_finalDamage_ *= $_multiplier_;
+        // printf ("mult = &<$_multiplier_>");
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+
+        tf2.health:@p[tag=tf2.hit] -= $_finalDamage_;
+        damage @p[tag=tf2.hit] 0.01 tf2:screenshake;
+
+        execute on vehicle on origin run tag @s remove tf2.origin;
+    }
+    function pythagorean_3D() {
+        execute as @e[tag=tf2.origin] at @s summon marker run {
+            $X0 = @s::Pos[0] * 100;
+            $Y0 = @s::Pos[1] * 100;
+            $Z0 = @s::Pos[2] * 100;
+            kill;
+        }
+        execute at @s summon marker run {
+            $Xf = @s::Pos[0] * 100;
+            $Yf = @s::Pos[1] * 100;
+            $Zf = @s::Pos[2] * 100;
+            kill;
+        }
+        $deltaX = $Xf; $deltaX -= $X0; 
+        $deltaY = $Yf; $deltaY -= $Y0; 
+        $deltaZ = $Zf; $deltaZ -= $Z0; 
+        summon::matrix = [
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 1f
+        ];
+        summon::matrix[0] = (float) $deltaX;
+        summon::matrix[4] = (float) $deltaY;
+        summon::matrix[8] = (float) $deltaZ;
+        execute summon item_display run {
+            @s::transformation = tf2:summon::matrix;
+            retina:output::Distance = 0.01 * (double) @s::transformation.scale[0];
+            kill;
+        }
+    }
+    function temporal_falloff() {
+        $_multiplier_ = tf2.age:@s; 
+        $_multiplier_ *= 100;
+        $_multiplier_ /= tf2.lifetime:@s;
+        $_multiplier_ *= -1;
+        $_multiplier_ += 100;
+        $_multiplier_ > 50;
+        $_multiplier_ < 100;
     }
     function explode() {
         particle minecraft:explosion ~ ~ ~;
@@ -252,35 +311,7 @@ class Projectile {
     function calculate_splash() {
         $_centerDist_ = retina:output::Distance * EVAL (1 / 0.01905);
         $_splashEdge_ = vars::radius * EVAL (1 / 0.01905);
-        execute as @e[tag=tf2.origin] at @s summon marker run {
-            $X0 = @s::Pos[0] * 100;
-            $Y0 = @s::Pos[1] * 100;
-            $Z0 = @s::Pos[2] * 100;
-            kill;
-        }
-        execute at @s summon marker run {
-            $Xf = @s::Pos[0] * 100;
-            $Yf = @s::Pos[1] * 100;
-            $Zf = @s::Pos[2] * 100;
-            kill;
-        }
-        $deltaX = $Xf; $deltaX -= $X0; 
-        $deltaY = $Yf; $deltaY -= $Y0; 
-        $deltaZ = $Zf; $deltaZ -= $Z0; 
-        summon::matrix = [
-            0f, 0f, 0f, 0f,
-            0f, 0f, 0f, 0f,
-            0f, 0f, 0f, 0f,
-            0f, 0f, 0f, 1f
-        ];
-        summon::matrix[0] = (float) $deltaX;
-        summon::matrix[4] = (float) $deltaY;
-        summon::matrix[8] = (float) $deltaZ;
-        execute summon item_display run {
-            @s::transformation = tf2:summon::matrix;
-            retina:output::Distance = 0.01 * (double) @s::transformation.scale[0];
-            kill;
-        }
+        this.pythagorean_3D();
         $_finalDamage_ = $_damage_;
         Weapons.calculate_falloff();
         $_finalDamage_ *= $_multiplier_;
@@ -328,6 +359,7 @@ class Projectile {
         player_motion.api.launch:$z *= EVAL (12000 / Retina.SCALE);
         function player_motion:api/launch_xyz;
     }
+
     function remove_tags() {
         tag @s remove tf2.batch;
         tag @s remove tf2.search;

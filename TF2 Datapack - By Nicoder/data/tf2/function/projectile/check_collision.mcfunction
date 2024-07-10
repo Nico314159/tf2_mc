@@ -14,9 +14,10 @@ execute store result score $_damage_ tf2.var run data get entity @s item.compone
 execute store result score $_selfDamage_ tf2.var run data get entity @s item.components.minecraft:custom_data.projectile.explosion.selfDamage
 execute store result score $_maxRamp_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp 100
 execute unless data entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
+execute store result score $_temporalFalloff_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.temporalFalloff
 execute store result score $_rangeDependent_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.uniform
 execute store success score $_rangeDependent_ tf2.var if score $_rangeDependent_ tf2.var matches 0
 tag @s[tag=!tf2.ignore_env] add tf2.cleanup
-execute if entity @s[tag=!tf2.explosion] run return run execute as @p[tag=tf2.hit] run function tf2:projectile/simple_damage
+execute if entity @s[tag=!tf2.explosion] run return run function tf2:projectile/simple_damage
 execute store result storage tf2:vars radius double 0.01905 run data get entity @s item.components.minecraft:custom_data.projectile.explosion.radius
 function tf2:projectile/explode with storage tf2:vars
