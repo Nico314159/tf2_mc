@@ -28,3 +28,5 @@
 #enum Door OPEN CLOSED RED_PROXIMITY BLU_PROXIMITY ALL_PROXIMITY
 
 #define FULL_CLOAK 600
+
+#define Projectile.SPECIAL_PROPERTIES ["explosive", "has_trail", "drag", "ignore_env", "flight_accel"]

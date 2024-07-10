@@ -25,8 +25,9 @@ data modify storage tf2:summon projectile.CMD set from storage tf2:summon projec
 data modify storage tf2:summon projectile.owner set from entity @s UUID
 execute store result score $explosive tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.explosion
 execute store result score $has_trail tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.has_trail
-execute store result score $ignore_env tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.ignore_env
 execute store result score $drag tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.drag
+execute store result score $ignore_env tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.ignore_env
+execute store result score $flight_accel tf2.var run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.flight_accel
 execute at @s anchored eyes run function tf2:projectile/init_arrow with storage tf2:summon projectile
 execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run function tf2:__private__/anonymous/7
 execute as @e[type=arrow,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run tag @s remove tf2.new

@@ -411,11 +411,14 @@ class Weapons {
         summon::projectile.weapon_name = summon::projectile.weapon.components.minecraft:custom_name;
         summon::projectile.CMD = summon::projectile.weapon.components.minecraft:custom_model_data;
         summon::projectile.owner = @s::UUID;
-        $explosive  = summon::projectile.weapon.components.minecraft:custom_data.projectile.explosion;
-        $has_trail  = summon::projectile.weapon.components.minecraft:custom_data.projectile.has_trail;
-        $ignore_env = summon::projectile.weapon.components.minecraft:custom_data.projectile.ignore_env;
-        $drag = summon::projectile.weapon.components.minecraft:custom_data.projectile.drag;
-        execute at @s anchored eyes run Projectile.init_arrow() with summon::projectile;
+        Hardcode.repeatList("|property|", () => {
+            $|property| = summon::projectile.weapon.components.minecraft:custom_data.projectile.|property|;
+        }, Projectile.SPECIAL_PROPERTIES);
+
+        execute at @s anchored eyes 
+                run Projectile.init_arrow()
+                with summon::projectile;
+
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
             tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
@@ -425,16 +428,6 @@ class Weapons {
             @s::item.components.minecraft:custom_data.attributes = summon::projectile.weapon.components.minecraft:custom_data.attributes;
             @s::item.components.minecraft:custom_data.projectile = summon::projectile.weapon.components.minecraft:custom_data.projectile;
             
-            Hardcode.repeatList("|property|", () => {
-                if ($|property|) {
-                    tag @s add tf2.|property|;
-                }
-            }, ["explosive", "has_trail", "drag", "ignore_env"]);
-
-            tf2.lifetime:@s = Projectile.calc_lifetime();
-
-            // execute at @s[tag=tf2.has_trail] run particle minecraft:flame ^ ^ ^0.2;
-
             tf2.lifetime:@s = Projectile.calc_lifetime();
 
             @s::Rotation[0] = summon::projectile.yaw;
@@ -445,7 +438,7 @@ class Weapons {
                 if ($|property|) {
                     tag @s add tf2.|property|;
                 }
-            }, ["explosive", "has_trail", "drag", "ignore_env"]);
+            }, Projectile.SPECIAL_PROPERTIES);
 
             tag @s remove tf2.new;
         }
