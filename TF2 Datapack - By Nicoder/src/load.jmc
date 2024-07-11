@@ -295,6 +295,10 @@ maps:: += {
                 {Pos: [-1011.0, 74.0, -1024.0], Rotation: [  0.0f, 0.0f], data: {dx:0, dy:1, dz:0, direct_tp: ""}}
             ]
         },
+        resupply_cabinets: {
+            red: [{Pos: [-1080.5, 74.52, -1048.5], Rotation: [90.0f, 0.0f]}],
+            blu: [{Pos: [-1011.0, 74.52, -1027.5], Rotation: [-90.0f, 0.0f]}]
+        },
         objectives: [
             {Pos: [-1046d, 76d, -1038d], Tags: ["tf2.control_point"], data: {capture_threshold: 16.0f, team: 0b}}
         ],
