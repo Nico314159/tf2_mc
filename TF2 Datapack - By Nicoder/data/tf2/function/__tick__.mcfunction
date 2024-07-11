@@ -17,6 +17,8 @@ scoreboard players set $enough_in_queue tf2.var 1
 execute if score $comp_queue_length tf2.var matches ..11 if score $casual_queue_length tf2.var matches ..23 if score $chaos_queue_length tf2.var matches ..39 run scoreboard players set $enough_in_queue tf2.var 0
 execute if score $enough_in_queue tf2.var matches 1.. as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run function tf2:start_game/as_marker/main
 execute as @e[type=marker] run function tf2:marker_tick
+execute as @e[type=item_display,tag=tf2.control_point,tag=!tf2.init] at @s run function tf2:objectives/control_point/visuals/init
+execute as @e[type=item_display,tag=tf2.control_point,tag=!tf2.locked] at @s run function tf2:objectives/control_point/check_for_players
 execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run function tf2:player_tick
 tag @e[type=#tf2:player_like] remove tf2.on_point
 execute as @e[type=item,tag=tf2.pickup] at @s run function tf2:pickup/tick

@@ -300,7 +300,7 @@ maps:: += {
             blu: [{Pos: [-1011.0, 74.52, -1027.5], Rotation: [-90.0f, 0.0f]}]
         },
         objectives: [
-            {Pos: [-1046d, 76d, -1038d], Tags: ["tf2.control_point"], data: {capture_threshold: 16.0f, team: 0b}}
+            {Pos: [-1046d, 75d, -1038d], Tags: ["tf2.control_point"], data: {capture_threshold: 16.0f, team: 0b}}
         ],
         pickups: [
             // RED shack

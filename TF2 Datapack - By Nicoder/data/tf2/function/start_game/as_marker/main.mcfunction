@@ -31,8 +31,6 @@ scoreboard players set $i tf2.var 0
 execute if data storage tf2:summon resupply[] run function tf2:__private__/while_loop/4
 data remove storage tf2:summon entity
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
-execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass
-execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass
 scoreboard players set __if_else__ tf2.var 0
 execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/16
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/18

@@ -6,10 +6,12 @@ data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"
 data modify storage tf2:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]'
 function tf2:objectives/control_point/find_index/reinsert
 tag @s remove tf2.said_dialogue
-setblock ~ ~-1 ~ red_stained_glass
+item modify entity @s contents {"function":"minecraft:set_custom_model_data","value":11}
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 tag @e[type=marker,tag=tf2.current] remove tf2.current
 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
+tag @e[type=item_display,tag=tf2.current] remove tf2.current
+execute as @e[type=item_display] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 execute if score $last tf2.team = @s tf2.team run return 0
 function tf2:objectives/control_point/map_events/handle with storage tf2:index
 execute if entity @s[tag=tf2.overtime] run function tf2:objectives/control_point/cancel_overtime

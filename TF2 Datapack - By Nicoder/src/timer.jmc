@@ -145,11 +145,11 @@ class Timer
 
         // If any objectives are still in contention, then start overtime if it isn't already.
         tf2.batch_number:$local = tf2.batch_number:@s;
-        execute as @e[type=marker,tag=tf2.control_point]
+        execute as @e[type=item_display,tag=tf2.control_point]
                 if score @s tf2.batch_number = $local tf2.batch_number
                 run  tag @s add tf2.current;
         tag @e[tag=tf2.current,tag=tf2.objective] remove tf2.overtime;
-        execute as @e[type=marker,tag=tf2.current,tag=tf2.objective]
+        execute as @e[type=item_display,tag=tf2.current,tag=tf2.objective]
                 if score @s tf2.blu_progress < @s tf2.capture_threshold
                 if score @s tf2.red_progress < @s tf2.capture_threshold
                 run  tag @s add tf2.overtime;
@@ -281,26 +281,26 @@ class KOTH_Timer
         function red() {
             // @within KOTH_Timer.main()
             tf2.batch_number:$local = tf2.batch_number:@s;
-            execute as @e[type=marker,tag=tf2.control_point]
+            execute as @e[type=item_display,tag=tf2.control_point]
                     if score @s tf2.batch_number = $local tf2.batch_number
                     run  tag @s add tf2.current;
             tf2.red_overtime:@s ?= execute 
-                                as @e[type=marker,tag=tf2.current,tag=tf2.objective] 
+                                as @e[type=item_display,tag=tf2.current,tag=tf2.objective] 
                                 if score @s tf2.red_progress < @s tf2.capture_threshold;
-            tag @e[type=marker,tag=tf2.current,tag=tf2.objective] remove tf2.current;
+            tag @e[type=item_display,tag=tf2.current,tag=tf2.objective] remove tf2.current;
             if (!tf2.red_overtime:@s) KOTH_Timer.end_game();
         }
         function blu() {
             // @within KOTH_Timer.main()
             tf2.batch_number:$local = tf2.batch_number:@s;
-            execute as @e[type=marker,tag=tf2.control_point]
+            execute as @e[type=item_display,tag=tf2.control_point]
                     if score @s tf2.batch_number = $local tf2.batch_number
                     run  tag @s add tf2.current;
             tag @e[tag=tf2.current,tag=tf2.objective] remove tf2.overtime;
             tf2.blu_overtime:@s ?= execute 
-                                as @e[type=marker,tag=tf2.current,tag=tf2.objective] 
+                                as @e[type=item_display,tag=tf2.current,tag=tf2.objective] 
                                 if score @s tf2.blu_progress < @s tf2.capture_threshold;
-            tag @e[type=marker,tag=tf2.current,tag=tf2.objective] remove tf2.current;
+            tag @e[type=item_display,tag=tf2.current,tag=tf2.objective] remove tf2.current;
             if (!tf2.blu_overtime:@s) KOTH_Timer.end_game();
         }
     }

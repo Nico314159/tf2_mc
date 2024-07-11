@@ -1,5 +1,7 @@
 data modify storage tf2:summon entity.Pos set from storage tf2:summon objectives[-1].Pos
 data modify storage tf2:summon entity.Tags set from storage tf2:summon objectives[-1].Tags
+data modify storage tf2:summon entity.item set value {id:"white_dye"}
+data modify storage tf2:summon entity.transformation.translation set value [0.0f,0.5f,0.0f]
 data modify entity @s {} merge from storage tf2:summon entity
 tag @s add tf2.objective
 execute store result score @s tf2.team run data get storage tf2:summon objectives[-1].data.team 1

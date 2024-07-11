@@ -36,7 +36,7 @@
     tf2.index:$temp *= 10;
     while (data storage tf2:summon objectives[]) {
         tf2.index:$temp -= 10;
-        execute summon marker run {
+        execute summon item_display run {
             // Storage format of `summon::objectives[-1]`
             //      Pos: double[3]
             //          Coordinates of where the objective is located on the map.
@@ -52,6 +52,8 @@
 
             summon::entity.Pos = summon::objectives[-1].Pos;
             summon::entity.Tags = summon::objectives[-1].Tags;
+            summon::entity.item = {id: "white_dye"};
+            summon::entity.transformation.translation = [0.0f, 0.5f, 0.0f];
             @s::{} += summon::entity; 
             tag @s add tf2.objective;
             tf2.team:@s              = summon::objectives[-1].data.team * 1;
@@ -214,9 +216,6 @@ class start_game {
             summon_entities();
             if (tf2.gamemode:@s matches 1..4) Objectives.control_point.visuals.spacing();
 
-            execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=1}] at @s run setblock ~ ~-1 ~ red_stained_glass;
-            execute as @e[type=marker,tag=tf2.control_point,scores={tf2.team=2}] at @s run setblock ~ ~-1 ~ blue_stained_glass;
-
             // TODO: replace random assignment with "first come, first serve"
             if ($comp_queue_length >= 12) {
                 execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run start_game.as_players.generic();
@@ -323,7 +322,7 @@ class reset {
         // if ($Settings.show_debug_messages) tellraw Nico314 ["",{"text":"<Debug> ","bold":true},{"score":{"name":"$red_cp_count","objective":"tf2.var"},"color":"red"},{"text":", ","color":"red"},{"score":{"name":"$blu_cp_count","objective":"tf2.var"},"color":"blue"},{"text":", ","color":"blue"},{"score":{"name":"@s","objective":"tf2.index"}}]
         // if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Announced at &<0008it54g_p_join:$__global__> ticks gametime");
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run Objectives.control_point.lock();
+        execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current] at @s run Objectives.control_point.lock();
         kill @e[type=villager,tag=tf2.current];
         if ($winner == 1) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<red,bold,italic>RED wins!");
         if ($winner == 2) Text.tellraw(@a[tag=tf2.current], "&<yellow>MATCH &<white>| &<blue,bold,italic>BLU wins!");
@@ -345,7 +344,7 @@ class reset {
         if (tf2.gamemode:@s == 3) KOTH_Timer.hide() with index::;
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        execute as @e[type=marker,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
+        execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();
         kill @e[type=item_display,tag=tf2.current,tag=!tf2.permanent];
         kill @e[type=item,tag=tf2.current];
@@ -360,8 +359,6 @@ class reset {
         // Resets all objective data when a match ends, and kills the Objectives.
         // @within reset.as_marker()
 
-        setblock ~ ~-1 ~ glass;
-        setblock ~ ~ ~ air;
         Objectives.control_point.find_index.main();
         Hardcode.repeatList(
             "key",
