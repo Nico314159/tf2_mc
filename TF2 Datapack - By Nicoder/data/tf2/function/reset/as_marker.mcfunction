@@ -7,11 +7,11 @@ execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s 
 execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current] at @s run function tf2:reset/as_objectives
 execute as @a[tag=tf2.current] run function tf2:reset/as_players
 kill @e[type=item_display,tag=tf2.current,tag=!tf2.permanent]
-kill @e[type=item,tag=tf2.current]
+execute as @e[type=item,tag=tf2.pickup,tag=tf2.current] run function tf2:projectile/cleanup
 kill @e[type=area_effect_cloud,tag=tf2.current]
 kill @e[type=falling_block,tag=tf2.current]
 kill @e[type=marker,tag=tf2.spawn_door,tag=tf2.current]
-execute as @e[type=arrow,tag=tf2.current,tag=tf2.projectile] run function tf2:projectile/cleanup
+execute as @e[type=item_display,tag=tf2.current,tag=tf2.projectile] run function tf2:projectile/cleanup
 execute if score $enabled timekeeper.var matches -1 if score $profiler_installed tf2.var matches 1.. run scoreboard players set $enabled timekeeper.var 1
 kill @s
 function tf2:setup_markers
