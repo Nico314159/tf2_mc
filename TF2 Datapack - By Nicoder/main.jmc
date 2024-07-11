@@ -37,6 +37,12 @@ function __tick__() {
     }
 
     execute as @e[type=marker] run marker_tick();
+
+    execute as @e[type=item_display,tag=tf2.control_point,tag=!tf2.init] 
+            at @s run Objectives.control_point.visuals.init();
+    execute as @e[type=item_display,tag=tf2.control_point,tag=!tf2.locked] 
+            at @s run Objectives.control_point.check_for_players();
+
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run player_tick();
     tag @e[type=#tf2:player_like] remove tf2.on_point;
     execute as @e[type=item,tag=tf2.pickup] at @s run Pickup.Tick();
@@ -56,9 +62,6 @@ function marker_tick() {
     }
     if (entity @s[tag=tf2.in_use] && tf2.gamemode:@s != 3) Timer.main();
     if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=3}]) KOTH_Timer.main();
-
-    execute at @s[tag=tf2.control_point,tag=!tf2.init  ] run Objectives.control_point.visuals.init();
-    execute at @s[tag=tf2.control_point,tag=!tf2.locked] run Objectives.control_point.check_for_players();
 
     // honetly
     execute if entity @s[tag=tf2.batch] run {

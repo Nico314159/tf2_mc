@@ -95,12 +95,14 @@ class Objectives
 
             tag @e remove tf2.current;
             tf2.batch_number:$local = tf2.batch_number:@s;
-            execute as @e[type=marker,tag=tf2.control_point]
+            execute as @e[type=item_display,tag=tf2.control_point]
 					if score @s tf2.batch_number = $local tf2.batch_number
 					run  tag @s add tf2.current;
 
-            $red_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=1}];
-            $blu_cp_count = execute if entity @e[type=marker,tag=tf2.current,scores={tf2.team=2}];
+            $red_cp_count = execute if entity @e[type=item_display,tag=tf2.current,scores={tf2.team=1}];
+            $blu_cp_count = execute if entity @e[type=item_display,tag=tf2.current,scores={tf2.team=2}];
+            // printf("Red = &<$red_cp_count>, Blu = &<$blu_cp_count>");
+            // printf("index = &<tf2.index:@s>");
             // no need to count total number of control points, as that is already given by `tf2.index` [see `Objectives.control_point.visuals.spacing()` for more info]
 
             scoreboard players reset $winner tf2.var;
@@ -112,7 +114,7 @@ class Objectives
             // Negative time means the game is already over but players haven't been relogged yet. `$winner == $winner` checks if score is set.
             if ($winner == $winner && tf2.timer:@s > -1) reset.announce_winner();
 
-            tag @e[type=marker,tag=tf2.control_point,tag=tf2.current] remove tf2.current;
+            tag @e[type=item_display,tag=tf2.control_point,tag=tf2.current] remove tf2.current;
         }
         function cancel_overtime() {
             tag @s remove tf2.overtime;
@@ -134,14 +136,12 @@ class Objectives
             lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
             lookup::points[0].symbol = '[{"text":"320L@","font":"tf2:square"}]';
             this.find_index.reinsert();
-            setblock ~ ~ ~ stone_slab;
         }
         function unlock() {
             tag @s remove tf2.locked;
             this.find_index.main();
             lookup::points[0].symbol = '[{"text":"320#)@","font":"tf2:square"}]';
             this.find_index.reinsert();
-            setblock ~ ~ ~ air;
         }
 
         class capture_progress {
@@ -225,20 +225,20 @@ class Objectives
                     tf2.index:$temp = tf2.index:@s;
                     tf2.index:$temp -= 10;
 
-                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}]
+                    execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current,scores={tf2.team=2}]
 							if score @s tf2.index = $temp tf2.index
 							at @s run Objectives.control_point.unlock();
 
                     if (tf2.team:$last = 0) return 0;
                     tf2.index:$temp += 20;
-                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}]
+                    execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current,scores={tf2.team=1}]
 							if score @s tf2.index = $temp tf2.index
 							at @s run Objectives.control_point.lock();
 
                     // TODO: add support for map events (like doors opening)
                 }
                 function koth() {
-                    tf2.team:@e[type=marker,tag=tf2.current] = 1;
+                    tf2.team:@e[type=marker,tag=tf2.current,tag=tf2.batch] = 1;
                     execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                     $temp = execute if predicate tf2:coin_flip;
                     if ($temp) Text.tellraw(@a[tag=tf2.current,scores={tf2.team=1}], "&<bold,red>We have captured the control point!");
@@ -252,8 +252,7 @@ class Objectives
                     tf2.index:$temp += 10;
 
                     execute at @s run Objectives.control_point.lock();
-                    setblock ~ ~ ~ stone_slab;
-                    execute as @e[type=marker,tag=tf2.current]
+                    execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current]
 							if score @s tf2.index = $temp tf2.index
 							at @s run Objectives.control_point.unlock();
 
@@ -263,20 +262,20 @@ class Objectives
                     tf2.index:$temp = tf2.index:@s;
                     tf2.index:$temp += 10;
 
-                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=1}]
+                    execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current,scores={tf2.team=1}]
 							if score @s tf2.index = $temp tf2.index
 					 		at @s run Objectives.control_point.unlock();
 
                     if (tf2.team:$last = 0) return 0;
                     tf2.index:$temp -= 20;
-                    execute as @e[type=marker,tag=tf2.current,scores={tf2.team=2}]
+                    execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current,scores={tf2.team=2}]
 							if score @s tf2.index = $temp tf2.index
 							at @s run Objectives.control_point.lock();
 
                     // TODO: add support for map events (like doors opening)
                 }
                 function koth() {
-                    tf2.team:@e[type=marker,tag=tf2.current] = 2;
+                    tf2.team:@e[type=marker,tag=tf2.current,tag=tf2.batch] = 2;
                     execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                     $temp = execute if predicate tf2:coin_flip;
                     if ($temp) Text.tellraw(@a[tag=tf2.current,scores={tf2.team=2}], "&<bold,blue>We have captured the control point!");
@@ -354,23 +353,40 @@ class Objectives
                 Objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
 
-                setblock ~ ~-1 ~ red_stained_glass; // placeholder for proper model
+                // Update model to be RED
+                item modify entity @s contents {
+                    "function": "minecraft:set_custom_model_data",
+                    "value": 11
+                };
 
-                // if KOTH: start counting down RED's timer & pause BLU's (✓)
-                // if 5CP & this is mid: unlock BLU's 1st (✓)
-                // else if 5CP: lock/unlock adjacent points in line (✓)
-                // if ATK/DEF: how??!!?!?
+                
                 tf2.batch_number:$local = tf2.batch_number:@s;
-                tag @e[type=marker,tag=tf2.current] remove tf2.current;
-                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                Hardcode.repeatList("`type`", () => {
+                    tag @e[type=`type`,tag=tf2.current] remove tf2.current;
+                    execute as @e[type=`type`] 
+                            if score @s tf2.batch_number = $local tf2.batch_number 
+                            run tag @s add tf2.current;
+                }, strings=["marker", "item_display"]);
+
                 if (tf2.team:$last == tf2.team:@s) return 0;
 
                 Objectives.control_point.map_events.handle() with index::;
 
-                if (entity @s[tag=tf2.overtime]) {Objectives.control_point.cancel_overtime();}
-                if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.red.symmetric();
-                if (tf2.gamemode:@s == 3) Objectives.control_point.on_capture.red.koth();
-                if (tf2.increment:@s) Objectives.control_point.on_capture.add_time();
+                if (entity @s[tag=tf2.overtime]) {
+                    Objectives.control_point.cancel_overtime();
+                }
+                // No ATF/DEF branch because that is impossible
+                if (tf2.gamemode:@s[tag=!tf2.multistage] == Gamemode.CONTROL_PTS) {
+                    // lock/unlock adjacent points in line
+                    Objectives.control_point.on_capture.red.symmetric();
+                }
+                if (tf2.gamemode:@s == Gamemode.KOTH) {
+                    // start counting down RED's timer & pause BLU's
+                    Objectives.control_point.on_capture.red.koth();
+                }
+                if (tf2.increment:@s) {
+                    Objectives.control_point.on_capture.add_time();
+                }
             }
             function blu() {
                 // @within Objectives.control_point.capture_progress.blu()
@@ -386,25 +402,43 @@ class Objectives
                 Objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
 
-                setblock ~ ~-1 ~ blue_stained_glass; // placeholder for proper model
+                // Update model to be BLU
+                item modify entity @s contents {
+                    "function": "minecraft:set_custom_model_data",
+                    "value": 12
+                };
 
-                // if KOTH: start counting down BLU's timer & pause RED's (✓)
-                // if 5CP & this is mid: unlock RED's 1st (✓)
-                // else if 5CP: lock/unlock adjacent points in line (✓)
-                // if ATK/DEF: lock this point (✓) & unlock next point (✓)
+
                 tf2.batch_number:$local = tf2.batch_number:@s;
-                tag @e[type=marker,tag=tf2.current] remove tf2.current;
-                execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+                Hardcode.repeatList("`type`", () => {
+                    tag @e[type=`type`,tag=tf2.current] remove tf2.current;
+                    execute as @e[type=`type`] 
+                            if score @s tf2.batch_number = $local tf2.batch_number 
+                            run tag @s add tf2.current;
+                }, strings=["marker", "item_display"]);
+                
                 if (tf2.team:$last == tf2.team:@s) return 0;
-
                 
                 Objectives.control_point.map_events.handle() with index::;
 
-                if (entity @s[tag=tf2.overtime]) {Objectives.control_point.cancel_overtime();}
-                if (tf2.gamemode:@s == 1) execute at @s run Objectives.control_point.on_capture.blu.atk_def();
-                if (tf2.gamemode:@s[tag=!tf2.multistage] == 2) Objectives.control_point.on_capture.blu.symmetric();
-                if (tf2.gamemode:@s == 3) execute at @s run Objectives.control_point.on_capture.blu.koth();
-                if (tf2.increment:@s) Objectives.control_point.on_capture.add_time();
+                if (entity @s[tag=tf2.overtime]) {
+                    Objectives.control_point.cancel_overtime();
+                }
+                if (tf2.gamemode:@s == Gamemode.ATK_DEF) {
+                    // lock this point to solidify progress, & unlock next point 
+                    Objectives.control_point.on_capture.blu.atk_def();
+                }
+                if (tf2.gamemode:@s[tag=!tf2.multistage] == Gamemode.CONTROL_PTS) {
+                    // lock/unlock adjacent points in line
+                    Objectives.control_point.on_capture.blu.symmetric();
+                }
+                if (tf2.gamemode:@s == Gamemode.KOTH) {
+                    // start counting down BLU's timer & pause RED's
+                    Objectives.control_point.on_capture.blu.koth();
+                }
+                if (tf2.increment:@s) {
+                    Objectives.control_point.on_capture.add_time();
+                }
             }
         }
         class visuals {
@@ -412,24 +446,30 @@ class Objectives
                 // Sets all visual data relating to this point's state, based on the start condition of the map.
                 // @within __tick__()
 
-                if (entity @s[tag=tf2.locked]) setblock ~ ~ ~ stone_slab;
-                if (!entity @s[tag=tf2.locked]) setblock ~ ~ ~ air;
                 tf2.batch_number:$local = tf2.batch_number:@s;
                 Objectives.control_point.find_index.main();
 
-                // Set background color in HUD, as well as beacon color (placeholder until model is added).
+                // Set background color in HUD.
                 Hardcode.repeatLists(
                     ["_num_", "_color_", "_hex_"],
                     () => {
-                        if (tf2.team:@s == _num_) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
-                        if (tf2.team:@s == _num_) setblock ~ ~-1 ~ _color__stained_glass;
+                        if (tf2.team:@s == _num_) {
+                            lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
+                        }
                     },
                     [["0", "1", "2"], ["white", "red", "blue"], ["A1A1A1", "D95A58", "517AB8"]]
                 );
                 lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
 
-                this.add_symbol();
+                // Determine the custom model to use.
+                tf2.model_number:@s = 10;
+                tf2.model_number:@s += tf2.team:@s;
+                item modify entity @s contents { 
+                    "function": "minecraft:set_custom_model_data",
+                    "value": {"type": "minecraft:score", "target": "this", "score": "tf2.model_number"}
+                };
 
+                this.add_symbol();
                 if (entity @s[tag=!tf2.letter]) {
 					lookup::points[0].extra = '[{"text":"$#)","font":"tf2:square"}]';
 				}
@@ -504,11 +544,11 @@ class Objectives
 
                 tag @e remove tf2.current;
                 tf2.batch_number:$local = tf2.batch_number:@s;
-                execute as @e[type=marker,tag=tf2.control_point]
+                execute as @e[type=item_display,tag=tf2.control_point]
 						if score @s tf2.batch_number = $local tf2.batch_number
 						run  tag @s add tf2.current;
 
-                $wheel_spacing > tf2.index:@e[type=marker,tag=tf2.current];
+                $wheel_spacing > tf2.index:@e[type=item_display,tag=tf2.current];
                 $wheel_spacing /= 2;
                 $wheel_spacing -= tf2.index:@s;
                 $wheel_spacing /= 5;

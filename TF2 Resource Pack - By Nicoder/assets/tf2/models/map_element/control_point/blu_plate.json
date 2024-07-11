@@ -1,0 +1,9 @@
+{
+	"parent": "tf2:map_element/control_point/unclaimed_plate",
+	"ambientocclusion": false,
+	"texture_size": [144, 144],
+	"textures": {
+		"0": "tf2:map_element/control_point/base",
+		"1": "tf2:map_element/control_point/blu"
+	}
+}
