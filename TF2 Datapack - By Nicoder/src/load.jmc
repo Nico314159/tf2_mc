@@ -298,6 +298,33 @@ maps:: += {
         objectives: [
             {Pos: [-1046d, 76d, -1038d], Tags: ["tf2.control_point"], data: {capture_threshold: 16.0f, team: 0b}}
         ],
+        pickups: [
+            // RED shack
+            {Pos: [-1062.5, 76.0, -1017.0], kind: "health", size: 2b},
+            {Pos: [-1068.5, 76.0, -1017.0], kind: "ammo", size: 2b},
+            // RED truck
+            {Pos: [-1043.0, 74.0, -1067.0], kind: "health", size: 1b},
+            // RED farmhouse
+            {Pos: [-1067.5, 75.0, -1037.5], kind: "health", size: 1b},
+            {Pos: [-1060.5, 75.0, -1030.5], kind: "ammo", size: 2b},
+            {Pos: [-1053.5, 75.0, -1061.5], kind: "ammo", size: 2b},
+            // RED upstairs
+            {Pos: [-1056.25, 81.0, -1064.5], kind: "health", size: 2b},
+            {Pos: [-1057.75, 81.0, -1064.5], kind: "ammo", size: 2b},
+
+            // BLU shack
+            {Pos: [-1029.5, 76.0, -1059.0], kind: "health", size: 2b},
+            {Pos: [-1023.5, 76.0, -1059.0], kind: "ammo", size: 2b},
+            // BLU truck
+            {Pos: [-1049.0, 74.0, -1009.0], kind: "health", size: 1b},
+            // BLU farmhouse
+            {Pos: [-1024.5, 75.0, -1038.5], kind: "health", size: 1b},
+            {Pos: [-1031.5, 75.0, -1045.5], kind: "ammo", size: 2b},
+            {Pos: [-1038.5, 75.0, -1014.5], kind: "ammo", size: 2b},
+            // BLU upstairs
+            {Pos: [-1035.75, 81.0, -1011.5], kind: "health", size: 2b},
+            {Pos: [-1034.25, 81.0, -1011.5], kind: "ammo", size: 2b}
+        ],
         gamemode: 3b,
         timer: 180.0f
     }
