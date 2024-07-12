@@ -3,6 +3,8 @@
 #define Door.ANIM_LENGTH 15
 #define Retina.SCALE 480
 
+#define DEFAULT_MAP 4
+
 // Gamemode IDs
 #define Gamemode.ATK_DEF 1
 #define Gamemode.CONTROL_PTS 2

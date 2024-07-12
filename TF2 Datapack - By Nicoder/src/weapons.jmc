@@ -352,7 +352,7 @@ class Weapons {
         summon::projectile = {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
         summon::projectile.speed = 0.01905 * (double) @s::SelectedItem.components.minecraft:custom_data.projectile.speed;
         summon::projectile.speed = EVAL(1  / 20_000) * (double) summon::projectile.speed * 1000;
-        summon::projectile.speed = EVAL(1 / 480_000) * (double) summon::projectile.speed * 1000;
+        summon::projectile.speed = EVAL(1 / (Retina.SCALE * 1000)) * (double) summon::projectile.speed * 1000;
         execute run {
             $execute store result storage tf2:summon projectile.X double $(speed) run scoreboard players get $output_vec3.X retina.__variable__;
             $execute store result storage tf2:summon projectile.Y double $(speed) run scoreboard players get $output_vec3.Y retina.__variable__;

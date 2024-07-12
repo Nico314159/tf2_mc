@@ -120,7 +120,7 @@ class Math {
         $output += $math_term_1;
         $output += $math_term_2;
         $output *= 1000;
-        $dot_product = $output /= EVAL(480 ** 2);
+        $dot_product = $output /= EVAL(Retina.SCALE ** 2);
     }
    
     function feed_left() {
