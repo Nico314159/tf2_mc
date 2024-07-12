@@ -299,6 +299,20 @@ maps:: += {
             red: [{Pos: [-1080.5, 74.52, -1048.5], Rotation: [90.0f, 0.0f]}],
             blu: [{Pos: [-1011.0, 74.52, -1027.5], Rotation: [-90.0f, 0.0f]}]
         },
+        automatic_doors: [
+            // RED spawn
+            {Pos: [-1082.00, 74.0, -1052.75], size: [1.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
+            {Pos: [-1082.00, 74.0, -1044.75], size: [1.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
+            // BLU spawn
+            {Pos: [-1011.00, 74.0, -1031.75], size: [1.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
+            {Pos: [-1011.00, 74.0, -1023.75], size: [1.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
+            // BLU farmhouse - all decorative / locked
+            {Pos: [-1028.00, 75.0, -1039.60], size: [4.0, 3.0, 0.5], path: "up", path_length: 3, state: Door.CLOSED, block: "barrier"},
+            {Pos: [-1024.00, 75.0, -1010.00], size: [0.5, 3.0, 3.0], path: "up", path_length: 3, state: Door.CLOSED, block: "barrier"},
+            {Pos: [-1042.00, 75.0, -1007.00], size: [4.0, 3.0, 0.5], path: "up", path_length: 3, state: Door.CLOSED, block: "barrier"},
+            {Pos: [-1016.90, 74.0, -1054.00], size: [0.5, 3.0, 4.0], path: "up", path_length: 3, state: Door.CLOSED, block: "barrier"},
+            {Pos: [-1013.00, 74.0, -1035.60], size: [4.0, 3.0, 0.5], path: "up", path_length: 3, state: Door.CLOSED, block: "barrier"}
+        ],
         objectives: [
             {Pos: [-1046d, 75d, -1038d], Tags: ["tf2.control_point"], data: {capture_threshold: 16.0f, team: 0b}}
         ],
