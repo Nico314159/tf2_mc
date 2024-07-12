@@ -62,10 +62,13 @@ class Objectives
             $blu_on_point += $blu_scouts;
 
             if ($red_on_point && $blu_on_point) {
-                return run tag @s add tf2.contested;
+                tag @s add tf2.contested;
             }
 
-            this.main();
+            if (!entity @s[tag=tf2.contested]) {
+                this.main();
+            }   
+            tag @e[type=#tf2:player_like] remove tf2.on_point;
         }
         function main() {
             // Handles capture progress & associated visuals for the current control point.

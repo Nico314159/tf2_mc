@@ -292,7 +292,12 @@ class Class.Sniper {
         $bars < 13;
         $bars > 3;
         title @s times 0 4 2;
-        Text.title(@s[tag=!tf2.on_point], "");
+
+        execute positioned ~-3 ~-1 ~-3 
+                unless entity @e[type=#tf2:player_like,dx=5,dy=1,dz=5]
+                run Text.title(@s, "");
+        Text.title(@s[tag=tf2.unable_to_cap], "");
+
         switch ($bars) {
             case  3: Text.subtitle(@s, "&<gray,font(zoom_meter)>_abc&<dark_gray,font(zoom_meter)>defghijklm");
             case  4: Text.subtitle(@s, "&<gray,font(zoom_meter)>_abcd&<dark_gray,font(zoom_meter)>efghijklm");
