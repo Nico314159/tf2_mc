@@ -297,7 +297,7 @@ maps:: += {
         },
         resupply_cabinets: {
             red: [{Pos: [-1080.5, 74.52, -1048.5], Rotation: [90.0f, 0.0f]}],
-            blu: [{Pos: [-1011.0, 74.52, -1027.5], Rotation: [-90.0f, 0.0f]}]
+            blu: [{Pos: [-1011.5, 74.52, -1027.5], Rotation: [-90.0f, 0.0f]}]
         },
         automatic_doors: [
             // RED spawn
