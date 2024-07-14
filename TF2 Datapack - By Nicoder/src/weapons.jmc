@@ -349,6 +349,33 @@ class Weapons {
 
         tf2.time_idle:@s = 0;
     }
+    function alt_fire() {
+        swap_hands();
+
+        $_weaponID_ = @s::SelectedItem.components."minecraft:custom_model_data" * 0.001;
+
+        switch ($_weaponID_) {
+            case EVAL(Class.PYRO * 10 + 1): 
+                Class.Pyro.airblast();
+            // case EVAL(Class.DEMOMAN * 10 + 2):
+            //     Class.Demoman.detonate_stickies();
+            default:
+                return fail;
+        }
+
+        // switch (tf2.class:@s) {
+        //     case Class.SPY: Class.Spy.inventory_lock();
+        //     case Class.SNIPER: Class.Sniper.inventory_lock();
+        //     case Class.SCOUT: Class.Scout.inventory_lock();
+        //     case Class.SOLDIER: Class.Soldier.inventory_lock();
+        //     // case Class.DEMOMAN: Class.Demoman.inventory_lock();
+        //     case Class.HEAVY: Class.Heavy.inventory_lock();
+        //     case Class.PYRO: Class.Pyro.inventory_lock();
+        //     // case Class.ENGINEER: Class.Engineer.inventory_lock();
+        //     // case Class.MEDIC: Class.Medic.inventory_lock();
+        // }
+
+    }
     function interpolate_rmb() {
         $the_interpolation = true;
         this.main_fire();

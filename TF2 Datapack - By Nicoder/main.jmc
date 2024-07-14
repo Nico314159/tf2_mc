@@ -122,10 +122,11 @@ function player_tick() {
     tag @s remove tf2.self;
 
     Weapons.slot_check();
-    if (items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[], minecraft:custom_data~{should_detect_click: true}]) {
+    if (items entity @s weapon.mainhand crossbow[charged_projectiles=[], custom_data~{should_detect_click: true}]) {
         kill @e[type=arrow,tag=!tf2.projectile];
-        if (!predicate tf2:ammo_in_clip) return 0;
-        Weapons.main_fire();
+        if (predicate tf2:ammo_in_clip) {
+            Weapons.main_fire();
+        }
     }
     else if (data entity @s[scores={tf2.interpolate_rmb=1..}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb) {
         Weapons.interpolate_rmb();
@@ -133,6 +134,10 @@ function player_tick() {
     execute as @s[tag=tf2.autoreload,
                   scores={tf2.time_idle=30.., tf2.reload_delay=..0}, 
                   predicate=!tf2:hide_ammo] run Weapons.attempt_autoreload();
+
+    if (items entity @s weapon.offhand *[custom_data~{controls: {alt_fire: true}}]) {
+        Weapons.alt_fire();
+    }
 
     if (entity @s[scores={tf2.class=0},predicate=tf2:active_offhand]) {
         tf2.class:@s = tf2.last_class:@s;
