@@ -19,3 +19,4 @@ scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 data modify storage tf2:vars kill_verb set value 'killed'
 tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=tf2.origin]","type":"selector"},{"text":" "},{"type":"nbt","source":"storage","nbt":"kill_verb","interpret":false,"storage":"tf2:vars"},{"text":" "},{"selector":"@p[tag=tf2.hit]","type":"selector"},{"text":" with "},{"type":"nbt","source":"storage","nbt":"weapon_name","interpret":true,"storage":"tf2:vars"}]
+execute on vehicle on origin run tag @s remove tf2.origin
