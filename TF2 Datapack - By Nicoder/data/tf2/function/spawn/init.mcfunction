@@ -4,6 +4,8 @@ function tf2:spawn/tp with storage tf2:coords
 gamemode adventure @s
 tag @s remove tf2.dead
 tag @s remove tf2.said_death_msg
+tag @s remove tf2.on_fire
+scoreboard players set @s tf2.afterburn_ticks 0
 scoreboard players operation @s tf2.health = @s tf2.max_health
 execute store result score @s tf2.time_surfaced run scoreboard players set @s tf2.drown_lost 0
 function tf2:class_select

@@ -219,6 +219,12 @@ class Projectile {
             HUD.damage_numbers() with summon::number;
         }
 
+        vars::callbacks = @s::item.components.minecraft:custom_data.attributes.on_hit;
+        vars::callback = vars::callbacks[0];
+        if (data storage tf2:vars callbacks[]) {
+            this.callbacks() with vars::;
+        }
+
         if (tf2.health:@p[tag=tf2.hit] > 0) return run {
             execute on vehicle on origin run tag @s remove tf2.origin;
         }
@@ -231,6 +237,17 @@ class Projectile {
         vars::kill_verb = "killed";
         Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@p[tag=tf2.hit]> with &<weapon_name>");
         execute on vehicle on origin run tag @s remove tf2.origin;
+        tag @p[tag=tf2.hit] add tf2.said_death_msg;
+        tag @a remove tf2.current;
+    }
+    function callbacks() {
+        // @needs_macro
+        vars::callback = vars::callbacks[0];
+        $ $(callback);
+        vars::callbacks[0].del();
+        if (data storage tf2:vars callbacks[]) {
+            this.callbacks() with vars::;
+        }
     }
     function pythagorean_3D() {
         execute as @e[tag=tf2.origin] at @s summon marker run {
