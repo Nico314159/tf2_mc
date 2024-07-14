@@ -181,6 +181,7 @@ class Projectile {
         $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
 
         tag @s[tag=!tf2.ignore_env] add tf2.cleanup;
+        vars::weapon_name = @s::item.components.minecraft:custom_name;
 
         if (entity @s[tag=!tf2.explosion]) return run {
             this.simple_damage();
@@ -229,6 +230,7 @@ class Projectile {
                     
         vars::kill_verb = "killed";
         Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@p[tag=tf2.hit]> with &<weapon_name>");
+        execute on vehicle on origin run tag @s remove tf2.origin;
     }
     function pythagorean_3D() {
         execute as @e[tag=tf2.origin] at @s summon marker run {
@@ -276,7 +278,6 @@ class Projectile {
         execute on vehicle on origin run tag @s add tf2.origin;
         execute on vehicle on origin run tag @s add tf2.opponent;
 
-        vars::weapon_name = @s::item.components.minecraft:custom_name;
         $ execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
         execute on vehicle on origin run tag @s remove tf2.origin;
     }

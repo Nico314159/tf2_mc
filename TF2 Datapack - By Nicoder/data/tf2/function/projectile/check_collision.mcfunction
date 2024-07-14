@@ -18,6 +18,7 @@ execute store result score $_temporalFalloff_ tf2.var run data get entity @s ite
 execute store result score $_rangeDependent_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.uniform
 execute store success score $_rangeDependent_ tf2.var if score $_rangeDependent_ tf2.var matches 0
 tag @s[tag=!tf2.ignore_env] add tf2.cleanup
+data modify storage tf2:vars weapon_name set from entity @s item.components.minecraft:custom_name
 execute if entity @s[tag=!tf2.explosion] run return run function tf2:projectile/simple_damage
 execute store result storage tf2:vars radius double 0.01905 run data get entity @s item.components.minecraft:custom_data.projectile.explosion.radius
 function tf2:projectile/explode with storage tf2:vars
