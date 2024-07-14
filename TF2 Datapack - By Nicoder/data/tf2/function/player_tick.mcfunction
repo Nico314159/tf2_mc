@@ -29,6 +29,7 @@ item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick[c
 execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"'] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
 execute unless score $_count_ tf2.var matches 1 run item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
+execute if entity @s[tag=tf2.on_fire] run function tf2:class/pyro/afterburn
 scoreboard players operation @s tf2.fall_y3 = @s tf2.fall_y2
 scoreboard players operation @s tf2.fall_y2 = @s tf2.fall_y1
 scoreboard players operation @s tf2.fall_y1 = @s tf2.fall_y

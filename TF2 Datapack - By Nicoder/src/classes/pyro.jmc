@@ -28,7 +28,14 @@ class Class.Pyro {
 							{
 								"function": "minecraft:set_custom_data",
 								"tag": "{
-									attributes: {damage: {base: 9, temporalFalloff: true}, attackDelay: 0.07d, clip: 200, ammo: 0, isProjectile: true, interpolate_rmb: 5},
+									attributes: {
+										damage: {base: 9, temporalFalloff: true}, 
+										attackDelay: 0.07d, 
+										clip: 200, ammo: 0, 
+										isProjectile: true, 
+										interpolate_rmb: 5, 
+										on_hit: ['execute as @p[tag=tf2.hit] run function tf2:class/pyro/ignite']
+									},
 									projectile: {
 										spawn: [0.0, -0.6, 0.247675], 
 										speed_range: {min: 400, max: 550}, 
@@ -189,5 +196,57 @@ class Class.Pyro {
 		$_count_ = clear @s paper 0;
 		if ($_count_ != 1) clear @s paper;
 		if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
+	}
+
+	function ignite() {
+		if (tf2.class:@s == Class.PYRO) {
+			return fail;
+		}
+		if (tf2.health:@s <= 0) {
+			return fail;
+		}
+		tf2.afterburn_ticks:@s = 0;
+		tf2.afterburn_length:@s = 200;
+		tag @s add tf2.on_fire;
+	}
+
+	function afterburn() {
+		$sound_modulo = $damage_modulo = tf2.afterburn_ticks:@s;
+		$damage_modulo %= 10;
+		if ($damage_modulo == 0) {
+			this.afterburn_damage();
+		}
+
+		$sound_modulo %= FIRE_SOUND_LENGTH;
+		if ($sound_modulo == 0) {
+			playsound minecraft:block.fire.ambient master @s ~ ~ ~;
+		}
+
+		tag @s add self;
+		particle minecraft:flame ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 50 force @a[tag=!self];
+		tag @s remove self;
+
+		tf2.afterburn_ticks:@s++;
+		if (tf2.afterburn_ticks:@s >= tf2.afterburn_length:@s) {
+			tag @s remove tf2.on_fire;
+		}
+	}
+	function afterburn_damage() {
+		tf2.health:@s -= 4;
+		damage @s 0.01 tf2:screenshake;
+		particle minecraft:lava ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 1 force @a[tag=!self];
+
+		if (tf2.health:@s > 0) {
+			return 1;
+		}
+		tf2.batch_number:$local = tf2.batch_number:@s;
+		execute as @a if score @s tf2.batch_number 
+		                 = $local tf2.batch_number 
+		               run tag @s add tf2.current;
+
+		vars::kill_verb = "burned to death";
+		Text.tellraw(@a[tag=tf2.current], "&<@s> &<kill_verb>");
+		tag @a remove tf2.current;
+		tag @s add tf2.said_death_msg;
 	}
 }

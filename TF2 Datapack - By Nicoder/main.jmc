@@ -156,6 +156,10 @@ function player_tick() {
         item replace entity @s[scores={tf2.class=1..}] hotbar.8 with Item.CHANGE_CLASS;
     }
 
+    if (entity @s[tag=tf2.on_fire]) {
+        Class.Pyro.afterburn();
+    }
+
     // Store fall heights from previous ticks
     tf2.fall_y3:@s = tf2.fall_y2:@s;
     tf2.fall_y2:@s = tf2.fall_y1:@s;
@@ -516,6 +520,8 @@ class Spawn {
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tag @s remove tf2.said_death_msg;
+        tag @s remove tf2.on_fire;
+        tf2.afterburn_ticks:@s = 0;
         tf2.health:@s = tf2.max_health:@s;
         tf2.time_surfaced:@s = tf2.drown_lost:@s = 0;
         // Replenish ammo

@@ -30,3 +30,5 @@
 #define FULL_CLOAK 600
 
 #define Projectile.SPECIAL_PROPERTIES ["explosion", "has_trail", "drag", "ignore_env", "flight_accel"]
+
+#define FIRE_SOUND_LENGTH EVAL(1.8 * 20)
