@@ -1,4 +1,5 @@
 clear @s
+tag @s remove tf2.on_fire
 effect clear @s invisibility
 attribute @s minecraft:generic.jump_strength modifier remove tf2:no_jump
 scoreboard players set __found_case__ tf2.var 0

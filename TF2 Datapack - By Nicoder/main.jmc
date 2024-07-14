@@ -347,6 +347,7 @@ class Pickup {
         $add_amount /= 100;
         tf2.health:@s += $add_amount;
         tf2.health:@s < tf2.max_health:@s;
+        tag @s remove tf2.on_fire;
     }
     function give_ammo() {
         playsound tf2:pickup.ammo player @s ~ ~ ~ 0.6 0.9 0.2;
