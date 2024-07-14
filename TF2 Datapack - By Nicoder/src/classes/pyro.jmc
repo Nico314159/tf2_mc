@@ -46,7 +46,7 @@ class Class.Pyro {
 										relative_to_player: true,
 										flight_accel: [0.0, 0.007, 0.0]
 									},
-									controls: {main_fire: true, alt_fire: false, reload: 0}
+									controls: {main_fire: true, alt_fire: true, reload: 0}
 								}"
 							},
 							{
@@ -247,5 +247,9 @@ class Class.Pyro {
 		Text.tellraw(@a[tag=tf2.current], "&<@s> &<kill_verb>");
 		tag @a remove tf2.current;
 		tag @s add tf2.said_death_msg;
+	}
+
+	function airblast() {
+		say "airblast";
 	}
 }
