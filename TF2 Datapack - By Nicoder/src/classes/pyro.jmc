@@ -251,5 +251,48 @@ class Class.Pyro {
 
 	function airblast() {
 		say "airblast";
+
+		$successful_extinguish = false;
+		tf2.team:$current = tf2.team:@s;
+		tf2.batch_number:$current = tf2.batch_number:@s;
+
+		execute as @e[type=#tf2:player_like]
+				if score @s tf2.team = $current tf2.team
+				if score @s tf2.batch_number = $current tf2.batch_number
+				run tag @s add tf2.teammate;
+
+		tag @s add origin;
+		execute as @e[type=#tf2:player_like, tag=tf2.teammate]
+				facing entity @s feet 
+				positioned ^ ^ ^1 
+				rotated as @p[tag=origin] 
+				positioned ^ ^ ^-1 
+				if entity @p[distance=..0.6, tag=origin] 
+				run tag @s add tf2.within_cone;
+
+		execute as @e[distance=.. EVAL(256 * 0.01905)] 
+				run tag @s add tf2.within_sphere;
+
+		execute as @e[type=#tf2:player_like, 
+		              tag=tf2.within_cone,
+					  tag=tf2.within_sphere,
+					  tag=tf2.on_fire]		
+				run this.airblast_extinguish();
+
+		if ($successful_extinguish) expand {
+			tf2.health:@s += 20;
+			tf2.health:@s < tf2.max_health:@s;
+		}
+
+		tag @s remove origin;
+		tag @e remove tf2.teammate;
+		tag @e remove tf2.within_cone;
+		tag @e remove tf2.within_sphere;
+	}
+	function airblast_extinguish() {
+		playsound minecraft:block.fire.extinguish player @a[distance=..1];
+		tag @s remove tf2.on_fire;
+		Text.tellraw(@a, "&<@s> was successfully extinguished!");
+		$successful_extinguish = true;
 	}
 }
