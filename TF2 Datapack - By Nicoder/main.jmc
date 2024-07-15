@@ -232,8 +232,9 @@ function do_fall_damage() {
     }
     // Conversion factor from cm/tick to hammer units/second ≈ 10.5
     // Extra 100 for scaling since boq won't let us work with decimals
-    $impact_velocity *= 1050;
-    if ($impact_velocity <= 92000) {
+    $impact_velocity *= EVAL(10.5 * 100);
+    // Impact velocities below 940 HU/s are simply ignored
+    if ($impact_velocity <= EVAL(940 * 100)) {
         $impact_velocity = 0;
     }
 
