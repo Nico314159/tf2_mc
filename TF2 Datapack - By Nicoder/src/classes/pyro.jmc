@@ -250,6 +250,11 @@ class Class.Pyro {
 	}
 
 	function airblast() {
+		$airblast_cost = 20; // TODO: make airblast cost changeable
+		if (tf2.primary_clip:@s < $airblast_cost) {
+			return fail;
+		}
+		tf2.primary_clip:@s -= $airblast_cost;
 		say "airblast";
 
 		$successful_extinguish = false;
