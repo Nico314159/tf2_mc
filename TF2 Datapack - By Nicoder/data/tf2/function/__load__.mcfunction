@@ -30,16 +30,17 @@ scoreboard players set 100000 tf2.const 100000
 scoreboard players set 1570 tf2.const 1570
 scoreboard players set 40 tf2.const 40
 scoreboard players set 300 tf2.const 300
+scoreboard players set -2000 tf2.const -2000
 scoreboard players set 50 tf2.const 50
 scoreboard players set 60 tf2.const 60
 scoreboard players set 66 tf2.const 66
 scoreboard players set 5833 tf2.const 5833
+scoreboard players set 2000 tf2.const 2000
 scoreboard players set 600 tf2.const 600
 scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
 scoreboard players set 1000 tf2.const 1000
 scoreboard players set 120 tf2.const 120
-scoreboard players set 125 tf2.const 125
 scoreboard players set -1 tf2.const -1
 execute as @a run function tf2:__private__/trigger_add/enable
 scoreboard objectives add tf2.gamemode dummy
