@@ -262,27 +262,32 @@ class Class.Pyro {
 		tf2.batch_number:$current = tf2.batch_number:@s;
 
 		execute as @e[type=#tf2:player_like]
-				if score @s tf2.team = $current tf2.team
-				if score @s tf2.batch_number = $current tf2.batch_number
-				run tag @s add tf2.teammate;
+		        if score @s tf2.batch_number = $current tf2.batch_number
+				run tag @s add tf2.current;
 
 		tag @s add origin;
-		execute as @e[type=#tf2:player_like, tag=tf2.teammate]
+		execute as @e[type=#tf2:player_like,tag=tf2.current]
 				facing entity @s feet 
 				positioned ^ ^ ^1 
 				rotated as @p[tag=origin] 
 				positioned ^ ^ ^-1 
 				if entity @p[distance=..0.6, tag=origin] 
 				run tag @s add tf2.within_cone;
-
 		execute as @e[distance=.. EVAL(256 * 0.01905)] 
 				run tag @s add tf2.within_sphere;
 
 		execute as @e[type=#tf2:player_like, 
 		              tag=tf2.within_cone,
 					  tag=tf2.within_sphere,
-					  tag=tf2.on_fire]		
+					  tag=tf2.on_fire]	
+				if score @s tf2.team = $current tf2.team	
 				run this.airblast_extinguish();
+
+		execute as @e[type=#tf2:player_like, 
+		              tag=tf2.within_cone,
+					  tag=tf2.within_sphere]
+				unless score @s tf2.team = $current tf2.team	
+				run this.airblast_knockback();
 
 		if ($successful_extinguish) expand {
 			tf2.health:@s += 20;
@@ -299,5 +304,13 @@ class Class.Pyro {
 		tag @s remove tf2.on_fire;
 		Text.tellraw(@a, "&<@s> was successfully extinguished!");
 		$successful_extinguish = true;
+	}
+	function airblast_knockback() {
+		say "knockback";
+		player_motion.api.launch:$strength = 15000;
+
+		execute at @s
+				rotated as @p[tag=origin] 
+				run function player_motion:api/launch_looking;
 	}
 }
