@@ -13,4 +13,5 @@ execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
 execute if score $drag tf2.var matches 1.. run tag @s add tf2.drag
 execute if score $ignore_env tf2.var matches 1.. run tag @s add tf2.ignore_env
 execute if score $flight_accel tf2.var matches 1.. run tag @s add tf2.flight_accel
+execute if score $unreflectable tf2.var matches 1.. run tag @s add tf2.unreflectable
 tag @s remove tf2.new
