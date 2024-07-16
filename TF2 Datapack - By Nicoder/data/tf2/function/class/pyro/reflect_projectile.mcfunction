@@ -34,4 +34,3 @@ execute store result storage tf2:vars Motion[2] double 0.0020833 run scoreboard 
 data modify entity @s item.components.minecraft:custom_data.Motion set from storage tf2:vars Motion
 data modify entity @s Rotation[0] set from entity @p[tag=origin] Rotation[0]
 data modify entity @s Rotation[1] set from entity @p[tag=origin] Rotation[1]
-say airblasted a projectile!
