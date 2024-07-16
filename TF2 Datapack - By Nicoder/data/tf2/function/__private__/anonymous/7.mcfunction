@@ -1,6 +1,6 @@
 scoreboard players set @s tf2.age 0
 scoreboard players operation @s tf2.team = $temp tf2.team
-scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
+execute store result score @s tf2.batch_number on vehicle run scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 data modify entity @s billboard set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.billboard
 data modify entity @s item.components.minecraft:custom_data.attributes set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.attributes
 data modify entity @s item.components.minecraft:custom_data.projectile set from storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile
