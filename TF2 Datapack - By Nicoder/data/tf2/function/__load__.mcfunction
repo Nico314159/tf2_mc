@@ -125,6 +125,7 @@ scoreboard objectives add tf2.hits_taken dummy
 scoreboard objectives add tf2.interpolate_rmb dummy
 scoreboard objectives add tf2.afterburn_ticks dummy
 scoreboard objectives add tf2.afterburn_length dummy
+scoreboard objectives add tf2.airblast_delay dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger

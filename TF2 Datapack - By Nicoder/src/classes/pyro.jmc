@@ -157,12 +157,17 @@ class Class.Pyro {
 		loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
 		loot replace entity @s armor.legs loot tf2:class/pyro/_model;
 
-		tf2.primary_maxClip:@s = tf2.primary_clip:@s = data get entity @s Inventory[0].tag.attributes.clip;
-		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = data get entity @s Inventory[0].tag.attributes.ammo;
-		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = data get entity @s Inventory[1].tag.attributes.clip;
-		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = data get entity @s Inventory[1].tag.attributes.ammo;
+		lookup::inventory = @s::Inventory;
+		tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
+		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
+		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
+		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
+
+		tf2.airblast_delay:@s = 0;
 	}
 	function tick() {
+		tf2.airblast_delay:@s[scores={tf2.airblast_delay=0..}]--;
+
 		Weapons.get_ammo();
 		HUD.actionbar();
 		Weapons.set_ammo();
@@ -250,11 +255,15 @@ class Class.Pyro {
 	}
 
 	function airblast() {
-		$airblast_cost = 20; // TODO: make airblast cost changeable
+		$airblast_cost = 20; // TODO: make airblast cost & delay changeable
 		if (tf2.primary_clip:@s < $airblast_cost) {
 			return fail;
 		}
+		if (tf2.airblast_delay:@s > 0) {
+			return fail;
+		}
 		tf2.primary_clip:@s -= $airblast_cost;
+		tf2.airblast_delay:@s += EVAL(0.75 * 20);
 
 		$successful_extinguish = false;
 		tf2.team:$current = tf2.team:@s;

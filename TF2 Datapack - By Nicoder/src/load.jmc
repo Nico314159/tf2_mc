@@ -30,7 +30,7 @@ Hardcode.repeatList(
         "door.wait", "door.time_open", "door.state", "door.id",
         "door.length", "door.pos", "door.vel", "door.accel", 
         "hits_taken", "interpolate_rmb",
-        "afterburn_ticks", "afterburn_length"
+        "afterburn_ticks", "afterburn_length", "airblast_delay"
     ]
 );
 
