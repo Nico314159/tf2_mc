@@ -256,7 +256,6 @@ class Class.Pyro {
 			return fail;
 		}
 		tf2.primary_clip:@s -= $airblast_cost;
-		say "airblast";
 
 		$successful_extinguish = false;
 		tf2.team:$current = tf2.team:@s;
@@ -314,11 +313,9 @@ class Class.Pyro {
 	function airblast_extinguish() {
 		playsound minecraft:block.fire.extinguish player @a[distance=..1];
 		tag @s remove tf2.on_fire;
-		Text.tellraw(@a, "&<@s> was successfully extinguished!");
 		$successful_extinguish = true;
 	}
 	function airblast_knockback() {
-		say "knockback";
 		player_motion.api.launch:$strength = 15000;
 
 		execute at @s
@@ -365,6 +362,5 @@ class Class.Pyro {
 		@s::item.components.minecraft:custom_data.Motion = vars::Motion;
 		@s::Rotation[0] = @p[tag=origin]::Rotation[0];
 		@s::Rotation[1] = @p[tag=origin]::Rotation[1];
-		say "airblasted a projectile!";
 	}
 }
