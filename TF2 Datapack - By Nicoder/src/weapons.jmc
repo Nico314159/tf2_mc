@@ -449,7 +449,7 @@ class Weapons {
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
             tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
-            tf2.batch_number:@s = tf2.batch_number:$local;
+            tf2.batch_number:@s = execute on vehicle run tf2.batch_number:@s = tf2.batch_number:$local;
 
             @s::billboard = summon::projectile.weapon.components.minecraft:custom_data.projectile.billboard;
             @s::item.components.minecraft:custom_data.attributes = summon::projectile.weapon.components.minecraft:custom_data.attributes;

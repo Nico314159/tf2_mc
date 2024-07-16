@@ -261,20 +261,22 @@ class Class.Pyro {
 		tf2.team:$current = tf2.team:@s;
 		tf2.batch_number:$current = tf2.batch_number:@s;
 
-		execute as @e[type=#tf2:player_like]
+		execute as @e
 		        if score @s tf2.batch_number = $current tf2.batch_number
-				run tag @s add tf2.current;
+		        run tag @s add tf2.current;
 
 		tag @s add origin;
-		execute as @e[type=#tf2:player_like,tag=tf2.current]
-				facing entity @s feet 
-				positioned ^ ^ ^1 
-				rotated as @p[tag=origin] 
-				positioned ^ ^ ^-1 
-				if entity @p[distance=..0.6, tag=origin] 
-				run tag @s add tf2.within_cone;
-		execute as @e[distance=.. EVAL(256 * 0.01905)] 
-				run tag @s add tf2.within_sphere;
+		execute anchored eyes
+		        as @e[tag=tf2.current]
+		        facing entity @s eyes 
+		        at @p[tag=origin] 
+		        anchored feet
+		        positioned ^ ^ ^1 
+		        rotated as @p[tag=origin] 
+		        positioned ^ ^ ^-1 
+		        if entity @p[distance=..0.6, tag=origin] 
+		        run tag @s add tf2.within_cone;
+		tag @e[distance=.. EVAL(256 * 0.01905)] add tf2.within_sphere;
 
 		execute as @e[type=#tf2:player_like, 
 		              tag=tf2.within_cone,
@@ -288,6 +290,15 @@ class Class.Pyro {
 					  tag=tf2.within_sphere]
 				unless score @s tf2.team = $current tf2.team	
 				run this.airblast_knockback();
+
+		execute as @e[type=arrow,
+		              tag=tf2.projectile,
+		              tag=tf2.within_cone,
+		              tag=tf2.within_sphere,
+		              tag=!tf2.unreflectable]
+				on passengers
+				unless score @s tf2.team = $current tf2.team
+		        run this.reflect_projectile();
 
 		if ($successful_extinguish) expand {
 			tf2.health:@s += 20;
@@ -312,5 +323,47 @@ class Class.Pyro {
 		execute at @s
 				rotated as @p[tag=origin] 
 				run function player_motion:api/launch_looking;
+	}
+	function reflect_projectile() {
+		execute on vehicle run @s::Owner = @p[tag=origin]::UUID;
+		tf2.team:@s = tf2.team:@p[tag=origin];
+
+		// Get existing Motion vector & its length
+		vars::Motion = @s::item.components.minecraft:custom_data.Motion;
+		$motion_length = 0;
+		Hardcode.repeat("`i`", () => {
+			$temp = vars::Motion[`i`] * Retina.SCALE;
+			$temp *= $temp;
+			$motion_length += $temp;
+		}, 0, 3);
+
+		// Get the Pyro's facing vector & its length
+		execute as @p[tag=origin] run Math.facing_vec();
+		$facing_length = 0;
+		Hardcode.repeatList("`axis`", () => {
+			$temp = retina.__variable__:$output_vec3.`axis`;
+			$temp *= $temp;
+			$facing_length += $temp;
+		}, ["X", "Y", "Z"]);
+
+		// Renormalize facing vector to preserve original magnitude
+		Hardcode.repeatList("`axis`", () => {
+			retina.__variable__:$output_vec3.`axis` *= $motion_length;
+			retina.__variable__:$output_vec3.`axis` /= $facing_length;
+		}, ["X", "Y", "Z"]);
+
+		// Put scores back into NBT storage
+		Hardcode.repeatLists(["`i`", "`axis`"], 
+			() => {
+				vars::Motion[`i`] = EVAL(1 / Retina.SCALE) * (double) 
+				                    retina.__variable__:$output_vec3.`axis`;
+			}, 
+			[["0", "1", "2"], ["X", "Y", "Z"]]
+		);
+
+		@s::item.components.minecraft:custom_data.Motion = vars::Motion;
+		@s::Rotation[0] = @p[tag=origin]::Rotation[0];
+		@s::Rotation[1] = @p[tag=origin]::Rotation[1];
+		say "airblasted a projectile!";
 	}
 }
