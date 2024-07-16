@@ -1,6 +1,8 @@
 scoreboard players set $airblast_cost tf2.var 20
 execute if score @s tf2.primary_clip < $airblast_cost tf2.var run return fail
+execute if score @s tf2.airblast_delay matches 1.. run return fail
 scoreboard players operation @s tf2.primary_clip -= $airblast_cost tf2.var
+scoreboard players add @s tf2.airblast_delay 15
 scoreboard players set $successful_extinguish tf2.var 0
 scoreboard players operation $current tf2.team = @s tf2.team
 scoreboard players operation $current tf2.batch_number = @s tf2.batch_number
