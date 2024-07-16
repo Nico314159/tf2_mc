@@ -308,9 +308,13 @@ class Projectile {
             kill @s;
         }
         tag @s remove tf2.player;
-        if (data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
+        if (entity @s[tag=tf2.hit]) expand {
+            retina:output::Distance = 0;
             this.splash_damage();
         }
+        if (!entity @s[tag=tf2.hit] && data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
+            this.splash_damage();
+        } 
         summon::number.X = retina:output::ContactCoordinates[0];
         summon::number.Y = retina:output::ContactCoordinates[1];
         summon::number.Z = retina:output::ContactCoordinates[2];
