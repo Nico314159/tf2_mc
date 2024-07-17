@@ -292,20 +292,20 @@ class Weapons {
         }
 
         tf2.team:$current = tf2.team:@s;
-        retina:input::{} += @s::SelectedItem.components.minecraft:custom_data.retina;
+        lookup::item = @s::SelectedItem;
+        retina:input::{} += lookup::item.components.minecraft:custom_data.retina;
         
-        if (data entity @s SelectedItem.components.minecraft:custom_data.attributes.spreadRecovery) expand {
-            $_sr_ = @s::SelectedItem.components.minecraft:custom_data.attributes.spreadRecovery;
+        if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery) expand {
+            $_sr_ = lookup::item.components.minecraft:custom_data.attributes.spreadRecovery;
             if (tf2.time_idle:@s > $_sr_) {
-                // say "doggo 2!";
                 retina:input::SpreadFactor = [0, 0];
             }
         }
-        $_damage_  = @s::SelectedItem.components.minecraft:custom_data.attributes.damage.base;
-        $_range_   = @s::SelectedItem.components.minecraft:custom_data.attributes.range * 1000;
-        $_maxRamp_ = @s::SelectedItem.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
-        if (!data entity @s SelectedItem.components.minecraft:custom_data.attributes.range) $_range_ = 2147483647;
-        if (!data entity @s SelectedItem.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+        $_damage_  = lookup::item.components.minecraft:custom_data.attributes.damage.base;
+        $_range_   = lookup::item.components.minecraft:custom_data.attributes.range * 1000;
+        $_maxRamp_ = lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
+        if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.range) $_range_ = 2147483647;
+        if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
         // retina._variable_:$end_particle = true;
 
@@ -318,7 +318,7 @@ class Weapons {
             this.hitscan();
         }
         // retina._variable_:$end_particle = false;
-        $_delay_ = @s::SelectedItem.components.minecraft:custom_data.attributes.attackDelay * 20000;
+        $_delay_ = lookup::item.components.minecraft:custom_data.attributes.attackDelay * 20000;
         tf2.attack_delay:@s += $_delay_;
         scoreboard players reset $func_id retina.__variable__;
 
@@ -344,7 +344,7 @@ class Weapons {
         tf2.consecutive_reload:@s = false;
 
         if (!$the_interpolation && data entity @s[scores={tf2.time_idle=..10}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb) {
-            tf2.interpolate_rmb:@s = @s::SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb;
+            tf2.interpolate_rmb:@s = lookup::item.components.minecraft:custom_data.attributes.interpolate_rmb;
         }
 
         tf2.time_idle:@s = 0;
@@ -383,7 +383,7 @@ class Weapons {
         $the_interpolation = false;
     }
     function hitscan() {
-        $_weaponID_ = @s::SelectedItem.components."minecraft:custom_model_data" * 0.001;
+        $_weaponID_ = lookup::item.components."minecraft:custom_model_data" * 0.001;
         if ($_weaponID_ != 61) {
             return run function retina:traverse/multicast;
         }
@@ -404,8 +404,8 @@ class Weapons {
         summon::projectile = {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
 
         // Convert HU/sec -> blocks/sec
-        summon::projectile.speed = 0.01905 * (double) @s::SelectedItem.components.minecraft:custom_data.projectile.speed;
-        summon::projectile.speed_range = @s::SelectedItem.components.minecraft:custom_data.projectile.speed_range;
+        summon::projectile.speed = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.speed;
+        summon::projectile.speed_range = lookup::item.components.minecraft:custom_data.projectile.speed_range;
         if (data storage tf2:summon projectile.speed_range) {
             summon::projectile.speed = 0.01905 * (double) Math.macro_random() 
                                        with summon::projectile.speed_range;
@@ -415,7 +415,7 @@ class Weapons {
         // Prepare for multiplication by Retina vector (which is normalized to length of 480)
         summon::projectile.speed = EVAL(1 / (Retina.SCALE * 1000)) * (double) summon::projectile.speed * 1000;
 
-        summon::projectile.deviation = @s::SelectedItem.components.minecraft:custom_data.projectile.deviation;
+        summon::projectile.deviation = lookup::item.components.minecraft:custom_data.projectile.deviation;
         if (data storage tf2:summon projectile.deviation) {
             Projectile.deviation();
         }
@@ -427,19 +427,19 @@ class Weapons {
 
         summon::projectile.yaw = 0.1 * (double) retina.__variable__:$input_yaw;
         summon::projectile.pitch = 0.1 * (double) retina.__variable__:$input_pitch;
-        summon::projectile.weapon = @s::SelectedItem;
+        summon::projectile.weapon = lookup::item;
 
-        $relative_to_player = summon::projectile.weapon.components.minecraft:custom_data.projectile.relative_to_player;
+        $relative_to_player = lookup::item.components.minecraft:custom_data.projectile.relative_to_player;
         if ($relative_to_player) { Projectile.compensate_velocity(); }
 
-        summon::projectile.spawnX = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[0];
-        summon::projectile.spawnY = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[1];
-        summon::projectile.spawnZ = summon::projectile.weapon.components.minecraft:custom_data.projectile.spawn[2];
-        summon::projectile.weapon_name = summon::projectile.weapon.components.minecraft:custom_name;
-        summon::projectile.CMD = summon::projectile.weapon.components.minecraft:custom_model_data;
+        summon::projectile.spawnX = lookup::item.components.minecraft:custom_data.projectile.spawn[0];
+        summon::projectile.spawnY = lookup::item.components.minecraft:custom_data.projectile.spawn[1];
+        summon::projectile.spawnZ = lookup::item.components.minecraft:custom_data.projectile.spawn[2];
+        summon::projectile.weapon_name = lookup::item.components.minecraft:custom_name;
+        summon::projectile.CMD = lookup::item.components.minecraft:custom_model_data;
         summon::projectile.owner = @s::UUID;
         Hardcode.repeatList("|property|", () => {
-            $|property| = summon::projectile.weapon.components.minecraft:custom_data.projectile.|property|;
+            $|property| = lookup::item.components.minecraft:custom_data.projectile.|property|;
         }, Projectile.SPECIAL_PROPERTIES);
 
         execute at @s anchored eyes 
@@ -451,9 +451,9 @@ class Weapons {
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = execute on vehicle run tf2.batch_number:@s = tf2.batch_number:$local;
 
-            @s::billboard = summon::projectile.weapon.components.minecraft:custom_data.projectile.billboard;
-            @s::item.components.minecraft:custom_data.attributes = summon::projectile.weapon.components.minecraft:custom_data.attributes;
-            @s::item.components.minecraft:custom_data.projectile = summon::projectile.weapon.components.minecraft:custom_data.projectile;
+            @s::billboard = lookup::item.components.minecraft:custom_data.projectile.billboard;
+            @s::item.components.minecraft:custom_data.attributes = lookup::item.components.minecraft:custom_data.attributes;
+            @s::item.components.minecraft:custom_data.projectile = lookup::item.components.minecraft:custom_data.projectile;
             
             tf2.lifetime:@s = Projectile.calc_lifetime();
 
@@ -513,7 +513,8 @@ class Weapons {
         if ($_clip_ >= $_maxClip_) return 0;
         if ($_ammo_ == 0) return 0;
 
-        $_reloadType_ = @s::SelectedItem.components.minecraft:custom_data.controls.reload;
+        lookup::item = @s::SelectedItem;
+        $_reloadType_ = lookup::item.components.minecraft:custom_data.controls.reload;
         switch ($_reloadType_) {
             case Reload.NONE:
                 break;
@@ -534,8 +535,8 @@ class Weapons {
         }
         this.set_ammo();
 
-        if (tf2.consecutive_reload:@s == 0) $_reloadDelay_ = @s::SelectedItem.components.minecraft:custom_data.attributes.reloadDelay[0] * 20000;
-        if (tf2.consecutive_reload:@s == 1) $_reloadDelay_ = @s::SelectedItem.components.minecraft:custom_data.attributes.reloadDelay[1] * 20000;
+        if (tf2.consecutive_reload:@s == 0) $_reloadDelay_ = lookup::item.components.minecraft:custom_data.attributes.reloadDelay[0] * 20000;
+        if (tf2.consecutive_reload:@s == 1) $_reloadDelay_ = lookup::item.components.minecraft:custom_data.attributes.reloadDelay[1] * 20000;
         tf2.reload_delay:@s += $_reloadDelay_;
         tf2.consecutive_reload:@s = true;
 
