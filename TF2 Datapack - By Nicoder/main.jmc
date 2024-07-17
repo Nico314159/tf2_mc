@@ -582,12 +582,13 @@ class Spawn {
 class NoEntrySign {
     function draw() {
         // Setup
-        tf2.team:$opp = @s::data.opp_team;
+        lookup::my_data = @s::data;
+        tf2.team:$opp = lookup::my_data.opp_team;
         execute as @a if score @s tf2.team = $opp tf2.team 
                 run tag @s add tf2.enemy;
-        $x = @s::data.dx;
-        $y = @s::data.dy;
-        $z = @s::data.dz;
+        $x = lookup::my_data.dx;
+        $y = lookup::my_data.dy;
+        $z = lookup::my_data.dz;
         $horizontal = $x; $horizontal > $z;
 
         // Outline
