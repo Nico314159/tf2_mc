@@ -271,7 +271,8 @@ class Class.Pyro {
 		tf2.batch_number:$current = tf2.batch_number:@s;
 
 		execute as @e
-		        if score @s tf2.batch_number = $current tf2.batch_number
+		        if score @s tf2.batch_number 
+				 = $current tf2.batch_number
 		        run tag @s add tf2.current;
 
 		tag @s add origin;
@@ -285,7 +286,12 @@ class Class.Pyro {
 		        positioned ^ ^ ^-1 
 		        if entity @p[distance=..0.6, tag=origin] 
 		        run tag @s add tf2.within_cone;
-		tag @e[distance=.. EVAL(256 * 0.01905)] add tf2.within_sphere;
+		tag @e[distance=.. AIRBLAST_RANGE] add tf2.within_sphere;
+
+		// particle effects
+		execute anchored eyes 
+				positioned ^ ^ ^-0.5 
+				run Particle.line("sweep_attack", EVAL(AIRBLAST_RANGE - 0.5), spread=40, speed=0);
 
 		execute as @e[type=#tf2:player_like, 
 		              tag=tf2.within_cone,
