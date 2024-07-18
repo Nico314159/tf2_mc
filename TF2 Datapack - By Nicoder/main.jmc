@@ -47,6 +47,7 @@ function __tick__() {
     tag @e[type=#tf2:player_like] remove tf2.on_point;
     execute as @e[type=item,tag=tf2.pickup] at @s run Pickup.Tick();
     execute as @e[type=arrow,tag=tf2.projectile] at @s run Projectile.tick();
+    execute as @e[type=item_display,tag=tf2.projectile] at @s run Projectile.as_display();
     execute as @e[type=item_display,tag=tf2.door] at @s run Door.tick();
 
     $flicker = $trigger_reminder = 0008it54g_p_join:$__global__;
@@ -121,14 +122,22 @@ function player_tick() {
     tag @s remove tf2.self;
 
     Weapons.slot_check();
-    if (items entity @s weapon.mainhand minecraft:crossbow[minecraft:charged_projectiles=[], minecraft:custom_data~{should_detect_click: true}]) {
+    if (items entity @s weapon.mainhand crossbow[charged_projectiles=[], custom_data~{should_detect_click: true}]) {
         kill @e[type=arrow,tag=!tf2.projectile];
-        if (!predicate tf2:ammo_in_clip) return 0;
-        Weapons.main_fire();
+        if (predicate tf2:ammo_in_clip) {
+            Weapons.main_fire();
+        }
+    }
+    else if (data entity @s[scores={tf2.interpolate_rmb=1..}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb) {
+        Weapons.interpolate_rmb();
     }
     execute as @s[tag=tf2.autoreload,
                   scores={tf2.time_idle=30.., tf2.reload_delay=..0}, 
                   predicate=!tf2:hide_ammo] run Weapons.attempt_autoreload();
+
+    if (items entity @s weapon.offhand *[custom_data~{controls: {alt_fire: true}}]) {
+        Weapons.alt_fire();
+    }
 
     if (entity @s[scores={tf2.class=0},predicate=tf2:active_offhand]) {
         tf2.class:@s = tf2.last_class:@s;
@@ -141,7 +150,7 @@ function player_tick() {
         case Class.SOLDIER: Class.Soldier.tick();
         // case Class.DEMOMAN: Class.Demoman.tick();
         case Class.HEAVY: Class.Heavy.tick();
-        // case Class.PYRO: Class.Pyro.tick();
+        case Class.PYRO: Class.Pyro.tick();
         // case Class.ENGINEER: Class.Engineer.tick();
         // case Class.MEDIC: Class.Medic.tick();
     }
@@ -150,6 +159,10 @@ function player_tick() {
     if ($_count_ != 1) expand {
         clear @s Item.CHANGE_CLASS;
         item replace entity @s[scores={tf2.class=1..}] hotbar.8 with Item.CHANGE_CLASS;
+    }
+
+    if (entity @s[tag=tf2.on_fire]) {
+        Class.Pyro.afterburn();
     }
 
     // Store fall heights from previous ticks
@@ -339,6 +352,7 @@ class Pickup {
         $add_amount /= 100;
         tf2.health:@s += $add_amount;
         tf2.health:@s < tf2.max_health:@s;
+        tag @s remove tf2.on_fire;
     }
     function give_ammo() {
         playsound tf2:pickup.ammo player @s ~ ~ ~ 0.6 0.9 0.2;
@@ -512,6 +526,8 @@ class Spawn {
         gamemode adventure @s;
         tag @s remove tf2.dead;
         tag @s remove tf2.said_death_msg;
+        tag @s remove tf2.on_fire;
+        tf2.afterburn_ticks:@s = 0;
         tf2.health:@s = tf2.max_health:@s;
         tf2.time_surfaced:@s = tf2.drown_lost:@s = 0;
         // Replenish ammo
@@ -566,12 +582,13 @@ class Spawn {
 class NoEntrySign {
     function draw() {
         // Setup
-        tf2.team:$opp = @s::data.opp_team;
+        lookup::my_data = @s::data;
+        tf2.team:$opp = lookup::my_data.opp_team;
         execute as @a if score @s tf2.team = $opp tf2.team 
                 run tag @s add tf2.enemy;
-        $x = @s::data.dx;
-        $y = @s::data.dy;
-        $z = @s::data.dz;
+        $x = lookup::my_data.dx;
+        $y = lookup::my_data.dy;
+        $z = lookup::my_data.dz;
         $horizontal = $x; $horizontal > $z;
 
         // Outline

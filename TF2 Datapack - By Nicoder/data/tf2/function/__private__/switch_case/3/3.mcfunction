@@ -1,1 +1,0 @@
-function tf2:class/scout/inventory_lock

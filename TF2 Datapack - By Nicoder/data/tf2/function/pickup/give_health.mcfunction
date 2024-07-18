@@ -4,3 +4,4 @@ scoreboard players add $add_amount tf2.var 99
 scoreboard players operation $add_amount tf2.var /= 100 tf2.const
 scoreboard players operation @s tf2.health += $add_amount tf2.var
 scoreboard players operation @s tf2.health < @s tf2.max_health
+tag @s remove tf2.on_fire

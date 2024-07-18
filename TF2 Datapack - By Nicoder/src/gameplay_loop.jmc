@@ -347,11 +347,11 @@ class reset {
         execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();
         kill @e[type=item_display,tag=tf2.current,tag=!tf2.permanent];
-        kill @e[type=item,tag=tf2.current];
+        execute as @e[type=item,tag=tf2.pickup,tag=tf2.current] run Projectile.cleanup();
         kill @e[type=area_effect_cloud,tag=tf2.current];
         kill @e[type=falling_block,tag=tf2.current];
         kill @e[type=marker,tag=tf2.spawn_door,tag=tf2.current];
-        execute as @e[type=arrow,tag=tf2.current,tag=tf2.projectile] run Projectile.cleanup();
+        execute as @e[type=item_display,tag=tf2.current,tag=tf2.projectile] run Projectile.cleanup();
         if (timekeeper.var:$enabled == -1 && $profiler_installed) timekeeper.var:$enabled = 1;
         kill @s;
         setup_markers();
@@ -371,8 +371,11 @@ class reset {
         // Adds to players' permanent statistics, then relogs them.
         // @within reset.as_marker()
 
-        if (tf2.team:@s == $winner) tf2.permanent.games_won:@s ++;
         tf2.permanent.games_played:@s ++;
+        if (tf2.team:@s == $winner) {
+            tf2.permanent.games_won:@s ++;
+        }
+        
         tag @s remove tf2.current;
         0008it54g_p_join:@s --;
         kill @s[type=villager]; // debug only
@@ -385,6 +388,7 @@ function test_items() {
     give @s Select.SCOUT;
     give @s Select.HEAVY;
     give @s Select.SOLDIER;
+    give @s Select.PYRO;
     give @s Select.SPY;
 }
 

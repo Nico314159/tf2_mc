@@ -65,7 +65,7 @@ class Door {
             this.animate();
         }
         if (entity @s[tag=tf2.anim_over,tag=!tf2.is_open]) {
-            this.place_blocks() with @s::item.components.minecraft:custom_data.fill;
+            this.place_blocks() with lookup::entity.item.components.minecraft:custom_data.fill;
         }
 
         if (tf2.door.state:@s == Door.OPEN) {

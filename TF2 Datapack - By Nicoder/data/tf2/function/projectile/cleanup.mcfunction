@@ -1,2 +1,2 @@
-execute on passengers run kill @s
+execute on vehicle run function tf2:projectile/cleanup
 kill @s

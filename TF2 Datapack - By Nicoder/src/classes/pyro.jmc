@@ -1,0 +1,381 @@
+new trim_pattern(pyro) {
+	"asset_id": "tf2:pyro",
+	"description": {
+		"translate": "trim_pattern.tf2.pyro"
+	},
+	"template_item": "minecraft:flint_and_steel"
+}
+generate_body_model(pyro);
+
+class Class.Pyro {
+	new loot_table(flamethrower) {
+		"pools": [
+			{
+				"rolls": 1,
+				"entries": [
+					{
+						"type": "minecraft:loot_table",
+						"value": "tf2:crossbow_base",
+						"functions": [
+		        			{
+								"function": "minecraft:set_name",
+								"name": {
+									"text": "Flamethrower (WIP)",
+									"color": "gray",
+									"italic": true
+								}
+							},
+							{
+								"function": "minecraft:set_custom_data",
+								"tag": "{
+									attributes: {
+										damage: {base: 9, temporalFalloff: true}, 
+										attackDelay: 0.07d, 
+										clip: 200, ammo: 0, 
+										isProjectile: true, 
+										interpolate_rmb: 5, 
+										on_hit: ['execute as @p[tag=tf2.hit] run function tf2:class/pyro/ignite']
+									},
+									projectile: {
+										spawn: [0.0, -0.6, 0.247675], 
+										speed_range: {min: 400, max: 550}, 
+									    deviation: {min: 75, max: 300}, 
+										lifetime_range: {min: 10, max: 15}, 
+										drag: true, ignore_env: true,
+										billboard: center,
+										relative_to_player: true,
+										unreflectable: true,
+										flight_accel: [0.0, 0.007, 0.0]
+									},
+									controls: {main_fire: true, alt_fire: true, reload: 0}
+								}"
+							},
+							{
+								"function": "minecraft:set_components",
+		   	 					"components": {
+									"minecraft:custom_model_data": 71001,
+	 						   		"minecraft:unbreakable": {"show_in_tooltip": false}
+								},
+								"conditions": [
+									{ "condition": "minecraft:entity_scores",
+								      "entity": "this", "scores": {"tf2.team": 1} }
+								]
+							},
+							{
+								"function": "minecraft:set_components",
+								"components": {
+									"minecraft:custom_model_data": 71002,
+									"minecraft:unbreakable": {"show_in_tooltip": false}
+								},
+								"conditions": [
+									{ "condition": "minecraft:entity_scores",
+									  "entity": "this", "scores": {"tf2.team": 2} }
+								]
+ 							}
+						]
+					}
+				]
+			}
+		]
+	}
+	new loot_table(shotgun) {
+		"pools": [{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:loot_table",
+					"value": "tf2:crossbow_base",
+					"functions": [
+						{
+							"function": "minecraft:set_name",
+							"name": {
+								"text": "Shotgun",
+								"color": "gray",
+								"italic": true
+							}
+						},
+						{
+							"function": "minecraft:set_components",
+	    				    "components": {
+								"minecraft:custom_model_data": 72000,
+								"minecraft:unbreakable": {"show_in_tooltip": false}
+							}
+						},
+						{
+							"function": "minecraft:set_custom_data",
+							"tag": "{
+								retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [100, 250], MaxRecursionDepth: 100},
+								attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [1.035d, 0.51d], clip: 6, ammo: 32},
+    	  	  	      		  	controls: {main_fire: true, alt_fire: false, reload: 1}
+							}"
+						}
+					]
+				}
+			]
+	  	}]
+	}
+  	new loot_table(fire_axe) {
+ 		"pools": [{
+			"rolls": 1,
+			"entries": [
+				{
+    				"type": "minecraft:loot_table",
+					"value": "tf2:melee_base",
+					"functions": [
+						{
+							"function": "minecraft:set_name",
+							"name": {
+								"text": "Fire Axe",
+								"color": "gray",
+								"italic": true
+							}
+						},
+						{
+							"function": "minecraft:set_components",
+							"components": {
+								"minecraft:custom_model_data": 73000,
+								"minecraft:unbreakable": {"show_in_tooltip": false}
+							}
+						},
+						{
+							"function": "minecraft:set_custom_data",
+							"tag": "{
+								retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
+			  		 			attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
+								controls: {main_fire: true, alt_fire: false, reload: 0}
+							}"
+					  	}
+					]
+	  			}
+			]
+		}]
+	}
+
+	function give() {
+		clear @s;
+		loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
+		loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
+		loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
+		loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+
+		lookup::inventory = @s::Inventory;
+		tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
+		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
+		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
+		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
+
+		tf2.airblast_delay:@s = 0;
+	}
+	function tick() {
+		tf2.airblast_delay:@s[scores={tf2.airblast_delay=0..}]--;
+
+		Weapons.get_ammo();
+		HUD.actionbar();
+		Weapons.set_ammo();
+
+		this.inventory_lock();
+	}
+	function inventory_lock() {
+		item replace entity @s weapon.offhand with air;
+        loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
+        $_count_ = clear @s crossbow[custom_model_data=71001|custom_model_data=71002] 0;
+        if ($_count_ != 1) clear @s crossbow[custom_model_data=71001|custom_model_data=71002] 0;
+        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
+
+        loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
+        $_count_ = clear @s crossbow[custom_model_data=72000] 0;
+    	if ($_count_ != 1) clear @s crossbow[custom_model_data=72000];
+ 		if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
+
+		loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
+		$_count_ = clear @s snowball[custom_model_data=73000] 0;
+		if ($_count_ != 1) clear @s snowball[custom_model_data=73000];
+		if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
+
+		loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+		$_count_ = clear @s iron_leggings 0;
+		if ($_count_ != 1) clear @s iron_leggings;
+		if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/pyro/_model;
+
+		loot replace entity @s armor.head loot tf2:head;
+		$_count_ = clear @s paper 0;
+		if ($_count_ != 1) clear @s paper;
+		if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
+	}
+
+	function ignite() {
+		if (tf2.class:@s == Class.PYRO) {
+			return fail;
+		}
+		if (tf2.health:@s <= 0) {
+			return fail;
+		}
+		tf2.afterburn_ticks:@s = 0;
+		tf2.afterburn_length:@s = 200;
+		tag @s add tf2.on_fire;
+	}
+
+	function afterburn() {
+		$sound_modulo = $damage_modulo = tf2.afterburn_ticks:@s;
+		$damage_modulo %= 10;
+		if ($damage_modulo == 0) {
+			this.afterburn_damage();
+		}
+
+		$sound_modulo %= FIRE_SOUND_LENGTH;
+		if ($sound_modulo == 0) {
+			playsound minecraft:block.fire.ambient master @s ~ ~ ~;
+		}
+
+		tag @s add self;
+		particle minecraft:flame ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 50 force @a[tag=!self];
+		tag @s remove self;
+
+		tf2.afterburn_ticks:@s++;
+		if (tf2.afterburn_ticks:@s >= tf2.afterburn_length:@s) {
+			tag @s remove tf2.on_fire;
+		}
+	}
+	function afterburn_damage() {
+		tf2.health:@s -= 4;
+		damage @s 0.01 tf2:screenshake;
+		particle minecraft:lava ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 1 force @a[tag=!self];
+
+		if (tf2.health:@s > 0) {
+			return 1;
+		}
+		tf2.batch_number:$local = tf2.batch_number:@s;
+		execute as @a if score @s tf2.batch_number 
+		                 = $local tf2.batch_number 
+		               run tag @s add tf2.current;
+
+		vars::kill_verb = "burned to death";
+		Text.tellraw(@a[tag=tf2.current], "&<@s> &<kill_verb>");
+		tag @a remove tf2.current;
+		tag @s add tf2.said_death_msg;
+	}
+
+	function airblast() {
+		$airblast_cost = 20; // TODO: make airblast cost & delay changeable
+		if (tf2.primary_clip:@s < $airblast_cost) {
+			return fail;
+		}
+		if (tf2.airblast_delay:@s > 0) {
+			return fail;
+		}
+		tf2.primary_clip:@s -= $airblast_cost;
+		tf2.airblast_delay:@s += EVAL(0.75 * 20);
+
+		$successful_extinguish = false;
+		tf2.team:$current = tf2.team:@s;
+		tf2.batch_number:$current = tf2.batch_number:@s;
+
+		execute as @e
+		        if score @s tf2.batch_number 
+				 = $current tf2.batch_number
+		        run tag @s add tf2.current;
+
+		tag @s add origin;
+		execute anchored eyes
+		        as @e[tag=tf2.current]
+		        facing entity @s eyes 
+		        at @p[tag=origin] 
+		        anchored feet
+		        positioned ^ ^ ^1 
+		        rotated as @p[tag=origin] 
+		        positioned ^ ^ ^-1 
+		        if entity @p[distance=..0.6, tag=origin] 
+		        run tag @s add tf2.within_cone;
+		tag @e[distance=.. AIRBLAST_RANGE] add tf2.within_sphere;
+
+		// particle effects
+		execute anchored eyes 
+				positioned ^ ^ ^-0.5 
+				run Particle.line("sweep_attack", EVAL(AIRBLAST_RANGE - 0.5), spread=40, speed=0);
+
+		execute as @e[type=#tf2:player_like, 
+		              tag=tf2.within_cone,
+					  tag=tf2.within_sphere,
+					  tag=tf2.on_fire]	
+				if score @s tf2.team = $current tf2.team	
+				run this.airblast_extinguish();
+
+		execute as @e[type=#tf2:player_like, 
+		              tag=tf2.within_cone,
+					  tag=tf2.within_sphere]
+				unless score @s tf2.team = $current tf2.team	
+				run this.airblast_knockback();
+
+		execute as @e[type=arrow,
+		              tag=tf2.projectile,
+		              tag=tf2.within_cone,
+		              tag=tf2.within_sphere,
+		              tag=!tf2.unreflectable]
+				on passengers
+				unless score @s tf2.team = $current tf2.team
+		        run this.reflect_projectile();
+
+		if ($successful_extinguish) expand {
+			tf2.health:@s += 20;
+			tf2.health:@s < tf2.max_health:@s;
+		}
+
+		tag @s remove origin;
+		tag @e remove tf2.teammate;
+		tag @e remove tf2.within_cone;
+		tag @e remove tf2.within_sphere;
+	}
+	function airblast_extinguish() {
+		playsound minecraft:block.fire.extinguish player @a[distance=..1];
+		tag @s remove tf2.on_fire;
+		$successful_extinguish = true;
+	}
+	function airblast_knockback() {
+		player_motion.api.launch:$strength = 15000;
+
+		execute at @s
+				rotated as @p[tag=origin] 
+				run function player_motion:api/launch_looking;
+	}
+	function reflect_projectile() {
+		execute on vehicle run @s::Owner = @p[tag=origin]::UUID;
+		tf2.team:@s = tf2.team:@p[tag=origin];
+
+		// Get existing Motion vector & its length
+		vars::Motion = @s::item.components.minecraft:custom_data.Motion;
+		$motion_length = 0;
+		Hardcode.repeat("`i`", () => {
+			$temp = vars::Motion[`i`] * Retina.SCALE;
+			$temp *= $temp;
+			$motion_length += $temp;
+		}, 0, 3);
+
+		// Get the Pyro's facing vector & its length
+		execute as @p[tag=origin] run Math.facing_vec();
+		$facing_length = 0;
+		Hardcode.repeatList("`axis`", () => {
+			$temp = retina.__variable__:$output_vec3.`axis`;
+			$temp *= $temp;
+			$facing_length += $temp;
+		}, ["X", "Y", "Z"]);
+
+		// Renormalize facing vector to preserve original magnitude
+		Hardcode.repeatList("`axis`", () => {
+			retina.__variable__:$output_vec3.`axis` *= $motion_length;
+			retina.__variable__:$output_vec3.`axis` /= $facing_length;
+		}, ["X", "Y", "Z"]);
+
+		// Put scores back into NBT storage
+		Hardcode.repeatLists(["`i`", "`axis`"], 
+			() => {
+				vars::Motion[`i`] = EVAL(1 / Retina.SCALE) * (double) 
+				                    retina.__variable__:$output_vec3.`axis`;
+			}, 
+			[["0", "1", "2"], ["X", "Y", "Z"]]
+		);
+
+		@s::item.components.minecraft:custom_data.Motion = vars::Motion;
+		@s::Rotation[0] = @p[tag=origin]::Rotation[0];
+		@s::Rotation[1] = @p[tag=origin]::Rotation[1];
+	}
+}

@@ -46,6 +46,7 @@ function team_assign() {
 
 function class_select() {
     clear @s;
+    tag @s remove tf2.on_fire;
     effect clear @s invisibility;
     attribute @s minecraft:generic.jump_strength modifier remove tf2:no_jump;
     switch (tf2.class:@s) {
@@ -75,6 +76,7 @@ function class_select() {
         case Class.PYRO:
             tf2.max_health:@s = tf2.health:@s = 175;
             attribute @s minecraft:generic.movement_speed base set 0.132;
+            Class.Pyro.give();
         case Class.ENGINEER:
             tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:generic.movement_speed base set 0.132;
