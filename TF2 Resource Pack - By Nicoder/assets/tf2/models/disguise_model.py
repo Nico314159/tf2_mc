@@ -72,21 +72,22 @@ def format_json(obj) -> str:
     def escape(string):
         return string.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r\n', '\\n').replace('\t', '\\t')
 
-    def handle_var(o, tabs):
-        if isinstance(o, str):
-            return f'"{escape(o)}"'
-        if isinstance(o, bool):
-            return 'true' if o else 'false'
-        if o in [None, float('inf'), float('-inf')]:
-            return 'null'
-        if isinstance(o, (int, float)):
-            return f'{round(o, 5)}'
-        if isinstance(o, list):
-            return handle_list(o, tabs)
-        if isinstance(o, dict):
-            return handle_dict(o, tabs)
-        return ''
-
+    def handle_var(o, tabs) -> str:
+        match o:
+            case str(): 
+                return f'"{escape(o)}"'
+            case bool(): 
+                return str(o).lower()
+            case None | float('inf') | float('-inf'): 
+                return 'null'
+            case int() | float(): 
+                return f'{round(o, 5)}'
+            case list(): 
+                return handle_list(o, tabs)
+            case dict(): 
+                return handle_dict(o, tabs)
+            case _: return ''
+    
     def handle_list(o, tabs):
         multiline = any(isinstance(item, dict) for item in o)
         if sum(len(str(item)) + 3 for item in o) > 140:

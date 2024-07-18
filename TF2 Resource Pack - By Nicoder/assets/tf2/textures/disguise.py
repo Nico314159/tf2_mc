@@ -25,8 +25,6 @@ def make_altered_image(original: Image, name: str, alpha: int):
     for xy in product(range(width), range(height)):
         *rgb, a = original.getpixel(xy)
 
-        if a == 0: continue
-
         if a == 255:
             out_img.putpixel(xy, (*rgb, alpha))
     
