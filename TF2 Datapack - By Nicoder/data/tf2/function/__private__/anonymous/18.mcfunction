@@ -1,6 +1,4 @@
-execute store result score $_damage_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.base
-execute store result score $_selfDamage_ tf2.var run data get entity @s item.components.minecraft:custom_data.projectile.explosion.selfDamage
-execute store result score $_maxRamp_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp 100
-execute unless data entity @s item.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
-execute store result score $_rangeDependent_ tf2.var run data get entity @s item.components.minecraft:custom_data.attributes.damage.uniform
-execute store success score $_rangeDependent_ tf2.var if score $_rangeDependent_ tf2.var matches 0
+$scoreboard players add $global_$(i) tf2.session 1
+$scoreboard players operation @s tf2.session = $global_$(i) tf2.session
+$data modify entity @s data.map set from storage tf2:maps $(map_id)
+$data modify storage tf2:running_games $(i) set from storage tf2:maps $(map_id)

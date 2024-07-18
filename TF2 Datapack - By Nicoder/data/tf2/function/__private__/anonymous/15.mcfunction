@@ -1,7 +1,5 @@
-execute store result score $proj_X tf2.var run data get entity @s Pos[0] 1000
-execute store result score $proj_Y tf2.var run data get entity @s Pos[1] 1000
-execute store result score $proj_Z tf2.var run data get entity @s Pos[2] 1000
-data modify entity @s Pos set from storage tf2:vars motion
-execute positioned 0.0 0 0.0 facing entity @s feet run tp @s 0 -10000 0 ~ ~
-execute rotated as @s positioned ^ ^ ^0.5 align xyz summon marker run function tf2:__private__/anonymous/14
-kill
+data modify entity @s NoAI set value 1b
+data modify storage retina:input MaxRecursionDepth set value 127b
+tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] eyes
+function retina:traverse/setup
+kill @s

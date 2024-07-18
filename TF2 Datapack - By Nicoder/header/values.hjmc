@@ -28,3 +28,8 @@
 #enum Door OPEN CLOSED RED_PROXIMITY BLU_PROXIMITY ALL_PROXIMITY
 
 #define FULL_CLOAK 600
+
+#define Projectile.SPECIAL_PROPERTIES ["explosion", "has_trail", "drag", "ignore_env", "flight_accel", "unreflectable"]
+
+#define FIRE_SOUND_LENGTH EVAL(1.8 * 20)
+#define AIRBLAST_RANGE EVAL(256 * 0.01905)

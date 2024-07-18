@@ -1,0 +1,416 @@
+class Projectile {
+    new advancement(take_hit) {
+    	"criteria": {
+		    "requirement": {
+	    		"trigger": "minecraft:entity_hurt_player",
+			    "conditions": {
+    	  			"damage": {
+	    				"type": {
+				 		    "direct_entity": {
+					        	"type": "minecraft:arrow"
+    					    }
+		        		}
+				    }
+    			}
+	    	}
+    	},
+		"rewards": {"function": "tf2:projectile/count_hits"}
+	}
+
+    function tick() {
+        tag @s add self;
+        
+        execute on passengers expand {
+            @e[tag=self,limit=1]::Motion = @s[tag=!tf2.drag]::item.components.minecraft:custom_data.Motion;
+            @e[tag=self,limit=1]::Pos[0] = @s::Pos[0];
+            @e[tag=self,limit=1]::Pos[2] = @s::Pos[2];
+        } 
+
+        tag @s remove self;
+    }
+    function as_display() {        
+        if (entity @s[tag=tf2.has_trail]) {
+            execute at @s run this.trail();
+        }
+
+        if (entity @s[tag=tf2.flight_accel,tag=!tf2.drag]) {
+            this.flight_accel.as_display();
+        }
+        if (entity @s[tag=tf2.flight_accel,tag=tf2.drag]) {
+            execute on vehicle run this.flight_accel.as_arrow();
+        }
+
+        this.check_collision();
+        execute as @e[type=#tf2:player_like,tag=tf2.batch] run this.remove_tags();
+        tf2.age:@s++;
+        if (tf2.age:@s > tf2.lifetime:@s) {
+            tag @s add tf2.cleanup;
+        }
+        if (entity @s[tag=tf2.cleanup]) {
+            this.cleanup();
+        }
+    }
+    function count_hits() {
+        tf2.hits_taken:@s++;
+        advancement revoke @s only tf2:projectile/take_hit;
+    }
+    function trail() {
+        Hardcode.repeat("|z|", () => {
+            particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc(|z| / -3) 0 0 0 0 10;
+        }, start=1, stop=4);
+    }
+    function calc_lifetime() {
+        if (data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime) {
+            return run summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime;
+        }
+        
+        if (data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range) {
+            return run Math.macro_random() 
+                       with summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range;
+        }
+
+        // Otherwise, don't return at all (returning `fail` gets stored as 0, which we don't want)
+    }
+    function init_arrow() {
+        // @needs_macro
+        $ summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
+            Owner: $(owner),
+            damage: 0.001,
+            pickup: false,
+            NoGravity: true,
+            Silent: true,
+            PierceLevel: 127b,
+            PersistenceRequired: true,
+            ShotFromCrossbow: true,
+            Tags: ["tf2.projectile", "tf2.new"],
+            Motion: [$(X)d, $(Y)d, $(Z)d],
+            active_effects: [{
+                id: "minecraft:invisibility",
+                amplifier: false,
+                show_particles: false,
+                duration: -1
+            }],
+            Passengers: [{
+                Rotation: [$(yaw)f, $(pitch)f],
+                id: "minecraft:item_display",
+                item: {id: "minecraft:glowstone_dust", components:{
+                    "minecraft:custom_model_data": $(CMD), 
+                    "minecraft:custom_data": {Motion:[$(X)d, $(Y)d, $(Z)d]}
+                }},
+                Tags: ["tf2.new", "tf2.projectile"]
+            }]
+        };
+    }
+    function deviation() {
+        function retina:math/gimbal_to_matrix;
+
+        retina.__variable__:$horizontal_count = retina.__variable__:$vertical_count = 10;
+        retina.__variable__:$spread_least = summon::projectile.deviation.min;
+        retina.__variable__:$spread_most = summon::projectile.deviation.max;
+
+        function retina:math/sway_heave_surge/find;
+        function retina:math/sway_heave_surge/apply;
+    }
+    function compensate_velocity() {
+        $velocity = summon::projectile.X * 100;
+        $velocity += tf2.now_x:@s;
+        $velocity -= tf2.last_x:@s;
+        summon::projectile.X = 0.01 * (double) $velocity;
+
+        $velocity = summon::projectile.Z * 100;
+        $velocity += tf2.now_z:@s;
+        $velocity -= tf2.last_z:@s;
+        summon::projectile.Z = 0.01 * (double) $velocity;
+    }
+    class flight_accel {
+        function as_display() {
+            Hardcode.repeat("|i|", () => {
+                $velocity = @s::item.components.minecraft:custom_data.Motion[|i|] * 1000;
+                $accel = @s::item.components.minecraft:custom_data.projectile.flight_accel[|i|] * 1000;
+                $velocity += $accel;
+                @s::item.components.minecraft:custom_data.Motion[|i|] = 0.001 * (double) $velocity;
+            }, start=0, stop=3);
+        }
+        function as_arrow() {
+            Hardcode.repeat("|i|", () => {
+                $velocity = @s::Motion[|i|] * 1000;
+                $accel = execute on passengers run @s::item.components.minecraft:custom_data.projectile.flight_accel[|i|] * 1000;
+                $velocity += $accel;
+                @s::Motion[|i|] = 0.001 * (double) $velocity;
+            }, start=0, stop=3);
+        }
+    }
+
+    function check_collision() {
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @e[type=#tf2:player_like]
+                if score @s tf2.batch_number
+                   = $local tf2.batch_number
+                unless entity @s[gamemode=spectator]
+                run tag @s add tf2.batch; 
+        tag @e[type=#tf2:player_like,tag=tf2.batch] add tf2.search;
+
+        // Passes through teammates during first 0.25 seconds
+        tf2.team:$temp = tf2.team:@s;
+        execute as @e[type=#tf2:player_like,tag=tf2.search]
+                unless score @s tf2.team = $temp tf2.team
+                run tag @s add tf2.opponent;
+        if (tf2.age:@s < 5) {
+            tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search;
+        }
+
+        $collided = false;
+        execute on vehicle if data entity @s {inGround: true} run {
+            $collided++;
+        }
+
+        execute on vehicle at @s as @p[scores={tf2.hits_taken=1..}, tag=tf2.search] run tag @s add tf2.hit;
+        execute as @a[tag=tf2.hit] run tf2.hits_taken:@s--;
+        if (entity @a[tag=tf2.hit]) {
+            $collided += 2;
+        }
+
+        if (!$collided) return 0;
+
+        lookup::item = @s::item;
+        $_damage_ = lookup::item.components.minecraft:custom_data.attributes.damage.base;
+        $_selfDamage_ = lookup::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
+        $_maxRamp_ = lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
+        if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+        $_temporalFalloff_ = lookup::item.components.minecraft:custom_data.attributes.damage.temporalFalloff;
+        $_rangeDependent_ = lookup::item.components.minecraft:custom_data.attributes.damage.uniform;
+        $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
+
+        tag @s[tag=!tf2.ignore_env] add tf2.cleanup;
+        vars::weapon_name = lookup::item.components.minecraft:custom_name;
+
+        if (entity @s[tag=!tf2.explosion]) return run {
+            this.simple_damage();
+        }
+
+        vars::radius = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.explosion.radius;
+        this.explode() with vars::;
+    }
+    function simple_damage() {
+        if (!entity @a[tag=tf2.hit,tag=tf2.opponent,scores={tf2.health=1..}]) {return fail;}
+
+        execute on vehicle on origin run tag @s add tf2.origin;
+
+        $_finalDamage_ = $_damage_;
+        if (!$_temporalFalloff_) expand {
+            this.pythagorean_3D();
+            Weapons.calculate_falloff();
+        }
+        if ($_temporalFalloff_) {
+            this.temporal_falloff();
+        }
+        $_finalDamage_ *= $_multiplier_;
+        // printf ("mult = &<$_multiplier_>");
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+
+        tf2.health:@p[tag=tf2.hit] -= $_finalDamage_;
+        damage @p[tag=tf2.hit] 0.01 tf2:screenshake;
+
+        summon::number.X = @s::Pos[0];
+        summon::number.Y = @s::Pos[1];
+        summon::number.Z = @s::Pos[2];
+        summon::number.value = $_finalDamage_;
+        if ($_finalDamage_ >= 1) {
+            HUD.damage_numbers() with summon::number;
+        }
+
+        vars::callbacks = @s::item.components.minecraft:custom_data.attributes.on_hit;
+        vars::callback = vars::callbacks[0];
+        if (data storage tf2:vars callbacks[]) {
+            this.callbacks() with vars::;
+        }
+
+        if (tf2.health:@p[tag=tf2.hit] > 0) return run {
+            execute on vehicle on origin run tag @s remove tf2.origin;
+        }
+
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @a if score @s tf2.batch_number 
+                         = $local tf2.batch_number 
+                      run tag @s add tf2.current;
+                    
+        vars::kill_verb = "killed";
+        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@p[tag=tf2.hit]> with &<weapon_name>");
+        execute on vehicle on origin run tag @s remove tf2.origin;
+        tag @p[tag=tf2.hit] add tf2.said_death_msg;
+        tag @a remove tf2.current;
+    }
+    function callbacks() {
+        // @needs_macro
+        vars::callback = vars::callbacks[0];
+        $ $(callback);
+        vars::callbacks[0].del();
+        if (data storage tf2:vars callbacks[]) {
+            this.callbacks() with vars::;
+        }
+    }
+    function pythagorean_3D() {
+        execute as @e[tag=tf2.origin] at @s summon marker run {
+            $X0 = @s::Pos[0] * 100;
+            $Y0 = @s::Pos[1] * 100;
+            $Z0 = @s::Pos[2] * 100;
+            kill;
+        }
+        execute at @s summon marker run {
+            $Xf = @s::Pos[0] * 100;
+            $Yf = @s::Pos[1] * 100;
+            $Zf = @s::Pos[2] * 100;
+            kill;
+        }
+        $deltaX = $Xf; $deltaX -= $X0; 
+        $deltaY = $Yf; $deltaY -= $Y0; 
+        $deltaZ = $Zf; $deltaZ -= $Z0; 
+        summon::matrix = [
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 1f
+        ];
+        summon::matrix[0] = (float) $deltaX;
+        summon::matrix[4] = (float) $deltaY;
+        summon::matrix[8] = (float) $deltaZ;
+        execute summon item_display run {
+            @s::transformation = tf2:summon::matrix;
+            retina:output::Distance = 0.01 * (double) @s::transformation.scale[0];
+            kill;
+        }
+    }
+    function temporal_falloff() {
+        $_multiplier_ = tf2.age:@s; 
+        $_multiplier_ *= 100;
+        $_multiplier_ /= tf2.lifetime:@s;
+        $_multiplier_ *= -1;
+        $_multiplier_ += 100;
+        $_multiplier_ > 50;
+        $_multiplier_ < 100;
+    }
+    function explode() {
+        particle minecraft:explosion ~ ~ ~;
+        $playersHurt = $_totalDamage_ = 0;
+        execute on vehicle on origin run tag @s add tf2.origin;
+        execute on vehicle on origin run tag @s add tf2.opponent;
+
+        $ execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
+        execute on vehicle on origin run tag @s remove tf2.origin;
+    }
+    function wall_check() {
+        tag @s add tf2.player;
+        execute summon marker at @s run {
+            @s::NoAI = 1b;
+            retina:input::MaxRecursionDepth = 127b;
+            tp @s ~ ~ ~ facing entity @e[tag=tf2.player,limit=1] eyes;
+            function retina:traverse/setup;
+            kill @s;
+        }
+        tag @s remove tf2.player;
+        if (entity @s[tag=tf2.hit]) expand {
+            retina:output::Distance = 0;
+            this.splash_damage();
+        }
+        if (!entity @s[tag=tf2.hit] && data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
+            this.splash_damage();
+        } 
+        summon::number.X = retina:output::ContactCoordinates[0];
+        summon::number.Y = retina:output::ContactCoordinates[1];
+        summon::number.Z = retina:output::ContactCoordinates[2];
+        summon::number.value = $_totalDamage_;
+        if ($_totalDamage_ >= 1) {
+            HUD.damage_numbers() with summon::number;
+        }
+    }
+    function splash_damage() {
+        this.calculate_splash();
+        tf2.health:@s -= $_finalDamage_;
+        $_totalDamage_ = $_finalDamage_;
+        $playersHurt++;
+        damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
+        this.knockback();
+
+        // Death message & sound effects
+        if (entity @s[tag=tf2.said_death_msg]) return 1;
+        if (tf2.health:@s > 0) {
+            return run execute if entity @s[tag=!tf2.origin] 
+                               as @a[tag=tf2.origin] at @s
+                               run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05;
+        }
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+        vars::kill_verb = "blew up";
+        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@s> with &<weapon_name>");
+        execute if entity @s[tag=!tf2.origin] 
+                as @a[tag=tf2.origin] at @s
+                run playsound tf2:ding.kill player @s ~ ~ ~ 0.9 1 0.05;
+        tag @a remove tf2.current;
+        tag @s add tf2.said_death_msg;
+    }
+    function calculate_splash() {
+        $_centerDist_ = retina:output::Distance * EVAL (1 / 0.01905);
+        $_splashEdge_ = vars::radius * EVAL (1 / 0.01905);
+        this.pythagorean_3D();
+        $_finalDamage_ = $_damage_;
+        Weapons.calculate_falloff();
+        $_finalDamage_ *= $_multiplier_;
+        // printf ("mult = &<$_multiplier_>");
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+        
+        if (entity @s[tag=tf2.hit,tag=!tf2.origin] && $collided >= 2) {
+            return run $_finalDamage_.get();
+        }
+
+        if (entity @s[tag=tf2.origin]) {
+            $_finalDamage_ = $_selfDamage_;
+        }
+        $_splash_multiplier_ = $_centerDist_;
+        $_splash_multiplier_ *= 50;
+        $_splash_multiplier_ /= $_splashEdge_;
+        $_splash_multiplier_ *= -1;
+        $_splash_multiplier_ += 100;
+        // printf("splash = &<$_splash_multiplier_>");
+        $_finalDamage_ *= $_splash_multiplier_;
+        $_finalDamage_ += 99;
+        $_finalDamage_ /= 100;
+        if (!entity @s[tag=tf2.origin,scores={tf2.class=4..5}]) {
+            return run $_finalDamage_.get();
+        }
+
+        // Less damage from your own explosions if nobody else is hurt
+        // Soldier: 3/5 as much, Demo: 3/4 as much
+        if ($playersHurt > 1) {
+            return run $_finalDamage_.get();
+        }
+        $_finalDamage_ *= 3;
+        $_temp_ = 9;
+        $_temp_ -= tf2.class:@s;
+        $_finalDamage_ /= $_temp_;
+        return run $_finalDamage_.get();
+    }
+    function knockback() {
+        player_motion.api.launch:$x = retina.__variable__:$output_vec3.X;
+        player_motion.api.launch:$x *= EVAL (12000 / Retina.SCALE);
+        player_motion.api.launch:$y = retina.__variable__:$output_vec3.Y;
+        player_motion.api.launch:$y *= EVAL (12000 / Retina.SCALE);
+        player_motion.api.launch:$z = retina.__variable__:$output_vec3.Z;
+        player_motion.api.launch:$z *= EVAL (12000 / Retina.SCALE);
+        function player_motion:api/launch_xyz;
+    }
+
+    function remove_tags() {
+        tag @s remove tf2.batch;
+        tag @s remove tf2.search;
+        tag @s remove tf2.opponent;
+        tag @s remove tf2.in_voxel;
+        tag @s remove tf2.hit;
+        tag @s remove tf2.closest_hit;
+    }
+    function cleanup() {
+        execute on vehicle run this.cleanup();
+        kill @s;
+    }
+}

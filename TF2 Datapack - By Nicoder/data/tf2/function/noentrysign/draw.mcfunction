@@ -1,8 +1,9 @@
-execute store result score $opp tf2.team run data get entity @s data.opp_team
+data modify storage tf2:lookup my_data set from entity @s data
+execute store result score $opp tf2.team run data get storage tf2:lookup my_data.opp_team
 execute as @a if score @s tf2.team = $opp tf2.team run tag @s add tf2.enemy
-execute store result score $x tf2.var run data get entity @s data.dx
-execute store result score $y tf2.var run data get entity @s data.dy
-execute store result score $z tf2.var run data get entity @s data.dz
+execute store result score $x tf2.var run data get storage tf2:lookup my_data.dx
+execute store result score $y tf2.var run data get storage tf2:lookup my_data.dy
+execute store result score $z tf2.var run data get storage tf2:lookup my_data.dz
 scoreboard players operation $horizontal tf2.var = $x tf2.var
 scoreboard players operation $horizontal tf2.var > $z tf2.var
 scoreboard players set $i tf2.var 0

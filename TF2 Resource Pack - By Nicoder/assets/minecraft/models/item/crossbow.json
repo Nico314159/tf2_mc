@@ -60,7 +60,18 @@
             "predicate": {"custom_model_data": 62000},
             "model": "tf2:item/heavy/secondary/shotgun"
         },
-
+        {
+            "predicate": {"custom_model_data": 71001},
+            "model": "tf2:item/pyro/primary/flamethrower_red"
+        },
+        {
+            "predicate": {"custom_model_data": 71002},
+            "model": "tf2:item/pyro/primary/flamethrower_blu"
+        },
+        {
+            "predicate": {"custom_model_data": 72000},
+            "model": "tf2:item/pyro/secondary/shotgun"
+        },
 
         {
             "predicate": {"custom_model_data": 100021000},
@@ -81,6 +92,14 @@
         {
             "predicate": {"custom_model_data": 100061001},
             "model": "tf2:disguise/primary/revolver_as_minigun_spinning"
+        },
+        {
+            "predicate": {"custom_model_data": 100071001},
+            "model": "tf2:disguise/primary/revolver_as_flamethrower_red"
+        },
+        {
+            "predicate": {"custom_model_data": 100071002},
+            "model": "tf2:disguise/primary/revolver_as_flamethrower_blu"
         }
     ]
 }
