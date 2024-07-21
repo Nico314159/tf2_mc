@@ -83,6 +83,10 @@ scoreboard objectives remove tf2.door.vel
 scoreboard objectives remove tf2.door.accel
 scoreboard objectives remove tf2.hits_taken
 scoreboard objectives remove tf2.interpolate_rmb
+scoreboard objectives remove tf2.uuid.0
+scoreboard objectives remove tf2.uuid.1
+scoreboard objectives remove tf2.uuid.2
+scoreboard objectives remove tf2.uuid.3
 scoreboard objectives remove tf2.afterburn_ticks
 scoreboard objectives remove tf2.afterburn_length
 scoreboard objectives remove tf2.airblast_delay

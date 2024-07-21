@@ -568,7 +568,9 @@ class Class.Spy {
             };
 
             $disguise_team = tf2.disguise.team:@s;
-            function player_motion:internal/subtick/get_player_uuid;
+            Hardcode.repeat("_i_", () => {
+                $uuid._i_ = tf2.uuid._i_:@s;
+            }, 0, 4);
             execute summon turtle run this.set_data();
 
             team join RED @s[scores={tf2.team=1}];
@@ -585,7 +587,7 @@ class Class.Spy {
             if ($disguise_team == 2) { team join BLU @s; }
 
             Hardcode.repeat("_i_", () => {
-                player_motion.internal.uuid._i_:@s = player_motion:storage::UUID[_i_];
+                tf2.uuid._i_:@s = $uuid._i_;
             }, 0, 4);
 
             tag @s add retina.ignore;
@@ -593,15 +595,15 @@ class Class.Spy {
         @lazy 
         function linked_tp(x, y, z) {
             Hardcode.repeat("_i_", () => {
-                $uuid._i_ = player_motion.internal.uuid._i_:@s;
+                $uuid._i_ = tf2.uuid._i_:@s;
             }, 0, 4);
 
             execute positioned as @s 
                     as @e[type=turtle]
-                    if score @s player_motion.internal.uuid.0 = $uuid.0 tf2.var
-                    if score @s player_motion.internal.uuid.1 = $uuid.1 tf2.var
-                    if score @s player_motion.internal.uuid.2 = $uuid.2 tf2.var
-                    if score @s player_motion.internal.uuid.3 = $uuid.3 tf2.var
+                    if score @s tf2.uuid.0 = $uuid.0 tf2.var
+                    if score @s tf2.uuid.1 = $uuid.1 tf2.var
+                    if score @s tf2.uuid.2 = $uuid.2 tf2.var
+                    if score @s tf2.uuid.3 = $uuid.3 tf2.var
                     run tp @s $x $y $z;
         }
         function follow() {

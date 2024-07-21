@@ -3,8 +3,8 @@ data merge entity @s {CustomNameVisible:true,Age:-2147483647,NoGravity:true}
 attribute @s minecraft:generic.scale base set 1.75
 execute if score $disguise_team tf2.var matches 1 run team join RED @s
 execute if score $disguise_team tf2.var matches 2 run team join BLU @s
-execute store result score @s player_motion.internal.uuid.0 run data get storage player_motion:storage UUID[0]
-execute store result score @s player_motion.internal.uuid.1 run data get storage player_motion:storage UUID[1]
-execute store result score @s player_motion.internal.uuid.2 run data get storage player_motion:storage UUID[2]
-execute store result score @s player_motion.internal.uuid.3 run data get storage player_motion:storage UUID[3]
+scoreboard players operation @s tf2.uuid.0 = $uuid.0 tf2.var
+scoreboard players operation @s tf2.uuid.1 = $uuid.1 tf2.var
+scoreboard players operation @s tf2.uuid.2 = $uuid.2 tf2.var
+scoreboard players operation @s tf2.uuid.3 = $uuid.3 tf2.var
 tag @s add retina.ignore

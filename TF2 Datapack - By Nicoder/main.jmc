@@ -429,6 +429,12 @@ Player.join(() => {
 		}
 	];
 
+    Hardcode.repeat("|n|", () => {
+        if (tf2.uuid.|n|:@s != tf2.uuid.|n|:@s) {
+            tf2.uuid.|n|:@s = @s::UUID[|n|];
+        }
+    }, 0, 4);
+        
     index::i = tf2.batch_number:@s;
     scoreboard players enable @s tf2.queue_type;
     scoreboard players enable @s controls;
