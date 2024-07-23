@@ -26,10 +26,10 @@ Hardcode.repeatList(
         "fall_y", "fall_y1", "fall_y2", "fall_y3",
         "last_x", "now_x", "last_z", "now_z",
         "drown_lost", "time_surfaced", "current_air", "last_air",
-        "is_invisible", "cloak", "disguise.class", "disguise.team",
+        "is_invisible", "cloak", "disguise.class", "disguise.team", "disguise.primary_CMD",
         "door.wait", "door.time_open", "door.state", "door.id",
         "door.length", "door.pos", "door.vel", "door.accel", 
-        "hits_taken", "interpolate_rmb",
+        "hits_taken", "interpolate_rmb", "menu_ticks",
         "uuid.0", "uuid.1", "uuid.2", "uuid.3",
         "afterburn_ticks", "afterburn_length", "airblast_delay"
     ]

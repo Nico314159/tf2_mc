@@ -496,6 +496,9 @@ class Weapons {
             tf2.secondary_ammo:@s    = $_ammo_;
 	}	}
     function reload() {
+        execute as @s[scores={tf2.class=Class.SPY}, tag=tf2.in_disguise_menu]
+                run return run Class.Spy.disguise_menu.toggle_team(); 
+        
         switch (tf2.class:@s) {
             case Class.SPY: Class.Spy.inventory_lock();
             case Class.SNIPER: Class.Sniper.inventory_lock();

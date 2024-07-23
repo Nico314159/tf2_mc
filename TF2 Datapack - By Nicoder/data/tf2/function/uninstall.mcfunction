@@ -2,7 +2,6 @@ kill @e[type=marker]
 scoreboard objectives remove tf2.var
 scoreboard objectives remove controls
 scoreboard objectives remove autoreload
-scoreboard objectives remove disguise
 scoreboard objectives remove 0008it54g_p_join
 scoreboard objectives remove tf2.gamemode
 scoreboard objectives remove tf2.map
@@ -73,6 +72,7 @@ scoreboard objectives remove tf2.is_invisible
 scoreboard objectives remove tf2.cloak
 scoreboard objectives remove tf2.disguise.class
 scoreboard objectives remove tf2.disguise.team
+scoreboard objectives remove tf2.disguise.primary_CMD
 scoreboard objectives remove tf2.door.wait
 scoreboard objectives remove tf2.door.time_open
 scoreboard objectives remove tf2.door.state
@@ -83,6 +83,7 @@ scoreboard objectives remove tf2.door.vel
 scoreboard objectives remove tf2.door.accel
 scoreboard objectives remove tf2.hits_taken
 scoreboard objectives remove tf2.interpolate_rmb
+scoreboard objectives remove tf2.menu_ticks
 scoreboard objectives remove tf2.uuid.0
 scoreboard objectives remove tf2.uuid.1
 scoreboard objectives remove tf2.uuid.2

@@ -110,7 +110,8 @@ function player_tick() {
     if (predicate tf2:empty_hand) {
         execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run {
             if (Object.isEqual("tf2:check_match", "UUID", "@s", "Thrower")) {
-                execute as @e[tag=tf2.self] run Weapons.reload(); kill @s;
+                execute as @e[tag=tf2.self] run Weapons.reload(); 
+                kill @s;
             }
         }
         execute as @e[type=snowball,distance=..5] run {
@@ -154,12 +155,13 @@ function player_tick() {
         // case Class.ENGINEER: Class.Engineer.tick();
         // case Class.MEDIC: Class.Medic.tick();
     }
-    item replace entity @s[scores={tf2.class=1..}] hotbar.8 with Item.CHANGE_CLASS;
+    item replace entity @s[scores={tf2.class=1..}, tag=!tf2.in_disguise_menu] hotbar.8 with Item.CHANGE_CLASS;
     $_count_ = clear @s Item.CHANGE_CLASS 0;
-    if ($_count_ != 1) expand {
+    if ($_count_ != 1 && entity @s[tag=!tf2.in_disguise_menu]) expand {
         clear @s Item.CHANGE_CLASS;
         item replace entity @s[scores={tf2.class=1..}] hotbar.8 with Item.CHANGE_CLASS;
     }
+    clear @s[tag=tf2.in_disguise_menu] Item.CHANGE_CLASS;
 
     if (entity @s[tag=tf2.on_fire]) {
         Class.Pyro.afterburn();

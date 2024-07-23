@@ -14,25 +14,61 @@ JMC.python(
     classes = ('Sniper', 'Scout', 'Heavy', 'Soldier', 'Spy', 'Pyro')
     ids = (2, 3, 6, 4, 1, 7)
 
-    pages = []
-    for (color, COLOR, N) in zip(('red', 'blue'), ('RED', 'BLU'), (1, 2)):
-        pages.append([
-            {
-                "text": f"[{COLOR} {class_name}]\\n\\n",
-                "color": f"{color}",
-                "bold": True,
-                "clickEvent": {
-                    "action": "run_command", 
-                    "value": f"/trigger disguise set {N * 10 + id}"
-                }
-            }
-            for (class_name, id) in zip(classes, ids)
-        ])
-        
-    r1 = {"function": "minecraft:set_written_book_pages", "pages": pages, "mode": "replace_all"}
-    b1 = {"function": "minecraft:set_written_book_pages", "pages": list(reversed(pages)), "mode": "replace_all"}
-    emit(f'new item_modifier(class.spy.red_menu) {json.dumps(b1)}')
-    emit(f'new item_modifier(class.spy.blu_menu) {json.dumps(r1)}')
+    
+    for (class_name, id) in zip(classes, ids):
+
+        name = {
+            "function": "set_name",
+            "name": [
+                {
+                    "text": f"Disguise as {class_name} ", 
+                    "italic": False,
+                    "font": "minecraft:default"
+                },
+                {
+                    "text": str(6543 if class_name == 'Spy' else 71),
+                    "font": "tf2:square"
+                },
+                {
+                    "translate": "tf2.menu_head",
+                    "fallback": "('%s' = ᴛᴏɢɢʟᴇ ᴛᴇᴀᴍ, '%s' = ᴄᴀɴᴄᴇʟ)",
+                    "with": [{"keybind": "key.drop"}, {"keybind": "key.swapOffhand"}],
+                    "color": "gray", 
+                    "font": "tf2:line2",
+                    "italic": True
+                },
+                {
+                    "text": str(54 if class_name == 'Spy' else 531),
+                    "font": "tf2:square"
+                },
+            ]
+        }
+
+        model = [{
+            "function": "set_custom_model_data",
+            "value": id * 10 + n,
+            "conditions": [{
+                "condition": "entity_scores",
+                "entity": "this", "scores": {"tf2.disguise.team": n}
+            }]
+        } for n in {1, 2}]
+
+        special_tag = { "function": "set_custom_data", "tag": "{disguise: true}" }
+
+        loot = {
+            "pools": [{
+                "rolls": 1,
+                "entries": [
+                    {
+                        "type": "item",
+                        "name": "paper",
+                        "functions": [name, *model, special_tag]
+                    }
+                ]
+            }]
+        }
+
+        emit(f'new loot_table(class.spy.disguise.{class_name.lower()}) {json.dumps(loot)}')
     `,
     jmc=true
 );
@@ -162,8 +198,8 @@ class Class.Spy {
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-					"name": "minecraft:written_book",
+                    "type": "minecraft:loot_table",
+                    "value": "tf2:crossbow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
@@ -176,33 +212,15 @@ class Class.Spy {
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 14000,
+                                "minecraft:custom_model_data": 400000000,
                                 "minecraft:unbreakable": {"show_in_tooltip": false},
                                 "minecraft:enchantment_glint_override": false
                             }
-                        },
-                        {
-							"function": "minecraft:reference",
-							"name": "tf2:class/spy/red_menu",
-							"conditions": [
-								{
-									"condition": "minecraft:entity_scores",
-									"entity": "this",
-									"scores": {"tf2.team": 1}
-								}
-							]
 						},
-						{
-							"function": "minecraft:reference",
-							"name": "tf2:class/spy/blu_menu",
-							"conditions": [
-								{
-									"condition": "minecraft:entity_scores",
-									"entity": "this",
-									"scores": {"tf2.team": 2}
-								}
-							]
-						}
+                        {
+                            "function": "set_custom_data", 
+                            "tag": "{disguise: true}"
+                        }
                     ]
                 }
             ]
@@ -288,8 +306,11 @@ class Class.Spy {
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
         tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
-        tf2.is_invisible:@s = 0;
+        tf2.is_invisible:@s = tf2.menu_ticks:@s = 0;
         tag @s remove tf2.disguised;
+        tag @s remove tf2.in_disguise_menu;
+        tf2.disguise.team:@s = tf2.team:@s;
+        this.disguise_menu.toggle_team();
         tf2.cloak:@s = FULL_CLOAK;
     }
 
@@ -332,6 +353,15 @@ class Class.Spy {
             this.uncloak();
         }
 
+        if (items entity @s weapon.offhand crossbow[charged_projectiles=[], custom_data~{should_detect_click: true}]) {
+            this.disguise_menu.detect_input();
+        }
+
+        this.disguise_menu.count_ticks();
+
+        if (entity @s[tag=tf2.in_disguise_menu]) {
+            return run this.disguise_menu.run();
+        }
         if (entity @s[tag=tf2.disguised, scores={tf2.is_invisible=0}]) {
             return run this.fake_inventory_lock();
         }
@@ -365,8 +395,8 @@ class Class.Spy {
         }
 
         loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
-        $_count_ = clear @s clay_ball[custom_model_data=14000] 0;
-        if ($_count_ != 1) clear @s clay_ball[custom_model_data=14000];
+        $_count_ = clear @s crossbow[custom_model_data=400000000] 0;
+        if ($_count_ != 1) clear @s crossbow[custom_model_data=400000000];
         if ($_count_ != 1) loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
 
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
@@ -392,13 +422,6 @@ class Class.Spy {
     function disable_attacking() {
         clear @s *[!custom_data~{cloak: 'uncloak'}, !custom_model_data=10];
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch_gui_only;
-    }
-    function disguise_as() {
-        // @needs_macro
-        // @context chat
-        $ scoreboard players set @s tf2.disguise.team $(team);
-        $ scoreboard players set @s tf2.disguise.class $(class);
-        tag @s add tf2.disguised;
     }
     function fake_inventory_lock() {
         switch (tf2.disguise.class:@s) {
@@ -712,7 +735,97 @@ class Class.Spy {
         Text.title(@s, "&<font(disguise)>S");
         title @s times 5t 8t 5t;
     }
+
+    class disguise_menu {
+        function run() {
+            item replace entity @s armor.chest with air;
+
+            loot replace entity @s weapon.offhand loot tf2:class/spy/disguise_kit;
+            $_count_ = clear @s crossbow[custom_data~{disguise: true}] 0;
+            if ($_count_ != 1) expand {
+                clear @s crossbow[custom_data~{disguise: true}];
+                loot replace entity @s weapon.offhand loot tf2:class/spy/disguise_kit;
+            }
+            item modify entity @s weapon.offhand tf2:load_crossbow;
+
+            item modify entity @s weapon.offhand {
+                "function": "minecraft:set_custom_model_data",
+                "value": {
+                    "type": "minecraft:score",
+                    "target": "this",
+                    "score": "tf2.disguise.primary_CMD"
+                }
+            };
+
+            this.give_heads();
+        }
+        function give_heads() {
+            JMC.python(`
+                for (slot, class_name) in enumerate(classes):
+                    emit(f"loot replace entity @s hotbar.{slot} loot tf2:class/spy/disguise/{class_name.lower()}");
+            `, jmc=false);
+            $_count_ = clear @s paper[custom_data~{disguise: true}] 0;
+
+            JMC.python("emit(f'if ($_count_ == {len(classes)}) return true;')", jmc=true);
+
+            clear @s paper[custom_data~{disguise: true}];
+            this.give_heads();
+        }
+        function toggle_team() {
+            // @within Weapons.reload
+            tf2.disguise.team:@s %= 2;
+            tf2.disguise.team:@s ++;
+        }
+        function count_ticks() {
+            if (entity @s[tag=tf2.in_disguise_menu]) return run {
+                if (items entity @s weapon.mainhand crossbow[custom_data~{disguise: true}]) {
+                    tag @s remove tf2.in_disguise_menu;
+                } 
+            }
+
+            if (!items entity @s weapon.mainhand crossbow[custom_data~{disguise: true}]) {
+                return run tf2.menu_ticks:@s = 0;
+            }
+            
+            tf2.menu_ticks:@s++;
+            if (tf2.menu_ticks:@s < 10) {
+                return 0;
+            }
+            tag @s add tf2.in_disguise_menu;
+            tf2.menu_ticks:@s = -10;
+            tf2.disguise.primary_CMD:@s = @s::Inventory[{Slot:3b}].components.minecraft:custom_model_data;
+        }
+        function detect_input() {
+            kill @e[type=arrow,tag=!tf2.projectile];
+            $offhand_CMD = @s::Inventory[{Slot:-106b}].components.minecraft:custom_model_data 
+                         * EVAL(1 / 100_000_000);
+
+            if ($offhand_CMD == 4) {
+                Class.Spy.apply_disguise();
+            }
+        }
+    }
+
     function apply_disguise() {
+        tag @s remove tf2.in_disguise_menu;
+        $error = false;
+        if (tf2.class:@s != Class.SPY) {
+            $error = Text.tellraw(@s, "&<yellow, italic>ERROR: You can't use disguises if you're not playing as the Spy.");
+        }
+
+        tf2.disguise.team:@s = tf2.disguise.class:@s = @s::SelectedItem.components.minecraft:custom_model_data;
+        tf2.disguise.class:@s /= 10;
+        tf2.disguise.team:@s %= 10;
+        
+        if (tf2.disguise.class:@s == Class.SPY && tf2.disguise.team:@s == tf2.team:@s) {
+            // Disguising as a friendly Spy simply removes your disguise without an error message;
+            $error = true;
+        }
+
+        if ($error) {
+            return run tag @s remove tf2.disguised;
+        }
+
         tag @s add self;
 
         if (entity @s[tag=!tf2.disguised,scores={tf2.is_invisible=0}]) {
@@ -732,32 +845,3 @@ class Class.Spy {
         tag @s add tf2.disguised;
     }
 }
-
-Trigger.add(
-    disguise,
-    () => {
-        $error = false;
-        if (tf2.class:@s != Class.SPY) {
-            $error = Text.tellraw(@s, "&<yellow, italic>ERROR: You can't use disguises if you're not playing as the Spy.");
-        }
-        if (!disguise:@s matches 11..19 && !disguise:@s matches 21..29) {
-            $error = Text.tellraw(@s, "&<yellow, italic>ERROR: Cannot interpret disguise value of &<bold, disguise:@s>.");
-        }
-
-        tf2.disguise.team:@s = tf2.disguise.class:@s = disguise:@s;
-        tf2.disguise.team:@s /= 10;
-        tf2.disguise.class:@s %= 10;
-        
-        if (tf2.disguise.class:@s == Class.SPY && tf2.disguise.team:@s == tf2.team:@s) {
-            // Disguising as a friendly Spy simply removes your disguise without an error message;
-            $error = true;
-        }
-
-        if (!$error) {
-            Class.Spy.apply_disguise();
-        }
-        if ($error) {
-            tag @s remove tf2.disguised;
-        }
-    }
-);

@@ -1,7 +1,6 @@
 scoreboard objectives add tf2.var dummy
 scoreboard objectives add controls trigger
 scoreboard objectives add autoreload trigger
-scoreboard objectives add disguise trigger
 scoreboard objectives add 0008it54g_p_join dummy
 scoreboard objectives add tf2.const dummy
 scoreboard players set 1000000000 tf2.const 1000000000
@@ -113,6 +112,7 @@ scoreboard objectives add tf2.is_invisible dummy
 scoreboard objectives add tf2.cloak dummy
 scoreboard objectives add tf2.disguise.class dummy
 scoreboard objectives add tf2.disguise.team dummy
+scoreboard objectives add tf2.disguise.primary_CMD dummy
 scoreboard objectives add tf2.door.wait dummy
 scoreboard objectives add tf2.door.time_open dummy
 scoreboard objectives add tf2.door.state dummy
@@ -123,6 +123,7 @@ scoreboard objectives add tf2.door.vel dummy
 scoreboard objectives add tf2.door.accel dummy
 scoreboard objectives add tf2.hits_taken dummy
 scoreboard objectives add tf2.interpolate_rmb dummy
+scoreboard objectives add tf2.menu_ticks dummy
 scoreboard objectives add tf2.uuid.0 dummy
 scoreboard objectives add tf2.uuid.1 dummy
 scoreboard objectives add tf2.uuid.2 dummy

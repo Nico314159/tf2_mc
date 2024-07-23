@@ -1,0 +1,78 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "paper",
+                    "functions": [
+                        {
+                            "function": "set_name",
+                            "name": [
+                                {
+                                    "text": "Disguise as Pyro ",
+                                    "italic": false,
+                                    "font": "minecraft:default"
+                                },
+                                {
+                                    "text": "71",
+                                    "font": "tf2:square"
+                                },
+                                {
+                                    "translate": "tf2.menu_head",
+                                    "fallback": "('%s' = \u1d1b\u1d0f\u0262\u0262\u029f\u1d07 \u1d1b\u1d07\u1d00\u1d0d, '%s' = \u1d04\u1d00\u0274\u1d04\u1d07\u029f)",
+                                    "with": [
+                                        {
+                                            "keybind": "key.drop"
+                                        },
+                                        {
+                                            "keybind": "key.swapOffhand"
+                                        }
+                                    ],
+                                    "color": "gray",
+                                    "font": "tf2:line2",
+                                    "italic": true
+                                },
+                                {
+                                    "text": "531",
+                                    "font": "tf2:square"
+                                }
+                            ]
+                        },
+                        {
+                            "function": "set_custom_model_data",
+                            "value": 71,
+                            "conditions": [
+                                {
+                                    "condition": "entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.disguise.team": 1
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "function": "set_custom_model_data",
+                            "value": 72,
+                            "conditions": [
+                                {
+                                    "condition": "entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.disguise.team": 2
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "function": "set_custom_data",
+                            "tag": "{disguise: true}"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

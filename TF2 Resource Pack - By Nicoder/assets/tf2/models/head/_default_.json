@@ -42,6 +42,12 @@
 		"head": {
 			"translation": [0, 8.59, 0],
 			"scale": [1.875, 1.875, 1.875]
+		},
+		"thirdperson_righthand": {
+			"scale": [0, 0, 0]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0, 0, 0]
 		}
 	},
 	"groups": [

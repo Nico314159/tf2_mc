@@ -175,11 +175,6 @@
 			"translation": [-3, 3.75, 0],
 			"scale": [0.55, 0.55, 0.55]
 		},
-		"thirdperson_lefthand": {
-			"rotation": [0, -17, 0],
-			"translation": [0, 2.75, 1.25],
-			"scale": [0.3, 0.3, 0.3]
-		},
 		"firstperson_righthand": {
 			"rotation": [1, -161, -1],
 			"translation": [-0.25, 4.75, -10.25]
