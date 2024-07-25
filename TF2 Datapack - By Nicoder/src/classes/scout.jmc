@@ -154,7 +154,7 @@ class Class.Scout {
         player_motion.api.launch:$x < 2000;
         player_motion.api.launch:$x > -2000;
 		// printf("X: &<player_motion.api.launch:$x>");
-		player_motion.api.launch:$y = 5200;
+		player_motion.api.launch:$y = 5500;
 		// printf("y: &<player_motion.api.launch:$y>");
 		player_motion.api.launch:$z = tf2.now_z:@s;
 		player_motion.api.launch:$z -= tf2.last_z:@s;

@@ -6,7 +6,7 @@ scoreboard players operation $x player_motion.api.launch -= @s tf2.last_x
 scoreboard players operation $x player_motion.api.launch *= 40 tf2.const
 scoreboard players operation $x player_motion.api.launch < 2000 tf2.const
 scoreboard players operation $x player_motion.api.launch > -2000 tf2.const
-scoreboard players set $y player_motion.api.launch 5200
+scoreboard players set $y player_motion.api.launch 5500
 scoreboard players operation $z player_motion.api.launch = @s tf2.now_z
 scoreboard players operation $z player_motion.api.launch -= @s tf2.last_z
 scoreboard players operation $z player_motion.api.launch *= 40 tf2.const
