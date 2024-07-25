@@ -17,8 +17,6 @@ def make_empty_folder(path: Path):
             rmtree(content)
         
 def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any], compensate_rotation=False):
-    output = {}
-    # output.pop("texture_size", None)
     out_textures: dict[str, str] = {}
     for k, v in model1["textures"].items():
         if k.isnumeric():

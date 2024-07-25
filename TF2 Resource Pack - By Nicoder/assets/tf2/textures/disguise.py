@@ -3,6 +3,7 @@ from os import getcwd, makedirs, mkdir
 from shutil import rmtree
 from PIL.Image import Image, open
 from pathlib import Path
+from typing import cast
 
 def make_empty_folder(path: Path):
     if not path.exists():
@@ -23,7 +24,7 @@ def make_altered_image(original: Image, name: str, alpha: int):
 
     width, height = original.size
     for xy in product(range(width), range(height)):
-        *rgb, a = original.getpixel(xy)
+        *rgb, a = cast(tuple, original.getpixel(xy))
 
         if a == 255:
             out_img.putpixel(xy, (*rgb, alpha))
