@@ -211,7 +211,9 @@ class Class.Pyro {
 			return fail;
 		}
 		tf2.afterburn_ticks:@s = 0;
-		tf2.afterburn_length:@s = 200;
+		tf2.afterburn_length:@s[tag=!tf2.on_fire] = EVAL(3 * 20);
+		tf2.afterburn_length:@s[tag=tf2.on_fire] += EVAL(1.5 * 20);
+		tf2.afterburn_length:@s < EVAL(10 * 20);
 		tag @s add tf2.on_fire;
 	}
 
