@@ -18,19 +18,18 @@ class Projectile {
 	}
 
     function tick() {
-        tag @s add self;
-        
-        execute on passengers expand {
-            @e[tag=self,limit=1]::Motion = @s[tag=!tf2.drag]::item.components.minecraft:custom_data.Motion;
-            @e[tag=self,limit=1]::Pos[0] = @s::Pos[0];
-            @e[tag=self,limit=1]::Pos[2] = @s::Pos[2];
-        } 
-
-        tag @s remove self;
-    }
-    function as_display() {        
         if (entity @s[tag=tf2.has_trail]) {
             execute at @s run this.trail();
+        }
+
+        vars::Motion = @s::item.components.minecraft:custom_data.Motion;
+        vars::Pos = @s::Pos;
+        if (entity @s[tag=!tf2.drag]) {
+            execute on passengers run @s::Motion = vars::Motion;
+        }
+        execute on passengers expand {
+            @s::Pos[0] = vars::Pos[0];
+            @s::Pos[2] = vars::Pos[2];
         }
 
         if (entity @s[tag=tf2.flight_accel,tag=!tf2.drag]) {
