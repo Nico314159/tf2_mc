@@ -15,10 +15,7 @@ loot replace entity @s armor.head loot tf2:head
 execute store result score $_count_ tf2.var run clear @s paper 0
 execute unless score $_count_ tf2.var matches 1 run clear @s paper
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:head
-execute store result score $_crossbow_id_ tf2.var run data get entity @s Inventory[-1].components.minecraft:custom_model_data 0.001
-execute if predicate tf2:class/sniper/holding_scope if score $_crossbow_id_ tf2.var matches 21 if score @s tf2.attack_delay matches ..0 run return run function tf2:__private__/anonymous/2
 loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle
-execute store result score $_count_ tf2.var run clear @s crossbow[custom_model_data=21000] 0
-execute unless score $_count_ tf2.var matches 1 run clear @s crossbow[custom_model_data=21000]
+execute store result score $_count_ tf2.var run clear @s *[custom_model_data=21000] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_model_data=21000]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle
-clear @s spyglass

@@ -1,2 +1,2 @@
-loot replace entity @s weapon.mainhand loot tf2:class/sniper/sniper_rifle_scope
-item modify entity @s weapon.offhand tf2:load_crossbow
+data modify entity @s Pos set from storage retina:output ContactCoordinates
+tag @s add tf2.temp

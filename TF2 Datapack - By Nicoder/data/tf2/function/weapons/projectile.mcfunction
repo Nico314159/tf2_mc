@@ -11,7 +11,7 @@ execute store result storage tf2:summon projectile.speed double 0.00005 run data
 execute store result storage tf2:summon projectile.speed double 0.0000020833 run data get storage tf2:summon projectile.speed 1000
 data modify storage tf2:summon projectile.deviation set from storage tf2:lookup item.components.minecraft:custom_data.projectile.deviation
 execute if data storage tf2:summon projectile.deviation run function tf2:projectile/deviation
-function tf2:__private__/anonymous/6 with storage tf2:summon projectile
+function tf2:__private__/anonymous/5 with storage tf2:summon projectile
 execute store result storage tf2:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw retina.__variable__
 execute store result storage tf2:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch retina.__variable__
 data modify storage tf2:summon projectile.weapon set from storage tf2:lookup item
@@ -30,5 +30,5 @@ execute store result score $ignore_env tf2.var run data get storage tf2:lookup i
 execute store result score $flight_accel tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.flight_accel
 execute store result score $unreflectable tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.unreflectable
 execute at @s anchored eyes run function tf2:projectile/init_arrow with storage tf2:summon projectile
-execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run function tf2:__private__/anonymous/7
+execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run function tf2:__private__/anonymous/6
 execute as @e[type=arrow,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run tag @s remove tf2.new

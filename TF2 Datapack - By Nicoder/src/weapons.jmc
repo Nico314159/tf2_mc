@@ -355,6 +355,8 @@ class Weapons {
         $_weaponID_ = @s::SelectedItem.components."minecraft:custom_model_data" * 0.001;
 
         switch ($_weaponID_) {
+            case EVAL(Class.SNIPER * 10 + 1):
+                this.main_fire();
             case EVAL(Class.PYRO * 10 + 1): 
                 Class.Pyro.airblast();
             // case EVAL(Class.DEMOMAN * 10 + 2):

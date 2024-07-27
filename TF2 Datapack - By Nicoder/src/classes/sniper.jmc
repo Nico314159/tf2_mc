@@ -36,58 +36,19 @@ class Class.Sniper {
         }]
     }
 
-
     new loot_table(sniper_rifle) {
         "pools": [{
             "rolls": 1,
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
+                    "value": "tf2:sniper_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
                             "name": {
                                 "translate": "tf2.sniper_rifle",
-                                "fallback": "Sniper Rifle (%s to enable zoom)",
-                                "with": [{"keybind": "key.swapOffhand"}],
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 21000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},
-                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},
-                                controls: {main_fire: true, alt_fire: false, reload: 0}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(sniper_rifle_scope) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-                    "name": "minecraft:spyglass",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "translate": "tf2.sniper_rifle",
-                                "fallback": "Scope (%1$s to zoom, %2$s to shoot)",
+                                "fallback": "Sniper Rifle (%1$s to zoom, %2$s to shoot)",
                                 "with": [{"keybind": "key.use"}, {"keybind": "key.swapOffhand"}],
                                 "color": "gray",
                                 "italic": true
@@ -95,7 +56,17 @@ class Class.Sniper {
                         },
                         {
                             "function": "minecraft:set_components",
-                            "components": {"minecraft:custom_model_data": 21000}
+                            "components": {
+                                "minecraft:custom_model_data": 21000
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{
+                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},
+                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},
+                                controls: {main_fire: true, alt_fire: true, reload: 0}
+                            }"
                         }
                     ]
                 }
@@ -175,7 +146,6 @@ class Class.Sniper {
     function give() {
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
-        loot replace entity @s weapon.offhand loot tf2:class/sniper/sniper_rifle_scope;
         loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
         loot replace entity @s armor.legs loot tf2:class/sniper/_model;
@@ -186,7 +156,6 @@ class Class.Sniper {
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
         tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
     }
-    @lazy
     function tick() {
         tf2.grace_period:@s[tag=!tf2.scoped] ++;
         tf2.time_scoped:@s[scores={tf2.grace_period=10..}] = 0;
@@ -196,7 +165,7 @@ class Class.Sniper {
         HUD.actionbar();
         Weapons.set_ammo();
 
-        if (entity @s[scores={tf2.class=2, tf2.time_scoped=1..}]) {
+        if (entity @s[scores={tf2.time_scoped=1..}]) {
             Class.Sniper.zoom_meter();
         }
 
@@ -224,19 +193,10 @@ class Class.Sniper {
         if ($_count_ != 1) clear @s paper;
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
 
-        // gets first 2 digits
-        $_crossbow_id_ = @s::Inventory[-1].components."minecraft:custom_model_data" * 0.001;
-        if (predicate tf2:class/sniper/holding_scope && $_crossbow_id_ === 21 && tf2.attack_delay:@s <= 0) return run {
-            loot replace entity @s weapon.mainhand loot tf2:class/sniper/sniper_rifle_scope;
-            item modify entity @s weapon.offhand tf2:load_crossbow;
-        }
-
         loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
-        $_count_ = clear @s crossbow[custom_model_data=21000] 0;
-        if ($_count_ != 1) clear @s crossbow[custom_model_data=21000];
+        $_count_ = clear @s *[custom_model_data=21000] 0;
+        if ($_count_ != 1) clear @s *[custom_model_data=21000];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
-
-        clear @s spyglass;
     }
     function scope() {
         tf2.time_scoped:@s += 1;

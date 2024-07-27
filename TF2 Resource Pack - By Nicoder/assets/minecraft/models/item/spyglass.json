@@ -1,5 +1,9 @@
 {
+    "parent": "tf2:item/sniper/primary/sniper_rifle_scope",
     "textures": {
-        "layer0": "tf2:item/transparent"
-    }
+        "layer0": "minecraft:item/spyglass"
+    },
+    "overrides": [
+        { "predicate": {"custom_model_data": 21000}, "model": "tf2:item/sniper/secondary/smg"}
+    ]
 }

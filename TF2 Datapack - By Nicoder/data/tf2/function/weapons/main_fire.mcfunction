@@ -31,7 +31,7 @@ data modify storage tf2:summon number.Y set from storage retina:output ContactCo
 data modify storage tf2:summon number.Z set from storage retina:output ContactCoordinates[2]
 execute store result storage tf2:summon number.value int 1 run scoreboard players get $_totalDamage_ tf2.var
 execute if score $_totalDamage_ tf2.var matches 1.. run function tf2:hud/damage_numbers with storage tf2:summon number
-execute if predicate tf2:holding_melee run return run function tf2:__private__/anonymous/5
+execute if predicate tf2:holding_melee run return run function tf2:__private__/anonymous/4
 scoreboard players remove $_clip_ tf2.var 1
 function tf2:weapons/set_ammo
 scoreboard players set @s tf2.consecutive_reload 0

@@ -5,14 +5,17 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
+                    "value": "tf2:sniper_base",
                     "functions": [
                         {
                             "function": "minecraft:set_name",
                             "name": {
                                 "translate": "tf2.sniper_rifle",
-                                "fallback": "Sniper Rifle (%s to enable zoom)",
+                                "fallback": "Sniper Rifle (%1$s to zoom, %2$s to shoot)",
                                 "with": [
+                                    {
+                                        "keybind": "key.use"
+                                    },
                                     {
                                         "keybind": "key.swapOffhand"
                                     }
@@ -24,15 +27,12 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 21000,
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                }
+                                "minecraft:custom_model_data": 21000
                             }
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},\n                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}\n                            }"
+                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},\n                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},\n                                controls: {main_fire: true, alt_fire: true, reload: 0}\n                            }"
                         }
                     ]
                 }
