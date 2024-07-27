@@ -1,0 +1,348 @@
+Player.join(() => {
+    // Teleports a newly joined player to the lobby room, clears their inventory, puts them in adventure mode, resets their gameplay tags, and allows them to join queues.
+    // @within __tick__()
+
+    // TODO: improve lobby build quality (in-world)
+    if ($Settings.show_debug_messages) Text.tellraw(@a, "&<bold><Debug> &<!bold>Player &<@s> has logged in at &<0008it54g_p_join:$__global__> ticks gametime.");
+    tp @s[tag=!tf2.admin] Lobby.Main;
+    gamemode adventure @s[tag=!tf2.admin];
+
+    clear @s[tag=!tf2.admin];
+    item replace entity @s[tag=!tf2.admin] hotbar.8 with written_book[
+		written_book_content={
+			pages: [
+				'["", {"text": "Welcome to Minecraft TF2!", "bold": true, "underlined": true, "color": "gold"}, "\\n", "\\n", {"text": "[Start Playing] ", "bold": true, "underlined": true, "color": "dark_gray", "clickEvent": {"action": "change_page", "value": "3"}, "hoverEvent": {"action": "show_text", "contents": ["Choose a gamemode and jump right into the action!"]}}, "\\n", "\\n", {"text": "[Tutorial Missions] ", "bold": true, "underlined": true, "color": "gray", "clickEvent": {"action": "change_page", "value": "2"}, "hoverEvent": {"action": "show_text", "contents": ["A singleplayer experience to improve your skills with the various classes and weapons"]}}, "\\n", "\\n", {"text": "[Player Stats]", "bold": true, "underlined": true, "color": "gray", "hoverEvent": {"action": "show_text", "contents": [{"text": "View global counters like total kills,  captures,  etc.", "color": "white"}]}}, "\\n"]',
+				'["", {"text": "Select a Mission: ", "underlined": true}, "\\n", "\\n", {"text": "Heist (Spy)", "hoverEvent": {"action": "show_text", "contents": ["Sneak into the base under cover of darkness! Manage your cloak carefully,  or else you will be spotted by cameras."]}}, "\\n", {"text": "Headhunt (Sniper)", "hoverEvent": {"action": "show_text", "contents": ["Hit the floating heads in order to open pathways leading to the treasure room"]}}, "\\n", {"text": "Racecourse (Scout)", "hoverEvent": {"action": "show_text", "contents": ["Try to avoid the obstacles and get through the level as fast as possible. Hint: you\'ll need to use double jumps!"]}}, "\\n", {"text": "Rocket Jump stuff", "hoverEvent": {"action": "show_text", "contents": [""]}}, "\\n", {"text": "Bullseye (any class)", "hoverEvent": {"action": "show_text", "contents": ["Try to hit as many targets as you can before the timer runs out!"]}}, "\\n", {"text": "Some other stuff idk", "hoverEvent": {"action": "show_text", "contents": [""]}}]',
+				'["", {"text": "Queue for a game: ", "underlined": true}, "\\n", "\\n", "\\n", {"text": "[Competitive Mode]", "bold": true, "color": "dark_green", "clickEvent": {"action": "change_page", "value": "6"}, "hoverEvent": {"action": "show_text", "contents": [{"text": "• Max players: 9 v 9 ", "color": "dark_green"}, "\\n", {"text": "• Random bullet spread: NO", "color": "dark_green"}, "\\n", {"text": "• Gamemode / map pool: LIMITED", "color": "dark_green"}, "\\n", {"text": "• Matchmaking system: YES", "color": "dark_green"}]}}, "\\n", "\\n", "\\n", {"text": "[Casual Mode]", "bold": true, "color": "dark_aqua", "clickEvent": {"action": "change_page", "value": "9"}, "hoverEvent": {"action": "show_text", "contents": [{"text": "• Max players: 12 v 12", "color": "dark_aqua"}, "\\n", {"text": "• Random bullet spread: YES", "color": "dark_aqua"}, "\\n", {"text": "• Gamemode / map pool: ALL", "color": "dark_aqua"}, "\\n", {"text": "• Matchmaking system: YES", "color": "dark_aqua"}, "\\n", {"text": "• Team autobalance: YES", "color": "dark_aqua"}]}}, "\\n", "\\n", "\\n", {"text": "[Chaos Mode]", "bold": true, "color": "dark_red", "clickEvent": {"action": "change_page", "value": "12"}, "hoverEvent": {"action": "show_text", "contents": [{"text": "• Max players: 20 v 20", "color": "dark_red"}, "\\n", {"text": "• Random bullet spread: YES", "color": "dark_red"}, "\\n", {"text": "• Gamemode / map pool: ALL", "color": "dark_red"}, "\\n", {"text": "• Matchmaking system: NO", "color": "dark_red"}, "\\n", "• Team autobalance: NO"]}}]',
+				'[""]',
+				'[""]',
+				'["", "\\n", {"text": "You have selected:", "underlined": true, "color": "dark_gray"}, "\\n", {"text": "Competitive Mode", "bold": true, "color": "dark_green"}, "\\n", "\\n", {"text": "Is this correct?", "color": "black"}, "\\n", {"text": "[Yup]", "color": "dark_green", "clickEvent": {"action": "run_command", "value": "/trigger tf2.queue_type set 1"}}, {"text": " [Nope]", "color": "gray", "clickEvent": {"action": "change_page", "value": "3"}}]',
+				'[""]',
+				'[""]',
+				'["", "\\n", {"text": "You have selected:", "underlined": true, "color": "dark_gray"}, "\\n", {"text": "Casual Mode", "bold": true, "color": "dark_aqua"}, "\\n", "\\n", {"text": "Is this correct?", "color": "black"}, "\\n", {"text": "[Yup]", "color": "dark_aqua", "clickEvent": {"action": "run_command", "value": "/trigger tf2.queue_type set 2"}}, {"text": " [Nope]", "color": "gray", "clickEvent": {"action": "change_page", "value": "3"}}]',
+				'[""]',
+				'[""]',
+				'["", "\\n", {"text": "You have selected:", "underlined": true, "color": "dark_gray"}, "\\n", {"text": "Chaos Mode", "bold": true, "color": "dark_red"}, "\\n", "\\n", {"text": "Is this correct?", "color": "black"}, "\\n", {"text": "[Yup]", "color": "dark_red", "clickEvent": {"action": "run_command", "value": "/trigger tf2.queue_type set 3"}}, {"text": " [Nope]", "color": "gray", "clickEvent": {"action": "change_page", "value": "3"}}]'
+			],
+			title: "Navigator",
+			author: LazyHarpSeal
+		}
+	];
+
+    Hardcode.repeat("|n|", () => {
+        if (tf2.uuid.|n|:@s != tf2.uuid.|n|:@s) {
+            tf2.uuid.|n|:@s = @s::UUID[|n|];
+        }
+    }, 0, 4);
+        
+    index::i = tf2.batch_number:@s;
+    scoreboard players enable @s tf2.queue_type;
+    scoreboard players enable @s controls;
+    scoreboard players enable @s autoreload;
+    tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = autoreload:@s = 0;
+
+    // Update timer visibility to exclude currrent player
+    Timer.show() with index::;
+
+    effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true;
+    effect give @s minecraft:resistance infinite 4 true;
+    effect clear @s invisibility;
+    attribute @s minecraft:generic.attack_damage base set 0;
+    attribute @s minecraft:generic.movement_speed base set 0.1;
+    attribute @s minecraft:generic.movement_speed modifier remove tf2:slow_while_revving;
+    attribute @s minecraft:player.block_interaction_range base set 4.5;
+
+    // removes all gameplay-specific variables
+    team leave @s;
+    Hardcode.repeatList(
+        "tagName",
+        () => {
+            tag @s remove tf2.tagName;
+        },
+        ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "unable_to_cap", "dead", "disguised"]
+    );
+    Hardcode.repeatList(
+        "objectiveName",
+        () => {
+            scoreboard players reset @s tf2.objectiveName;
+        },
+        ["class", "health", "max_health", "team", "respawn_timer", "time_idle",
+        "attack_delay", "reload_delay", "consecutive_reload", "current_slot", "last_slot",
+        "time_revved", "rev_threshold", "time_scoped", "elytra_detect",
+        "fall", "fall_y", "fall_y1", "fall_y2", "fall_y3"]
+    );
+
+    controls_reminder();
+    Text.tellraw(@s, "&<gray>To see this message again, type &<bold>/trigger controls &<!bold>in chat at any time.");
+});
+
+class Player {
+    function tick() {
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
+
+        tf2.last_x:@s[type=player] = tf2.now_x:@s;
+        tf2.now_x:@s[type=player] = @s::Pos[0] * 100;
+        tf2.last_z:@s[type=player] = tf2.now_z:@s;
+        tf2.now_z:@s[type=player] = @s::Pos[2] * 100;
+
+        if (entity @s[tag=!tf2.dead,y=-45,dy=5]) {
+            tf2.health:@s = 0;
+            Text.tellraw(@a[tag=tf2.current], "&<@s> fell into the void.");
+            tp @s ~ 5 ~;
+        }
+        if (entity @s[tag=!tf2.dead,scores={tf2.health=..0}]) {this.death();}
+        if (entity @s[tag=tf2.dead]) {
+            tf2.respawn_timer:@s --;
+            tf2.respawn_timer.sec:@s = tf2.respawn_timer:@s;
+            tf2.respawn_timer.sec:@s += 19;
+            tf2.respawn_timer.sec:@s /= 20;
+            Text.title(@s, "&<white>You died!");
+            Text.subtitle(@s, "&<gray>Respawn in... &<tf2.respawn_timer.sec:@s, bold, dark_gray>");
+        }
+        if (entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}]) {Spawn.init();}
+
+        if (entity @s[gamemode=spectator]) return run tag @a remove tf2.current;
+
+        tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
+        tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
+        tf2.time_idle:@s++;
+
+        clear @s arrow;
+        check_match::UUID = @s::UUID;
+        tag @s add tf2.self;
+        if (predicate tf2:empty_hand) {
+            execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run {
+                if (Object.isEqual("tf2:check_match", "UUID", "@s", "Thrower")) {
+                    execute as @e[tag=tf2.self] run Weapons.reload(); 
+                    kill @s;
+                }
+            }
+            execute as @e[type=snowball,distance=..5] run {
+                if (Object.isEqual("tf2:check_match", "UUID", "@s", "Owner")) {
+                    execute as @e[tag=tf2.self] run Weapons.main_fire(); kill @s;
+                }
+            }
+        }
+        tag @s remove tf2.self;
+
+        Weapons.slot_check();
+        if (items entity @s weapon.mainhand crossbow[charged_projectiles=[], custom_data~{should_detect_click: true}]) {
+            kill @e[type=arrow,tag=!tf2.projectile];
+            if (predicate tf2:ammo_in_clip) {
+                Weapons.main_fire();
+            }
+        }
+        else if (data entity @s[scores={tf2.interpolate_rmb=1..}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb) {
+            Weapons.interpolate_rmb();
+        }
+        execute as @s[tag=tf2.autoreload,
+                      scores={tf2.time_idle=30.., tf2.reload_delay=..0}, 
+                      predicate=!tf2:hide_ammo] run Weapons.attempt_autoreload();
+
+        if (items entity @s weapon.offhand *[custom_data~{controls: {alt_fire: true}}]) {
+            Weapons.alt_fire();
+        }
+
+        if (entity @s[scores={tf2.class=0},predicate=tf2:active_offhand]) {
+            tf2.class:@s = tf2.last_class:@s;
+            class_select();
+        }
+        switch (tf2.class:@s) {
+            case Class.SPY: Class.Spy.tick();
+            case Class.SNIPER: Class.Sniper.tick();
+            case Class.SCOUT: Class.Scout.tick();
+            case Class.SOLDIER: Class.Soldier.tick();
+            // case Class.DEMOMAN: Class.Demoman.tick();
+            case Class.HEAVY: Class.Heavy.tick();
+            case Class.PYRO: Class.Pyro.tick();
+            // case Class.ENGINEER: Class.Engineer.tick();
+            // case Class.MEDIC: Class.Medic.tick();
+        }
+        item replace entity @s[scores={tf2.class=1..}, tag=!tf2.in_disguise_menu] hotbar.8 with Item.CHANGE_CLASS;
+        $_count_ = clear @s Item.CHANGE_CLASS 0;
+        if ($_count_ != 1 && entity @s[tag=!tf2.in_disguise_menu]) expand {
+            clear @s Item.CHANGE_CLASS;
+            item replace entity @s[scores={tf2.class=1..}] hotbar.8 with Item.CHANGE_CLASS;
+        }
+        clear @s[tag=tf2.in_disguise_menu] Item.CHANGE_CLASS;
+
+        if (entity @s[tag=tf2.on_fire]) {
+            Class.Pyro.afterburn();
+        }
+
+        // Store fall heights from previous ticks
+        tf2.fall_y3:@s = tf2.fall_y2:@s;
+        tf2.fall_y2:@s = tf2.fall_y1:@s;
+        tf2.fall_y1:@s = tf2.fall_y:@s;
+        tf2.fall_y:@s = @s::Pos[1] * 100;
+
+        if (predicate tf2:grounded && tf2.fall:@s > 0) {
+            this.fall_damage();
+        }
+
+        // Drowning stuff
+        if (tf2.air:@s == -19) {
+            tf2.health:@s -= 5;
+            tf2.drown_lost:@s += 5;
+            if (tf2.health:@s <= 0) {
+                Text.tellraw(@a[tag=tf2.current], "&<@s> drowned");
+            }
+        }
+        tf2.time_surfaced:@s[predicate=!tf2:submerged] ++;
+        if (tf2.time_surfaced:@s == 40) {
+            $temp = tf2.drown_lost:@s;
+            $temp < 10;
+            tf2.health:@s += $temp;
+            tf2.health:@s < tf2.max_health:@s;
+            tf2.drown_lost:@s -= $temp;
+            tf2.time_surfaced:@s = 0;
+        }
+        tf2.time_surfaced:@s[predicate=tf2:submerged] = 0;
+
+        $tick_cycle = 0008it54g_p_join:$__global__;
+        $tick_cycle %= 40;
+        if (tf2.team:@s == tf2.team:@e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] && $tick_cycle == 0) {
+            if (tf2.health:@s >= tf2.max_health:@s // >= is futureproofing for Medic overheal
+             && tf2.primary_clip:@s == tf2.primary_maxClip:@s 
+             && tf2.primary_ammo:@s == tf2.primary_maxAmmo:@s 
+             && tf2.secondary_clip:@s == tf2.secondary_maxClip:@s 
+             && tf2.secondary_ammo:@s == tf2.secondary_maxAmmo:@s) {return 0;}
+            class_select();
+            playsound tf2:pickup.resupply player @s ~ ~ ~ 1.5 0.8 0.2;
+        } 
+        tag @a remove tf2.current;
+
+        function coas_input() {
+            tf2.coas:@s = 0;
+            $__item_id__ = @s::SelectedItem.components."minecraft:custom_model_data";
+            if ($__item_id__ == 0) return fail;
+            if ($__item_id__ == 10) {
+                tf2.last_class:@s = tf2.class:@s; 
+            }
+            tf2.class:@s = $__item_id__;
+            tf2.class:@s %= 10;
+            class_select();
+            if ($__item_id__ matches 1..9 && tf2.last_class:@s[tag=!tf2.in_spawn] != tf2.class:@s) {
+                // Kill player if they change class outside of spawn
+                tf2.health:@s = 0;
+            }
+            playsound tf2:pickup.ammo player @s[scores={tf2.health=1..,tf2.class=1..9}];
+        }
+        if (tf2.coas:@s) {
+            this.coas_input();
+        }
+    }
+    function fall_damage() {
+        $2nd_previous_dy = tf2.fall_y3:@s;
+        $2nd_previous_dy -= tf2.fall_y2:@s;
+        $previous_dy = tf2.fall_y2:@s;
+        $previous_dy -= tf2.fall_y1:@s;
+        $current_dy = tf2.fall_y1:@s;
+        $current_dy -= tf2.fall_y:@s;
+
+        if ($previous_dy >= $current_dy) {
+            // Most recent interval was interrupted by collision
+            $impact_velocity = $previous_dy;
+            $impact_velocity += $previous_dy;
+            $impact_velocity -= $2nd_previous_dy;  // get the ∆ with the last 2 ticks.
+        } else {
+            $impact_velocity = $current_dy;
+        }
+        // Conversion factor from cm/tick to hammer units/second ≈ 10.5
+        // Extra 100 for scaling since boq won't let us work with decimals
+        $impact_velocity *= EVAL(10.5 * 100);
+        // Impact velocities below 940 HU/s are simply ignored
+        if ($impact_velocity <= EVAL(940 * 100)) {
+            $impact_velocity = 0;
+        }
+
+        $fall_damage = $impact_velocity;
+        // Made it 120 instead of 60 from TF2, because Minecraft has higher gravity
+        $fall_damage /= 120;
+        $fall_damage < 5833; // Means 58.33% max health due to the scale
+
+        $fall_damage *= tf2.max_health:@s;
+        $fall_damage /= 100;
+
+        $random_mult = random value 80..120;
+        $fall_damage *= $random_mult;
+        $fall_damage /= 10000;
+
+        if (block ~ ~-1 ~ #tf2:no_fall_dmg) {
+            $fall_damage = 0;
+        }
+        if (block ~ ~-1 ~ slime_block && !predicate tf2:sneaking) {
+            $fall_damage = 0;
+        }
+        if (block ~ ~-1 ~ #tf2:reduce_fall_dmg) {
+            $fall_damage /= 5;
+        }
+        if (block ~ ~-1 ~ #minecraft:beds) {
+            $fall_damage /= 2;
+        }
+        tf2.health:@s -= $fall_damage;
+        if ($fall_damage) {
+            damage @s 0.01 tf2:screenshake;
+        }
+
+        if (tf2.health:@s <= 0) {
+            Text.tellraw(@a[tag=tf2.current], "&<@s> fell to their death");
+        }
+
+        // Clear everything out
+        $previous_dy
+        = $current_dy
+        = $impact_velocity
+        = $fall_damage
+        = tf2.fall_y3:@s
+        = tf2.fall_y2:@s
+        = tf2.fall_y1:@s
+        = tf2.fall_y:@s
+        = tf2.fall:@s
+        = 0;
+    }
+    function death() {
+        // Puts a dead player into spectator mode & starts their respawn timer.
+        // Respawn timer length is according to the map and team.
+
+        // Note: `data storage tf2:running_games $(i).spawn_time.(red/blu)[0]` is measured in *seconds*, whereas `tf2.respawn_timer:@s` is measured in *ticks*
+        Text.actionbar(@s, "&<red>❤ Health: 0 / &<tf2.max_health:@s>");
+        title @s times 0 3 3;
+        spawnpoint @s ~ ~ ~;
+        tag @s add tf2.dead;
+        gamemode spectator @s;
+
+        index::i = tf2.batch_number:@s;
+        execute run {
+            $ tf2.respawn_timer:@s[scores={tf2.team=1}] = running_games::$(i).spawn_time.red[0] * 20;
+            $ tf2.respawn_timer:@s[scores={tf2.team=2}] = running_games::$(i).spawn_time.blu[0] * 20;
+        } with index::;
+        execute at @s[scores={tf2.class=1..}] run summon axolotl ~ ~ ~ {
+            attributes: [
+                {id: "minecraft:generic.movement_speed", base: 0.0d},
+                {id: "minecraft:generic.jump_strength", base: 0.0d},
+                {id: "minecraft:generic.scale", base: 0.0625d}
+            ],
+            Invulnerable: 1b,
+            Silent: 1b,
+            Tags: ["tf2.no_respawn", "tf2.new", "retina.ignore"],
+            active_effects: [{id:"minecraft:invisibility",amplifier:1b,duration:-1,show_particles:0b,show_icon:0b,ambient:0b}],
+            Passengers: [{
+                id: "minecraft:item",
+                NoGravity: 0b,
+                Invulnerable: 1b,
+                Tags: ["tf2.pickup", "tf2.ammo_pack", "tf2.no_respawn"],
+                Age: -32768s, PickupDelay: 32767s,
+                Item: {id: "minecraft:iron_ingot", components: {"minecraft:custom_model_data": 22}}
+            }]
+        };
+        execute as @e[type=axolotl,tag=tf2.new,tag=tf2.no_respawn] expand {
+            tf2.batch_number:@s = execute on passengers 
+                                  run tf2.batch_number:@s 
+                                = index::i * 1.0;
+            team join player_motion.no_collide;
+            tag @s remove tf2.new;
+        }
+    }
+}
