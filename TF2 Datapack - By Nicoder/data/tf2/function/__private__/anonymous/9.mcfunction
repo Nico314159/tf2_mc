@@ -1,8 +1,3 @@
-execute if score $offset_Y retina.__variable__ matches 776..778 run tp @s ~ ~1.42 ~
-execute if score $offset_Y retina.__variable__ matches 608..610 run tp @s ~ ~1.07 ~
-execute if score $offset_Y retina.__variable__ matches 192 run tp @s ~ ~0.20 ~
-tag @s add tf2.height
-data modify storage tf2:summon line.X set from entity @s Pos[0]
-data modify storage tf2:summon line.Y set from entity @s Pos[1]
-data modify storage tf2:summon line.Z set from entity @s Pos[2]
-kill @s
+$execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {item:{id:"glowstone_dust",components:{"minecraft:custom_model_data":0}},Rotation:[$(yaw)f,$(pitch)f],Tags:["tf2.visual","tf2.newest"],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1f,1f,$(scale)f]}}
+scoreboard players set @e[type=item_display,tag=tf2.visual,tag=tf2.newest] tf2.lifetime 4
+tag @e[type=item_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest

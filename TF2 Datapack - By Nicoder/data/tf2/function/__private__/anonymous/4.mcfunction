@@ -1,3 +1,3 @@
-execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1
-execute unless data storage retina:output {Target: "ENTITY"} run return run playsound tf2:item.melee.miss player @s ~ ~ ~ 0.35 0.35 0.1
-playsound tf2:item.melee.hit player @s ~ ~ ~ 1.5 0.9 0.1
+$execute store result storage tf2:summon projectile.X double $(speed) run scoreboard players get $output_vec3.X retina.__variable__
+$execute store result storage tf2:summon projectile.Y double $(speed) run scoreboard players get $output_vec3.Y retina.__variable__
+$execute store result storage tf2:summon projectile.Z double $(speed) run scoreboard players get $output_vec3.Z retina.__variable__

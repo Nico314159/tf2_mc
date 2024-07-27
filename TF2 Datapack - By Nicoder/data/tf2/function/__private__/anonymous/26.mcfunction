@@ -1,2 +1,1 @@
-$data modify storage tf2:running_games $(i).spawn_point.red[0] set from storage tf2:running_games $(i).spawn_point.red[$(red)]
-$data modify storage tf2:running_games $(i).spawn_point.blu[0] set from storage tf2:running_games $(i).spawn_point.blu[$(blu)]
+$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s

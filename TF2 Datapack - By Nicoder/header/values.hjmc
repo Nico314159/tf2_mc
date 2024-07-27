@@ -1,5 +1,9 @@
 #bind EVAL
 #define _INSTANCES_CAP_ 6
+
+#define _MIN_INT_ EVAL(-2 ** 31)
+#define _MAX_INT_ EVAL(2 ** 31 - 1)
+
 #define Door.ANIM_LENGTH 15
 #define Retina.SCALE 480
 

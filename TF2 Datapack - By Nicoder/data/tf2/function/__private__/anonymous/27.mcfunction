@@ -1,2 +1,2 @@
-$data modify storage tf2:running_games $(i).spawn_time.red[0] set from storage tf2:running_games $(i).spawn_time.red[$(red)]
-$data modify storage tf2:running_games $(i).spawn_time.blu[0] set from storage tf2:running_games $(i).spawn_time.blu[$(blu)]
+execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:__private__/anonymous/26 with storage tf2:index

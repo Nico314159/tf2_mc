@@ -1,5 +1,5 @@
 tag @s add tf2.player
-execute summon marker at @s run function tf2:__private__/anonymous/14
+execute summon marker at @s run function tf2:__private__/anonymous/13
 tag @s remove tf2.player
 execute if entity @s[tag=tf2.hit] run data modify storage retina:output Distance set value 0
 execute if entity @s[tag=tf2.hit] run function tf2:projectile/splash_damage

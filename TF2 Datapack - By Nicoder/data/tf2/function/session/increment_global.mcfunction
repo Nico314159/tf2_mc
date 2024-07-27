@@ -1,0 +1,1 @@
+$scoreboard players add $global_$(i) tf2.session 1

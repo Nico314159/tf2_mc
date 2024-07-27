@@ -3,9 +3,10 @@ execute if score $Settings.show_debug_messages tf2.var matches 2.. if score $pro
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
 execute store result storage tf2:index map_id int 1 run scoreboard players get @s tf2.map
-function tf2:__private__/anonymous/17 with storage tf2:index
+function tf2:__private__/anonymous/15 with storage tf2:index
 execute store result score @s tf2.gamemode run data get entity @s data.map.gamemode
 scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode
+execute as @e[type=!#tf2:player_like] if score @s tf2.batch_number = $local tf2.batch_number run function tf2:session/despawn with storage tf2:index
 data modify storage tf2:summon objectives set from entity @s data.map.objectives
 execute store result score $temp tf2.index run data get storage tf2:summon objectives
 scoreboard players operation $temp tf2.index *= 10 tf2.const
@@ -30,6 +31,7 @@ execute store result score $blu_length tf2.var run data get entity @s data.map.r
 scoreboard players set $i tf2.var 0
 execute if data storage tf2:summon resupply[] run function tf2:__private__/while_loop/4
 data remove storage tf2:summon entity
+execute as @e[type=!#tf2:player_like] if score @s tf2.batch_number = $local tf2.batch_number run function tf2:session/sync with storage tf2:index
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
 scoreboard players set __if_else__ tf2.var 0
 execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/16

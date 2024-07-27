@@ -68,7 +68,6 @@
             execute if score @s tf2.index = $highest tf2.index
                     unless score @s tf2.gamemode matches 3 run tag @s add tf2.last;
             tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
-            $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
         } with index::;
         summon::objectives[-1].del();
     }
@@ -191,6 +190,18 @@
         $i++;
     }
     summon::entity.del();
+
+    // Clear out old entities
+    execute as @e[type=!#tf2:player_like]
+            if score @s tf2.batch_number 
+               = $local tf2.batch_number
+            run Session.despawn() with index::;
+
+    // Copy over the new session IDs all at once
+    execute as @e[type=!#tf2:player_like] 
+            if score @s tf2.batch_number 
+               = $local tf2.batch_number
+            run Session.sync() with index::;
 }
 
 class start_game {
@@ -205,10 +216,10 @@ class start_game {
             index::i = tf2.batch_number:@s;
             index::map_id = tf2.map:@s;
             execute run {
-                $scoreboard players add $global_$(i) tf2.session 1;
-                $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
+                Session.increment_global() with index::;
+                Session.sync() with index::;
                 $ @s::data.map = maps::$(map_id);
-                $ tf2:running_games::$(i) = maps::$(map_id);
+                $ running_games::$(i) = maps::$(map_id);
             } with index::;
 
             tf2.gamemode:@s = @s::data.map.gamemode;

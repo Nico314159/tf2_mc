@@ -1,0 +1,18 @@
+class Session {
+    function increment_all_globals() {
+        Hardcode.repeat("[i]", () => {
+            tf2.session:$global_[i]++;
+        }, start=1, stop=_INSTANCES_CAP_);
+    }
+    function increment_global() {
+        $scoreboard players add $global_$(i) tf2.session 1;
+    }
+    function sync() {
+        $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
+    }
+    function despawn() {
+        $execute if score @s tf2.session = @s tf2.session 
+                 unless score @s tf2.session = $global_$(i) tf2.session 
+                 run kill @s;
+    }
+}

@@ -1,3 +1,2 @@
-data modify storage tf2:__storage__ currentObject set from storage tf2:check_match UUID
-execute store success score __bool_result__2 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @s Owner
-execute if score __bool_result__2 tf2.var matches 0 run function tf2:__private__/if_else/29
+$execute as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz)] unless score @s tf2.team matches $(opp_team) run tag @s add tf2.in_spawn
+$tp @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz),scores={tf2.team=$(opp_team)}] $(direct_tp)

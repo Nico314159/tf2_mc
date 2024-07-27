@@ -657,7 +657,10 @@ $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
 if ($batch_markers != $Settings.max_batches) setup_markers();
 
 // restart failsafe
-execute unless entity @a run {Hardcode.repeat("[i]", () => {tf2.session:$global_[i]++;}, start = 1, stop = _INSTANCES_CAP_);}
+import "session";
+if (!entity @a) {
+    Session.increment_all_globals();
+}
 
 // temporary workaround
 forceload add 1136 -960;
