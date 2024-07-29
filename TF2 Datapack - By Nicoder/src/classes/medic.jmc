@@ -1,0 +1,190 @@
+new trim_pattern(medic) {
+	"asset_id": "tf2:medic",
+	"description": {
+		"translate": "trim_pattern.tf2.medic"
+	},
+	"template_item": "minecraft:stick"
+}
+generate_body_model(medic);
+
+class Class.Medic {
+	new loot_table(syringe_gun) {
+		"pools": [{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:loot_table",
+					"value": "tf2:crossbow_base",
+					"functions": [
+						{
+							"function": "minecraft:set_name",
+							"name": {
+								"text": "Syringe Gun (DOESN'T WORK YET)",
+								"color": "gray",
+								"italic": true
+							}
+						},
+						{
+							"function": "minecraft:set_components",
+							"components": {
+								"minecraft:custom_model_data": 91001,
+								"minecraft:unbreakable": {"show_in_tooltip": false}
+							},
+							"conditions": [
+								{ "condition": "minecraft:entity_scores",
+								  "entity": "this", "scores": {"tf2.team": 1} }
+							]
+						},
+						{
+							"function": "minecraft:set_components",
+							"components": {
+								"minecraft:custom_model_data": 91002,
+								"minecraft:unbreakable": {"show_in_tooltip": false}
+							},
+							"conditions": [
+								{ "condition": "minecraft:entity_scores",
+								  "entity": "this", "scores": {"tf2.team": 2} }
+							]
+						}
+					]
+				}
+			]
+		}]
+	}
+	new loot_table(medigun) {
+		"pools": [{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:loot_table",
+					"value": "tf2:crossbow_base",
+					"functions": [
+						{
+							"function": "minecraft:set_name",
+							"name": {
+								"text": "Medi Gun (DOESN'T WORK YET)",
+								"color": "gray",
+								"italic": true
+							}
+						},
+						{
+							"function": "minecraft:set_components",
+							"components": {
+								"minecraft:custom_model_data": 92001,
+								"minecraft:unbreakable": {"show_in_tooltip": false}
+							},
+							"conditions": [
+								{ "condition": "minecraft:entity_scores",
+								  "entity": "this", "scores": {"tf2.team": 1} }
+							]
+						},
+						{
+							"function": "minecraft:set_components",
+							"components": {
+								"minecraft:custom_model_data": 92002,
+								"minecraft:unbreakable": {"show_in_tooltip": false}
+							},
+							"conditions": [
+								{ "condition": "minecraft:entity_scores",
+								  "entity": "this", "scores": {"tf2.team": 2} }
+							]
+						}
+					]
+				}
+			]
+		}]
+	}
+	new loot_table(bonesaw) {
+		"pools": [{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:loot_table",
+					"value": "tf2:melee_base",
+					"functions": [
+						{
+							"function": "minecraft:set_name",
+							"name": {
+								"text": "Bonesaw",
+								"color": "gray",
+								"italic": true
+							}
+						},
+						{
+							"function": "minecraft:set_components",
+							"components": {"minecraft:custom_model_data": 93000}
+						},
+						{
+							"function": "minecraft:set_custom_data",
+							"tag": "{
+								retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
+								attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
+								controls: {main_fire: true, alt_fire: false, reload: 0}
+							}"
+						}
+					]
+				}
+			]
+		}]
+	}
+
+	function give() {
+		clear @s;
+		loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
+		loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
+		loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
+		loot replace entity @s armor.legs loot tf2:class/medic/_model;
+
+		lookup::inventory = @s::Inventory;
+		tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
+		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
+		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
+		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
+	}
+	@lazy
+	function tick() {
+		Weapons.get_ammo();
+		HUD.actionbar();
+		Weapons.set_ammo();
+
+		this.inventory_lock();
+	}
+	function inventory_lock() {
+		item replace entity @s weapon.offhand with air;
+		
+		loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
+		$_count_ = clear @s crossbow[custom_model_data=91001|custom_model_data=91002] 0;
+		if ($_count_ != 1) expand {
+			clear @s crossbow[custom_model_data=91001|custom_model_data=91002];
+			loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
+		}
+
+		loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
+		$_count_ = clear @s crossbow[custom_model_data=92001|custom_model_data=92002] 0;
+		if ($_count_ != 1) expand {
+			clear @s crossbow[custom_model_data=92001|custom_model_data=92002];
+			loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
+		}
+
+		loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
+		$_count_ = clear @s snowball[custom_model_data=93000] 0;
+		if ($_count_ != 1) expand {
+			clear @s snowball[custom_model_data=93000];
+			loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
+		}
+
+		loot replace entity @s armor.legs loot tf2:class/medic/_model;
+		$_count_ = clear @s iron_leggings 0;
+		if ($_count_ != 1) expand {
+			clear @s iron_leggings;
+			loot replace entity @s armor.legs loot tf2:class/medic/_model;
+		}
+
+		loot replace entity @s armor.head loot tf2:head;
+		$_count_ = clear @s paper 0;
+		if ($_count_ != 1) expand {
+			clear @s paper;
+			loot replace entity @s armor.head loot tf2:head;
+		}		
+	}
+}

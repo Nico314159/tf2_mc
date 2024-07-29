@@ -276,7 +276,7 @@ class Weapons {
             case Class.HEAVY: Class.Heavy.inventory_lock();
             case Class.PYRO: Class.Pyro.inventory_lock();
             // case Class.ENGINEER: Class.Engineer.inventory_lock();
-            // case Class.MEDIC: Class.Medic.inventory_lock();
+            case Class.MEDIC: Class.Medic.inventory_lock();
         }
 
         if (!predicate tf2:has_main_fire) return 0;
@@ -510,7 +510,7 @@ class Weapons {
             case Class.HEAVY: Class.Heavy.inventory_lock();
             case Class.PYRO: Class.Pyro.inventory_lock();
             // case Class.ENGINEER: Class.Engineer.inventory_lock();
-            // case Class.MEDIC: Class.Medic.inventory_lock();
+            case Class.MEDIC: Class.Medic.inventory_lock();
         }
         if (predicate tf2:hide_ammo) return 0;
         if (tf2.reload_delay:@s > 0) return 0;
