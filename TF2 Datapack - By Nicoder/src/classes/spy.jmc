@@ -488,6 +488,9 @@ class Class.Spy {
         };
 
         $fake_CMD += EVAL(300_000_000);
+        if (tf2.disguise.class:@s == Class.SPY) {
+            $fake_CMD = EVAL(400_000_000);
+        }
         item modify entity @s hotbar.3 {
             "function": "minecraft:set_custom_model_data",
             "value": {
