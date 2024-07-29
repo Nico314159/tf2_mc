@@ -1,5 +1,5 @@
 function retina:traverse/setup
-execute unless data storage retina:output {Target: "ENTITY"} run return fail
+execute unless data storage retina:output {Target:"ENTITY"} run return fail
 execute if entity @a[tag=retina.target,gamemode=spectator] run return fail
 scoreboard players operation $current tf2.team = @s tf2.team
 execute as @a[tag=retina.target,limit=1] if score @s tf2.team = $current tf2.team run return fail
