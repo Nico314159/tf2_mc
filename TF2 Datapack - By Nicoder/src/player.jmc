@@ -103,6 +103,10 @@ class Player {
         }
         if (entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}]) {Spawn.init();}
 
+        if (!entity @s[scores={tf2.class=Class.SPY}, tag=tf2.disguised, gamemode=!spectator]) {
+            Class.Spy.nametag.delete();
+        }
+
         if (entity @s[gamemode=spectator]) return run tag @a remove tf2.current;
 
         tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
@@ -160,11 +164,11 @@ class Player {
             // case Class.ENGINEER: Class.Engineer.tick();
             // case Class.MEDIC: Class.Medic.tick();
         }
-        item replace entity @s[scores={tf2.class=1..}, tag=!tf2.in_disguise_menu] hotbar.8 with Item.CHANGE_CLASS;
+        item replace entity @s[scores={tf2.class=1..9}, tag=!tf2.in_disguise_menu] hotbar.8 with Item.CHANGE_CLASS;
         $_count_ = clear @s Item.CHANGE_CLASS 0;
         if ($_count_ != 1 && entity @s[tag=!tf2.in_disguise_menu]) expand {
             clear @s Item.CHANGE_CLASS;
-            item replace entity @s[scores={tf2.class=1..}] hotbar.8 with Item.CHANGE_CLASS;
+            item replace entity @s[scores={tf2.class=1..9}] hotbar.8 with Item.CHANGE_CLASS;
         }
         clear @s[tag=tf2.in_disguise_menu] Item.CHANGE_CLASS;
 

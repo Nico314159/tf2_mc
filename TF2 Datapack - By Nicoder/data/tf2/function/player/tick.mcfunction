@@ -8,6 +8,7 @@ execute if entity @s[tag=!tf2.dead,y=-45,dy=5] run function tf2:__private__/if_e
 execute if entity @s[tag=!tf2.dead,scores={tf2.health=..0}] run function tf2:player/death
 execute if entity @s[tag=tf2.dead] run function tf2:__private__/if_else/27
 execute if entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}] run function tf2:spawn/init
+execute unless entity @s[scores={tf2.class=1},tag=tf2.disguised,gamemode=!spectator] run function tf2:class/spy/nametag/delete
 execute if entity @s[gamemode=spectator] run return run tag @a remove tf2.current
 scoreboard players remove @s[scores={tf2.attack_delay=0..}] tf2.attack_delay 1000
 scoreboard players remove @s[scores={tf2.reload_delay=0..}] tf2.reload_delay 1000
@@ -26,10 +27,10 @@ execute if items entity @s weapon.offhand *[custom_data~{controls:{alt_fire:true
 execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run function tf2:__private__/if_else/32
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/15/select with storage tf2:__storage__
-item replace entity @s[scores={tf2.class=1..},tag=!tf2.in_disguise_menu] hotbar.8 with carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
+item replace entity @s[scores={tf2.class=1..9},tag=!tf2.in_disguise_menu] hotbar.8 with carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
 execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"'] 0
 execute unless score $_count_ tf2.var matches 1 if entity @s[tag=!tf2.in_disguise_menu] run clear @s carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
-execute unless score $_count_ tf2.var matches 1 if entity @s[tag=!tf2.in_disguise_menu] run item replace entity @s[scores={tf2.class=1..}] hotbar.8 with carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
+execute unless score $_count_ tf2.var matches 1 if entity @s[tag=!tf2.in_disguise_menu] run item replace entity @s[scores={tf2.class=1..9}] hotbar.8 with carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
 clear @s[tag=tf2.in_disguise_menu] carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
 execute if entity @s[tag=tf2.on_fire] run function tf2:class/pyro/afterburn
 scoreboard players operation @s tf2.fall_y3 = @s tf2.fall_y2

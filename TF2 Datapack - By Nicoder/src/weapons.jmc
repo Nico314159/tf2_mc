@@ -645,7 +645,7 @@ class Weapons {
         }
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        if ($_hitHead_ && entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
+        if ($_hitHead_ && entity @a[tag=retina.executing, scores={tf2.class=Class.SNIPER, tf2.time_scoped=4..}]) {
             vars::kill_verb = "headshot";
             
             index::num = random value 1..5;
@@ -695,7 +695,7 @@ class Weapons {
             $_multiplier_ /= 100;
             $_multiplier_ += 100;
         }
-        else if (entity @a[tag=retina.executing, scores={tf2.class=2, tf2.time_scoped=4..}]) {
+        else if (entity @a[tag=retina.executing, scores={tf2.class=Class.SNIPER, tf2.time_scoped=4..}]) {
             Class.Sniper.damage_scale();
         }
         else {$_multiplier_ = 100;}
