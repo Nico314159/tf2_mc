@@ -1,0 +1,8 @@
+{
+	"parent": "tf2:projectile/medic/syringe_red",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"3": "tf2:projectile/medic/syringe_blu",
+		"particle": "tf2:item/transparent"
+	}
+}

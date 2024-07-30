@@ -19,10 +19,32 @@ class Class.Medic {
 						{
 							"function": "minecraft:set_name",
 							"name": {
-								"text": "Syringe Gun (DOESN'T WORK YET)",
+								"text": "Syringe Gun (WIP)",
 								"color": "gray",
 								"italic": true
 							}
+						},
+						{
+							"function": "minecraft:set_custom_data",
+							"tag": "{
+								attributes: {
+									damage: {base: 10, maxRamp: 1.2}, 
+									attackDelay: 0.105d, 
+									reloadDelay: [1.305d, 1.305d],
+									clip: 40, ammo: 160, 
+									interpolate_rmb: 1,
+									isProjectile: true
+								},
+								projectile: {
+									spawn: [0.0, -0.5, 0.06], 
+									speed: 990,
+									deviation: {min: 0, max: 200}, 
+									gravity: true,
+									ignore_env: false,
+									unreflectable: true
+								},
+								controls: {main_fire: true, alt_fire: false, reload: 3}
+							}"
 						},
 						{
 							"function": "minecraft:set_components",

@@ -96,6 +96,7 @@ class Projectile {
                     "minecraft:custom_model_data": $(CMD), 
                     "minecraft:custom_data": {Motion:[$(X)d, $(Y)d, $(Z)d]}
                 }},
+                item_display: "ground",
                 Tags: ["tf2.new", "tf2.projectile"]
             }]
         };
