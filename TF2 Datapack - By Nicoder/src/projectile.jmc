@@ -24,10 +24,11 @@ class Projectile {
 
         vars::Motion = @s::item.components.minecraft:custom_data.Motion;
         vars::Pos = @s::Pos;
-        if (entity @s[tag=!tf2.drag]) {
-            execute on passengers run @s::Motion = vars::Motion;
-        }
-        execute on passengers expand {
+        execute if entity @s[tag=!tf2.drag] 
+                on vehicle
+                run this.copy_xz_motion(); 
+
+        execute on vehicle expand {
             @s::Pos[0] = vars::Pos[0];
             @s::Pos[2] = vars::Pos[2];
         }
@@ -110,6 +111,10 @@ class Projectile {
 
         function retina:math/sway_heave_surge/find;
         function retina:math/sway_heave_surge/apply;
+    }
+    function copy_xz_motion() {
+        @s::Motion[0] = vars::Motion[0];
+        @s::Motion[2] = vars::Motion[2];
     }
     function compensate_velocity() {
         $velocity = summon::projectile.X * 100;
