@@ -36,7 +36,7 @@ class Class.Medic {
 									isProjectile: true
 								},
 								projectile: {
-									spawn: [0.0, -0.5, 0.06], 
+									spawn: [0.0, -0.45, 0.06], 
 									speed: 990,
 									deviation: {min: 0, max: 200}, 
 									gravity: true,

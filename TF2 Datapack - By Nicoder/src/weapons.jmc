@@ -443,6 +443,7 @@ class Weapons {
         Hardcode.repeatList("|property|", () => {
             $|property| = lookup::item.components.minecraft:custom_data.projectile.|property|;
         }, Projectile.SPECIAL_PROPERTIES);
+        summon::projectile.no_gravity ?= execute if score $gravity tf2.var matches 0;
 
         execute at @s anchored eyes 
                 run Projectile.init_arrow()

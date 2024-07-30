@@ -10,6 +10,7 @@ data modify entity @s Rotation[1] set from storage tf2:summon projectile.pitch
 data modify entity @s item.components.minecraft:custom_name set from storage tf2:summon projectile.weapon_name
 execute if score $explosion tf2.var matches 1.. run tag @s add tf2.explosion
 execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
+execute if score $gravity tf2.var matches 1.. run tag @s add tf2.gravity
 execute if score $drag tf2.var matches 1.. run tag @s add tf2.drag
 execute if score $ignore_env tf2.var matches 1.. run tag @s add tf2.ignore_env
 execute if score $flight_accel tf2.var matches 1.. run tag @s add tf2.flight_accel

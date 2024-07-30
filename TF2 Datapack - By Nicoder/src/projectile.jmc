@@ -77,7 +77,7 @@ class Projectile {
             Owner: $(owner),
             damage: 0.001,
             pickup: false,
-            NoGravity: true,
+            NoGravity: $(no_gravity),
             Silent: true,
             PierceLevel: 127b,
             PersistenceRequired: true,
