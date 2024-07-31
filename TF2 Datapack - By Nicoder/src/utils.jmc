@@ -126,7 +126,5 @@ function insert_into_batch() {
     Spawn.init();
     tag @s add tf2.is_playing;
 
-    // Update timer visibility
-    index::i = tf2.batch_number:@s;
-    Timer.show() with index::;
+    Timer.resync_visibility();
 }

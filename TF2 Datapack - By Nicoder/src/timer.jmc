@@ -209,6 +209,11 @@ class Timer
             $ Bossbar.setName(tf2:timer_$(i), "&<space(left),font(square)>&<font(square)>#@)&<reset>Round - Overtime!&<font(square)>#@)&<space(mid),font(square)>&<point(0),font(square)>&<point(1),font(square)>&<point(2),font(square)>&<point(3),font(square)>&<point(4),font(square)>&<point(5),font(square)>&<point(6),font(square)>&<space(right),font(square)>");
         }
     }
+
+    function resync_visibility() {
+        index::i = tf2.batch_number:@s;
+        this.show() with index::;
+    }
 }
 
 class KOTH_Timer

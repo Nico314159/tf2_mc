@@ -35,14 +35,13 @@ Player.join(() => {
         }
     }, 0, 4);
         
-    index::i = tf2.batch_number:@s;
     scoreboard players enable @s tf2.queue_type;
     scoreboard players enable @s controls;
     scoreboard players enable @s autoreload;
     tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = autoreload:@s = 0;
 
     // Update timer visibility to exclude currrent player
-    Timer.show() with index::;
+    execute as @e[type=marker,tag=tf2.in_use] run Timer.resync_visibility();
 
     effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true;
     effect give @s minecraft:resistance infinite 4 true;

@@ -7,12 +7,11 @@ execute unless score @s tf2.uuid.0 = @s tf2.uuid.0 store result score @s tf2.uui
 execute unless score @s tf2.uuid.1 = @s tf2.uuid.1 store result score @s tf2.uuid.1 run data get entity @s UUID[1]
 execute unless score @s tf2.uuid.2 = @s tf2.uuid.2 store result score @s tf2.uuid.2 run data get entity @s UUID[2]
 execute unless score @s tf2.uuid.3 = @s tf2.uuid.3 store result score @s tf2.uuid.3 run data get entity @s UUID[3]
-execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
 scoreboard players enable @s tf2.queue_type
 scoreboard players enable @s controls
 scoreboard players enable @s autoreload
 execute store result score @s tf2.batch_number store result score @s tf2.queue_type store result score @s controls run scoreboard players set @s autoreload 0
-function tf2:timer/show with storage tf2:index
+execute as @e[type=marker,tag=tf2.in_use] run function tf2:timer/resync_visibility
 effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true
 effect give @s minecraft:resistance infinite 4 true
 effect clear @s invisibility
