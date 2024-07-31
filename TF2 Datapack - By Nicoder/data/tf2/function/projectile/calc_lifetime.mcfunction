@@ -1,2 +1,3 @@
 execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime run return run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime
 execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range run return run function tf2:math/macro_random with storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range
+return 200

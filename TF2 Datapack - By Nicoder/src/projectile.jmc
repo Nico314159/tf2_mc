@@ -73,7 +73,7 @@ class Projectile {
                        with summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range;
         }
 
-        // Otherwise, don't return at all (returning `fail` gets stored as 0, which we don't want)
+        return Projectile.DEFAULT_LIFETIME;
     }
     function init_arrow() {
         // @needs_macro
