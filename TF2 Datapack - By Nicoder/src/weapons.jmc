@@ -427,8 +427,8 @@ class Weapons {
             $ execute store result storage tf2:summon projectile.Z double $(speed) run scoreboard players get $output_vec3.Z retina.__variable__;
         } with summon::projectile;
 
-        summon::projectile.yaw = 0.1 * (double) retina.__variable__:$input_yaw;
-        summon::projectile.pitch = 0.1 * (double) retina.__variable__:$input_pitch;
+        summon::projectile.yaw = -0.1 * (double) retina.__variable__:$input_yaw;
+        summon::projectile.pitch = -0.1 * (double) retina.__variable__:$input_pitch;
         summon::projectile.weapon = lookup::item;
 
         $relative_to_player = lookup::item.components.minecraft:custom_data.projectile.relative_to_player;
@@ -460,8 +460,6 @@ class Weapons {
             
             tf2.lifetime:@s = Projectile.calc_lifetime();
 
-            @s::Rotation[0] = summon::projectile.yaw;
-            @s::Rotation[1] = summon::projectile.pitch;
             @s::item.components.minecraft:custom_name = summon::projectile.weapon_name; 
 
             Hardcode.repeatList("|property|", () => {

@@ -12,8 +12,8 @@ execute store result storage tf2:summon projectile.speed double 0.0000020833 run
 data modify storage tf2:summon projectile.deviation set from storage tf2:lookup item.components.minecraft:custom_data.projectile.deviation
 execute if data storage tf2:summon projectile.deviation run function tf2:projectile/deviation
 function tf2:__private__/anonymous/4 with storage tf2:summon projectile
-execute store result storage tf2:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw retina.__variable__
-execute store result storage tf2:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch retina.__variable__
+execute store result storage tf2:summon projectile.yaw double -0.1 run scoreboard players get $input_yaw retina.__variable__
+execute store result storage tf2:summon projectile.pitch double -0.1 run scoreboard players get $input_pitch retina.__variable__
 data modify storage tf2:summon projectile.weapon set from storage tf2:lookup item
 execute store result score $relative_to_player tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.relative_to_player
 execute if score $relative_to_player tf2.var matches 1.. run function tf2:projectile/compensate_velocity

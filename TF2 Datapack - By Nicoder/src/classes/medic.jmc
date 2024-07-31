@@ -40,7 +40,7 @@ class Class.Medic {
 									speed: 990,
 									deviation: {min: 0, max: 200}, 
 									gravity: true,
-									ignore_env: false,
+									ignore_env: true,
 									unreflectable: true
 								},
 								controls: {main_fire: true, alt_fire: false, reload: 3}

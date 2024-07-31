@@ -24,6 +24,8 @@ class Projectile {
 
         vars::Motion = @s::item.components.minecraft:custom_data.Motion;
         vars::Pos = @s::Pos;
+        execute on vehicle run vars::Rotation = @s::Rotation;
+
         execute if entity @s[tag=!tf2.drag] 
                 on vehicle
                 run this.copy_xz_motion(); 
@@ -32,6 +34,8 @@ class Projectile {
             @s::Pos[0] = vars::Pos[0];
             @s::Pos[2] = vars::Pos[2];
         }
+        @s::Rotation[0] = EVAL(-1 / 1000) * (float) vars::Rotation[0] * 1000;
+        @s::Rotation[1] = EVAL(-1 / 1000) * (float) vars::Rotation[1] * 1000;
 
         if (entity @s[tag=tf2.flight_accel,tag=!tf2.drag]) {
             this.flight_accel.as_display();
@@ -74,6 +78,7 @@ class Projectile {
     function init_arrow() {
         // @needs_macro
         $ summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
+            Rotation: [$(yaw)f, $(pitch)f],
             Owner: $(owner),
             damage: 0.001,
             pickup: false,
@@ -91,12 +96,12 @@ class Projectile {
                 duration: -1
             }],
             Passengers: [{
-                Rotation: [$(yaw)f, $(pitch)f],
                 id: "minecraft:item_display",
                 item: {id: "minecraft:glowstone_dust", components:{
                     "minecraft:custom_model_data": $(CMD), 
                     "minecraft:custom_data": {Motion:[$(X)d, $(Y)d, $(Z)d]}
                 }},
+                start_interpolation: -1,
                 item_display: "ground",
                 Tags: ["tf2.new", "tf2.projectile"]
             }]

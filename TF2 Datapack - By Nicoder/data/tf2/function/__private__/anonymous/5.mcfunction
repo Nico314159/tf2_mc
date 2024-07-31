@@ -5,8 +5,6 @@ data modify entity @s billboard set from storage tf2:lookup item.components.mine
 data modify entity @s item.components.minecraft:custom_data.attributes set from storage tf2:lookup item.components.minecraft:custom_data.attributes
 data modify entity @s item.components.minecraft:custom_data.projectile set from storage tf2:lookup item.components.minecraft:custom_data.projectile
 execute store result score @s tf2.lifetime run function tf2:projectile/calc_lifetime
-data modify entity @s Rotation[0] set from storage tf2:summon projectile.yaw
-data modify entity @s Rotation[1] set from storage tf2:summon projectile.pitch
 data modify entity @s item.components.minecraft:custom_name set from storage tf2:summon projectile.weapon_name
 execute if score $explosion tf2.var matches 1.. run tag @s add tf2.explosion
 execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
