@@ -37,11 +37,8 @@ class Projectile {
         @s::Rotation[0] = EVAL(-1 / 1000) * (float) vars::Rotation[0] * 1000;
         @s::Rotation[1] = EVAL(-1 / 1000) * (float) vars::Rotation[1] * 1000;
 
-        if (entity @s[tag=tf2.flight_accel,tag=!tf2.drag]) {
-            this.flight_accel.as_display();
-        }
-        if (entity @s[tag=tf2.flight_accel,tag=tf2.drag]) {
-            execute on vehicle run this.flight_accel.as_arrow();
+        if (entity @s[tag=tf2.convection]) {
+            execute on vehicle run this.convection();
         }
 
         this.check_collision();
@@ -132,23 +129,11 @@ class Projectile {
         $velocity -= tf2.last_z:@s;
         summon::projectile.Z = 0.01 * (double) $velocity;
     }
-    class flight_accel {
-        function as_display() {
-            Hardcode.repeat("|i|", () => {
-                $velocity = @s::item.components.minecraft:custom_data.Motion[|i|] * 1000;
-                $accel = @s::item.components.minecraft:custom_data.projectile.flight_accel[|i|] * 1000;
-                $velocity += $accel;
-                @s::item.components.minecraft:custom_data.Motion[|i|] = 0.001 * (double) $velocity;
-            }, start=0, stop=3);
-        }
-        function as_arrow() {
-            Hardcode.repeat("|i|", () => {
-                $velocity = @s::Motion[|i|] * 1000;
-                $accel = execute on passengers run @s::item.components.minecraft:custom_data.projectile.flight_accel[|i|] * 1000;
-                $velocity += $accel;
-                @s::Motion[|i|] = 0.001 * (double) $velocity;
-            }, start=0, stop=3);
-        }
+    function convection() {
+        $velocity = @s::Motion[1] * 1000;
+        $accel = execute on passengers run @s::item.components.minecraft:custom_data.projectile.convection.factor * 1000;
+        $velocity += $accel;
+        @s::Motion[1] = 0.001 * (double) $velocity;
     }
 
     function check_collision() {

@@ -33,7 +33,7 @@
 
 #define FULL_CLOAK 600
 
-#define Projectile.SPECIAL_PROPERTIES ["explosion", "has_trail", "gravity", "drag", "ignore_env", "flight_accel", "unreflectable"]
+#define Projectile.SPECIAL_PROPERTIES ["explosion", "has_trail", "gravity", "drag", "ignore_env", "convection", "unreflectable"]
 #define Projectile.DEFAULT_LIFETIME EVAL(10 * 20) 
 
 #define FIRE_SOUND_LENGTH EVAL(1.8 * 20)

@@ -7,8 +7,7 @@ execute on vehicle run data modify entity @s Pos[0] set from storage tf2:vars Po
 execute on vehicle run data modify entity @s Pos[2] set from storage tf2:vars Pos[2]
 execute store result entity @s Rotation[0] float -0.001 run data get storage tf2:vars Rotation[0] 1000
 execute store result entity @s Rotation[1] float -0.001 run data get storage tf2:vars Rotation[1] 1000
-execute if entity @s[tag=tf2.flight_accel,tag=!tf2.drag] run function tf2:projectile/flight_accel/as_display
-execute if entity @s[tag=tf2.flight_accel,tag=tf2.drag] on vehicle run function tf2:projectile/flight_accel/as_arrow
+execute if entity @s[tag=tf2.convection] on vehicle run function tf2:projectile/convection
 function tf2:projectile/check_collision
 execute as @e[type=#tf2:player_like,tag=tf2.batch] run function tf2:projectile/remove_tags
 scoreboard players add @s tf2.age 1

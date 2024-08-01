@@ -28,7 +28,7 @@ execute store result score $has_trail tf2.var run data get storage tf2:lookup it
 execute store result score $gravity tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.gravity
 execute store result score $drag tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.drag
 execute store result score $ignore_env tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.ignore_env
-execute store result score $flight_accel tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.flight_accel
+execute store result score $convection tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.convection
 execute store result score $unreflectable tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.unreflectable
 execute store success storage tf2:summon projectile.no_gravity int 1 if score $gravity tf2.var matches 0
 execute at @s anchored eyes run function tf2:projectile/init_arrow with storage tf2:summon projectile

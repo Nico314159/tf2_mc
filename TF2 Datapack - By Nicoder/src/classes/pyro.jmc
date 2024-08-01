@@ -45,7 +45,7 @@ class Class.Pyro {
 										billboard: center,
 										relative_to_player: true,
 										unreflectable: true,
-										flight_accel: [0.0, 0.007, 0.0]
+										convection: {factor: 0.007}
 									},
 									controls: {main_fire: true, alt_fire: true, reload: 0}
 								}"
