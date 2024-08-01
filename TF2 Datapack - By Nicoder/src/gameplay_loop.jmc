@@ -66,8 +66,10 @@
             tf2.red_progress:@s[scores={tf2.team=1}] = tf2.capture_threshold:@s;
             tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
             execute if score @s tf2.index = $highest tf2.index
-                    unless score @s tf2.gamemode matches 3 run tag @s add tf2.last;
-            tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last;
+                    unless score @s tf2.gamemode 
+                    matches Gamemode.KOTH 
+                    run tag @s add tf2.last;
+            tag @s[scores={tf2.index=0,tf2.gamemode=Gamemode.CONTROL_PTS}] add tf2.last;
         } with index::;
         summon::objectives[-1].del();
     }
@@ -228,7 +230,9 @@ class start_game {
             tf2.gamemode:@s = @s::data.map.gamemode;
             tf2.gamemode:$temp = tf2.gamemode:@s;
             summon_entities();
-            if (tf2.gamemode:@s matches 1..4) Objectives.control_point.visuals.spacing();
+            if (tf2.gamemode:@s matches Gamemode.ATK_DEF..Gamemode.DOMINATION) {
+                Objectives.control_point.visuals.spacing();
+            }
 
             // TODO: replace random assignment with "first come, first serve"
             if ($comp_queue_length >= 12) {
@@ -241,13 +245,13 @@ class start_game {
                 execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=3,tf2.batch_number=0},limit=40,sort=random] run start_game.as_players.generic();
             }
             scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type;
-            if (tf2.gamemode:@s matches 1..2) {
+            if (tf2.gamemode:@s matches Gamemode.ATK_DEF..Gamemode.CONTROL_PTS) {
                 tf2.max_timer:@s = tf2.timer:@s = @s::data.map.timer * 20;
                 if (data entity @s data.map.timer) Timer.set_max() with index::;
                 if (data entity @s data.map.timer) Timer.show() with index::;
                 if (data entity @s data.map.setup_time) Timer.begin_setup() with index::;
             }
-            if (tf2.gamemode:@s == 3) {
+            if (tf2.gamemode:@s == Gamemode.KOTH) {
                 tf2.team:@s = 0;
                 scoreboard players reset @s tf2.timer; // failsafe, shouldn't actually be necessary ever
                 KOTH_Timer.set_max() with index::;
@@ -268,9 +272,8 @@ class start_game {
             // [WIP] Tells players which gamemode they will be playing, and some basic info about how that gamemode works.
             // @within start_game.as_marker.main()
 
-            // (1 = A/D, 2 = 5CP, 3 = KOTH, etc.)
-            if (tf2.gamemode:@s = 1) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_atk_def>Attack / Defend");
-            if (tf2.gamemode:@s = 2) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_control_points>Control Points");
+            if (tf2.gamemode:@s = Gamemode.ATK_DEF) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_atk_def>Attack / Defend");
+            if (tf2.gamemode:@s = Gamemode.CONTROL_PTS) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_control_points>Control Points");
         }
     }
     class as_players {
@@ -354,8 +357,8 @@ class reset {
 
         if ($Settings.show_debug_messages = 1) Text.tellraw(@a, "&<bold><Debug> &<!bold>Game controlled by &<@s> has ended at &<0008it54g_p_join:$__global__> ticks gametime");
         index::i = tf2.batch_number:@s;
-        if (tf2.gamemode:@s matches 1..2) Timer.hide() with index::;
-        if (tf2.gamemode:@s == 3) KOTH_Timer.hide() with index::;
+        if (tf2.gamemode:@s matches Gamemode.ATK_DEF..Gamemode.CONTROL_PTS) Timer.hide() with index::;
+        if (tf2.gamemode:@s == Gamemode.KOTH) KOTH_Timer.hide() with index::;
         tf2.batch_number:$local = tf2.batch_number:@s;
         execute as @e if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
         execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();

@@ -109,8 +109,12 @@ class Objectives
             // no need to count total number of control points, as that is already given by `tf2.index` [see `Objectives.control_point.visuals.spacing()` for more info]
 
             scoreboard players reset $winner tf2.var;
-            if ($red_cp_count == tf2.index:@s[tag=!tf2.multistage,scores={tf2.gamemode=2}]) $winner = 1;
-            if ($blu_cp_count == tf2.index:@s[tag=!tf2.multistage,scores={tf2.gamemode=1..2}]) $winner = 2;
+            if ($red_cp_count == tf2.index:@s[tag=!tf2.multistage,scores={tf2.gamemode=Gamemode.CONTROL_PTS}]) {
+                $winner = 1;
+            }
+            if ($blu_cp_count == tf2.index:@s[tag=!tf2.multistage,scores={tf2.gamemode=Gamemode.ATK_DEF .. Gamemode.CONTROL_PTS}]) {
+                $winner = 2;
+            }
             // execute if score $red_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
             // execute if score $blu_cp_count tf2.var = @s tf2.index if score @s tf2.gamemode matches 1..2 if entity @s[tag=tf2.multistage] run function tf2:start_next_stage");
 
@@ -289,7 +293,7 @@ class Objectives
             }
             function add_time() {
                 tf2.timer:@e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1] += tf2.increment:@s;
-                tf2.timer:@e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1,scores={tf2.gamemode=2}] = 12000;
+                tf2.timer:@e[type=marker,tag=tf2.batch,tag=tf2.current,limit=1,scores={tf2.gamemode=Gamemode.CONTROL_PTS}] = 12000;
 
                 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
                 if (tf2.red_progress:@s >= tf2.capture_threshold:@s) expand {
@@ -678,7 +682,7 @@ class Objectives
                             case 47: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
-                        if (tf2.gamemode:@s == 3) {
+                        if (tf2.gamemode:@s == Gamemode.KOTH) {
                             return run Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel_koth)>&<#291A15,font(wheel_koth)>?43&<gui_wheel(owner),font(wheel_koth)>&<font(wheel_koth)>421|&<gui_wheel(progress),font(wheel_koth)>");
                         }
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
@@ -800,7 +804,7 @@ class Objectives
                             case 47: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
-                        if (tf2.gamemode:@s == 3) {
+                        if (tf2.gamemode:@s == Gamemode.KOTH) {
                             return run Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel_koth)>&<#291A15,font(wheel_koth)>?43&<gui_wheel(owner),font(wheel_koth)>&<font(wheel_koth)>421|&<gui_wheel(progress),font(wheel_koth)>");
                         }
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
