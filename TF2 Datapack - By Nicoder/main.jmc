@@ -60,8 +60,7 @@ function marker_tick() {
     if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=Gamemode.ATK_DEF .. Gamemode.DOMINATION}] && entity @a) {
         Objectives.control_point.gamestate();
     }
-    if (entity @s[tag=tf2.in_use] && tf2.gamemode:@s != 3) Timer.main();
-    if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=3}]) KOTH_Timer.main();
+    if (entity @s[tag=tf2.in_use]) Timer.main();
 
     // honetly
     execute if entity @s[tag=tf2.batch] run {

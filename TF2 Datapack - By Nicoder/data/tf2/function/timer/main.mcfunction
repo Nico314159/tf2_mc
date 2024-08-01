@@ -1,3 +1,4 @@
+execute if score @s tf2.gamemode matches 3 run return run function tf2:koth_timer/main
 execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
 scoreboard players remove @s[tag=!tf2.overtime] tf2.timer 1
 function tf2:timer/set_value with storage tf2:index

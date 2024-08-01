@@ -4,6 +4,10 @@ class Timer
         // Handles the timer mechanic, which is essential to almost all gamemodes
         // @within __tick__()
 
+        if (tf2.gamemode:@s == Gamemode.KOTH) {
+            return run KOTH_Timer.main();
+        }
+
         index::i = tf2.batch_number:@s;
         tf2.timer:@s[tag=!tf2.overtime]--;
         Timer.set_value() with index::;
@@ -97,6 +101,8 @@ class Timer
         // @needs_macro
         // @within
         //  reset.announce_winner()
+        $execute if entity @e[type=marker,scores={tf2.batch_number=$(i),tf2.gamemode=Gamemode.KOTH}]
+                 run return run KOTH_Timer.hide() with index::;
         $bossbar set tf2:timer_$(i) visible false;
     }
 
