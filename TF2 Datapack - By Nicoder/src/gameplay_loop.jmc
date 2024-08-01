@@ -272,8 +272,15 @@ class start_game {
             // [WIP] Tells players which gamemode they will be playing, and some basic info about how that gamemode works.
             // @within start_game.as_marker.main()
 
-            if (tf2.gamemode:@s = Gamemode.ATK_DEF) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_atk_def>Attack / Defend");
-            if (tf2.gamemode:@s = Gamemode.CONTROL_PTS) Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_control_points>Control Points");
+            if (tf2.gamemode:@s = Gamemode.ATK_DEF) {
+                Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_atk_def>Attack / Defend");
+            }
+            if (tf2.gamemode:@s = Gamemode.CONTROL_PTS) {
+                Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_control_points>Control Points");
+            }
+            if (tf2.gamemode:@s = Gamemode.KOTH) {
+                Text.tellraw(@a[tag=tf2.current], "&<bold, underlined>Gamemode:&<!underlined> &<italic, info_koth>King of the Hill");
+            }
         }
     }
     class as_players {
