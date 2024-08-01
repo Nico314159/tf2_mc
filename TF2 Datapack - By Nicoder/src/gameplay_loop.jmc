@@ -196,6 +196,9 @@
             if score @s tf2.batch_number 
                = $local tf2.batch_number
             run Session.despawn() with index::;
+    execute as @e[type=!#tf2:player_like,tag=!tf2.static_prop]
+            unless score @s tf2.batch_number = @s tf2.batch_number
+            run kill @s;
 
     // Copy over the new session IDs all at once
     execute as @e[type=!#tf2:player_like] 
