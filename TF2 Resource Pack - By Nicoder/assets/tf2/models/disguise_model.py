@@ -5,6 +5,7 @@ from os import getcwd, makedirs, mkdir, write
 from shutil import rmtree
 from pathlib import Path
 from typing import Any, Literal
+from ...minecraft.models.item.handler import blockbench_style_JSON
 
 def make_empty_folder(path: Path):
     if not path.exists():
@@ -61,50 +62,6 @@ def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any], compensate_
         "display": model1['display'] | pov3rd
     }
 
-def format_json(obj) -> str:
-    indentation = '\t'
-
-    def new_line(tabs):
-        return f'\n{indentation * tabs}'
-
-    def escape(string):
-        return string.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r\n', '\\n').replace('\t', '\\t')
-
-    def handle_var(o, tabs) -> str:
-        match o:
-            case str(): 
-                return f'"{escape(o)}"'
-            case bool(): 
-                return str(o).lower()
-            case None | float('inf') | float('-inf'): 
-                return 'null'
-            case int() | float(): 
-                return f'{round(o, 5)}'
-            case list(): 
-                return handle_list(o, tabs)
-            case dict(): 
-                return handle_dict(o, tabs)
-            case _: return ''
-    
-    def handle_list(o, tabs):
-        multiline = any(isinstance(item, dict) for item in o)
-        if sum(len(str(item)) + 3 for item in o) > 140:
-            multiline = True
-        
-        items = [handle_var(item, tabs + 1) for item in o]
-        if not multiline:
-            return '[' + ', '.join(items) + ']'
-        else:
-            out = (',' + new_line(tabs)).join(items)
-            return f'[{new_line(tabs)}{out}{new_line(tabs - 1)}]'
-
-    def handle_dict(o, tabs):
-        items = [f'"{escape(key)}": {handle_var(value, tabs + 1)}' for key, value in o.items()]
-        out = (',' + new_line(tabs)).join(items)
-        return f'{{{new_line(tabs) if items else ""}{out}{new_line(tabs - 1) if items else ""}}}'
-
-    return handle_var(obj, 1)
-
 cwd = getcwd()
 items_path = Path(cwd, "item").relative_to(cwd)
 make_empty_folder(Path(cwd, 'disguise'))
@@ -138,7 +95,7 @@ for model_path in items_path.rglob('*.json'):
 
             new_model = blockbench_merge(spy_json, disguise_json, compensate_rotation=(spy_weapon.parent.stem=="disguise_kit"))
         
-            out.write(format_json(new_model))
+            out.write(blockbench_style_JSON(new_model))
 
 
 

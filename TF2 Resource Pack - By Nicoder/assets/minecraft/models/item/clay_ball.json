@@ -2,23 +2,10 @@
     "textures": {
         "layer0": "item/clay_ball"
     },
-    "overrides": [      
-        { "predicate": {"custom_model_data": 12000}, "model": "tf2:item/spy/secondary/sapper"},
-        { "predicate": {"custom_model_data": 15000}, "model": "tf2:item/spy/watch/invis_watch"},
-        { "predicate": {"custom_model_data": 15001}, "model": "tf2:item/spy/watch/invis_watch_gui_only"},
-
-        { "predicate": {"custom_model_data": 22000}, "model": "tf2:item/sniper/secondary/smg"},
-        { "predicate": {"custom_model_data": 32000}, "model": "tf2:item/scout/secondary/pistol"},
-        { "predicate": {"custom_model_data": 42000}, "model": "tf2:item/soldier/secondary/shotgun"},
-        { "predicate": {"custom_model_data": 62000}, "model": "tf2:item/heavy/secondary/shotgun"},
-        
-        { "predicate": {"custom_model_data": 63000}, "model": "tf2:item/heavy/melee/left_fist"},
-
-
-        { "predicate": {"custom_model_data": 200022000}, "model": "tf2:disguise/secondary/sapper_as_smg"},
-        { "predicate": {"custom_model_data": 200032000}, "model": "tf2:disguise/secondary/sapper_as_pistol"},
-        { "predicate": {"custom_model_data": 200042000}, "model": "tf2:disguise/secondary/sapper_as_shotgun"},
-        { "predicate": {"custom_model_data": 200062000}, "model": "tf2:disguise/secondary/sapper_as_shotgun"},
-        { "predicate": {"custom_model_data": 200072000}, "model": "tf2:disguise/secondary/sapper_as_shotgun"}
+    "overrides": [
+        {"predicate": {"custom_model_data": 900}, "model": "tf2:item/spy/secondary/sapper"},
+        {"predicate": {"custom_model_data": 1350}, "model": "tf2:item/spy/watch/invis_watch"},
+        {"predicate": {"custom_model_data": 1351}, "model": "tf2:item/spy/watch/invis_watch_gui_only"},
+        {"predicate": {"custom_model_data": 4801}, "model": "tf2:item/heavy/melee/left_fist"}
     ]
 }
