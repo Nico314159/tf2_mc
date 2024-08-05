@@ -7,6 +7,95 @@ new trim_pattern(heavy) {
 }
 generate_body_model(heavy);
 
+JMC.python(`
+make_weapon(
+    Class.HEAVY, slot=0, name='minigun_decoy',
+    base_item="minecraft:crossbow",
+    display_name={
+        "translate": "tf2.minigun",
+        "fallback": "Minigun (rev up with %s)",
+        "with": [{"keybind": "key.swapOffhand"}],
+        "color": "gray",
+        "italic": true
+    },
+    attributes=[],
+    extra=[{
+        "function": "minecraft:set_custom_data",
+        "tag": "{kind: fake}"
+    }]
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.HEAVY, slot=0, name='minigun_spinning',
+    display_name="Minigun",
+    base_item="minecraft:crossbow",
+    attributes={'damage': {'base': 9, 'maxRamp': 1.5}, 'attackDelay': 0.1, 'spinupDelay': 0.87, 'clip': 200, 'ammo': 0, 'interpolate_rmb': 2},
+    controls={'reload': 0},
+    cmd_bump=1,
+    extra=[
+        {
+            "function": "minecraft:set_custom_data",
+            "tag": "{kind: real}"
+        },
+        {
+            "function": "minecraft:reference",
+            "name": "tf2:load_crossbow",
+            "conditions": [
+                {
+                    "condition": "minecraft:entity_scores",
+                    "entity": "this",
+                    "scores": {
+                        "tf2.time_revved": {
+                            "min": {
+                                "type": "minecraft:score",
+                                "target": "this",
+                                "score": "tf2.rev_threshold",
+                                "scale": 1
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.HEAVY, slot=1, name='Shotgun', bullets=[3, 3, 1], spread=[100, 250],
+    attributes={'damage': {'base': 6, 'maxRamp': 1.5}, 'attackDelay': 0.625, 'reloadDelay': [0.87, 0.51], 'clip': 6, 'ammo': 32}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.HEAVY, slot=2, 
+    name='right_fist',
+    display_name="Fists",
+    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.HEAVY, slot=2, 
+    name='left_fist',
+    display_name="",
+    base_item="minecraft:clay_ball",
+    extra=[{
+        "function": "minecraft:set_custom_data",
+        "tag": "{ attributes: {isMelee: true} }"
+    }],
+    cmd_bump=1
+)
+`, jmc=true);
+
+
+
+
 class Class.Heavy {
     new predicate(is_revving) {
         "condition": "minecraft:all_of",
@@ -44,196 +133,6 @@ class Class.Heavy {
                 }
             }
         ]
-    }
-    new loot_table(minigun_decoy) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-                    "name": "minecraft:crossbow",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "translate": "tf2.minigun",
-                                "fallback": "Minigun (rev up with %s)",
-                                "with": [{"keybind": "key.swapOffhand"}],
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{kind: \"fake\"}"
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 61000,
-                                "minecraft:charged_projectiles": [{"id": "minecraft:arrow", "count": 1}],
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(minigun_spinning) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-                    "name": "minecraft:crossbow",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Minigun",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 61001,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [210, 370], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 9, maxRamp: 1.5}, attackDelay: 0.1d, spinupDelay: 0.87d, clip: 200, ammo: 0, interpolate_rmb: 2},
-                                controls: {main_fire: true, alt_fire: false, reload: 0}, 
-                                kind: \"real\"
-                            }"
-                        },
-                        {
-                            "function": "minecraft:reference",
-                            "name": "tf2:load_crossbow",
-                            "conditions": [
-                                {
-                                    "condition": "minecraft:entity_scores",
-                                    "entity": "this",
-                                    "scores": {
-                                        "tf2.time_revved": {
-                                            "min": {
-                                                "type": "minecraft:score",
-                                                "target": "this",
-                                                "score": "tf2.rev_threshold",
-                                                "scale": 1
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(shotgun) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Shotgun",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 62000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [100, 250], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [0.87d, 0.51d], clip: 6, ammo: 32},
-                                controls: {main_fire: true, alt_fire: false, reload: 1},
-                                kind: \"real\"
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(right_fist) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:melee_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Fists",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 63000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
-                                attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
-                                controls: {main_fire: true, alt_fire: false, reload: 0}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(left_fist) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-                    "name": "minecraft:clay_ball",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {"text": ""}
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {"minecraft:custom_model_data": 63000}
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{ attributes: {isMelee: true} }"
-                        }
-                    ]
-                }
-            ]
-        }]
     }
 
     function give() {

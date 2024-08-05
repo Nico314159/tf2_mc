@@ -8,6 +8,15 @@
                     "value": "tf2:crossbow_base",
                     "functions": [
                         {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 750,
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
+                            }
+                        },
+                        {
                             "function": "minecraft:set_name",
                             "name": {
                                 "text": "Revolver",
@@ -16,17 +25,8 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 11000,
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                }
-                            }
-                        },
-                        {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [25, 50], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 40, maxRamp: 1.5}, attackDelay: 0.5d, reloadDelay: [1.133d, 1.133d], clip: 6, ammo: 24, spreadRecovery: 25},\n                                controls: {main_fire: true, alt_fire: false, reload: 3}\n                            }"
+                            "tag": "{retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:500},attributes:{damage:{base:40,maxRamp:1.5},attackDelay:0.5,reloadDelay:[1.133,1.133],clip:6,ammo:24,spreadRecovery:25},controls:{reload:3,main_fire:true,alt_fire:false},key:[1,0]}"
                         }
                     ]
                 }

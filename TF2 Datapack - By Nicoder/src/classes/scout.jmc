@@ -7,116 +7,36 @@ new trim_pattern(scout) {
 }
 generate_body_model(scout);
 
-class Class.Scout {
-    new loot_table(scattergun) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Scattergun",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 31000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [100, 250], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 6, maxRamp: 1.75}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},
-                                controls: {main_fire: true, alt_fire: false, reload: 1}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(pistol) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Pistol",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 32000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [40, 85], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 15}, attackDelay: 0.15d, reloadDelay: [1.005d, 1.005d], clip: 12, ammo: 40, spreadRecovery: 25},
-                                controls: {main_fire: true, alt_fire: false, reload: 3}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(baseball_bat) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:melee_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Baseball Bat",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 33000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
-                                attributes: {damage: {base: 35}, attackDelay: 0.5d, range: 3.2d, isMelee: true},
-                                controls: {main_fire: true, alt_fire: false, reload: 0}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
+JMC.python(`
+make_weapon(
+    Class.SCOUT, slot=0, name='Scattergun', bullets=[3, 3], spread=[100, 250],
+    attributes={'damage': {'base': 6, 'maxRamp': 1.75}, 'attackDelay': 0.625, 'reloadDelay': [0.7, 0.5], 'clip': 6, 'ammo': 32}
+)
+`, jmc=true);
 
+JMC.python(`
+make_weapon(
+    Class.SCOUT, slot=1, name='Pistol', spread=[40, 85],
+    attributes={'damage': {'base': 15}, 'attackDelay': 0.15, 'reloadDelay': [1.005, 1.005], 'clip': 12, 'ammo': 40, 'spreadRecovery': 25},
+    controls={'reload': 3}
+)
+`, jmc=true);
+JMC.python(`
+make_weapon(
+    Class.SCOUT, slot=1, name='Pistol2', spread=[40, 85],
+    attributes={'damage': {'base': 15}, 'attackDelay': 0.15, 'reloadDelay': [1.005, 1.005], 'clip': 12, 'ammo': 40, 'spreadRecovery': 25},
+    controls={'reload': 3}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SCOUT, slot=2, name='Baseball Bat',
+    attributes={'damage': {'base': 35}, 'attackDelay': 0.5, 'range': 3.2, 'isMelee': true}
+)
+`, jmc=true);
+
+class Class.Scout {
     function give() {
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;

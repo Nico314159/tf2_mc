@@ -8,21 +8,20 @@
                     "value": "tf2:crossbow_base",
                     "functions": [
                         {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 1200,
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
+                            }
+                        },
+                        {
                             "function": "minecraft:set_name",
                             "name": {
                                 "text": "Disguise Kit",
                                 "color": "gray",
                                 "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 400000000,
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                },
-                                "minecraft:enchantment_glint_override": false
                             }
                         },
                         {

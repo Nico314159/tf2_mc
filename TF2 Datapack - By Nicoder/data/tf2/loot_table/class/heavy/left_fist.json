@@ -8,15 +8,17 @@
                     "name": "minecraft:clay_ball",
                     "functions": [
                         {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": ""
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 4801
                             }
                         },
                         {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 63000
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "",
+                                "color": "gray",
+                                "italic": true
                             }
                         },
                         {

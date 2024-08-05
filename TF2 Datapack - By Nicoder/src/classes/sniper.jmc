@@ -7,6 +7,38 @@ new trim_pattern(sniper) {
 }
 generate_body_model(sniper);
 
+JMC.python(`
+make_weapon(
+    Class.SNIPER, slot=0, name='Sniper Rifle',
+    base_item="tf2:sniper_base",
+    display_name={
+        "translate": "tf2.sniper_rifle",
+        "fallback": "Sniper Rifle (%1$s to zoom, %2$s to shoot)",
+        "with": [{"keybind": "key.use"}, {"keybind": "key.swapOffhand"}],
+        "color": "gray",
+        "italic": true
+    },
+    attributes={'damage': {'base': 50, 'uniform': true}, 'attackDelay': 1.5, 'clip': 15, 'ammo': 0},
+    controls={'main_fire': true, 'alt_fire': true, 'reload': 0}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SNIPER, slot=1, name='SMG', spread=[25, 60],
+    attributes={'damage': {'base': 8}, 'attackDelay': 0.105, 'reloadDelay': [1.1, 1.1], 'clip': 25, 'ammo': 75, 'spreadRecovery': 25},
+    controls={'reload': 3}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SNIPER, slot=2, name='Kukri',
+    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true}
+)
+`, jmc=true);
+
+
 class Class.Sniper {
     new advancement(scope) {
         "criteria": {
@@ -33,113 +65,6 @@ class Class.Sniper {
                     }
                 }
             }
-        }]
-    }
-
-    new loot_table(sniper_rifle) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:sniper_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "translate": "tf2.sniper_rifle",
-                                "fallback": "Sniper Rifle (%1$s to zoom, %2$s to shoot)",
-                                "with": [{"keybind": "key.use"}, {"keybind": "key.swapOffhand"}],
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 21000
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},
-                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},
-                                controls: {main_fire: true, alt_fire: true, reload: 0}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(smg) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "SMG",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 22000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [25, 60], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 8}, attackDelay: 0.105d, reloadDelay: [1.1d, 1.1d], clip: 25, ammo: 75, spreadRecovery: 25},
-                                controls: {main_fire: true, alt_fire: false, reload: 3}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(kukri) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:melee_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Kukri",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {"minecraft:custom_model_data": 23000}
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
-                                attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
-                                controls: {main_fire: true, alt_fire: false, reload: 0}
-                            }"
-                        }
-                    ]
-                }
-            ]
         }]
     }
 

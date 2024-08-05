@@ -8,17 +8,9 @@
                     "value": "tf2:crossbow_base",
                     "functions": [
                         {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Medi Gun (DOESN'T WORK YET)",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 92001,
+                                "minecraft:custom_model_data": 6905,
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }
@@ -36,7 +28,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 92002,
+                                "minecraft:custom_model_data": 6910,
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }
@@ -50,6 +42,14 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Medi Gun (DOESN'T WORK YET)",
+                                "color": "gray",
+                                "italic": true
+                            }
                         }
                     ]
                 }

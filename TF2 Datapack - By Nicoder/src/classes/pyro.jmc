@@ -7,150 +7,51 @@ new trim_pattern(pyro) {
 }
 generate_body_model(pyro);
 
-class Class.Pyro {
-	new loot_table(flamethrower) {
-		"pools": [
-			{
-				"rolls": 1,
-				"entries": [
-					{
-						"type": "minecraft:loot_table",
-						"value": "tf2:crossbow_base",
-						"functions": [
-		        			{
-								"function": "minecraft:set_name",
-								"name": {
-									"text": "Flamethrower (WIP)",
-									"color": "gray",
-									"italic": true
-								}
-							},
-							{
-								"function": "minecraft:set_custom_data",
-								"tag": "{
-									attributes: {
-										damage: {base: 9, temporalFalloff: true}, 
-										attackDelay: 0.07d, 
-										clip: 200, ammo: 0, 
-										isProjectile: true, 
-										interpolate_rmb: 5, 
-										on_hit: ['execute as @p[tag=tf2.hit] run function tf2:class/pyro/ignite']
-									},
-									projectile: {
-										spawn: [0.0, -0.6, 0.247675], 
-										speed_range: {min: 400, max: 550}, 
-									    deviation: {min: 75, max: 300}, 
-										lifetime_range: {min: 10, max: 14}, 
-										drag: true, ignore_env: true,
-										billboard: center,
-										relative_to_player: true,
-										unreflectable: true,
-										convection: {factor: 0.007}
-									},
-									controls: {main_fire: true, alt_fire: true, reload: 0}
-								}"
-							},
-							{
-								"function": "minecraft:set_components",
-		   	 					"components": {
-									"minecraft:custom_model_data": 71001,
-	 						   		"minecraft:unbreakable": {"show_in_tooltip": false}
-								},
-								"conditions": [
-									{ "condition": "minecraft:entity_scores",
-								      "entity": "this", "scores": {"tf2.team": 1} }
-								]
-							},
-							{
-								"function": "minecraft:set_components",
-								"components": {
-									"minecraft:custom_model_data": 71002,
-									"minecraft:unbreakable": {"show_in_tooltip": false}
-								},
-								"conditions": [
-									{ "condition": "minecraft:entity_scores",
-									  "entity": "this", "scores": {"tf2.team": 2} }
-								]
- 							}
-						]
-					}
-				]
-			}
-		]
-	}
-	new loot_table(shotgun) {
-		"pools": [{
-			"rolls": 1,
-			"entries": [
-				{
-					"type": "minecraft:loot_table",
-					"value": "tf2:crossbow_base",
-					"functions": [
-						{
-							"function": "minecraft:set_name",
-							"name": {
-								"text": "Shotgun",
-								"color": "gray",
-								"italic": true
-							}
-						},
-						{
-							"function": "minecraft:set_components",
-	    				    "components": {
-								"minecraft:custom_model_data": 72000,
-								"minecraft:unbreakable": {"show_in_tooltip": false}
-							}
-						},
-						{
-							"function": "minecraft:set_custom_data",
-							"tag": "{
-								retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [100, 250], MaxRecursionDepth: 100},
-								attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [1.035d, 0.51d], clip: 6, ammo: 32},
-    	  	  	      		  	controls: {main_fire: true, alt_fire: false, reload: 1}
-							}"
-						}
-					]
-				}
-			]
-	  	}]
-	}
-  	new loot_table(fire_axe) {
- 		"pools": [{
-			"rolls": 1,
-			"entries": [
-				{
-    				"type": "minecraft:loot_table",
-					"value": "tf2:melee_base",
-					"functions": [
-						{
-							"function": "minecraft:set_name",
-							"name": {
-								"text": "Fire Axe",
-								"color": "gray",
-								"italic": true
-							}
-						},
-						{
-							"function": "minecraft:set_components",
-							"components": {
-								"minecraft:custom_model_data": 73000,
-								"minecraft:unbreakable": {"show_in_tooltip": false}
-							}
-						},
-						{
-							"function": "minecraft:set_custom_data",
-							"tag": "{
-								retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
-			  		 			attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
-								controls: {main_fire: true, alt_fire: false, reload: 0}
-							}"
-					  	}
-					]
-	  			}
-			]
-		}]
-	}
+JMC.python(`
+make_weapon(
+    Class.PYRO, slot=0, name='Flamethrower',
+    attributes={
+		'damage': {'base': 9, 'temporalFalloff': true}, 
+		'attackDelay': 0.07, 
+		'clip': 200, 'ammo': 0, 
+		'isProjectile': true, 
+		'interpolate_rmb': 5, 
+		'on_hit': ['execute as @p[tag=tf2.hit] run function tf2:class/pyro/ignite']
+	},
+	projectile={
+		'spawn': [0.0, -0.6, 0.247675], 
+		'speed_range': {'min': 400, 'max': 550}, 
+		'deviation': {'min': 75, 'max': 300}, 
+		'lifetime_range': {'min': 10, 'max': 14}, 
+		'drag': true, 
+		'ignore_env': true,
+		'billboard': 'center',
+		'relative_to_player': true,
+		'unreflectable': true,
+		'convection': {'factor': 0.007}
+	},
+	controls={'main_fire': true, 'alt_fire': true, 'reload': 0},
+	team_specific=True
+)
+`, jmc=true);
 
+JMC.python(`
+make_weapon(
+    Class.PYRO, slot=1, name='Shotgun', bullets=[3, 3, 1], spread=[100, 250],
+    attributes={'damage': {'base': 6, 'maxRamp': 1.5}, 'attackDelay': 0.625, 'reloadDelay': [1.035, 0.51], 'clip': 6, 'ammo': 32}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.PYRO, slot=2, 
+    name='Fire Axe',
+    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true}
+)
+`, jmc=true);
+
+
+class Class.Pyro {
 	function give() {
 		clear @s;
 		loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;

@@ -8,21 +8,9 @@
                     "value": "tf2:crossbow_base",
                     "functions": [
                         {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Flamethrower (WIP)",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{\n\t\t\t\t\t\t\t\t\tattributes: {\n\t\t\t\t\t\t\t\t\t\tdamage: {base: 9, temporalFalloff: true}, \n\t\t\t\t\t\t\t\t\t\tattackDelay: 0.07d, \n\t\t\t\t\t\t\t\t\t\tclip: 200, ammo: 0, \n\t\t\t\t\t\t\t\t\t\tisProjectile: true, \n\t\t\t\t\t\t\t\t\t\tinterpolate_rmb: 5, \n\t\t\t\t\t\t\t\t\t\ton_hit: ['execute as @p[tag=tf2.hit] run function tf2:class/pyro/ignite']\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tprojectile: {\n\t\t\t\t\t\t\t\t\t\tspawn: [0.0, -0.6, 0.247675], \n\t\t\t\t\t\t\t\t\t\tspeed_range: {min: 400, max: 550}, \n\t\t\t\t\t\t\t\t\t    deviation: {min: 75, max: 300}, \n\t\t\t\t\t\t\t\t\t\tlifetime_range: {min: 10, max: 14}, \n\t\t\t\t\t\t\t\t\t\tdrag: true, ignore_env: true,\n\t\t\t\t\t\t\t\t\t\tbillboard: center,\n\t\t\t\t\t\t\t\t\t\trelative_to_player: true,\n\t\t\t\t\t\t\t\t\t\tunreflectable: true,\n\t\t\t\t\t\t\t\t\t\tconvection: {factor: 0.007}\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tcontrols: {main_fire: true, alt_fire: true, reload: 0}\n\t\t\t\t\t\t\t\t}"
-                        },
-                        {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 71001,
+                                "minecraft:custom_model_data": 5255,
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }
@@ -40,7 +28,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 71002,
+                                "minecraft:custom_model_data": 5260,
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }
@@ -54,6 +42,18 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Flamethrower",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{attributes:{damage:{base:9,temporalFalloff:true},attackDelay:0.07,clip:200,ammo:0,isProjectile:true,interpolate_rmb:5,on_hit:[\"execute as @p[tag=tf2.hit] run function tf2:class/pyro/ignite\"]},projectile:{spawn:[0.0,-0.6,0.247675],speed_range:{min:400,max:550},deviation:{min:75,max:300},lifetime_range:{min:10,max:14},drag:true,ignore_env:true,billboard:\"center\",relative_to_player:true,unreflectable:true,convection:{factor:0.007}},controls:{main_fire:true,alt_fire:true,reload:0},key:[7,0]}"
                         }
                     ]
                 }

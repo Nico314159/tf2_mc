@@ -7,116 +7,31 @@ new trim_pattern(soldier) {
 }
 generate_body_model(soldier);
 
-class Class.Soldier {
-    new loot_table(rocket_launcher) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Rocket Launcher",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 41000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                attributes: {damage: {base: 90, maxRamp: 1.25}, attackDelay: 0.8d, reloadDelay: [0.92d, 0.8d], clip: 4, ammo: 20, isProjectile: true},
-                                projectile: {spawn: [-0.2236, -0.05715, -0.447675], explosion: {radius: 146, selfDamage: 54}, speed: 1100, has_trail: true},
-                                controls: {main_fire: true, alt_fire: false, reload: 1}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(shotgun) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Shotgun",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 42000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 1, EndpointEntity: true, TargetEntities: true, SpreadFactor: [100, 250], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 6, maxRamp: 1.5}, attackDelay: 0.625d, reloadDelay: [1.005d, 0.51d], clip: 6, ammo: 32},
-                                controls: {main_fire: true, alt_fire: false, reload: 1}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(shovel) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:melee_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Shovel",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 43000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
-                                attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
-                                controls: {main_fire: true, alt_fire: false, reload: 0}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
+JMC.python(`
+make_weapon(
+    Class.SOLDIER, slot=0, name='Rocket Launcher',
+    attributes={'damage': {'base': 90, 'maxRamp': 1.25}, 'attackDelay': 0.8, 'reloadDelay': [0.92, 0.8], 'clip': 4, 'ammo': 20, 'isProjectile': true},
+    projectile={'spawn': [-0.2236, -0.05715, -0.447675], 'explosion': {'radius': 146, 'selfDamage': 54}, 'speed': 1100, 'has_trail': true},
+)
+`, jmc=true);
 
+JMC.python(`
+make_weapon(
+    Class.SOLDIER, slot=1, name='Shotgun', bullets=[3, 3, 1], spread=[100, 250],
+    attributes={'damage': {'base': 6, 'maxRamp': 1.5}, 'attackDelay': 0.625, 'reloadDelay': [1.005, 0.51], 'clip': 6, 'ammo': 32}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SOLDIER, slot=2, 
+    name='Shovel',
+    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true}
+)
+`, jmc=true);
+
+
+class Class.Soldier {
     // ### USEFUL NOTES ###
     // spawn rocket at ^-12hu   ^-3hu     ^-23.5hu
     //               = ^-0.2236 ^-0.05715 ^-0.447675

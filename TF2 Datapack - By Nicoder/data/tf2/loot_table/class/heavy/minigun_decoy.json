@@ -8,6 +8,12 @@
                     "name": "minecraft:crossbow",
                     "functions": [
                         {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 4500
+                            }
+                        },
+                        {
                             "function": "minecraft:set_name",
                             "name": {
                                 "translate": "tf2.minigun",
@@ -23,22 +29,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{kind: \"fake\"}"
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 61000,
-                                "minecraft:charged_projectiles": [
-                                    {
-                                        "id": "minecraft:arrow",
-                                        "count": 1
-                                    }
-                                ],
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                }
-                            }
+                            "tag": "{kind: fake}"
                         }
                     ]
                 }

@@ -8,6 +8,12 @@
                     "value": "tf2:melee_base",
                     "functions": [
                         {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 3300
+                            }
+                        },
+                        {
                             "function": "minecraft:set_name",
                             "name": {
                                 "text": "Shovel",
@@ -16,17 +22,8 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 43000,
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                }
-                            }
-                        },
-                        {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},\n                                attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},\n                                controls: {main_fire: true, alt_fire: false, reload: 0}\n                            }"
+                            "tag": "{retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:5},attributes:{damage:{base:65},attackDelay:0.8,range:3.2,isMelee:true},controls:{main_fire:true,alt_fire:false,reload:0},key:[4,2]}"
                         }
                     ]
                 }

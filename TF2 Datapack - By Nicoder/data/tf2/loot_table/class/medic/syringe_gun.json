@@ -8,21 +8,9 @@
                     "value": "tf2:crossbow_base",
                     "functions": [
                         {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Syringe Gun (WIP)",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{\n\t\t\t\t\t\t\t\tattributes: {\n\t\t\t\t\t\t\t\t\tdamage: {base: 10, maxRamp: 1.2}, \n\t\t\t\t\t\t\t\t\tattackDelay: 0.105d, \n\t\t\t\t\t\t\t\t\treloadDelay: [1.305d, 1.305d],\n\t\t\t\t\t\t\t\t\tclip: 40, ammo: 160, \n\t\t\t\t\t\t\t\t\tinterpolate_rmb: 1,\n\t\t\t\t\t\t\t\t\tisProjectile: true\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tprojectile: {\n\t\t\t\t\t\t\t\t\tspawn: [0.0, -0.45, 0.06], \n\t\t\t\t\t\t\t\t\tspeed: 990,\n\t\t\t\t\t\t\t\t\tdeviation: {min: 0, max: 200}, \n\t\t\t\t\t\t\t\t\tgravity: true,\n\t\t\t\t\t\t\t\t\tignore_env: true,\n\t\t\t\t\t\t\t\t\tunreflectable: true\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tcontrols: {main_fire: true, alt_fire: false, reload: 3}\n\t\t\t\t\t\t\t}"
-                        },
-                        {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 91001,
+                                "minecraft:custom_model_data": 6755,
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }
@@ -40,7 +28,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 91002,
+                                "minecraft:custom_model_data": 6760,
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }
@@ -54,6 +42,18 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Syringe Gun (WIP)",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{attributes:{damage:{base:10,maxRamp:1.2},attackDelay:0.105,reloadDelay:[1.305,1.305],clip:40,ammo:160,interpolate_rmb:1,isProjectile:true},projectile:{spawn:[0.0,-0.45,0.06],speed:990,deviation:{min:0,max:200},gravity:true,ignore_env:true,unreflectable:true},controls:{reload:3,main_fire:true,alt_fire:false},key:[9,0]}"
                         }
                     ]
                 }

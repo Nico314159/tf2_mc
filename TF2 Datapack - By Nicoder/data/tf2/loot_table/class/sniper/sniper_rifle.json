@@ -8,6 +8,12 @@
                     "value": "tf2:sniper_base",
                     "functions": [
                         {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 1500
+                            }
+                        },
+                        {
                             "function": "minecraft:set_name",
                             "name": {
                                 "translate": "tf2.sniper_rifle",
@@ -25,14 +31,8 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 21000
-                            }
-                        },
-                        {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{\n                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 500},\n                                attributes: {damage: {base: 50, uniform: true}, attackDelay: 1.5d, clip: 15, ammo: 0},\n                                controls: {main_fire: true, alt_fire: true, reload: 0}\n                            }"
+                            "tag": "{retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:500},attributes:{damage:{base:50,uniform:true},attackDelay:1.5,clip:15,ammo:0},controls:{main_fire:true,alt_fire:true,reload:0},key:[2,0]}"
                         }
                     ]
                 }

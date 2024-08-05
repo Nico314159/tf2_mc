@@ -8,20 +8,17 @@
                     "name": "minecraft:clay_ball",
                     "functions": [
                         {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Sapper (not yet implemented)",
-                                "color": "gray",
-                                "italic": true
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 900
                             }
                         },
                         {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 12000,
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                }
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Sapper",
+                                "color": "gray",
+                                "italic": true
                             }
                         }
                     ]

@@ -73,107 +73,93 @@ JMC.python(
     jmc=true
 );
 
+JMC.python(`
+make_weapon(
+    Class.SPY, slot=0, name='Revolver',
+    attributes={'damage': {'base': 40, 'maxRamp': 1.5}, 'attackDelay': 0.5, 'reloadDelay': [1.133, 1.133], 'clip': 6, 'ammo': 24, 'spreadRecovery': 25},
+    controls={'reload': 3}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SPY, slot=1, name='Sapper',
+    base_item='minecraft:clay_ball'
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SPY, slot=2, 
+    name='Butterfly Knife',
+    attributes={'damage': {'base': 40}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true, 'canBackstab': false}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SPY, slot=3, 
+    name='Disguise Kit',
+    extra=[
+        {"function": "set_custom_data", "tag": "{disguise: true}"}
+    ]
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SPY, slot=4, 
+    name='Invis Watch',
+    display_name={
+        "translate": "tf2.invis_watch",
+        "fallback": "Invis Watch (%s to cloak)",
+        "with": [{"keybind": "key.swapOffhand"}],
+        "color": "gray",
+        "italic": true
+    },
+    base_item='minecraft:clay_ball',
+    extra=[
+        {
+            "function": "minecraft:set_components",
+            "components": {
+                "minecraft:max_damage": 600,
+                "minecraft:damage": 0,
+                "minecraft:max_stack_size": 1
+            }
+        },
+        { 
+            "function": "minecraft:set_custom_data", 
+            "tag": "{cloak: 'cloak'}" 
+        },
+        {
+            "function": "minecraft:set_damage",
+            "damage": {
+                "type": "minecraft:score",
+                "target": "this",
+                "score": "tf2.cloak",
+                "scale": 0.001666
+            }
+        }
+    ]
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.SPY, slot=4, 
+    name='invis_watch_gui_only',
+    display_name=False,
+    base_item='tf2:class/spy/invis_watch',
+    cmd_bump=1,
+    extra=[{ 
+        "function": "minecraft:set_custom_data", 
+        "tag": "{cloak: 'uncloak'}" 
+    }]
+)
+`, jmc=true);
+
+
 class Class.Spy {
-    new loot_table(revolver) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Revolver",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 11000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [25, 50], MaxRecursionDepth: 100},
-                                attributes: {damage: {base: 40, maxRamp: 1.5}, attackDelay: 0.5d, reloadDelay: [1.133d, 1.133d], clip: 6, ammo: 24, spreadRecovery: 25},
-                                controls: {main_fire: true, alt_fire: false, reload: 3}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(sapper) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-					"name": "minecraft:clay_ball",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Sapper (not yet implemented)",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 12000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(butterfly_knife) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:melee_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Butterfly Knife",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 13000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false}
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{
-                                retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
-                                attributes: {damage: {base: 40}, attackDelay: 0.8d, range: 3.2d, isMelee: true, canBackstab: false},
-                                controls: {main_fire: true, alt_fire: false, reload: 0}
-                            }"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
     new item_modifier(raise_knife) [
         {
             "function": "minecraft:set_custom_data",
@@ -192,106 +178,6 @@ class Class.Spy {
             }
         }
     ];
-    
-    new loot_table(disguise_kit) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "text": "Disguise Kit",
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 400000000,
-                                "minecraft:unbreakable": {"show_in_tooltip": false},
-                                "minecraft:enchantment_glint_override": false
-                            }
-						},
-                        {
-                            "function": "set_custom_data", 
-                            "tag": "{disguise: true}"
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(invis_watch) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-					"name": "minecraft:clay_ball",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_name",
-                            "name": {
-                                "translate": "tf2.invis_watch",
-                                "fallback": "Invis Watch (%s to cloak)",
-                                "with": [{"keybind": "key.swapOffhand"}],
-                                "color": "gray",
-                                "italic": true
-                            }
-                        },
-                        {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 15000,
-                                "minecraft:max_damage": 600,
-                                "minecraft:damage": 0,
-                                "minecraft:max_stack_size": 1
-                            }
-                        },
-                        { 
-                            "function": "minecraft:set_custom_data", 
-                            "tag": "{cloak: 'cloak'}" 
-                        },
-                        {
-							"function": "minecraft:set_damage",
-							"damage": {
-								"type": "minecraft:score",
-								"target": "this",
-								"score": "tf2.cloak",
-								"scale": 0.001666
-							}
-						}
-                    ]
-                }
-            ]
-        }]
-    }
-    new loot_table(invis_watch_gui_only) {
-        "pools": [{
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:loot_table",
-					"value": "tf2:class/spy/invis_watch",
-                    "functions": [
-                        {
-                            "function": "minecraft:set_components", 
-                            "components": {"minecraft:custom_model_data": 15001} 
-                        },
-                        { 
-                            "function": "minecraft:set_custom_data", 
-                            "tag": "{cloak: 'uncloak'}" 
-                        }
-                    ]
-                }
-            ]
-        }]
-    }
 
     function give() {
         clear @s;

@@ -7,148 +7,48 @@ new trim_pattern(medic) {
 }
 generate_body_model(medic);
 
+JMC.python(`
+make_weapon(
+    Class.MEDIC, slot=0, name='Syringe Gun',
+	display_name='Syringe Gun (WIP)',
+    attributes={
+		'damage': {'base': 10, 'maxRamp': 1.2}, 
+		'attackDelay': 0.105, 
+		'reloadDelay': [1.305, 1.305],
+		'clip': 40, 'ammo': 160, 
+		'interpolate_rmb': 1,
+		'isProjectile': true
+	},
+	projectile={
+		'spawn': [0.0, -0.45, 0.06], 
+		'speed': 990,
+		'deviation': {'min': 0, 'max': 200}, 
+		'gravity': true,
+		'ignore_env': true,
+		'unreflectable': true
+	},
+	controls={'reload': 3},
+	team_specific=True
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.MEDIC, slot=1, name='Medigun',
+	display_name="Medi Gun (DOESN'T WORK YET)",
+	team_specific=True
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.MEDIC, slot=2, 
+    name='Bonesaw',
+    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true}
+)
+`, jmc=true);
+
 class Class.Medic {
-	new loot_table(syringe_gun) {
-		"pools": [{
-			"rolls": 1,
-			"entries": [
-				{
-					"type": "minecraft:loot_table",
-					"value": "tf2:crossbow_base",
-					"functions": [
-						{
-							"function": "minecraft:set_name",
-							"name": {
-								"text": "Syringe Gun (WIP)",
-								"color": "gray",
-								"italic": true
-							}
-						},
-						{
-							"function": "minecraft:set_custom_data",
-							"tag": "{
-								attributes: {
-									damage: {base: 10, maxRamp: 1.2}, 
-									attackDelay: 0.105d, 
-									reloadDelay: [1.305d, 1.305d],
-									clip: 40, ammo: 160, 
-									interpolate_rmb: 1,
-									isProjectile: true
-								},
-								projectile: {
-									spawn: [0.0, -0.45, 0.06], 
-									speed: 990,
-									deviation: {min: 0, max: 200}, 
-									gravity: true,
-									ignore_env: true,
-									unreflectable: true
-								},
-								controls: {main_fire: true, alt_fire: false, reload: 3}
-							}"
-						},
-						{
-							"function": "minecraft:set_components",
-							"components": {
-								"minecraft:custom_model_data": 91001,
-								"minecraft:unbreakable": {"show_in_tooltip": false}
-							},
-							"conditions": [
-								{ "condition": "minecraft:entity_scores",
-								  "entity": "this", "scores": {"tf2.team": 1} }
-							]
-						},
-						{
-							"function": "minecraft:set_components",
-							"components": {
-								"minecraft:custom_model_data": 91002,
-								"minecraft:unbreakable": {"show_in_tooltip": false}
-							},
-							"conditions": [
-								{ "condition": "minecraft:entity_scores",
-								  "entity": "this", "scores": {"tf2.team": 2} }
-							]
-						}
-					]
-				}
-			]
-		}]
-	}
-	new loot_table(medigun) {
-		"pools": [{
-			"rolls": 1,
-			"entries": [
-				{
-					"type": "minecraft:loot_table",
-					"value": "tf2:crossbow_base",
-					"functions": [
-						{
-							"function": "minecraft:set_name",
-							"name": {
-								"text": "Medi Gun (DOESN'T WORK YET)",
-								"color": "gray",
-								"italic": true
-							}
-						},
-						{
-							"function": "minecraft:set_components",
-							"components": {
-								"minecraft:custom_model_data": 92001,
-								"minecraft:unbreakable": {"show_in_tooltip": false}
-							},
-							"conditions": [
-								{ "condition": "minecraft:entity_scores",
-								  "entity": "this", "scores": {"tf2.team": 1} }
-							]
-						},
-						{
-							"function": "minecraft:set_components",
-							"components": {
-								"minecraft:custom_model_data": 92002,
-								"minecraft:unbreakable": {"show_in_tooltip": false}
-							},
-							"conditions": [
-								{ "condition": "minecraft:entity_scores",
-								  "entity": "this", "scores": {"tf2.team": 2} }
-							]
-						}
-					]
-				}
-			]
-		}]
-	}
-	new loot_table(bonesaw) {
-		"pools": [{
-			"rolls": 1,
-			"entries": [
-				{
-					"type": "minecraft:loot_table",
-					"value": "tf2:melee_base",
-					"functions": [
-						{
-							"function": "minecraft:set_name",
-							"name": {
-								"text": "Bonesaw",
-								"color": "gray",
-								"italic": true
-							}
-						},
-						{
-							"function": "minecraft:set_components",
-							"components": {"minecraft:custom_model_data": 93000}
-						},
-						{
-							"function": "minecraft:set_custom_data",
-							"tag": "{
-								retina: {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0, EndpointEntity: false, TargetEntities: true, SpreadFactor: [0, 0], MaxRecursionDepth: 5},
-								attributes: {damage: {base: 65}, attackDelay: 0.8d, range: 3.2d, isMelee: true},
-								controls: {main_fire: true, alt_fire: false, reload: 0}
-							}"
-						}
-					]
-				}
-			]
-		}]
-	}
 
 	function give() {
 		clear @s;

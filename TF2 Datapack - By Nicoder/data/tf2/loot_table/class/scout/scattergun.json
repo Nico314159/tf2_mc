@@ -8,6 +8,15 @@
                     "value": "tf2:crossbow_base",
                     "functions": [
                         {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 2250,
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
+                            }
+                        },
+                        {
                             "function": "minecraft:set_name",
                             "name": {
                                 "text": "Scattergun",
@@ -16,17 +25,8 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_components",
-                            "components": {
-                                "minecraft:custom_model_data": 31000,
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                }
-                            }
-                        },
-                        {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{\n                                retina: {HorizontalCount: 3, VerticalCount: 3, CenteredCount: 0, EndpointEntity: true, TargetEntities: true, SpreadFactor: [100, 250], MaxRecursionDepth: 100},\n                                attributes: {damage: {base: 6, maxRamp: 1.75}, attackDelay: 0.625d, reloadDelay: [0.7d, 0.5d], clip: 6, ammo: 32},\n                                controls: {main_fire: true, alt_fire: false, reload: 1}\n                            }"
+                            "tag": "{retina:{HorizontalCount:3,VerticalCount:3,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[100,250],MaxRecursionDepth:500},attributes:{damage:{base:6,maxRamp:1.75},attackDelay:0.625,reloadDelay:[0.7,0.5],clip:6,ammo:32},controls:{main_fire:true,alt_fire:false,reload:1},key:[3,0]}"
                         }
                     ]
                 }
