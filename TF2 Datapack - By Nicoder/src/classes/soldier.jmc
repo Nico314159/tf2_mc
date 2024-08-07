@@ -65,18 +65,18 @@ class Class.Soldier {
     function inventory_lock() {
         item replace entity @s weapon.offhand with air;
         loot replace entity @s hotbar.0 loot tf2:class/soldier/rocket_launcher;
-        $_count_ = clear @s crossbow[custom_model_data=41000] 0;
-        if ($_count_ != 1) clear @s crossbow[custom_model_data=41000];
+        $_count_ = clear @s *[custom_data~{key:[Class.SOLDIER, 0]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SOLDIER, 0]}];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/soldier/rocket_launcher;
 
         loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun;
-        $_count_ = clear @s crossbow[custom_model_data=42000] 0;
-        if ($_count_ != 1) clear @s crossbow[custom_model_data=42000];
+        $_count_ = clear @s *[custom_data~{key:[Class.SOLDIER, 1]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SOLDIER, 1]}];
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun;
 
         loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
-        $_count_ = clear @s snowball[custom_model_data=43000] 0;
-        if ($_count_ != 1) clear @s snowball[custom_model_data=43000];
+        $_count_ = clear @s *[custom_data~{key:[Class.SOLDIER, 2]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SOLDIER, 2]}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
 
         loot replace entity @s armor.legs loot tf2:class/soldier/_model;

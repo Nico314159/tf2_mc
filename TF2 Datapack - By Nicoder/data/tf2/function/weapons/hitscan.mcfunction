@@ -1,5 +1,4 @@
-execute store result score $_weaponID_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_model_data 0.001
-execute unless score $_weaponID_ tf2.var matches 61 run return run function retina:traverse/multicast
+execute unless items entity @s weapon.mainhand *[custom_data~{key:[6,0]}] run return run function retina:traverse/multicast
 data merge storage retina:input {HorizontalCount:1,VerticalCount:1,CenteredCount:0}
 function retina:traverse/multicast
 function retina:traverse/multicast

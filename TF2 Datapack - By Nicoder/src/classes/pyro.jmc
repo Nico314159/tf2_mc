@@ -79,18 +79,18 @@ class Class.Pyro {
 	function inventory_lock() {
 		item replace entity @s weapon.offhand with air;
         loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
-        $_count_ = clear @s crossbow[custom_model_data=71001|custom_model_data=71002] 0;
-        if ($_count_ != 1) clear @s crossbow[custom_model_data=71001|custom_model_data=71002] 0;
+        $_count_ = clear @s *[custom_data~{key:[Class.PYRO, 0]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.PYRO, 0]}] 0;
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
 
         loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
-        $_count_ = clear @s crossbow[custom_model_data=72000] 0;
-    	if ($_count_ != 1) clear @s crossbow[custom_model_data=72000];
+        $_count_ = clear @s *[custom_data~{key:[Class.PYRO, 1]}] 0;
+    	if ($_count_ != 1) clear @s *[custom_data~{key:[Class.PYRO, 1]}];
  		if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;
 
 		loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
-		$_count_ = clear @s snowball[custom_model_data=73000] 0;
-		if ($_count_ != 1) clear @s snowball[custom_model_data=73000];
+		$_count_ = clear @s *[custom_data~{key:[Class.PYRO, 2]}] 0;
+		if ($_count_ != 1) clear @s *[custom_data~{key:[Class.PYRO, 2]}];
 		if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/pyro/fire_axe;
 
 		loot replace entity @s armor.legs loot tf2:class/pyro/_model;

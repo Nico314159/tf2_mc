@@ -11,7 +11,7 @@ function tf2:class/spy/fake_leggings with storage tf2:vars
 execute store result score $_count_ tf2.var run clear @s iron_leggings 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings
 execute unless score $_count_ tf2.var matches 1 run function tf2:class/spy/fake_leggings with storage tf2:vars
-item modify entity @s weapon.offhand {"function":"minecraft:set_custom_model_data","value":15001}
+item modify entity @s weapon.offhand {"function":"minecraft:set_custom_model_data","value":1351}
 scoreboard players operation @s tf2.model_number = @s tf2.disguise.class
 scoreboard players operation @s tf2.model_number *= 10 tf2.const
 scoreboard players operation @s tf2.model_number += @s tf2.disguise.team

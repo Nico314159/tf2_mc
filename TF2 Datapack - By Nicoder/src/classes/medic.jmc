@@ -81,23 +81,23 @@ class Class.Medic {
 		item replace entity @s weapon.offhand with air;
 		
 		loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
-		$_count_ = clear @s crossbow[custom_model_data=91001|custom_model_data=91002] 0;
+		$_count_ = clear @s *[custom_data~{key:[Class.MEDIC, 0]}] 0;
 		if ($_count_ != 1) expand {
-			clear @s crossbow[custom_model_data=91001|custom_model_data=91002];
+			clear @s *[custom_data~{key:[Class.MEDIC, 0]}];
 			loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
 		}
 
 		loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
-		$_count_ = clear @s crossbow[custom_model_data=92001|custom_model_data=92002] 0;
+		$_count_ = clear @s *[custom_data~{key:[Class.MEDIC, 1]}] 0;
 		if ($_count_ != 1) expand {
-			clear @s crossbow[custom_model_data=92001|custom_model_data=92002];
+			clear @s *[custom_data~{key:[Class.MEDIC, 1]}];
 			loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
 		}
 
 		loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
-		$_count_ = clear @s snowball[custom_model_data=93000] 0;
+		$_count_ = clear @s *[custom_data~{key:[Class.MEDIC, 2]}] 0;
 		if ($_count_ != 1) expand {
-			clear @s snowball[custom_model_data=93000];
+			clear @s *[custom_data~{key:[Class.MEDIC, 2]}];
 			loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
 		}
 

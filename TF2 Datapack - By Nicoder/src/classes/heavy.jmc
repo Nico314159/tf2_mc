@@ -172,13 +172,13 @@ class Class.Heavy {
     }
     function inventory_lock() {
         loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
-        $_count_ = clear @s crossbow[custom_model_data=62000] 0;
-        if ($_count_ != 1) clear @s crossbow[custom_model_data=62000];
+        $_count_ = clear @s *[custom_data~{key:[Class.HEAVY, 1]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.HEAVY, 1]}];
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
 
         loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
-        $_count_ = clear @s snowball[custom_model_data=63000] 0;
-        if ($_count_ != 1) clear @s snowball[custom_model_data=63000];
+        $_count_ = clear @s *[custom_data~{key:[Class.HEAVY, 2]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.HEAVY, 2]}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
 
         loot replace entity @s armor.legs loot tf2:class/heavy/_model;
@@ -193,37 +193,35 @@ class Class.Heavy {
 
         if (tf2.current_slot:@s == 2) {
             loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist;
-            $_count_ = clear @s clay_ball[custom_model_data=63000] 0;
-            if ($_count_ != 1) clear @s clay_ball[custom_model_data=63000];
+            $_count_ = clear @s clay_ball 0;
+            if ($_count_ != 1) clear @s clay_ball;
             if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist;
         } else {
-            clear @s clay_ball[custom_model_data=63000];
+            clear @s clay_ball;
         }
 
-        $_crossbow_id_ = @s::Inventory[-1].components."minecraft:custom_model_data" * 0.001;
-
-        if (predicate tf2:class/heavy/is_revving && $_crossbow_id_ === 61 && tf2.current_slot:@s == 0) return run {
+        if (predicate tf2:class/heavy/is_revving && tf2.current_slot:@s == 0) return run {
             loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;
-            $_count_ = clear @s crossbow[custom_model_data=61001, custom_data={kind: "real"}] 0;
-            if ($_count_ != 1) clear @s crossbow[custom_model_data=61001, custom_data={kind: "real"}];
+            $_count_ = clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}] 0;
+            if ($_count_ != 1) clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}];
             if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;
 
             loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy;
-            $_count_ = clear @s crossbow[custom_model_data=61000, custom_data={kind: "fake"}] 0;
-            if ($_count_ != 1) clear @s crossbow[custom_model_data=61000, custom_data={kind: "fake"}];
+            $_count_ = clear @s *[custom_data={kind: "fake"}] 0;
+            if ($_count_ != 1) clear @s *[custom_data={kind: "fake"}];
             if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy;
         }
 
         loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
-        $_count_ = clear @s crossbow[custom_model_data=61000, custom_data={kind: "fake"}] 0;
-        if ($_count_ != 1) clear @s crossbow[custom_model_data=61000, custom_data={kind: "fake"}];
+        $_count_ = clear @s *[custom_data={kind: "fake"}] 0;
+        if ($_count_ != 1) clear @s *[custom_data={kind: "fake"}];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
 
-        if (tf2.current_slot:@s != 0) return run clear @s crossbow[custom_data={kind: "real"}];
+        if (tf2.current_slot:@s != 0) return run clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}];
 
         loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;
-        $_count_ = clear @s crossbow[custom_model_data=61001, custom_data={kind: "real"}] 0;
-        if ($_count_ != 1) clear @s crossbow[custom_model_data=61001, custom_data={kind: "real"}];
+        $_count_ = clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}];
         if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;
     }
 }

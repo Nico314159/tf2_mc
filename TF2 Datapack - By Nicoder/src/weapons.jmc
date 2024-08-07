@@ -352,7 +352,9 @@ class Weapons {
     function alt_fire() {
         swap_hands();
 
-        $_weaponID_ = @s::SelectedItem.components."minecraft:custom_model_data" * 0.001;
+        $_weaponID_ = @s::SelectedItem.components."minecraft:custom_data".key[0] * 10;
+        $temp = @s::SelectedItem.components."minecraft:custom_data".key[1];
+        $_weaponID_ += $temp;
 
         switch ($_weaponID_) {
             case EVAL(Class.SNIPER * 10 + 1):
@@ -385,11 +387,9 @@ class Weapons {
         $the_interpolation = false;
     }
     function hitscan() {
-        $_weaponID_ = lookup::item.components."minecraft:custom_model_data" * 0.001;
-        if ($_weaponID_ != 61) {
+        if (!items entity @s weapon.mainhand *[custom_data~{key: [Class.HEAVY, 0]}]) {
             return run function retina:traverse/multicast;
         }
-        // Heavy minigun {CMD: 61xxx} does 4 at once
         retina:input:: += {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
         function retina:traverse/multicast;
         function retina:traverse/multicast;

@@ -98,14 +98,20 @@ class Class.Sniper {
     }
     function inventory_lock() {
         item replace entity @s armor.chest with air;
+
+        loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
+        $_count_ = clear @s *[custom_data~{key:[Class.SNIPER, 0]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SNIPER, 0]}];
+        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
+
         loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
-        $_count_ = clear @s crossbow[custom_model_data=22000] 0;
-        if ($_count_ != 1) clear @s crossbow[custom_model_data=22000];
+        $_count_ = clear @s *[custom_data~{key:[Class.SNIPER, 1]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SNIPER, 1]}];
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
 
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
-        $_count_ = clear @s snowball[custom_model_data=23000] 0;
-        if ($_count_ != 1) clear @s snowball[custom_model_data=23000];
+        $_count_ = clear @s *[custom_data~{key:[Class.SNIPER, 2]}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SNIPER, 2]}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
 
         loot replace entity @s armor.legs loot tf2:class/sniper/_model;
@@ -117,11 +123,6 @@ class Class.Sniper {
         $_count_ = clear @s paper 0;
         if ($_count_ != 1) clear @s paper;
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
-
-        loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
-        $_count_ = clear @s *[custom_model_data=21000] 0;
-        if ($_count_ != 1) clear @s *[custom_model_data=21000];
-        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
     }
     function scope() {
         tf2.time_scoped:@s += 1;
