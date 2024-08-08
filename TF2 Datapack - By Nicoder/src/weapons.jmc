@@ -387,7 +387,7 @@ class Weapons {
         $the_interpolation = false;
     }
     function hitscan() {
-        if (!items entity @s weapon.mainhand *[custom_data~{key: [Class.HEAVY, 0]}]) {
+        if (!items entity @s weapon.mainhand *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0)}]) {
             return run function retina:traverse/multicast;
         }
         retina:input:: += {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};

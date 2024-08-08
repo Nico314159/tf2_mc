@@ -172,13 +172,13 @@ class Class.Heavy {
     }
     function inventory_lock() {
         loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
-        $_count_ = clear @s *[custom_data~{key:[Class.HEAVY, 1]}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.HEAVY, 1]}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 1)}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 1)}];
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
 
         loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
-        $_count_ = clear @s *[custom_data~{key:[Class.HEAVY, 2]}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.HEAVY, 2]}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2)}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2)}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
 
         loot replace entity @s armor.legs loot tf2:class/heavy/_model;
@@ -202,8 +202,8 @@ class Class.Heavy {
 
         if (predicate tf2:class/heavy/is_revving && tf2.current_slot:@s == 0) return run {
             loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;
-            $_count_ = clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}] 0;
-            if ($_count_ != 1) clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}];
+            $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0)}, custom_data={kind: "real"}] 0;
+            if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0)}, custom_data={kind: "real"}];
             if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;
 
             loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy;
@@ -217,11 +217,13 @@ class Class.Heavy {
         if ($_count_ != 1) clear @s *[custom_data={kind: "fake"}];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
 
-        if (tf2.current_slot:@s != 0) return run clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}];
+        if (tf2.current_slot:@s != 0) return run {
+            clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0)}, custom_data={kind: "real"}];
+        }
 
         loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;
-        $_count_ = clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.HEAVY, 0]}, custom_data={kind: "real"}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0)}, custom_data={kind: "real"}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0)}, custom_data={kind: "real"}];
         if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;
     }
 }

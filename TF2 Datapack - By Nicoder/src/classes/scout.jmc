@@ -92,18 +92,18 @@ class Class.Scout {
     function inventory_lock() {
         item replace entity @s weapon.offhand with air;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
-        $_count_ = clear @s *[custom_data~{key:[Class.SCOUT, 0]}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SCOUT, 0]}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.SCOUT * 10 + 0)}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SCOUT * 10 + 0)}];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
 
         loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
-        $_count_ = clear @s *[custom_data~{key:[Class.SCOUT, 1]}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SCOUT, 1]}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.SCOUT * 10 + 1)}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SCOUT * 10 + 1)}];
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
 
         loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
-        $_count_ = clear @s *[custom_data~{key:[Class.SCOUT, 2]}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SCOUT, 2]}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.SCOUT * 10 + 2)}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SCOUT * 10 + 2)}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
         loot replace entity @s armor.legs loot tf2:class/scout/_model;

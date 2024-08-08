@@ -256,7 +256,7 @@ def make_weapon(
     if projectile is not None: 
         custom_data["projectile"] = projectile
     custom_data["controls"] = controls
-    custom_data["key"] = [*key]
+    custom_data["key"] = int(str(key[0]) + str(key[1]))
 
     if cmd_bump:
         unlock_counter[key] -= 1
