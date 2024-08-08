@@ -81,23 +81,23 @@ class Class.Medic {
 		item replace entity @s weapon.offhand with air;
 		
 		loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
-		$_count_ = clear @s *[custom_data~{key:[Class.MEDIC, 0]}] 0;
+		$_count_ = clear @s *[custom_data~{key: EVAL(Class.MEDIC * 10 + 0)}] 0;
 		if ($_count_ != 1) expand {
-			clear @s *[custom_data~{key:[Class.MEDIC, 0]}];
+			clear @s *[custom_data~{key: EVAL(Class.MEDIC * 10 + 0)}];
 			loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
 		}
 
 		loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
-		$_count_ = clear @s *[custom_data~{key:[Class.MEDIC, 1]}] 0;
+		$_count_ = clear @s *[custom_data~{key: EVAL(Class.MEDIC * 10 + 1)}] 0;
 		if ($_count_ != 1) expand {
-			clear @s *[custom_data~{key:[Class.MEDIC, 1]}];
+			clear @s *[custom_data~{key: EVAL(Class.MEDIC * 10 + 1)}];
 			loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
 		}
 
 		loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
-		$_count_ = clear @s *[custom_data~{key:[Class.MEDIC, 2]}] 0;
+		$_count_ = clear @s *[custom_data~{key: EVAL(Class.MEDIC * 10 + 2)}] 0;
 		if ($_count_ != 1) expand {
-			clear @s *[custom_data~{key:[Class.MEDIC, 2]}];
+			clear @s *[custom_data~{key: EVAL(Class.MEDIC * 10 + 2)}];
 			loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
 		}
 

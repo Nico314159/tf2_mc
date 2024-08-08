@@ -352,16 +352,14 @@ class Weapons {
     function alt_fire() {
         swap_hands();
 
-        $_weaponID_ = @s::SelectedItem.components."minecraft:custom_data".key[0] * 10;
-        $temp = @s::SelectedItem.components."minecraft:custom_data".key[1];
-        $_weaponID_ += $temp;
+        $_weaponID_ = @s::SelectedItem.components."minecraft:custom_data".key;
 
         switch ($_weaponID_) {
-            case EVAL(Class.SNIPER * 10 + 1):
+            case EVAL(Class.SNIPER * 10 + 0):
                 this.main_fire();
-            case EVAL(Class.PYRO * 10 + 1): 
+            case EVAL(Class.PYRO * 10 + 0): 
                 Class.Pyro.airblast();
-            // case EVAL(Class.DEMOMAN * 10 + 2):
+            // case EVAL(Class.DEMOMAN * 10 + 1):
             //     Class.Demoman.detonate_stickies();
             default:
                 return fail;
@@ -387,7 +385,7 @@ class Weapons {
         $the_interpolation = false;
     }
     function hitscan() {
-        if (!items entity @s weapon.mainhand *[custom_data~{key: [Class.HEAVY, 0]}]) {
+        if (!items entity @s weapon.mainhand *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0)}]) {
             return run function retina:traverse/multicast;
         }
         retina:input:: += {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};

@@ -1,10 +1,10 @@
 loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun
-execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:[6,1]}] 0
-execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:[6,1]}]
+execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:61}] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:61}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun
 loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist
-execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:[6,2]}] 0
-execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:[6,2]}]
+execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:62}] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:62}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist
 loot replace entity @s armor.legs loot tf2:class/heavy/_model
 execute store result score $_count_ tf2.var run clear @s iron_leggings 0
@@ -22,8 +22,8 @@ loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy
 execute store result score $_count_ tf2.var run clear @s *[custom_data={kind:"fake"}] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data={kind:"fake"}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy
-execute unless score @s tf2.current_slot matches 0 run return run clear @s *[custom_data~{key:[6,0]},custom_data={kind:"real"}]
+execute unless score @s tf2.current_slot matches 0 run return run clear @s *[custom_data~{key:60},custom_data={kind:"real"}]
 loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning
-execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:[6,0]},custom_data={kind:"real"}] 0
-execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:[6,0]},custom_data={kind:"real"}]
+execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:60},custom_data={kind:"real"}] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:60},custom_data={kind:"real"}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning

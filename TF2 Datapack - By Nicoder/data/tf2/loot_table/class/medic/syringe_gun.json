@@ -53,7 +53,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{attributes:{damage:{base:10,maxRamp:1.2},attackDelay:0.105,reloadDelay:[1.305,1.305],clip:40,ammo:160,interpolate_rmb:1,isProjectile:true},projectile:{spawn:[0.0,-0.45,0.06],speed:990,deviation:{min:0,max:200},gravity:true,ignore_env:true,unreflectable:true},controls:{reload:3,main_fire:true,alt_fire:false},key:[9,0]}"
+                            "tag": "{attributes:{damage:{base:10,maxRamp:1.2},attackDelay:0.105,reloadDelay:[1.305,1.305],clip:40,ammo:160,interpolate_rmb:1,isProjectile:true},projectile:{spawn:[0.0,-0.45,0.06],speed:990,deviation:{min:0,max:200},gravity:true,ignore_env:true,unreflectable:true},controls:{reload:3,main_fire:true,alt_fire:false},key:90}"
                         }
                     ]
                 }

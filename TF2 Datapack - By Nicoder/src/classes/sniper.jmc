@@ -100,18 +100,18 @@ class Class.Sniper {
         item replace entity @s armor.chest with air;
 
         loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
-        $_count_ = clear @s *[custom_data~{key:[Class.SNIPER, 0]}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SNIPER, 0]}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.SNIPER * 10 + 0)}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SNIPER * 10 + 0)}];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
 
         loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
-        $_count_ = clear @s *[custom_data~{key:[Class.SNIPER, 1]}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SNIPER, 1]}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.SNIPER * 10 + 1)}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SNIPER * 10 + 1)}];
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;
 
         loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
-        $_count_ = clear @s *[custom_data~{key:[Class.SNIPER, 2]}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key:[Class.SNIPER, 2]}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.SNIPER * 10 + 2)}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SNIPER * 10 + 2)}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
 
         loot replace entity @s armor.legs loot tf2:class/sniper/_model;

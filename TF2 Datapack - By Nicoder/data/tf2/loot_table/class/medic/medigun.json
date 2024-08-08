@@ -50,6 +50,10 @@
                                 "color": "gray",
                                 "italic": true
                             }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{key: 91}"
                         }
                     ]
                 }

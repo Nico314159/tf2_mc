@@ -23,6 +23,10 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
+                            "tag": "{key: 62}"
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
                             "tag": "{ attributes: {isMelee: true} }"
                         }
                     ]

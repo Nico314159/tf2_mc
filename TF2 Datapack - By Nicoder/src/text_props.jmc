@@ -256,7 +256,7 @@ def make_weapon(
     if projectile is not None: 
         custom_data["projectile"] = projectile
     custom_data["controls"] = controls
-    custom_data["key"] = [*key]
+    custom_data["key"] = int(str(key[0]) + str(key[1]))
 
     if cmd_bump:
         unlock_counter[key] -= 1
@@ -324,6 +324,10 @@ def make_weapon(
     if attributes is not None and len(attributes) != 0:
         functions.append(
             {"function": "minecraft:set_custom_data", "tag": minify_no_key_quotes(custom_data)}
+        )
+    elif key is not None:
+        functions.append(
+            {"function": "minecraft:set_custom_data", "tag": "{key: %s}" % custom_data["key"]}
         )
     if extra is not None:
         functions += extra
