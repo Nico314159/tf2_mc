@@ -1,7 +1,7 @@
 item replace entity @s weapon.offhand with air
 loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower
 execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:70}] 0
-execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:70}] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:70}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower
 loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun
 execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:71}] 0
