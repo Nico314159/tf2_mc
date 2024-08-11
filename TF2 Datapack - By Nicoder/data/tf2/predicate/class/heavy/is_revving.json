@@ -13,15 +13,7 @@
                         "predicates": {
                             "minecraft:custom_data": "{kind: \"real\"}"
                         }
-                    }
-                }
-            }
-        },
-        {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-                "equipment": {
+                    },
                     "offhand": {
                         "items": [
                             "minecraft:crossbow"

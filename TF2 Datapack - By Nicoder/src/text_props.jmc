@@ -197,6 +197,7 @@ def make_weapon(
     controls = None, 
     team_specific = False,
     cmd_bump = 0,
+    real = None,
     extra = None
 ):
 
@@ -328,6 +329,10 @@ def make_weapon(
     elif key is not None:
         functions.append(
             {"function": "minecraft:set_custom_data", "tag": "{key: %s}" % custom_data["key"]}
+        )
+    if isinstance(real, bool):
+        functions.append(
+            {"function": "minecraft:set_custom_data", "tag": "{kind: %s}" % ('real' if real else 'fake')}
         )
     if extra is not None:
         functions += extra

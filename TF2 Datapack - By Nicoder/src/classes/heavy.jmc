@@ -18,11 +18,7 @@ make_weapon(
         "color": "gray",
         "italic": true
     },
-    attributes=[],
-    extra=[{
-        "function": "minecraft:set_custom_data",
-        "tag": "{kind: fake}"
-    }]
+    real=False
 )
 `, jmc=true);
 
@@ -35,11 +31,8 @@ make_weapon(
     attributes={'damage': {'base': 9, 'maxRamp': 1.5}, 'attackDelay': 0.1, 'spinupDelay': 0.87, 'clip': 200, 'ammo': 0, 'interpolate_rmb': 2},
     controls={'reload': 0},
     cmd_bump=1,
+    real=True,
     extra=[
-        {
-            "function": "minecraft:set_custom_data",
-            "tag": "{kind: real}"
-        },
         {
             "function": "minecraft:reference",
             "name": "tf2:load_crossbow",
@@ -76,7 +69,8 @@ make_weapon(
     Class.HEAVY, slot=2, 
     name='right_fist',
     display_name="Fists",
-    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true}
+    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true},
+    real=True
 )
 `, jmc=true);
 
@@ -86,10 +80,7 @@ make_weapon(
     name='left_fist',
     display_name="",
     base_item="minecraft:clay_ball",
-    extra=[{
-        "function": "minecraft:set_custom_data",
-        "tag": "{ attributes: {isMelee: true} }"
-    }],
+    real=False,
     cmd_bump=1
 )
 `, jmc=true);
@@ -113,15 +104,7 @@ class Class.Heavy {
                             "predicates": {
                                 "minecraft:custom_data": "{kind: \"real\"}"
                             }
-                        }
-                    }
-                }
-            },
-            {
-                "condition": "minecraft:entity_properties",
-                "entity": "this",
-                "predicate": {
-                    "equipment": {
+                        },
                         "offhand": {
                             "items": [
                                 "minecraft:crossbow"
@@ -208,14 +191,14 @@ class Class.Heavy {
             if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning;
 
             loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy;
-            $_count_ = clear @s *[custom_data~{kind: "fake"}] 0;
-            if ($_count_ != 1) clear @s *[custom_data~{kind: "fake"}];
+            $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0), kind: "fake"}] 0;
+            if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0), kind: "fake"}];
             if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy;
         }
 
         loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
-        $_count_ = clear @s *[custom_data~{kind: "fake"}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{kind: "fake"}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0), kind: "fake"}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0), kind: "fake"}];
         if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
 
         if (tf2.current_slot:@s != 0) return run {
