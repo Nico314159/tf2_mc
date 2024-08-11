@@ -23,11 +23,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{key: 62}"
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{kind: fake}"
+                            "tag": "{key:62,kind:'fake'}"
                         }
                     ]
                 }

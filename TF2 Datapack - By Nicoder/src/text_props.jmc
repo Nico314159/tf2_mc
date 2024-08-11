@@ -169,6 +169,8 @@ def minify_no_key_quotes(obj) -> str:
 
     def handle(o) -> str:
         match o:
+            case str():
+                return f"'{o}'" if o.isidentifier() else json.dumps(o)
             case tuple():
                 return handle(list(o))
             case list(): 
@@ -257,7 +259,6 @@ def make_weapon(
     if projectile is not None: 
         custom_data["projectile"] = projectile
     custom_data["controls"] = controls
-    custom_data["key"] = int(str(key[0]) + str(key[1]))
 
     if cmd_bump:
         unlock_counter[key] -= 1
@@ -322,20 +323,30 @@ def make_weapon(
     functions = model_components
     if display_name is not False:
         functions.append({"function": "minecraft:set_name", "name": display_name})
-    if attributes is not None and len(attributes) != 0:
-        functions.append(
-            {"function": "minecraft:set_custom_data", "tag": minify_no_key_quotes(custom_data)}
-        )
-    elif key is not None:
-        functions.append(
-            {"function": "minecraft:set_custom_data", "tag": "{key: %s}" % custom_data["key"]}
-        )
+
+    if attributes is None or len(attributes) == 0:
+        custom_data = {}
+    if key is not None:
+        custom_data |= {"key": int(str(key[0]) + str(key[1]))}
     if isinstance(real, bool):
-        functions.append(
-            {"function": "minecraft:set_custom_data", "tag": "{kind: %s}" % ('real' if real else 'fake')}
-        )
-    if extra is not None:
-        functions += extra
+        custom_data |= {"kind": 'real' if real else 'fake'}
+
+    snbt = minify_no_key_quotes(custom_data)
+    
+    if extra is None:
+        extra = []
+    for item in extra:
+        if isinstance(item, dict) and item.get("function") == "minecraft:set_custom_data":
+            tag = item.get("tag")
+            if tag.startswith("{") and tag.endswith("}"):
+                snbt = snbt[:-1] + "," + tag[1:]
+                continue
+
+        functions.append(item)
+
+    functions.append(
+        {"function": "minecraft:set_custom_data", "tag": snbt}
+    )
 
     loot = {
         "pools": [

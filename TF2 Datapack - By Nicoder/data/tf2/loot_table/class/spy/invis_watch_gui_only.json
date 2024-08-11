@@ -15,11 +15,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{key: 14}"
-                        },
-                        {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{cloak: 'uncloak'}"
+                            "tag": "{key:14,cloak: 'uncloak'}"
                         }
                     ]
                 }

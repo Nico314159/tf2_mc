@@ -25,12 +25,12 @@
                             }
                         },
                         {
-                            "function": "minecraft:set_custom_data",
-                            "tag": "{key: 13}"
-                        },
-                        {
                             "function": "set_custom_data",
                             "tag": "{disguise: true}"
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{key:13}"
                         }
                     ]
                 }
