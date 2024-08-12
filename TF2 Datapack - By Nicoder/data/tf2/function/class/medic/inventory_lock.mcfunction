@@ -3,10 +3,10 @@ loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun
 execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:90}] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:90}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun
-loot replace entity @s hotbar.1 loot tf2:class/medic/medigun
+loot replace entity @s hotbar.1 loot tf2:class/medic/medi_gun
 execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:91}] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:91}]
-execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.1 loot tf2:class/medic/medigun
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.1 loot tf2:class/medic/medi_gun
 loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw
 execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:92}] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:92}]

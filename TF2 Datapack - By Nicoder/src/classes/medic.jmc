@@ -34,7 +34,7 @@ make_weapon(
 
 JMC.python(`
 make_weapon(
-    Class.MEDIC, slot=1, name='Medigun',
+    Class.MEDIC, slot=1, name='Medi Gun',
 	display_name="Medi Gun (DOESN'T WORK YET)",
 	team_specific=True
 )
@@ -53,7 +53,7 @@ class Class.Medic {
 	function give() {
 		clear @s;
 		loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
-		loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
+		loot replace entity @s hotbar.1 loot tf2:class/medic/medi_gun;
 		loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
 		loot replace entity @s armor.legs loot tf2:class/medic/_model;
 
@@ -87,11 +87,11 @@ class Class.Medic {
 			loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
 		}
 
-		loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
+		loot replace entity @s hotbar.1 loot tf2:class/medic/medi_gun;
 		$_count_ = clear @s *[custom_data~{key: EVAL(Class.MEDIC * 10 + 1)}] 0;
 		if ($_count_ != 1) expand {
 			clear @s *[custom_data~{key: EVAL(Class.MEDIC * 10 + 1)}];
-			loot replace entity @s hotbar.1 loot tf2:class/medic/medigun;
+			loot replace entity @s hotbar.1 loot tf2:class/medic/medi_gun;
 		}
 
 		loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
