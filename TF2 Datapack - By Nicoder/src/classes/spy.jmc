@@ -676,16 +676,14 @@ class Class.Spy {
             if (tf2.menu_ticks:@s < 10) {
                 return 0;
             }
+            tf2.disguise.primary_CMD:@s = @s::Inventory[{Slot:3b}].components.minecraft:custom_model_data;
             tag @s add tf2.in_disguise_menu;
             tf2.menu_ticks:@s = -10;
-            tf2.disguise.primary_CMD:@s = @s::Inventory[{Slot:3b}].components.minecraft:custom_model_data;
         }
         function detect_input() {
             kill @e[type=arrow,tag=!tf2.projectile];
-            $offhand_CMD = @s::Inventory[{Slot:-106b}].components.minecraft:custom_model_data 
-                         * EVAL(1 / 100_000_000);
 
-            if ($offhand_CMD == 4) {
+            if (items entity @s weapon.offhand crossbow[custom_data~{disguise: true, key: EVAL(Class.SPY * 10 + 3)}]) {
                 Class.Spy.apply_disguise();
             }
         }
