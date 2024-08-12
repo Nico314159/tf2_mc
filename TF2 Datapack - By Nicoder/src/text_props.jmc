@@ -303,7 +303,7 @@ def make_weapon(
             }
         ]
         
-    if base_item == "tf2:crossbow_base":
+    if base_item in {"tf2:crossbow_base", "minecraft:crossbow"}:
         for temp in model_components:
             temp["components"] |= {
                 "minecraft:unbreakable": {"show_in_tooltip": False}

@@ -10,7 +10,10 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 4501
+                                "minecraft:custom_model_data": 4501,
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
                             }
                         },
                         {
