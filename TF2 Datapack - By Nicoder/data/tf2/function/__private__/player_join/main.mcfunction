@@ -1,3 +1,4 @@
+scoreboard players operation @s 0008it54g_p_join = $__global__ 0008it54g_p_join
 execute if score $Settings.show_debug_messages tf2.var matches 1.. run tellraw @a ["",{"text":"<Debug> ","bold":true,"type":"text"},{"text":"Player ","bold":false,"type":"text"},{"selector":"@s","type":"selector"},{"text":" has logged in at "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"},"type":"score"},{"text":" ticks gametime."}]
 tp @s[tag=!tf2.admin] 30 25 25 0 0
 gamemode adventure @s[tag=!tf2.admin]
@@ -55,4 +56,3 @@ scoreboard players reset @s tf2.fall_y2
 scoreboard players reset @s tf2.fall_y3
 tellraw @s ["",{"text":"Control Scheme:\n","underlined":true,"type":"text"},{"text":"Main Attack (both guns & melee) = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.use","type":"keybind"},{"text":"\n","color":"white","bold":true},{"text":"Alt Fire (zoom-in, revving, etc) = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.swapOffhand","type":"keybind"},{"text":"\n","color":"white","bold":true},{"text":"Reload = ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.drop","type":"keybind"},{"text":" ","color":"white","bold":true},{"text":"[toggle autoreload]\n","color":"white","underlined":true,"clickEvent":{"action":"run_command","value":"/trigger autoreload"},"type":"text"},{"text":"You ","color":"gray","type":"text"},{"text":"NEVER ","bold":true,"italic":true,"color":"red","type":"text"},{"text":"need to press ","color":"gray","type":"text"},{"color":"white","bold":true,"keybind":"key.attack","type":"keybind"}]
 tellraw @s ["",{"text":"To see this message again, type ","color":"gray","type":"text"},{"text":"/trigger controls ","bold":true,"color":"gray","type":"text"},{"text":"in chat at any time.","bold":false,"color":"gray","type":"text"}]
-scoreboard players operation @s 0008it54g_p_join = $__global__ 0008it54g_p_join

@@ -275,16 +275,16 @@ class NoEntrySign {
             execute run {
                 $if ($z == 0 && $x > $y) {
                     vars::param = "~1 ~$(fraction) ~";
-                };
+                }
                 $if ($z == 0 && $x <= $y) {
                     vars::param = "~$(fraction) ~1 ~";
-                };
+                }
                 $if ($x == 0 && $z > $y) {
                     vars::param = "~ ~$(fraction) ~1";
-                };
+                }
                 $if ($x == 0 && $z <= $y) {
                     vars::param = "~ ~1 ~$(fraction)";
-                };
+                }
             } with vars::;
             this.diagonal() with vars::;
         }
