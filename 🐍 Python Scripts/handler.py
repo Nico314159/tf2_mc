@@ -1,15 +1,15 @@
 from __future__ import annotations
-from io import TextIOWrapper
 import json
-from os import getcwd
 from pathlib import Path
-from typing import NotRequired, Required, TypedDict, Literal, cast
+from typing import cast
+from pathlib import Path
+from typing import Final
 
-end = None
-cwd = getcwd()
-loot_dir = Path(cwd).parents[4] / "TF2 Datapack - By Nicoder" / "data" / "tf2" / "loot_table" / "class"
-models_dir = Path(cwd).parent / "item"
-print(models_dir)
+DP_ROOT: Final[Path] = Path(__file__).parents[1] / "TF2 Datapack - By Nicoder"
+RP_ROOT: Final[Path] = Path(__file__).parents[1] / "TF2 Resource Pack - By Nicoder"
+
+loot_dir = DP_ROOT / "data" / "tf2" / "loot_table" / "class"
+models_dir = RP_ROOT / "assets" / "minecraft" / "models" / "item"
 
 def get_parent_loot_table_name(_json) -> str:
     entries = _json["pools"][0]['entries']
@@ -139,7 +139,8 @@ def main():
                     try:
                         model_json = json.load(m)
                     except:
-                        continue
+                        # TODO: make know how to replicate other keys if they get wiped too
+                        model_json = {}
 
                     if model_file not in files_seen:
                         model_json["overrides"] = []

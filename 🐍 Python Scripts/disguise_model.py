@@ -4,8 +4,8 @@ import json
 from os import getcwd, makedirs, mkdir, write
 from shutil import rmtree
 from pathlib import Path
-from typing import Any, Literal
-from ...minecraft.models.item.handler import blockbench_style_JSON
+from typing import Any, Final
+from handler import RP_ROOT, blockbench_style_JSON
 
 def make_empty_folder(path: Path):
     if not path.exists():
@@ -62,18 +62,23 @@ def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any], compensate_
         "display": model1['display'] | pov3rd
     }
 
-cwd = getcwd()
-items_path = Path(cwd, "item").relative_to(cwd)
-make_empty_folder(Path(cwd, 'disguise'))
+models_path: Final[Path] = RP_ROOT / 'assets' / 'tf2' / 'models'
+items_path: Final[Path] = models_path / 'item'
+make_empty_folder(models_path / 'disguise')
 
 for model_path in items_path.rglob('*.json'):
     name = model_path.stem
-    if name in {'logo', 'icon', 'empty', 'minigun_between_shots'} \
+
+    if name in {'logo', 'icon', 'empty'} \
     or name.startswith("iron_chestplate"):
         continue
 
     slot = model_path.parent.stem
     if slot not in {'primary', 'secondary', 'melee'}:
+        continue
+
+    # TODO: remove this
+    if model_path.parents[1].stem == 'medic':
         continue
 
     matching_slot = list((model_path.parents[2] / 'spy' / slot).iterdir())
@@ -84,11 +89,11 @@ for model_path in items_path.rglob('*.json'):
         if spy_weapon == model_path or model_path.stem == "butterfly_knife_raised":
             continue
 
-        makedirs(Path(cwd) / 'disguise' / slot, exist_ok=True)
+        makedirs(models_path / 'disguise' / slot, exist_ok=True)
         with (
             open(spy_weapon) as f, 
             open(model_path) as m,
-            open(Path(cwd) / 'disguise' / slot / f'{spy_weapon.stem}_as_{name}.json', "w") as out
+            open(models_path / 'disguise' / slot / f'{spy_weapon.stem}_as_{name}.json', "w") as out
         ):
             spy_json: dict = json.load(f)
             disguise_json: dict = json.load(m)
