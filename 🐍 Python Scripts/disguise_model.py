@@ -86,7 +86,7 @@ for model_path in items_path.rglob('*.json'):
         matching_slot += list((model_path.parents[2] / 'spy' / 'disguise_kit').iterdir())
 
     for spy_weapon in matching_slot:
-        if spy_weapon == model_path or model_path.stem == "butterfly_knife_raised":
+        if model_path.stem == "butterfly_knife_raised":
             continue
 
         makedirs(models_path / 'disguise' / slot, exist_ok=True)

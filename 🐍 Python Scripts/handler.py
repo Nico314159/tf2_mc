@@ -169,7 +169,9 @@ def main():
         for key_1p, value_1p in (weapons_dict[model_path]).items():
             if value_1p[1] == "spy":
                 for key_3p, value_3p in reduce(or_, weapons_dict.values()).items():
-                    if value_1p[2] == value_3p[2] and value_1p[3] != value_3p[3]:
+                    if value_3p[3] == "butterfly_knife_raised":
+                        continue
+                    if value_1p[2] == value_3p[2]:
                         disguises_dict[model_path][key_1p * MAX_CMD + key_3p] = ["tf2:disguise", value_1p[2], f'{value_1p[3]}_as_{value_3p[3]}']
 
         with open(model_path, mode="r+") as m:

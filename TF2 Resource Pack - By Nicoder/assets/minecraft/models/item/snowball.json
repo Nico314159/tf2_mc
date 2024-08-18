@@ -11,7 +11,7 @@
         {"predicate": {"custom_model_data": 4800}, "model": "tf2:item/heavy/melee/right_fist"},
         {"predicate": {"custom_model_data": 5550}, "model": "tf2:item/pyro/melee/fire_axe"},
         {"predicate": {"custom_model_data": 7050}, "model": "tf2:item/medic/melee/bonesaw"},
-        {"predicate": {"custom_model_data": 7876051}, "model": "tf2:disguise/melee/butterfly_knife_as_butterfly_knife_raised"},
+        {"predicate": {"custom_model_data": 7876050}, "model": "tf2:disguise/melee/butterfly_knife_as_butterfly_knife"},
         {"predicate": {"custom_model_data": 7876800}, "model": "tf2:disguise/melee/butterfly_knife_as_kukri"},
         {"predicate": {"custom_model_data": 7877550}, "model": "tf2:disguise/melee/butterfly_knife_as_baseball_bat"},
         {"predicate": {"custom_model_data": 7878300}, "model": "tf2:disguise/melee/butterfly_knife_as_shovel"},

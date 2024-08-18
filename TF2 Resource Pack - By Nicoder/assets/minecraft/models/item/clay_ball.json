@@ -7,6 +7,7 @@
         {"predicate": {"custom_model_data": 1350}, "model": "tf2:item/spy/watch/invis_watch"},
         {"predicate": {"custom_model_data": 1351}, "model": "tf2:item/spy/watch/invis_watch_gui_only"},
         {"predicate": {"custom_model_data": 4801}, "model": "tf2:item/heavy/melee/left_fist"},
+        {"predicate": {"custom_model_data": 6750900}, "model": "tf2:disguise/secondary/sapper_as_sapper"},
         {"predicate": {"custom_model_data": 6751650}, "model": "tf2:disguise/secondary/sapper_as_smg"},
         {"predicate": {"custom_model_data": 6752400}, "model": "tf2:disguise/secondary/sapper_as_pistol"},
         {"predicate": {"custom_model_data": 6752415}, "model": "tf2:disguise/secondary/sapper_as_pistol2"},
@@ -15,7 +16,9 @@
         {"predicate": {"custom_model_data": 6755400}, "model": "tf2:disguise/secondary/sapper_as_shotgun"},
         {"predicate": {"custom_model_data": 6756905}, "model": "tf2:disguise/secondary/sapper_as_medi_gun_red"},
         {"predicate": {"custom_model_data": 6756910}, "model": "tf2:disguise/secondary/sapper_as_medi_gun_blu"},
+        {"predicate": {"custom_model_data": 10126350}, "model": "tf2:disguise/watch/invis_watch_as_invis_watch"},
         {"predicate": {"custom_model_data": 10126351}, "model": "tf2:disguise/watch/invis_watch_as_invis_watch_gui_only"},
-        {"predicate": {"custom_model_data": 10133850}, "model": "tf2:disguise/watch/invis_watch_gui_only_as_invis_watch"}
+        {"predicate": {"custom_model_data": 10133850}, "model": "tf2:disguise/watch/invis_watch_gui_only_as_invis_watch"},
+        {"predicate": {"custom_model_data": 10133851}, "model": "tf2:disguise/watch/invis_watch_gui_only_as_invis_watch_gui_only"}
     ]
 }
