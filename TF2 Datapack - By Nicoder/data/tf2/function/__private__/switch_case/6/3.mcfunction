@@ -1,4 +1,5 @@
-execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 125
-attribute @s minecraft:generic.movement_speed base set 0.176
-function tf2:class/scout/give
-scoreboard players set __found_case__ tf2.var 1
+scoreboard players operation $_ammoCost_ tf2.var = $_maxClip_ tf2.var
+scoreboard players operation $_ammoCost_ tf2.var -= $_clip_ tf2.var
+scoreboard players operation $_ammoCost_ tf2.var < $_ammo_ tf2.var
+scoreboard players operation $_clip_ tf2.var += $_ammoCost_ tf2.var
+scoreboard players operation $_ammo_ tf2.var -= $_ammoCost_ tf2.var

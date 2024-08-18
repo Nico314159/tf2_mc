@@ -1,2 +1,1 @@
-scoreboard players add $_clip_ tf2.var 1
-scoreboard players remove $_ammo_ tf2.var 1
+function tf2:class/spy/inventory_lock

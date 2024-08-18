@@ -256,6 +256,8 @@ class Class.Spy {
             return run this.disable_attacking();
         }
 
+        attribute @s[tag=!tf2.disguised] minecraft:generic.movement_speed modifier remove tf2:match_disguise_speed;
+
         item replace entity @s armor.chest with air;
 
         loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
@@ -719,8 +721,18 @@ class Class.Spy {
             $error = true;
         }
 
+        attribute @s minecraft:generic.movement_speed modifier remove tf2:match_disguise_speed;
         if ($error) {
             return run tag @s remove tf2.disguised;
+        }
+
+        switch (tf2.disguise.class:@s) { 
+            case Class.SOLDIER:
+                attribute @s minecraft:generic.movement_speed modifier add tf2:match_disguise_speed -0.15 add_multiplied_base;     
+            case Class.DEMOMAN:
+                attribute @s minecraft:generic.movement_speed modifier add tf2:match_disguise_speed -0.07 add_multiplied_base;
+            case Class.HEAVY:
+                attribute @s minecraft:generic.movement_speed modifier add tf2:match_disguise_speed -0.30 add_multiplied_base;
         }
 
         tag @s add self;

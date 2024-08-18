@@ -1,1 +1,1 @@
-function tf2:class/pyro/inventory_lock
+title @s subtitle ["",{"text":"_abcdefg","color":"gray","font":"tf2:zoom_meter","type":"text"},{"text":"hijklm","color":"dark_gray","font":"tf2:zoom_meter","type":"text"}]
