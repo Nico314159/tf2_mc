@@ -10,6 +10,8 @@
         {"predicate": {"custom_model_data": 6751650}, "model": "tf2:disguise/secondary/sapper_as_smg"},
         {"predicate": {"custom_model_data": 6752400}, "model": "tf2:disguise/secondary/sapper_as_pistol"},
         {"predicate": {"custom_model_data": 6752415}, "model": "tf2:disguise/secondary/sapper_as_pistol2"},
+        {"predicate": {"custom_model_data": 6753150}, "model": "tf2:disguise/secondary/sapper_as_shotgun"},
+        {"predicate": {"custom_model_data": 6754650}, "model": "tf2:disguise/secondary/sapper_as_shotgun"},
         {"predicate": {"custom_model_data": 6755400}, "model": "tf2:disguise/secondary/sapper_as_shotgun"},
         {"predicate": {"custom_model_data": 6756905}, "model": "tf2:disguise/secondary/sapper_as_medi_gun_red"},
         {"predicate": {"custom_model_data": 6756910}, "model": "tf2:disguise/secondary/sapper_as_medi_gun_blu"},

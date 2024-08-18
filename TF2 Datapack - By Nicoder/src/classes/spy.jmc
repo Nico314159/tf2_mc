@@ -368,11 +368,9 @@ class Class.Spy {
         emit(f"$world_CMD *= {VARIATIONS};")
                 
         emit(f"$merge_CMD *= {MAX_CMD};")
-        emit("print($merge_CMD);")
         emit(f"$merge_CMD += $world_CMD;")
         `, jmc=true);
 
-        print($world_CMD);
         item modify entity @s hotbar.0 {
             "function": "minecraft:set_custom_model_data",
             "value": {
