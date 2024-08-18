@@ -17,7 +17,7 @@ def make_empty_folder(path: Path):
         elif content.is_dir():
             rmtree(content)
         
-def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any], compensate_rotation=False):
+def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any]):
     out_textures: dict[str, str] = {}
     for k, v in model1["textures"].items():
         if k.isnumeric():
@@ -51,9 +51,6 @@ def blockbench_merge(model1: dict[str, Any], model2: dict[str, Any], compensate_
         k: v for (k, v) in model2['display'].items() if k == "thirdperson_righthand"
     }
 
-    if compensate_rotation:
-        try: pov3rd["thirdperson_righthand"]["rotation"][0] += 0
-        except KeyError: pass
     
     return {
         "credit": "Made with Blockbench",
@@ -98,7 +95,7 @@ for model_path in items_path.rglob('*.json'):
             spy_json: dict = json.load(f)
             disguise_json: dict = json.load(m)
 
-            new_model = blockbench_merge(spy_json, disguise_json, compensate_rotation=(spy_weapon.parent.stem=="disguise_kit"))
+            new_model = blockbench_merge(spy_json, disguise_json)
         
             out.write(blockbench_style_JSON(new_model))
 
