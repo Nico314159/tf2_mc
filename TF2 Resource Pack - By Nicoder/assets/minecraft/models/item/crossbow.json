@@ -34,6 +34,15 @@
         {"predicate": {"custom_model_data": 6755}, "model": "tf2:item/medic/primary/syringe_gun_red"},
         {"predicate": {"custom_model_data": 6760}, "model": "tf2:item/medic/primary/syringe_gun_blu"},
         {"predicate": {"custom_model_data": 6905}, "model": "tf2:item/medic/secondary/medi_gun_red"},
-        {"predicate": {"custom_model_data": 6910}, "model": "tf2:item/medic/secondary/medi_gun_blu"}
+        {"predicate": {"custom_model_data": 6910}, "model": "tf2:item/medic/secondary/medi_gun_blu"},
+        {"predicate": {"custom_model_data": 5626500}, "model": "tf2:disguise/primary/revolver_as_sniper_rifle"},
+        {"predicate": {"custom_model_data": 5627250}, "model": "tf2:disguise/primary/revolver_as_scattergun"},
+        {"predicate": {"custom_model_data": 5628000}, "model": "tf2:disguise/primary/revolver_as_rocket_launcher"},
+        {"predicate": {"custom_model_data": 5629500}, "model": "tf2:disguise/primary/revolver_as_minigun_decoy"},
+        {"predicate": {"custom_model_data": 5629501}, "model": "tf2:disguise/primary/revolver_as_minigun_spinning"},
+        {"predicate": {"custom_model_data": 5630255}, "model": "tf2:disguise/primary/revolver_as_flamethrower_red"},
+        {"predicate": {"custom_model_data": 5630260}, "model": "tf2:disguise/primary/revolver_as_flamethrower_blu"},
+        {"predicate": {"custom_model_data": 5631755}, "model": "tf2:disguise/primary/revolver_as_syringe_gun_red"},
+        {"predicate": {"custom_model_data": 5631760}, "model": "tf2:disguise/primary/revolver_as_syringe_gun_blu"}
     ]
 }

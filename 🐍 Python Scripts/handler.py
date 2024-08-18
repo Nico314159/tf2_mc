@@ -1,13 +1,22 @@
 from __future__ import annotations
+from collections import defaultdict
+from collections.abc import MutableMapping
+from enum import Enum
 import json
+import copy
 from pathlib import Path
-from typing import cast
-from pathlib import Path
-from typing import Final
+from typing import cast, Final
 
 DP_ROOT: Final[Path] = Path(__file__).parents[1] / "TF2 Datapack - By Nicoder"
 RP_ROOT: Final[Path] = Path(__file__).parents[1] / "TF2 Resource Pack - By Nicoder"
 
+# HACK
+import sys
+sys.path.append(str(DP_ROOT / 'src'))
+from item_script import VARIATIONS, MAX_CMD, unpack_CMD # type: ignore
+del sys
+
+Class = Enum("Class", ["SPY", "SNIPER", "SCOUT", "SOLDIER", "DEMOMAN", "HEAVY", "PYRO", "ENGINEER", "MEDIC"])
 loot_dir = DP_ROOT / "data" / "tf2" / "loot_table" / "class"
 models_dir = RP_ROOT / "assets" / "minecraft" / "models" / "item"
 
@@ -67,8 +76,6 @@ def determine_custom_model_data(_json) -> list[int]:
     ]
 
 
-
-
 def blockbench_style_JSON(obj, indentation = "\t") -> str:
 
     def new_line(tabs):
@@ -119,60 +126,90 @@ def blockbench_style_JSON(obj, indentation = "\t") -> str:
 
     return handle_var(obj, 1)
 
+def flatten(dictionary, parent_key='', separator='') -> dict[str, int]:
+    items = []
+    for key, value in dictionary.items():
+        new_key = (parent_key + separator + str(key)) if parent_key else str(key)
+        if isinstance(value, MutableMapping):
+            items.extend(flatten(value, new_key, separator=separator).items())
+        else:
+            items.append((new_key, value))
+    return dict(items)
+
 def main():
-    files_seen: set[Path] = set()
 
-    for file_path in loot_dir.rglob("*.json"):
-        with open(file_path) as file:
-            _json = json.load(file)
+    SLOT_NAMES: Final = "primary", "secondary", "melee", "disguise_kit", "watch"
+    empty_classes_dict = {c.name.lower(): {s: defaultdict(int) for s in SLOT_NAMES} for c in Class}
+    weapons_dict = defaultdict(lambda: copy.deepcopy(empty_classes_dict))
+    disguises_dict = defaultdict(lambda: {s: defaultdict(int) for s in SLOT_NAMES})
 
-            model_files = determine_models_to_edit(_json)
-            # print(file_path)
-            # print(model_files)
 
-            nums = determine_custom_model_data(_json)
-            if len(nums) == 0 or len(model_files) == 0:
-                continue
+    for loot_path in loot_dir.rglob("*.json"):
+        with open(loot_path) as lt:
+            loot_json = json.load(lt)
 
-            for model_file in model_files:
-                with open(model_file, mode="r+") as m:
-                    try:
-                        model_json = json.load(m)
-                    except:
-                        # TODO: make know how to replicate other keys if they get wiped too
-                        model_json = {}
+            model_paths = determine_models_to_edit(loot_json)
 
-                    if model_file not in files_seen:
-                        model_json["overrides"] = []
-                        files_seen.add(model_file)
+            nums = determine_custom_model_data(loot_json)
 
-                    for num in nums:
-                        class_name = file_path.relative_to(loot_dir).parent
-                        weapon_name = file_path.stem
-                            
-                        slot = ["primary", "secondary", "melee", "disguise_kit", "watch"][(num // 150) % 5]
+        if len(nums) == 0 or len(model_paths) == 0:
+            continue
 
-                        if str(class_name) == "sniper" and slot == "primary" and model_file.stem == "spyglass_in_hand":
-                            weapon_name += "_scope"
+        for model_path in model_paths:
+            for num in nums:
+                class_name = loot_path.relative_to(loot_dir).parent.name
+                weapon_name = loot_path.stem            
+                slot = ["primary", "secondary", "melee", "disguise_kit", "watch"][unpack_CMD(num)[1]]
 
-                        if len(nums) == 2:
-                            team = (num // 5) % 15
-                            weapon_name += "_red" if team == 1 else \
-                                           "_blu" if team == 2 else ""
+                if str(class_name) == "sniper" and slot == "primary" and model_path.stem == "spyglass_in_hand":
+                    weapon_name += "_scope"
 
-                        minecrafty_path = f"tf2:item/{class_name}/{slot}/{weapon_name}"
+                if len(nums) == 2:
+                    team = (num // VARIATIONS) % 3
+                    weapon_name += "_red" if team == 1 else \
+                                   "_blu" if team == 2 else ""
 
-                        override = { "predicate": {"custom_model_data": num}, "model": minecrafty_path}
-                        model_json["overrides"].append(override)
+                weapons_dict[model_path][class_name][slot][weapon_name] = num
+                if str(class_name) == "spy" and slot == "melee":
+                    weapons_dict[model_path][class_name][slot][weapon_name + "_raised"] = num + 1
 
-                        if str(class_name) == "spy" and slot == "melee":
-                            model_json["overrides"].append({"predicate": {"custom_model_data": num + 1}, "model": minecrafty_path + "_raised"})
+            # FIXME: ugly nesting
+            for cls in weapons_dict[model_path]:
+                for slot in weapons_dict[model_path][cls]:
+                    for world_name in weapons_dict[model_path][cls][slot]:
+                        world_CMD = weapons_dict[model_path][cls][slot][world_name]
+                        hand_path = (model_path.parent / "clay_ball.json") if slot == "secondary" else model_path
+                        for hand_name in weapons_dict[hand_path]['spy'][slot]:
+                            if hand_name == world_name: continue
 
-                    model_json["overrides"].sort(key=lambda x: x["predicate"]["custom_model_data"])
+                            hand_CMD = weapons_dict[hand_path]['spy'][slot][hand_name]
 
-                    m.seek(0)
-                    m.truncate(0)
-                    m.write(blockbench_style_JSON(model_json, indentation=" " * 4))
+                            merged_CMD = hand_CMD
+                            merged_CMD *= MAX_CMD 
+                            merged_CMD += world_CMD
+
+                            disguises_dict[hand_path][slot][f'{hand_name}_as_{world_name}'] = merged_CMD
+
+    for model_path in weapons_dict:
+        with open(model_path, mode="r+") as m:
+            try:
+                model_json = json.load(m)
+            except:
+                # TODO: make know how to replicate other keys if they get wiped too
+                model_json = {}
+                        
+            flat_weapons = flatten(weapons_dict[model_path], parent_key='tf2:item', separator='/')
+            flat_disguises = flatten(disguises_dict[model_path], parent_key='tf2:disguise', separator='/')
+
+            # print(flat_weapons | flat_disguises)
+
+            model_json["overrides"] = [{"predicate": {"custom_model_data": i}, "model": s} for (s, i) in (flat_weapons | flat_disguises).items()]
+
+            model_json["overrides"].sort(key=lambda x: x["predicate"]["custom_model_data"])
+
+            m.seek(0)
+            m.truncate(0)
+            m.write(blockbench_style_JSON(model_json, indentation=" " * 4))
                     
 if __name__ == "__main__":
     main()

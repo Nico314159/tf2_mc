@@ -2,12 +2,12 @@ import json
 import ast
 from collections import Counter
 from enum import Enum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Final
 if TYPE_CHECKING:
     def emit(command: str): ...
 
-true = True
-false = False
+true: Final = True
+false: Final = False
 
 Class = Enum("Class", ["SPY", "SNIPER", "SCOUT", "SOLDIER", "DEMOMAN", "HEAVY", "PYRO", "ENGINEER", "MEDIC"])
 
@@ -34,6 +34,39 @@ def minify_no_key_quotes(obj) -> str:
                 return json.dumps(o)
 
     return handle(obj)
+
+SERIAL_MAX: Final = 10
+VARIATIONS: Final = 5    
+SLOTS: Final = len(["hotbar.0", "hotbar.1", "hotbar.2", "hotbar.3", "hotbar.4"])
+
+def pack_CMD(
+    class_num: int,
+    slot: int,
+    serial: int,
+    team: int,
+    cmd_bump: int
+):
+    if class_num > len(Class):
+        raise ValueError(f"There are only 9 classes, not {class_num}")
+    if slot >= SLOTS:
+        raise ValueError(f"`hotbar.{slot}` is not a valid slot. Must be one of {', '.join(f'`hotbar.{i}`' for i in range(SLOTS))}")
+    if serial >= SERIAL_MAX:
+        raise ValueError(f"Can't have more than {SERIAL_MAX} weapons for class {Class(class_num).name} in slot `hotbar.{slot}`")
+    if cmd_bump >= VARIATIONS:
+        raise ValueError(f"cmd_bump must be less than {VARIATIONS}")
+    
+    return (((class_num * SLOTS + slot) * SERIAL_MAX + serial) * 3 + team) * VARIATIONS + cmd_bump
+
+def unpack_CMD(CMD: int):
+    return (
+        CMD // (VARIATIONS * 3 * SERIAL_MAX * SLOTS) % (len(Class) + 1),
+        CMD // (VARIATIONS * 3 * SERIAL_MAX) % SLOTS,     
+        CMD // (VARIATIONS * 3) % SERIAL_MAX,       
+        CMD // (VARIATIONS) % 3,
+        CMD % VARIATIONS
+    )
+
+MAX_CMD = pack_CMD(9, SLOTS - 1, SERIAL_MAX - 1, 2, VARIATIONS - 1) + 1
 
 def make_weapon(
     class_id,
@@ -114,30 +147,12 @@ def make_weapon(
     if cmd_bump:
         unlock_counter[key] -= 1
 
-    serial: int = unlock_counter[key]
-    SLOT_MAX = 10
-    assert serial < SLOT_MAX, "Can't have more than 10 weapons for class {class_id.name} in slot {slot}"
-    
-    CMD: int = class_num
-    CMD *= 5
-    CMD += slot
-    CMD *= SLOT_MAX
-    CMD += serial
-    CMD *= 3
-
-    ARBITRARY_VARIATIONS = 5
-    assert cmd_bump < ARBITRARY_VARIATIONS, f"cmd_bump must be less than {ARBITRARY_VARIATIONS}"
-    CMD *= ARBITRARY_VARIATIONS
-    CMD += cmd_bump
-
-    unlock_counter[key] += 1
-
     model_components = []
     if team_specific:
         model_components = [
             {
                 "function": "minecraft:set_components",
-                "components": {"minecraft:custom_model_data": CMD + (team * ARBITRARY_VARIATIONS)},
+                "components": {"minecraft:custom_model_data": pack_CMD(class_num, slot, unlock_counter[key], team, cmd_bump)},
                 "conditions": [
                     { 
                         "condition": "minecraft:entity_scores",
@@ -150,10 +165,12 @@ def make_weapon(
         model_components = [
             {
                 "function": "minecraft:set_components",
-                "components": {"minecraft:custom_model_data": CMD}
+                "components": {"minecraft:custom_model_data": pack_CMD(class_num, slot, unlock_counter[key], 0, cmd_bump)}
             }
         ]
-        
+
+    unlock_counter[key] += 1
+
     if base_item in {"tf2:crossbow_base", "minecraft:crossbow"}:
         for temp in model_components:
             temp["components"] |= {
