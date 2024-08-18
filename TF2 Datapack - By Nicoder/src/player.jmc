@@ -349,4 +349,18 @@ class Player {
             tag @s remove tf2.new;
         }
     }
+
+    function can_cap() {
+        tag @s remove tf2.unable_to_cap;
+
+        if (entity @s[tag=tf2.disguised]) {
+            return run tag @s add tf2.unable_to_cap;
+        }
+
+        if (entity @s[scores={tf2.is_invisible=0}]) {
+            return run tag @s add tf2.unable_to_cap;
+        }
+
+        tag @s add tf2.on_point;
+    }
 }
