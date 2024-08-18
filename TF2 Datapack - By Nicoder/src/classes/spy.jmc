@@ -383,21 +383,20 @@ class Class.Spy {
             }
         };
 
-        // $merge_CMD += EVAL(300_000_000);
-        // if (tf2.disguise.class:@s == Class.SPY) {
-        //     $merge_CMD = EVAL(400_000_000);
-        // }
-        // item modify entity @s hotbar.3 {
-        //     "function": "minecraft:set_custom_model_data",
-        //     "value": {
-        //         "type": "minecraft:score",
-        //         "target": {
-        //             "type": "minecraft:fixed",
-        //             "name": "$merge_CMD"
-        //         },
-        //         "score": "tf2.var"
-        //     }
-        // };
+        JMC.python(`
+        emit(f"$merge_CMD += {3 * SERIAL_MAX * 3 * VARIATIONS * MAX_CMD};")
+        `, jmc=true);
+        item modify entity @s hotbar.3 {
+            "function": "minecraft:set_custom_model_data",
+            "value": {
+                "type": "minecraft:score",
+                "target": {
+                    "type": "minecraft:fixed",
+                    "name": "$merge_CMD"
+                },
+                "score": "tf2.var"
+            }
+        };
     }
     function fake_secondary() {
         // loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;

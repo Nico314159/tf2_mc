@@ -45,6 +45,16 @@
         {"predicate": {"custom_model_data": 5630260}, "model": "tf2:disguise/primary/revolver_as_flamethrower_blu"},
         {"predicate": {"custom_model_data": 5631755}, "model": "tf2:disguise/primary/revolver_as_syringe_gun_red"},
         {"predicate": {"custom_model_data": 5631760}, "model": "tf2:disguise/primary/revolver_as_syringe_gun_blu"},
-        {"predicate": {"custom_model_data": 9001200}, "model": "tf2:disguise/disguise_kit/disguise_kit_as_disguise_kit"}
+        {"predicate": {"custom_model_data": 9000750}, "model": "tf2:disguise/primary/disguise_kit_as_revolver"},
+        {"predicate": {"custom_model_data": 9001200}, "model": "tf2:disguise/disguise_kit/disguise_kit_as_disguise_kit"},
+        {"predicate": {"custom_model_data": 9001500}, "model": "tf2:disguise/primary/disguise_kit_as_sniper_rifle_scope"},
+        {"predicate": {"custom_model_data": 9002250}, "model": "tf2:disguise/primary/disguise_kit_as_scattergun"},
+        {"predicate": {"custom_model_data": 9003000}, "model": "tf2:disguise/primary/disguise_kit_as_rocket_launcher"},
+        {"predicate": {"custom_model_data": 9004500}, "model": "tf2:disguise/primary/disguise_kit_as_minigun_decoy"},
+        {"predicate": {"custom_model_data": 9004501}, "model": "tf2:disguise/primary/disguise_kit_as_minigun_spinning"},
+        {"predicate": {"custom_model_data": 9005255}, "model": "tf2:disguise/primary/disguise_kit_as_flamethrower_red"},
+        {"predicate": {"custom_model_data": 9005260}, "model": "tf2:disguise/primary/disguise_kit_as_flamethrower_blu"},
+        {"predicate": {"custom_model_data": 9006755}, "model": "tf2:disguise/primary/disguise_kit_as_syringe_gun_red"},
+        {"predicate": {"custom_model_data": 9006760}, "model": "tf2:disguise/primary/disguise_kit_as_syringe_gun_blu"}
     ]
 }

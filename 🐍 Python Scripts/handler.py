@@ -171,8 +171,8 @@ def main():
                 for key_3p, value_3p in reduce(or_, weapons_dict.values()).items():
                     if value_3p[3] == "butterfly_knife_raised":
                         continue
-                    if value_1p[2] == value_3p[2]:
-                        disguises_dict[model_path][key_1p * MAX_CMD + key_3p] = ["tf2:disguise", value_1p[2], f'{value_1p[3]}_as_{value_3p[3]}']
+                    if value_1p[2] == value_3p[2] or (value_1p[2] == "disguise_kit" and value_3p[2] == "primary"):
+                        disguises_dict[model_path][key_1p * MAX_CMD + key_3p] = ["tf2:disguise", value_3p[2], f'{value_1p[3]}_as_{value_3p[3]}']
 
         with open(model_path, mode="r+") as m:
             try:
