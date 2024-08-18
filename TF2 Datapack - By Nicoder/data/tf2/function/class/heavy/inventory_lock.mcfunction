@@ -3,8 +3,8 @@ execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:61}]
 execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:61}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun
 loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist
-execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:62}] 0
-execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:62}]
+execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:62,kind:"real"}] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:62,kind:"real"}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist
 loot replace entity @s armor.legs loot tf2:class/heavy/_model
 execute store result score $_count_ tf2.var run clear @s iron_leggings 0

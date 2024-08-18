@@ -161,8 +161,8 @@ class Class.Heavy {
         if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
 
         loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
-        $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2)}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2)}];
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2), kind: "real"}] 0;
+        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2), kind: "real"}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
 
         loot replace entity @s armor.legs loot tf2:class/heavy/_model;
@@ -177,8 +177,8 @@ class Class.Heavy {
 
         if (tf2.current_slot:@s == 2) {
             loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist;
-            $_count_ = clear @s clay_ball 0;
-            if ($_count_ != 1) clear @s clay_ball;
+            $_count_ = clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2), kind: "fake"}] 0;
+            if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2), kind: "fake"}];
             if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist;
         } else {
             clear @s clay_ball;
