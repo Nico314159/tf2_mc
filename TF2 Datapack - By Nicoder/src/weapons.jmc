@@ -436,7 +436,7 @@ class Weapons {
         summon::projectile.spawnY = lookup::item.components.minecraft:custom_data.projectile.spawn[1];
         summon::projectile.spawnZ = lookup::item.components.minecraft:custom_data.projectile.spawn[2];
         summon::projectile.weapon_name = lookup::item.components.minecraft:custom_name;
-        summon::projectile.CMD = lookup::item.components.minecraft:custom_model_data;
+        summon::projectile.CMD = 100 * lookup::item.components.minecraft:custom_model_data;
         summon::projectile.owner = @s::UUID;
         Hardcode.repeatList("|property|", () => {
             $|property| = lookup::item.components.minecraft:custom_data.projectile.|property|;
@@ -452,6 +452,7 @@ class Weapons {
             tf2.team:@s = tf2.team:$temp;
             tf2.batch_number:@s = execute on vehicle run tf2.batch_number:@s = tf2.batch_number:$local;
 
+            tf2.model_number:@s = summon::projectile.CMD;
             @s::billboard = lookup::item.components.minecraft:custom_data.projectile.billboard;
             @s::item.components.minecraft:custom_data.attributes = lookup::item.components.minecraft:custom_data.attributes;
             @s::item.components.minecraft:custom_data.projectile = lookup::item.components.minecraft:custom_data.projectile;

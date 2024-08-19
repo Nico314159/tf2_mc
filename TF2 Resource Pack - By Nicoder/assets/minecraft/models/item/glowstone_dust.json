@@ -5,10 +5,10 @@
     },
     "overrides": [      
         { "predicate": {"custom_model_data": 0}, "model": "tf2:bullet/normal"},
-        { "predicate": {"custom_model_data": 41000}, "model": "tf2:projectile/soldier/rocket"},
-        { "predicate": {"custom_model_data": 71001}, "model": "tf2:projectile/pyro/flame"},
-        { "predicate": {"custom_model_data": 71002}, "model": "tf2:projectile/pyro/flame"},
-        { "predicate": {"custom_model_data": 91001}, "model": "tf2:projectile/medic/syringe_red"},
-        { "predicate": {"custom_model_data": 91002}, "model": "tf2:projectile/medic/syringe_blu"}
+        { "predicate": {"custom_model_data": 300000}, "model": "tf2:projectile/soldier/rocket"},
+        { "predicate": {"custom_model_data": 525500}, "model": "tf2:projectile/pyro/flame"},
+        { "predicate": {"custom_model_data": 526000}, "model": "tf2:projectile/pyro/flame"},
+        { "predicate": {"custom_model_data": 675500}, "model": "tf2:projectile/medic/syringe_red"},
+        { "predicate": {"custom_model_data": 676000}, "model": "tf2:projectile/medic/syringe_blu"}
     ]
 }
