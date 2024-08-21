@@ -28,6 +28,7 @@ make_weapon(
 		'billboard': 'center',
 		'relative_to_player': true,
 		'unreflectable': true,
+		'animated': true,
 		'convection': {'factor': 0.007}
 	},
 	controls={'main_fire': true, 'alt_fire': true, 'reload': 0},
