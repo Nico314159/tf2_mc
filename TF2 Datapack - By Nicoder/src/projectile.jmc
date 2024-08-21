@@ -21,6 +21,9 @@ class Projectile {
         if (entity @s[tag=tf2.has_trail]) {
             execute at @s run this.trail();
         }
+        if (entity @s[tag=tf2.animated]) {
+            this.animate();
+        }
 
         vars::Motion = @s::item.components.minecraft:custom_data.Motion;
         vars::Pos = @s::Pos;
@@ -59,6 +62,13 @@ class Projectile {
         Hardcode.repeat("|z|", () => {
             particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc(|z| / -3) 0 0 0 0 10;
         }, start=1, stop=4);
+    }
+    function animate() {
+        tf2.model_number:@s++;
+        item modify entity @s contents { 
+            "function": "minecraft:set_custom_model_data",
+            "value": {"type": "minecraft:score", "target": "this", "score": "tf2.model_number"}
+        };
     }
     function calc_lifetime() {
         if (data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime) {

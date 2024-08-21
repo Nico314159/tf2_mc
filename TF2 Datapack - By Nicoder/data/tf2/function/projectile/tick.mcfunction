@@ -1,4 +1,5 @@
 execute if entity @s[tag=tf2.has_trail] at @s run function tf2:projectile/trail
+execute if entity @s[tag=tf2.animated] run function tf2:projectile/animate
 data modify storage tf2:vars Motion set from entity @s item.components.minecraft:custom_data.Motion
 data modify storage tf2:vars Pos set from entity @s Pos
 execute on vehicle run data modify storage tf2:vars Rotation set from entity @s Rotation

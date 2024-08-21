@@ -14,4 +14,5 @@ execute if score $drag tf2.var matches 1.. run tag @s add tf2.drag
 execute if score $ignore_env tf2.var matches 1.. run tag @s add tf2.ignore_env
 execute if score $convection tf2.var matches 1.. run tag @s add tf2.convection
 execute if score $unreflectable tf2.var matches 1.. run tag @s add tf2.unreflectable
+execute if score $animated tf2.var matches 1.. run tag @s add tf2.animated
 tag @s remove tf2.new
