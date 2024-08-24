@@ -55,8 +55,8 @@ TextProps.nbt(
 TextProp.nbt(
     propertyName = "kill_verb",
     type         = storage,
-    source       = "tf2:vars",
-    path         = kill_verb
+    source       = "tf2:lookup",
+    path         = damages[-1].kill_verb
 );
 TextProp.nbt(
     propertyName = "weapon_name",

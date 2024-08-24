@@ -128,6 +128,7 @@ scoreboard objectives add tf2.uuid.0 dummy
 scoreboard objectives add tf2.uuid.1 dummy
 scoreboard objectives add tf2.uuid.2 dummy
 scoreboard objectives add tf2.uuid.3 dummy
+scoreboard objectives add tf2.player.id dummy
 scoreboard objectives add tf2.afterburn_ticks dummy
 scoreboard objectives add tf2.afterburn_length dummy
 scoreboard objectives add tf2.airblast_delay dummy

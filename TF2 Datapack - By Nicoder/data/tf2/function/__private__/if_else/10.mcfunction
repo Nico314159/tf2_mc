@@ -1,2 +1,3 @@
-data modify storage tf2:vars kill_verb set value 'killed'
-execute as @a[tag=retina.executing,predicate=!tf2:holding_melee] at @s run playsound tf2:ding.kill player @s ~ ~ ~ 0.9 1 0.05
+scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
+scoreboard players remove $_temp3_ tf2.var 100
+scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const

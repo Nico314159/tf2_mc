@@ -141,22 +141,11 @@ class Class.Pyro {
 		}
 	}
 	function afterburn_damage() {
-		tf2.health:@s -= 4;
-		damage @s 0.01 tf2:screenshake;
 		particle minecraft:lava ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 1 force @a[tag=!self];
 
-		if (tf2.health:@s > 0) {
-			return 1;
-		}
-		tf2.batch_number:$local = tf2.batch_number:@s;
-		execute as @a if score @s tf2.batch_number 
-		                 = $local tf2.batch_number 
-		               run tag @s add tf2.current;
-
-		vars::kill_verb = "burned to death";
-		Text.tellraw(@a[tag=tf2.current], "&<@s> &<kill_verb>");
-		tag @a remove tf2.current;
-		tag @s add tf2.said_death_msg;
+		lookup::damages << {cause: _MIN_INT_, amount: 4};
+		lookup::damages[-1].target = tf2.player.id:@s;
+		lookup::damages[-1].kill_verb = "burned to death";
 	}
 
 	function airblast() {

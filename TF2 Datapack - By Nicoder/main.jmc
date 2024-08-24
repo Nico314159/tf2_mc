@@ -54,7 +54,60 @@ function __tick__() {
     if ($trigger_reminder == 0) {
         Text.tellraw(@a, "&<gray>Remember, you can type &<white,bold>/trigger controls &<gray>in chat to see the controls.");
     }
+
+    while (data storage tf2:lookup damages[]) {
+        Damage.iterate();
+    }
 }
+
+class Damage {
+    function iterate() {
+        $cause  = lookup::damages[-1].cause;
+        $target = lookup::damages[-1].target;
+        $amount = lookup::damages[-1].amount;
+
+        execute as @a[tag=tf2.is_playing]
+                if score @s tf2.player.id
+                = $target tf2.var
+                run this.apply();
+
+        tag @a remove tf2.target;
+
+        lookup::damages[-1].del();
+    }
+    function apply() {
+        if (tf2.health:@s <= 0) {
+            return fail;
+        }
+
+        execute as @a[tag=tf2.is_playing]
+                if score @s tf2.player.id
+                = $cause tf2.var
+                run tag @s add tf2.cause;
+
+        tf2.health:@s -= $amount;
+        damage @s 0.01 tf2:screenshake by @a[tag=tf2.cause, limit=1];
+
+        if (tf2.health:@s > 0) {
+            return run tag @a remove tf2.cause;
+        }
+        if (entity @s[tag=tf2.said_death_msg]) {
+            return run tag @a remove tf2.cause;
+        }
+        
+        tf2.batch_number:$local = tf2.batch_number:@s;
+		execute as @a if score @s tf2.batch_number 
+		                 = $local tf2.batch_number 
+		               run tag @s add tf2.current;
+
+		Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s>");
+		tag @a remove tf2.current;
+		tag @s add tf2.said_death_msg;
+        tag @a remove tf2.cause;
+    }
+}
+
+
 
 function marker_tick() {
     if (entity @s[tag=tf2.in_use,scores={tf2.gamemode=Gamemode.ATK_DEF .. Gamemode.DOMINATION}] && entity @a) {

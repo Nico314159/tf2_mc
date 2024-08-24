@@ -40,6 +40,9 @@ Player.join(() => {
     scoreboard players enable @s autoreload;
     tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = autoreload:@s = 0;
 
+    tf2.player.id:@s ??= tf2.player.id:$global;
+    tf2.player.id:$global++;
+
     // Update timer visibility to exclude currrent player
     execute as @e[type=marker,tag=tf2.in_use] run Timer.resync_visibility();
 
@@ -285,14 +288,14 @@ class Player {
         if (block ~ ~-1 ~ #minecraft:beds) {
             $fall_damage /= 2;
         }
-        tf2.health:@s -= $fall_damage;
-        if ($fall_damage) {
-            damage @s 0.01 tf2:screenshake;
-        }
+        // tf2.health:@s -= $fall_damage;
+        // if ($fall_damage) {
+        //     damage @s 0.01 tf2:screenshake;
+        // }
 
-        if (tf2.health:@s <= 0) {
-            Text.tellraw(@a[tag=tf2.current], "&<@s> fell to their death");
-        }
+        // if (tf2.health:@s <= 0) {
+        //     Text.tellraw(@a[tag=tf2.current], "&<@s> fell to their death");
+        // }
 
         // Clear everything out
         $previous_dy

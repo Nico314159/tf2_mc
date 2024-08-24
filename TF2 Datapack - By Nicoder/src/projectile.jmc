@@ -214,37 +214,17 @@ class Projectile {
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
 
-        tf2.health:@p[tag=tf2.hit] -= $_finalDamage_;
-        damage @p[tag=tf2.hit] 0.01 tf2:screenshake;
-
-        summon::number.X = @s::Pos[0];
-        summon::number.Y = @s::Pos[1];
-        summon::number.Z = @s::Pos[2];
-        summon::number.value = $_finalDamage_;
-        if ($_finalDamage_ >= 1) {
-            HUD.damage_numbers() with summon::number;
-        }
+        lookup::damages << {};
+        lookup::damages[-1].cause = tf2.player.id:@p[tag=tf2.origin];
+        lookup::damages[-1].target = tf2.player.id:@p[tag=tf2.hit];
+        lookup::damages[-1].amount = $_finalDamage_;
+        lookup::damages[-1].kill_verb = "killed";
 
         vars::callbacks = @s::item.components.minecraft:custom_data.attributes.on_hit;
         vars::callback = vars::callbacks[0];
         if (data storage tf2:vars callbacks[]) {
             this.callbacks() with vars::;
         }
-
-        if (tf2.health:@p[tag=tf2.hit] > 0) return run {
-            execute on vehicle on origin run tag @s remove tf2.origin;
-        }
-
-        tf2.batch_number:$local = tf2.batch_number:@s;
-        execute as @a if score @s tf2.batch_number 
-                         = $local tf2.batch_number 
-                      run tag @s add tf2.current;
-                    
-        vars::kill_verb = "killed";
-        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@p[tag=tf2.hit]> with &<weapon_name>");
-        execute on vehicle on origin run tag @s remove tf2.origin;
-        tag @p[tag=tf2.hit] add tf2.said_death_msg;
-        tag @a remove tf2.current;
     }
     function callbacks() {
         // @needs_macro
@@ -321,38 +301,21 @@ class Projectile {
         if (!entity @s[tag=tf2.hit] && data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
             this.splash_damage();
         } 
-        summon::number.X = retina:output::ContactCoordinates[0];
-        summon::number.Y = retina:output::ContactCoordinates[1];
-        summon::number.Z = retina:output::ContactCoordinates[2];
-        summon::number.value = $_totalDamage_;
-        if ($_totalDamage_ >= 1) {
-            HUD.damage_numbers() with summon::number;
-        }
     }
     function splash_damage() {
-        this.calculate_splash();
-        tf2.health:@s -= $_finalDamage_;
-        $_totalDamage_ = $_finalDamage_;
-        $playersHurt++;
-        damage @s 0.01 tf2:screenshake by @a[tag=tf2.origin, limit=1];
-        this.knockback();
+        $_finalDamage_ = this.calculate_splash();
 
-        // Death message & sound effects
-        if (entity @s[tag=tf2.said_death_msg]) return 1;
-        if (tf2.health:@s > 0) {
-            return run execute if entity @s[tag=!tf2.origin] 
-                               as @a[tag=tf2.origin] at @s
-                               run playsound tf2:ding.hit player @s ~ ~ ~ 0.9 1.2 0.05;
+        if ($_finalDamage_ > 0) {
+            $playersHurt++;
         }
-        tf2.batch_number:$local = tf2.batch_number:@s;
-        execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
-        vars::kill_verb = "blew up";
-        Text.tellraw(@a[tag=tf2.current], "&<@a[tag=tf2.origin]> &<kill_verb> &<@s> with &<weapon_name>");
-        execute if entity @s[tag=!tf2.origin] 
-                as @a[tag=tf2.origin] at @s
-                run playsound tf2:ding.kill player @s ~ ~ ~ 0.9 1 0.05;
-        tag @a remove tf2.current;
-        tag @s add tf2.said_death_msg;
+
+        lookup::damages << {};
+        lookup::damages[-1].cause = tf2.player.id:@a[tag=tf2.origin,limit=1];
+        lookup::damages[-1].target = tf2.player.id:@s;
+        lookup::damages[-1].amount = $_finalDamage_;
+        lookup::damages[-1].kill_verb = "blew up";
+
+        this.knockback();
     }
     function calculate_splash() {
         $_centerDist_ = retina:output::Distance * EVAL (1 / 0.01905);

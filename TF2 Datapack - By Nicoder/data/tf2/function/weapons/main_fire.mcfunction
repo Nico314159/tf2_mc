@@ -20,17 +20,11 @@ execute unless data storage tf2:lookup item.components.minecraft:custom_data.att
 execute unless data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
 execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
 scoreboard players set $func_id retina.__variable__ 100
-scoreboard players set $_totalDamage_ tf2.var 0
 execute if predicate tf2:holding_projectile run function tf2:weapons/projectile
 execute unless predicate tf2:holding_projectile run function tf2:weapons/hitscan
 execute store result score $_delay_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.attackDelay 20000
 scoreboard players operation @s tf2.attack_delay += $_delay_ tf2.var
 scoreboard players reset $func_id retina.__variable__
-data modify storage tf2:summon number.X set from storage retina:output ContactCoordinates[0]
-data modify storage tf2:summon number.Y set from storage retina:output ContactCoordinates[1]
-data modify storage tf2:summon number.Z set from storage retina:output ContactCoordinates[2]
-execute store result storage tf2:summon number.value int 1 run scoreboard players get $_totalDamage_ tf2.var
-execute if score $_totalDamage_ tf2.var matches 1.. run function tf2:hud/damage_numbers with storage tf2:summon number
 execute if predicate tf2:holding_melee run return run function tf2:__private__/anonymous/3
 scoreboard players remove $_clip_ tf2.var 1
 function tf2:weapons/set_ammo

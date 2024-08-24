@@ -7,21 +7,11 @@ execute if score $_temporalFalloff_ tf2.var matches 1.. run function tf2:project
 scoreboard players operation $_finalDamage_ tf2.var *= $_multiplier_ tf2.var
 scoreboard players add $_finalDamage_ tf2.var 99
 scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const
-scoreboard players operation @p[tag=tf2.hit] tf2.health -= $_finalDamage_ tf2.var
-damage @p[tag=tf2.hit] 0.01 tf2:screenshake
-data modify storage tf2:summon number.X set from entity @s Pos[0]
-data modify storage tf2:summon number.Y set from entity @s Pos[1]
-data modify storage tf2:summon number.Z set from entity @s Pos[2]
-execute store result storage tf2:summon number.value int 1 run scoreboard players get $_finalDamage_ tf2.var
-execute if score $_finalDamage_ tf2.var matches 1.. run function tf2:hud/damage_numbers with storage tf2:summon number
+data modify storage tf2:lookup damages append value {}
+execute store result storage tf2:lookup damages[-1].cause int 1 run scoreboard players get @p[tag=tf2.origin] tf2.player.id
+execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @p[tag=tf2.hit] tf2.player.id
+execute store result storage tf2:lookup damages[-1].amount int 1 run scoreboard players get $_finalDamage_ tf2.var
+data modify storage tf2:lookup damages[-1].kill_verb set value 'killed'
 data modify storage tf2:vars callbacks set from entity @s item.components.minecraft:custom_data.attributes.on_hit
 data modify storage tf2:vars callback set from storage tf2:vars callbacks[0]
 execute if data storage tf2:vars callbacks[] run function tf2:projectile/callbacks with storage tf2:vars
-execute if score @p[tag=tf2.hit] tf2.health matches 1.. run return run execute on vehicle on origin run tag @s remove tf2.origin
-scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
-execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
-data modify storage tf2:vars kill_verb set value 'killed'
-tellraw @a[tag=tf2.current] ["",{"selector":"@a[tag=tf2.origin]","type":"selector"},{"text":" "},{"type":"nbt","source":"storage","nbt":"kill_verb","interpret":false,"storage":"tf2:vars"},{"text":" "},{"selector":"@p[tag=tf2.hit]","type":"selector"},{"text":" with "},{"type":"nbt","source":"storage","nbt":"weapon_name","interpret":true,"storage":"tf2:vars"}]
-execute on vehicle on origin run tag @s remove tf2.origin
-tag @p[tag=tf2.hit] add tf2.said_death_msg
-tag @a remove tf2.current
