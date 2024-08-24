@@ -71,9 +71,27 @@ class Damage {
                 = $target tf2.var
                 run this.apply();
 
-        tag @a remove tf2.target;
+        tag @a remove tf2.cause;
 
         lookup::damages[-1].del();
+    }
+    @lazy
+    function display() {
+        lookup::damages[-1].X = @s::Pos[0];
+        lookup::damages[-1].Z = @s::Pos[2];
+        $Y = @s::Pos[1] * 10;
+        $Y++;
+        lookup::damages[-1].Y = 0.1 * (float) $Y;
+
+        execute as @a[tag=tf2.cause, limit=1]
+                run HUD.damage_numbers()
+                with lookup::damages[-1];
+    }
+    @lazy()
+    function hit_sfx() {
+        execute unless entity @s[tag=tf2.cause]
+                as @a[tag=tf2.cause,predicate=!tf2:holding_melee] at @s
+                run playsound tf2:ding.hit player @s ~ ~ ~ 0.8 1.2 0.05;
     }
     function apply() {
         if (tf2.health:@s <= 0) {
@@ -91,12 +109,14 @@ class Damage {
             // For afterburn & fall damage
             damage @s 0.01 tf2:screenshake;
         }
+        this.display();
+
 
         if (tf2.health:@s > 0) {
-            return run tag @a remove tf2.cause;
+            return run this.hit_sfx();
         }
         if (entity @s[tag=tf2.said_death_msg]) {
-            return run tag @a remove tf2.cause;
+            return run this.hit_sfx();
         }
         
         tf2.batch_number:$local = tf2.batch_number:@s;
@@ -105,9 +125,11 @@ class Damage {
 		               run tag @s add tf2.current;
 
 		Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s>");
+        execute unless entity @s[tag=tf2.cause]
+                as @a[tag=tf2.cause,predicate=!tf2:holding_melee] at @s
+                run playsound tf2:ding.kill player @s ~ ~ ~ 1.1 1 0.05;
 		tag @a remove tf2.current;
 		tag @s add tf2.said_death_msg;
-        tag @a remove tf2.cause;
     }
 }
 
