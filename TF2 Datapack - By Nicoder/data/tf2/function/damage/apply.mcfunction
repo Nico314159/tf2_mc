@@ -2,6 +2,7 @@ execute if score @s tf2.health matches ..0 run return fail
 execute as @a[tag=tf2.is_playing] if score @s tf2.player.id = $cause tf2.var run tag @s add tf2.cause
 scoreboard players operation @s tf2.health -= $amount tf2.var
 damage @s 0.01 tf2:screenshake by @a[tag=tf2.cause,limit=1]
+execute unless entity @a[tag=tf2.cause] run damage @s 0.01 tf2:screenshake
 execute if score @s tf2.health matches 1.. run return run tag @a remove tf2.cause
 execute if entity @s[tag=tf2.said_death_msg] run return run tag @a remove tf2.cause
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number

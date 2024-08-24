@@ -21,4 +21,9 @@ execute if block ~ ~-1 ~ #tf2:no_fall_dmg run scoreboard players set $fall_damag
 execute if block ~ ~-1 ~ slime_block unless predicate tf2:sneaking run scoreboard players set $fall_damage tf2.var 0
 execute if block ~ ~-1 ~ #tf2:reduce_fall_dmg run scoreboard players operation $fall_damage tf2.var /= 5 tf2.const
 execute if block ~ ~-1 ~ #minecraft:beds run scoreboard players operation $fall_damage tf2.var /= 2 tf2.const
-execute store result score $previous_dy tf2.var store result score $current_dy tf2.var store result score $impact_velocity tf2.var store result score $fall_damage tf2.var store result score @s tf2.fall_y3 store result score @s tf2.fall_y2 store result score @s tf2.fall_y1 store result score @s tf2.fall_y run scoreboard players set @s tf2.fall 0
+execute store result score $previous_dy tf2.var store result score $current_dy tf2.var store result score $impact_velocity tf2.var store result score @s tf2.fall_y3 store result score @s tf2.fall_y2 store result score @s tf2.fall_y1 store result score @s tf2.fall_y run scoreboard players set @s tf2.fall 0
+execute unless score $fall_damage tf2.var matches 1.. run return fail
+data modify storage tf2:lookup damages append value {cause:-2147483648}
+execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @s tf2.player.id
+execute store result storage tf2:lookup damages[-1].amount int 1 run scoreboard players get $fall_damage tf2.var
+data modify storage tf2:lookup damages[-1].kill_verb set value 'fell to their death'

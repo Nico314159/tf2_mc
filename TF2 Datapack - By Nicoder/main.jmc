@@ -87,6 +87,10 @@ class Damage {
 
         tf2.health:@s -= $amount;
         damage @s 0.01 tf2:screenshake by @a[tag=tf2.cause, limit=1];
+        if (!entity @a[tag=tf2.cause]) {
+            // For afterburn & fall damage
+            damage @s 0.01 tf2:screenshake;
+        }
 
         if (tf2.health:@s > 0) {
             return run tag @a remove tf2.cause;

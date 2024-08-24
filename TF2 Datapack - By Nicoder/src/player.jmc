@@ -301,13 +301,21 @@ class Player {
         $previous_dy
         = $current_dy
         = $impact_velocity
-        = $fall_damage
         = tf2.fall_y3:@s
         = tf2.fall_y2:@s
         = tf2.fall_y1:@s
         = tf2.fall_y:@s
         = tf2.fall:@s
         = 0;
+
+        if (!$fall_damage) {
+            return fail;
+        }
+
+        lookup::damages << {cause: _MIN_INT_};
+        lookup::damages[-1].target = tf2.player.id:@s;
+        lookup::damages[-1].amount = $fall_damage;
+        lookup::damages[-1].kill_verb = "fell to their death";
     }
     function death() {
         // Puts a dead player into spectator mode & starts their respawn timer.
