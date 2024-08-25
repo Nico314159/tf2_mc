@@ -1,2 +1,4 @@
-execute if entity @a[tag=retina.executing,scores={tf2.class=2,tf2.time_scoped=4..}] run function tf2:__private__/if_else/12
-execute if score __if_else__ tf2.var matches 0 run scoreboard players set $_multiplier_ tf2.var 100
+execute store result score @s tf2.attack_delay run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.deployTime 10000
+execute unless data entity @s SelectedItem.components.minecraft:custom_data.attributes.deployTime run scoreboard players set @s tf2.attack_delay 10000
+scoreboard players set @s tf2.consecutive_reload 0
+scoreboard players set @s tf2.time_idle 0

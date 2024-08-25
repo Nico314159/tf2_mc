@@ -80,7 +80,7 @@ class Damage {
         lookup::damages[-1].X = @s::Pos[0];
         lookup::damages[-1].Z = @s::Pos[2];
         $Y = @s::Pos[1] * 10;
-        $Y++;
+        $Y += 11;
         lookup::damages[-1].Y = 0.1 * (float) $Y;
 
         execute as @a[tag=tf2.cause, limit=1]

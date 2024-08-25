@@ -1,2 +1,3 @@
-data modify storage tf2:lookup damages[-1].kill_verb set value 'headshot'
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
+scoreboard players remove $_temp3_ tf2.var 100
+scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const
