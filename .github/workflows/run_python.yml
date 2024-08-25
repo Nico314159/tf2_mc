@@ -1,4 +1,4 @@
-name: whatever
+name: run_python
 
 on: [ push ]
 
@@ -8,5 +8,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: whatever
+    - name: run_python
       run: python '🐍 Python Scripts/_run_all.py'
