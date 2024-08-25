@@ -16,4 +16,4 @@ jobs:
       run: python -m pip install --upgrade pip pillow
     - name: Run Python
       run: python '🐍 Python Scripts/_run_all.py'
-      - uses: stefanzweifel/git-auto-commit-action@v5
+    - uses: stefanzweifel/git-auto-commit-action@v5
