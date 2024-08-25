@@ -1,0 +1,12 @@
+name: whatever
+
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: whatever
+      run: python '🐍 Python Scripts/_run_all.py'
