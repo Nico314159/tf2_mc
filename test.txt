@@ -1,1 +1,0 @@
-This commit is *supposed* to have the python script generate a bunch of files but it won't do anything, watch.
