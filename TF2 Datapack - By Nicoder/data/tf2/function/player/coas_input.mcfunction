@@ -5,5 +5,5 @@ execute if score $__item_id__ tf2.var matches 10 run scoreboard players operatio
 scoreboard players operation @s tf2.class = $__item_id__ tf2.var
 scoreboard players operation @s tf2.class %= 10 tf2.const
 function tf2:class_select
-execute if score $__item_id__ tf2.var matches 1..9 unless score @s[tag=!tf2.in_spawn] tf2.last_class = @s tf2.class run scoreboard players set @s tf2.health 0
+execute if score $__item_id__ tf2.var matches 1..9 unless score @s[tag=!tf2.in_spawn] tf2.last_class = @s tf2.class run function tf2:player/death
 playsound tf2:pickup.ammo player @s[scores={tf2.health=1..,tf2.class=1..9}]

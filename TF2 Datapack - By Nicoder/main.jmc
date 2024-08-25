@@ -65,6 +65,7 @@ class Damage {
         $cause  = lookup::damages[-1].cause;
         $target = lookup::damages[-1].target;
         $amount = lookup::damages[-1].amount;
+        $instakill = lookup::damage[-1].instakill;
 
         execute as @a[tag=tf2.is_playing]
                 if score @s tf2.player.id
@@ -103,6 +104,9 @@ class Damage {
                 = $cause tf2.var
                 run tag @s add tf2.cause;
 
+        if ($instakill) {
+            $amount = tf2.health:@s;
+        }
         tf2.health:@s -= $amount;
         damage @s 0.01 tf2:screenshake by @a[tag=tf2.cause, limit=1];
         if (!entity @a[tag=tf2.cause]) {
@@ -110,7 +114,6 @@ class Damage {
             damage @s 0.01 tf2:screenshake;
         }
         this.display();
-
 
         if (tf2.health:@s > 0) {
             return run this.hit_sfx();
@@ -124,12 +127,38 @@ class Damage {
 		                 = $local tf2.batch_number 
 		               run tag @s add tf2.current;
 
-		Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s>");
+        if (entity @a[tag=tf2.cause]) {
+		    Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s>");
+        }
+        if (!entity @a[tag=tf2.cause]) {
+		    Text.tellraw(@a[tag=tf2.current], "&<@s> &<kill_verb>");
+        }
         execute unless entity @s[tag=tf2.cause]
                 as @a[tag=tf2.cause,predicate=!tf2:holding_melee] at @s
                 run playsound tf2:ding.kill player @s ~ ~ ~ 1.1 1 0.05;
 		tag @a remove tf2.current;
-		tag @s add tf2.said_death_msg;
+		
+        Player.death();
+    }
+    function try_merge_into_last() {
+        if (!data storage tf2:lookup damages[]) {
+            return false;
+        }
+
+        $temp = lookup::damages[-1].cause;
+        if ($temp != $cause) {
+            return false;
+        }
+
+        $temp = lookup::damages[-1].target;
+        if ($temp != $target) {
+            return false;
+        }
+
+        $temp = lookup::damages[-1].amount;
+        $temp += $_finalDamage_;
+        lookup::damages[-1].amount = $temp;
+        return true;
     }
 }
 

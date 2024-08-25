@@ -15,7 +15,7 @@ execute if score $backstab tf2.var matches 1.. run scoreboard players operation 
 execute if score $_hitHead_ tf2.var matches 1.. if entity @a[tag=retina.executing,scores={tf2.class=2,tf2.time_scoped=4..}] run data modify storage tf2:vars kill_verb set value 'headshot'
 scoreboard players operation $cause tf2.var = @a[tag=retina.executing,limit=1] tf2.player.id
 scoreboard players operation $target tf2.var = @s tf2.player.id
-execute if function tf2:weapons/check_existing_and_merge run return 1
+execute if function tf2:damage/try_merge_into_last run return 1
 data modify storage tf2:lookup damages append value {}
 execute store result storage tf2:lookup damages[-1].cause int 1 run scoreboard players get $cause tf2.var
 execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get $target tf2.var

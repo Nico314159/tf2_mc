@@ -90,11 +90,14 @@ class Player {
         tf2.now_z:@s[type=player] = @s::Pos[2] * 100;
 
         if (entity @s[tag=!tf2.dead,y=-45,dy=5]) {
-            tf2.health:@s = 0;
-            Text.tellraw(@a[tag=tf2.current], "&<@s> fell into the void.");
+            lookup::damages << {
+                instakill: true, 
+                cause: _MIN_INT_, 
+                kill_verb: "fell into the void"
+            };
+            lookup::damages[-1].target = tf2.player_id:@s;
             tp @s ~ 5 ~;
         }
-        if (entity @s[tag=!tf2.dead,scores={tf2.health=..0}]) {this.death();}
         if (entity @s[tag=tf2.dead]) {
             tf2.respawn_timer:@s --;
             tf2.respawn_timer.sec:@s = tf2.respawn_timer:@s;
@@ -232,7 +235,7 @@ class Player {
             class_select();
             if ($__item_id__ matches 1..9 && tf2.last_class:@s[tag=!tf2.in_spawn] != tf2.class:@s) {
                 // Kill player if they change class outside of spawn
-                tf2.health:@s = 0;
+                this.death();
             }
             playsound tf2:pickup.ammo player @s[scores={tf2.health=1..,tf2.class=1..9}];
         }
@@ -333,7 +336,7 @@ class Player {
             $ tf2.respawn_timer:@s[scores={tf2.team=1}] = running_games::$(i).spawn_time.red[0] * 20;
             $ tf2.respawn_timer:@s[scores={tf2.team=2}] = running_games::$(i).spawn_time.blu[0] * 20;
         } with index::;
-        execute at @s[scores={tf2.class=1..}] run summon axolotl ~ ~ ~ {
+        execute at @s[scores={tf2.class=1..9}] run summon axolotl ~ ~ ~ {
             attributes: [
                 {id: "minecraft:generic.movement_speed", base: 0.0d},
                 {id: "minecraft:generic.jump_strength", base: 0.0d},

@@ -225,6 +225,8 @@ class Projectile {
         if (data storage tf2:vars callbacks[]) {
             this.callbacks() with vars::;
         }
+
+        execute on vehicle on origin run tag @s remove tf2.origin;
     }
     function callbacks() {
         // @needs_macro

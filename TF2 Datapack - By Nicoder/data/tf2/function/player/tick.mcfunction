@@ -5,7 +5,6 @@ execute store result score @s[type=player] tf2.now_x run data get entity @s Pos[
 scoreboard players operation @s[type=player] tf2.last_z = @s tf2.now_z
 execute store result score @s[type=player] tf2.now_z run data get entity @s Pos[2] 100
 execute if entity @s[tag=!tf2.dead,y=-45,dy=5] run function tf2:__private__/if_else/24
-execute if entity @s[tag=!tf2.dead,scores={tf2.health=..0}] run function tf2:player/death
 execute if entity @s[tag=tf2.dead] run function tf2:__private__/if_else/25
 execute if entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}] run function tf2:spawn/init
 execute unless entity @s[scores={tf2.class=1},tag=tf2.disguised,gamemode=!spectator] run function tf2:class/spy/nametag/delete

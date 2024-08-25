@@ -15,3 +15,4 @@ data modify storage tf2:lookup damages[-1].kill_verb set value 'killed'
 data modify storage tf2:vars callbacks set from entity @s item.components.minecraft:custom_data.attributes.on_hit
 data modify storage tf2:vars callback set from storage tf2:vars callbacks[0]
 execute if data storage tf2:vars callbacks[] run function tf2:projectile/callbacks with storage tf2:vars
+execute on vehicle on origin run tag @s remove tf2.origin
