@@ -12,6 +12,7 @@ execute if entity @s[gamemode=spectator] run return run tag @a remove tf2.curren
 scoreboard players remove @s[scores={tf2.attack_delay=0..}] tf2.attack_delay 1000
 scoreboard players remove @s[scores={tf2.reload_delay=0..}] tf2.reload_delay 1000
 scoreboard players add @s tf2.time_idle 1
+scoreboard players add @s tf2.ticks_since_hurt 1
 clear @s arrow
 data modify storage tf2:check_match UUID set from entity @s UUID
 tag @s add tf2.self

@@ -113,6 +113,7 @@ class Damage {
             // For afterburn & fall damage
             damage @s 0.01 tf2:screenshake;
         }
+        tf2.ticks_since_hurt:@s = 0;
         this.display();
 
         if (tf2.health:@s > 0) {

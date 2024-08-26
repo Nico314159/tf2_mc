@@ -117,6 +117,7 @@ class Player {
         tf2.attack_delay:@s[scores={tf2.attack_delay=0..}] -= 1000;
         tf2.reload_delay:@s[scores={tf2.reload_delay=0..}] -= 1000;
         tf2.time_idle:@s++;
+        tf2.ticks_since_hurt:@s++;
 
         clear @s arrow;
         check_match::UUID = @s::UUID;

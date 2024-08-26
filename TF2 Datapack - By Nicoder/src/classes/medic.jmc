@@ -116,7 +116,17 @@ class Class.Medic {
 		}		
 	}
 	function natural_regen() {
-		tf2.health:@s += 3;
+		$natural_regen_amount = 3;
+		if (tf2.ticks_since_hurt:@s >= 60) {
+			$natural_regen_amount++;
+		}
+		if (tf2.ticks_since_hurt:@s >= 120) {
+			$natural_regen_amount++;
+		}
+		if (tf2.ticks_since_hurt:@s >= 180) {
+			$natural_regen_amount++;
+		}
+		tf2.health:@s += $natural_regen_amount;
 		tf2.health:@s < tf2.max_health:@s;
 	}
 }

@@ -122,6 +122,7 @@ scoreboard objectives add tf2.door.pos dummy
 scoreboard objectives add tf2.door.vel dummy
 scoreboard objectives add tf2.door.accel dummy
 scoreboard objectives add tf2.hits_taken dummy
+scoreboard objectives add tf2.ticks_since_hurt dummy
 scoreboard objectives add tf2.interpolate_rmb dummy
 scoreboard objectives add tf2.menu_ticks dummy
 scoreboard objectives add tf2.uuid.0 dummy
