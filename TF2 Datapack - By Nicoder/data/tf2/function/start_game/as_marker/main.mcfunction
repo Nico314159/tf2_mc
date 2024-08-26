@@ -30,7 +30,6 @@ execute store result score $blu_length tf2.var run data get entity @s data.map.r
 scoreboard players set $i tf2.var 0
 execute if data storage tf2:summon resupply[] run function tf2:__private__/while_loop/4
 data remove storage tf2:summon entity
-execute as @e[type=!#tf2:player_like] if score @s tf2.batch_number = $local tf2.batch_number run function tf2:session/despawn with storage tf2:index
 execute as @e[type=!#tf2:player_like,tag=!tf2.static_prop] unless score @s tf2.batch_number = @s tf2.batch_number run kill @s
 execute as @e[type=!#tf2:player_like] if score @s tf2.batch_number = $local tf2.batch_number run function tf2:session/sync with storage tf2:index
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing

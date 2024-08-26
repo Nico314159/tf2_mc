@@ -55,6 +55,11 @@ function __tick__() {
         Text.tellraw(@a, "&<gray>Remember, you can type &<white,bold>/trigger controls &<gray>in chat to see the controls.");
     }
 
+    if ($flicker == 0) {
+        execute as @e[type=!#tf2:player_like] 
+                run Session.check_validity();
+    }
+
     while (data storage tf2:lookup damages[]) {
         Damage.iterate();
     }
