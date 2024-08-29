@@ -6,7 +6,7 @@
             "offsetY": 1,
             "predicate": {
                 "fluid": {
-                    "fluid": "minecraft:water"
+                    "fluids": "minecraft:water"
                 }
             }
         },
@@ -15,7 +15,7 @@
             "offsetY": 1,
             "predicate": {
                 "fluid": {
-                    "fluid": "minecraft:flowing_water"
+                    "fluids": "minecraft:flowing_water"
                 }
             }
         },
