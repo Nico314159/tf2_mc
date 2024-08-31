@@ -76,6 +76,10 @@ class Class.Medic {
 		if ($regen_modulo == 0) {
 			this.natural_regen();
 		}
+
+		if (tf2.current_slot:@s == 1 && !tf2.attack_delay:@s) {
+			this.heal_nearest_teammate();
+		}
 	}
 	function inventory_lock() {
 		item replace entity @s weapon.offhand with air;
@@ -128,5 +132,35 @@ class Class.Medic {
 		}
 		tf2.health:@s += $natural_regen_amount;
 		tf2.health:@s < tf2.max_health:@s;
+	}
+	function heal_nearest_teammate() {
+		tf2.batch_number:$current = tf2.batch_number:@s;
+		tf2.team:$current = tf2.team:@s;
+
+		tag @s add self;
+		execute as @a[tag=!self,distance=.. EVAL(450 * 0.01905)]
+		        if score @s tf2.batch_number = $current tf2.batch_number
+		        if score @s tf2.team = $current tf2.team
+		        run tag @s add heal_target;
+		tag @s remove self;
+
+		if (!entity @a[tag=heal_target]) {
+			return fail;
+		}
+
+		$heal_amount = tf2.ticks_since_hurt:@p[tag=heal_target];
+		$heal_amount -= 150;
+		$heal_amount > 50;
+		$heal_amount < 150;
+		$heal_amount *= 24;
+		$heal_amount /= 50;
+
+		$t = 0008it54g_p_join:$__global__;
+		$t %= 20;
+		if ($t == 0) {
+			tf2.health:@p[tag=heal_target] += $heal_amount;
+		}
+		tf2.health:@p[tag=heal_target] < tf2.max_health:@p[tag=heal_target];
+		tag @a remove heal_target;
 	}
 }
