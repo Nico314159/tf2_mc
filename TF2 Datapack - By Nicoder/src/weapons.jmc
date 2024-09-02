@@ -279,6 +279,9 @@ class Weapons {
             case Class.MEDIC: Class.Medic.inventory_lock();
         }
 
+        if (items entity @s weapon.mainhand *[custom_data~{attributes:{heal:true}}]) {
+            return run Class.Medic.select_heal_target();
+        }
         if (!predicate tf2:has_main_fire) return 0;
         this.get_ammo();
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;

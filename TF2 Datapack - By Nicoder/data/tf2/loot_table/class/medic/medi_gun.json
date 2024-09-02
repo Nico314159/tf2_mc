@@ -53,7 +53,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{key:91}"
+                            "tag": "{retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:500},attributes:{clip:1,damage:0,heal:true},controls:{reload:0,main_fire:true,alt_fire:false},key:91}"
                         }
                     ]
                 }

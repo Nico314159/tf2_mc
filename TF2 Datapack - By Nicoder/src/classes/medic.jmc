@@ -36,7 +36,12 @@ JMC.python(`
 make_weapon(
     Class.MEDIC, slot=1, name='Medi Gun',
 	display_name="Medi Gun (DOESN'T WORK YET)",
-	team_specific=True
+	team_specific=True,
+	attributes={
+		'clip': 1, 'damage': 0,
+		'heal': true
+	},
+	controls={'reload': 0},
 )
 `, jmc=true);
 
@@ -62,6 +67,7 @@ class Class.Medic {
 		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
 		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
 		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
+		scoreboard players reset @s tf2.heal_target;
 	}
 	@lazy
 	function tick() {
@@ -77,9 +83,17 @@ class Class.Medic {
 			this.natural_regen();
 		}
 
-		if (tf2.current_slot:@s == 1 && !tf2.attack_delay:@s) {
-			this.heal_nearest_teammate();
+		if (tf2.current_slot:@s != 1) {
+			scoreboard players reset @s tf2.heal_target;
 		}
+
+		tag @s add self;
+		if (tf2.current_slot:@s == 1 && !tf2.attack_delay:@s) {
+			execute as @e[type=#tf2:player_like]
+					if score @s tf2.player.id = @p[tag=self] tf2.heal_target
+					run this.apply_healing();
+		}
+		tag @s remove self;
 	}
 	function inventory_lock() {
 		item replace entity @s weapon.offhand with air;
@@ -133,22 +147,27 @@ class Class.Medic {
 		tf2.health:@s += $natural_regen_amount;
 		tf2.health:@s < tf2.max_health:@s;
 	}
-	function heal_nearest_teammate() {
-		tf2.batch_number:$current = tf2.batch_number:@s;
+	function select_heal_target() {
 		tf2.team:$current = tf2.team:@s;
+		tf2.batch_number:$current = tf2.batch_number:@s;
 
 		tag @s add self;
-		execute as @a[tag=!self,distance=.. EVAL(450 * 0.01905)]
+		execute as @a[tag=!self,distance=.. MEDIGUN_CONNECT_RANGE]
 		        if score @s tf2.batch_number = $current tf2.batch_number
 		        if score @s tf2.team = $current tf2.team
-		        run tag @s add heal_target;
+		        run tag @s add tf2.valid_heal_target;
 		tag @s remove self;
 
-		if (!entity @a[tag=heal_target]) {
-			return fail;
-		}
+		function retina:traverse/setup;
 
-		$heal_amount = tf2.ticks_since_hurt:@p[tag=heal_target];
+		scoreboard players reset @s tf2.heal_target;
+		tf2.heal_target:@s = tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, scores={retina.hit=1..}];
+		tf2.heal_target:@s ??= tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, sort=nearest, limit=1];
+		
+		tag @e remove tf2.valid_heal_target;
+	}
+	function apply_healing() {
+		$heal_amount = tf2.ticks_since_hurt:@s;
 		$heal_amount -= 150;
 		$heal_amount > 50;
 		$heal_amount < 150;
@@ -158,9 +177,8 @@ class Class.Medic {
 		$t = 0008it54g_p_join:$__global__;
 		$t %= 20;
 		if ($t == 0) {
-			tf2.health:@p[tag=heal_target] += $heal_amount;
+			tf2.health:@s += $heal_amount;
 		}
-		tf2.health:@p[tag=heal_target] < tf2.max_health:@p[tag=heal_target];
-		tag @a remove heal_target;
+		tf2.health:@s < tf2.max_health:@s;
 	}
 }
