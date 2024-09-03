@@ -89,7 +89,7 @@ class Class.Medic {
 
 		tag @s add self;
 		if (tf2.current_slot:@s == 1 && !tf2.attack_delay:@s) {
-			execute as @e[type=#tf2:player_like]
+			execute as @e[type=#tf2:player_like, tag=!self]
 			        if score @s tf2.player.id = @p[tag=self] tf2.heal_target
 			        run this.apply_healing();
 		}
@@ -144,6 +144,14 @@ class Class.Medic {
 		if (tf2.ticks_since_hurt:@s >= 180) {
 			$natural_regen_amount++;
 		}
+
+		tag @s add self;
+		execute as @e[type=#tf2:player_like]
+				if score @s tf2.player.id = @p[tag=self] tf2.heal_target
+				if score @s tf2.health < @s tf2.max_health
+				run $natural_regen_amount *= 2;
+		tag @s remove self;
+
 		tf2.health:@s += $natural_regen_amount;
 		tf2.health:@s < tf2.max_health:@s;
 	}
