@@ -1,3 +1,4 @@
+execute if entity @p[tag=self,distance=10.287..] run return run function tf2:class/medic/disconnect
 scoreboard players operation $heal_amount tf2.var = @s tf2.ticks_since_hurt
 scoreboard players remove $heal_amount tf2.var 150
 scoreboard players operation $heal_amount tf2.var > 50 tf2.const

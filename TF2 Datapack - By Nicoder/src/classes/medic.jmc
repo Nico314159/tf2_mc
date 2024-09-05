@@ -174,7 +174,14 @@ class Class.Medic {
 		
 		tag @e remove tf2.valid_heal_target;
 	}
+	function disconnect() {
+		scoreboard players reset @p[tag=self] tf2.heal_target;
+	}
 	function apply_healing() {
+		if (entity @p[tag=self, distance= MEDIGUN_DISCONNECT_RANGE ..]) {
+			return run this.disconnect();
+		}
+
 		$heal_amount = tf2.ticks_since_hurt:@s;
 		$heal_amount -= 150;
 		$heal_amount > 50;
