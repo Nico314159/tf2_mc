@@ -91,7 +91,7 @@ class Class.Medic {
 		if (tf2.current_slot:@s == 1 && !tf2.attack_delay:@s) {
 			execute as @e[type=#tf2:player_like, tag=!self]
 			        if score @s tf2.player.id = @p[tag=self] tf2.heal_target
-			        run this.apply_healing();
+			        at @s run this.apply_healing();
 		}
 		tag @s remove self;
 	}
@@ -164,6 +164,10 @@ class Class.Medic {
 		        if score @s tf2.batch_number = $current tf2.batch_number
 		        if score @s tf2.team = $current tf2.team
 		        run tag @s add tf2.valid_heal_target;
+		execute as @a[tag=!self,distance=.. MEDIGUN_CONNECT_RANGE]
+		        if score @s tf2.class matches Class.SPY
+		        if score @s tf2.disguise.team = $current tf2.team
+		        run tag @s add tf2.valid_heal_target;
 		tag @s remove self;
 
 		function retina:traverse/setup;
@@ -181,7 +185,6 @@ class Class.Medic {
 		if (entity @p[tag=self, distance= MEDIGUN_DISCONNECT_RANGE ..]) {
 			return run this.disconnect();
 		}
-
 		$heal_amount = tf2.ticks_since_hurt:@s;
 		$heal_amount -= 150;
 		$heal_amount > 50;
