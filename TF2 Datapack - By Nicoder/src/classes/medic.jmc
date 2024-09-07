@@ -203,5 +203,22 @@ class Class.Medic {
 		}
 		tf2.health:@s += $heal_amount;
 		tf2.health:@s < tf2.max_health:@s;
+
+		execute at @p[tag=self] 
+				anchored eyes
+				facing entity @s eyes
+				run this.particleFX();
+	}
+	function particleFX() {
+		if (tf2.team:@p[tag=self] == 1) {
+			particle minecraft:block{block_state:red_stained_glass} ~ ~-0.6 ~ 0 0 0 0 1 normal; 
+		}
+		if (tf2.team:@p[tag=self] == 2) {
+			particle minecraft:block{block_state:blue_stained_glass} ~ ~-0.6 ~ 0 0 0 0 1 normal; 
+		}
+
+		execute positioned ^ ^ ^0.1
+				unless entity @s[distance=..2]
+				run this.particleFX();
 	}
 }
