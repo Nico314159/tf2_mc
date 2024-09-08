@@ -94,6 +94,7 @@ scoreboard objectives remove tf2.afterburn_ticks
 scoreboard objectives remove tf2.afterburn_length
 scoreboard objectives remove tf2.airblast_delay
 scoreboard objectives remove tf2.heal_target
+scoreboard objectives remove tf2.ubercharge
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.coas

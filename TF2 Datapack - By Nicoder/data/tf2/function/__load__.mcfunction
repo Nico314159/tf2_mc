@@ -26,6 +26,7 @@ scoreboard players set 24 tf2.const 24
 scoreboard players set 25 tf2.const 25
 scoreboard players set 1050 tf2.const 1050
 scoreboard players set -100 tf2.const -100
+scoreboard players set 800 tf2.const 800
 scoreboard players set 1570 tf2.const 1570
 scoreboard players set 36 tf2.const 36
 scoreboard players set 40 tf2.const 40
@@ -136,6 +137,7 @@ scoreboard objectives add tf2.afterburn_ticks dummy
 scoreboard objectives add tf2.afterburn_length dummy
 scoreboard objectives add tf2.airblast_delay dummy
 scoreboard objectives add tf2.heal_target dummy
+scoreboard objectives add tf2.ubercharge dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
