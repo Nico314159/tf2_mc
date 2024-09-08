@@ -353,6 +353,8 @@ class Weapons {
                 this.main_fire();
             case EVAL(Class.PYRO * 10 + 0): 
                 Class.Pyro.airblast();
+            case EVAL(Class.MEDIC * 10 + 1):
+                Class.Medic.activate_uber();
             // case EVAL(Class.DEMOMAN * 10 + 1):
             //     Class.Demoman.detonate_stickies();
             default:

@@ -1,4 +1,5 @@
 execute if score @s tf2.health matches ..0 run return fail
+execute if entity @s[tag=tf2.uber] run return fail
 execute as @a[tag=tf2.is_playing] if score @s tf2.player.id = $cause tf2.var run tag @s add tf2.cause
 execute if score $instakill tf2.var matches 1.. run scoreboard players operation $amount tf2.var = @s tf2.health
 scoreboard players operation @s tf2.health -= $amount tf2.var

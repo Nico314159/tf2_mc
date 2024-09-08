@@ -25,6 +25,7 @@ function __tick__() {
     effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true;
     effect clear @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] saturation;
     effect give @a[scores={tf2.food=..1}] saturation 1 2 true;
+    effect give @a[tag=tf2.uber] glowing 1 0 true;
 
     $comp_queue_length   = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1}];
     $casual_queue_length = execute if entity @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2}];
@@ -101,6 +102,9 @@ class Damage {
     }
     function apply() {
         if (tf2.health:@s <= 0) {
+            return fail;
+        }
+        if (entity @s[tag=tf2.uber]) {
             return fail;
         }
 

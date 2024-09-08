@@ -35,13 +35,13 @@ make_weapon(
 JMC.python(`
 make_weapon(
     Class.MEDIC, slot=1, name='Medi Gun',
-	display_name="Medi Gun (DOESN'T WORK YET)",
+	display_name="Medi Gun (WIP)",
 	team_specific=True,
 	attributes={
 		'clip': 1, 'damage': 0,
 		'heal': true
 	},
-	controls={'reload': 0},
+	controls={'alt_fire': True, 'reload': 0},
 )
 `, jmc=true);
 
@@ -69,6 +69,7 @@ class Class.Medic {
 		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
 		scoreboard players reset @s tf2.heal_target;
 		tf2.ubercharge:@s = 0;
+		tag @s remove tf2.uber;
 	}
 	@lazy
 	function tick() {
@@ -207,7 +208,12 @@ class Class.Medic {
 		tf2.health:@s += $heal_amount;
 		tf2.health:@s < tf2.max_health:@s;
 
-		tf2.ubercharge:@p[tag=self]++;
+		tf2.ubercharge:@p[tag=self, tag=!tf2.uber]++;
+		tf2.ubercharge:@p[tag=self, tag=tf2.uber] -= 5;
+		if (tf2.ubercharge:@p[tag=self] <= 0) expand {
+			tag @s remove tf2.uber;
+			tag @p[tag=self] remove tf2.uber;
+		}
 
 		execute at @p[tag=self] 
 				anchored eyes
@@ -225,6 +231,21 @@ class Class.Medic {
 		execute positioned ^ ^ ^0.1
 				unless entity @s[distance=..2]
 				run this.particleFX();
+	}
+
+	function activate_uber() {
+		if (tf2.ubercharge:@s < 800) {
+			return fail;
+		}
+
+		tag @s add self;
+
+		execute as @e[type=#tf2:player_like, tag=!self]
+				if score @s tf2.player.id = @p[tag=self] tf2.heal_target
+				at @s run tag @s add tf2.uber;
+		tag @s add tf2.uber;
+
+		tag @s remove self;
 	}
 	@lazy
 	function display_uber() {
