@@ -15,8 +15,7 @@ execute if score @s tf2.health matches 1.. run return run execute unless entity 
 execute if entity @s[tag=tf2.said_death_msg] run return run execute unless entity @s[tag=tf2.cause] as @a[tag=tf2.cause,predicate=!tf2:holding_melee] at @s run playsound tf2:ding.hit player @s ~ ~ ~ 0.8 1.2 0.05
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
-execute if entity @a[tag=tf2.cause] run tellraw @a[tag=tf2.current] ["",{"selector":"@p[tag=tf2.cause]","type":"selector"},{"text":" "},{"type":"nbt","source":"storage","nbt":"damages[-1].kill_verb","interpret":false,"storage":"tf2:lookup"},{"text":" "},{"selector":"@s","type":"selector"}]
-execute unless entity @a[tag=tf2.cause] run tellraw @a[tag=tf2.current] ["",{"selector":"@s","type":"selector"},{"text":" "},{"type":"nbt","source":"storage","nbt":"damages[-1].kill_verb","interpret":false,"storage":"tf2:lookup"}]
+function tf2:damage/death_message
 execute unless entity @s[tag=tf2.cause] as @a[tag=tf2.cause,predicate=!tf2:holding_melee] at @s run playsound tf2:ding.kill player @s ~ ~ ~ 1.1 1 0.05
 tag @a remove tf2.current
 function tf2:player/death

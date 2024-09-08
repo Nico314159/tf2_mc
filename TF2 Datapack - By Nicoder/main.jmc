@@ -133,18 +133,23 @@ class Damage {
 		                 = $local tf2.batch_number 
 		               run tag @s add tf2.current;
 
-        if (entity @a[tag=tf2.cause]) {
-		    Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s>");
-        }
-        if (!entity @a[tag=tf2.cause]) {
-		    Text.tellraw(@a[tag=tf2.current], "&<@s> &<kill_verb>");
-        }
+        this.death_message();
         execute unless entity @s[tag=tf2.cause]
                 as @a[tag=tf2.cause,predicate=!tf2:holding_melee] at @s
                 run playsound tf2:ding.kill player @s ~ ~ ~ 1.1 1 0.05;
+
 		tag @a remove tf2.current;
 		
         Player.death();
+    }
+    function death_message() {
+        if (data storage tf2:lookup damages[-1].weapon) {
+            return run Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s> with &<weapon_name>");
+        }
+        if (entity @a[tag=tf2.cause]) {
+		    return run Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s>");
+        }
+        Text.tellraw(@a[tag=tf2.current], "&<@s> &<kill_verb>");
     }
     function try_merge_into_last() {
         if (!data storage tf2:lookup damages[]) {

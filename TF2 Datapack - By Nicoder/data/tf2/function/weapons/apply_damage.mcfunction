@@ -21,4 +21,5 @@ execute store result storage tf2:lookup damages[-1].cause int 1 run scoreboard p
 execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get $target tf2.var
 execute store result storage tf2:lookup damages[-1].amount int 1 run scoreboard players get $_finalDamage_ tf2.var
 data modify storage tf2:lookup damages[-1].kill_verb set from storage tf2:vars kill_verb
+data modify storage tf2:lookup damages[-1].weapon set from entity @a[tag=retina.executing,limit=1] SelectedItem.components.minecraft:custom_name
 return 1

@@ -61,8 +61,8 @@ TextProp.nbt(
 TextProp.nbt(
     propertyName = "weapon_name",
     type         = storage,
-    source       = "tf2:vars",
-    path         = weapon_name,
+    source       = "tf2:lookup",
+    path         = damages[-1].weapon,
     interpret    = true
 );
 TextProp.keybind("main_fire", "key.use");

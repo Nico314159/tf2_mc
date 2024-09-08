@@ -643,6 +643,7 @@ class Weapons {
         lookup::damages[-1].target = $target;
         lookup::damages[-1].amount = $_finalDamage_;
         lookup::damages[-1].kill_verb = vars::kill_verb;
+        lookup::damages[-1].weapon = @a[tag=retina.executing, limit=1]::SelectedItem.components.minecraft:custom_name;
         return true;
     }
 

@@ -219,6 +219,7 @@ class Projectile {
         lookup::damages[-1].target = tf2.player.id:@p[tag=tf2.hit];
         lookup::damages[-1].amount = $_finalDamage_;
         lookup::damages[-1].kill_verb = "killed";
+        lookup::damages[-1].weapon = vars::weapon_name;
 
         vars::callbacks = @s::item.components.minecraft:custom_data.attributes.on_hit;
         vars::callback = vars::callbacks[0];
@@ -316,6 +317,7 @@ class Projectile {
         lookup::damages[-1].target = tf2.player.id:@s;
         lookup::damages[-1].amount = $_finalDamage_;
         lookup::damages[-1].kill_verb = "blew up";
+        lookup::damages[-1].weapon = vars::weapon_name;
 
         this.knockback();
     }
