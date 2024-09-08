@@ -62,7 +62,7 @@ Player.join(() => {
         () => {
             tag @s remove tf2.tagName;
         },
-        ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "unable_to_cap", "dead", "disguised"]
+        ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "can_cap", "can_defend", "dead", "disguised"]
     );
     Hardcode.repeatList(
         "objectiveName",
@@ -367,17 +367,25 @@ class Player {
         }
     }
 
-    function can_cap() {
-        tag @s remove tf2.unable_to_cap;
+    function determine_cap_rules() {
+        tag @s add tf2.on_point;
+
+        tag @s remove tf2.can_cap;
+        tag @s remove tf2.can_defend;
 
         if (entity @s[tag=tf2.disguised]) {
-            return run tag @s add tf2.unable_to_cap;
+            return fail;
         }
 
         if (entity @s[scores={tf2.is_invisible=0}]) {
-            return run tag @s add tf2.unable_to_cap;
+            return fail;
         }
 
-        tag @s add tf2.on_point;
+        if (entity @s[tag=tf2.uber]) {
+            return run tag @s add tf2.can_defend;
+        }
+
+        tag @s add tf2.can_cap;
+        tag @s add tf2.can_defend;
     }
 }

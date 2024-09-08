@@ -33,7 +33,8 @@ tag @s remove tf2.free_vote
 tag @s remove tf2.can_be_autobalanced
 tag @s remove tf2.scoped
 tag @s remove tf2.on_point
-tag @s remove tf2.unable_to_cap
+tag @s remove tf2.can_cap
+tag @s remove tf2.can_defend
 tag @s remove tf2.dead
 tag @s remove tf2.disguised
 scoreboard players reset @s tf2.class

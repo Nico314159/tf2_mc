@@ -3,7 +3,7 @@ function tf2:hud/actionbar
 function tf2:weapons/set_ammo
 function tf2:class/medic/inventory_lock
 execute positioned ~-3 ~-1 ~-3 unless entity @e[type=item_display,tag=tf2.control_point,dx=5,dy=1,dz=5] run title @s title ""
-title @s[tag=tf2.unable_to_cap] title ""
+title @s[tag=!tf2.can_cap] title ""
 scoreboard players operation @s tf2.ubercharge < 800 tf2.const
 scoreboard players operation $percent_ubercharge tf2.var = @s tf2.ubercharge
 scoreboard players operation $percent_ubercharge tf2.var /= 8 tf2.const
