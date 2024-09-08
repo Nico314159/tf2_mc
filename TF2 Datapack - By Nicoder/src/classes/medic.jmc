@@ -39,7 +39,7 @@ make_weapon(
 	team_specific=True,
 	attributes={
 		'clip': 1, 'damage': 0,
-		'heal': true
+		'heal': {'base': 24, 'maxRamp': 3.0}
 	},
 	controls={'alt_fire': True, 'reload': 0},
 )
@@ -189,11 +189,13 @@ class Class.Medic {
 		if (entity @p[tag=self, distance= MEDIGUN_DISCONNECT_RANGE ..]) {
 			return run this.disconnect();
 		}
+		$base_heal = @p[tag=self]::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.heal.base;
+		$maxRamp = @p[tag=self]::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.heal.maxRamp * 50;
 		$heal_amount = tf2.ticks_since_hurt:@s;
 		$heal_amount -= 150;
 		$heal_amount > 50;
-		$heal_amount < 150;
-		$heal_amount *= 24;
+		$heal_amount < $maxRamp;
+		$heal_amount *= $base_heal;
 		$heal_amount /= 50;
 
 		$fraction_numerator = $heal_amount;

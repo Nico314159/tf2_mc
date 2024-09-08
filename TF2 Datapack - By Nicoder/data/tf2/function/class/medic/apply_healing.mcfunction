@@ -1,9 +1,11 @@
 execute if entity @p[tag=self,distance=10.287..] run return run function tf2:class/medic/disconnect
+execute store result score $base_heal tf2.var run data get entity @p[tag=self] Inventory[{Slot:1b}].components.minecraft:custom_data.attributes.heal.base
+execute store result score $maxRamp tf2.var run data get entity @p[tag=self] Inventory[{Slot:1b}].components.minecraft:custom_data.attributes.heal.maxRamp 50
 scoreboard players operation $heal_amount tf2.var = @s tf2.ticks_since_hurt
 scoreboard players remove $heal_amount tf2.var 150
 scoreboard players operation $heal_amount tf2.var > 50 tf2.const
-scoreboard players operation $heal_amount tf2.var < 150 tf2.const
-scoreboard players operation $heal_amount tf2.var *= 24 tf2.const
+scoreboard players operation $heal_amount tf2.var < $maxRamp tf2.var
+scoreboard players operation $heal_amount tf2.var *= $base_heal tf2.var
 scoreboard players operation $heal_amount tf2.var /= 50 tf2.const
 scoreboard players operation $fraction_numerator tf2.var = $heal_amount tf2.var
 scoreboard players operation $fraction_numerator tf2.var %= 20 tf2.const
