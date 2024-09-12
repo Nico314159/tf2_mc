@@ -8,6 +8,7 @@ scoreboard players operation @s tf2.ubercharge < 800 tf2.const
 scoreboard players operation $percent_ubercharge tf2.var = @s tf2.ubercharge
 scoreboard players operation $percent_ubercharge tf2.var /= 8 tf2.const
 title @s subtitle ["",{"score":{"name":"$percent_ubercharge","objective":"tf2.var"},"type":"score"},{"text":"% \u00dcbercharge"}]
+title @s times 0 4 2
 scoreboard players operation $regen_modulo tf2.var = $__global__ 0008it54g_p_join
 scoreboard players operation $regen_modulo tf2.var %= 20 tf2.const
 execute if score $regen_modulo tf2.var matches 0 run function tf2:class/medic/natural_regen

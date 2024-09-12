@@ -269,5 +269,6 @@ class Class.Medic {
 		$percent_ubercharge = tf2.ubercharge:@s;
 		$percent_ubercharge /= 8;
 		Text.subtitle(@s, "&<$percent_ubercharge>% Übercharge");
+		title @s times 0 4 2;
 	}
 }
