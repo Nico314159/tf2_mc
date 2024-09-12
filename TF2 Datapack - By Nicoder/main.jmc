@@ -315,6 +315,7 @@ class Spawn {
         tag @s remove tf2.dead;
         tag @s remove tf2.said_death_msg;
         tag @s remove tf2.on_fire;
+        tag @s remove tf2.uber_patient;
         tf2.afterburn_ticks:@s =
         tf2.interpolate_rmb:@s = 0;
         tf2.health:@s = tf2.max_health:@s;
