@@ -39,7 +39,8 @@ make_weapon(
 	team_specific=True,
 	attributes={
 		'clip': 1, 'damage': 0,
-		'heal': {'base': 24, 'maxRamp': 3.0}
+		'heal': {'base': 24, 'maxRamp': 3.0},
+		'uber': {'build': 800, 'last': 160}
 	},
 	controls={'alt_fire': True, 'reload': 0},
 )
@@ -91,8 +92,7 @@ class Class.Medic {
 			scoreboard players reset @s tf2.heal_target;
 		}
 
-		tf2.ubercharge:@s[tag=tf2.uber_source] -= 5;
-		tag @s[scores={tf2.ubercharge=..0}] remove tf2.uber_source;
+		this.consume_uber();
 
 		tag @s add self;
 		if (tf2.current_slot:@s == 1 && !tf2.attack_delay:@s) {
@@ -245,7 +245,8 @@ class Class.Medic {
 	}
 
 	function activate_uber() {
-		if (tf2.ubercharge:@s < 800) {
+		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build;
+		if (tf2.ubercharge:@s < $full_bar) {
 			return fail;
 		}
 
@@ -265,10 +266,20 @@ class Class.Medic {
                 run Text.title(@s, "");
         Text.title(@s[tag=!tf2.can_cap], "");
 		
-		tf2.ubercharge:@s < 800;
+		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build;
+		tf2.ubercharge:@s < $full_bar;
 		$percent_ubercharge = tf2.ubercharge:@s;
-		$percent_ubercharge /= 8;
+		$percent_ubercharge *= 100;
+		$percent_ubercharge /= $full_bar;
 		Text.subtitle(@s, "&<$percent_ubercharge>% Übercharge");
 		title @s times 0 4 2;
+	}
+	function consume_uber() {
+		$duration = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.last;
+		$drain_rate = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build;
+		$drain_rate /= $duration;
+
+		tf2.ubercharge:@s[tag=tf2.uber_source] -= $drain_rate;
+		tag @s[scores={tf2.ubercharge=..0}] remove tf2.uber_source;
 	}
 }
