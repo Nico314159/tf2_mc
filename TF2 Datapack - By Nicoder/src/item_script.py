@@ -84,7 +84,8 @@ def make_weapon(
     team_specific = False,
     cmd_bump = 0,
     real = None,
-    extra = None
+    extra = None,
+    meter = None
 ):
 
     if not isinstance(class_id, Class): 
@@ -171,7 +172,7 @@ def make_weapon(
 
     unlock_counter[key] += 1
 
-    if base_item in {"tf2:crossbow_base", "minecraft:crossbow"}:
+    if base_item in {"tf2:crossbow_base", "minecraft:crossbow"} and not meter:
         for temp in model_components:
             temp["components"] |= {
                 "minecraft:unbreakable": {"show_in_tooltip": False}
@@ -211,6 +212,39 @@ def make_weapon(
                 continue
 
         functions.append(item)
+
+    if meter:
+        assert "max" in meter and "score" in meter
+        assert isinstance(meter["max"], int) and isinstance(meter["score"], str)
+        technical_max = meter["max"] + 3
+        functions.append(
+            {
+                "function": "minecraft:set_components",
+                "components": {
+                    "minecraft:max_damage": technical_max,
+                    "minecraft:damage": 0,
+                    "minecraft:max_stack_size": 1
+                }
+            }
+        )
+        functions.append(
+            {
+                "function": "minecraft:set_damage",
+                "damage": 2 / technical_max
+            }
+        )
+        functions.append(
+            {
+                "function": "minecraft:set_damage",
+                "damage": {
+                    "type": "minecraft:score",
+                    "target": "this",
+                    "score": meter["score"],
+                    "scale": 1 / technical_max
+                },
+                "add": True
+            }
+        )
 
     functions.append(
         {"function": "minecraft:set_custom_data", "tag": snbt}

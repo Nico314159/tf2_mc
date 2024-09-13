@@ -10,10 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 6905,
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                }
+                                "minecraft:custom_model_data": 6905
                             },
                             "conditions": [
                                 {
@@ -28,10 +25,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 6910,
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
-                                }
+                                "minecraft:custom_model_data": 6910
                             },
                             "conditions": [
                                 {
@@ -50,6 +44,28 @@
                                 "color": "gray",
                                 "italic": true
                             }
+                        },
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:max_damage": 803,
+                                "minecraft:damage": 0,
+                                "minecraft:max_stack_size": 1
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_damage",
+                            "damage": 0.0024906600249066002
+                        },
+                        {
+                            "function": "minecraft:set_damage",
+                            "damage": {
+                                "type": "minecraft:score",
+                                "target": "this",
+                                "score": "tf2.ubercharge",
+                                "scale": 0.0012453300124533001
+                            },
+                            "add": true
                         },
                         {
                             "function": "minecraft:set_custom_data",

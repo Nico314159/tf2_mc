@@ -43,6 +43,7 @@ make_weapon(
 		'uber': {'build': 800, 'last': 160}
 	},
 	controls={'alt_fire': True, 'reload': 0},
+	meter={'max': 800, 'score': 'tf2.ubercharge'}
 )
 `, jmc=true);
 
