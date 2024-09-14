@@ -1,4 +1,4 @@
-clear @s
+clear @s[scores={tf2.class=1..9}]
 tag @s remove tf2.on_fire
 tag @s remove tf2.can_double_jump
 effect clear @s invisibility

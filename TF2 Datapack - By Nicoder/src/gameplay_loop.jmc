@@ -402,7 +402,10 @@ class reset {
 }
 
 function test_items() {
-    clear @s;
+    Hardcode.repeat("|i|", () => {
+        item replace entity @s hotbar.|i| with air;
+    }, start=0, stop=9);
+    item replace entity @s weapon.offhand with air;
     give @s Select.SNIPER;
     give @s Select.SCOUT;
     give @s Select.HEAVY;
