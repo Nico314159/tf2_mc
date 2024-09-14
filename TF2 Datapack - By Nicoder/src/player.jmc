@@ -157,7 +157,6 @@ class Player {
 
         if (entity @s[scores={tf2.class=0},predicate=tf2:active_offhand]) {
             tf2.class:@s = tf2.last_class:@s;
-            class_select();
         }
         switch (tf2.class:@s) {
             case Class.SPY: Class.Spy.tick();
@@ -232,15 +231,19 @@ class Player {
             if ($__item_id__ == 0) return fail;
             if ($__item_id__ == 10) {
                 tf2.last_class:@s = tf2.class:@s; 
+                test_items();
             }
             tf2.class:@s = $__item_id__;
-            tf2.class:@s %= 10;
-            class_select();
-            if ($__item_id__ matches 1..9 && tf2.last_class:@s[tag=!tf2.in_spawn] != tf2.class:@s) {
+            if ($__item_id__ matches 1..9 && tf2.last_class:@s != tf2.class:@s[tag=!tf2.in_spawn]) {
                 // Kill player if they change class outside of spawn
-                this.death();
+                return run this.death();
             }
-            playsound tf2:pickup.ammo player @s[scores={tf2.health=1..,tf2.class=1..9}];
+            if (tf2.last_class:@s != tf2.class:@s) {
+                return run class_select();
+            }
+            clear @s carrot_on_a_stick;
+            attribute @s minecraft:generic.jump_strength modifier remove tf2:no_jump;
+            attribute @s minecraft:generic.movement_speed modifier remove tf2:no_move;
         }
         if (tf2.coas:@s) {
             this.coas_input();

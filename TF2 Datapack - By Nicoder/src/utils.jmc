@@ -50,6 +50,7 @@ function class_select() {
     tag @s remove tf2.disguised;
     effect clear @s invisibility;
     attribute @s minecraft:generic.jump_strength modifier remove tf2:no_jump;
+    attribute @s minecraft:generic.movement_speed modifier remove tf2:no_move;
     switch (tf2.class:@s) {
         case Class.SPY:
             tf2.max_health:@s = tf2.health:@s = 125;
@@ -87,7 +88,7 @@ function class_select() {
             Class.Medic.give();
         default: 
             test_items();
-            attribute @s minecraft:generic.movement_speed base set 0;
+            attribute @s minecraft:generic.movement_speed modifier add tf2:no_move -1 add_multiplied_total;
             attribute @s minecraft:generic.jump_strength modifier add tf2:no_jump -1 add_multiplied_total;
             attribute @s minecraft:generic.movement_speed modifier remove tf2:match_disguise_speed;
         break;
@@ -95,6 +96,7 @@ function class_select() {
     tf2.model_number:@s = tf2.class:@s;
     tf2.model_number:@s *= 10;
     tf2.model_number:@s += tf2.team:@s;
+    playsound tf2:pickup.ammo player @s[scores={tf2.health=1..,tf2.class=1..9}];
 }
 
 function swap_hands() {
