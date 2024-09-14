@@ -69,6 +69,10 @@ class Class.Medic {
 		tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
 		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
 		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
+
+		if (entity @s[tag=!tf2.dead]) {
+			return 1;
+		}
 		scoreboard players reset @s tf2.heal_target;
 		tf2.ubercharge:@s = 0;
 		tag @s remove tf2.uber_source;

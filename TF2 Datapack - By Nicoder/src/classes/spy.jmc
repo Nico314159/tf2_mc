@@ -164,24 +164,32 @@ class Class.Spy {
     ];
 
     function give() {
-        clear @s;
+        if (!entity @s[tag=tf2.disguised, tag=!tf2.dead]) {
+            clear @s;
+        }
         loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
         loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
         loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
         loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
-        loot replace entity @s armor.legs loot tf2:class/spy/_model;
-
+        if (!entity @s[tag=tf2.disguised, tag=!tf2.dead]) {
+            loot replace entity @s armor.legs loot tf2:class/spy/_model;
+        }
+        
         lookup::inventory = @s::Inventory;
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
         tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
+        tf2.cloak:@s = FULL_CLOAK;
+
+        if (entity @s[tag=!tf2.dead]) {
+            return 1;
+        }
         tf2.is_invisible:@s = tf2.menu_ticks:@s = 0;
         tag @s remove tf2.disguised;
         tag @s remove tf2.in_disguise_menu;
         tf2.disguise.team:@s = tf2.team:@s;
         this.disguise_menu.toggle_team();
-        tf2.cloak:@s = FULL_CLOAK;
     }
 
     function cloak() {
