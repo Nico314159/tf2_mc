@@ -396,16 +396,20 @@ class Player {
             return fail;
         }
 
-        if (entity @s[scores={tf2.is_invisible=0}]) {
+        if (entity @s[scores={tf2.is_invisible=1}]) {
             return fail;
         }
 
-        if (entity @s[tag=tf2.uber]) {
+        if (entity @s[tag=tf2.uber_source]) {
+            return run tag @s add tf2.can_defend;
+        }
+        if (entity @s[tag=tf2.uber_patient]) {
             return run tag @s add tf2.can_defend;
         }
 
         tag @s add tf2.can_cap;
         tag @s add tf2.can_defend;
+        return true;
     }
 
     function clamp_health() {
