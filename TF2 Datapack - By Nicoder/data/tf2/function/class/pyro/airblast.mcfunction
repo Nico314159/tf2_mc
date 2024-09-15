@@ -15,7 +15,7 @@ execute as @e[type=#tf2:player_like,tag=tf2.within_cone,tag=tf2.within_sphere,ta
 execute as @e[type=#tf2:player_like,tag=tf2.within_cone,tag=tf2.within_sphere] unless score @s tf2.team = $current tf2.team run function tf2:class/pyro/airblast_knockback
 execute as @e[type=arrow,tag=tf2.projectile,tag=tf2.within_cone,tag=tf2.within_sphere,tag=!tf2.unreflectable] on passengers unless score @s tf2.team = $current tf2.team run function tf2:class/pyro/reflect_projectile
 execute if score $successful_extinguish tf2.var matches 1.. run scoreboard players add @s tf2.health 20
-execute if score $successful_extinguish tf2.var matches 1.. run scoreboard players operation @s tf2.health < @s tf2.max_health
+execute if score $successful_extinguish tf2.var matches 1.. run function tf2:player/clamp_health
 tag @s remove origin
 tag @e remove tf2.teammate
 tag @e remove tf2.within_cone

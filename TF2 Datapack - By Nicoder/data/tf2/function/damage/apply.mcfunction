@@ -7,6 +7,7 @@ scoreboard players operation @s tf2.health -= $amount tf2.var
 damage @s 0.01 tf2:screenshake by @a[tag=tf2.cause,limit=1]
 execute unless entity @a[tag=tf2.cause] run damage @s 0.01 tf2:screenshake
 scoreboard players set @s tf2.ticks_since_hurt 0
+execute if score @s tf2.health < @s tf2.max_health run tag @s remove tf2.overheal
 data modify storage tf2:lookup damages[-1].X set from entity @s Pos[0]
 data modify storage tf2:lookup damages[-1].Z set from entity @s Pos[2]
 execute store result score $Y tf2.var run data get entity @s Pos[1] 10

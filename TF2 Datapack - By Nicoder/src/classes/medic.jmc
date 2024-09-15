@@ -165,7 +165,7 @@ class Class.Medic {
 		tag @s remove self;
 
 		tf2.health:@s += $natural_regen_amount;
-		tf2.health:@s < tf2.max_health:@s;
+		Player.clamp_health();
 	}
 	function select_heal_target() {
 		tf2.team:$current = tf2.team:@s;
@@ -217,7 +217,10 @@ class Class.Medic {
 			$heal_amount++;
 		}
 		tf2.health:@s += $heal_amount;
-		tf2.health:@s < tf2.max_health:@s;
+		if (tf2.health:@s > tf2.max_health:@s) {
+			tag @s add tf2.overheal;
+		}
+		Player.clamp_health();
 
 		tf2.ubercharge:@p[tag=self, tag=!tf2.uber_source]++;
 		if (entity @p[tag=self, tag=tf2.uber_source]) {

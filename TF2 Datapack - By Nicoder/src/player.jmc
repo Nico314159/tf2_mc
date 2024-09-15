@@ -206,7 +206,7 @@ class Player {
             $temp = tf2.drown_lost:@s;
             $temp < 10;
             tf2.health:@s += $temp;
-            tf2.health:@s < tf2.max_health:@s;
+            this.clamp_health();
             tf2.drown_lost:@s -= $temp;
             tf2.time_surfaced:@s = 0;
         }
@@ -391,5 +391,16 @@ class Player {
 
         tag @s add tf2.can_cap;
         tag @s add tf2.can_defend;
+    }
+
+    function clamp_health() {
+        if (entity @s[tag=!tf2.overheal]) {
+            return run tf2.health:@s < tf2.max_health:@s;
+        }
+
+        $new_max = tf2.max_health:@s;
+        $new_max *= 3;
+        $new_max /= 2;
+        tf2.health:@s < $new_max;
     }
 }

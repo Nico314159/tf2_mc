@@ -127,6 +127,9 @@ class Damage {
             damage @s 0.01 tf2:screenshake;
         }
         tf2.ticks_since_hurt:@s = 0;
+        if (tf2.health:@s < tf2.max_health:@s) {
+            tag @s remove tf2.overheal;
+        }
         this.display();
 
         if (tf2.health:@s > 0) {
@@ -254,7 +257,7 @@ class Pickup {
         $add_amount += 99;
         $add_amount /= 100;
         tf2.health:@s += $add_amount;
-        tf2.health:@s < tf2.max_health:@s;
+        Player.clamp_health();
         tag @s remove tf2.on_fire;
     }
     function give_ammo() {

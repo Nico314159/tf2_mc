@@ -210,7 +210,7 @@ class Class.Pyro {
 
 		if ($successful_extinguish) expand {
 			tf2.health:@s += 20;
-			tf2.health:@s < tf2.max_health:@s;
+			Player.clamp_health();
 		}
 
 		tag @s remove origin;
