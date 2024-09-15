@@ -12,6 +12,8 @@ scoreboard players operation $fraction_numerator tf2.var %= 20 tf2.const
 scoreboard players operation $heal_amount tf2.var /= 20 tf2.const
 scoreboard players operation $t tf2.var = $__global__ 0008it54g_p_join
 scoreboard players operation $t tf2.var %= 20 tf2.const
+scoreboard players operation $t tf2.var *= $fraction_numerator tf2.var
+scoreboard players operation $t tf2.var %= 20 tf2.const
 execute if score $t tf2.var < $fraction_numerator tf2.var run scoreboard players add $heal_amount tf2.var 1
 scoreboard players operation @s tf2.health += $heal_amount tf2.var
 execute if score @s tf2.health > @s tf2.max_health run tag @s add tf2.overheal

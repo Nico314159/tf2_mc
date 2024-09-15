@@ -213,6 +213,8 @@ class Class.Medic {
 
 		$t = 0008it54g_p_join:$__global__;
 		$t %= 20;
+		$t *= $fraction_numerator;
+		$t %= 20;
 		if ($t < $fraction_numerator) {
 			$heal_amount++;
 		}
