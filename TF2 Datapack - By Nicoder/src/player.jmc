@@ -212,6 +212,10 @@ class Player {
         }
         tf2.time_surfaced:@s[predicate=tf2:submerged] = 0;
 
+        if (entity @s[tag=tf2.overheal]) {
+            Class.Medic.overheal_decay();
+        }
+
         $tick_cycle = 0008it54g_p_join:$__global__;
         $tick_cycle %= 40;
         if (tf2.team:@s == tf2.team:@e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] && $tick_cycle == 0) {

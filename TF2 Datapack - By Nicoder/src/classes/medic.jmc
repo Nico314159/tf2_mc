@@ -254,6 +254,27 @@ class Class.Medic {
 				unless entity @s[distance=..2]
 				run this.particleFX();
 	}
+	function overheal_decay() {
+		$id = tf2.player.id:@s;
+		execute as @e[type=#tf2:player_like]
+			    if score @s tf2.heal_target = $id tf2.var
+				run return fail;
+
+		$decay_per_second = tf2.max_health:@s;
+		$decay_per_second /= 2;
+		$decay_per_second /= 15;
+
+		$t = 0008it54g_p_join:$__global__;
+		$t %= 20;
+		if ($t < $decay_per_second) {
+			tf2.health:@s--;
+		}
+		if (tf2.health:@s <= tf2.max_health:@s) {
+			tag @s remove tf2.overheal;
+		}
+	}
+
+
 
 	function activate_uber() {
 		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build;
