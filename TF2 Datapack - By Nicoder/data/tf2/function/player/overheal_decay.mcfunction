@@ -1,5 +1,3 @@
-scoreboard players operation $id tf2.var = @s tf2.player.id
-execute as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var run return fail
 scoreboard players operation $decay_per_second tf2.var = @s tf2.max_health
 scoreboard players operation $decay_per_second tf2.var /= 2 tf2.const
 scoreboard players operation $decay_per_second tf2.var /= 15 tf2.const

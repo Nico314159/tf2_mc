@@ -42,7 +42,11 @@ execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/31
 scoreboard players add @s[predicate=!tf2:submerged] tf2.time_surfaced 1
 execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/32
 scoreboard players set @s[predicate=tf2:submerged] tf2.time_surfaced 0
-execute if entity @s[tag=tf2.overheal] run function tf2:class/medic/overheal_decay
+scoreboard players operation $id tf2.var = @s tf2.player.id
+execute as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var run tag @s add tf2.search
+execute if entity @s[tag=tf2.overheal] unless entity @a[tag=tf2.search] run function tf2:player/overheal_decay
+execute unless entity @a[tag=tf2.search,tag=tf2.uber_source] run tag @s remove tf2.uber_patient
+tag @e remove tf2.search
 scoreboard players operation $tick_cycle tf2.var = $__global__ 0008it54g_p_join
 scoreboard players operation $tick_cycle tf2.var %= 40 tf2.const
 execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/33

@@ -18,8 +18,4 @@ execute if score @s tf2.health > @s tf2.max_health run tag @s add tf2.overheal
 function tf2:player/clamp_health
 scoreboard players add @p[tag=self,tag=!tf2.uber_source] tf2.ubercharge 1
 execute if entity @p[tag=self,tag=tf2.uber_source] run tag @s add tf2.uber_patient
-scoreboard players operation $id tf2.var = @s tf2.player.id
-execute as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var run tag @s add tf2.search
-execute unless entity @a[tag=tf2.search,tag=tf2.uber_source] run tag @s remove tf2.uber_patient
-tag @e remove tf2.search
 execute at @p[tag=self] anchored eyes facing entity @s eyes run function tf2:class/medic/particlefx
