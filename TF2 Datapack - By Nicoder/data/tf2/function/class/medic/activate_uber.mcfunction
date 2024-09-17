@@ -1,2 +1,2 @@
-execute store result score $full_bar tf2.var run data get entity @s Inventory[{Slot:1b}].components.minecraft:custom_data.attributes.uber.build
+execute store result score $full_bar tf2.var run data get entity @s Inventory[{Slot:1b}].components.minecraft:custom_data.attributes.uber.build 2
 execute if score @s tf2.ubercharge >= $full_bar tf2.var run tag @s add tf2.uber_source

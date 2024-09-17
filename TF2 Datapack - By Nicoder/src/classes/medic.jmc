@@ -224,6 +224,12 @@ class Class.Medic {
 		}
 		Player.clamp_health();
 
+		$slow_threshold = tf2.max_health:@s;
+		$slow_threshold *= 1425;
+		$slow_threshold /= 1000;
+		if (tf2.health:@s < $slow_threshold) {
+			tf2.ubercharge:@p[tag=self, tag=!tf2.uber_source]++;
+		}
 		tf2.ubercharge:@p[tag=self, tag=!tf2.uber_source]++;
 		if (entity @p[tag=self, tag=tf2.uber_source]) {
 			tag @s add tf2.uber_patient;
@@ -249,7 +255,7 @@ class Class.Medic {
 
 
 	function activate_uber() {
-		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build;
+		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build * 2;
 		if (tf2.ubercharge:@s >= $full_bar) {
 			tag @s add tf2.uber_source;
 		}
@@ -261,7 +267,7 @@ class Class.Medic {
                 run Text.title(@s, "");
         Text.title(@s[tag=!tf2.can_cap], "");
 		
-		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build;
+		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build * 2;
 		tf2.ubercharge:@s < $full_bar;
 		$percent_ubercharge = tf2.ubercharge:@s;
 		$percent_ubercharge *= 100;
