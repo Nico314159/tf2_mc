@@ -315,6 +315,7 @@ class Spawn {
         this.get_coords() with index::;
         this.tp() with coords::;
         gamemode adventure @s;
+        tag @s add tf2.dead;
         tag @s remove tf2.said_death_msg;
         tag @s remove tf2.on_fire;
         tag @s remove tf2.uber_patient;
