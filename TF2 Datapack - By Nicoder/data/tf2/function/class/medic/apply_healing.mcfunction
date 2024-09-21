@@ -21,7 +21,10 @@ function tf2:player/clamp_health
 scoreboard players operation $slow_threshold tf2.var = @s tf2.max_health
 scoreboard players operation $slow_threshold tf2.var *= 1425 tf2.const
 scoreboard players operation $slow_threshold tf2.var /= 1000 tf2.const
-execute if score @s tf2.health < $slow_threshold tf2.var run scoreboard players add @p[tag=self,tag=!tf2.uber_source] tf2.ubercharge 1
-scoreboard players add @p[tag=self,tag=!tf2.uber_source] tf2.ubercharge 1
+scoreboard players set $uber_gain tf2.var 4
+scoreboard players operation $id tf2.var = @s tf2.player.id
+execute store result score $medic_count tf2.var as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var
+execute if score @s tf2.health >= $slow_threshold tf2.var run scoreboard players operation $uber_gain tf2.var /= 2 tf2.const
+execute if score @s tf2.health >= $slow_threshold tf2.var if score $medic_count tf2.var matches 2.. run scoreboard players operation $uber_gain tf2.var /= 2 tf2.const
 execute if entity @p[tag=self,tag=tf2.uber_source] run tag @s add tf2.uber_patient
 execute at @p[tag=self] anchored eyes facing entity @s eyes run function tf2:class/medic/particlefx
