@@ -236,6 +236,10 @@ class Class.Medic {
 				$uber_gain /= 2;
 			}
 		}
+		tf2.batch_number:$current = tf2.batch_number:@s;
+		execute as @e[type=marker,tag=tf2.in_use,tag=tf2.setup_time]
+				if score $current tf2.batch_number = @s tf2.batch_number
+				run $uber_gain *= 3;
 		if (entity @p[tag=self, tag=tf2.uber_source]) {
 			tag @s add tf2.uber_patient;
 		}

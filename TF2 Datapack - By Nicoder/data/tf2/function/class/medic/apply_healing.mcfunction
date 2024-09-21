@@ -26,5 +26,7 @@ scoreboard players operation $id tf2.var = @s tf2.player.id
 execute store result score $medic_count tf2.var as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var
 execute if score @s tf2.health >= $slow_threshold tf2.var run scoreboard players operation $uber_gain tf2.var /= 2 tf2.const
 execute if score @s tf2.health >= $slow_threshold tf2.var if score $medic_count tf2.var matches 2.. run scoreboard players operation $uber_gain tf2.var /= 2 tf2.const
+scoreboard players operation $current tf2.batch_number = @s tf2.batch_number
+execute as @e[type=marker,tag=tf2.in_use,tag=tf2.setup_time] if score $current tf2.batch_number = @s tf2.batch_number run scoreboard players operation $uber_gain tf2.var *= 3 tf2.const
 execute if entity @p[tag=self,tag=tf2.uber_source] run tag @s add tf2.uber_patient
 execute at @p[tag=self] anchored eyes facing entity @s eyes run function tf2:class/medic/particlefx
