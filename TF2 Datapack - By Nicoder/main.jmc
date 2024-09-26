@@ -295,7 +295,7 @@ class Pickup {
             return 1;
         }
 
-        $full_cloak = @s::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge * 20;
+        $full_cloak = @s::Inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge * 20;
         $add_amount = $percent;
         $add_amount *= $full_cloak;
         $add_amount += 99;
