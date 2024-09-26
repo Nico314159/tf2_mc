@@ -122,9 +122,9 @@ make_weapon(
         { 
             "function": "minecraft:set_custom_data", 
             "tag": "{cloak: 'cloak'}" 
-        }
-    ],
-    meter={'max': 600, 'score': 'tf2.cloak'}
+        },
+        *meter(max=600, score='tf2.cloak')
+    ]
 )
 `, jmc=true);
 

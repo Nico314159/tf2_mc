@@ -68,6 +68,33 @@ def unpack_CMD(CMD: int):
 
 MAX_CMD = pack_CMD(9, SLOTS - 1, SERIAL_MAX - 1, 2, VARIATIONS - 1) + 1
 
+
+def meter(max: int, score: str, scale = 1):
+    return [
+        {
+            "function": "minecraft:set_components",
+            "components": {
+                "minecraft:max_damage": (technical_max := max + 3),
+                "minecraft:damage": 0,
+                "minecraft:max_stack_size": 1
+            }
+        },
+        {
+            "function": "minecraft:set_damage",
+            "damage": 2 * scale / technical_max
+        },
+        {
+            "function": "minecraft:set_damage",
+            "damage": {
+                "type": "minecraft:score",
+                "target": "this",
+                "score": score,
+                "scale": 1 * scale / technical_max
+            },
+            "add": True
+        }
+    ]
+
 def make_weapon(
     class_id,
     slot,
@@ -84,8 +111,7 @@ def make_weapon(
     team_specific = False,
     cmd_bump = 0,
     real = None,
-    extra = None,
-    meter = None
+    extra = None
 ):
 
     if not isinstance(class_id, Class): 
@@ -171,12 +197,7 @@ def make_weapon(
         ]
 
     unlock_counter[key] += 1
-
-    if base_item in {"tf2:crossbow_base", "minecraft:crossbow"} and not meter:
-        for temp in model_components:
-            temp["components"] |= {
-                "minecraft:unbreakable": {"show_in_tooltip": False}
-            }
+    functions = []
 
     if base_item.startswith("minecraft:") or ":" not in base_item:
         root = {
@@ -189,66 +210,38 @@ def make_weapon(
             "value": base_item,
         }
 
-    functions = model_components
-    if display_name is not False:
-        functions.append({"function": "minecraft:set_name", "name": display_name})
-
     if attributes is None or len(attributes) == 0:
         custom_data = {}
     if key is not None:
         custom_data |= {"key": int(str(key[0]) + str(key[1]))}
     if isinstance(real, bool):
         custom_data |= {"kind": 'real' if real else 'fake'}
-
     snbt = minify_no_key_quotes(custom_data)
     
-    if extra is None:
-        extra = []
-    for item in extra:
-        if isinstance(item, dict) and item.get("function") == "minecraft:set_custom_data":
-            tag = item.get("tag")
-            if isinstance(tag, str) and tag.startswith("{") and tag.endswith("}"):
-                snbt = snbt[:-1] + "," + tag[1:]
-                continue
+    meter = False
+    if extra is not None:
+        for item in extra:
+            if isinstance(item, dict) and item.get("function") == "minecraft:set_custom_data":
+                tag = item.get("tag")
+                if isinstance(tag, str) and tag.startswith("{") and tag.endswith("}"):
+                    snbt = snbt[:-1] + "," + tag[1:]
+                    continue
 
-        functions.append(item)
+            if isinstance(item, dict) and item.get("function") == "minecraft:set_damage":
+                meter = True
 
-    if meter:
-        assert "max" in meter and "score" in meter
-        assert isinstance(meter["max"], int) and isinstance(meter["score"], str)
-        technical_max = meter["max"] + 3
-        functions.append(
-            {
-                "function": "minecraft:set_components",
-                "components": {
-                    "minecraft:max_damage": technical_max,
-                    "minecraft:damage": 0,
-                    "minecraft:max_stack_size": 1
-                }
-            }
-        )
-        functions.append(
-            {
-                "function": "minecraft:set_damage",
-                "damage": 2 / technical_max
-            }
-        )
-        functions.append(
-            {
-                "function": "minecraft:set_damage",
-                "damage": {
-                    "type": "minecraft:score",
-                    "target": "this",
-                    "score": meter["score"],
-                    "scale": 1 / technical_max
-                },
-                "add": True
-            }
-        )
+            functions.append(item)
 
-    functions.append(
-        {"function": "minecraft:set_custom_data", "tag": snbt}
-    )
+    if base_item in {"tf2:crossbow_base", "minecraft:crossbow"} and not meter:
+        for temp in model_components:
+            temp["components"] |= {
+                "minecraft:unbreakable": {"show_in_tooltip": False}
+            }
+
+    if display_name is not False:
+        functions.insert(0, {"function": "minecraft:set_name", "name": display_name})
+
+    functions = [ *model_components, *functions, {"function": "minecraft:set_custom_data", "tag": snbt} ]
 
     loot = {
         "pools": [
