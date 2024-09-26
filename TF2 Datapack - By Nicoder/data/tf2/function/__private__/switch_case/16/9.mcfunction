@@ -4,7 +4,7 @@ function tf2:weapons/set_ammo
 function tf2:class/medic/inventory_lock
 execute positioned ~-3 ~-1 ~-3 unless entity @e[type=item_display,tag=tf2.control_point,dx=5,dy=1,dz=5] run title @s title ""
 title @s[tag=!tf2.can_cap] title ""
-execute store result score $full_bar tf2.var run data get entity @s Inventory[{Slot:1b}].components.minecraft:custom_data.attributes.uber.build 4
+execute store result score $full_bar tf2.var run data get entity @s Inventory[{Slot:1b}].components.minecraft:custom_data.attributes.uber.build 80
 scoreboard players operation @s tf2.ubercharge < $full_bar tf2.var
 scoreboard players operation $percent_ubercharge tf2.var = @s tf2.ubercharge
 scoreboard players operation $percent_ubercharge tf2.var *= 100 tf2.const

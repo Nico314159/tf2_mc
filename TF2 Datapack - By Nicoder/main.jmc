@@ -295,12 +295,13 @@ class Pickup {
             return 1;
         }
 
+        $full_cloak = @s::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge * 20;
         $add_amount = $percent;
-        $add_amount *= FULL_CLOAK;
+        $add_amount *= $full_cloak;
         $add_amount += 99;
         $add_amount /= 100;
         tf2.cloak:@s += $add_amount;
-        tf2.cloak:@s < FULL_CLOAK;
+        tf2.cloak:@s < $full_cloak;
     }
 }
 

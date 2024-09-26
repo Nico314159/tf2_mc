@@ -69,12 +69,12 @@ def unpack_CMD(CMD: int):
 MAX_CMD = pack_CMD(9, SLOTS - 1, SERIAL_MAX - 1, 2, VARIATIONS - 1) + 1
 
 
-def meter(max: int, score: str, scale = 1):
+def meter(seconds: int, score: str, scale = 1):
     return [
         {
             "function": "minecraft:set_components",
             "components": {
-                "minecraft:max_damage": (technical_max := max + 3),
+                "minecraft:max_damage": int(technical_max := 20 * seconds + 3),
                 "minecraft:damage": 0,
                 "minecraft:max_stack_size": 1
             }

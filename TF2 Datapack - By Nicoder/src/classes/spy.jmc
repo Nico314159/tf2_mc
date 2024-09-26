@@ -117,13 +117,14 @@ make_weapon(
         "color": "gray",
         "italic": true
     },
+    attributes={'cloak_recharge': 30.0},
     base_item='minecraft:clay_ball',
     extra=[
         { 
             "function": "minecraft:set_custom_data", 
             "tag": "{cloak: 'cloak'}" 
         },
-        *meter(max=600, score='tf2.cloak')
+        *meter(seconds=30.0, score='tf2.cloak')
     ]
 )
 `, jmc=true);
@@ -180,7 +181,7 @@ class Class.Spy {
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
         tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
-        tf2.cloak:@s = FULL_CLOAK;
+        tf2.cloak:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge * 20;
 
         if (entity @s[tag=!tf2.dead]) {
             return 1;

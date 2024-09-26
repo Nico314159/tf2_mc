@@ -9,7 +9,7 @@ data modify storage tf2:lookup inventory set from entity @s Inventory
 execute store result score @s tf2.primary_maxClip store result score @s tf2.primary_clip run data get storage tf2:lookup inventory[0].components.minecraft:custom_data.attributes.clip
 execute store result score @s tf2.primary_maxAmmo store result score @s tf2.primary_ammo run data get storage tf2:lookup inventory[0].components.minecraft:custom_data.attributes.ammo
 execute store result score @s tf2.secondary_maxClip store result score @s tf2.secondary_clip store result score @s tf2.secondary_maxAmmo run scoreboard players set @s tf2.secondary_ammo 0
-scoreboard players set @s tf2.cloak 600
+execute store result score @s tf2.cloak run data get storage tf2:lookup inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge 20
 execute if entity @s[tag=!tf2.dead] run return 1
 execute store result score @s tf2.is_invisible run scoreboard players set @s tf2.menu_ticks 0
 tag @s remove tf2.disguised

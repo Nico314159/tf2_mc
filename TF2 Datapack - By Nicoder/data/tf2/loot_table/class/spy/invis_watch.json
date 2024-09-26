@@ -51,7 +51,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{key:14,cloak: 'cloak'}"
+                            "tag": "{retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:500},attributes:{cloak_recharge:30.0},controls:{main_fire:true,alt_fire:false,reload:1},key:14,cloak: 'cloak'}"
                         }
                     ]
                 }
