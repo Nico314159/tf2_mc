@@ -99,6 +99,7 @@ scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.coas
 scoreboard objectives remove tf2.elytra_detect
+scoreboard objectives remove tf2.can_double_jump
 scoreboard objectives remove tf2.fall
 scoreboard objectives remove tf2.air
 scoreboard objectives remove tf2.food

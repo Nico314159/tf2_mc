@@ -96,7 +96,7 @@ Trigger.add(autoreload, () => {
 });
 
 @lazy function generate_body_model(x) {
-    new loot_table(class.$x._model) {
+    new loot_table(class.$x.leg_model) {
         "pools": [{
             "rolls": 1,
             "entries": [{
@@ -132,6 +132,43 @@ Trigger.add(autoreload, () => {
                                 "condition": "minecraft:entity_scores",
                                 "entity": "this",
                                 "scores": {"tf2.team": 2}
+                            }
+                        ]
+                    },
+                    {
+                        "function": "minecraft:set_components",
+                        "components": {
+                            "minecraft:enchantments": {
+                                "minecraft:binding_curse": 1
+                            },
+                            "minecraft:enchantment_glint_override": false
+                        }
+                    }
+                ]
+            }]
+        }]
+    }
+    
+    new loot_table(class.$x.chest_model) {
+        "pools": [{
+            "rolls": 1,
+            "entries": [{
+                "type": "minecraft:item",
+                "name": "minecraft:iron_chestplate",
+                "functions": [
+                    {
+                        "function": "minecraft:set_components",
+                        "components": {
+                            "minecraft:glider": {}
+                        },
+                        "conditions": [
+                            {
+                                "condition": "minecraft:entity_scores",
+                                "entity": "this",
+                                "scores": {
+                                    "tf2.class": 3,
+                                    "tf2.can_double_jump": 1
+                                }
                             }
                         ]
                     },

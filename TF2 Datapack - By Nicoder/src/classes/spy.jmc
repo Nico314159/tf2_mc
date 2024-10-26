@@ -174,7 +174,7 @@ class Class.Spy {
         loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
         if (!entity @s[tag=tf2.disguised, tag=!tf2.dead]) {
-            loot replace entity @s armor.legs loot tf2:class/spy/_model;
+            loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
         }
         
         lookup::inventory = @s::Inventory;
@@ -284,10 +284,10 @@ class Class.Spy {
 
         clear @s *[minecraft:custom_data~{cloak: 'uncloak'}];
 
-        loot replace entity @s armor.legs loot tf2:class/spy/_model;
+        loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
-        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/spy/_model;
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
 
         tf2.model_number:@s = EVAL (Class.SPY * 10);
         tf2.model_number:@s += tf2.team:@s;

@@ -125,7 +125,7 @@ class Class.Heavy {
         loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;
         loot replace entity @s hotbar.1 loot tf2:class/heavy/shotgun;
         loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
-        loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+        loot replace entity @s armor.legs loot tf2:class/heavy/leg_model;
 
         lookup::inventory = @s::Inventory;
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.clip;
@@ -165,10 +165,10 @@ class Class.Heavy {
         if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2), kind: "real"}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/heavy/right_fist;
 
-        loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+        loot replace entity @s armor.legs loot tf2:class/heavy/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
-        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/heavy/_model;
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/heavy/leg_model;
 
         loot replace entity @s armor.head loot tf2:head;
         $_count_ = clear @s paper 0;

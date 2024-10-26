@@ -141,6 +141,7 @@ scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.coas used:carrot_on_a_stick
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
+scoreboard objectives add tf2.can_double_jump dummy
 scoreboard objectives add tf2.fall custom:fall_one_cm
 scoreboard objectives add tf2.air air
 scoreboard objectives add tf2.food food

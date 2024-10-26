@@ -16,4 +16,4 @@ function player_motion:api/launch_xyz
 clear @s iron_chestplate
 scoreboard players set @s tf2.elytra_detect 0
 scoreboard players add @s tf2.permanent.double_jumps 1
-tag @s remove tf2.can_double_jump
+scoreboard players set @s tf2.can_double_jump 0

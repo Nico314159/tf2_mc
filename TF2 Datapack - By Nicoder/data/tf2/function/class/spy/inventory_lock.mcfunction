@@ -23,10 +23,10 @@ execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:14}]
 execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:14}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch
 clear @s *[minecraft:custom_data~{cloak:"uncloak"}]
-loot replace entity @s armor.legs loot tf2:class/spy/_model
+loot replace entity @s armor.legs loot tf2:class/spy/leg_model
 execute store result score $_count_ tf2.var run clear @s iron_leggings 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings
-execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/spy/_model
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/spy/leg_model
 scoreboard players set @s tf2.model_number 10
 scoreboard players operation @s tf2.model_number += @s tf2.team
 loot replace entity @s armor.head loot tf2:head

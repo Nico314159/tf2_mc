@@ -42,7 +42,7 @@ class Class.Scout {
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
         loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;
         loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
-        loot replace entity @s armor.legs loot tf2:class/scout/_model;
+        loot replace entity @s armor.legs loot tf2:class/scout/leg_model;
 
         lookup::inventory = @s::Inventory;
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
@@ -56,7 +56,7 @@ class Class.Scout {
         HUD.actionbar();
         Weapons.set_ammo();
 
-        if (predicate tf2:grounded) tag @s add tf2.can_double_jump;
+        tf2.can_double_jump:@s[predicate=tf2:grounded] = true;
         if (tf2.elytra_detect:@s >= 1) {
             this.double_jump();
         }
@@ -87,7 +87,7 @@ class Class.Scout {
 		clear @s iron_chestplate;
 		tf2.elytra_detect:@s = 0;
 		tf2.permanent.double_jumps:@s++;
-		tag @s remove tf2.can_double_jump;
+		tf2.can_double_jump:@s = false;
     }
     function inventory_lock() {
         item replace entity @s weapon.offhand with air;
@@ -106,17 +106,19 @@ class Class.Scout {
         if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SCOUT * 10 + 2)}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
-        loot replace entity @s armor.legs loot tf2:class/scout/_model;
+        loot replace entity @s armor.legs loot tf2:class/scout/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
-        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/scout/_model;
+        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/scout/leg_model;
 
         loot replace entity @s armor.head loot tf2:head;
         $_count_ = clear @s paper 0;
         if ($_count_ != 1) clear @s paper;
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
 
-        if (entity @s[tag=tf2.can_double_jump]) {
+        loot replace entity @s armor.chest loot tf2:class/scout/chest_model;
+
+        if (tf2.can_double_jump:@s == 2) {
             item replace entity @s armor.chest with Item.DOUBLE_JUMP;
             $_count_ = clear @s iron_chestplate 0;
             if ($_count_ != 1) expand {
