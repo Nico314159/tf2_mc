@@ -63,6 +63,7 @@ class Class.Medic {
 		loot replace entity @s hotbar.1 loot tf2:class/medic/medi_gun;
 		loot replace entity @s hotbar.2 loot tf2:class/medic/bonesaw;
 		loot replace entity @s armor.legs loot tf2:class/medic/leg_model;
+		loot replace entity @s armor.chest loot tf2:class/medic/chest_model;
 
 		lookup::inventory = @s::Inventory;
 		tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
@@ -136,6 +137,13 @@ class Class.Medic {
 		if ($_count_ != 1) expand {
 			clear @s iron_leggings;
 			loot replace entity @s armor.legs loot tf2:class/medic/leg_model;
+		}
+
+		loot replace entity @s armor.chest loot tf2:class/medic/chest_model;
+		$_count_ = clear @s iron_chestplate 0;
+		if ($_count_ != 1) expand {
+			clear @s iron_chestplate;
+			loot replace entity @s armor.chest loot tf2:class/medic/chest_model;
 		}
 
 		loot replace entity @s armor.head loot tf2:head;

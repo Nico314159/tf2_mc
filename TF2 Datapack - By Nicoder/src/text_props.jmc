@@ -159,22 +159,6 @@ Trigger.add(autoreload, () => {
                     {
                         "function": "minecraft:set_components",
                         "components": {
-                            "minecraft:glider": {}
-                        },
-                        "conditions": [
-                            {
-                                "condition": "minecraft:entity_scores",
-                                "entity": "this",
-                                "scores": {
-                                    "tf2.class": 3,
-                                    "tf2.can_double_jump": 1
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "function": "minecraft:set_components",
-                        "components": {
                             "minecraft:enchantments": {
                                 "minecraft:binding_curse": 1
                             },

@@ -3,6 +3,7 @@ loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun
 loot replace entity @s hotbar.1 loot tf2:class/scout/pistol
 loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat
 loot replace entity @s armor.legs loot tf2:class/scout/leg_model
+loot replace entity @s armor.chest loot tf2:class/scout/chest_model
 data modify storage tf2:lookup inventory set from entity @s Inventory
 execute store result score @s tf2.primary_maxClip store result score @s tf2.primary_clip run data get storage tf2:lookup inventory[0].components.minecraft:custom_data.attributes.clip
 execute store result score @s tf2.primary_maxAmmo store result score @s tf2.primary_ammo run data get storage tf2:lookup inventory[0].components.minecraft:custom_data.attributes.ammo

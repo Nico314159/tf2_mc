@@ -47,6 +47,7 @@ class Class.Soldier {
         loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun;
         loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
         loot replace entity @s armor.legs loot tf2:class/soldier/leg_model;
+        loot replace entity @s armor.chest loot tf2:class/soldier/chest_model;
 
         lookup::inventory = @s::Inventory;
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
@@ -83,6 +84,11 @@ class Class.Soldier {
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/soldier/leg_model;
+
+        loot replace entity @s armor.chest loot tf2:class/soldier/chest_model;
+        $_count_ = clear @s iron_chestplate 0;
+        if ($_count_ != 1) clear @s iron_chestplate;
+        if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/soldier/chest_model;
 
         loot replace entity @s armor.head loot tf2:head;
         $_count_ = clear @s paper 0;

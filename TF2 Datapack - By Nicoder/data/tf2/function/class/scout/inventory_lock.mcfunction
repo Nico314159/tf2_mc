@@ -15,9 +15,12 @@ loot replace entity @s armor.legs loot tf2:class/scout/leg_model
 execute store result score $_count_ tf2.var run clear @s iron_leggings 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/scout/leg_model
+loot replace entity @s armor.chest loot tf2:class/scout/chest_model
+execute store result score $_count_ tf2.var run clear @s iron_chestplate 0
+execute unless score $_count_ tf2.var matches 1 run clear @s iron_chestplate
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.chest loot tf2:class/scout/chest_model
 loot replace entity @s armor.head loot tf2:head
 execute store result score $_count_ tf2.var run clear @s paper 0
 execute unless score $_count_ tf2.var matches 1 run clear @s paper
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:head
-loot replace entity @s armor.chest loot tf2:class/scout/chest_model
-execute if score @s tf2.can_double_jump matches 2 run function tf2:__private__/if_else/4
+execute if score @s tf2.can_double_jump matches 1.. run function tf2:__private__/if_else/4

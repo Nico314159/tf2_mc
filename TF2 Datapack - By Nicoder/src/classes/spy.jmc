@@ -289,6 +289,11 @@ class Class.Spy {
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
 
+        loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
+        $_count_ = clear @s iron_chestplate 0;
+        if ($_count_ != 1) clear @s iron_chestplate;
+        if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
+
         tf2.model_number:@s = EVAL (Class.SPY * 10);
         tf2.model_number:@s += tf2.team:@s;
 
