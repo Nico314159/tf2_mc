@@ -3,7 +3,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/scout_leggings"
+                "tf2:trims/entity/humanoid_leggings/scout"
             ],
             "palette_key": "tf2:trims/color_palettes/scout/red",
             "permutations": {
@@ -14,7 +14,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/sniper_leggings"
+                "tf2:trims/entity/humanoid_leggings/sniper"
             ],
             "palette_key": "tf2:trims/color_palettes/sniper/red",
             "permutations": {
@@ -25,7 +25,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/heavy_leggings"
+                "tf2:trims/entity/humanoid_leggings/heavy"
             ],
             "palette_key": "tf2:trims/color_palettes/heavy/red",
             "permutations": {
@@ -36,7 +36,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/soldier_leggings"
+                "tf2:trims/entity/humanoid_leggings/soldier"
             ],
             "palette_key": "tf2:trims/color_palettes/soldier/red",
             "permutations": {
@@ -47,7 +47,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/spy_leggings"
+                "tf2:trims/entity/humanoid_leggings/spy"
             ],
             "palette_key": "tf2:trims/color_palettes/spy/red",
             "permutations": {
@@ -58,7 +58,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/pyro_leggings"
+                "tf2:trims/entity/humanoid_leggings/pyro"
             ],
             "palette_key": "tf2:trims/color_palettes/pyro/red",
             "permutations": {
@@ -69,7 +69,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/medic_leggings"
+                "tf2:trims/entity/humanoid_leggings/medic"
             ],
             "palette_key": "tf2:trims/color_palettes/medic/red",
             "permutations": {
@@ -80,7 +80,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/demo_leggings"
+                "tf2:trims/entity/humanoid_leggings/demo"
             ],
             "palette_key": "tf2:trims/color_palettes/demo/red",
             "permutations": {
@@ -91,7 +91,7 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/models/armor/engineer_leggings"
+                "tf2:trims/entity/humanoid_leggings/engineer"
             ],
             "palette_key": "tf2:trims/color_palettes/engineer/red",
             "permutations": {
