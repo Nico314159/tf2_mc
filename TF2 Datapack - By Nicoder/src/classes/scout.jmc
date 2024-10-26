@@ -84,7 +84,7 @@ class Class.Scout {
 		// printf("Z: &<player_motion.api.launch:$z>");
 		function player_motion:api/launch_xyz;
 
-		clear @s elytra;
+		clear @s iron_chestplate;
 		tf2.elytra_detect:@s = 0;
 		tf2.permanent.double_jumps:@s++;
 		tag @s remove tf2.can_double_jump;
@@ -117,11 +117,11 @@ class Class.Scout {
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
 
         if (entity @s[tag=tf2.can_double_jump]) {
-            item replace entity @s armor.chest with Item.ELYTRA;
-            $_count_ = clear @s elytra 0;
+            item replace entity @s armor.chest with Item.DOUBLE_JUMP;
+            $_count_ = clear @s iron_chestplate 0;
             if ($_count_ != 1) expand {
-                clear @s elytra;
-                item replace entity @s armor.chest with Item.ELYTRA;
+                clear @s iron_chestplate;
+                item replace entity @s armor.chest with Item.DOUBLE_JUMP;
             }
         }
     }

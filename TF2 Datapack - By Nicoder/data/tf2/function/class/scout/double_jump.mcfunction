@@ -13,7 +13,7 @@ scoreboard players operation $z player_motion.api.launch *= 40 tf2.const
 scoreboard players operation $z player_motion.api.launch < 2000 tf2.const
 scoreboard players operation $z player_motion.api.launch > -2000 tf2.const
 function player_motion:api/launch_xyz
-clear @s elytra
+clear @s iron_chestplate
 scoreboard players set @s tf2.elytra_detect 0
 scoreboard players add @s tf2.permanent.double_jumps 1
 tag @s remove tf2.can_double_jump
