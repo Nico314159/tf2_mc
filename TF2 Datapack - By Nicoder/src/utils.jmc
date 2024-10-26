@@ -47,48 +47,48 @@ function class_select() {
     tag @s remove tf2.on_fire;
     tag @s remove tf2.can_double_jump;
     effect clear @s invisibility;
-    attribute @s minecraft:generic.jump_strength modifier remove tf2:no_jump;
-    attribute @s minecraft:generic.movement_speed modifier remove tf2:no_move;
+    attribute @s minecraft:jump_strength modifier remove tf2:no_jump;
+    attribute @s minecraft:movement_speed modifier remove tf2:no_move;
     switch (tf2.class:@s) {
         case Class.SPY:
             tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:generic.movement_speed base set BASE_SPEED;
+            attribute @s minecraft:movement_speed base set BASE_SPEED;
             Class.Spy.give();
         case Class.SNIPER:
             tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:generic.movement_speed base set BASE_SPEED;
+            attribute @s minecraft:movement_speed base set BASE_SPEED;
             Class.Sniper.give();
         case Class.SCOUT:
             tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:generic.movement_speed base set EVAL(BASE_SPEED * 4/3);
+            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 4/3);
             Class.Scout.give();
         case Class.SOLDIER:
             tf2.max_health:@s = tf2.health:@s = 200;
-            attribute @s minecraft:generic.movement_speed base set EVAL(BASE_SPEED * 0.85);
+            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.85);
             Class.Soldier.give();
         case Class.DEMOMAN:
             tf2.max_health:@s = tf2.health:@s = 175;
-            attribute @s minecraft:generic.movement_speed base set EVAL(BASE_SPEED * 0.93);
+            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.93);
         case Class.HEAVY:
             tf2.max_health:@s = tf2.health:@s = 300;
-            attribute @s minecraft:generic.movement_speed base set EVAL(BASE_SPEED * 0.70);
+            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.70);
             Class.Heavy.give();
         case Class.PYRO:
             tf2.max_health:@s = tf2.health:@s = 175;
-            attribute @s minecraft:generic.movement_speed base set BASE_SPEED;
+            attribute @s minecraft:movement_speed base set BASE_SPEED;
             Class.Pyro.give();
         case Class.ENGINEER:
             tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:generic.movement_speed base set BASE_SPEED;
+            attribute @s minecraft:movement_speed base set BASE_SPEED;
         case Class.MEDIC:
             tf2.max_health:@s = tf2.health:@s = 150;
-            attribute @s minecraft:generic.movement_speed base set EVAL(BASE_SPEED * 1.07);
+            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 1.07);
             Class.Medic.give();
         default: 
             test_items();
-            attribute @s minecraft:generic.movement_speed modifier add tf2:no_move -1 add_multiplied_total;
-            attribute @s minecraft:generic.jump_strength modifier add tf2:no_jump -1 add_multiplied_total;
-            attribute @s minecraft:generic.movement_speed modifier remove tf2:match_disguise_speed;
+            attribute @s minecraft:movement_speed modifier add tf2:no_move -1 add_multiplied_total;
+            attribute @s minecraft:jump_strength modifier add tf2:no_jump -1 add_multiplied_total;
+            attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed;
         break;
     }
     tf2.model_number:@s = tf2.class:@s;

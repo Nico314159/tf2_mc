@@ -49,11 +49,11 @@ Player.join(() => {
     effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true;
     effect give @s minecraft:resistance infinite 4 true;
     effect clear @s invisibility;
-    attribute @s minecraft:generic.attack_damage base set 0;
-    attribute @s minecraft:generic.movement_speed base set 0.1;
-    attribute @s minecraft:generic.movement_speed modifier remove tf2:slow_while_revving;
-    attribute @s minecraft:player.block_interaction_range base set 4.5;
-    attribute @s minecraft:generic.step_height base set 1;
+    attribute @s minecraft:attack_damage base set 0;
+    attribute @s minecraft:movement_speed base set 0.1;
+    attribute @s minecraft:movement_speed modifier remove tf2:slow_while_revving;
+    attribute @s minecraft:block_interaction_range base set 4.5;
+    attribute @s minecraft:step_height base set 1;
 
     // removes all gameplay-specific variables
     team leave @s;
@@ -258,8 +258,8 @@ class Player {
                 return run class_select();
             }
             clear @s carrot_on_a_stick;
-            attribute @s minecraft:generic.jump_strength modifier remove tf2:no_jump;
-            attribute @s minecraft:generic.movement_speed modifier remove tf2:no_move;
+            attribute @s minecraft:jump_strength modifier remove tf2:no_jump;
+            attribute @s minecraft:movement_speed modifier remove tf2:no_move;
         }
         if (tf2.coas:@s) {
             this.coas_input();
@@ -360,9 +360,9 @@ class Player {
         } with index::;
         execute at @s[scores={tf2.class=1..9}] run summon axolotl ~ ~ ~ {
             attributes: [
-                {id: "minecraft:generic.movement_speed", base: 0.0d},
-                {id: "minecraft:generic.jump_strength", base: 0.0d},
-                {id: "minecraft:generic.scale", base: 0.0625d}
+                {id: "minecraft:movement_speed", base: 0.0d},
+                {id: "minecraft:jump_strength", base: 0.0d},
+                {id: "minecraft:scale", base: 0.0625d}
             ],
             Invulnerable: 1b,
             Silent: 1b,

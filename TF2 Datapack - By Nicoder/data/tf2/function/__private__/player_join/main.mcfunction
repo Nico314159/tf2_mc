@@ -18,11 +18,11 @@ execute as @e[type=marker,tag=tf2.in_use] run function tf2:timer/resync_visibili
 effect give @a[tag=!tf2.allowed_to_sprint,scores={tf2.food=7..}] hunger 1000 255 true
 effect give @s minecraft:resistance infinite 4 true
 effect clear @s invisibility
-attribute @s minecraft:generic.attack_damage base set 0
-attribute @s minecraft:generic.movement_speed base set 0.1
-attribute @s minecraft:generic.movement_speed modifier remove tf2:slow_while_revving
-attribute @s minecraft:player.block_interaction_range base set 4.5
-attribute @s minecraft:generic.step_height base set 1
+attribute @s minecraft:attack_damage base set 0
+attribute @s minecraft:movement_speed base set 0.1
+attribute @s minecraft:movement_speed modifier remove tf2:slow_while_revving
+attribute @s minecraft:block_interaction_range base set 4.5
+attribute @s minecraft:step_height base set 1
 team leave @s
 tag @s remove tf2.in_queue
 tag @s remove tf2.allowed_to_sprint

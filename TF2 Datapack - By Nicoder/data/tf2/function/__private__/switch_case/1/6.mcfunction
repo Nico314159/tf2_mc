@@ -1,1 +1,1 @@
-attribute @s minecraft:generic.movement_speed modifier add tf2:match_disguise_speed -0.30 add_multiplied_base
+attribute @s minecraft:movement_speed modifier add tf2:match_disguise_speed -0.30 add_multiplied_base

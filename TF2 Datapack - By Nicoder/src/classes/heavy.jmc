@@ -140,10 +140,10 @@ class Class.Heavy {
         HUD.actionbar();
         Weapons.set_ammo();
 
-        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier add tf2:slow_while_revving -0.476 add_multiplied_total;
-        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.movement_speed modifier remove tf2:slow_while_revving;
-        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:generic.jump_strength modifier add tf2:no_jump -1 add_multiplied_total;
-        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:generic.jump_strength modifier remove tf2:no_jump;
+        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:movement_speed modifier add tf2:slow_while_revving -0.476 add_multiplied_total;
+        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:movement_speed modifier remove tf2:slow_while_revving;
+        attribute @s[predicate=tf2:class/heavy/is_revving] minecraft:jump_strength modifier add tf2:no_jump -1 add_multiplied_total;
+        attribute @s[predicate=!tf2:class/heavy/is_revving] minecraft:jump_strength modifier remove tf2:no_jump;
         tf2.time_revved:@s[predicate=tf2:class/heavy/is_revving] += 1000;
         
         if (tf2.current_slot:@s != 0 && tf2.time_revved:@s != 0) {

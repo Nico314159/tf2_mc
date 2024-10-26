@@ -1,5 +1,5 @@
 execute if score @s tf2.is_invisible matches 1.. run return run function tf2:class/spy/disable_attacking
-attribute @s[tag=!tf2.disguised] minecraft:generic.movement_speed modifier remove tf2:match_disguise_speed
+attribute @s[tag=!tf2.disguised] minecraft:movement_speed modifier remove tf2:match_disguise_speed
 item replace entity @s armor.chest with air
 loot replace entity @s hotbar.0 loot tf2:class/spy/revolver
 execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:10}] 0

@@ -291,7 +291,7 @@ class start_game {
             tag @s add tf2.is_playing;
 
             // prevents players messing with trapdoors, containers, etc.
-            attribute @s minecraft:player.block_interaction_range base set -1;
+            attribute @s minecraft:block_interaction_range base set -1;
 
             // placeholder until all 9 classes are properly implemented
             tf2.max_health:@s ??= 100;
