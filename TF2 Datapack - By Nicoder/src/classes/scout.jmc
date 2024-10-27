@@ -85,7 +85,10 @@ class Class.Scout {
 		// printf("Z: &<player_motion.api.launch:$z>");
 		function player_motion:api/launch_xyz;
 
-		loot replace entity @s armor.chest loot tf2:class/scout/chest_model;
+		item modify entity @s armor.chest {
+		    "function": "minecraft:set_components",
+		    "components": { "!minecraft:glider": {} }
+		};
 		tf2.elytra_detect:@s = 0;
 		tf2.permanent.double_jumps:@s++;
 		tf2.can_double_jump:@s = false;

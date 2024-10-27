@@ -98,6 +98,109 @@
                 "red": "tf2:trims/color_palettes/engineer/red",
                 "blu": "tf2:trims/color_palettes/engineer/blu"
             }
+        },
+
+
+
+
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/scout"
+            ],
+            "palette_key": "tf2:trims/color_palettes/scout/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/scout/red",
+                "blu": "tf2:trims/color_palettes/scout/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/sniper"
+            ],
+            "palette_key": "tf2:trims/color_palettes/sniper/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/sniper/red",
+                "blu": "tf2:trims/color_palettes/sniper/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/heavy"
+            ],
+            "palette_key": "tf2:trims/color_palettes/heavy/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/heavy/red",
+                "blu": "tf2:trims/color_palettes/heavy/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/soldier"
+            ],
+            "palette_key": "tf2:trims/color_palettes/soldier/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/soldier/red",
+                "blu": "tf2:trims/color_palettes/soldier/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/spy"
+            ],
+            "palette_key": "tf2:trims/color_palettes/spy/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/spy/red",
+                "blu": "tf2:trims/color_palettes/spy/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/pyro"
+            ],
+            "palette_key": "tf2:trims/color_palettes/pyro/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/pyro/red",
+                "blu": "tf2:trims/color_palettes/pyro/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/medic"
+            ],
+            "palette_key": "tf2:trims/color_palettes/medic/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/medic/red",
+                "blu": "tf2:trims/color_palettes/medic/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/demo"
+            ],
+            "palette_key": "tf2:trims/color_palettes/demo/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/demo/red",
+                "blu": "tf2:trims/color_palettes/demo/blu"
+            }
+        },
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "tf2:trims/entity/humanoid/engineer"
+            ],
+            "palette_key": "tf2:trims/color_palettes/engineer/red",
+            "permutations": {
+                "red": "tf2:trims/color_palettes/engineer/red",
+                "blu": "tf2:trims/color_palettes/engineer/blu"
+            }
         }
     ]
 }
