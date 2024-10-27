@@ -1,28 +1,6 @@
 {
     "sources": [
         {
-            "type": "paletted_permutations",
-            "textures": [
-                "minecraft:trims/items/leggings_trim"
-            ],
-            "palette_key": "minecraft:trims/color_palettes/trim_palette",
-            "permutations": {
-                "red": "tf2:trims/color_palettes/scout/red",
-                "blu": "tf2:trims/color_palettes/scout/blu"
-            }
-        },
-        {
-            "type": "paletted_permutations",
-            "textures": [
-                "minecraft:trims/items/leggings_trim"
-            ],
-            "palette_key": "minecraft:trims/color_palettes/trim_palette",
-            "permutations": {
-                "red": "tf2:trims/color_palettes/sniper/red",
-                "blu": "tf2:trims/color_palettes/sniper/blu"
-            }
-        },
-        {
             "type": "directory",
             "source": "disguise",
             "prefix": "disguise/"
@@ -51,14 +29,6 @@
             "type": "directory",
             "source": "static_prop",
             "prefix": "static_prop/"
-        },
-        {
-            "type": "single",
-            "resource": "minecraft:trims/items/chestplate_trim_blu"
-        },
-        {
-            "type": "single",
-            "resource": "minecraft:trims/items/chestplate_trim_red"
         }
     ]
 }
