@@ -135,4 +135,327 @@ class Math {
     function feed_right() {
         Hardcode.repeatList("[axis]", () => {$in2_vec3.[axis] = retina.__variable__:$output_vec3.[axis];}, ["X", "Y", "Z"]);
     }
+
+
+
+    function cross_product() {
+        $math_term_0 = $input_vector_1_y;
+        $math_term_0 *= $input_vector_2_z;
+        $math_term_1 = $input_vector_1_z;
+        $math_term_1 *= $input_vector_2_y;
+        $output_vector_x = $math_term_0;
+        $output_vector_x -= $math_term_1;
+        $output_vector_x /= 1000;
+
+        $math_term_0 = $input_vector_1_z;
+        $math_term_0 *= $input_vector_2_x;
+        $math_term_1 = $input_vector_1_x;
+        $math_term_1 *= $input_vector_2_z;
+        $output_vector_y = $math_term_0;
+        $output_vector_y -= $math_term_1;
+        $output_vector_y /= 1000;
+
+        $math_term_0 = $input_vector_1_x;
+        $math_term_0 *= $input_vector_2_y;
+        $math_term_1 = $input_vector_1_y;
+        $math_term_1 *= $input_vector_2_x;
+        $output_vector_z = $math_term_0;
+        $output_vector_z -= $math_term_1;
+        $output_vector_z /= 1000;
+    }
+
+    function cosine() {
+        // Transform input
+        $output = $input;
+        $output -= 900;
+        $output %= 1800;
+        $output -= 900;
+
+        // Compute Bhaskara's approximation
+        $output *= $output;
+        $trig_0 = $output;
+        $trig_0 += 3240000;
+        $trig_0 /= 1000;
+        $output *= -4;
+        $output += 3240000;
+        $output /= $trig_0;
+
+        // Apply sign
+        $trig_0 = $input;
+        $trig_0 += 900;
+        $trig_0 %= 3600;
+        if ($trig_0 >= 1800) $output *= -1;
+    }
+
+    function sine() {
+        // Transform input
+        $output = $input;
+        $output -= 1800;
+        $output %= 1800;
+        $output -= 900;
+
+        // Compute Bhaskara's approximation
+        $output *= $output;
+        $trig_0 = $output;
+        $trig_0 += 3240000;
+        $trig_0 /= 1000;
+        $output *= -4;
+        $output += 3240000;
+        $output /= $trig_0;
+
+        // Apply sign
+        $trig_0 = $input;
+        $trig_0 %= 3600;
+        if ($trig_0 >= 1800) $output *= -1;
+    }
+
+
+
+    function multiply_quaternions() {
+        $math_quaternion_r = $input_quaternion_1_r;
+        $math_quaternion_r *= $input_quaternion_2_r;
+        $math_quaternion_i = $input_quaternion_1_i;
+        $math_quaternion_i *= $input_quaternion_2_i;
+        $math_quaternion_j = $input_quaternion_1_j;
+        $math_quaternion_j *= $input_quaternion_2_j;
+        $math_quaternion_k = $input_quaternion_1_k;
+        $math_quaternion_k *= $input_quaternion_2_k;
+
+        $output_quaternion_r = $math_quaternion_r;
+        $output_quaternion_r -= $math_quaternion_i;
+        $output_quaternion_r -= $math_quaternion_j;
+        $output_quaternion_r -= $math_quaternion_k;
+        $output_quaternion_r /= 1000;
+
+
+        $math_quaternion_r = $input_quaternion_1_r;
+        $math_quaternion_r *= $input_quaternion_2_i;
+        $math_quaternion_i = $input_quaternion_1_i;
+        $math_quaternion_i *= $input_quaternion_2_r;
+        $math_quaternion_j = $input_quaternion_1_j;
+        $math_quaternion_j *= $input_quaternion_2_k;
+        $math_quaternion_k = $input_quaternion_1_k;
+        $math_quaternion_k *= $input_quaternion_2_j;
+
+        $output_quaternion_i = $math_quaternion_r;
+        $output_quaternion_i += $math_quaternion_i;
+        $output_quaternion_i += $math_quaternion_j;
+        $output_quaternion_i -= $math_quaternion_k;
+        $output_quaternion_i /= 1000;
+
+
+        $math_quaternion_r = $input_quaternion_1_r;
+        $math_quaternion_r *= $input_quaternion_2_j;
+        $math_quaternion_i = $input_quaternion_1_i;
+        $math_quaternion_i *= $input_quaternion_2_k;
+        $math_quaternion_j = $input_quaternion_1_j;
+        $math_quaternion_j *= $input_quaternion_2_r;
+        $math_quaternion_k = $input_quaternion_1_k;
+        $math_quaternion_k *= $input_quaternion_2_i;
+
+        $output_quaternion_j = $math_quaternion_r;
+        $output_quaternion_j -= $math_quaternion_i;
+        $output_quaternion_j += $math_quaternion_j;
+        $output_quaternion_j += $math_quaternion_k;
+        $output_quaternion_j /= 1000;
+
+
+        $math_quaternion_r = $input_quaternion_1_r;
+        $math_quaternion_r *= $input_quaternion_2_k;
+        $math_quaternion_i = $input_quaternion_1_i;
+        $math_quaternion_i *= $input_quaternion_2_j;
+        $math_quaternion_j = $input_quaternion_1_j;
+        $math_quaternion_j *= $input_quaternion_2_i;
+        $math_quaternion_k = $input_quaternion_1_k;
+        $math_quaternion_k *= $input_quaternion_2_r;
+
+        $output_quaternion_k = $math_quaternion_r;
+        $output_quaternion_k += $math_quaternion_i;
+        $output_quaternion_k -= $math_quaternion_j;
+        $output_quaternion_k += $math_quaternion_k;
+        $output_quaternion_k /= 1000;
+    }
+
+
+    function normalize_quaternion() {
+        $magnitude = 0;
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => {
+                $math_quaternion_[PARAM] = $input_quaternion_[PARAM];
+                $math_quaternion_[PARAM] *= $math_quaternion_[PARAM];
+                $magnitude += $math_quaternion_[PARAM];
+            },
+            ["r", "i", "j", "k"]
+        );
+        $magnitude = Math.sqrt($magnitude);
+
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => {
+                $output_quaternion_[PARAM] = $input_quaternion_[PARAM];
+                $output_quaternion_[PARAM] *= 1000;
+                $output_quaternion_[PARAM] /= $magnitude;
+            },
+            ["r", "i", "j", "k"]
+        );
+
+        if ($magnitude = 0) $output_quaternion_r = 1000;
+    }
+
+
+    function facing_vector() {
+        $input_pitch = @s::Rotation[1] * 10;
+        $input_yaw = @s::Rotation[0] * 10;
+        this.gimbal_to_vector();
+    }
+
+    function gimbal_to_vector() {
+        $input = $input_yaw;
+        this.sine();
+        $output_vector_x = $output;
+        $output_vector_x *= -1;
+        this.cosine();
+        $output_vector_z = $output;
+
+        $input = $input_pitch;
+        this.cosine();
+        $output_vector_horizontal = $output;
+        $output_vector_x *= $output;
+        $output_vector_z *= $output;
+        $output_vector_x /= 1000;
+        $output_vector_z /= 1000;
+        this.sine();
+        $output_vector_y = $output;
+        $output_vector_y *= -1;
+    }
+
+
+    function axis_to_quaternion() {
+        $input = $input_angle;
+        $input %= 3600;
+        $input /= 2;
+
+        this.cosine();
+        $output_quaternion_r = $output;
+
+        this.sine();
+        Hardcode.repeatLists(
+            ["[AXIS]", "[PARAM]"],
+            () => {
+                $output_quaternion_[PARAM] = $input_axis_[AXIS];
+                $output_quaternion_[PARAM] *= $output;
+                $output_quaternion_[PARAM] /= 1000;
+            },
+            [
+                ["x", "y", "z"],
+                ["i", "j", "k"]
+            ]
+        );
+    }
+
+
+    function angular_velocity_to_quaternion() {
+        $magnitude = 0;
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                $math_[AXIS] = $input_ang_vel_[AXIS];
+                $math_[AXIS] *= $math_[AXIS];
+                $magnitude += $math_[AXIS];
+            },
+            ["x", "y", "z"]
+        );
+        $magnitude = Math.sqrt($magnitude);
+
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                $input_axis_[AXIS] = $input_ang_vel_[AXIS];
+                $input_axis_[AXIS] *= 1000;
+                $input_axis_[AXIS] /= $magnitude;
+            },
+            ["x", "y", "z"]
+        );
+
+        $input_angle = $magnitude;
+        $input_angle *= 1800;
+        $input_angle /= 3141;
+        this.axis_to_quaternion();
+    }
+
+
+    function random_vector() {
+        $input = random value 0..3599;
+        this.cosine();
+        $output_vector_x = $output;
+        this.sine();
+        $output_vector_y = $output;
+
+        $output_vector_z = random value -1000..1000;
+        $math_inverse_z = $output_vector_z;
+        $math_inverse_z *= $math_inverse_z;
+        $math_inverse_z *= -1;
+        $math_inverse_z += 1000000;
+        $math_inverse_z = Math.sqrt($math_inverse_z);
+
+        $output_vector_x *= $math_inverse_z;
+        $output_vector_y *= $math_inverse_z;
+        $output_vector_x /= 1000;
+        $output_vector_y /= 1000;
+
+        $math_vector_x = $output_vector_x;
+        $math_vector_y = $output_vector_y;
+        $math_vector_z = $output_vector_z;
+        $math_vector_x *= $output_vector_x;
+        $math_vector_y *= $output_vector_y;
+        $math_vector_z *= $output_vector_z;
+        $magnitude = $math_vector_x;
+        $magnitude += $math_vector_y;
+        $magnitude += $math_vector_z;
+    }
+
+
+    function random_quaternion() {
+        this.random_vector();
+        $output_quaternion_i = $output_vector_x;
+        $output_quaternion_j = $output_vector_y;
+        $output_quaternion_k = $output_vector_z;
+
+        $input = random value 0..3599;
+        this.cosine();
+        $output_quaternion_r = $output;
+        this.sine();
+        $magnitude = $output;
+
+        $output_quaternion_i *= $magnitude;
+        $output_quaternion_j *= $magnitude;
+        $output_quaternion_k *= $magnitude;
+        $output_quaternion_i /= 1000;
+        $output_quaternion_j /= 1000;
+        $output_quaternion_k /= 1000;
+    }
+
+
+
+    function test_sine_and_cosine() {
+        Hardcode.repeat(
+            "[VALUE]",
+            () => {
+                $input = [VALUE];
+                this.cosine();
+                $cosine = $output;
+                this.sine();
+                $sine = $output;
+                tellraw @a [
+                    "angle: ", {"score":{"name":"$input","objective":"tf2.var"}},
+                    ", cosine: ", {"score":{"name":"$cosine","objective":"tf2.var"}},
+                    ", sine: ", {"score":{"name":"$sine","objective":"tf2.var"}}
+                ];
+            },
+            0,
+            3599,
+            50
+        );
+    }
 }

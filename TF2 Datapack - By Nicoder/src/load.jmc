@@ -32,7 +32,17 @@ Hardcode.repeatList(
         "hits_taken", "ticks_since_hurt", "interpolate_rmb", "menu_ticks",
         "uuid.0", "uuid.1", "uuid.2", "uuid.3", "player.id", 
         "afterburn_ticks", "afterburn_length", "airblast_delay",
-        "heal_target", "ubercharge"
+        "heal_target", "ubercharge",
+
+        "x", "y", "z",
+        "mot_x", "mot_y", "mot_z",
+        "hitbox_x", "hitbox_y", "hitbox_z",
+        "collision_x", "collision_y", "collision_z",
+        "collision",
+        "friction", "collision_friction",
+        "halt",
+        "quaternion_r", "quaternion_i", "quaternion_j", "quaternion_k",
+        "ang_vel_x", "ang_vel_y", "ang_vel_z"
     ]
 );
 

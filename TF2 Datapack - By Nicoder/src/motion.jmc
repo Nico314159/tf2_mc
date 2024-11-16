@@ -1,0 +1,509 @@
+class Motion {
+    // Moves an entity using a score-driven AABB motion system
+    // Run this function as and at the entity to be moved
+    
+    // The following values are scaled up 1000 times.
+    // Entity position encoded by tf2.[x,y,z]
+    // Entity motion encoded by tf2.mot_[x,y,z]
+    // Entity hitbox size encoded by tf2.hitbox_[x,y,z], represents hitbox radius, so half the total.
+    // Base friction assigned with tf2.friction.
+    // Collision friction assigned with tf2.collision_friction.
+
+    // Mark entity to halt on collision with tf2.halt.
+
+    // Returns collision flags on the entity encoded by tf2.collision and tf2.collision_[x,y,z]
+    function move() {
+        // Prepare data
+        $mot.end = 0;
+        motion::pos = {};
+
+        Hardcode.repeatList(
+            "[AXIS]", () => {
+            // Prepare data
+            tf2.collision_[AXIS]:@s = 0;
+
+            // Compute signs of motion vector so the math works in one direction
+            if (tf2.mot_[AXIS]:@s >= 0) $mot.sign_[AXIS] = 1;
+            if (tf2.mot_[AXIS]:@s < 0) $mot.sign_[AXIS] = -1;
+            tf2.mot_[AXIS]:@s *= $mot.sign_[AXIS];
+
+            // Compute initial position and subblock position
+            $mot.initial_[AXIS] = tf2.[AXIS]:@s;
+            $mot.initial_[AXIS] -= tf2.hitbox_[AXIS]:@s;
+            $mot.subblock_[AXIS] = $mot.initial_[AXIS];
+            $mot.subblock_[AXIS] %= 1000;
+            $mot.subblock_[AXIS] /= 500;
+
+            // Push initial position to storage for macro usage
+            motion::pos.[AXIS] = 0.001 * (double) $mot.initial_[AXIS];
+
+            // Compute head and tail points
+            $mot.hitbox_[AXIS] = tf2.hitbox_[AXIS]:@s;
+            $mot.hitbox_[AXIS] *= $mot.sign_[AXIS];
+            $mot.head_[AXIS] = tf2.[AXIS]:@s;
+            $mot.tail_[AXIS] = tf2.[AXIS]:@s;
+            $mot.head_[AXIS] += $mot.hitbox_[AXIS];
+            $mot.tail_[AXIS] -= $mot.hitbox_[AXIS];
+
+            // Compute size of hitbox
+            $mot.hitbox_[AXIS] = $mot.head_[AXIS];
+            $mot.hitbox_[AXIS] /= 500;
+            $mot.temp = $mot.tail_[AXIS];
+            $mot.temp /= 500;
+            $mot.hitbox_[AXIS] -= $mot.temp;
+            if ($mot.hitbox_[AXIS] < 0) $mot.hitbox_[AXIS] *= -1;
+
+            // Compute deltas for voxel traversal
+            $mot.delta_[AXIS] = 1000000;
+            $mot.delta_[AXIS] /= tf2.mot_[AXIS]:@s;
+            if (tf2.mot_[AXIS]:@s = 0) $mot.delta_[AXIS] = _MAX_INT_;
+
+            // Compute distances along axes to voxel borders
+            $mot.motion_head_[AXIS] = $mot.head_[AXIS];
+            $mot.motion_tail_[AXIS] = $mot.tail_[AXIS];
+            $mot.motion_head_[AXIS] %= 500;
+            $mot.motion_tail_[AXIS] %= 500;
+            if ($mot.sign_[AXIS] = 1) { $mot.motion_head_[AXIS] *= -1; $mot.motion_head_[AXIS] += 500; }
+            if ($mot.sign_[AXIS] = 1) { $mot.motion_tail_[AXIS] *= -1; $mot.motion_tail_[AXIS] += 500; }
+
+            // Compute distances along ray to voxel borders
+            $mot.distance_head_[AXIS] = $mot.delta_[AXIS];
+            $mot.distance_tail_[AXIS] = $mot.delta_[AXIS];
+            $mot.distance_head_[AXIS] *= $mot.motion_head_[AXIS];
+            $mot.distance_tail_[AXIS] *= $mot.motion_tail_[AXIS];
+            $mot.distance_head_[AXIS] /= 500;
+            $mot.distance_tail_[AXIS] /= 500;
+            if (tf2.mot_[AXIS]:@s = 0) $mot.distance_head_[AXIS] = _MAX_INT_;
+            if (tf2.mot_[AXIS]:@s = 0) $mot.distance_tail_[AXIS] = _MAX_INT_;
+            
+            }, ["x", "y", "z"]
+        );
+
+        // Begin voxel traversal
+        this.initial_position() with motion::pos;
+
+        // Set collision flag
+        tf2.collision:@s = 0;
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { if (!(tf2.collision_[AXIS]:@s = 0)) tf2.collision:@s = 1; },
+            ["x", "y", "z"]
+        );
+
+        // Adjust motion for halt mode
+        if (tf2.collision:@s = 1 && tf2.halt:@s = 1) {
+            // Set ratio to scale motion vector
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => {
+                    if (!(tf2.collision_[AXIS]:@s = 0)) {
+                        $mot.numerator = $mot.motion_head_[AXIS];
+                        $mot.denominator = tf2.mot_[AXIS]:@s;
+                    }
+                },
+                ["x", "y", "z"]
+            );
+
+            // Scale motion vector using ratio
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => {
+                    $mot.motion_head_[AXIS] = tf2.mot_[AXIS]:@s;
+                    $mot.motion_head_[AXIS] *= $mot.numerator;
+                    $mot.motion_head_[AXIS] /= $mot.denominator;
+                },
+                ["x", "y", "z"]
+            );
+        }
+
+        // Move entity
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                $mot.motion_head_[AXIS] < tf2.mot_[AXIS]:@s;
+                $mot.motion_head_[AXIS] *= $mot.sign_[AXIS];
+                tf2.[AXIS]:@s += $mot.motion_head_[AXIS];
+                motion::pos.[AXIS] = 0.001 * (double) tf2.[AXIS]:@s;
+            },
+            ["x", "y", "z"]
+        );
+        this.final_position() with motion::pos;
+
+        // Apply friction and restore motion to normal
+        tf2.friction:@s ??= 1000;
+        tf2.collision_friction:@s ??= 1000;
+        $mot.friction = tf2.friction:@s;
+        if (tf2.collision:@s = 1) {
+            $mot.friction *= tf2.collision_friction:@s;
+            $mot.friction /= 1000;
+        }
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                tf2.mot_[AXIS]:@s *= $mot.friction;
+                tf2.mot_[AXIS]:@s /= 1000;
+                tf2.mot_[AXIS]:@s *= $mot.sign_[AXIS];
+            },
+            ["x", "y", "z"]
+        );
+    }
+
+    // Macro functions
+    function initial_position() {
+        $ execute positioned $(x) $(y) $(z) run this.traverse();
+    }
+
+    function final_position() {
+        $ teleport @s $(x) $(y) $(z);
+    }
+
+    // Determines which step needs to be taken
+    function traverse() {
+        // Cancel axis if motion has exceeded native value
+        Hardcode.repeatList(
+            "[AXIS]", () => {
+            Hardcode.repeatList(
+                "[SIDE]", () => {
+                    if ($mot.motion_[SIDE]_[AXIS] > tf2.mot_[AXIS]:@s) $mot.distance_[SIDE]_[AXIS] = _MAX_INT_;
+                }, ["head", "tail"]
+            ); }, ["x", "y", "z"]
+        );
+
+        // Stop if motion ceases
+        if (
+            $mot.distance_head_x = _MAX_INT_ &&
+            $mot.distance_head_y = _MAX_INT_ &&
+            $mot.distance_head_z = _MAX_INT_ &&
+            $mot.distance_tail_x = _MAX_INT_ &&
+            $mot.distance_tail_y = _MAX_INT_ &&
+            $mot.distance_tail_z = _MAX_INT_
+        ) {
+            $mot.end = 1;
+
+        } else {
+
+            // Find shortest distance
+            $mot.shortest_distance = _MAX_INT_;
+            Hardcode.repeatList(
+                "[SIDE]", () => {
+                Hardcode.repeatList(
+                    "[AXIS]", () => {
+                        $mot.shortest_distance < $mot.distance_[SIDE]_[AXIS];
+                    }, ["x", "y", "z"]
+                ); }, ["head", "tail"]
+            );
+
+            // Process data based on nearest axis
+            Hardcode.repeatList(
+                "[SIDE]", () => {
+                Hardcode.repeatList(
+                    "[AXIS]", () => {
+                        if ($mot.shortest_distance = $mot.distance_[SIDE]_[AXIS]) this.[SIDE]_[AXIS]();
+                    }, ["x", "y", "z"]
+                ); }, ["head", "tail"]
+            );
+
+            // Repeat step if check failed
+            if ($mot.end = 0) this.traverse();
+        }
+
+
+
+
+        // Generate progression functions
+        Hardcode.repeatLists(
+            ["[SIDE]", "[SIGN]", "[INVERSE_SIGN]", "[OPERATOR]", "[FUNCTION]", "[STEP_DIRECTION]"], () => {
+
+            Hardcode.repeatLists(
+                ["[AXIS]", "[AXES_LEFT]", "[AXES_RIGHT]", "[STEP_AXIS]"], () => {
+
+                function [SIDE]_[AXIS]() {
+                    // Set shortest distance to prevent other branches from running
+                    $mot.shortest_distance = -1;
+
+                    // Set step direction to use for later
+                    $mot.step = EVAL([STEP_DIRECTION] + [STEP_AXIS]);
+
+                    // Apply delta to nearest axis
+                    $mot.distance_[SIDE]_[AXIS] += $mot.delta_[AXIS];
+
+                    // Change sub-block position
+                    if ($mot.sign_[AXIS] = [INVERSE_SIGN]1) $mot.subblock_[AXIS] += 1;
+
+                    // Change size of hitbox
+                    $mot.hitbox_[AXIS] [OPERATOR]= 1;
+
+                    // Apply offset to motion
+                    if ($mot.end = 0) $mot.motion_[SIDE]_[AXIS] += 500;
+
+                    // Run check function
+                    if ($mot.end = 0 && $mot.sign_[AXIS] = [INVERSE_SIGN]1) execute positioned [AXES_LEFT]~[INVERSE_SIGN]0.5[AXES_RIGHT] run this.[FUNCTION]();
+                    if ($mot.end = 0 && $mot.sign_[AXIS] = [SIGN]1) this.[FUNCTION]();
+                }},
+                [
+                    ["x", "y", "z"],
+                    ["", "~ ", "~ ~ "],
+                    [" ~ ~", " ~", ""],
+                    ["0", "1", "2"]
+                ]
+            );
+
+            },
+            [
+                ["head", "tail"],
+                ["", "-"],
+                ["-", ""],
+                ["+", "-"],
+                ["check", "traverse"],
+                ["0", "3"]
+            ]
+        );
+    }
+
+    // Checks the hitbox for blocks in the newly-acquired space
+    function check() {
+        // Push hitbox size to temporary variables
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { $mot.temp_hitbox_[AXIS] = $mot.hitbox_[AXIS]; },
+            ["x", "y", "z"]
+        );
+
+        // Scan hitbox for collision points
+        $mot.collision = 0;
+        Hardcode.repeatLists(
+            ["[STEP]", "[FIRST_AXIS]", "[SECOND_AXIS]"],
+            () => {
+                if ($mot.step = [STEP] && $mot.sign_[FIRST_AXIS] = -1) this.hitbox_[FIRST_AXIS]_[SECOND_AXIS]();
+                if ($mot.step = [STEP] && $mot.sign_[FIRST_AXIS] =  1) this.hitbox_[FIRST_AXIS]_[FIRST_AXIS]();
+            },
+            [
+                ["0", "1", "2"],
+                ["x", "y", "z"],
+                ["y", "z", "x"]
+            ]
+        );
+
+        // Adjust motion if a collision is detected
+        if ($mot.collision = 1) {
+            this.collision();
+        } else {
+            // Continue traversing at current position if there was no collision
+            this.traverse();
+        }
+
+        // Generate hitbox functions
+        JMC.pythonFile("hitbox_script.py", jmc=true);
+    }
+
+    // Checks if the current block is solid
+    function block() {
+        if ($mot.collision = 0) execute if block ~ ~ ~ #minecraft:slabs run this.slabs();
+        if ($mot.collision = 0) execute if block ~ ~ ~ #minecraft:stairs run this.stairs();
+        if ($mot.collision = 0) execute unless block ~ ~ ~ #tf2:motion_passable run $mot.collision = 1;
+
+        // Stop scanning hitbox if there was a collision
+        if ($mot.collision = 1) {
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => { $mot.temp_hitbox_[AXIS] = -1; },
+                ["x", "y", "z"]
+            );
+        }
+    }
+
+    // Checks if the current position collides with a slab
+    function slabs() {
+        $mot.subblock_y %= 2;
+
+        execute if block ~ ~ ~ #minecraft:slabs[type=double] run $mot.collision = 1;
+        if ($mot.subblock_y = 1) execute if block ~ ~ ~ #minecraft:slabs[type=top   ] run $mot.collision = 1;
+        if ($mot.subblock_y = 0) execute if block ~ ~ ~ #minecraft:slabs[type=bottom] run $mot.collision = 1;
+    }
+
+    // Checks if the current position collides with a stair
+    function stairs() {
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { $mot.subblock_[AXIS] %= 2; },
+            ["x", "y", "z"]
+        );
+        
+        if ($mot.subblock_y = 1) execute if block ~ ~ ~ #minecraft:stairs[half=top   ] run $mot.collision = 1;
+        if ($mot.subblock_y = 0) execute if block ~ ~ ~ #minecraft:stairs[half=bottom] run $mot.collision = 1;
+
+        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=straight,facing=west ] run $mot.collision = 1;
+        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=straight,facing=east ] run $mot.collision = 1;
+        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=straight,facing=north] run $mot.collision = 1;
+        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=straight,facing=south] run $mot.collision = 1;
+
+
+
+        if ($mot.subblock_x = 0 && $mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=north] run $mot.collision = 1;
+        if ($mot.subblock_x = 0 && $mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=west ] run $mot.collision = 1;
+        if ($mot.subblock_x = 1 && $mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=east ] run $mot.collision = 1;
+        if ($mot.subblock_x = 1 && $mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=north] run $mot.collision = 1;
+        if ($mot.subblock_x = 0 && $mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=west ] run $mot.collision = 1;
+        if ($mot.subblock_x = 0 && $mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=south] run $mot.collision = 1;
+        if ($mot.subblock_x = 1 && $mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=south] run $mot.collision = 1;
+        if ($mot.subblock_x = 1 && $mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=east ] run $mot.collision = 1;
+
+
+
+        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=north] run $mot.collision = 1;
+        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=north] run $mot.collision = 1;
+        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=west ] run $mot.collision = 1;
+        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=west ] run $mot.collision = 1;
+
+        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=east ] run $mot.collision = 1;
+        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=east ] run $mot.collision = 1;
+        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=north] run $mot.collision = 1;
+        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=north] run $mot.collision = 1;
+
+        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=west ] run $mot.collision = 1;
+        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=west ] run $mot.collision = 1;
+        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=south] run $mot.collision = 1;
+        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=south] run $mot.collision = 1;
+
+        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=south] run $mot.collision = 1;
+        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=south] run $mot.collision = 1;
+        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=east ] run $mot.collision = 1;
+        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=east ] run $mot.collision = 1;
+    }
+
+    // Handles collision events
+    function collision() {
+        Hardcode.repeatLists(
+            ["[STEP]", "[AXIS]"],
+            () => { if ($mot.step = [STEP]) this.collision_[AXIS](); },
+            [
+                ["0", "1", "2"],
+                ["x", "y", "z"]
+            ]
+        );
+
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+
+            function collision_[AXIS]() {
+                // Set collision axis
+                tf2.collision_[AXIS]:@s = $mot.sign_[AXIS];
+
+                // Kick back values
+                $mot.motion_head_[AXIS] -= 501;
+                $mot.hitbox_[AXIS] -= 1;
+                if ($mot.sign_[AXIS] = -1) $mot.subblock_[AXIS] += 1;
+                $mot.subblock_[AXIS] %= 2;
+
+                // Cap distance to prevent motion along that axis
+                $mot.distance_head_[AXIS] = _MAX_INT_;
+                $mot.distance_tail_[AXIS] = _MAX_INT_;
+
+                // Halt
+                if (tf2.halt:@s = 1) $mot.end = 1;
+            }},
+            ["x", "y", "z"]
+        );
+    }
+}
+
+new tag.block(motion_passable) {
+	"values": [
+        "#minecraft:slabs",
+		"#minecraft:stairs",
+
+		"#minecraft:banners",
+		"#minecraft:bee_growables",
+		"#minecraft:buttons",
+		"#minecraft:corals",
+		"#minecraft:fire",
+		"#minecraft:small_flowers",
+		"#minecraft:tall_flowers",
+		"#minecraft:pressure_plates",
+		"#minecraft:rails",
+		"#minecraft:signs",
+        "#minecraft:wall_corals",
+		"#minecraft:candles",
+		"#minecraft:saplings",
+        "#minecraft:wool_carpets",
+
+		"minecraft:air",
+		"minecraft:attached_melon_stem",
+		"minecraft:attached_pumpkin_stem",
+		"minecraft:bamboo_sapling",
+		"minecraft:big_dripleaf",
+		"minecraft:brown_mushroom",
+		"minecraft:bubble_column",
+		"minecraft:cave_air",
+		"minecraft:cave_vines",
+		"minecraft:cave_vines_plant",
+		"minecraft:cobweb",
+		"minecraft:crimson_fungus",
+		"minecraft:crimson_roots",
+		"minecraft:dead_brain_coral",
+		"minecraft:dead_brain_coral_fan",
+		"minecraft:dead_brain_coral_wall_fan",
+		"minecraft:dead_bubble_coral",
+		"minecraft:dead_bubble_coral_fan",
+		"minecraft:dead_bubble_coral_wall_fan",
+		"minecraft:dead_bush",
+		"minecraft:dead_fire_coral",
+		"minecraft:dead_fire_coral_fan",
+		"minecraft:dead_fire_coral_wall_fan",
+		"minecraft:dead_horn_coral",
+		"minecraft:dead_horn_coral_fan",
+		"minecraft:dead_horn_coral_wall_fan",
+		"minecraft:dead_tube_coral",
+		"minecraft:dead_tube_coral_fan",
+		"minecraft:dead_tube_coral_wall_fan",
+		"minecraft:fern",
+		"minecraft:frogspawn",
+		"minecraft:glow_lichen",
+		"minecraft:hanging_roots",
+		"minecraft:kelp",
+		"minecraft:kelp_plant",
+        "minecraft:large_fern",
+        "minecraft:ladder",
+		"minecraft:lava",
+        "minecraft:lever",
+		"minecraft:light",
+        "minecraft:lily_pad",
+		"minecraft:moss_carpet",
+		"minecraft:moving_piston",
+		"minecraft:nether_portal",
+		"minecraft:nether_sprouts",
+		"minecraft:nether_wart",
+		"minecraft:powder_snow",
+		"minecraft:red_mushroom",
+		"minecraft:redstone_torch",
+		"minecraft:redstone_wall_torch",
+		"minecraft:redstone_wire",
+		"minecraft:scaffolding",
+		"minecraft:sculk_vein",
+        "minecraft:seagrass",
+        "minecraft:short_grass",
+		"minecraft:small_dripleaf",
+        "minecraft:snow",
+		"minecraft:soul_torch",
+		"minecraft:soul_wall_torch",
+		"minecraft:spore_blossom",
+		"minecraft:structure_void",
+		"minecraft:sugar_cane",
+		"minecraft:tall_grass",
+		"minecraft:tall_seagrass",
+		"minecraft:torch",
+		"minecraft:tripwire",
+		"minecraft:tripwire_hook",
+		"minecraft:twisting_vines",
+		"minecraft:twisting_vines_plant",
+		"minecraft:vine",
+		"minecraft:void_air",
+		"minecraft:wall_torch",
+		"minecraft:warped_fungus",
+		"minecraft:warped_roots",
+		"minecraft:water",
+		"minecraft:weeping_vines",
+		"minecraft:weeping_vines_plant"
+	]
+}

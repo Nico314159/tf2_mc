@@ -9,6 +9,8 @@ import "src/math";
 import "src/objectives";
 import "src/timer";
 import "src/door";
+import "src/motion";
+import "src/grenade";
 // not using wildcard import because import order matters
 
 function __tick__() {

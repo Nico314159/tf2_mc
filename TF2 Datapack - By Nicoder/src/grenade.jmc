@@ -1,0 +1,311 @@
+class Grenade {
+    // Spawns a grenade and throws it in the direction the executing entity is looking
+    function toss() {
+        gren::grenade = {sticky:0};
+        scoreboard players set $launch_speed tf2.var GRENADE_LAUNCH_SPEED;
+        this.toss_internal();
+    }
+
+    function sticky_toss() {
+        gren::grenade = {sticky:1};
+        scoreboard players set $launch_speed tf2.var STICKY_BOMB_LAUNCH_SPEED;
+        this.toss_internal();
+    }
+
+    function toss_internal() {
+        // Prepare facing vector
+        Math.facing_vector();
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                $output_vector_[AXIS] *= $launch_speed;
+                $output_vector_[AXIS] /= 1000;
+                gren::grenade.mot_[AXIS] = (int) $output_vector_[AXIS];
+            },
+            ["x", "y", "z"]
+        );
+
+        execute anchored eyes positioned ^ ^ ^ run this.spawn() with gren::grenade;
+    }
+
+    // Spawns a fresh grenade
+    function spawn() {
+        // Needs mot_x, mot_y, mot_z for macros to define its initial velocity,
+        // and sticky to determine if it is sticky.
+
+        summon item_display ~ ~ ~ {
+            Tags: ["tf2.grenade","tf2.new"],
+            item: {id: "minecraft:blue_concrete", count:1},
+            transformation: {
+                right_rotation: [0.0f, 0.0f, 0.0f, 1.0f],
+                scale: [GRENADE_SCALE, GRENADE_SCALE, GRENADE_SCALE],
+                left_rotation: [0.0f, 0.0f, 0.0f, 1.0f],
+                translation: [0.0f, 0.0f, 0.0f]
+            },
+            interpolation_duration: 1,
+            teleport_duration: 1
+        };
+
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { $ scoreboard players set $mot.mot_[AXIS] tf2.var $(mot_[AXIS]); },
+            ["x", "y", "z"]
+        );
+        $ scoreboard players set $gren.sticky tf2.var $(sticky);
+
+        execute as @e[type=item_display,tag=tf2.grenade,tag=tf2.new,distance=..1] run {
+            this.get_pos();
+            Hardcode.repeatLists(
+                ["[AXIS]", "[INDEX]"],
+                () => {
+                    tf2.mot_[AXIS]:@s = $mot.mot_[AXIS];
+                    tf2.hitbox_[AXIS]:@s = GRENADE_SIZE;
+                },
+                [
+                    ["x", "y", "z"],
+                    ["0", "1", "2"]
+                ]
+            );
+            tf2.halt:@s = $gren.sticky;
+            tf2.friction:@s = GRENADE_FRICTION;
+            tf2.collision_friction:@s = GRENADE_COLLISION_FRICTION;
+            if ($gren.sticky = 1) {
+                tag @s add tf2.sticky;
+                item replace entity @s contents with minecraft:lime_concrete;
+            }
+            
+            Math.random_quaternion();
+            Hardcode.repeatList(
+                "[PARAM]",
+                () => { tf2.quaternion_[PARAM]:@s = $output_quaternion_[PARAM]; },
+                ["r", "i", "j", "k"]
+            );
+
+            Math.random_vector();
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => {
+                    tf2.ang_vel_[AXIS]:@s = $output_vector_[AXIS];
+                    tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_SPEED;
+                    tf2.ang_vel_[AXIS]:@s /= 1000;
+                },
+                ["x", "y", "z"]
+            );
+
+            tag @s remove tf2.new;
+        }
+    }
+
+    function tick() {
+        // Apply gravity
+        tf2.mot_y:@s -= GRENADE_GRAVITY;
+
+        // Cancel motion if sticky
+        execute if entity @s[tag=tf2.stuck] run {
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => { tf2.mot_[AXIS]:@s = 0; },
+                ["x", "y", "z"]
+            );
+        }
+        
+        // Apply motion
+        execute if entity @s[tag=!tf2.stuck] run Motion.move();
+
+        // Roll on the ground
+        if (tf2.collision_y:@s = -1) {
+            tf2.mot_y:@s = 0;
+        }
+
+        // Detect hitting players and objects
+        $hit_object = 0;
+        execute positioned ~-0.55 ~-1.15 ~-0.55 if entity @a[dx=0.1,dy=1.3,dz=0.1] run $hit_object = 1;
+        execute positioned ~-0.55 ~-1.15 ~-0.55 if entity @e[type=armor_stand,dx=0.1,dy=1.3,dz=0.1] run $hit_object = 1;
+        if ($hit_object == 0) tag @s add tf2.has_escaped_player;
+        if ($hit_object == 1) execute if entity @s[tag=tf2.has_escaped_player] run {
+            execute if entity @s[tag=!tf2.has_hit_wall,tag=!tf2.sticky] run return run this.explode();
+            execute if entity @s[tag=!tf2.has_hit_object] run {
+                Hardcode.repeatList(
+                    "[AXIS]",
+                    () => {
+                        tf2.mot_[AXIS]:@s *= - GRENADE_OBJECT_ELASTICITY;
+                        tf2.mot_[AXIS]:@s /= 1000;
+                    },
+                    ["x", "z"]
+                );
+            }
+
+            tag @s add tf2.has_hit_object;
+        }
+
+        // Reduce speed when it hits a wall
+        if (!(tf2.collision_x:@s == 0) || !(tf2.collision_z:@s == 0)) {
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => {
+                    tf2.mot_[AXIS]:@s *= GRENADE_WALL_ELASTICITY;
+                    tf2.mot_[AXIS]:@s /= 1000;
+                },
+                ["x", "y", "z"]
+            );
+        }
+
+        // Flag for wall hits
+        if (tf2.collision:@s == 1) tag @s add tf2.has_hit_wall;
+
+        // Apply bounces
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { if (!(tf2.collision_[AXIS]:@s = 0)) tf2.mot_[AXIS]:@s *= -1; },
+            ["x", "y", "z"]
+        );
+
+        // Stick to surfaces
+        if (tf2.collision:@s = 1) execute if entity @s[tag=tf2.sticky] run tag @s add tf2.stuck;
+
+
+
+        // Rotation logic
+        execute if entity @s[tag=!tf2.stuck] run {
+            
+            // Apply friction to angular velocity
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => {
+                    $sign_[AXIS] = 1;
+                    if (tf2.ang_vel_[AXIS]:@s < 0) $sign_[AXIS] = -1;
+                    tf2.ang_vel_[AXIS]:@s *= $sign_[AXIS];
+                    tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_FRICTION;
+                    tf2.ang_vel_[AXIS]:@s /= 1000;
+                    if (tf2.collision:@s == 1) {
+                        tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_COLLISION_FRICTION;
+                        tf2.ang_vel_[AXIS]:@s /= 1000;
+                    }
+                    tf2.ang_vel_[AXIS]:@s *= $sign_[AXIS];
+                },
+                ["x", "y", "z"]
+            );
+
+            // Apply angular acceleration based on surface grinding
+            if (!(tf2.collision_x:@s == 0)) {
+                $surface_x = tf2.collision_x:@s; $surface_y = 0; $surface_z = 0;
+                this.roll();
+            }
+            if (!(tf2.collision_y:@s == 0)) {
+                $surface_x = 0; $surface_y = tf2.collision_y:@s; $surface_z = 0;
+                this.roll();
+            }
+            if (!(tf2.collision_z:@s == 0)) {
+                $surface_x = 0; $surface_y = 0; $surface_z = tf2.collision_z:@s;
+                this.roll();
+            }
+
+            // Apply rotation
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => { $input_ang_vel_[AXIS] = tf2.ang_vel_[AXIS]:@s; },
+                ["x", "y", "z"]
+            );
+            Math.angular_velocity_to_quaternion();
+            Hardcode.repeatList(
+                "[PARAM]",
+                () => {
+                    $input_quaternion_1_[PARAM] = $output_quaternion_[PARAM];
+                    $input_quaternion_2_[PARAM] = tf2.quaternion_[PARAM]:@s;
+                },
+                ["r", "i", "j", "k"]
+            );
+            Math.multiply_quaternions();
+            Hardcode.repeatList(
+                "[PARAM]",
+                () => { $input_quaternion_[PARAM] = $output_quaternion_[PARAM]; },
+                ["r", "i", "j", "k"]
+            );
+            Math.normalize_quaternion();
+            Hardcode.repeatList(
+                "[PARAM]",
+                () => { tf2.quaternion_[PARAM]:@s = $output_quaternion_[PARAM]; },
+                ["r", "i", "j", "k"]
+            );
+            gren::rotation = [0.0f,0.0f,0.0f,1.0f];
+            Hardcode.repeatLists(
+                ["[PARAM]", "[INDEX]"],
+                () => { gren::rotation[[INDEX]] = 0.001 * (float) tf2.quaternion_[PARAM]:@s; },
+                [
+                    ["r", "i", "j", "k"],
+                    ["3", "0", "1", "2"]
+                ]
+            );
+            @s::transformation.right_rotation = gren::rotation;
+        }
+
+
+
+        // Explosion mechanic
+        particle minecraft:smoke ~ ~ ~ 0 0 0 0 1;
+        tf2.timer:@s += 1;
+        if (tf2.timer:@s >= GRENADE_EXPLOSION_TIMER) this.explode();
+    }
+
+    @add(__tick__)
+    function tick_all() {
+        execute as @e[type=item_display,tag=tf2.grenade] at @s run this.tick();
+    }
+
+    // Gets the position of the executing entity and puts it into tf2.[x,y,z]
+    function get_pos() {
+        grenade::pos = @s::Pos;
+        Hardcode.repeatLists(
+            ["[AXIS]", "[INDEX]"],
+            () => {
+                tf2.[AXIS]:@s = grenade::pos[[INDEX]] * 1000;
+            },
+            [
+                ["x", "y", "z"],
+                ["0", "1", "2"]
+            ]
+        );
+    }
+
+    // Applies angular acceleration to the grenade based on its sliding against a surface
+    function roll() {
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                $input_vector_1_[AXIS] = tf2.ang_vel_[AXIS]:@s;
+                $input_vector_1_[AXIS] *= GRENADE_SIZE;
+                $input_vector_1_[AXIS] /= 1000;
+                $input_vector_2_[AXIS] = $surface_[AXIS];
+            },
+            ["x", "y", "z"]
+        );
+        Math.cross_product();
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                if ($surface_[AXIS] == 0) $output_vector_[AXIS] += tf2.mot_[AXIS]:@s;
+                $input_vector_1_[AXIS] = $output_vector_[AXIS];
+                $input_vector_1_[AXIS] *= 1000;
+                $input_vector_1_[AXIS] /= GRENADE_SIZE;
+
+                $input_vector_1_[AXIS] *= 32;
+            },
+            ["x", "y", "z"]
+        );
+        Math.cross_product();
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                tf2.ang_vel_[AXIS]:@s += $output_vector_[AXIS];
+            },
+            ["x", "y", "z"]
+        );
+    }
+
+    // Kaboom
+    function explode() {
+        particle minecraft:explosion ~ ~ ~ 1 1 1 0 10;
+        playsound minecraft:entity.generic.explode master @a ~ ~ ~ 3;
+        kill @s;
+    }
+}
