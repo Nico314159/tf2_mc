@@ -1,3 +1,2 @@
-data modify storage tf2:lookup damages append value {instakill:true,cause:-2147483648,kill_verb:"fell into the void"}
-execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @s tf2.player_id
-tp @s ~ 5 ~
+scoreboard players operation $mot.motion_head_x tf2.var *= -1 tf2.const
+scoreboard players add $mot.motion_head_x tf2.var 500

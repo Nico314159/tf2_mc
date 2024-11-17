@@ -1,2 +1,2 @@
-execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run function tf2:__private__/anonymous/28
-execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/29
+scoreboard players operation $mot.motion_head_z tf2.var *= -1 tf2.const
+scoreboard players add $mot.motion_head_z tf2.var 500

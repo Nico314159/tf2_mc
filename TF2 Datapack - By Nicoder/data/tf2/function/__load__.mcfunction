@@ -11,21 +11,24 @@ scoreboard players set 900 tf2.const 900
 scoreboard players set 5 tf2.const 5
 scoreboard players set 6 tf2.const 6
 scoreboard players set 230400 tf2.const 230400
-scoreboard players set 4 tf2.const 4
-scoreboard players set 0 tf2.const 0
-scoreboard players set 10 tf2.const 10
 scoreboard players set 1800 tf2.const 1800
+scoreboard players set 4 tf2.const 4
+scoreboard players set 10 tf2.const 10
+scoreboard players set 0 tf2.const 0
 scoreboard players set 8 tf2.const 8
 scoreboard players set 13 tf2.const 13
 scoreboard players set 1 tf2.const 1
 scoreboard players set 9 tf2.const 9
 scoreboard players set 10000 tf2.const 10000
 scoreboard players set 1425 tf2.const 1425
+scoreboard players set 3600 tf2.const 3600
 scoreboard players set 15 tf2.const 15
 scoreboard players set 20 tf2.const 20
 scoreboard players set 25 tf2.const 25
 scoreboard players set 1050 tf2.const 1050
 scoreboard players set -100 tf2.const -100
+scoreboard players set 800 tf2.const 800
+scoreboard players set 32 tf2.const 32
 scoreboard players set 1570 tf2.const 1570
 scoreboard players set 36 tf2.const 36
 scoreboard players set 40 tf2.const 40
@@ -34,14 +37,21 @@ scoreboard players set -2000 tf2.const -2000
 scoreboard players set 50 tf2.const 50
 scoreboard players set 60 tf2.const 60
 scoreboard players set 66 tf2.const 66
+scoreboard players set 3141 tf2.const 3141
 scoreboard players set 200 tf2.const 200
 scoreboard players set 5833 tf2.const 5833
 scoreboard players set 7500 tf2.const 7500
 scoreboard players set 2000 tf2.const 2000
+scoreboard players set -300 tf2.const -300
+scoreboard players set 600 tf2.const 600
 scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
+scoreboard players set 999 tf2.const 999
 scoreboard players set 1000 tf2.const 1000
+scoreboard players set 500 tf2.const 500
 scoreboard players set 120 tf2.const 120
+scoreboard players set 250 tf2.const 250
+scoreboard players set -4 tf2.const -4
 scoreboard players set -1 tf2.const -1
 execute as @a run function tf2:__private__/trigger_add/enable
 scoreboard objectives add tf2.gamemode dummy
@@ -136,6 +146,29 @@ scoreboard objectives add tf2.afterburn_length dummy
 scoreboard objectives add tf2.airblast_delay dummy
 scoreboard objectives add tf2.heal_target dummy
 scoreboard objectives add tf2.ubercharge dummy
+scoreboard objectives add tf2.x dummy
+scoreboard objectives add tf2.y dummy
+scoreboard objectives add tf2.z dummy
+scoreboard objectives add tf2.mot_x dummy
+scoreboard objectives add tf2.mot_y dummy
+scoreboard objectives add tf2.mot_z dummy
+scoreboard objectives add tf2.hitbox_x dummy
+scoreboard objectives add tf2.hitbox_y dummy
+scoreboard objectives add tf2.hitbox_z dummy
+scoreboard objectives add tf2.collision_x dummy
+scoreboard objectives add tf2.collision_y dummy
+scoreboard objectives add tf2.collision_z dummy
+scoreboard objectives add tf2.collision dummy
+scoreboard objectives add tf2.friction dummy
+scoreboard objectives add tf2.collision_friction dummy
+scoreboard objectives add tf2.halt dummy
+scoreboard objectives add tf2.quaternion_r dummy
+scoreboard objectives add tf2.quaternion_i dummy
+scoreboard objectives add tf2.quaternion_j dummy
+scoreboard objectives add tf2.quaternion_k dummy
+scoreboard objectives add tf2.ang_vel_x dummy
+scoreboard objectives add tf2.ang_vel_y dummy
+scoreboard objectives add tf2.ang_vel_z dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
