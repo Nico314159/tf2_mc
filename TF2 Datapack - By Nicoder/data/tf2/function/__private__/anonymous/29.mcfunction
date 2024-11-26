@@ -1,3 +1,3 @@
-execute if entity @s[tag=!tf2.has_hit_wall,tag=!tf2.sticky] run return run function tf2:grenade/explode
-execute if entity @s[tag=!tf2.has_hit_object] run function tf2:__private__/anonymous/28
-tag @s add tf2.has_hit_object
+data modify storage tf2:__storage__ currentObject set from storage tf2:check_match UUID
+execute store success score __bool_result__1 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @s Thrower
+execute if score __bool_result__1 tf2.var matches 0 run function tf2:__private__/if_else/53

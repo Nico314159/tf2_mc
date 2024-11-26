@@ -1,4 +1,2 @@
-scoreboard players operation @s tf2.mot_x *= -300 tf2.const
-scoreboard players operation @s tf2.mot_x /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_z *= -300 tf2.const
-scoreboard players operation @s tf2.mot_z /= 1000 tf2.const
+execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:__private__/anonymous/27 with storage tf2:index

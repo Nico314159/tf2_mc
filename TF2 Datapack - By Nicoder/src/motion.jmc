@@ -405,7 +405,7 @@ class Motion {
                 $mot.distance_tail_[AXIS] = _MAX_INT_;
 
                 // Halt
-                if (tf2.halt:@s = 1) $mot.end = 1;
+                if (tf2.halt:@s = 1) {$mot.end = 1;}
             }},
             ["x", "y", "z"]
         );

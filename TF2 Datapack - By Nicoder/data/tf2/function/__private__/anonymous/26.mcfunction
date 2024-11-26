@@ -8,7 +8,7 @@ scoreboard players set @s tf2.hitbox_z 250
 scoreboard players operation @s tf2.halt = $gren.sticky tf2.var
 scoreboard players set @s tf2.friction 980
 scoreboard players set @s tf2.collision_friction 950
-execute if score $gren.sticky tf2.var matches 1 run function tf2:__private__/if_else/39
+execute if score $gren.sticky tf2.var matches 1.. run function tf2:__private__/if_else/39
 function tf2:math/random_quaternion
 scoreboard players operation @s tf2.quaternion_r = $output_quaternion_r tf2.var
 scoreboard players operation @s tf2.quaternion_i = $output_quaternion_i tf2.var

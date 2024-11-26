@@ -1,4 +1,2 @@
-scoreboard players set $surface_x tf2.var 0
-scoreboard players operation $surface_y tf2.var = @s tf2.collision_y
-scoreboard players set $surface_z tf2.var 0
-function tf2:grenade/roll
+scoreboard players operation @s tf2.ang_vel_y *= 800 tf2.const
+scoreboard players operation @s tf2.ang_vel_y /= 1000 tf2.const

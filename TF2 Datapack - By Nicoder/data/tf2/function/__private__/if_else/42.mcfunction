@@ -1,2 +1,3 @@
-scoreboard players operation @s tf2.ang_vel_y *= 800 tf2.const
-scoreboard players operation @s tf2.ang_vel_y /= 1000 tf2.const
+execute if entity @s[tag=!tf2.has_hit_wall,tag=!tf2.sticky] run return run function tf2:grenade/explode
+execute if entity @s[tag=!tf2.has_hit_object] run function tf2:__private__/if_else/41
+tag @s add tf2.has_hit_object

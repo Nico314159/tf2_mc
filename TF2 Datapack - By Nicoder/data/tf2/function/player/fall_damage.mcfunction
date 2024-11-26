@@ -5,7 +5,7 @@ scoreboard players operation $previous_dy tf2.var -= @s tf2.fall_y1
 scoreboard players operation $current_dy tf2.var = @s tf2.fall_y1
 scoreboard players operation $current_dy tf2.var -= @s tf2.fall_y
 scoreboard players set __if_else__ tf2.var 0
-execute if score $previous_dy tf2.var >= $current_dy tf2.var run function tf2:__private__/if_else/58
+execute if score $previous_dy tf2.var >= $current_dy tf2.var run function tf2:__private__/if_else/62
 execute if score __if_else__ tf2.var matches 0 run scoreboard players operation $impact_velocity tf2.var = $current_dy tf2.var
 scoreboard players operation $impact_velocity tf2.var *= 1050 tf2.const
 execute if score $impact_velocity tf2.var matches ..94000 run scoreboard players set $impact_velocity tf2.var 0
