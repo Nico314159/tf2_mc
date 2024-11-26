@@ -347,10 +347,8 @@ class Math {
                 $output_quaternion_[PARAM] *= $output;
                 $output_quaternion_[PARAM] /= 1000;
             },
-            [
-                ["x", "y", "z"],
-                ["i", "j", "k"]
-            ]
+            [["x", "y", "z"],
+             ["i", "j", "k"]]
         );
     }
 
@@ -439,23 +437,16 @@ class Math {
 
 
     function test_sine_and_cosine() {
-        Hardcode.repeat(
-            "[VALUE]",
+        Hardcode.repeat("[VALUE]",
             () => {
                 $input = [VALUE];
                 this.cosine();
                 $cosine = $output;
                 this.sine();
                 $sine = $output;
-                tellraw @a [
-                    "angle: ", {"score":{"name":"$input","objective":"tf2.var"}},
-                    ", cosine: ", {"score":{"name":"$cosine","objective":"tf2.var"}},
-                    ", sine: ", {"score":{"name":"$sine","objective":"tf2.var"}}
-                ];
+                Text.tellraw(@a, "angle: &<$input>, cosine: &<$cosine>, sine: &<$sine>");
             },
-            0,
-            3599,
-            50
+            start=0, stop=3599, step=50
         );
     }
 }

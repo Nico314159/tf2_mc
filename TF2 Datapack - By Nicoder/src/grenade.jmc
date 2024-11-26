@@ -2,13 +2,13 @@ class Grenade {
     // Spawns a grenade and throws it in the direction the executing entity is looking
     function toss() {
         gren::grenade = {sticky:0};
-        scoreboard players set $launch_speed tf2.var GRENADE_LAUNCH_SPEED;
+        $launch_speed = GRENADE_LAUNCH_SPEED;
         this.toss_internal();
     }
 
     function sticky_toss() {
         gren::grenade = {sticky:1};
-        scoreboard players set $launch_speed tf2.var STICKY_BOMB_LAUNCH_SPEED;
+        $launch_speed = STICKY_BOMB_LAUNCH_SPEED;
         this.toss_internal();
     }
 
@@ -20,7 +20,7 @@ class Grenade {
             () => {
                 $output_vector_[AXIS] *= $launch_speed;
                 $output_vector_[AXIS] /= 1000;
-                gren::grenade.mot_[AXIS] = (int) $output_vector_[AXIS];
+                gren::grenade.mot_[AXIS] = $output_vector_[AXIS];
             },
             ["x", "y", "z"]
         );
@@ -110,7 +110,7 @@ class Grenade {
         }
         
         // Apply motion
-        execute if entity @s[tag=!tf2.stuck] run Motion.move();
+        if (entity @s[tag=!tf2.stuck]) Motion.move();
 
         // Roll on the ground
         if (tf2.collision_y:@s = -1) {
@@ -119,11 +119,15 @@ class Grenade {
 
         // Detect hitting players and objects
         $hit_object = 0;
-        execute positioned ~-0.55 ~-1.15 ~-0.55 if entity @a[dx=0.1,dy=1.3,dz=0.1] run $hit_object = 1;
-        execute positioned ~-0.55 ~-1.15 ~-0.55 if entity @e[type=armor_stand,dx=0.1,dy=1.3,dz=0.1] run $hit_object = 1;
+        execute positioned ~-0.55 ~-1.15 ~-0.55 
+                if entity @a[dx=0.1,dy=1.3,dz=0.1] 
+                run $hit_object = 1;
+        execute positioned ~-0.55 ~-1.15 ~-0.55 
+                if entity @e[type=armor_stand,dx=0.1,dy=1.3,dz=0.1]
+                run $hit_object = 1;
         if ($hit_object == 0) tag @s add tf2.has_escaped_player;
         if ($hit_object == 1) execute if entity @s[tag=tf2.has_escaped_player] run {
-            execute if entity @s[tag=!tf2.has_hit_wall,tag=!tf2.sticky] run return run this.explode();
+            if (entity @s[tag=!tf2.has_hit_wall,tag=!tf2.sticky]) {return run this.explode();}
             execute if entity @s[tag=!tf2.has_hit_object] run {
                 Hardcode.repeatList(
                     "[AXIS]",
@@ -139,7 +143,7 @@ class Grenade {
         }
 
         // Reduce speed when it hits a wall
-        if (!(tf2.collision_x:@s == 0) || !(tf2.collision_z:@s == 0)) {
+        if (tf2.collision_x:@s != 0 || tf2.collision_z:@s != 0) {
             Hardcode.repeatList(
                 "[AXIS]",
                 () => {
@@ -156,7 +160,7 @@ class Grenade {
         // Apply bounces
         Hardcode.repeatList(
             "[AXIS]",
-            () => { if (!(tf2.collision_[AXIS]:@s = 0)) tf2.mot_[AXIS]:@s *= -1; },
+            () => { if (tf2.collision_[AXIS]:@s != 0) tf2.mot_[AXIS]:@s *= -1; },
             ["x", "y", "z"]
         );
 
@@ -187,15 +191,15 @@ class Grenade {
             );
 
             // Apply angular acceleration based on surface grinding
-            if (!(tf2.collision_x:@s == 0)) {
+            if (tf2.collision_x:@s != 0) {
                 $surface_x = tf2.collision_x:@s; $surface_y = 0; $surface_z = 0;
                 this.roll();
             }
-            if (!(tf2.collision_y:@s == 0)) {
+            if (tf2.collision_y:@s != 0) {
                 $surface_x = 0; $surface_y = tf2.collision_y:@s; $surface_z = 0;
                 this.roll();
             }
-            if (!(tf2.collision_z:@s == 0)) {
+            if (tf2.collision_z:@s != 0) {
                 $surface_x = 0; $surface_y = 0; $surface_z = tf2.collision_z:@s;
                 this.roll();
             }

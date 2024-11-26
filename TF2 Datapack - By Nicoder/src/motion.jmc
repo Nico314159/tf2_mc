@@ -73,8 +73,10 @@ class Motion {
             $mot.distance_tail_[AXIS] *= $mot.motion_tail_[AXIS];
             $mot.distance_head_[AXIS] /= 500;
             $mot.distance_tail_[AXIS] /= 500;
-            if (tf2.mot_[AXIS]:@s = 0) $mot.distance_head_[AXIS] = _MAX_INT_;
-            if (tf2.mot_[AXIS]:@s = 0) $mot.distance_tail_[AXIS] = _MAX_INT_;
+            if (tf2.mot_[AXIS]:@s = 0) expand {
+                $mot.distance_head_[AXIS] = _MAX_INT_;
+                $mot.distance_tail_[AXIS] = _MAX_INT_;
+            }
             
             }, ["x", "y", "z"]
         );
@@ -86,7 +88,7 @@ class Motion {
         tf2.collision:@s = 0;
         Hardcode.repeatList(
             "[AXIS]",
-            () => { if (!(tf2.collision_[AXIS]:@s = 0)) tf2.collision:@s = 1; },
+            () => { if (tf2.collision_[AXIS]:@s != 0) tf2.collision:@s = 1; },
             ["x", "y", "z"]
         );
 
@@ -96,7 +98,7 @@ class Motion {
             Hardcode.repeatList(
                 "[AXIS]",
                 () => {
-                    if (!(tf2.collision_[AXIS]:@s = 0)) {
+                    if (tf2.collision_[AXIS]:@s != 0) {
                         $mot.numerator = $mot.motion_head_[AXIS];
                         $mot.denominator = tf2.mot_[AXIS]:@s;
                     }
@@ -285,7 +287,7 @@ class Motion {
         );
 
         // Adjust motion if a collision is detected
-        if ($mot.collision = 1) {
+        if ($mot.collision == 1) {
             this.collision();
         } else {
             // Continue traversing at current position if there was no collision
@@ -298,12 +300,14 @@ class Motion {
 
     // Checks if the current block is solid
     function block() {
-        if ($mot.collision = 0) execute if block ~ ~ ~ #minecraft:slabs run this.slabs();
-        if ($mot.collision = 0) execute if block ~ ~ ~ #minecraft:stairs run this.stairs();
-        if ($mot.collision = 0) execute unless block ~ ~ ~ #tf2:motion_passable run $mot.collision = 1;
+        if ($mot.collision = 0) expand {
+            if (block ~ ~ ~ #minecraft:slabs) this.slabs();
+            if (block ~ ~ ~ #minecraft:stairs) this.stairs();
+            if (!block ~ ~ ~ #tf2:motion_passable) $mot.collision = 1;
+        }
 
         // Stop scanning hitbox if there was a collision
-        if ($mot.collision = 1) {
+        if ($mot.collision == 1) {
             Hardcode.repeatList(
                 "[AXIS]",
                 () => { $mot.temp_hitbox_[AXIS] = -1; },
@@ -316,9 +320,9 @@ class Motion {
     function slabs() {
         $mot.subblock_y %= 2;
 
-        execute if block ~ ~ ~ #minecraft:slabs[type=double] run $mot.collision = 1;
-        if ($mot.subblock_y = 1) execute if block ~ ~ ~ #minecraft:slabs[type=top   ] run $mot.collision = 1;
-        if ($mot.subblock_y = 0) execute if block ~ ~ ~ #minecraft:slabs[type=bottom] run $mot.collision = 1;
+        if (block ~ ~ ~ #minecraft:slabs[type=double]) $mot.collision = 1;
+        if ($mot.subblock_y = 1 && block ~ ~ ~ #minecraft:slabs[type=top   ]) $mot.collision = 1;
+        if ($mot.subblock_y = 0 && block ~ ~ ~ #minecraft:slabs[type=bottom]) $mot.collision = 1;
     }
 
     // Checks if the current position collides with a stair
@@ -329,46 +333,46 @@ class Motion {
             ["x", "y", "z"]
         );
         
-        if ($mot.subblock_y = 1) execute if block ~ ~ ~ #minecraft:stairs[half=top   ] run $mot.collision = 1;
-        if ($mot.subblock_y = 0) execute if block ~ ~ ~ #minecraft:stairs[half=bottom] run $mot.collision = 1;
+        if ($mot.subblock_y = 1 && block ~ ~ ~ #minecraft:stairs[half=top   ]) $mot.collision = 1;
+        if ($mot.subblock_y = 0 && block ~ ~ ~ #minecraft:stairs[half=bottom]) $mot.collision = 1;
 
-        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=straight,facing=west ] run $mot.collision = 1;
-        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=straight,facing=east ] run $mot.collision = 1;
-        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=straight,facing=north] run $mot.collision = 1;
-        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=straight,facing=south] run $mot.collision = 1;
-
-
-
-        if ($mot.subblock_x = 0 && $mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=north] run $mot.collision = 1;
-        if ($mot.subblock_x = 0 && $mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=west ] run $mot.collision = 1;
-        if ($mot.subblock_x = 1 && $mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=east ] run $mot.collision = 1;
-        if ($mot.subblock_x = 1 && $mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=north] run $mot.collision = 1;
-        if ($mot.subblock_x = 0 && $mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=west ] run $mot.collision = 1;
-        if ($mot.subblock_x = 0 && $mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=south] run $mot.collision = 1;
-        if ($mot.subblock_x = 1 && $mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=south] run $mot.collision = 1;
-        if ($mot.subblock_x = 1 && $mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=east ] run $mot.collision = 1;
+        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=straight,facing=west ]) $mot.collision = 1;
+        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=straight,facing=east ]) $mot.collision = 1;
+        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=straight,facing=north]) $mot.collision = 1;
+        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=straight,facing=south]) $mot.collision = 1;
 
 
 
-        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=north] run $mot.collision = 1;
-        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=north] run $mot.collision = 1;
-        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=west ] run $mot.collision = 1;
-        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=west ] run $mot.collision = 1;
+        if ($mot.subblock_x = 0 && $mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=north]) $mot.collision = 1;
+        if ($mot.subblock_x = 0 && $mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=west ]) $mot.collision = 1;
+        if ($mot.subblock_x = 1 && $mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=east ]) $mot.collision = 1;
+        if ($mot.subblock_x = 1 && $mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=north]) $mot.collision = 1;
+        if ($mot.subblock_x = 0 && $mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=west ]) $mot.collision = 1;
+        if ($mot.subblock_x = 0 && $mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=south]) $mot.collision = 1;
+        if ($mot.subblock_x = 1 && $mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=south]) $mot.collision = 1;
+        if ($mot.subblock_x = 1 && $mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=east ]) $mot.collision = 1;
 
-        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=east ] run $mot.collision = 1;
-        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=east ] run $mot.collision = 1;
-        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=north] run $mot.collision = 1;
-        if ($mot.subblock_z = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=north] run $mot.collision = 1;
 
-        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=west ] run $mot.collision = 1;
-        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=west ] run $mot.collision = 1;
-        if ($mot.subblock_x = 0) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=south] run $mot.collision = 1;
-        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=south] run $mot.collision = 1;
 
-        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=south] run $mot.collision = 1;
-        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=south] run $mot.collision = 1;
-        if ($mot.subblock_x = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=east ] run $mot.collision = 1;
-        if ($mot.subblock_z = 1) execute if block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=east ] run $mot.collision = 1;
+        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=north]) $mot.collision = 1;
+        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=north]) $mot.collision = 1;
+        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=west ]) $mot.collision = 1;
+        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=west ]) $mot.collision = 1;
+
+        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=east ]) $mot.collision = 1;
+        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=east ]) $mot.collision = 1;
+        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=north]) $mot.collision = 1;
+        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=north]) $mot.collision = 1;
+
+        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=west ]) $mot.collision = 1;
+        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=west ]) $mot.collision = 1;
+        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=south]) $mot.collision = 1;
+        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=south]) $mot.collision = 1;
+
+        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=south]) $mot.collision = 1;
+        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=south]) $mot.collision = 1;
+        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=east ]) $mot.collision = 1;
+        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=east ]) $mot.collision = 1;
     }
 
     // Handles collision events
