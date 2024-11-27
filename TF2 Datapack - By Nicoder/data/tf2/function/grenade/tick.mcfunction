@@ -17,6 +17,7 @@ execute unless score @s tf2.collision_y matches 0 run scoreboard players operati
 execute unless score @s tf2.collision_z matches 0 run scoreboard players operation @s tf2.mot_z *= -1 tf2.const
 tag @s[tag=tf2.sticky,scores={tf2.collision=1}] add tf2.stuck
 execute if entity @s[tag=!tf2.stuck] run function tf2:__private__/if_else/50
+execute if entity @s[tag=tf2.sticky] run return 1
 particle minecraft:smoke ~ ~ ~ 0 0 0 0 1
 scoreboard players add @s tf2.timer 1
 execute if score @s tf2.timer matches 60.. run function tf2:grenade/explode

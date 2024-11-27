@@ -243,7 +243,7 @@ class Grenade {
         }
 
 
-
+        if (entity @s[tag=tf2.sticky]) return 1;
         // Explosion mechanic
         particle minecraft:smoke ~ ~ ~ 0 0 0 0 1;
         tf2.timer:@s += 1;
