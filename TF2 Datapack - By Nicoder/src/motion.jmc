@@ -131,19 +131,10 @@ class Motion {
         );
         this.final_position() with motion::pos;
 
-        // Apply friction and restore motion to normal
-        tf2.friction:@s ??= 1000;
-        tf2.collision_friction:@s ??= 1000;
-        $mot.friction = tf2.friction:@s;
-        if (tf2.collision:@s = 1) {
-            $mot.friction *= tf2.collision_friction:@s;
-            $mot.friction /= 1000;
-        }
+        // Restore motion signs to normal
         Hardcode.repeatList(
             "[AXIS]",
             () => {
-                tf2.mot_[AXIS]:@s *= $mot.friction;
-                tf2.mot_[AXIS]:@s /= 1000;
                 tf2.mot_[AXIS]:@s *= $mot.sign_[AXIS];
             },
             ["x", "y", "z"]
@@ -180,7 +171,7 @@ class Motion {
             $mot.distance_tail_y = _MAX_INT_ &&
             $mot.distance_tail_z = _MAX_INT_
         ) {
-            $mot.end = 1;
+            $mot.end = true;
 
         } else {
 
@@ -206,7 +197,7 @@ class Motion {
             );
 
             // Repeat step if check failed
-            if ($mot.end = 0) this.traverse();
+            if ($mot.end == 0) this.traverse();
         }
 
 

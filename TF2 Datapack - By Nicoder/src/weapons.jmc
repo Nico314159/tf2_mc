@@ -314,7 +314,7 @@ class Weapons {
 
         retina.__variable__:$func_id = 100;
         if (predicate tf2:holding_projectile) {
-            this.projectile();
+            Generalized_Projectile.spawn();
         }
         if (!predicate tf2:holding_projectile) {
             this.hitscan();
@@ -390,6 +390,8 @@ class Weapons {
         function retina:traverse/multicast;
         function retina:traverse/multicast;
     }
+
+    // DEPRECATED
     function projectile() {
         // testing code
         tf2.team:$temp = tf2.team:@s;
@@ -469,6 +471,7 @@ class Weapons {
             tag @s remove tf2.new;
         }
     }
+
     function get_ammo() {
         if (tf2.current_slot:@s == 0) return run {
             $_clip_    = tf2.primary_clip:@s;
@@ -709,3 +712,4 @@ class Weapons {
 }
 
 import 'projectile.jmc';
+import 'new_projectile.jmc';

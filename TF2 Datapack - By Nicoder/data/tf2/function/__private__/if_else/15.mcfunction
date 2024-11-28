@@ -1,2 +1,3 @@
-execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=2,tf2.batch_number=0},limit=24,sort=random] run function tf2:start_game/as_players/generic
-scoreboard players set __if_else__ tf2.var 1
+execute store result score $mu tf2.var run data get storage tf2:forces collision_friction 1000
+scoreboard players operation $friction tf2.var *= $mu tf2.var
+scoreboard players operation $friction tf2.var /= 1000 tf2.const

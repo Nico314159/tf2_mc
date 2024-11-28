@@ -9,5 +9,5 @@ execute if score $mot.step tf2.var matches 1 if score $mot.sign_y tf2.var matche
 execute if score $mot.step tf2.var matches 2 if score $mot.sign_z tf2.var matches -1 run function tf2:motion/hitbox_z_x
 execute if score $mot.step tf2.var matches 2 if score $mot.sign_z tf2.var matches 1 run function tf2:motion/hitbox_z_z
 scoreboard players set __if_else__ tf2.var 0
-execute if score $mot.collision tf2.var matches 1 run function tf2:__private__/if_else/37
+execute if score $mot.collision tf2.var matches 1 run function tf2:__private__/if_else/41
 execute if score __if_else__ tf2.var matches 0 run function tf2:motion/traverse

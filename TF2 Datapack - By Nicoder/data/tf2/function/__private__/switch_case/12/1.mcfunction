@@ -1,1 +1,1 @@
-data modify storage tf2:lookup points[0].progress set value '[{"text":"321b0a0#@","color":"#517AB8"}]'
+data modify storage tf2:lookup points[0].progress set value '[{"text":"321#!)|a0b0)","color":"#D95A58"}]'

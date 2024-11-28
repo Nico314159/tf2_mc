@@ -1,2 +1,2 @@
-tag @s add tf2.sticky
-item replace entity @s contents with minecraft:lime_concrete
+scoreboard players set $mot.end tf2.var 1
+scoreboard players set __if_else__ tf2.var 1

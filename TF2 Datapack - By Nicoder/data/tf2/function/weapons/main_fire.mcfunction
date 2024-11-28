@@ -21,7 +21,7 @@ execute unless data storage tf2:lookup item.components.minecraft:custom_data.att
 execute unless data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
 execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
 scoreboard players set $func_id retina.__variable__ 100
-execute if predicate tf2:holding_projectile run function tf2:weapons/projectile
+execute if predicate tf2:holding_projectile run function tf2:generalized_projectile/spawn
 execute unless predicate tf2:holding_projectile run function tf2:weapons/hitscan
 execute store result score $_delay_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.attackDelay 20000
 scoreboard players operation @s tf2.attack_delay += $_delay_ tf2.var

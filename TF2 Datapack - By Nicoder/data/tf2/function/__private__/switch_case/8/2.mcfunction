@@ -1,3 +1,4 @@
-data modify storage tf2:lookup points[0].left set value '{"text":"20"}'
-data modify storage tf2:lookup points[0].mid set value '{"text":"6420"}'
-data modify storage tf2:lookup points[0].right set value '{"text":""}'
+execute store result score $impact_if_first tf2.var run data get entity @s item.components.minecraft:custom_data.projectile.entity_collide.impact_if_first
+scoreboard players set __if_else__ tf2.var 0
+execute if score $impact_if_first tf2.var matches 1.. if entity @s[tag=!tf2.has_hit_wall,tag=!tf2.has_hit_entity] run function tf2:__private__/if_else/18
+execute if score __if_else__ tf2.var matches 0 run function tf2:generalized_projectile/entity_bounce

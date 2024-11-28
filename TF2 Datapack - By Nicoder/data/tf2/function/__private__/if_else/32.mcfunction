@@ -1,2 +1,2 @@
-scoreboard players operation $mot.numerator tf2.var = $mot.motion_head_z tf2.var
-scoreboard players operation $mot.denominator tf2.var = @s tf2.mot_z
+scoreboard players operation $mot.motion_tail_y tf2.var *= -1 tf2.const
+scoreboard players add $mot.motion_tail_y tf2.var 500

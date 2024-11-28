@@ -1,4 +1,4 @@
-execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 125
-attribute @s minecraft:movement_speed base set 0.132
-function tf2:class/sniper/give
-scoreboard players set __found_case__ tf2.var 1
+execute store result score $impact_if_first tf2.var run data get entity @s item.components.minecraft:custom_data.projectile.block_collide.impact_if_first
+scoreboard players set __if_else__ tf2.var 0
+execute if score $impact_if_first tf2.var matches 1.. if entity @s[tag=!tf2.has_hit_wall,tag=!tf2.has_hit_entity] run function tf2:__private__/if_else/16
+execute if score __if_else__ tf2.var matches 0 run function tf2:generalized_projectile/block_bounce

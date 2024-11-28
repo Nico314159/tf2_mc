@@ -1,0 +1,327 @@
+class Generalized_Projectile {
+    function spawn() {
+        // testing code
+        tf2.team:$temp = tf2.team:@s;
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        Math.facing_vector();
+        summon::projectile = {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
+
+        // Convert HU/sec -> blocks/sec
+        summon::projectile.speed = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.speed;
+        summon::projectile.speed_range = lookup::item.components.minecraft:custom_data.projectile.speed_range;
+        if (data storage tf2:summon projectile.speed_range) {
+            summon::projectile.speed = 0.01905 * (double) Math.macro_random() 
+                                       with summon::projectile.speed_range;
+        }
+        // Convert blocks/sec -> blocks/tick
+        summon::projectile.speed = EVAL(1  / 20_000) * (double) summon::projectile.speed * 1000;
+
+        summon::projectile.deviation = lookup::item.components.minecraft:custom_data.projectile.deviation;
+        if (data storage tf2:summon projectile.deviation) {
+            Projectile.deviation();
+        }
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { 
+                $mot.mot_[AXIS] = summon::projectile.speed * 1000;
+                $mot.mot_[AXIS] *= $output_vector_[AXIS];
+                $mot.mot_[AXIS] /= 1000;
+            },
+            ["x", "y", "z"]
+        );
+
+        summon::projectile.yaw = -0.1 * (double) $input_yaw;
+        summon::projectile.pitch = -0.1 * (double) $input_pitch;
+        summon::projectile.weapon = lookup::item;
+
+        $relative_to_player = lookup::item.components.minecraft:custom_data.projectile.relative_to_player;
+        if ($relative_to_player) { Projectile.compensate_velocity(); }
+
+        summon::projectile.spawnX = lookup::item.components.minecraft:custom_data.projectile.spawn[0];
+        summon::projectile.spawnY = lookup::item.components.minecraft:custom_data.projectile.spawn[1];
+        summon::projectile.spawnZ = lookup::item.components.minecraft:custom_data.projectile.spawn[2];
+        summon::projectile.weapon_name = lookup::item.components.minecraft:custom_name;
+        summon::projectile.CMD = 100 * lookup::item.components.minecraft:custom_model_data;
+        summon::projectile.owner = @s::UUID;
+        Hardcode.repeatList("|property|", () => {
+            $|property| = lookup::item.components.minecraft:custom_data.projectile.|property|;
+        }, Projectile.SPECIAL_PROPERTIES);
+        summon::projectile.no_gravity ?= execute if score $gravity tf2.var matches 0;
+
+        execute at @s anchored eyes 
+                run this.spawn_internal()
+                with summon::projectile;
+
+        execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
+            tf2.age:@s = 0;
+            tf2.team:@s = tf2.team:$temp;
+            tf2.batch_number:@s = execute on vehicle run tf2.batch_number:@s = tf2.batch_number:$local;
+
+            tf2.model_number:@s = summon::projectile.CMD;
+            @s::billboard = lookup::item.components.minecraft:custom_data.projectile.billboard;
+            @s::item.components.minecraft:custom_data.attributes = lookup::item.components.minecraft:custom_data.attributes;
+            @s::item.components.minecraft:custom_data.projectile = lookup::item.components.minecraft:custom_data.projectile;
+            
+            tf2.lifetime:@s = Projectile.calc_lifetime();
+
+            @s::item.components.minecraft:custom_name = summon::projectile.weapon_name; 
+
+            Hardcode.repeatList("|property|", () => {
+                if ($|property|) {
+                    tag @s add tf2.|property|;
+                }
+            }, Projectile.SPECIAL_PROPERTIES);
+
+            Grenade.get_pos();
+            Hardcode.repeatLists(
+                ["[AXIS]", "[INDEX]"],
+                () => {
+                    tf2.mot_[AXIS]:@s = $mot.mot_[AXIS];
+                    tf2.hitbox_[AXIS]:@s = GRENADE_SIZE;
+                },
+                [
+                    ["x", "y", "z"],
+                    ["0", "1", "2"]
+                ]
+            );
+
+            if (data storage tf2.lookup item.components.minecraft:custom_data.projectile.forces.torque) {
+                Math.random_quaternion();
+                Hardcode.repeatList(
+                    "[PARAM]",
+                    () => { tf2.quaternion_[PARAM]:@s = $output_quaternion_[PARAM]; },
+                    ["r", "i", "j", "k"]
+                );
+
+                Math.random_vector();
+                Hardcode.repeatList(
+                    "[AXIS]",
+                    () => {
+                        tf2.ang_vel_[AXIS]:@s = $output_vector_[AXIS];
+                        tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_SPEED;
+                        tf2.ang_vel_[AXIS]:@s /= 1000;
+                    },
+                    ["x", "y", "z"]
+                );
+            }
+
+            tag @s remove tf2.new;
+        }
+    }
+    function spawn_internal() {
+        $ summon item_display ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
+            Rotation: [$(yaw)f, $(pitch)f],
+            Tags: ["tf2.projectile", "tf2.new"],
+            item: {id: "minecraft:glowstone_dust", components:{
+                "minecraft:custom_model_data": $(CMD), 
+                "minecraft:custom_data": {}
+            }},
+            start_interpolation: -1,
+            item_display: "ground",
+            transformation: {
+                right_rotation: [0.0f, 0.0f, 0.0f, 1.0f],
+                scale: [GRENADE_SCALE, GRENADE_SCALE, GRENADE_SCALE],
+                left_rotation: [0.0f, 0.0f, 0.0f, 1.0f],
+                translation: [0.0f, 0.0f, 0.0f]
+            },
+            interpolation_duration: 1,
+            teleport_duration: 1
+        };
+    }
+
+
+
+    function tick() {
+        if (entity @s[tag=tf2.has_trail]) {
+            execute at @s run Projectile.trail();
+        }
+        if (entity @s[tag=tf2.animated]) {
+            Projectile.animate();
+        }
+
+
+        if (entity @s[tag=!tf2.stuck]) {
+            Motion.move(); 
+        }
+        if (entity @s[tag=!tf2.stuck] && 
+            data entity @s item.components.minecraft:custom_data.projectile.forces) {
+            this.apply_forces();
+        }
+
+
+        if (tf2.collision:@s) {
+            this.handle_block_collision();
+        }
+
+        this.check_entity_collision() with vars::;
+        if ($hit_entity == 0) { tag @s add tf2.has_escaped_player; }
+        if ($hit_entity == 1 && entity @s[tag=tf2.has_escaped_player]) {
+            this.handle_entity_collision();
+        }
+
+        execute as @e[type=#tf2:player_like,tag=tf2.batch] run Projectile.remove_tags();
+        tf2.age:@s++;
+        if (tf2.age:@s > tf2.lifetime:@s) {
+            tag @s add tf2.delete;
+        }
+        if (entity @s[tag=tf2.delete]) {
+            kill @s;
+        }
+    }
+
+    function apply_forces() {
+        forces::{} += @s::item.components.minecraft:custom_data.projectile.forces;
+
+        $gravity = forces::gravity * 1000;
+        tf2.mot_y:@s -= $gravity;
+
+
+        $friction = 1000;
+        if (data storage tf2:forces drag) {
+            $friction = forces::drag * 1000;
+        }
+        if (tf2.collision:@s && data storage tf2:forces collision_friction) {
+            $mu = forces::collision_friction * 1000;
+            $friction *= $mu;
+            $friction /= 1000;
+        }
+    
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                tf2.mot_[AXIS]:@s *= $friction;
+                tf2.mot_[AXIS]:@s /= 1000;
+            },
+            ["x", "y", "z"]
+        );
+    }
+
+    function handle_block_collision() {
+        $mode = @s::item.components.minecraft:custom_data.projectile.block_collide.mode;
+        
+        switch ($mode) {
+            case Collision.CONTINUE:
+            break;
+
+            case Collision.IMPACT:
+            this.impact();
+
+            case Collision.BOUNCE:
+            $impact_if_first = @s::item.components.minecraft:custom_data.projectile.block_collide.impact_if_first;
+            if ($impact_if_first && entity @s[tag=!tf2.has_hit_wall, tag=!tf2.has_hit_entity]) {
+                this.impact();
+            } 
+            else {
+                this.block_bounce();
+            }
+
+            case Collision.STICK:
+            tf2.halt:@s = true;
+            tag @s add tf2.stuck;
+        }
+    }
+    function block_bounce() {
+        $elasticity = @s::item.components.minecraft:custom_data.projectile.block_collide.elasticity * -1000;
+        // Reduce speed when it hits a wall
+        if (tf2.collision_x:@s != 0 || tf2.collision_z:@s != 0) {
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => {
+                    tf2.mot_[AXIS]:@s *= $elasticity;
+                    tf2.mot_[AXIS]:@s /= 1000;
+                },
+                ["x", "y", "z"]
+            );
+        }
+
+        // Flag for wall hits
+        tag @s[scores={tf2.collision=1}] add tf2.has_hit_wall;
+
+        // Apply bounces
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { if (tf2.collision_[AXIS]:@s != 0) tf2.mot_[AXIS]:@s *= -1; },
+            ["x", "y", "z"]
+        );
+
+        tag @s add tf2.has_hit_wall;
+    }
+
+
+
+    function check_entity_collision() {
+        // Narrow search space to only the current game
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        tag @e remove tf2.search;
+        execute as @e[type=#tf2:player_like]
+                if score @s tf2.batch_number
+                   = $local tf2.batch_number
+                unless entity @s[gamemode=spectator]
+                run tag @s add tf2.batch;
+        tag @e[tag=tf2.batch] add tf2.search;
+
+        // Passes through teammates during first 0.25 seconds
+        tf2.team:$temp = tf2.team:@s;
+        execute as @e[type=#tf2:player_like,tag=tf2.search]
+                unless score @s tf2.team = $temp tf2.team
+                run tag @s add tf2.opponent;
+        if (tf2.age:@s < 5) {
+            tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search;
+        }
+
+        // Detect hitting players and objects
+        tag @e remove tf2.hit_by_projectile;
+        $ execute positioned ~-$(offset) ~-$(offset) ~-$(offset) 
+                  as @n[tag=#tf2:player_like,tag=tf2.search,dx=$(volume),dy=$(volume),dz=$(volume)] 
+                  run tag @s add tf2.hit_by_projectile;
+
+        $hit_entity ?= execute if entity @e[tag=tf2.hit_by_projectile];
+    }
+    function handle_entity_collision() {
+        $mode = @s::item.components.minecraft:custom_data.projectile.entity_collide.mode;
+        
+        switch ($mode) {
+            case Collision.CONTINUE:
+            this.impact();
+            tag @s remove tf2.delete;
+
+            case Collision.IMPACT:
+            this.impact();
+
+            case Collision.BOUNCE:
+            $impact_if_first = @s::item.components.minecraft:custom_data.projectile.entity_collide.impact_if_first;
+            if ($impact_if_first && entity @s[tag=!tf2.has_hit_wall, tag=!tf2.has_hit_entity]) {
+                this.impact();
+            } 
+            else {
+                this.entity_bounce();
+            }
+        }
+    }
+    function entity_bounce() {
+        $elasticity = @s::item.components.minecraft:custom_data.projectile.entity_collide.elasticity * -1000;
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                tf2.mot_[AXIS]:@s *= $elasticity;
+                tf2.mot_[AXIS]:@s /= 1000;
+            },
+            ["x", "z"]
+        );
+        tag @s add tf2.has_hit_object;
+    }
+
+
+    function impact() {
+        tag @s add tf2.delete;
+        if (entity @s[tag=!tf2.explosion]) return run {
+            Projectile.simple_damage();
+        }
+
+        vars::radius = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.explosion.radius;
+        Projectile.explode() with vars::;
+    }
+
+
+}
+

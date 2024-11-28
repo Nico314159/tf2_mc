@@ -1,3 +1,3 @@
-execute if entity @s[tag=!tf2.has_hit_wall,tag=!tf2.sticky] run return run function tf2:grenade/explode
-execute if entity @s[tag=!tf2.has_hit_object] run function tf2:__private__/if_else/41
-tag @s add tf2.has_hit_object
+scoreboard players set $mot.temp_hitbox_x tf2.var -1
+scoreboard players set $mot.temp_hitbox_y tf2.var -1
+scoreboard players set $mot.temp_hitbox_z tf2.var -1
