@@ -30,8 +30,8 @@ class Generalized_Projectile {
             ["x", "y", "z"]
         );
 
-        summon::projectile.yaw = -0.1 * (double) $input_yaw;
-        summon::projectile.pitch = -0.1 * (double) $input_pitch;
+        summon::projectile.yaw = 0.1 * (double) $input_yaw;
+        summon::projectile.pitch = 0.1 * (double) $input_pitch;
         summon::projectile.weapon = lookup::item;
 
         $relative_to_player = lookup::item.components.minecraft:custom_data.projectile.relative_to_player;
