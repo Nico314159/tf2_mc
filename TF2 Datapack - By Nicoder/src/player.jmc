@@ -95,7 +95,7 @@ class Player {
                 cause: _MIN_INT_, 
                 kill_verb: "fell into the void"
             };
-            lookup::damages[-1].target = tf2.player_id:@s;
+            lookup::damages[-1].target = tf2.player.id:@s;
             tp @s ~ 5 ~;
         }
         if (entity @s[tag=tf2.dead]) {
@@ -199,7 +199,7 @@ class Player {
                 cause: _MIN_INT_, 
                 kill_verb: "drowned"
             };
-            lookup::damages[-1].target = tf2.player_id:@s;
+            lookup::damages[-1].target = tf2.player.id:@s;
         }
         tf2.time_surfaced:@s[predicate=!tf2:submerged] ++;
         if (tf2.time_surfaced:@s == 40) {

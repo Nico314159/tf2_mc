@@ -55,7 +55,7 @@ class Generalized_Projectile {
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
             tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
-            tf2.batch_number:@s = execute on vehicle run tf2.batch_number:@s = tf2.batch_number:$local;
+            tf2.batch_number:@s = tf2.batch_number:$local;
 
             tf2.model_number:@s = summon::projectile.CMD;
             @s::billboard = lookup::item.components.minecraft:custom_data.projectile.billboard;
@@ -153,6 +153,13 @@ class Generalized_Projectile {
             this.handle_block_collision();
         }
 
+        $width = tf2.hitbox_x:@s;
+        $margin = 500;
+        $width += $margin; // Optional
+        $width > 1000;
+        vars::offset = 0.0005 * (float) $width;
+        $width -= 1000;
+        vars::volume = 0.001 * (float) $width;
         this.check_entity_collision() with vars::;
         if ($hit_entity == 0) { tag @s add tf2.has_escaped_player; }
         if ($hit_entity == 1 && entity @s[tag=tf2.has_escaped_player]) {
@@ -197,7 +204,7 @@ class Generalized_Projectile {
     }
 
     function handle_block_collision() {
-        $mode = @s::item.components.minecraft:custom_data.projectile.block_collide.mode;
+        $mode = @s::item.components.minecraft:custom_data.projectile.block_collision.mode;
         
         switch ($mode) {
             case Collision.CONTINUE:
@@ -207,7 +214,7 @@ class Generalized_Projectile {
             this.impact();
 
             case Collision.BOUNCE:
-            $impact_if_first = @s::item.components.minecraft:custom_data.projectile.block_collide.impact_if_first;
+            $impact_if_first = @s::item.components.minecraft:custom_data.projectile.block_collision.impact_if_first;
             if ($impact_if_first && entity @s[tag=!tf2.has_hit_wall, tag=!tf2.has_hit_entity]) {
                 this.impact();
             } 
@@ -221,7 +228,7 @@ class Generalized_Projectile {
         }
     }
     function block_bounce() {
-        $elasticity = @s::item.components.minecraft:custom_data.projectile.block_collide.elasticity * -1000;
+        $elasticity = @s::item.components.minecraft:custom_data.projectile.block_collision.elasticity * -1000;
         // Reduce speed when it hits a wall
         if (tf2.collision_x:@s != 0 || tf2.collision_z:@s != 0) {
             Hardcode.repeatList(
@@ -272,13 +279,13 @@ class Generalized_Projectile {
         // Detect hitting players and objects
         tag @e remove tf2.hit_by_projectile;
         $ execute positioned ~-$(offset) ~-$(offset) ~-$(offset) 
-                  as @n[tag=#tf2:player_like,tag=tf2.search,dx=$(volume),dy=$(volume),dz=$(volume)] 
+                  as @n[type=#tf2:player_like,tag=tf2.search,dx=$(volume),dy=$(volume),dz=$(volume)] 
                   run tag @s add tf2.hit_by_projectile;
 
         $hit_entity ?= execute if entity @e[tag=tf2.hit_by_projectile];
     }
     function handle_entity_collision() {
-        $mode = @s::item.components.minecraft:custom_data.projectile.entity_collide.mode;
+        $mode = @s::item.components.minecraft:custom_data.projectile.entity_collision.mode;
         
         switch ($mode) {
             case Collision.CONTINUE:
@@ -289,7 +296,7 @@ class Generalized_Projectile {
             this.impact();
 
             case Collision.BOUNCE:
-            $impact_if_first = @s::item.components.minecraft:custom_data.projectile.entity_collide.impact_if_first;
+            $impact_if_first = @s::item.components.minecraft:custom_data.projectile.entity_collision.impact_if_first;
             if ($impact_if_first && entity @s[tag=!tf2.has_hit_wall, tag=!tf2.has_hit_entity]) {
                 this.impact();
             } 
@@ -299,7 +306,7 @@ class Generalized_Projectile {
         }
     }
     function entity_bounce() {
-        $elasticity = @s::item.components.minecraft:custom_data.projectile.entity_collide.elasticity * -1000;
+        $elasticity = @s::item.components.minecraft:custom_data.projectile.entity_collision.elasticity * -1000;
         Hardcode.repeatList(
             "[AXIS]",
             () => {
