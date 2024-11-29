@@ -322,6 +322,17 @@ class Generalized_Projectile {
 
 
     function impact() {
+        lookup::item = @s::item;
+        $_damage_ = lookup::item.components.minecraft:custom_data.attributes.damage.base;
+        $_selfDamage_ = lookup::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
+        $_maxRamp_ = lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
+        if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+        $_temporalFalloff_ = lookup::item.components.minecraft:custom_data.attributes.damage.temporalFalloff;
+        $_rangeDependent_ = lookup::item.components.minecraft:custom_data.attributes.damage.uniform;
+        $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
+
+        vars::weapon_name = lookup::item.components.minecraft:custom_name;
+
         tag @s add tf2.delete;
         if (entity @s[tag=!tf2.explosion]) return run {
             Projectile.simple_damage();
@@ -330,7 +341,6 @@ class Generalized_Projectile {
         vars::radius = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.explosion.radius;
         Projectile.explode() with vars::;
     }
-
 
 }
 

@@ -1,4 +1,5 @@
 execute store result score $_finalDamage_ tf2.var run function tf2:projectile/calculate_splash
+tellraw @a ["",{"text":" $_finalDamage_ = "},{"score":{"name":"$_finalDamage_","objective":"tf2.var"},"type":"score"}]
 execute if score $_finalDamage_ tf2.var matches 1.. run scoreboard players add $playersHurt tf2.var 1
 data modify storage tf2:lookup damages append value {}
 execute store result storage tf2:lookup damages[-1].cause int 1 run scoreboard players get @a[tag=tf2.origin,limit=1] tf2.player.id
