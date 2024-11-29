@@ -199,8 +199,9 @@ class Projectile {
     function simple_damage() {
         if (!entity @a[tag=tf2.hit,tag=tf2.opponent,scores={tf2.health=1..}]) {return fail;}
 
-        execute on vehicle on origin run tag @s add tf2.origin;
-
+        tf2.player.id:$temp = tf2.player.id:@s;
+        execute as @a if score @s tf2.player.id = $temp tf2.player.id run tag @s add tf2.origin;
+        
         $_finalDamage_ = $_damage_;
         if (!$_temporalFalloff_) expand {
             this.pythagorean_3D();
@@ -215,7 +216,7 @@ class Projectile {
         $_finalDamage_ /= 100;
 
         lookup::damages << {};
-        lookup::damages[-1].cause = tf2.player.id:@p[tag=tf2.origin];
+        lookup::damages[-1].cause = tf2.player.id:@s;
         lookup::damages[-1].target = tf2.player.id:@p[tag=tf2.hit];
         lookup::damages[-1].amount = $_finalDamage_;
         lookup::damages[-1].kill_verb = "killed";
@@ -227,7 +228,6 @@ class Projectile {
             this.callbacks() with vars::;
         }
 
-        execute on vehicle on origin run tag @s remove tf2.origin;
     }
     function callbacks() {
         // @needs_macro
@@ -281,11 +281,14 @@ class Projectile {
     function explode() {
         particle minecraft:explosion ~ ~ ~;
         $playersHurt = $_totalDamage_ = 0;
-        execute on vehicle on origin run tag @s add tf2.origin;
-        execute on vehicle on origin run tag @s add tf2.opponent;
+        tf2.player.id:$temp = tf2.player.id:@s;
+        execute as @a if score @s tf2.player.id = $temp tf2.player.id expand {
+            tag @s add tf2.origin;
+            tag @s add tf2.opponent;
+        }
 
         $ execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
-        execute on vehicle on origin run tag @s remove tf2.origin;
+        tag @a remove tf2.origin;
     }
     function wall_check() {
         tag @s add tf2.player;

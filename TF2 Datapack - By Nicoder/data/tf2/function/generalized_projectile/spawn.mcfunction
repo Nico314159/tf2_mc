@@ -1,4 +1,5 @@
 scoreboard players operation $temp tf2.team = @s tf2.team
+scoreboard players operation $temp tf2.player.id = @s tf2.player.id
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 function tf2:math/facing_vector
 data modify storage tf2:summon projectile set value {X:0.0,Y:0.0,Z:0.0,yaw:0.0,pitch:0.0,spawnX:0.0,spawnY:0.0,spawnZ:0.0}

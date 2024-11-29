@@ -2,6 +2,7 @@ class Generalized_Projectile {
     function spawn() {
         // testing code
         tf2.team:$temp = tf2.team:@s;
+        tf2.player.id:$temp = tf2.player.id:@s;
         tf2.batch_number:$local = tf2.batch_number:@s;
         Math.facing_vector();
         summon::projectile = {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
@@ -55,6 +56,7 @@ class Generalized_Projectile {
         execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run {
             tf2.age:@s = 0;
             tf2.team:@s = tf2.team:$temp;
+            tf2.player.id:@s = tf2.player.id:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
 
             tf2.model_number:@s = summon::projectile.CMD;

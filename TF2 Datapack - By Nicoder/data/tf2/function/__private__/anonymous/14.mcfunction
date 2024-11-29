@@ -1,5 +1,6 @@
 scoreboard players set @s tf2.age 0
 scoreboard players operation @s tf2.team = $temp tf2.team
+scoreboard players operation @s tf2.player.id = $temp tf2.player.id
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 execute store result score @s tf2.model_number run data get storage tf2:summon projectile.CMD
 data modify entity @s billboard set from storage tf2:lookup item.components.minecraft:custom_data.projectile.billboard
