@@ -23,8 +23,9 @@ make_weapon(
 		'spawn': [0.0, -0.45, 0.06], 
 		'speed': 990,
 		'deviation': {'min': 0, 'max': 200}, 
-		'gravity': true,
-		'ignore_env': true,
+		'forces': {'gravity': 0.08},
+		'block_collision': {'mode': Collision.STICK},
+		'entity_collision': {'mode': Collision.IMPACT},
 		'unreflectable': true
 	},
 	controls={'reload': 3},

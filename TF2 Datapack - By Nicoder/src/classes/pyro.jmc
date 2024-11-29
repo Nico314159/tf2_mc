@@ -29,7 +29,9 @@ make_weapon(
 		'relative_to_player': true,
 		'unreflectable': true,
 		'animated': true,
-		'convection': {'factor': 0.007}
+		'forces': {'gravity': -0.007, 'drag': 0.99},
+		'block_collision': {'mode': Collision.CONTINUE},
+		'entity_collision': {'mode': Collision.CONTINUE},
 	},
 	controls={'main_fire': true, 'alt_fire': true, 'reload': 0},
 	team_specific=True
