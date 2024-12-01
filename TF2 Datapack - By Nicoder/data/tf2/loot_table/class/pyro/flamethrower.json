@@ -53,7 +53,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{attributes:{damage:{base:9,temporalFalloff:true},attackDelay:0.07,clip:200,ammo:0,isProjectile:true,interpolate_rmb:5,on_hit:[\"execute as @p[tag=tf2.hit_by_projectile] run function tf2:class/pyro/ignite\"]},projectile:{spawn:[0.0,-0.6,0.247675],speed_range:{min:400,max:550},deviation:{min:75,max:300},lifetime_range:{min:10,max:14},drag:true,ignore_env:true,billboard:'center',relative_to_player:true,unreflectable:true,animated:true,forces:{gravity:-0.007,drag:0.99},block_collision:{mode:0},entity_collision:{mode:0}},controls:{main_fire:true,alt_fire:true,reload:0},key:70}"
+                            "tag": "{attributes:{damage:{base:9,temporalFalloff:true},attackDelay:0.07,clip:200,ammo:0,isProjectile:true,interpolate_rmb:5,on_hit:[\"execute as @p[tag=tf2.hit_by_projectile] run function tf2:class/pyro/ignite\"]},projectile:{spawn:[0.0,-0.6,0.247675],speed_range:{min:400,max:550},deviation:{min:75,max:300},lifetime_range:{min:10,max:14},hitbox:24,billboard:'center',relative_to_player:true,unreflectable:true,animated:true,forces:{gravity:-0.007,drag:0.99},block_collision:{mode:0},entity_collision:{mode:0}},controls:{main_fire:true,alt_fire:true,reload:0},key:70}"
                         }
                     ]
                 }
