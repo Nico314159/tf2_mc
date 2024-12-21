@@ -1,0 +1,33 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "tf2:melee_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 4050
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Bottle",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:5},attributes:{damage:{base:65},attackDelay:0.8,range:3.2,isMelee:true},controls:{main_fire:true,alt_fire:false,reload:0},key:52}"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

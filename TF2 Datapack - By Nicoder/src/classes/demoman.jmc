@@ -1,0 +1,118 @@
+new trim_pattern(demoman) {
+    "asset_id": "tf2:demoman",
+    "description": {
+        "translate": "trim_pattern.tf2.demoman"
+    },
+    "template_item": "minecraft:stick"
+}
+generate_body_model(demoman);
+
+JMC.python(`
+make_weapon(
+    Class.DEMOMAN, slot=0, 
+    name='Grenade Launcher',
+    display_name="Grenade Launcher (WIP)",
+    attributes={'damage': {'base': 100, 'uniform': true}, 'attackDelay': 0.6, 'reloadDelay': [1.24, 0.6], 'clip': 4, 'ammo': 16, 'isProjectile': true},
+    projectile={
+        'spawn': [0, 0, 0], 
+        'explosion': {'radius': 100, 'selfDamage': 38}, 
+        'speed': 1216,
+        'forces': {'gravity': 0.08, 'drag': 0.98, 'collision_friction': 0.95},
+        'hitbox': 4,
+        'block_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.6},
+        'entity_collision': {'mode': Collision.BOUNCE, 'impact_if_first': true, 'elasticity': 0.3}
+    },
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.DEMOMAN, slot=1, 
+    name='Stickybomb Launcher',
+    display_name="Stickybomb Launcher (WIP)",
+    attributes={'damage': {'base': 0, 'maxRamp': 1.2}, 'attackDelay': 0.6, 'reloadDelay': [1.09, 0.67], 'clip': 8, 'ammo': 24, 'isProjectile': true},
+    projectile={
+        'spawn': [0, 0, 0], 
+        'explosion': {'radius': 146, 'selfDamage': 45}, 
+        'speed': 925,
+        'forces': {'gravity': 0.08, 'drag': 0.98, 'collision_friction': 0.95},
+        'hitbox': 4,
+        'block_collision': {'mode': Collision.STICK},
+        'entity_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.1}
+    },
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.DEMOMAN, slot=2, 
+    name='Bottle',
+    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true}
+)
+`, jmc=true);
+
+
+class Class.Demoman {
+    function give() {
+        clear @s;
+        loot replace entity @s hotbar.0 loot tf2:class/demoman/grenade_launcher;
+        loot replace entity @s hotbar.1 loot tf2:class/demoman/stickybomb_launcher;
+        loot replace entity @s hotbar.2 loot tf2:class/demoman/bottle;
+        loot replace entity @s armor.legs loot tf2:class/demoman/leg_model;
+        loot replace entity @s armor.chest loot tf2:class/demoman/chest_model;
+
+        lookup::inventory = @s::Inventory;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
+    }
+    @lazy
+    function tick() {
+        Weapons.get_ammo();
+        HUD.actionbar();
+        Weapons.set_ammo();
+
+        this.inventory_lock();
+    }
+    function inventory_lock() {
+        item replace entity @s weapon.offhand with air;
+        loot replace entity @s hotbar.0 loot tf2:class/demoman/grenade_launcher;
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.DEMOMAN * 10 + 0)}] 0;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.DEMOMAN * 10 + 0)}];
+            loot replace entity @s hotbar.0 loot tf2:class/demoman/grenade_launcher;
+        }
+
+        loot replace entity @s hotbar.1 loot tf2:class/demoman/stickybomb_launcher;
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.DEMOMAN * 10 + 1)}] 0;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.DEMOMAN * 10 + 1)}];
+            loot replace entity @s hotbar.1 loot tf2:class/demoman/stickybomb_launcher;
+        }
+        loot replace entity @s hotbar.2 loot tf2:class/demoman/bottle;
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.DEMOMAN * 10 + 2)}] 0;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.DEMOMAN * 10 + 2)}];
+            loot replace entity @s hotbar.2 loot tf2:class/demoman/bottle;
+        }
+        loot replace entity @s armor.legs loot tf2:class/demoman/leg_model;
+        $_count_ = clear @s iron_leggings 0;
+        if ($_count_ != 1) expand {
+            clear @s iron_leggings;
+            loot replace entity @s armor.legs loot tf2:class/demoman/leg_model;
+        }
+        loot replace entity @s armor.chest loot tf2:class/demoman/chest_model;
+        $_count_ = clear @s iron_chestplate 0;
+        if ($_count_ != 1) expand {
+            clear @s iron_chestplate;
+            loot replace entity @s armor.chest loot tf2:class/demoman/chest_model;
+        }
+        loot replace entity @s armor.head loot tf2:head;
+        $_count_ = clear @s paper 0;
+        if ($_count_ != 1) expand {
+            clear @s paper;
+            loot replace entity @s armor.head loot tf2:head;
+        }       
+    }
+}

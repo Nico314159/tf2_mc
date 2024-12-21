@@ -413,6 +413,7 @@ function test_items() {
     give @s Select.PYRO;
     give @s Select.SPY;
     give @s Select.MEDIC;
+    give @s Select.DEMOMAN;
 }
 
 function quick_start() {

@@ -1,0 +1,36 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "tf2:crossbow_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 3750,
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Grenade Launcher (WIP)",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{attributes:{damage:{base:100,uniform:true},attackDelay:0.6,reloadDelay:[1.24,0.6],clip:4,ammo:16,isProjectile:true},projectile:{spawn:[0,0,0],explosion:{radius:100,selfDamage:38},speed:1216,forces:{gravity:0.08,drag:0.98,collision_friction:0.95},hitbox:4,block_collision:{mode:2,elasticity:0.6},entity_collision:{mode:2,impact_if_first:true,elasticity:0.3}},controls:{main_fire:true,alt_fire:false,reload:1},key:50}"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

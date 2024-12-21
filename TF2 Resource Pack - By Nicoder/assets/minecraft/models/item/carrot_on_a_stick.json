@@ -7,6 +7,7 @@
         { "predicate": {"custom_model_data": 2}, "model": "tf2:item/sniper/icon"},
         { "predicate": {"custom_model_data": 3}, "model": "tf2:item/scout/icon"},
         { "predicate": {"custom_model_data": 4}, "model": "tf2:item/soldier/icon"},
+        { "predicate": {"custom_model_data": 5}, "model": "tf2:item/demoman/icon"},
         { "predicate": {"custom_model_data": 6}, "model": "tf2:item/heavy/icon"},
         { "predicate": {"custom_model_data": 7}, "model": "tf2:item/pyro/icon"},
         { "predicate": {"custom_model_data": 9}, "model": "tf2:item/medic/icon"},

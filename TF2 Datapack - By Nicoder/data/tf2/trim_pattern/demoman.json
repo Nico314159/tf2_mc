@@ -1,0 +1,7 @@
+{
+    "asset_id": "tf2:demoman",
+    "description": {
+        "translate": "trim_pattern.tf2.demoman"
+    },
+    "template_item": "minecraft:stick"
+}
