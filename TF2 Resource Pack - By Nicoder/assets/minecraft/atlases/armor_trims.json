@@ -80,12 +80,12 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/entity/humanoid_leggings/demo"
+                "tf2:trims/entity/humanoid_leggings/demoman"
             ],
-            "palette_key": "tf2:trims/color_palettes/demo/red",
+            "palette_key": "tf2:trims/color_palettes/demoman/red",
             "permutations": {
-                "red": "tf2:trims/color_palettes/demo/red",
-                "blu": "tf2:trims/color_palettes/demo/blu"
+                "red": "tf2:trims/color_palettes/demoman/red",
+                "blu": "tf2:trims/color_palettes/demoman/blu"
             }
         },
         {
@@ -183,12 +183,12 @@
         {
             "type": "paletted_permutations",
             "textures": [
-                "tf2:trims/entity/humanoid/demo"
+                "tf2:trims/entity/humanoid/demoman"
             ],
-            "palette_key": "tf2:trims/color_palettes/demo/red",
+            "palette_key": "tf2:trims/color_palettes/demoman/red",
             "permutations": {
-                "red": "tf2:trims/color_palettes/demo/red",
-                "blu": "tf2:trims/color_palettes/demo/blu"
+                "red": "tf2:trims/color_palettes/demoman/red",
+                "blu": "tf2:trims/color_palettes/demoman/blu"
             }
         },
         {

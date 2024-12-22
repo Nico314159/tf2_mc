@@ -2,6 +2,7 @@
     "trim_pattern.tf2.scout": "Class: Scout",
     "trim_pattern.tf2.sniper": "Class: Sniper",
     "trim_pattern.tf2.heavy": "Class: Heavy",
+    "trim_pattern.tf2.demoman": "Class: Demoman",
     "trim_material.tf2.red": "Team: RED",
     "trim_material.tf2.blu": "Team: BLU",
     "commands.trigger.simple.success": ""
