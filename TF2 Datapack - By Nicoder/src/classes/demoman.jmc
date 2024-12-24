@@ -22,6 +22,7 @@ make_weapon(
         'block_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.6},
         'entity_collision': {'mode': Collision.BOUNCE, 'impact_if_first': true, 'elasticity': 0.3}
     },
+	team_specific=True
 )
 `, jmc=true);
 
@@ -40,6 +41,7 @@ make_weapon(
         'block_collision': {'mode': Collision.STICK},
         'entity_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.1}
     },
+    team_specific=True
 )
 `, jmc=true);
 
