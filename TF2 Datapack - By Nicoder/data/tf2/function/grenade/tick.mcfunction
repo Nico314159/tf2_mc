@@ -1,7 +1,6 @@
 scoreboard players remove @s tf2.mot_y 80
 execute if entity @s[tag=tf2.stuck] run function tf2:__private__/if_else/44
 execute if entity @s[tag=!tf2.stuck] run function tf2:motion/move
-tellraw @a ["",{"text":"tf2.collision_y:@s = ","color":"green","type":"text"},{"score":{"name":"@s","objective":"tf2.collision_y"},"color":"green","type":"score"}]
 scoreboard players set @s[scores={tf2.collision_y=-1}] tf2.mot_y 0
 scoreboard players set $hit_object tf2.var 0
 execute positioned ~-0.55 ~-1.15 ~-0.55 if entity @a[dx=0.1,dy=1.3,dz=0.1] run scoreboard players set $hit_object tf2.var 1

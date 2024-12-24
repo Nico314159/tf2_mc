@@ -113,7 +113,6 @@ class Grenade {
         if (entity @s[tag=!tf2.stuck]) Motion.move();
 
         // Roll on the ground
-        printf("&<green>tf2.collision_y:@s = &<tf2.collision_y:@s>");
         tf2.mot_y:@s[scores={tf2.collision_y=-1}] = 0;
 
         // Detect hitting players and objects

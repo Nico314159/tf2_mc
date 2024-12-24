@@ -1,7 +1,4 @@
 execute store result score $elasticity tf2.var run data get entity @s item.components.minecraft:custom_data.projectile.block_collision.elasticity 1000
-tellraw @a ["",{"text":"$elasticity = "},{"score":{"name":"$elasticity","objective":"tf2.var"},"type":"score"}]
-tellraw @a ["",{"text":"collision by axis = ["},{"score":{"name":"@s","objective":"tf2.collision_x"},"type":"score"},{"text":", "},{"score":{"name":"@s","objective":"tf2.collision_y"},"type":"score"},{"text":", "},{"score":{"name":"@s","objective":"tf2.collision_z"},"type":"score"},{"text":"]"}]
-tellraw @a ["",{"text":"motion before collision = ["},{"score":{"name":"@s","objective":"tf2.mot_x"},"type":"score"},{"text":", "},{"score":{"name":"@s","objective":"tf2.mot_y"},"type":"score"},{"text":", "},{"score":{"name":"@s","objective":"tf2.mot_z"},"type":"score"},{"text":"]"}]
 scoreboard players set __logic__0 tf2.var 0
 execute unless score @s tf2.collision_x matches 0 run scoreboard players set __logic__0 tf2.var 1
 execute unless score __logic__0 tf2.var matches 1 unless score @s tf2.collision_z matches 0 run scoreboard players set __logic__0 tf2.var 1
@@ -10,5 +7,4 @@ tag @s[scores={tf2.collision=1}] add tf2.has_hit_wall
 execute unless score @s tf2.collision_x matches 0 run scoreboard players operation @s tf2.mot_x *= -1 tf2.const
 execute unless score @s tf2.collision_y matches 0 run scoreboard players operation @s tf2.mot_y *= -1 tf2.const
 execute unless score @s tf2.collision_z matches 0 run scoreboard players operation @s tf2.mot_z *= -1 tf2.const
-tellraw @a ["",{"text":"motion after collision = ["},{"score":{"name":"@s","objective":"tf2.mot_x"},"type":"score"},{"text":", "},{"score":{"name":"@s","objective":"tf2.mot_y"},"type":"score"},{"text":", "},{"score":{"name":"@s","objective":"tf2.mot_z"},"type":"score"},{"text":"]"}]
 tag @s add tf2.has_hit_wall
