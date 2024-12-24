@@ -145,14 +145,12 @@ class Generalized_Projectile {
         if (entity @s[tag=!tf2.stuck]) {
             Motion.move(); 
         }
+        if (tf2.collision:@s) {
+            this.handle_block_collision();
+        }
         if (entity @s[tag=!tf2.stuck] && 
             data entity @s item.components.minecraft:custom_data.projectile.forces) {
             this.apply_forces();
-        }
-
-
-        if (tf2.collision:@s) {
-            this.handle_block_collision();
         }
 
         $width = tf2.hitbox_x:@s;
@@ -195,6 +193,13 @@ class Generalized_Projectile {
             $friction /= 1000;
         }
     
+        if (tf2.collision:@s) {
+            printf("&<light_purple> friction value = &<$friction> &<bold>[collision && drag]");
+        }
+        if (!tf2.collision:@s) {
+            printf("&<light_purple> friction value = &<$friction> &<bold>[drag only]");
+        }
+        printf("&<yellow> motion before friction = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
         Hardcode.repeatList(
             "[AXIS]",
             () => {
@@ -203,9 +208,13 @@ class Generalized_Projectile {
             },
             ["x", "y", "z"]
         );
+        printf("&<yellow> motion after friction = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
+
+        tf2.mot_y:@s[scores={tf2.collision_y=-1}] = 0;
     }
 
     function handle_block_collision() {
+        printf("&<aqua> running the handle_block_collision() function...");
         $mode = @s::item.components.minecraft:custom_data.projectile.block_collision.mode;
         
         switch ($mode) {
@@ -230,7 +239,10 @@ class Generalized_Projectile {
         }
     }
     function block_bounce() {
-        $elasticity = @s::item.components.minecraft:custom_data.projectile.block_collision.elasticity * -1000;
+        $elasticity = @s::item.components.minecraft:custom_data.projectile.block_collision.elasticity * 1000;
+        printf("$elasticity = &<$elasticity>");
+        printf("collision by axis = [&<tf2.collision_x:@s>, &<tf2.collision_y:@s>, &<tf2.collision_z:@s>]");
+        printf("motion before collision = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
         // Reduce speed when it hits a wall
         if (tf2.collision_x:@s != 0 || tf2.collision_z:@s != 0) {
             Hardcode.repeatList(
@@ -252,6 +264,7 @@ class Generalized_Projectile {
             () => { if (tf2.collision_[AXIS]:@s != 0) tf2.mot_[AXIS]:@s *= -1; },
             ["x", "y", "z"]
         );
+        printf("motion after collision = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
 
         tag @s add tf2.has_hit_wall;
     }

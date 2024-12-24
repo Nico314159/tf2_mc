@@ -41,6 +41,7 @@ scoreboard players set 3141 tf2.const 3141
 scoreboard players set 200 tf2.const 200
 scoreboard players set 5833 tf2.const 5833
 scoreboard players set 7500 tf2.const 7500
+scoreboard players set 76 tf2.const 76
 scoreboard players set 2000 tf2.const 2000
 scoreboard players set -300 tf2.const -300
 scoreboard players set 600 tf2.const 600
@@ -50,7 +51,6 @@ scoreboard players set 999 tf2.const 999
 scoreboard players set 1000 tf2.const 1000
 scoreboard players set 500 tf2.const 500
 scoreboard players set 120 tf2.const 120
-scoreboard players set 250 tf2.const 250
 scoreboard players set -4 tf2.const -4
 scoreboard players set -1 tf2.const -1
 execute as @a run function tf2:__private__/trigger_add/enable

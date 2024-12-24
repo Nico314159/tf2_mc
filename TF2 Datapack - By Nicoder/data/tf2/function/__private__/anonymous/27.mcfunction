@@ -1,10 +1,10 @@
 function tf2:grenade/get_pos
 scoreboard players operation @s tf2.mot_x = $mot.mot_x tf2.var
-scoreboard players set @s tf2.hitbox_x 250
+scoreboard players set @s tf2.hitbox_x 76
 scoreboard players operation @s tf2.mot_y = $mot.mot_y tf2.var
-scoreboard players set @s tf2.hitbox_y 250
+scoreboard players set @s tf2.hitbox_y 76
 scoreboard players operation @s tf2.mot_z = $mot.mot_z tf2.var
-scoreboard players set @s tf2.hitbox_z 250
+scoreboard players set @s tf2.hitbox_z 76
 scoreboard players operation @s tf2.halt = $gren.sticky tf2.var
 scoreboard players set @s tf2.friction 980
 scoreboard players set @s tf2.collision_friction 950
