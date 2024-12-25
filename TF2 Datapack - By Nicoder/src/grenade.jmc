@@ -85,7 +85,7 @@ class Grenade {
             Hardcode.repeatList(
                 "[AXIS]",
                 () => {
-                    tf2.ang_vel_[AXIS]:@s = $output_vector_[AXIS];
+                    tf2.ang_vel_[AXIS]:@s = 0;
                     tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_SPEED;
                     tf2.ang_vel_[AXIS]:@s /= 1000;
                 },
