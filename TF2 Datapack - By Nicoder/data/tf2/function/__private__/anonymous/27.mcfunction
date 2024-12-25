@@ -1,2 +1,3 @@
-execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
-function tf2:__private__/anonymous/26 with storage tf2:index
+scoreboard players set @s tf2.mot_x 0
+scoreboard players set @s tf2.mot_y 0
+scoreboard players set @s tf2.mot_z 0

@@ -1,0 +1,1 @@
+execute as @e[type=item_display,tag=tf2.grenade] at @s run function tf2:grenade/tick

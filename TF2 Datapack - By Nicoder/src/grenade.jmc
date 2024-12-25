@@ -35,7 +35,7 @@ class Grenade {
 
         summon item_display ~ ~ ~ {
             Tags: ["tf2.grenade","tf2.new"],
-            item: {id: "minecraft:blue_concrete", count:1},
+            item: {id: "minecraft:glowstone_dust", count:1, components:{"minecraft:custom_model_data": 375500}},
             transformation: {
                 right_rotation: [0.0f, 0.0f, 0.0f, 1.0f],
                 scale: [GRENADE_SCALE, GRENADE_SCALE, GRENADE_SCALE],

@@ -6,6 +6,7 @@
     "overrides": [      
         { "predicate": {"custom_model_data": 0}, "model": "tf2:bullet/normal"},
         { "predicate": {"custom_model_data": 300000}, "model": "tf2:projectile/soldier/rocket"},
+        { "predicate": {"custom_model_data": 375500}, "model": "tf2:projectile/demoman/grenade_red"},
 
         { "predicate": {"custom_model_data": 525500}, "model": "tf2:projectile/pyro/flame0"},
         { "predicate": {"custom_model_data": 525501}, "model": "tf2:projectile/pyro/flame1"},

@@ -1,2 +1,2 @@
-scoreboard players add $line tf2.var 1
-scoreboard players set $i tf2.var 0
+tag @s add tf2.sticky
+item replace entity @s contents with minecraft:lime_concrete
