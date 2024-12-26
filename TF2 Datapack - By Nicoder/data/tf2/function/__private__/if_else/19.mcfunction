@@ -1,2 +1,4 @@
-execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run function tf2:start_game/as_players/generic
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players operation $surface_x tf2.var = @s tf2.collision_x
+scoreboard players set $surface_y tf2.var 0
+scoreboard players set $surface_z tf2.var 0
+function tf2:generalized_projectile/roll

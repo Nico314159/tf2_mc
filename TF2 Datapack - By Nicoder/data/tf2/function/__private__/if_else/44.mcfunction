@@ -1,3 +1,2 @@
-scoreboard players set @s tf2.mot_x 0
-scoreboard players set @s tf2.mot_y 0
-scoreboard players set @s tf2.mot_z 0
+function tf2:motion/collision
+scoreboard players set __if_else__ tf2.var 1

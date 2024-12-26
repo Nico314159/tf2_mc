@@ -87,7 +87,7 @@ class Generalized_Projectile {
                 ]
             );
 
-            if (data storage tf2.lookup item.components.minecraft:custom_data.projectile.forces.torque) {
+            if (data storage tf2:lookup item.components.minecraft:custom_data.projectile.forces.torque) {
                 Math.random_quaternion();
                 Hardcode.repeatList(
                     "[PARAM]",
@@ -147,6 +147,9 @@ class Generalized_Projectile {
         }
         if (tf2.collision:@s) {
             this.handle_block_collision();
+        }
+        if (entity @s[tag=!tf2.stuck]) {
+            this.handle_rotation();
         }
         if (entity @s[tag=!tf2.stuck] && 
             data entity @s item.components.minecraft:custom_data.projectile.forces) {
@@ -342,5 +345,109 @@ class Generalized_Projectile {
         Projectile.explode() with vars::;
     }
 
+    function handle_rotation() {
+        // Apply friction to angular velocity
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                $sign_[AXIS] = 1;
+                if (tf2.ang_vel_[AXIS]:@s < 0) {$sign_[AXIS] = -1;}
+                tf2.ang_vel_[AXIS]:@s *= $sign_[AXIS];
+                tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_FRICTION;
+                tf2.ang_vel_[AXIS]:@s /= 1000;
+                if (tf2.collision:@s == 1) expand {
+                    tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_COLLISION_FRICTION;
+                    tf2.ang_vel_[AXIS]:@s /= 1000;
+                }
+                tf2.ang_vel_[AXIS]:@s *= $sign_[AXIS];
+            },
+            ["x", "y", "z"]
+        );
+
+        // Apply angular acceleration based on surface grinding
+        if (tf2.collision_x:@s != 0) {
+            $surface_x = tf2.collision_x:@s; $surface_y = 0; $surface_z = 0;
+            this.roll();
+        }
+        if (tf2.collision_y:@s != 0) {
+            $surface_x = 0; $surface_y = tf2.collision_y:@s; $surface_z = 0;
+            this.roll();
+        }
+        if (tf2.collision_z:@s != 0) {
+            $surface_x = 0; $surface_y = 0; $surface_z = tf2.collision_z:@s;
+            this.roll();
+        }
+
+        // Apply rotation
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { $input_ang_vel_[AXIS] = tf2.ang_vel_[AXIS]:@s; },
+            ["x", "y", "z"]
+        );
+        Math.angular_velocity_to_quaternion();
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => {
+                $input_quaternion_1_[PARAM] = $output_quaternion_[PARAM];
+                $input_quaternion_2_[PARAM] = tf2.quaternion_[PARAM]:@s;
+            },
+            ["r", "i", "j", "k"]
+        );
+        Math.multiply_quaternions();
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => { $input_quaternion_[PARAM] = $output_quaternion_[PARAM]; },
+            ["r", "i", "j", "k"]
+        );
+        Math.normalize_quaternion();
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => { tf2.quaternion_[PARAM]:@s = $output_quaternion_[PARAM]; },
+            ["r", "i", "j", "k"]
+        );
+        gren::rotation = [0.0f,0.0f,0.0f,1.0f];
+        Hardcode.repeatLists(
+            ["[PARAM]", "[INDEX]"],
+            () => { gren::rotation[[INDEX]] = 0.001 * (float) tf2.quaternion_[PARAM]:@s; },
+            [
+                ["r", "i", "j", "k"],
+                ["3", "0", "1", "2"]
+            ]
+        );
+        @s::transformation.right_rotation = gren::rotation;
+    }
+    function roll() {
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                $input_vector_1_[AXIS] = tf2.ang_vel_[AXIS]:@s;
+                $input_vector_1_[AXIS] *= tf2.hitbox_[AXIS]:@s;
+                $input_vector_1_[AXIS] /= 1000;
+                $input_vector_2_[AXIS] = $surface_[AXIS];
+            },
+            ["x", "y", "z"]
+        );
+        Math.cross_product();
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                if ($surface_[AXIS] == 0) {$output_vector_[AXIS] += tf2.mot_[AXIS]:@s;}
+                $input_vector_1_[AXIS] = $output_vector_[AXIS];
+                $input_vector_1_[AXIS] *= 1000;
+                $input_vector_1_[AXIS] /= tf2.hitbox_[AXIS]:@s;
+
+                $input_vector_1_[AXIS] *= 32;
+            },
+            ["x", "y", "z"]
+        );
+        Math.cross_product();
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => {
+                tf2.ang_vel_[AXIS]:@s += $output_vector_[AXIS];
+            },
+            ["x", "y", "z"]
+        );
+    }
 }
 

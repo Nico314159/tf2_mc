@@ -17,7 +17,7 @@ make_weapon(
         'spawn': [0, 0, 0], 
         'explosion': {'radius': 100, 'selfDamage': 38}, 
         'speed': 1216,
-        'forces': {'gravity': 0.08, 'drag': 0.98, 'collision_friction': 0.95},
+        'forces': {'gravity': 0.08, 'drag': 0.98, 'collision_friction': 0.95, 'torque': true},
         'hitbox': 4,
         'block_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.6},
         'entity_collision': {'mode': Collision.BOUNCE, 'impact_if_first': true, 'elasticity': 0.3}

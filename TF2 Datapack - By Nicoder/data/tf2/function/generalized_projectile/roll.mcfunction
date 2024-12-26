@@ -1,0 +1,32 @@
+scoreboard players operation $input_vector_1_x tf2.var = @s tf2.ang_vel_x
+scoreboard players operation $input_vector_1_x tf2.var *= @s tf2.hitbox_x
+scoreboard players operation $input_vector_1_x tf2.var /= 1000 tf2.const
+scoreboard players operation $input_vector_2_x tf2.var = $surface_x tf2.var
+scoreboard players operation $input_vector_1_y tf2.var = @s tf2.ang_vel_y
+scoreboard players operation $input_vector_1_y tf2.var *= @s tf2.hitbox_y
+scoreboard players operation $input_vector_1_y tf2.var /= 1000 tf2.const
+scoreboard players operation $input_vector_2_y tf2.var = $surface_y tf2.var
+scoreboard players operation $input_vector_1_z tf2.var = @s tf2.ang_vel_z
+scoreboard players operation $input_vector_1_z tf2.var *= @s tf2.hitbox_z
+scoreboard players operation $input_vector_1_z tf2.var /= 1000 tf2.const
+scoreboard players operation $input_vector_2_z tf2.var = $surface_z tf2.var
+function tf2:math/cross_product
+execute if score $surface_x tf2.var matches 0 run scoreboard players operation $output_vector_x tf2.var += @s tf2.mot_x
+scoreboard players operation $input_vector_1_x tf2.var = $output_vector_x tf2.var
+scoreboard players operation $input_vector_1_x tf2.var *= 1000 tf2.const
+scoreboard players operation $input_vector_1_x tf2.var /= @s tf2.hitbox_x
+scoreboard players operation $input_vector_1_x tf2.var *= 32 tf2.const
+execute if score $surface_y tf2.var matches 0 run scoreboard players operation $output_vector_y tf2.var += @s tf2.mot_y
+scoreboard players operation $input_vector_1_y tf2.var = $output_vector_y tf2.var
+scoreboard players operation $input_vector_1_y tf2.var *= 1000 tf2.const
+scoreboard players operation $input_vector_1_y tf2.var /= @s tf2.hitbox_y
+scoreboard players operation $input_vector_1_y tf2.var *= 32 tf2.const
+execute if score $surface_z tf2.var matches 0 run scoreboard players operation $output_vector_z tf2.var += @s tf2.mot_z
+scoreboard players operation $input_vector_1_z tf2.var = $output_vector_z tf2.var
+scoreboard players operation $input_vector_1_z tf2.var *= 1000 tf2.const
+scoreboard players operation $input_vector_1_z tf2.var /= @s tf2.hitbox_z
+scoreboard players operation $input_vector_1_z tf2.var *= 32 tf2.const
+function tf2:math/cross_product
+scoreboard players operation @s tf2.ang_vel_x += $output_vector_x tf2.var
+scoreboard players operation @s tf2.ang_vel_y += $output_vector_y tf2.var
+scoreboard players operation @s tf2.ang_vel_z += $output_vector_z tf2.var

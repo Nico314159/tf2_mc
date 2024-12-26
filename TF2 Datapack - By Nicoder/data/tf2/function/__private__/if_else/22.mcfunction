@@ -1,4 +1,2 @@
-execute store result score @s tf2.max_timer store result score @s tf2.timer run data get entity @s data.map.timer 20
-execute if data entity @s data.map.timer run function tf2:timer/set_max with storage tf2:index
-execute if data entity @s data.map.timer run function tf2:timer/show with storage tf2:index
-execute if data entity @s data.map.setup_time run function tf2:timer/begin_setup with storage tf2:index
+execute as @e[type=#tf2:player_like,tag=tf2.in_queue,scores={tf2.queue_type=1,tf2.batch_number=0},limit=12,sort=random] run function tf2:start_game/as_players/generic
+scoreboard players set __if_else__ tf2.var 1
