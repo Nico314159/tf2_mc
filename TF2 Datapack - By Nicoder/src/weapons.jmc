@@ -297,6 +297,8 @@ class Weapons {
         tf2.team:$current = tf2.team:@s;
         lookup::item = @s::SelectedItem;
         retina:input::{} += lookup::item.components.minecraft:custom_data.retina;
+        retina:input::TargetBlocks = true;
+        retina:input::TargetEntities = true;
         
         if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery) expand {
             $_sr_ = lookup::item.components.minecraft:custom_data.attributes.spreadRecovery;

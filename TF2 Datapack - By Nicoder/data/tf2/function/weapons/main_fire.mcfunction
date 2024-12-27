@@ -12,6 +12,8 @@ execute unless predicate tf2:holding_melee run playsound tf2:item.gun.shoot play
 scoreboard players operation $current tf2.team = @s tf2.team
 data modify storage tf2:lookup item set from entity @s SelectedItem
 data modify storage retina:input {} merge from storage tf2:lookup item.components.minecraft:custom_data.retina
+data modify storage retina:input TargetBlocks set value true
+data modify storage retina:input TargetEntities set value true
 execute if data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery store result score $_sr_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery
 execute if data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery if score @s tf2.time_idle > $_sr_ tf2.var run data modify storage retina:input SpreadFactor set value [0,0]
 execute store result score $_damage_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.base

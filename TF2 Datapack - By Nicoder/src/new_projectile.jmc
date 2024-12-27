@@ -169,14 +169,14 @@ class Generalized_Projectile {
             this.handle_entity_collision();
         }
 
-        execute as @e[type=#tf2:player_like,tag=tf2.batch] run Projectile.remove_tags();
         tf2.age:@s++;
         if (tf2.age:@s > tf2.lifetime:@s) {
-            tag @s add tf2.delete;
+            this.end_of_life();
         }
-        if (entity @s[tag=tf2.delete]) {
-            kill @s;
-        }
+       
+        kill @s[tag=tf2.delete];
+
+        execute as @e[type=#tf2:player_like,tag=tf2.batch] run Projectile.remove_tags();
     }
 
     function apply_forces() {
@@ -448,6 +448,18 @@ class Generalized_Projectile {
             },
             ["x", "y", "z"]
         );
+    }
+
+    function end_of_life() {
+        tag @s add tf2.delete;
+        $explode_after_lifetime = @s::item.components.minecraft:custom_data.projectile.explode_after_lifetime;
+        if (!$explode_after_lifetime) {
+            return 0;
+        }
+
+        // else
+        vars::radius = 0.01905 * (double) @s::item.components.minecraft:custom_data.projectile.explosion.radius;
+        Projectile.explode() with vars::;
     }
 }
 

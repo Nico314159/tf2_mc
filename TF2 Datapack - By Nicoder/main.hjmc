@@ -2,7 +2,7 @@
 #include "header/values.hjmc"
 #include "header/items_temp.hjmc"
 
-#command execute if items
+#command rotate
 #override minecraft
 #override retina
 #nometa
