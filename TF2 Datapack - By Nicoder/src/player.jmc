@@ -352,6 +352,9 @@ class Player {
         spawnpoint @s ~ ~ ~;
         tag @s add tf2.dead;
         gamemode spectator @s;
+        if (tf2.class:@s == Class.DEMOMAN) {
+            Class.Demoman.clear_all_stickybombs();
+        }
 
         index::i = tf2.batch_number:@s;
         execute run {

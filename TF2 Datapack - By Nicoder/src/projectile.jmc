@@ -688,6 +688,9 @@ class Projectile {
         tag @s remove tf2.hit_by_projectile;
         tag @s remove tf2.closest_hit;
     }
+    function fizzle() {
+        
+    }
     function end_of_life() {
         tag @s add tf2.delete;
         $explode_after_lifetime = @s::item.components.minecraft:custom_data.projectile.explode_after_lifetime;
