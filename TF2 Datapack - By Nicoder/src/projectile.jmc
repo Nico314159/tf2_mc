@@ -1,21 +1,4 @@
 class Projectile {
-    new advancement(take_hit) {
-    	"criteria": {
-		    "requirement": {
-	    		"trigger": "minecraft:entity_hurt_player",
-			    "conditions": {
-    	  			"damage": {
-	    				"type": {
-				 		    "direct_entity": {
-					        	"type": "minecraft:arrow"
-    					    }
-		        		}
-				    }
-    			}
-	    	}
-    	},
-		"rewards": {"function": "tf2:projectile/count_hits"}
-	}
 
     // Gets the position of the executing entity and puts it into tf2.[x,y,z]
     function get_pos() {
@@ -209,10 +192,6 @@ class Projectile {
 
         execute as @e[type=#tf2:player_like,tag=tf2.batch] run Projectile.remove_tags();
     }
-    function count_hits() {
-        tf2.hits_taken:@s++;
-        advancement revoke @s only tf2:projectile/take_hit;
-    }
     function trail() {
         Hardcode.repeat("|z|", () => {
             particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc(|z| / -3) 0 0 0 0 10;
@@ -237,38 +216,6 @@ class Projectile {
 
         return Projectile.DEFAULT_LIFETIME;
     }
-    function init_arrow() {
-        // @needs_macro
-        $ summon arrow ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
-            Rotation: [$(yaw)f, $(pitch)f],
-            Owner: $(owner),
-            damage: 0.001,
-            pickup: false,
-            NoGravity: $(no_gravity),
-            Silent: true,
-            PierceLevel: 127b,
-            PersistenceRequired: true,
-            ShotFromCrossbow: true,
-            Tags: ["tf2.projectile", "tf2.new"],
-            Motion: [$(X)d, $(Y)d, $(Z)d],
-            active_effects: [{
-                id: "minecraft:invisibility",
-                amplifier: false,
-                show_particles: false,
-                duration: -1
-            }],
-            Passengers: [{
-                id: "minecraft:item_display",
-                item: {id: "minecraft:glowstone_dust", components:{
-                    "minecraft:custom_model_data": $(CMD), 
-                    "minecraft:custom_data": {Motion:[$(X)d, $(Y)d, $(Z)d]}
-                }},
-                start_interpolation: -1,
-                item_display: "ground",
-                Tags: ["tf2.new", "tf2.projectile"]
-            }]
-        };
-    }
     function deviation() {
         function retina:math/gimbal_to_matrix;
 
@@ -278,10 +225,6 @@ class Projectile {
 
         function retina:math/sway_heave_surge/find;
         function retina:math/sway_heave_surge/apply;
-    }
-    function copy_xz_motion() {
-        @s::Motion[0] = vars::Motion[0];
-        @s::Motion[2] = vars::Motion[2];
     }
     function compensate_velocity() {
         $velocity = summon::projectile.X * 100;
@@ -293,12 +236,6 @@ class Projectile {
         $velocity += tf2.now_z:@s;
         $velocity -= tf2.last_z:@s;
         summon::projectile.Z = 0.01 * (double) $velocity;
-    }
-    function convection() {
-        $velocity = @s::Motion[1] * 1000;
-        $accel = execute on passengers run @s::item.components.minecraft:custom_data.projectile.convection.factor * 1000;
-        $velocity += $accel;
-        @s::Motion[1] = 0.001 * (double) $velocity;
     }
     function apply_forces() {
         forces::{} += @s::item.components.minecraft:custom_data.projectile.forces;
@@ -462,57 +399,6 @@ class Projectile {
         vars::radius = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.explosion.radius;
         Projectile.explode() with vars::;
     }
-
-    function check_collision() {
-        tf2.batch_number:$local = tf2.batch_number:@s;
-        execute as @e[type=#tf2:player_like]
-                if score @s tf2.batch_number
-                   = $local tf2.batch_number
-                unless entity @s[gamemode=spectator]
-                run tag @s add tf2.batch; 
-        tag @e[type=#tf2:player_like,tag=tf2.batch] add tf2.search;
-
-        // Passes through teammates during first 0.25 seconds
-        tf2.team:$temp = tf2.team:@s;
-        execute as @e[type=#tf2:player_like,tag=tf2.search]
-                unless score @s tf2.team = $temp tf2.team
-                run tag @s add tf2.opponent;
-        if (tf2.age:@s < 5) {
-            tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search;
-        }
-
-        $collided = false;
-        execute on vehicle if data entity @s {inGround: true} run {
-            $collided++;
-        }
-
-        execute on vehicle at @s as @p[scores={tf2.hits_taken=1..}, tag=tf2.search] run tag @s add tf2.hit;
-        execute as @a[tag=tf2.hit] run tf2.hits_taken:@s--;
-        if (entity @a[tag=tf2.hit]) {
-            $collided += 2;
-        }
-
-        if (!$collided) return 0;
-
-        lookup::item = @s::item;
-        $_damage_ = lookup::item.components.minecraft:custom_data.attributes.damage.base;
-        $_selfDamage_ = lookup::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
-        $_maxRamp_ = lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
-        if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
-        $_temporalFalloff_ = lookup::item.components.minecraft:custom_data.attributes.damage.temporalFalloff;
-        $_rangeDependent_ = lookup::item.components.minecraft:custom_data.attributes.damage.uniform;
-        $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
-
-        tag @s[tag=!tf2.ignore_env] add tf2.cleanup;
-        vars::weapon_name = lookup::item.components.minecraft:custom_name;
-
-        if (entity @s[tag=!tf2.explosion]) return run {
-            this.simple_damage();
-        }
-
-        vars::radius = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.explosion.radius;
-        this.explode() with vars::;
-    }
     function simple_damage() {
         if (!entity @a[tag=tf2.hit_by_projectile,tag=tf2.opponent,scores={tf2.health=1..}]) {return fail;}
 
@@ -528,7 +414,6 @@ class Projectile {
             this.temporal_falloff();
         }
         $_finalDamage_ *= $_multiplier_;
-        // printf ("mult = &<$_multiplier_>");
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
 
@@ -627,7 +512,6 @@ class Projectile {
     }
     function splash_damage() {
         $_finalDamage_ = this.calculate_splash();
-        printf(" $_finalDamage_ = &<$_finalDamage_>");
 
         if ($_finalDamage_ > 0) {
             $playersHurt++;
@@ -644,18 +528,13 @@ class Projectile {
     }
     function calculate_splash() {
         $_centerDist_ = retina:output::Distance * EVAL (1 / 0.01905);
-        printf("$_centerDist_ = &<$_centerDist_>");
         $_splashEdge_ = vars::radius * EVAL (1 / 0.01905);
-        printf("$_splashEdge_ = &<$_splashEdge_>");
         this.pythagorean_3D();
-        printf("$_damage_ = &<$_damage_>");
         $_finalDamage_ = $_damage_;
         Weapons.calculate_falloff();
         $_finalDamage_ *= $_multiplier_;
-        printf ("mult = &<$_multiplier_>");
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
-        printf("damage after multiplier = &<$_finalDamage_>");
         if (entity @s[tag=tf2.hit_by_projectile,tag=!tf2.origin]) {
             return run $_finalDamage_.get();
         }
@@ -663,17 +542,14 @@ class Projectile {
         if (entity @s[tag=tf2.origin]) {
             $_finalDamage_ = $_selfDamage_;
         }
-        printf("selfDamage = &<$_selfDamage_>");
         $_splash_multiplier_ = $_centerDist_;
         $_splash_multiplier_ *= 50;
         $_splash_multiplier_ /= $_splashEdge_;
         $_splash_multiplier_ *= -1;
         $_splash_multiplier_ += 100;
-        printf("splash = &<$_splash_multiplier_>");
         $_finalDamage_ *= $_splash_multiplier_;
         $_finalDamage_ += 99;
         $_finalDamage_ /= 100;
-        printf("damage after splash multiplier = &<$_finalDamage_>");
         if (!entity @s[tag=tf2.origin,scores={tf2.class=4..5}]) {
             return run $_finalDamage_.get();
         }
@@ -687,7 +563,6 @@ class Projectile {
         $_temp_ = 9;
         $_temp_ -= tf2.class:@s;
         $_finalDamage_ /= $_temp_;
-        printf("damage after self multiplier = &<$_finalDamage_>");
         return run $_finalDamage_.get();
     }
     function knockback() {
@@ -699,6 +574,7 @@ class Projectile {
         player_motion.api.launch:$z *= EVAL (12000 / Retina.SCALE);
         function player_motion:api/launch_xyz;
     }
+
     function handle_rotation() {
         // Apply friction to angular velocity
         Hardcode.repeatList(
@@ -811,10 +687,6 @@ class Projectile {
         tag @s remove tf2.in_voxel;
         tag @s remove tf2.hit_by_projectile;
         tag @s remove tf2.closest_hit;
-    }
-    function cleanup() {
-        execute on vehicle run this.cleanup();
-        kill @s;
     }
     function end_of_life() {
         tag @s add tf2.delete;

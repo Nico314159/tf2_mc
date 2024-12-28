@@ -366,11 +366,11 @@ class reset {
         execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current] at @s run reset.as_objectives();
         execute as @a[tag=tf2.current] run reset.as_players();
         kill @e[type=item_display,tag=tf2.current,tag=!tf2.permanent];
-        execute as @e[type=item,tag=tf2.pickup,tag=tf2.current] run Projectile.cleanup();
+        execute as @e[type=item,tag=tf2.pickup,tag=tf2.current] run Pickup.delete_stack();
         kill @e[type=area_effect_cloud,tag=tf2.current];
         kill @e[type=falling_block,tag=tf2.current];
         kill @e[type=marker,tag=tf2.spawn_door,tag=tf2.current];
-        execute as @e[type=item_display,tag=tf2.current,tag=tf2.projectile] run Projectile.cleanup();
+        kill @e[type=item_display,tag=tf2.current,tag=tf2.projectile];
         if (timekeeper.var:$enabled == -1 && $profiler_installed) timekeeper.var:$enabled = 1;
         kill @s;
         setup_markers();

@@ -1,4 +1,5 @@
-execute store result score $Xf tf2.var run data get entity @s Pos[0] 100
-execute store result score $Yf tf2.var run data get entity @s Pos[1] 100
-execute store result score $Zf tf2.var run data get entity @s Pos[2] 100
-kill
+data modify entity @s NoAI set value 1b
+data merge storage retina:input {MaxRecursionDepth:127b,VerticalCount:1,HorizontalCount:1,CenteredCount:0,TargetEntities:true}
+rotate @s facing entity @e[tag=tf2.player,limit=1] eyes
+function retina:traverse/setup
+kill @s

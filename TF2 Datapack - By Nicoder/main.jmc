@@ -305,6 +305,10 @@ class Pickup {
         tf2.cloak:@s += $add_amount;
         tf2.cloak:@s < $full_cloak;
     }
+    function delete_stack() {
+        execute on vehicle run this.delete_stack();
+        kill @s;
+    }
 }
 
 class Spawn {

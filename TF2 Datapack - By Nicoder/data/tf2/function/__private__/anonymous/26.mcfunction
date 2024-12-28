@@ -1,2 +1,3 @@
-$data modify storage tf2:running_games $(i).spawn_time.red[0] set from storage tf2:running_games $(i).spawn_time.red[$(red)]
-$data modify storage tf2:running_games $(i).spawn_time.blu[0] set from storage tf2:running_games $(i).spawn_time.blu[$(blu)]
+scoreboard players set @s tf2.mot_x 0
+scoreboard players set @s tf2.mot_y 0
+scoreboard players set @s tf2.mot_z 0

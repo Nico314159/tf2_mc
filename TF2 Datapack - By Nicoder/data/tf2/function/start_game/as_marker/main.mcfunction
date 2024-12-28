@@ -3,7 +3,7 @@ execute if score $Settings.show_debug_messages tf2.var matches 2.. if score $pro
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
 execute store result storage tf2:index map_id int 1 run scoreboard players get @s tf2.map
-function tf2:__private__/anonymous/16 with storage tf2:index
+function tf2:__private__/anonymous/14 with storage tf2:index
 execute store result score @s tf2.gamemode run data get entity @s data.map.gamemode
 scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode
 data modify storage tf2:summon objectives set from entity @s data.map.objectives
