@@ -219,6 +219,8 @@ class Projectile {
         return Projectile.DEFAULT_LIFETIME;
     }
     function deviation() {
+        retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
+        retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
         function retina:math/gimbal_to_matrix;
 
         retina.__variable__:$horizontal_count = retina.__variable__:$vertical_count = 10;
@@ -227,6 +229,10 @@ class Projectile {
 
         function retina:math/sway_heave_surge/find;
         function retina:math/sway_heave_surge/apply;
+
+        $output_vector_x = retina.__variable__:$output_vec3.X;
+        $output_vector_y = retina.__variable__:$output_vec3.Y;
+        $output_vector_z = retina.__variable__:$output_vec3.Z;
     }
     function compensate_velocity() {
         $velocity = summon::projectile.X * 100;

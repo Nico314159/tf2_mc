@@ -37,6 +37,7 @@ make_weapon(
         'spawn': [0, 0, 0], 
         'explosion': {'radius': 146, 'selfDamage': 45}, 
         'speed': 925,
+        'deviation': {'min': 5, 'max': 95}, 
         'forces': {'gravity': 0.08, 'drag': 0.98, 'collision_friction': 0.95},
         'hitbox': 4,
         'block_collision': {'mode': Collision.STICK},
