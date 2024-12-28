@@ -1,3 +1,5 @@
-execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime run return run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime
-execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range run return run function tf2:math/macro_random with storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range
+execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime run return run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime 20
+execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range store result storage tf2:vars min int 1 run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range.min 20
+execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range store result storage tf2:vars max int 1 run data get storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range.max 20
+execute if data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range run return run function tf2:math/macro_random with storage tf2:vars
 return 200

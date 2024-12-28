@@ -21,7 +21,7 @@ make_weapon(
         'hitbox': 4,
         'block_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.6},
         'entity_collision': {'mode': Collision.BOUNCE, 'impact_if_first': true, 'elasticity': 0.3},
-        'lifetime': 46, 'explode_after_lifetime': true
+        'lifetime': 2.3, 'explode_after_lifetime': true
     },
 	team_specific=True
 )

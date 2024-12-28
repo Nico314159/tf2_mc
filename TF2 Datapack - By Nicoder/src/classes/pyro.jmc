@@ -22,7 +22,7 @@ make_weapon(
 		'spawn': [0.0, -0.6, 0.247675], 
 		'speed_range': {'min': 400, 'max': 550}, 
 		'deviation': {'min': 75, 'max': 300}, 
-		'lifetime_range': {'min': 10, 'max': 14}, 
+		'lifetime_range': {'min': 0.5, 'max': 0.7}, 
 		'hitbox': 24,
 		'billboard': 'center',
 		'relative_to_player': true,

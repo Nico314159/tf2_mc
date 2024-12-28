@@ -206,12 +206,14 @@ class Projectile {
     }
     function calc_lifetime() {
         if (data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime) {
-            return run summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime;
+            return run summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime * 20;
         }
         
-        if (data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range) {
+        if (data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range) expand {
+            vars::min = (int) summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range.min * 20;
+            vars::max = (int) summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range.max * 20;
             return run Math.macro_random() 
-                       with summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range;
+                       with vars::;
         }
 
         return Projectile.DEFAULT_LIFETIME;
