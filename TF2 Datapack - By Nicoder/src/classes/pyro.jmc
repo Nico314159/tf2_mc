@@ -19,7 +19,7 @@ make_weapon(
 		'on_hit': ['execute as @p[tag=tf2.hit_by_projectile] run function tf2:class/pyro/ignite']
 	},
 	projectile={
-		'spawn': [0.0, -0.6, 0.247675], 
+		'spawn': [0.0, -0.01, 0.247675], 
 		'speed_range': {'min': 400, 'max': 550}, 
 		'deviation': {'min': 75, 'max': 300}, 
 		'lifetime_range': {'min': 0.5, 'max': 0.7}, 
