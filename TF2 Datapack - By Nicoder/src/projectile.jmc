@@ -576,7 +576,13 @@ class Projectile {
         player_motion.api.launch:$z *= EVAL (12000 / Retina.SCALE);
         function player_motion:api/launch_xyz;
     }
-
+    function detonate_if_armed() {
+        $arm_time = @s::item.components.minecraft:custom_data.projectile.arm_time * 20;
+        if (tf2.age:@s < $arm_time) {
+            return run this.fizzle();
+        }
+        this.impact();
+    }
     function handle_rotation() {
         // Apply friction to angular velocity
         Hardcode.repeatList(
@@ -691,7 +697,8 @@ class Projectile {
         tag @s remove tf2.closest_hit;
     }
     function fizzle() {
-        
+        particle minecraft:electric_spark ~ ~ ~ 0.1 0.1 0.1 0.1 50;
+        tag @s add tf2.delete;
     }
     function end_of_life() {
         tag @s add tf2.delete;
