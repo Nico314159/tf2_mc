@@ -352,15 +352,19 @@ class Weapons {
 
         switch ($_weaponID_) {
             case EVAL(Class.SNIPER * 10 + 0):
-                this.main_fire();
+            this.main_fire();
+
             case EVAL(Class.PYRO * 10 + 0): 
-                Class.Pyro.airblast();
+            Class.Pyro.airblast();
+
             case EVAL(Class.MEDIC * 10 + 1):
-                Class.Medic.activate_uber();
-            // case EVAL(Class.DEMOMAN * 10 + 1):
-            //     Class.Demoman.detonate_stickies();
+            Class.Medic.activate_uber();
+
+            case EVAL(Class.DEMOMAN * 10 + 1):
+            Class.Demoman.detonate_stickies();
+                
             default:
-                return fail;
+            return fail;
         }
 
         // switch (tf2.class:@s) {

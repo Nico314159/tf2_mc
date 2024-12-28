@@ -1,2 +1,2 @@
-$execute as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz)] unless score @s tf2.team matches $(opp_team) run tag @s add tf2.in_spawn
-$tp @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz),scores={tf2.team=$(opp_team)}] $(direct_tp)
+$execute store result score @s[scores={tf2.team=1}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.red[0] 20
+$execute store result score @s[scores={tf2.team=2}] tf2.respawn_timer run data get storage tf2:running_games $(i).spawn_time.blu[0] 20
