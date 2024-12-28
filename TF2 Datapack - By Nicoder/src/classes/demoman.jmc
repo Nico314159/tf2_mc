@@ -129,10 +129,7 @@ class Class.Demoman {
                 if data entity @s item.components.minecraft:custom_data.projectile.explode_manually
                 run tag @s add tf2.my_stickybomb;
 
-        execute as @e[tag=tf2.my_stickybomb] run {
-            vars::radius = 0.01905 * (double) @s::item.components.minecraft:custom_data.projectile.explosion.radius;
-            execute at @s run Projectile.explode() with vars::;
-            tag @s add tf2.delete;
-        }
+        execute as @e[tag=tf2.my_stickybomb] 
+                at @s run Projectile.impact();
     }
 }

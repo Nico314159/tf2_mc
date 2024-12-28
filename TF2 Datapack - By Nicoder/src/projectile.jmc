@@ -691,12 +691,8 @@ class Projectile {
     function end_of_life() {
         tag @s add tf2.delete;
         $explode_after_lifetime = @s::item.components.minecraft:custom_data.projectile.explode_after_lifetime;
-        if (!$explode_after_lifetime) {
-            return 0;
+        if ($explode_after_lifetime) {
+            this.impact();
         }
-
-        // else
-        vars::radius = 0.01905 * (double) @s::item.components.minecraft:custom_data.projectile.explosion.radius;
-        Projectile.explode() with vars::;
     }
 }

@@ -28,7 +28,7 @@ execute unless predicate tf2:holding_projectile run function tf2:weapons/hitscan
 execute store result score $_delay_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.attackDelay 20000
 scoreboard players operation @s tf2.attack_delay += $_delay_ tf2.var
 scoreboard players reset $func_id retina.__variable__
-execute if predicate tf2:holding_melee run return run function tf2:__private__/anonymous/4
+execute if predicate tf2:holding_melee run return run function tf2:__private__/anonymous/3
 scoreboard players remove $_clip_ tf2.var 1
 function tf2:weapons/set_ammo
 scoreboard players set @s tf2.consecutive_reload 0
