@@ -361,7 +361,7 @@ class Weapons {
             Class.Medic.activate_uber();
 
             case EVAL(Class.DEMOMAN * 10 + 1):
-            Class.Demoman.detonate_stickies();
+            Class.Demoman.detonate_all_stickybombs();
                 
             default:
             return fail;

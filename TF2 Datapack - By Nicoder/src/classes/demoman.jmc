@@ -42,7 +42,7 @@ make_weapon(
         'block_collision': {'mode': Collision.STICK},
         'entity_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.1},
         'lifetime': 2147483647,
-        'explode_manually': true
+        'explode_alt_fire': 8
     },
     controls={'alt_fire': True},
     team_specific=True
@@ -80,6 +80,8 @@ class Class.Demoman {
         Weapons.set_ammo();
 
         this.inventory_lock();
+
+        this.detonate_oldest_stickybomb();
     }
     function inventory_lock() {
         item replace entity @s weapon.offhand with air;
@@ -121,15 +123,38 @@ class Class.Demoman {
             loot replace entity @s armor.head loot tf2:head;
         }       
     }
-    function detonate_stickies() {
+    function detonate_all_stickybombs() {
         tag @e remove tf2.my_stickybomb;
         tf2.player.id:$search = tf2.player.id:@s;
         execute as @e[tag=tf2.projectile]
                 if score @s tf2.player.id = $search tf2.player.id
-                if data entity @s item.components.minecraft:custom_data.projectile.explode_manually
+                if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
                 run tag @s add tf2.my_stickybomb;
 
         execute as @e[tag=tf2.my_stickybomb] 
                 at @s run Projectile.impact();
+    }
+    function detonate_oldest_stickybomb() {
+        tag @e remove tf2.my_stickybomb;
+        tf2.player.id:$search = tf2.player.id:@s;
+        execute as @e[tag=tf2.projectile]
+                if score @s tf2.player.id = $search tf2.player.id
+                if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
+                run tag @s add tf2.my_stickybomb;
+
+        $stickybomb_count = execute if entity @e[tag=tf2.my_stickybomb];
+        $stickybomb_max = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.projectile.explode_alt_fire;
+
+        if ($stickybomb_count <= $stickybomb_max) {
+            return fail;
+        }
+        
+        tf2.age:$oldest = 0;
+        tf2.age:$oldest > tf2.age:@e[tag=tf2.my_stickybomb];
+        execute as @e[tag=tf2.my_stickybomb] 
+                if score @s tf2.age = $oldest tf2.age
+                at @s run Projectile.impact();
+
+        tag @e remove tf2.my_stickybomb;
     }
 }
