@@ -50,7 +50,7 @@ function __tick__() {
     execute as @e[type=#tf2:player_like,tag=tf2.is_playing] at @s run Player.tick();
     tag @e[type=#tf2:player_like] remove tf2.on_point;
     execute as @e[type=item,tag=tf2.pickup] at @s run Pickup.tick();
-    execute as @e[type=item_display,tag=tf2.projectile] at @s run Generalized_Projectile.tick();
+    execute as @e[type=item_display,tag=tf2.projectile] at @s run Projectile.tick();
     execute as @e[type=item_display,tag=tf2.door] at @s run Door.tick();
 
     $flicker = $trigger_reminder = 0008it54g_p_join:$__global__;

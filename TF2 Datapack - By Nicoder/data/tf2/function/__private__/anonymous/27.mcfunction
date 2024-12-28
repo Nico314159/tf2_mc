@@ -1,4 +1,4 @@
-function tf2:grenade/get_pos
+function tf2:projectile/get_pos
 scoreboard players operation @s tf2.mot_x = $mot.mot_x tf2.var
 scoreboard players set @s tf2.hitbox_x 76
 scoreboard players operation @s tf2.mot_y = $mot.mot_y tf2.var

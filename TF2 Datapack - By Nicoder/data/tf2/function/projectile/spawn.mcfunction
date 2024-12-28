@@ -38,5 +38,5 @@ execute store result score $convection tf2.var run data get storage tf2:lookup i
 execute store result score $unreflectable tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.unreflectable
 execute store result score $animated tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.animated
 execute store success storage tf2:summon projectile.no_gravity int 1 if score $gravity tf2.var matches 0
-execute at @s anchored eyes run function tf2:generalized_projectile/spawn_internal with storage tf2:summon projectile
-execute as @e[type=item_display,tag=tf2.new,tag=tf2.projectile,limit=1,sort=nearest] run function tf2:__private__/anonymous/14
+execute at @s anchored eyes run function tf2:projectile/spawn_internal with storage tf2:summon projectile
+execute as @n[type=item_display,tag=tf2.new,tag=tf2.projectile] run function tf2:__private__/anonymous/10

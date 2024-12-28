@@ -316,7 +316,7 @@ class Weapons {
 
         retina.__variable__:$func_id = 100;
         if (predicate tf2:holding_projectile) {
-            Generalized_Projectile.spawn();
+            Projectile.spawn();
         }
         if (!predicate tf2:holding_projectile) {
             this.hitscan();
@@ -714,4 +714,3 @@ class Weapons {
 }
 
 import 'projectile.jmc';
-import 'new_projectile.jmc';

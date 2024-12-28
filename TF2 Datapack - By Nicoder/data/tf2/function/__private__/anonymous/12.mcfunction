@@ -1,3 +1,4 @@
-data modify entity @s transformation set from storage tf2:summon matrix
-execute store result storage retina:output Distance double 0.01 run data get entity @s transformation.scale[0]
+execute store result score $Xf tf2.var run data get entity @s Pos[0] 100
+execute store result score $Yf tf2.var run data get entity @s Pos[1] 100
+execute store result score $Zf tf2.var run data get entity @s Pos[2] 100
 kill

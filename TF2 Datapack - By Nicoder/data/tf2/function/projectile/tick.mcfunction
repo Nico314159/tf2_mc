@@ -1,16 +1,20 @@
 execute if entity @s[tag=tf2.has_trail] at @s run function tf2:projectile/trail
 execute if entity @s[tag=tf2.animated] run function tf2:projectile/animate
-data modify storage tf2:vars Motion set from entity @s item.components.minecraft:custom_data.Motion
-data modify storage tf2:vars Pos set from entity @s Pos
-execute on vehicle run data modify storage tf2:vars Rotation set from entity @s Rotation
-execute if entity @s[tag=!tf2.drag] on vehicle run function tf2:projectile/copy_xz_motion
-execute on vehicle run data modify entity @s Pos[0] set from storage tf2:vars Pos[0]
-execute on vehicle run data modify entity @s Pos[2] set from storage tf2:vars Pos[2]
-execute store result entity @s Rotation[0] float -0.001 run data get storage tf2:vars Rotation[0] 1000
-execute store result entity @s Rotation[1] float -0.001 run data get storage tf2:vars Rotation[1] 1000
-execute if entity @s[tag=tf2.convection] on vehicle run function tf2:projectile/convection
-function tf2:projectile/check_collision
-execute as @e[type=#tf2:player_like,tag=tf2.batch] run function tf2:projectile/remove_tags
+execute if entity @s[tag=!tf2.stuck] run function tf2:motion/move
+execute if score @s tf2.collision matches 1.. run function tf2:projectile/handle_block_collision
+execute if entity @s[tag=!tf2.stuck] run function tf2:projectile/handle_rotation
+execute if entity @s[tag=!tf2.stuck] if data entity @s item.components.minecraft:custom_data.projectile.forces run function tf2:projectile/apply_forces
+scoreboard players operation $width tf2.var = @s tf2.hitbox_x
+scoreboard players set $margin tf2.var 500
+scoreboard players operation $width tf2.var += $margin tf2.var
+scoreboard players operation $width tf2.var > 1000 tf2.const
+execute store result storage tf2:vars offset float 0.0005 run scoreboard players get $width tf2.var
+scoreboard players remove $width tf2.var 1000
+execute store result storage tf2:vars volume float 0.001 run scoreboard players get $width tf2.var
+function tf2:projectile/check_entity_collision with storage tf2:vars
+execute if score $hit_entity tf2.var matches 0 run tag @s add tf2.has_escaped_player
+execute if score $hit_entity tf2.var matches 1 if entity @s[tag=tf2.has_escaped_player] run function tf2:projectile/handle_entity_collision
 scoreboard players add @s tf2.age 1
-execute if score @s tf2.age > @s tf2.lifetime run tag @s add tf2.cleanup
-execute if entity @s[tag=tf2.cleanup] run function tf2:projectile/cleanup
+execute if score @s tf2.age > @s tf2.lifetime run function tf2:projectile/end_of_life
+kill @s[tag=tf2.delete]
+execute as @e[type=#tf2:player_like,tag=tf2.batch] run function tf2:projectile/remove_tags
