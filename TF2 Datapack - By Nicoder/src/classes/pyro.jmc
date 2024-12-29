@@ -208,12 +208,11 @@ class Class.Pyro {
 				unless score @s tf2.team = $current tf2.team	
 				run this.airblast_knockback();
 
-		execute as @e[type=arrow,
+		execute as @e[type=item_display,
 		              tag=tf2.projectile,
 		              tag=tf2.within_cone,
 		              tag=tf2.within_sphere,
 		              tag=!tf2.unreflectable]
-				on passengers
 				unless score @s tf2.team = $current tf2.team
 		        run this.reflect_projectile();
 
@@ -240,43 +239,33 @@ class Class.Pyro {
 				run function player_motion:api/launch_looking;
 	}
 	function reflect_projectile() {
-		execute on vehicle run @s::Owner = @p[tag=origin]::UUID;
+		tf2.player.id:@s = tf2.player.id:@p[tag=origin];
 		tf2.team:@s = tf2.team:@p[tag=origin];
 
-		// Get existing Motion vector & its length
-		vars::Motion = @s::item.components.minecraft:custom_data.Motion;
+		// Get existing motion vector & its length
 		$motion_length = 0;
-		Hardcode.repeat("`i`", () => {
-			$temp = vars::Motion[`i`] * Retina.SCALE;
+		Hardcode.repeatList("`axis`", () => {
+			$temp = tf2.mot_`axis`:@s;
 			$temp *= $temp;
 			$motion_length += $temp;
-		}, 0, 3);
+		}, ["x", "y", "z"]);
 
 		// Get the Pyro's facing vector & its length
-		execute as @p[tag=origin] run Math.facing_vec();
+		execute as @p[tag=origin] run Math.facing_vector();
 		$facing_length = 0;
 		Hardcode.repeatList("`axis`", () => {
-			$temp = retina.__variable__:$output_vec3.`axis`;
+			$temp = $output_vector_`axis`;
 			$temp *= $temp;
 			$facing_length += $temp;
-		}, ["X", "Y", "Z"]);
+		}, ["x", "y", "z"]);
 
 		// Renormalize facing vector to preserve original magnitude
 		Hardcode.repeatList("`axis`", () => {
-			retina.__variable__:$output_vec3.`axis` *= $motion_length;
-			retina.__variable__:$output_vec3.`axis` /= $facing_length;
-		}, ["X", "Y", "Z"]);
+			$output_vector_`axis` *= $motion_length;
+			$output_vector_`axis` /= $facing_length;
+			tf2.mot_`axis`:@s = $output_vector_`axis`;
+		}, ["x", "y", "z"]);
 
-		// Put scores back into NBT storage
-		Hardcode.repeatLists(["`i`", "`axis`"], 
-			() => {
-				vars::Motion[`i`] = EVAL(1 / Retina.SCALE) * (double) 
-				                    retina.__variable__:$output_vec3.`axis`;
-			}, 
-			[["0", "1", "2"], ["X", "Y", "Z"]]
-		);
-
-		@s::item.components.minecraft:custom_data.Motion = vars::Motion;
 		@s::Rotation[0] = @p[tag=origin]::Rotation[0];
 		@s::Rotation[1] = @p[tag=origin]::Rotation[1];
 	}
