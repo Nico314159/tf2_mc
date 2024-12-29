@@ -249,6 +249,9 @@ class Player {
                 tf2.last_class:@s = tf2.class:@s; 
                 test_items();
             }
+            else if (tf2.last_class:@s == Class.DEMOMAN) {
+                Class.Demoman.erase_all_stickybombs();
+            }
             tf2.class:@s = $__item_id__;
             if ($__item_id__ matches 1..9 && tf2.last_class:@s != tf2.class:@s[tag=!tf2.in_spawn]) {
                 // Kill player if they change class outside of spawn
@@ -353,7 +356,7 @@ class Player {
         tag @s add tf2.dead;
         gamemode spectator @s;
         if (tf2.class:@s == Class.DEMOMAN) {
-            Class.Demoman.clear_all_stickybombs();
+            Class.Demoman.erase_all_stickybombs();
         }
 
         index::i = tf2.batch_number:@s;

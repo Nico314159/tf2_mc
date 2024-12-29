@@ -1,2 +1,2 @@
-particle minecraft:electric_spark ~ ~ ~ 0.1 0.1 0.1 0.1 50
+particle minecraft:poof
 tag @s add tf2.delete

@@ -699,7 +699,7 @@ class Projectile {
         tag @s remove tf2.closest_hit;
     }
     function fizzle() {
-        particle minecraft:electric_spark ~ ~ ~ 0.1 0.1 0.1 0.1 50;
+        particle minecraft:poof;
         tag @s add tf2.delete;
     }
     function end_of_life() {
