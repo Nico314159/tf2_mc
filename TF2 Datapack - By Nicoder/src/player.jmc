@@ -85,9 +85,9 @@ class Player {
         execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current;
 
         tf2.last_x:@s[type=player] = tf2.now_x:@s;
-        tf2.now_x:@s[type=player] = @s::Pos[0] * 100;
+        tf2.now_x:@s[type=player] = @s::Pos[0] * 1000;
         tf2.last_z:@s[type=player] = tf2.now_z:@s;
-        tf2.now_z:@s[type=player] = @s::Pos[2] * 100;
+        tf2.now_z:@s[type=player] = @s::Pos[2] * 1000;
 
         if (entity @s[tag=!tf2.dead,y=-45,dy=5]) {
             lookup::damages << {

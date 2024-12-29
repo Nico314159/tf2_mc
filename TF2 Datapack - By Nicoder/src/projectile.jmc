@@ -235,15 +235,11 @@ class Projectile {
         $output_vector_z = retina.__variable__:$output_vec3.Z;
     }
     function compensate_velocity() {
-        $velocity = summon::projectile.X * 100;
-        $velocity += tf2.now_x:@s;
-        $velocity -= tf2.last_x:@s;
-        summon::projectile.X = 0.01 * (double) $velocity;
+        $mot.mot_x += tf2.now_x:@s;
+        $mot.mot_x -= tf2.last_x:@s;
 
-        $velocity = summon::projectile.Z * 100;
-        $velocity += tf2.now_z:@s;
-        $velocity -= tf2.last_z:@s;
-        summon::projectile.Z = 0.01 * (double) $velocity;
+        $mot.mot_z += tf2.now_z:@s;
+        $mot.mot_z -= tf2.last_z:@s;
     }
     function apply_forces() {
         forces::{} += @s::item.components.minecraft:custom_data.projectile.forces;

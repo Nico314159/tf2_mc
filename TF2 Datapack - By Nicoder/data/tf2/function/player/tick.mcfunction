@@ -1,9 +1,9 @@
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute as @a if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 scoreboard players operation @s[type=player] tf2.last_x = @s tf2.now_x
-execute store result score @s[type=player] tf2.now_x run data get entity @s Pos[0] 100
+execute store result score @s[type=player] tf2.now_x run data get entity @s Pos[0] 1000
 scoreboard players operation @s[type=player] tf2.last_z = @s tf2.now_z
-execute store result score @s[type=player] tf2.now_z run data get entity @s Pos[2] 100
+execute store result score @s[type=player] tf2.now_z run data get entity @s Pos[2] 1000
 execute if entity @s[tag=!tf2.dead,y=-45,dy=5] run function tf2:__private__/if_else/54
 execute if entity @s[tag=tf2.dead] run function tf2:__private__/if_else/55
 execute if entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}] run function tf2:spawn/init

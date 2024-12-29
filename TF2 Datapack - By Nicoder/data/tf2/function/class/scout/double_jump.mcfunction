@@ -3,13 +3,13 @@ execute store result score $input_yaw retina.__variable__ run data get entity @s
 function retina:math/gimbal_to_vec
 scoreboard players operation $x player_motion.api.launch = @s tf2.now_x
 scoreboard players operation $x player_motion.api.launch -= @s tf2.last_x
-scoreboard players operation $x player_motion.api.launch *= 40 tf2.const
+scoreboard players operation $x player_motion.api.launch *= 4 tf2.const
 scoreboard players operation $x player_motion.api.launch < 2000 tf2.const
 scoreboard players operation $x player_motion.api.launch > -2000 tf2.const
 scoreboard players set $y player_motion.api.launch 5500
 scoreboard players operation $z player_motion.api.launch = @s tf2.now_z
 scoreboard players operation $z player_motion.api.launch -= @s tf2.last_z
-scoreboard players operation $z player_motion.api.launch *= 40 tf2.const
+scoreboard players operation $z player_motion.api.launch *= 4 tf2.const
 scoreboard players operation $z player_motion.api.launch < 2000 tf2.const
 scoreboard players operation $z player_motion.api.launch > -2000 tf2.const
 function player_motion:api/launch_xyz
