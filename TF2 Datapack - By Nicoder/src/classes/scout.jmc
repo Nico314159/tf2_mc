@@ -65,10 +65,6 @@ class Class.Scout {
         Class.Scout.inventory_lock();
     }
     function double_jump() {
-		retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
-		retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
-		function retina:math/gimbal_to_vec;
-
 		player_motion.api.launch:$x = tf2.now_x:@s;
 		player_motion.api.launch:$x -= tf2.last_x:@s;
 		player_motion.api.launch:$x *= 4;
