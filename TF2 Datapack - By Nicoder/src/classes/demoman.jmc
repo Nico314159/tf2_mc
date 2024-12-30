@@ -43,6 +43,7 @@ make_weapon(
         'block_collision': {'mode': Collision.STICK},
         'entity_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.1},
         'lifetime': 2147483647,
+        'unreflectable': true,
         'arm_time': 0.7,
         'explode_alt_fire': 8
     },
