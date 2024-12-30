@@ -82,7 +82,7 @@ def meter(seconds: int, score: str, scale = 1):
         },
         {
             "function": "minecraft:set_damage",
-            "damage": 2 * scale / technical_max
+            "damage": 2 / technical_max 
         },
         {
             "function": "minecraft:set_damage",
@@ -90,7 +90,7 @@ def meter(seconds: int, score: str, scale = 1):
                 "type": "minecraft:score",
                 "target": "this",
                 "score": score,
-                "scale": 1 * scale / technical_max
+                "scale": scale / technical_max
             },
             "add": True
         }
