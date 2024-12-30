@@ -562,27 +562,27 @@ class Class.Spy {
         execute at @s summon marker run tag @s add get_pos;
         execute as @e[type=marker, tag=get_pos] expand {
             tp @s ~ ~ ~ facing entity @a[tag=retina.target,limit=1] feet;
-            Math.facing_vec();
+            Math.facing_vector();
             kill @s;
         }
         Math.feed_left();
         
-        execute as @a[tag=retina.target,limit=1] run Math.facing_vec();
+        execute as @a[tag=retina.target,limit=1] run Math.facing_vector();
         Math.feed_right();
         Math.dot_product();
-        // printf("&<bold>Enemy: &<!bold>[&<$in2_vec3.X>, &<$in2_vec3.Y>, &<$in2_vec3.Z>]");
+        // printf("&<bold>Enemy: &<!bold>[&<$input_vector_2_x>, &<$input_vector_2_y>, &<$input_vector_2_z>]");
         // printf("&<yellow>1st dot product: &<white>&<$dot_product>");
         if ($dot_product < 0) {return fail;}
 
         // (Spy pos to enemy pos) * (Spy rotation)
-        Math.facing_vec();
+        Math.facing_vector();
         Math.feed_right();
         Math.dot_product();
         // printf("&<green>2nd dot product: &<white>&<$dot_product>");
         if ($dot_product < 500) {return fail;}
 
         // (Enemy rotation) * (Spy rotation)
-        execute as @a[tag=retina.target,limit=1] run Math.facing_vec();
+        execute as @a[tag=retina.target,limit=1] run Math.facing_vector();
         Math.feed_left();
         Math.dot_product();
         // printf("&<blue>3rd dot product: &<white>&<$dot_product>");

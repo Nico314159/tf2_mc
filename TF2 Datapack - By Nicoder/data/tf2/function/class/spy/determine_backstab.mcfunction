@@ -11,18 +11,18 @@ data modify storage tf2:lookup spy_pos set from entity @s Pos
 data modify storage tf2:lookup enemy_pos set from entity @a[tag=retina.target,limit=1] Pos
 execute at @s summon marker run tag @s add get_pos
 execute as @e[type=marker,tag=get_pos] run tp @s ~ ~ ~ facing entity @a[tag=retina.target,limit=1] feet
-execute as @e[type=marker,tag=get_pos] run function tf2:math/facing_vec
+execute as @e[type=marker,tag=get_pos] run function tf2:math/facing_vector
 execute as @e[type=marker,tag=get_pos] run kill @s
 function tf2:math/feed_left
-execute as @a[tag=retina.target,limit=1] run function tf2:math/facing_vec
+execute as @a[tag=retina.target,limit=1] run function tf2:math/facing_vector
 function tf2:math/feed_right
 function tf2:math/dot_product
 execute if score $dot_product tf2.var matches ..-1 run return fail
-function tf2:math/facing_vec
+function tf2:math/facing_vector
 function tf2:math/feed_right
 function tf2:math/dot_product
 execute if score $dot_product tf2.var matches ..499 run return fail
-execute as @a[tag=retina.target,limit=1] run function tf2:math/facing_vec
+execute as @a[tag=retina.target,limit=1] run function tf2:math/facing_vector
 function tf2:math/feed_left
 function tf2:math/dot_product
 execute if score $dot_product tf2.var matches ..-301 run return fail

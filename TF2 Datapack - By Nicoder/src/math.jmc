@@ -108,32 +108,25 @@ class Math {
         $output_pitch = $output;
     }
 
-    function facing_vec() {
-        retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
-        retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
-        function retina:math/gimbal_to_vec;
-    }
-
     function dot_product() {
-        $math_term_0 = $in1_vec3.X;
-        $math_term_0 *= $in2_vec3.X;
-        $math_term_1 = $in1_vec3.Y;
-        $math_term_1 *= $in2_vec3.Y;
-        $math_term_2 = $in1_vec3.Z;
-        $math_term_2 *= $in2_vec3.Z;
+        $math_term_0 = $input_vector_1_x;
+        $math_term_0 *= $input_vector_2_x;
+        $math_term_1 = $input_vector_1_y;
+        $math_term_1 *= $input_vector_2_y;
+        $math_term_2 = $input_vector_1_z;
+        $math_term_2 *= $input_vector_2_z;
         $output = $math_term_0;
         $output += $math_term_1;
         $output += $math_term_2;
-        $output *= 1000;
-        $dot_product = $output /= EVAL(Retina.SCALE ** 2);
+        $dot_product = $output /= 1000;
     }
    
     function feed_left() {
-        Hardcode.repeatList("[axis]", () => {$in1_vec3.[axis] = retina.__variable__:$output_vec3.[axis];}, ["X", "Y", "Z"]);
+        Hardcode.repeatList("[axis]", () => {$input_vector_1_[axis] = $output_vector_[axis];}, ["x", "y", "z"]);
     }
 
     function feed_right() {
-        Hardcode.repeatList("[axis]", () => {$in2_vec3.[axis] = retina.__variable__:$output_vec3.[axis];}, ["X", "Y", "Z"]);
+        Hardcode.repeatList("[axis]", () => {$input_vector_2_[axis] = $output_vector_[axis];}, ["x", "y", "z"]);
     }
 
 
