@@ -87,8 +87,6 @@ class Class.Medic {
 
 		this.inventory_lock();
 
-		this.display_uber();
-
 		$regen_modulo = 0008it54g_p_join:$__global__;
 		$regen_modulo %= 20;
 		if ($regen_modulo == 0) {
@@ -108,6 +106,8 @@ class Class.Medic {
 			        at @s run this.apply_healing();
 		}
 		tag @s remove self;
+
+		this.display_uber();
 	}
 	function inventory_lock() {
 		item replace entity @s weapon.offhand with air;
@@ -302,6 +302,7 @@ class Class.Medic {
 		$drain_rate /= $duration;
 
 		tf2.ubercharge:@s[tag=tf2.uber_source] -= $drain_rate;
+		tf2.ubercharge:@s[tag=tf2.uber_source] > 0;
 		tag @s[scores={tf2.ubercharge=..0}] remove tf2.uber_source;
 	}
 }
