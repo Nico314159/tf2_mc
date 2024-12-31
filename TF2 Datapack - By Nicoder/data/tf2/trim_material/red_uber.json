@@ -1,0 +1,9 @@
+{
+    "asset_name": "red_uber",
+    "description": {
+        "color": "#DD3004",
+        "translate": "trim_material.tf2.red_uber"
+    },
+    "ingredient": "minecraft:red_banner",
+    "item_model_index": 0.01
+}

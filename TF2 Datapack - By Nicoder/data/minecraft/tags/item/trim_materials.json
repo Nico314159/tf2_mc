@@ -1,6 +1,8 @@
 {
     "values": [
         "minecraft:red_banner",
-        "minecraft:blue_banner"
+        "minecraft:blue_banner",
+        "minecraft:red_concrete",
+        "minecraft:blue_concrete"
     ]
 }

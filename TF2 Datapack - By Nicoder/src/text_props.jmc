@@ -112,11 +112,38 @@ Trigger.add(autoreload, () => {
                             }
                         },
                         "conditions": [
-                            {
-                                "condition": "minecraft:entity_scores",
-                                "entity": "this",
-                                "scores": {"tf2.team": 1}
+                         	{
+                         		"condition": "minecraft:entity_scores",
+                         		"entity": "this",
+                         		"scores": { "tf2.team": 1 }
+                         	},
+                         	{
+		                        "condition": "minecraft:inverted",
+                        		"term": {
+                        			"condition": "minecraft:reference",
+                        			"name": "tf2:ubercharge"
+                        		}
+	                        }
+                        ]
+                    },
+                    {
+                        "function": "minecraft:set_components",
+                        "components": {
+                            "minecraft:trim": {
+                                "material": "tf2:red_uber",
+                                "pattern": "tf2:$x"
                             }
+                        },
+                        "conditions": [
+                         	{
+                         		"condition": "minecraft:entity_scores",
+                         		"entity": "this",
+                         		"scores": { "tf2.team": 1 }
+                         	},
+                         	{
+                         		"condition": "minecraft:reference",
+                         		"name": "tf2:ubercharge"
+                         	}
                         ]
                     },
                     {
@@ -128,11 +155,38 @@ Trigger.add(autoreload, () => {
                             }
                         },
                         "conditions": [
-                            {
-                                "condition": "minecraft:entity_scores",
-                                "entity": "this",
-                                "scores": {"tf2.team": 2}
+                         	{
+                         		"condition": "minecraft:entity_scores",
+                         		"entity": "this",
+                         		"scores": { "tf2.team": 2 }
+                         	},
+                         	{
+		                        "condition": "minecraft:inverted",
+                        		"term": {
+                        			"condition": "minecraft:reference",
+                        			"name": "tf2:ubercharge"
+                        		}
+	                        }
+                        ]
+                    },
+                    {
+                        "function": "minecraft:set_components",
+                        "components": {
+                            "minecraft:trim": {
+                                "material": "tf2:blu_uber",
+                                "pattern": "tf2:$x"
                             }
+                        },
+                        "conditions": [
+                         	{
+                         		"condition": "minecraft:entity_scores",
+                         		"entity": "this",
+                         		"scores": { "tf2.team": 2 }
+                         	},
+                         	{
+                         		"condition": "minecraft:reference",
+                         		"name": "tf2:ubercharge"
+                         	}
                         ]
                     },
                     {
@@ -165,11 +219,38 @@ Trigger.add(autoreload, () => {
                             }
                         },
                         "conditions": [
-                            {
-                                "condition": "minecraft:entity_scores",
-                                "entity": "this",
-                                "scores": {"tf2.team": 1}
+                         	{
+                         		"condition": "minecraft:entity_scores",
+                         		"entity": "this",
+                         		"scores": { "tf2.team": 1 }
+                         	},
+                         	{
+		                        "condition": "minecraft:inverted",
+                        		"term": {
+                        			"condition": "minecraft:reference",
+                        			"name": "tf2:ubercharge"
+                        		}
+	                        }
+                        ]
+                    },
+                    {
+                        "function": "minecraft:set_components",
+                        "components": {
+                            "minecraft:trim": {
+                                "material": "tf2:red_uber",
+                                "pattern": "tf2:$x"
                             }
+                        },
+                        "conditions": [
+                         	{
+                         		"condition": "minecraft:entity_scores",
+                         		"entity": "this",
+                         		"scores": { "tf2.team": 1 }
+                         	},
+                         	{
+                         		"condition": "minecraft:reference",
+                         		"name": "tf2:ubercharge"
+                         	}
                         ]
                     },
                     {
@@ -181,11 +262,38 @@ Trigger.add(autoreload, () => {
                             }
                         },
                         "conditions": [
-                            {
-                                "condition": "minecraft:entity_scores",
-                                "entity": "this",
-                                "scores": {"tf2.team": 2}
+                         	{
+                         		"condition": "minecraft:entity_scores",
+                         		"entity": "this",
+                         		"scores": { "tf2.team": 2 }
+                         	},
+                         	{
+		                        "condition": "minecraft:inverted",
+                        		"term": {
+                        			"condition": "minecraft:reference",
+                        			"name": "tf2:ubercharge"
+                        		}
+	                        }
+                        ]
+                    },
+                    {
+                        "function": "minecraft:set_components",
+                        "components": {
+                            "minecraft:trim": {
+                                "material": "tf2:blu_uber",
+                                "pattern": "tf2:$x"
                             }
+                        },
+                        "conditions": [
+                         	{
+                         		"condition": "minecraft:entity_scores",
+                         		"entity": "this",
+                         		"scores": { "tf2.team": 2 }
+                         	},
+                         	{
+                         		"condition": "minecraft:reference",
+                         		"name": "tf2:ubercharge"
+                         	}
                         ]
                     },
                     {

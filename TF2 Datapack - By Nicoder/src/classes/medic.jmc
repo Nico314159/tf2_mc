@@ -56,6 +56,26 @@ make_weapon(
 )
 `, jmc=true);
 
+new predicate(ubercharge) {
+	"condition": "minecraft:any_of",
+	"terms": [
+		{
+			"condition": "minecraft:entity_properties",
+			"entity": "this",
+			"predicate": {
+				"nbt": "{Tags:[\"tf2.uber_source\"]}"
+			}
+		},
+		{
+			"condition": "minecraft:entity_properties",
+			"entity": "this",
+			"predicate": {
+				"nbt": "{Tags:[\"tf2.uber_patient\"]}"
+			}
+		}
+	]
+}
+
 class Class.Medic {
 
 	function give() {
@@ -193,6 +213,7 @@ class Class.Medic {
 
 		function retina:traverse/setup;
 
+		execute as @e[tag=tf2.valid_heal_target] run say "FIBSH";
 		scoreboard players reset @s tf2.heal_target;
 		tf2.heal_target:@s = tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, scores={retina.hit=1..}];
 		tf2.heal_target:@s ??= tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, sort=nearest, limit=1];

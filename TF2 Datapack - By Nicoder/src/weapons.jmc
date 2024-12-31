@@ -237,10 +237,30 @@ new trim_material(blu) {
     "ingredient": "minecraft:blue_banner",
     "item_model_index": 0.02
 }
+new trim_material(red_uber) {
+    "asset_name": "red_uber",
+    "description": {
+        "color": "#DD3004",
+        "translate": "trim_material.tf2.red_uber"
+    },
+    "ingredient": "minecraft:red_banner",
+    "item_model_index": 0.01
+}
+new trim_material(blu_uber) {
+    "asset_name": "blu_uber",
+    "description": {
+        "color": "#258474",
+        "translate": "trim_material.tf2.blu_uber"
+    },
+    "ingredient": "minecraft:blue_banner",
+    "item_model_index": 0.02
+}
 new tags.item(minecraft.trim_materials) {
     "values": [
         "minecraft:red_banner",
-        "minecraft:blue_banner"
+        "minecraft:blue_banner",
+        "minecraft:red_concrete",
+        "minecraft:blue_concrete"
     ]
 }
 

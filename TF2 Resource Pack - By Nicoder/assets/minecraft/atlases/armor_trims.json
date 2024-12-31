@@ -8,7 +8,9 @@
             "palette_key": "tf2:trims/color_palettes/scout/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/scout/red",
-                "blu": "tf2:trims/color_palettes/scout/blu"
+                "red_uber": "tf2:trims/color_palettes/scout/red_uber",
+                "blu": "tf2:trims/color_palettes/scout/blu",
+                "blu_uber": "tf2:trims/color_palettes/scout/blu_uber"
             }
         },
         {
@@ -19,7 +21,9 @@
             "palette_key": "tf2:trims/color_palettes/sniper/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/sniper/red",
-                "blu": "tf2:trims/color_palettes/sniper/blu"
+                "red_uber": "tf2:trims/color_palettes/sniper/red_uber",
+                "blu": "tf2:trims/color_palettes/sniper/blu",
+                "blu_uber": "tf2:trims/color_palettes/sniper/blu_uber"
             }
         },
         {
@@ -30,7 +34,9 @@
             "palette_key": "tf2:trims/color_palettes/heavy/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/heavy/red",
-                "blu": "tf2:trims/color_palettes/heavy/blu"
+                "red_uber": "tf2:trims/color_palettes/heavy/red_uber",
+                "blu": "tf2:trims/color_palettes/heavy/blu",
+                "blu_uber": "tf2:trims/color_palettes/heavy/blu_uber"
             }
         },
         {
@@ -41,7 +47,9 @@
             "palette_key": "tf2:trims/color_palettes/soldier/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/soldier/red",
-                "blu": "tf2:trims/color_palettes/soldier/blu"
+                "red_uber": "tf2:trims/color_palettes/soldier/red_uber",
+                "blu": "tf2:trims/color_palettes/soldier/blu",
+                "blu_uber": "tf2:trims/color_palettes/soldier/blu_uber"
             }
         },
         {
@@ -52,7 +60,9 @@
             "palette_key": "tf2:trims/color_palettes/spy/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/spy/red",
-                "blu": "tf2:trims/color_palettes/spy/blu"
+                "red_uber": "tf2:trims/color_palettes/spy/red_uber",
+                "blu": "tf2:trims/color_palettes/spy/blu",
+                "blu_uber": "tf2:trims/color_palettes/spy/blu_uber"
             }
         },
         {
@@ -63,7 +73,9 @@
             "palette_key": "tf2:trims/color_palettes/pyro/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/pyro/red",
-                "blu": "tf2:trims/color_palettes/pyro/blu"
+                "red_uber": "tf2:trims/color_palettes/pyro/red_uber",
+                "blu": "tf2:trims/color_palettes/pyro/blu",
+                "blu_uber": "tf2:trims/color_palettes/pyro/blu_uber"
             }
         },
         {
@@ -74,7 +86,9 @@
             "palette_key": "tf2:trims/color_palettes/medic/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/medic/red",
-                "blu": "tf2:trims/color_palettes/medic/blu"
+                "red_uber": "tf2:trims/color_palettes/medic/red_uber",
+                "blu": "tf2:trims/color_palettes/medic/blu",
+                "blu_uber": "tf2:trims/color_palettes/medic/blu_uber"
             }
         },
         {
@@ -85,7 +99,9 @@
             "palette_key": "tf2:trims/color_palettes/demoman/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/demoman/red",
-                "blu": "tf2:trims/color_palettes/demoman/blu"
+                "red_uber": "tf2:trims/color_palettes/demoman/red_uber",
+                "blu": "tf2:trims/color_palettes/demoman/blu",
+                "blu_uber": "tf2:trims/color_palettes/demoman/blu_uber"
             }
         },
         {
@@ -96,7 +112,9 @@
             "palette_key": "tf2:trims/color_palettes/engineer/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/engineer/red",
-                "blu": "tf2:trims/color_palettes/engineer/blu"
+                "red_uber": "tf2:trims/color_palettes/engineer/red_uber",
+                "blu": "tf2:trims/color_palettes/engineer/blu",
+                "blu_uber": "tf2:trims/color_palettes/engineer/blu_uber"
             }
         },
 
@@ -111,7 +129,9 @@
             "palette_key": "tf2:trims/color_palettes/scout/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/scout/red",
-                "blu": "tf2:trims/color_palettes/scout/blu"
+                "red_uber": "tf2:trims/color_palettes/scout/red_uber",
+                "blu": "tf2:trims/color_palettes/scout/blu",
+                "blu_uber": "tf2:trims/color_palettes/scout/blu_uber"
             }
         },
         {
@@ -122,7 +142,9 @@
             "palette_key": "tf2:trims/color_palettes/sniper/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/sniper/red",
-                "blu": "tf2:trims/color_palettes/sniper/blu"
+                "red_uber": "tf2:trims/color_palettes/sniper/red_uber",
+                "blu": "tf2:trims/color_palettes/sniper/blu",
+                "blu_uber": "tf2:trims/color_palettes/sniper/blu_uber"
             }
         },
         {
@@ -133,7 +155,9 @@
             "palette_key": "tf2:trims/color_palettes/heavy/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/heavy/red",
-                "blu": "tf2:trims/color_palettes/heavy/blu"
+                "red_uber": "tf2:trims/color_palettes/heavy/red_uber",
+                "blu": "tf2:trims/color_palettes/heavy/blu",
+                "blu_uber": "tf2:trims/color_palettes/heavy/blu_uber"
             }
         },
         {
@@ -144,7 +168,9 @@
             "palette_key": "tf2:trims/color_palettes/soldier/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/soldier/red",
-                "blu": "tf2:trims/color_palettes/soldier/blu"
+                "red_uber": "tf2:trims/color_palettes/soldier/red_uber",
+                "blu": "tf2:trims/color_palettes/soldier/blu",
+                "blu_uber": "tf2:trims/color_palettes/soldier/blu_uber"
             }
         },
         {
@@ -155,7 +181,9 @@
             "palette_key": "tf2:trims/color_palettes/spy/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/spy/red",
-                "blu": "tf2:trims/color_palettes/spy/blu"
+                "red_uber": "tf2:trims/color_palettes/spy/red_uber",
+                "blu": "tf2:trims/color_palettes/spy/blu",
+                "blu_uber": "tf2:trims/color_palettes/spy/blu_uber"
             }
         },
         {
@@ -166,7 +194,9 @@
             "palette_key": "tf2:trims/color_palettes/pyro/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/pyro/red",
-                "blu": "tf2:trims/color_palettes/pyro/blu"
+                "red_uber": "tf2:trims/color_palettes/pyro/red_uber",
+                "blu": "tf2:trims/color_palettes/pyro/blu",
+                "blu_uber": "tf2:trims/color_palettes/pyro/blu_uber"
             }
         },
         {
@@ -177,7 +207,9 @@
             "palette_key": "tf2:trims/color_palettes/medic/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/medic/red",
-                "blu": "tf2:trims/color_palettes/medic/blu"
+                "red_uber": "tf2:trims/color_palettes/medic/red_uber",
+                "blu": "tf2:trims/color_palettes/medic/blu",
+                "blu_uber": "tf2:trims/color_palettes/medic/blu_uber"
             }
         },
         {
@@ -188,7 +220,9 @@
             "palette_key": "tf2:trims/color_palettes/demoman/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/demoman/red",
-                "blu": "tf2:trims/color_palettes/demoman/blu"
+                "red_uber": "tf2:trims/color_palettes/demoman/red_uber",
+                "blu": "tf2:trims/color_palettes/demoman/blu",
+                "blu_uber": "tf2:trims/color_palettes/demoman/blu_uber"
             }
         },
         {
@@ -199,7 +233,9 @@
             "palette_key": "tf2:trims/color_palettes/engineer/red",
             "permutations": {
                 "red": "tf2:trims/color_palettes/engineer/red",
-                "blu": "tf2:trims/color_palettes/engineer/blu"
+                "red_uber": "tf2:trims/color_palettes/engineer/red_uber",
+                "blu": "tf2:trims/color_palettes/engineer/blu",
+                "blu_uber": "tf2:trims/color_palettes/engineer/blu_uber"
             }
         }
     ]

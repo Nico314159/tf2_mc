@@ -1,0 +1,9 @@
+{
+    "asset_name": "blu_uber",
+    "description": {
+        "color": "#258474",
+        "translate": "trim_material.tf2.blu_uber"
+    },
+    "ingredient": "minecraft:blue_banner",
+    "item_model_index": 0.02
+}
