@@ -1,0 +1,132 @@
+new trim_pattern(engineer) {
+    "asset_id": "tf2:engineer",
+    "description": {
+        "translate": "trim_pattern.tf2.engineer"
+    },
+    "template_item": "minecraft:stick"
+}
+generate_body_model(engineer);
+
+JMC.python(`
+make_weapon(
+    Class.ENGINEER, slot=0, name='Shotgun', bullets=[3, 3, 1], spread=[100, 250],
+    attributes={'damage': {'base': 6, 'maxRamp': 1.5}, 'attackDelay': 0.625, 'reloadDelay': [0.87, 0.51], 'clip': 6, 'ammo': 32}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.ENGINEER, slot=1, name='Pistol', spread=[40, 85],
+    attributes={'damage': {'base': 15}, 'attackDelay': 0.15, 'reloadDelay': [1.035, 1.035], 'clip': 12, 'ammo': 200, 'spreadRecovery': 25},
+    controls={'reload': 3}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.ENGINEER, slot=2, 
+    name='Wrench',
+    attributes={'damage': {'base': 65}, 'attackDelay': 0.8, 'range': 3.2, 'isMelee': true}
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.ENGINEER, slot=3, 
+    name='Construction PDA',
+    display_name="Construction PDA (doesn't work yet)"
+)
+`, jmc=true);
+
+JMC.python(`
+make_weapon(
+    Class.ENGINEER, slot=4, 
+    name='Destruction PDA',
+    display_name="Destruction PDA (doesn't work yet)"
+)
+`, jmc=true);
+
+class Class.Engineer {
+    function give() {
+        clear @s;
+        loot replace entity @s hotbar.0 loot tf2:class/engineer/shotgun;
+        loot replace entity @s hotbar.1 loot tf2:class/engineer/pistol;
+        loot replace entity @s hotbar.2 loot tf2:class/engineer/wrench;
+        loot replace entity @s hotbar.3 loot tf2:class/engineer/construction_pda;
+        loot replace entity @s hotbar.4 loot tf2:class/engineer/destruction_pda;
+        loot replace entity @s armor.legs loot tf2:class/engineer/leg_model;
+        loot replace entity @s armor.chest loot tf2:class/engineer/chest_model;
+
+        lookup::inventory = @s::Inventory;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
+        tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
+        tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
+    }
+    @lazy
+    function tick() {
+        Weapons.get_ammo();
+        HUD.actionbar();
+        Weapons.set_ammo();
+
+        Class.Engineer.inventory_lock();
+    }
+    function inventory_lock() {
+        item replace entity @s weapon.offhand with air;
+        loot replace entity @s hotbar.0 loot tf2:class/engineer/shotgun;
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 0)}] 0;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 0)}];
+            loot replace entity @s hotbar.0 loot tf2:class/engineer/shotgun;
+        }
+
+        loot replace entity @s hotbar.1 loot tf2:class/engineer/pistol;
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 1)}] 0;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 1)}];
+            loot replace entity @s hotbar.1 loot tf2:class/engineer/pistol;
+        }
+
+        loot replace entity @s hotbar.2 loot tf2:class/engineer/wrench;
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 2)}] 0;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 2)}];
+            loot replace entity @s hotbar.2 loot tf2:class/engineer/wrench;
+        }
+
+        loot replace entity @s hotbar.3 loot tf2:class/engineer/construction_pda;
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 3)}] 0;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 3)}];
+            loot replace entity @s hotbar.3 loot tf2:class/engineer/construction_pda;
+        }
+
+        loot replace entity @s hotbar.4 loot tf2:class/engineer/destruction_pda;
+        $_count_ = clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 4)}] 0;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.ENGINEER * 10 + 4)}];
+            loot replace entity @s hotbar.4 loot tf2:class/engineer/destruction_pda;
+        }
+
+        loot replace entity @s armor.legs loot tf2:class/engineer/leg_model;
+        $_count_ = clear @s iron_leggings 0;
+        if ($_count_ != 1) expand {
+            clear @s iron_leggings;
+            loot replace entity @s armor.legs loot tf2:class/engineer/leg_model;
+        }
+
+        loot replace entity @s armor.chest loot tf2:class/engineer/chest_model;
+        $_count_ = clear @s iron_chestplate 0;
+        if ($_count_ != 1) expand {
+            clear @s iron_chestplate;
+            loot replace entity @s armor.chest loot tf2:class/engineer/chest_model;
+        }
+
+        loot replace entity @s armor.head loot tf2:head;
+        $_count_ = clear @s paper 0;
+        if ($_count_ != 1) expand {
+            clear @s paper;
+            loot replace entity @s armor.head loot tf2:head;
+        }
+    }
+}

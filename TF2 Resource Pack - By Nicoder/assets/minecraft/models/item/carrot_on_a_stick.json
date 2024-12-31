@@ -10,6 +10,7 @@
         { "predicate": {"custom_model_data": 5}, "model": "tf2:item/demoman/icon"},
         { "predicate": {"custom_model_data": 6}, "model": "tf2:item/heavy/icon"},
         { "predicate": {"custom_model_data": 7}, "model": "tf2:item/pyro/icon"},
+        { "predicate": {"custom_model_data": 8}, "model": "tf2:item/engineer/icon"},
         { "predicate": {"custom_model_data": 9}, "model": "tf2:item/medic/icon"},
         { "predicate": {"custom_model_data": 10}, "model": "tf2:item/logo"}
     ]

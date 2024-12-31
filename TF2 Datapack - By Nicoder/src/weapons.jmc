@@ -275,7 +275,7 @@ class Weapons {
             case Class.DEMOMAN: Class.Demoman.inventory_lock();
             case Class.HEAVY: Class.Heavy.inventory_lock();
             case Class.PYRO: Class.Pyro.inventory_lock();
-            // case Class.ENGINEER: Class.Engineer.inventory_lock();
+            case Class.ENGINEER: Class.Engineer.inventory_lock();
             case Class.MEDIC: Class.Medic.inventory_lock();
         }
 
@@ -431,7 +431,7 @@ class Weapons {
             case Class.DEMOMAN: Class.Demoman.inventory_lock();
             case Class.HEAVY: Class.Heavy.inventory_lock();
             case Class.PYRO: Class.Pyro.inventory_lock();
-            // case Class.ENGINEER: Class.Engineer.inventory_lock();
+            case Class.ENGINEER: Class.Engineer.inventory_lock();
             case Class.MEDIC: Class.Medic.inventory_lock();
         }
         if (predicate tf2:hide_ammo) return 0;

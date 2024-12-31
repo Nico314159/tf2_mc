@@ -1,0 +1,7 @@
+{
+    "asset_id": "tf2:engineer",
+    "description": {
+        "translate": "trim_pattern.tf2.engineer"
+    },
+    "template_item": "minecraft:stick"
+}

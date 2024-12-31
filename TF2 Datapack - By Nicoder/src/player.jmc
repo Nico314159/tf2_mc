@@ -166,7 +166,7 @@ class Player {
             case Class.DEMOMAN: Class.Demoman.tick();
             case Class.HEAVY: Class.Heavy.tick();
             case Class.PYRO: Class.Pyro.tick();
-            // case Class.ENGINEER: Class.Engineer.tick();
+            case Class.ENGINEER: Class.Engineer.tick();
             case Class.MEDIC: Class.Medic.tick();
         }
         item replace entity @s[scores={tf2.class=1..9}, tag=!tf2.in_disguise_menu] hotbar.8 with Item.CHANGE_CLASS;

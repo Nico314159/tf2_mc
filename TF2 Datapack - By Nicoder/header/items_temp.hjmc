@@ -1,13 +1,14 @@
 // This file will be removed once JMC Item.create is made to work with Minecraft 1.20.5+ item components
 #define Item.CHANGE_CLASS carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
 
-#define Select.SPY     carrot_on_a_stick[custom_model_data=1,custom_name='"Spy (WIP)"'] 1
-#define Select.SNIPER  carrot_on_a_stick[custom_model_data=2,custom_name='"Sniper"'] 1
-#define Select.SCOUT   carrot_on_a_stick[custom_model_data=3,custom_name='"Scout"'] 1
-#define Select.HEAVY   carrot_on_a_stick[custom_model_data=6,custom_name='"Heavy"'] 1
-#define Select.SOLDIER carrot_on_a_stick[custom_model_data=4,custom_name='"Soldier"'] 1
-#define Select.PYRO    carrot_on_a_stick[custom_model_data=7,custom_name='"Pyro"'] 1
-#define Select.MEDIC   carrot_on_a_stick[custom_model_data=9,custom_name='"Medic"'] 1
-#define Select.DEMOMAN carrot_on_a_stick[custom_model_data=5,custom_name='"Demoman (WIP)"'] 1
+#define Select.SPY      carrot_on_a_stick[custom_model_data=1,custom_name='"Spy (WIP)"'] 1
+#define Select.SNIPER   carrot_on_a_stick[custom_model_data=2,custom_name='"Sniper"'] 1
+#define Select.SCOUT    carrot_on_a_stick[custom_model_data=3,custom_name='"Scout"'] 1
+#define Select.HEAVY    carrot_on_a_stick[custom_model_data=6,custom_name='"Heavy"'] 1
+#define Select.SOLDIER  carrot_on_a_stick[custom_model_data=4,custom_name='"Soldier"'] 1
+#define Select.PYRO     carrot_on_a_stick[custom_model_data=7,custom_name='"Pyro"'] 1
+#define Select.MEDIC    carrot_on_a_stick[custom_model_data=9,custom_name='"Medic"'] 1
+#define Select.DEMOMAN  carrot_on_a_stick[custom_model_data=5,custom_name='"Demoman (WIP)"'] 1
+#define Select.ENGINEER carrot_on_a_stick[custom_model_data=8,custom_name='"Engineer (WIP)"'] 1
 
 #define Item.DOUBLE_JUMP iron_chestplate[enchantment_glint_override=false,enchantments={"binding_curse":1},glider={}]

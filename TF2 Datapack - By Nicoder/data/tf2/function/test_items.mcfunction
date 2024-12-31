@@ -16,3 +16,4 @@ give @s carrot_on_a_stick[custom_model_data=7,custom_name='"Pyro"'] 1
 give @s carrot_on_a_stick[custom_model_data=1,custom_name='"Spy (WIP)"'] 1
 give @s carrot_on_a_stick[custom_model_data=9,custom_name='"Medic"'] 1
 give @s carrot_on_a_stick[custom_model_data=5,custom_name='"Demoman (WIP)"'] 1
+give @s carrot_on_a_stick[custom_model_data=8,custom_name='"Engineer (WIP)"'] 1

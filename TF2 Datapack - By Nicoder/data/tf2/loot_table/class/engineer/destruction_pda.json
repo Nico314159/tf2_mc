@@ -1,0 +1,36 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "tf2:crossbow_base",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:custom_model_data": 6600,
+                                "minecraft:unbreakable": {
+                                    "show_in_tooltip": false
+                                }
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_name",
+                            "name": {
+                                "text": "Destruction PDA (doesn't work yet)",
+                                "color": "gray",
+                                "italic": true
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_data",
+                            "tag": "{key:84}"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

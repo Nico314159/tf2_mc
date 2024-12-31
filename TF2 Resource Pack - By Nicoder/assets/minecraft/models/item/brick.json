@@ -11,6 +11,7 @@
         {"predicate": {"custom_model_data": 4050}, "model": "tf2:item/demoman/melee/bottle"},
         {"predicate": {"custom_model_data": 4800}, "model": "tf2:item/heavy/melee/right_fist"},
         {"predicate": {"custom_model_data": 5550}, "model": "tf2:item/pyro/melee/fire_axe"},
+        {"predicate": {"custom_model_data": 6300}, "model": "tf2:item/engineer/melee/wrench"},
         {"predicate": {"custom_model_data": 7050}, "model": "tf2:item/medic/melee/bonesaw"},
         {"predicate": {"custom_model_data": 7876050}, "model": "tf2:disguise/melee/butterfly_knife_as_butterfly_knife"},
         {"predicate": {"custom_model_data": 7876800}, "model": "tf2:disguise/melee/butterfly_knife_as_kukri"},
@@ -20,6 +21,7 @@
         {"predicate": {"custom_model_data": 7879800}, "model": "tf2:disguise/melee/butterfly_knife_as_right_fist"},
         {"predicate": {"custom_model_data": 7879801}, "model": "tf2:disguise/melee/butterfly_knife_as_left_fist"},
         {"predicate": {"custom_model_data": 7880550}, "model": "tf2:disguise/melee/butterfly_knife_as_fire_axe"},
+        {"predicate": {"custom_model_data": 7881300}, "model": "tf2:disguise/melee/butterfly_knife_as_wrench"},
         {"predicate": {"custom_model_data": 7882050}, "model": "tf2:disguise/melee/butterfly_knife_as_bonesaw"},
         {"predicate": {"custom_model_data": 7883550}, "model": "tf2:disguise/melee/butterfly_knife_raised_as_butterfly_knife"},
         {"predicate": {"custom_model_data": 7884300}, "model": "tf2:disguise/melee/butterfly_knife_raised_as_kukri"},
@@ -29,6 +31,7 @@
         {"predicate": {"custom_model_data": 7887300}, "model": "tf2:disguise/melee/butterfly_knife_raised_as_right_fist"},
         {"predicate": {"custom_model_data": 7887301}, "model": "tf2:disguise/melee/butterfly_knife_raised_as_left_fist"},
         {"predicate": {"custom_model_data": 7888050}, "model": "tf2:disguise/melee/butterfly_knife_raised_as_fire_axe"},
+        {"predicate": {"custom_model_data": 7888800}, "model": "tf2:disguise/melee/butterfly_knife_raised_as_wrench"},
         {"predicate": {"custom_model_data": 7889550}, "model": "tf2:disguise/melee/butterfly_knife_raised_as_bonesaw"}
     ]
 }

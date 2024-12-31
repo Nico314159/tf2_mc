@@ -81,6 +81,7 @@ function class_select() {
         case Class.ENGINEER:
             tf2.max_health:@s = tf2.health:@s = 125;
             attribute @s minecraft:movement_speed base set BASE_SPEED;
+            Class.Engineer.give();
         case Class.MEDIC:
             tf2.max_health:@s = tf2.health:@s = 150;
             attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 1.07);

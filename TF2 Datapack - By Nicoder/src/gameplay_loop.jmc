@@ -414,6 +414,7 @@ function test_items() {
     give @s Select.SPY;
     give @s Select.MEDIC;
     give @s Select.DEMOMAN;
+    give @s Select.ENGINEER;
 }
 
 function quick_start() {
