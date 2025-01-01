@@ -213,7 +213,6 @@ class Class.Medic {
 
 		function retina:traverse/setup;
 
-		execute as @e[tag=tf2.valid_heal_target] run say "FIBSH";
 		scoreboard players reset @s tf2.heal_target;
 		tf2.heal_target:@s = tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, scores={retina.hit=1..}];
 		tf2.heal_target:@s ??= tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, sort=nearest, limit=1];

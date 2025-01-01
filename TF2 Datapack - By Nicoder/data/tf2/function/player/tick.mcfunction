@@ -25,6 +25,8 @@ execute if score __if_else__ tf2.var matches 0 if data entity @s[scores={tf2.int
 execute if entity @s[tag=tf2.autoreload,scores={tf2.time_idle=30..,tf2.reload_delay=..0},predicate=!tf2:hide_ammo] run function tf2:weapons/attempt_autoreload
 execute if items entity @s weapon.offhand *[custom_data~{controls:{alt_fire:true}}] run function tf2:weapons/alt_fire
 execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run scoreboard players operation @s tf2.class = @s tf2.last_class
+scoreboard players add @s[scores={tf2.model_number=..100},predicate=tf2:ubercharge] tf2.model_number 100
+scoreboard players remove @s[scores={tf2.model_number=100..},predicate=!tf2:ubercharge] tf2.model_number 100
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/18/select with storage tf2:__storage__
 item replace entity @s[scores={tf2.class=1..9},tag=!tf2.in_disguise_menu] hotbar.8 with carrot_on_a_stick[custom_model_data=10,custom_name='"Change Class"']
