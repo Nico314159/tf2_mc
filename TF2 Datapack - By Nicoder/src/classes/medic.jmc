@@ -318,7 +318,7 @@ class Class.Medic {
 	}
 	function consume_uber() {
 		$duration = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.last * 100;
-		$drain_rate = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build * 100;
+		$drain_rate = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build * EVAL(4 * 100);
 		$drain_rate /= $duration;
 
 		tf2.ubercharge:@s[tag=tf2.uber_source] -= $drain_rate;
