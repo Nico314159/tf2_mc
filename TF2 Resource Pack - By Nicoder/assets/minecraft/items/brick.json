@@ -1,0 +1,222 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/spy/melee/butterfly_knife"
+                },
+                "threshold": 1050.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                },
+                "threshold": 1051.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/sniper/melee/kukri"
+                },
+                "threshold": 1800.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/scout/melee/baseball_bat"
+                },
+                "threshold": 2550.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/soldier/melee/shovel"
+                },
+                "threshold": 3300.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/demoman/melee/bottle"
+                },
+                "threshold": 4050.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/heavy/melee/right_fist"
+                },
+                "threshold": 4800.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/pyro/melee/fire_axe"
+                },
+                "threshold": 5550.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/engineer/melee/wrench"
+                },
+                "threshold": 6300.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/medic/melee/bonesaw"
+                },
+                "threshold": 7050.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_butterfly_knife"
+                },
+                "threshold": 7876050.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_kukri"
+                },
+                "threshold": 7876800.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_baseball_bat"
+                },
+                "threshold": 7877550.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_shovel"
+                },
+                "threshold": 7878300.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_bottle"
+                },
+                "threshold": 7879050.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_right_fist"
+                },
+                "threshold": 7879800.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_left_fist"
+                },
+                "threshold": 7879801.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_fire_axe"
+                },
+                "threshold": 7880550.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_wrench"
+                },
+                "threshold": 7881300.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_as_bonesaw"
+                },
+                "threshold": 7882050.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_butterfly_knife"
+                },
+                "threshold": 7883550.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_kukri"
+                },
+                "threshold": 7884300.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_baseball_bat"
+                },
+                "threshold": 7885050.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_shovel"
+                },
+                "threshold": 7885800.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_bottle"
+                },
+                "threshold": 7886550.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_right_fist"
+                },
+                "threshold": 7887300.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_left_fist"
+                },
+                "threshold": 7887301.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_fire_axe"
+                },
+                "threshold": 7888050.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_wrench"
+                },
+                "threshold": 7888800.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/melee/butterfly_knife_raised_as_bonesaw"
+                },
+                "threshold": 7889550.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/brick"
+        }
+    }
+}

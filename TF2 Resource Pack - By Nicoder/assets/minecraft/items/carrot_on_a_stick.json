@@ -1,0 +1,82 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/spy/icon"
+                },
+                "threshold": 1.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/sniper/icon"
+                },
+                "threshold": 2.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/scout/icon"
+                },
+                "threshold": 3.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/soldier/icon"
+                },
+                "threshold": 4.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/demoman/icon"
+                },
+                "threshold": 5.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/heavy/icon"
+                },
+                "threshold": 6.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/pyro/icon"
+                },
+                "threshold": 7.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/engineer/icon"
+                },
+                "threshold": 8.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/medic/icon"
+                },
+                "threshold": 9.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/logo"
+                },
+                "threshold": 10.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/carrot_on_a_stick"
+        }
+    }
+}

@@ -1,0 +1,117 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/empty"
+                },
+                "threshold": -1.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "minecraft:item/gold_ingot"
+                },
+                "threshold": 0.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:map_element/door/standard_metal"
+                },
+                "threshold": 100.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/flat/terminal1"
+                },
+                "threshold": 1001.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/wall_cabinet"
+                },
+                "threshold": 2000.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/red/01"
+                },
+                "threshold": 2101.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/red/02"
+                },
+                "threshold": 2102.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/red/03"
+                },
+                "threshold": 2103.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/red/04"
+                },
+                "threshold": 2104.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/red/05"
+                },
+                "threshold": 2105.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/blu/01"
+                },
+                "threshold": 2201.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/blu/02"
+                },
+                "threshold": 2202.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/blu/03"
+                },
+                "threshold": 2203.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/blu/04"
+                },
+                "threshold": 2204.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:static_prop/computer/chonky/blu/05"
+                },
+                "threshold": 2205.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/gold_ingot"
+        }
+    }
+}

@@ -1,17 +1,1 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "item/iron_ingot"
-    },
-    "overrides": [
-        { "predicate": {"custom_model_data": -1}, "model": "tf2:item/empty"},
-        { "predicate": {"custom_model_data":  0}, "model": "item/iron_ingot"},
-        { "predicate": {"custom_model_data": 11}, "model": "tf2:pickup/health/small"},
-        { "predicate": {"custom_model_data": 12}, "model": "tf2:pickup/health/medium"},
-        { "predicate": {"custom_model_data": 13}, "model": "tf2:pickup/health/large"},
-        { "predicate": {"custom_model_data": 21}, "model": "tf2:pickup/ammo/small"},
-        { "predicate": {"custom_model_data": 22}, "model": "tf2:pickup/ammo/medium"},
-        { "predicate": {"custom_model_data": 23}, "model": "tf2:pickup/ammo/large"},
-        { "predicate": {"custom_model_data": 30}, "model": "tf2:map_element/resupply"}
-    ]
-}
+{"parent": "minecraft:item/generated", "textures": {"layer0": "item/iron_ingot", "particle": "item/iron_ingot"}}

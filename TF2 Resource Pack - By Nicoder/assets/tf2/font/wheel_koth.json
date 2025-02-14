@@ -3,7 +3,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/new_layer.png",
-	        "ascent": -9999,
+            "ascent": -9999,
             "height": -2,
             "chars": [
                 "|"
@@ -36,19 +36,19 @@
                 "(": 256
             }
         },
-	    {
+        {
             "type": "bitmap",
             "file": "tf2:font/wheel/outline.png",
-	        "ascent": 11,
+            "ascent": 11,
             "height": 16,
             "chars": [
                 "?"
             ]
         },
-	    {
+        {
             "type": "bitmap",
             "file": "tf2:font/wheel/fill.png",
-	        "ascent": 11,
+            "ascent": 11,
             "height": 16,
             "chars": [
                 "="

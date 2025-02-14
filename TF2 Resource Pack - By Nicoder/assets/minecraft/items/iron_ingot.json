@@ -1,0 +1,75 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/empty"
+                },
+                "threshold": -1.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "minecraft:item/iron_ingot"
+                },
+                "threshold": 0.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/health/small"
+                },
+                "threshold": 11.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/health/medium"
+                },
+                "threshold": 12.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/health/large"
+                },
+                "threshold": 13.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/ammo/small"
+                },
+                "threshold": 21.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/ammo/medium"
+                },
+                "threshold": 22.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/ammo/large"
+                },
+                "threshold": 23.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:map_element/resupply"
+                },
+                "threshold": 30.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/iron_ingot"
+        }
+    }
+}

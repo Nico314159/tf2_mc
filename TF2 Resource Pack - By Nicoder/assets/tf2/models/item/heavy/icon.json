@@ -1,6 +1,1 @@
-{
-    "parent": "item/generated",
-    "textures": {
-      "layer0": "tf2:item/heavy/icon"
-    }
-  }
+{"parent": "minecraft:item/generated", "textures": {"layer0": "tf2:item/heavy/icon", "particle": "tf2:item/heavy/icon"}}

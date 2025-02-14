@@ -1,6 +1,1 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "tf2:item/transparent"
-  }
-}
+{"parent": "minecraft:item/generated", "textures": {"layer0": "tf2:item/transparent", "particle": "tf2:item/transparent"}}

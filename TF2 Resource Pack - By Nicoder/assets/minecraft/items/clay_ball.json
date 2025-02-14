@@ -1,0 +1,166 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/spy/secondary/sapper"
+                },
+                "threshold": 900.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/spy/watch/invis_watch"
+                },
+                "threshold": 1350.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/spy/watch/invis_watch_gui_only"
+                },
+                "threshold": 1351.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/heavy/melee/left_fist"
+                },
+                "threshold": 4801.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_sapper"
+                },
+                "threshold": 6750900.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_smg"
+                },
+                "threshold": 6751650.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_pistol"
+                },
+                "threshold": 6752400.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_pistol2"
+                },
+                "threshold": 6752415.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_shotgun"
+                },
+                "threshold": 6753150.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_stickybomb_launcher_red"
+                },
+                "threshold": 6753905.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_stickybomb_launcher_blu"
+                },
+                "threshold": 6753910.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_shotgun"
+                },
+                "threshold": 6754650.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_shotgun"
+                },
+                "threshold": 6755400.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_pistol"
+                },
+                "threshold": 6756150.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_medi_gun_red"
+                },
+                "threshold": 6756905.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/secondary/sapper_as_medi_gun_blu"
+                },
+                "threshold": 6756910.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/watch/invis_watch_as_invis_watch"
+                },
+                "threshold": 10126350.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/watch/invis_watch_as_invis_watch_gui_only"
+                },
+                "threshold": 10126351.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/watch/invis_watch_as_destruction_pda"
+                },
+                "threshold": 10131600.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/watch/invis_watch_gui_only_as_invis_watch"
+                },
+                "threshold": 10133850.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/watch/invis_watch_gui_only_as_invis_watch_gui_only"
+                },
+                "threshold": 10133851.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:disguise/watch/invis_watch_gui_only_as_destruction_pda"
+                },
+                "threshold": 10139100.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/clay_ball"
+        }
+    }
+}

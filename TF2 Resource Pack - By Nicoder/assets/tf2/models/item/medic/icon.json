@@ -1,6 +1,1 @@
-{
-    "parent": "item/generated",
-    "textures": {
-      "layer0": "tf2:item/medic/icon"
-    }
-  }
+{"parent": "minecraft:item/generated", "textures": {"layer0": "tf2:item/medic/icon", "particle": "tf2:item/medic/icon"}}

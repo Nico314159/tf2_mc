@@ -1,0 +1,19 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/sniper/primary/sniper_rifle_scope"
+                },
+                "threshold": 1500.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/spyglass_in_hand"
+        }
+    }
+}

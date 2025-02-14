@@ -1,6 +1,1 @@
-{
-    "parent": "item/generated",
-    "textures": {
-      "layer0": "tf2:item/pyro/icon"
-    }
-  }
+{"parent": "minecraft:item/generated", "textures": {"layer0": "tf2:item/pyro/icon", "particle": "tf2:item/pyro/icon"}}

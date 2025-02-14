@@ -1,0 +1,264 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/spy_red"
+                },
+                "threshold": 11.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/spy_blu"
+                },
+                "threshold": 12.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/sniper"
+                },
+                "threshold": 21.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/sniper"
+                },
+                "threshold": 22.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/scout_red"
+                },
+                "threshold": 31.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/scout_blu"
+                },
+                "threshold": 32.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/soldier_red"
+                },
+                "threshold": 41.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/soldier_blu"
+                },
+                "threshold": 42.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/demoman"
+                },
+                "threshold": 51.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/demoman"
+                },
+                "threshold": 52.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/heavy"
+                },
+                "threshold": 61.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/heavy"
+                },
+                "threshold": 62.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/pyro"
+                },
+                "threshold": 71.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/pyro"
+                },
+                "threshold": 72.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/engineer_red"
+                },
+                "threshold": 81.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/engineer_blu"
+                },
+                "threshold": 82.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/medic"
+                },
+                "threshold": 91.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/medic"
+                },
+                "threshold": 92.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/spy_red"
+                },
+                "threshold": 111.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/spy_blu"
+                },
+                "threshold": 112.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/sniper_red"
+                },
+                "threshold": 121.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/sniper_blu"
+                },
+                "threshold": 122.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/scout_red"
+                },
+                "threshold": 131.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/scout_blu"
+                },
+                "threshold": 132.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/soldier_red"
+                },
+                "threshold": 141.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/soldier_blu"
+                },
+                "threshold": 142.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/demoman_red"
+                },
+                "threshold": 151.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/demoman_blu"
+                },
+                "threshold": 152.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/heavy_red"
+                },
+                "threshold": 161.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/heavy_blu"
+                },
+                "threshold": 162.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/pyro_red"
+                },
+                "threshold": 171.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/pyro_blu"
+                },
+                "threshold": 172.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/engineer_red"
+                },
+                "threshold": 181.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/engineer_blu"
+                },
+                "threshold": 182.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/medic_red"
+                },
+                "threshold": 191.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:head/uber/medic_blu"
+                },
+                "threshold": 192.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/paper"
+        }
+    }
+}

@@ -1,0 +1,292 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:bullet/normal"
+                },
+                "threshold": 0.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/soldier/rocket"
+                },
+                "threshold": 300000.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/demoman/grenade_red"
+                },
+                "threshold": 375500.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/demoman/grenade_blu"
+                },
+                "threshold": 376000.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/demoman/stickybomb_red"
+                },
+                "threshold": 390500.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/demoman/stickybomb_blu"
+                },
+                "threshold": 391000.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame0"
+                },
+                "threshold": 525500.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame1"
+                },
+                "threshold": 525501.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame2"
+                },
+                "threshold": 525502.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame3"
+                },
+                "threshold": 525503.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame4"
+                },
+                "threshold": 525504.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame5"
+                },
+                "threshold": 525505.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame6"
+                },
+                "threshold": 525506.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame7"
+                },
+                "threshold": 525507.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame8"
+                },
+                "threshold": 525508.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame9"
+                },
+                "threshold": 525509.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame10"
+                },
+                "threshold": 525510.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame11"
+                },
+                "threshold": 525511.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame12"
+                },
+                "threshold": 525512.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame13"
+                },
+                "threshold": 525513.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame14"
+                },
+                "threshold": 525514.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame15"
+                },
+                "threshold": 525515.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame0"
+                },
+                "threshold": 526000.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame1"
+                },
+                "threshold": 526001.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame2"
+                },
+                "threshold": 526002.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame3"
+                },
+                "threshold": 526003.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame4"
+                },
+                "threshold": 526004.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame5"
+                },
+                "threshold": 526005.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame6"
+                },
+                "threshold": 526006.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame7"
+                },
+                "threshold": 526007.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame8"
+                },
+                "threshold": 526008.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame9"
+                },
+                "threshold": 526009.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame10"
+                },
+                "threshold": 526010.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame11"
+                },
+                "threshold": 526011.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame12"
+                },
+                "threshold": 526012.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame13"
+                },
+                "threshold": 526013.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame14"
+                },
+                "threshold": 526014.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/pyro/flame15"
+                },
+                "threshold": 526015.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/medic/syringe_red"
+                },
+                "threshold": 675500.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:projectile/medic/syringe_blu"
+                },
+                "threshold": 676000.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "minecraft:item/glowstone_dust"
+        }
+    }
+}
