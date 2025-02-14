@@ -355,108 +355,108 @@ class Class.Spy {
         this.true_team_trail();
     }
     function fake_primary() {
-        $merge_CMD = @s::Inventory[{Slot:0b}].components.minecraft:custom_model_data;
-        $world_CMD = tf2.disguise.class:@s;
+        // $merge_CMD = @s::Inventory[{Slot:0b}].components.minecraft:custom_model_data;
+        // $world_CMD = tf2.disguise.class:@s;
         
-        JMC.python(`
-        emit(f"$world_CMD *= {SLOTS};")
-        emit(f"$world_CMD += 0;")
-        emit(f"$world_CMD *= {SERIAL_MAX};")
-        # TODO
-        emit(f"$world_CMD *= 3;")
-        emit(f"$world_CMD += tf2.disguise.team:@s;")
-        emit(f"$world_CMD *= {VARIATIONS};")
+        // JMC.python(`
+        // emit(f"$world_CMD *= {SLOTS};")
+        // emit(f"$world_CMD += 0;")
+        // emit(f"$world_CMD *= {SERIAL_MAX};")
+        // # TODO
+        // emit(f"$world_CMD *= 3;")
+        // emit(f"$world_CMD += tf2.disguise.team:@s;")
+        // emit(f"$world_CMD *= {VARIATIONS};")
                 
-        emit(f"$merge_CMD *= {MAX_CMD};")
-        emit(f"$merge_CMD += $world_CMD;")
-        `, jmc=true);
+        // emit(f"$merge_CMD *= {MAX_CMD};")
+        // emit(f"$merge_CMD += $world_CMD;")
+        // `, jmc=true);
 
-        item modify entity @s hotbar.0 {
-            "function": "minecraft:set_custom_model_data",
-            "value": {
-                "type": "minecraft:score",
-                "target": {
-                    "type": "minecraft:fixed",
-                    "name": "$merge_CMD"
-                },
-                "score": "tf2.var"
-            }
-        };
+        // item modify entity @s hotbar.0 {
+        //     "function": "minecraft:set_custom_model_data",
+        //     "value": {
+        //         "type": "minecraft:score",
+        //         "target": {
+        //             "type": "minecraft:fixed",
+        //             "name": "$merge_CMD"
+        //         },
+        //         "score": "tf2.var"
+        //     }
+        // };
 
-        JMC.python(`
-        emit(f"$merge_CMD += {3 * SERIAL_MAX * 3 * VARIATIONS * MAX_CMD};")
-        `, jmc=true);
-        item modify entity @s hotbar.3 {
-            "function": "minecraft:set_custom_model_data",
-            "value": {
-                "type": "minecraft:score",
-                "target": {
-                    "type": "minecraft:fixed",
-                    "name": "$merge_CMD"
-                },
-                "score": "tf2.var"
-            }
-        };
+        // JMC.python(`
+        // emit(f"$merge_CMD += {3 * SERIAL_MAX * 3 * VARIATIONS * MAX_CMD};")
+        // `, jmc=true);
+        // item modify entity @s hotbar.3 {
+        //     "function": "minecraft:set_custom_model_data",
+        //     "value": {
+        //         "type": "minecraft:score",
+        //         "target": {
+        //             "type": "minecraft:fixed",
+        //             "name": "$merge_CMD"
+        //         },
+        //         "score": "tf2.var"
+        //     }
+        // };
     }
     function fake_secondary() {
-        // loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
-        $merge_CMD = @s::Inventory[{Slot:1b}].components.minecraft:custom_model_data;
-        $world_CMD = tf2.disguise.class:@s;
+        // // loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
+        // $merge_CMD = @s::Inventory[{Slot:1b}].components.minecraft:custom_model_data;
+        // $world_CMD = tf2.disguise.class:@s;
         
-        JMC.python(`
-        emit(f"$world_CMD *= {SLOTS};")
-        emit(f"$world_CMD += 1;")
-        emit(f"$world_CMD *= {SERIAL_MAX};")
-        # TODO
-        emit(f"$world_CMD *= 3;")
-        emit(f"$world_CMD += tf2.disguise.team:@s;")
-        emit(f"$world_CMD *= {VARIATIONS};")
+        // JMC.python(`
+        // emit(f"$world_CMD *= {SLOTS};")
+        // emit(f"$world_CMD += 1;")
+        // emit(f"$world_CMD *= {SERIAL_MAX};")
+        // # TODO
+        // emit(f"$world_CMD *= 3;")
+        // emit(f"$world_CMD += tf2.disguise.team:@s;")
+        // emit(f"$world_CMD *= {VARIATIONS};")
                 
-        emit(f"$merge_CMD *= {MAX_CMD};")
-        emit(f"$merge_CMD += $world_CMD;")
-        `, jmc=true);
+        // emit(f"$merge_CMD *= {MAX_CMD};")
+        // emit(f"$merge_CMD += $world_CMD;")
+        // `, jmc=true);
 
-        item modify entity @s hotbar.1 {
-            "function": "minecraft:set_custom_model_data",
-            "value": {
-                "type": "minecraft:score",
-                "target": {
-                    "type": "minecraft:fixed",
-                    "name": "$merge_CMD"
-                },
-                "score": "tf2.var"
-            }
-        };
+        // item modify entity @s hotbar.1 {
+        //     "function": "minecraft:set_custom_model_data",
+        //     "value": {
+        //         "type": "minecraft:score",
+        //         "target": {
+        //             "type": "minecraft:fixed",
+        //             "name": "$merge_CMD"
+        //         },
+        //         "score": "tf2.var"
+        //     }
+        // };
     }
     function fake_melee() {
-        // loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
-        $merge_CMD = @s::Inventory[{Slot:2b}].components.minecraft:custom_model_data;
-        $world_CMD = tf2.disguise.class:@s;
+        // // loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
+        // $merge_CMD = @s::Inventory[{Slot:2b}].components.minecraft:custom_model_data;
+        // $world_CMD = tf2.disguise.class:@s;
         
-        JMC.python(`
-        emit(f"$world_CMD *= {SLOTS};")
-        emit(f"$world_CMD += 2;")
-        emit(f"$world_CMD *= {SERIAL_MAX};")
-        # TODO
-        emit(f"$world_CMD *= 3;")
-        emit(f"$world_CMD += tf2.disguise.team:@s;")
-        emit(f"$world_CMD *= {VARIATIONS};")
+        // JMC.python(`
+        // emit(f"$world_CMD *= {SLOTS};")
+        // emit(f"$world_CMD += 2;")
+        // emit(f"$world_CMD *= {SERIAL_MAX};")
+        // # TODO
+        // emit(f"$world_CMD *= 3;")
+        // emit(f"$world_CMD += tf2.disguise.team:@s;")
+        // emit(f"$world_CMD *= {VARIATIONS};")
                 
-        emit(f"$merge_CMD *= {MAX_CMD};")
-        emit(f"$merge_CMD += $world_CMD;")
-        `, jmc=true);
+        // emit(f"$merge_CMD *= {MAX_CMD};")
+        // emit(f"$merge_CMD += $world_CMD;")
+        // `, jmc=true);
 
-        item modify entity @s hotbar.2 {
-            "function": "minecraft:set_custom_model_data",
-            "value": {
-                "type": "minecraft:score",
-                "target": {
-                    "type": "minecraft:fixed",
-                    "name": "$merge_CMD"
-                },
-                "score": "tf2.var"
-            }
-        };
+        // item modify entity @s hotbar.2 {
+        //     "function": "minecraft:set_custom_model_data",
+        //     "value": {
+        //         "type": "minecraft:score",
+        //         "target": {
+        //             "type": "minecraft:fixed",
+        //             "name": "$merge_CMD"
+        //         },
+        //         "score": "tf2.var"
+        //     }
+        // };
     }
     function fake_leggings() {
         $ loot replace entity @s armor.legs loot {

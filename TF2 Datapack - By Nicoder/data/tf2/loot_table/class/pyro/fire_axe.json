@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 5550
+                                "minecraft:item_model": "tf2:pyro/melee/fire_axe"
                             }
                         },
                         {

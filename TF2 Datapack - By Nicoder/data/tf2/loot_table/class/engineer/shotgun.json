@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 6000,
+                                "minecraft:item_model": "tf2:engineer/primary/shotgun",
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }

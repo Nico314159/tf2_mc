@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 1350
+                                "minecraft:item_model": "tf2:spy/watch/invis_watch"
                             }
                         },
                         {

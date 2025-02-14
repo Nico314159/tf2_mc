@@ -40,36 +40,6 @@ SERIAL_MAX: Final = 10
 VARIATIONS: Final = 5    
 SLOTS: Final = len(["hotbar.0", "hotbar.1", "hotbar.2", "hotbar.3", "hotbar.4"])
 
-def pack_CMD(
-    class_num: int,
-    slot: int,
-    serial: int,
-    team: int,
-    cmd_bump: int
-):
-    if class_num > len(Class):
-        raise ValueError(f"There are only 9 classes, not {class_num}")
-    if slot >= SLOTS:
-        raise ValueError(f"`hotbar.{slot}` is not a valid slot. Must be one of {', '.join(f'`hotbar.{i}`' for i in range(SLOTS))}")
-    if serial >= SERIAL_MAX:
-        raise ValueError(f"Can't have more than {SERIAL_MAX} weapons for class {Class(class_num).name} in slot `hotbar.{slot}`")
-    if cmd_bump >= VARIATIONS:
-        raise ValueError(f"cmd_bump must be less than {VARIATIONS}")
-    
-    return (((class_num * SLOTS + slot) * SERIAL_MAX + serial) * 3 + team) * VARIATIONS + cmd_bump
-
-def unpack_CMD(CMD: int):
-    return (
-        CMD // (VARIATIONS * 3 * SERIAL_MAX * SLOTS) % (len(Class) + 1),
-        CMD // (VARIATIONS * 3 * SERIAL_MAX) % SLOTS,     
-        CMD // (VARIATIONS * 3) % SERIAL_MAX,       
-        CMD // (VARIATIONS) % 3,
-        CMD % VARIATIONS
-    )
-
-MAX_CMD = pack_CMD(9, SLOTS - 1, SERIAL_MAX - 1, 2, VARIATIONS - 1) + 1
-
-
 def meter(seconds: int, score: str, scale = 1):
     return [
         {
@@ -172,32 +142,21 @@ def make_weapon(
         custom_data["projectile"] = projectile
     custom_data["controls"] = controls
 
-    if cmd_bump:
-        unlock_counter[key] -= 1
+    loot_path = str(class_id).lower() + "." + name.lower().replace(" ", "_")
+    model_path = str(class_id).lower().replace('class.', '') + '/' + ["primary", "secondary", "melee", "disguise_kit", "watch"][slot] + '/' + name.lower().replace(" ", "_")
+    
+    
+    loot_path.replace('class.', '').replace('.', '/')
 
-    model_components = []
-    if team_specific:
-        model_components = [
-            {
-                "function": "minecraft:set_components",
-                "components": {"minecraft:custom_model_data": pack_CMD(class_num, slot, unlock_counter[key], team, cmd_bump)},
-                "conditions": [
-                    { 
-                        "condition": "minecraft:entity_scores",
-                        "entity": "this", "scores": {"tf2.team": team} 
-                    }
-                ]
-            } 
-        for team in (1, 2)]
-    else:
-        model_components = [
-            {
-                "function": "minecraft:set_components",
-                "components": {"minecraft:custom_model_data": pack_CMD(class_num, slot, unlock_counter[key], 0, cmd_bump)}
+    model_components = [
+        {
+            "function": "minecraft:set_components",
+            "components": {
+                "minecraft:item_model": f"tf2:{model_path}"
             }
-        ]
+        }
+    ]
 
-    unlock_counter[key] += 1
     functions = []
 
     if base_item.startswith("minecraft:") or ":" not in base_item:
@@ -255,6 +214,6 @@ def make_weapon(
         ]
     }
 
-    loot_path = str(class_id).lower() + "." + name.lower().replace(" ", "_")
+
 
     emit(f'new loot_table({loot_path}) {json.dumps(loot)}')

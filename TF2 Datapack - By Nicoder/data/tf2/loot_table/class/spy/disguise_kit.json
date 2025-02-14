@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:custom_model_data": 1200,
+                                "minecraft:item_model": "tf2:spy/disguise_kit/disguise_kit",
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }
