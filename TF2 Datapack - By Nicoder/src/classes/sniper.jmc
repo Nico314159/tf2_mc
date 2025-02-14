@@ -125,10 +125,10 @@ class Class.Sniper {
         if ($_count_ != 1) clear @s iron_chestplate;
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/sniper/chest_model;
 
-        loot replace entity @s armor.head loot tf2:head;
+        loot replace entity @s armor.head loot tf2:class/sniper/head;
         $_count_ = clear @s paper 0;
         if ($_count_ != 1) clear @s paper;
-        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
+        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/sniper/head;
     }
     function scope() {
         tf2.time_scoped:@s += 1;

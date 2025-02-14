@@ -309,6 +309,66 @@ Trigger.add(autoreload, () => {
             }]
         }]
     }
+
+    new loot_table(class.$x.head) {
+		"pools": [{
+			"rolls": 1,
+			"entries": [{
+				"type": "minecraft:item",
+				"name": "paper"
+			}],
+			"functions": [
+				{
+					"function": "minecraft:set_custom_model_data",
+					"strings": {
+						"values": ["$x"],
+						"mode": "replace_all"
+					}
+				},
+				{
+					"function": "minecraft:set_custom_model_data",
+					"strings": {
+						"values": ["red"],
+						"mode": "append"
+					},
+					"conditions": [
+						{
+							"condition": "minecraft:entity_scores",
+							"entity": "this",
+							"scores": {"tf2.team": 1}
+						}
+					]
+				},
+				{
+					"function": "minecraft:set_custom_model_data",
+					"strings": {
+						"values": ["blu"],
+						"mode": "append"
+					},
+					"conditions": [
+						{
+							"condition": "minecraft:entity_scores",
+							"entity": "this",
+							"scores": {"tf2.team": 2}
+						}
+					]
+				},
+				{
+					"function": "minecraft:set_custom_model_data",
+					"strings": {
+						"values": ["uber"],
+						"mode": "append"
+					},
+					"conditions": [
+						{
+							"condition": "minecraft:reference",
+							"name": "tf2:ubercharge"
+						}
+					]
+				}
+			]
+		}]
+	}
 }
 
 // this code must run BEFORE src/classes/* is imported

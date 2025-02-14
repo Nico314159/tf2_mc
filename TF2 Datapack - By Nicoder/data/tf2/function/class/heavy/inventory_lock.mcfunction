@@ -14,10 +14,10 @@ loot replace entity @s armor.chest loot tf2:class/heavy/chest_model
 execute store result score $_count_ tf2.var run clear @s iron_chestplate 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_chestplate
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.chest loot tf2:class/heavy/chest_model
-loot replace entity @s armor.head loot tf2:head
+loot replace entity @s armor.head loot tf2:class/heavy/head
 execute store result score $_count_ tf2.var run clear @s paper 0
 execute unless score $_count_ tf2.var matches 1 run clear @s paper
-execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:head
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:class/heavy/head
 scoreboard players set __if_else__ tf2.var 0
 execute if score @s tf2.current_slot matches 2 run function tf2:__private__/if_else/3
 execute if score __if_else__ tf2.var matches 0 run clear @s clay_ball

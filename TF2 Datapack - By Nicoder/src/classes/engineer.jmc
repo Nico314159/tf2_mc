@@ -122,11 +122,11 @@ class Class.Engineer {
             loot replace entity @s armor.chest loot tf2:class/engineer/chest_model;
         }
 
-        loot replace entity @s armor.head loot tf2:head;
+        loot replace entity @s armor.head loot tf2:class/engineer/head;
         $_count_ = clear @s paper 0;
         if ($_count_ != 1) expand {
             clear @s paper;
-            loot replace entity @s armor.head loot tf2:head;
+            loot replace entity @s armor.head loot tf2:class/engineer/head;
         }
     }
 }

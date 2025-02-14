@@ -116,10 +116,10 @@ class Class.Scout {
         if ($_count_ != 1) clear @s iron_chestplate;
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/scout/chest_model;
 
-        loot replace entity @s armor.head loot tf2:head;
+        loot replace entity @s armor.head loot tf2:class/scout/head;
         $_count_ = clear @s paper 0;
         if ($_count_ != 1) clear @s paper;
-        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
+        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/scout/head;
 
         if (tf2.can_double_jump:@s) {
             item modify entity @s armor.chest {

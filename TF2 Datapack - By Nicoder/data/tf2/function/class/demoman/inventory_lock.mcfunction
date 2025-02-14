@@ -19,7 +19,7 @@ loot replace entity @s armor.chest loot tf2:class/demoman/chest_model
 execute store result score $_count_ tf2.var run clear @s iron_chestplate 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_chestplate
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.chest loot tf2:class/demoman/chest_model
-loot replace entity @s armor.head loot tf2:head
+loot replace entity @s armor.head loot tf2:class/demoman/head
 execute store result score $_count_ tf2.var run clear @s paper 0
 execute unless score $_count_ tf2.var matches 1 run clear @s paper
-execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:head
+execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:class/demoman/head

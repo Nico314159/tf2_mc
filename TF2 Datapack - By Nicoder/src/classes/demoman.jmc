@@ -119,11 +119,11 @@ class Class.Demoman {
             clear @s iron_chestplate;
             loot replace entity @s armor.chest loot tf2:class/demoman/chest_model;
         }
-        loot replace entity @s armor.head loot tf2:head;
+        loot replace entity @s armor.head loot tf2:class/demoman/head;
         $_count_ = clear @s paper 0;
         if ($_count_ != 1) expand {
             clear @s paper;
-            loot replace entity @s armor.head loot tf2:head;
+            loot replace entity @s armor.head loot tf2:class/demoman/head;
         }       
     }
     function erase_all_stickybombs() {
