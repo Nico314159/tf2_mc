@@ -303,7 +303,7 @@ class Class.Spy {
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:head;
     }
     function disable_attacking() {
-        clear @s *[!custom_data~{cloak: 'uncloak'}, !custom_model_data=10];
+        clear @s *[!custom_data~{cloak: 'uncloak'}];
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch_gui_only;
         $_count_ = clear @s *[custom_data~{cloak: 'uncloak'}] 0;
         if ($_count_ != 1) expand {

@@ -1,0 +1,75 @@
+{
+	"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:custom_model_data",
+		"cases": [
+			{
+				"when": "spy",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/spy/icon"
+				}
+			},
+			{
+				"when": "sniper",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/sniper/icon"
+				}
+			},
+			{
+				"when": "scout",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/scout/icon"
+				}
+			},
+			{
+				"when": "soldier",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/soldier/icon"
+				}
+			},
+			{
+				"when": "demoman",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/demoman/icon"
+				}
+			},
+			{
+				"when": "heavy",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/heavy/icon"
+				}
+			},
+			{
+				"when": "pyro",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/pyro/icon"
+				}
+			},
+			{
+				"when": "engineer",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/engineer/icon"
+				}
+			},
+			{
+				"when": "medic",
+				"model": {
+					"type": "minecraft:model",
+					"model": "tf2:item/medic/icon"
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "tf2:item/logo"
+		}
+	}
+}

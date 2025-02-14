@@ -8,12 +8,12 @@ item replace entity @s hotbar.6 with air
 item replace entity @s hotbar.7 with air
 item replace entity @s hotbar.8 with air
 item replace entity @s weapon.offhand with air
-give @s carrot_on_a_stick[custom_model_data=2,custom_name='"Sniper"'] 1
-give @s carrot_on_a_stick[custom_model_data=3,custom_name='"Scout"'] 1
-give @s carrot_on_a_stick[custom_model_data=6,custom_name='"Heavy"'] 1
-give @s carrot_on_a_stick[custom_model_data=4,custom_name='"Soldier"'] 1
-give @s carrot_on_a_stick[custom_model_data=7,custom_name='"Pyro"'] 1
-give @s carrot_on_a_stick[custom_model_data=1,custom_name='"Spy (WIP)"'] 1
-give @s carrot_on_a_stick[custom_model_data=9,custom_name='"Medic"'] 1
-give @s carrot_on_a_stick[custom_model_data=5,custom_name='"Demoman (WIP)"'] 1
-give @s carrot_on_a_stick[custom_model_data=8,custom_name='"Engineer (WIP)"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["sniper"]},custom_name='"Sniper"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["scout"]},custom_name='"Scout"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["heavy"]},custom_name='"Heavy"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["soldier"]},custom_name='"Soldier"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["pyro"]},custom_name='"Pyro"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["spy"]},custom_name='"Spy (WIP)"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["medic"]},custom_name='"Medic"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["demoman"]},custom_name='"Demoman (WIP)"'] 1
+give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["engineer"]},custom_name='"Engineer (WIP)"'] 1
