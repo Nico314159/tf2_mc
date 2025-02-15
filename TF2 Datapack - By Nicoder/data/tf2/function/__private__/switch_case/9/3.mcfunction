@@ -1,4 +1,3 @@
-execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 125
-attribute @s minecraft:movement_speed base set 0.176
-function tf2:class/scout/give
-scoreboard players set __found_case__ tf2.var 1
+data modify storage tf2:lookup points[0].left set value '{"text":""}'
+data modify storage tf2:lookup points[0].mid set value '{"text":"6530"}'
+data modify storage tf2:lookup points[0].right set value '{"text":"3210"}'

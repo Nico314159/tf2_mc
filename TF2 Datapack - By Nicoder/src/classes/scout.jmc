@@ -38,6 +38,10 @@ make_weapon(
 
 class Class.Scout {
     function give() {
+        tf2.class:@s = Class.SCOUT;
+        tf2.max_health:@s = tf2.health:@s = 125;
+        attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 4/3);
+
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/scout/scattergun;
         loot replace entity @s hotbar.1 loot tf2:class/scout/pistol;

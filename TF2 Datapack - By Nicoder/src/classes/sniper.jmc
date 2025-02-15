@@ -69,6 +69,10 @@ class Class.Sniper {
     }
 
     function give() {
+        tf2.class:@s = Class.SNIPER;
+        tf2.max_health:@s = tf2.health:@s = 125;
+        attribute @s minecraft:movement_speed base set BASE_SPEED;
+
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/sniper/sniper_rifle;
         loot replace entity @s hotbar.1 loot tf2:class/sniper/smg;

@@ -56,6 +56,10 @@ make_weapon(
 
 class Class.Pyro {
 	function give() {
+		tf2.class:@s = Class.PYRO;
+		tf2.max_health:@s = tf2.health:@s = 175;
+		attribute @s minecraft:movement_speed base set BASE_SPEED;
+
 		clear @s;
 		loot replace entity @s hotbar.0 loot tf2:class/pyro/flamethrower;
 		loot replace entity @s hotbar.1 loot tf2:class/pyro/shotgun;

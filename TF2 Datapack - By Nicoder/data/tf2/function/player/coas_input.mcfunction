@@ -1,12 +1,10 @@
 scoreboard players set @s tf2.coas 0
-execute store result score $__item_id__ tf2.var run data get entity @s SelectedItem.components.minecraft:custom_model_data
-execute if score $__item_id__ tf2.var matches 0 run return fail
+execute unless data entity @s SelectedItem.components{"minecraft:item_model":"tf2:choose_class"} run return fail
 scoreboard players set __if_else__ tf2.var 0
-execute if score $__item_id__ tf2.var matches 10 run function tf2:__private__/if_else/64
+execute unless data entity @s SelectedItem.components.minecraft:custom_model_data run function tf2:__private__/if_else/64
 execute if score __if_else__ tf2.var matches 0 if score @s tf2.last_class matches 5 run function tf2:class/demoman/erase_all_stickybombs
-scoreboard players operation @s tf2.class = $__item_id__ tf2.var
-execute if score $__item_id__ tf2.var matches 1..9 unless score @s tf2.last_class = @s[tag=!tf2.in_spawn] tf2.class run return run function tf2:player/death
-execute unless score @s tf2.last_class = @s tf2.class run return run function tf2:class_select
-clear @s carrot_on_a_stick
+data modify storage tf2:vars class_name set from entity @s SelectedItem.components.minecraft:custom_model_data.strings[0]
+function tf2:class_select
 attribute @s minecraft:jump_strength modifier remove tf2:no_jump
 attribute @s minecraft:movement_speed modifier remove tf2:no_move
+execute if score @s tf2.class matches 1..9 unless score @s tf2.last_class = @s tf2.class if entity @s[tag=!tf2.in_spawn] run function tf2:player/death

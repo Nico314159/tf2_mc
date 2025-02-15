@@ -79,6 +79,10 @@ new predicate(ubercharge) {
 class Class.Medic {
 
 	function give() {
+		tf2.class:@s = Class.MEDIC;
+		tf2.max_health:@s = tf2.health:@s = 150;
+		attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 1.07);
+
 		clear @s;
 		loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun;
 		loot replace entity @s hotbar.1 loot tf2:class/medic/medi_gun;

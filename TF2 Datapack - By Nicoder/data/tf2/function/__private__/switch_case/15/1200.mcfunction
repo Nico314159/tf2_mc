@@ -1,0 +1,1 @@
+tellraw @a[tag=tf2.current] {"text":"Mission begins in sixty seconds.","bold":true,"color":"white","type":"text"}

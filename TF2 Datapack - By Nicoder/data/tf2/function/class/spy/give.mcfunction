@@ -1,3 +1,6 @@
+scoreboard players set @s tf2.class 1
+execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 125
+attribute @s minecraft:movement_speed base set 0.132
 execute unless entity @s[tag=tf2.disguised,tag=!tf2.dead] run clear @s
 loot replace entity @s hotbar.0 loot tf2:class/spy/revolver
 loot replace entity @s hotbar.1 loot tf2:class/spy/sapper

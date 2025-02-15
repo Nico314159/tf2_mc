@@ -1,3 +1,6 @@
+scoreboard players set @s tf2.class 4
+execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 200
+attribute @s minecraft:movement_speed base set 0.1122
 clear @s
 loot replace entity @s hotbar.0 loot tf2:class/soldier/rocket_launcher
 loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun

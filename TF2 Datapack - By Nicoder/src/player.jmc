@@ -245,26 +245,27 @@ class Player {
 
         function coas_input() {
             tf2.coas:@s = 0;
-            $__item_id__ = @s::SelectedItem.components."minecraft:custom_model_data";
-            if ($__item_id__ == 0) return fail;
-            if ($__item_id__ == 10) {
+            if (!data entity @s SelectedItem.components{"minecraft:item_model": "tf2:choose_class"}) {
+                return fail;
+            }
+            if (!data entity @s SelectedItem.components.minecraft:custom_model_data) return run {
                 tf2.last_class:@s = tf2.class:@s; 
                 test_items();
             }
             else if (tf2.last_class:@s == Class.DEMOMAN) {
                 Class.Demoman.erase_all_stickybombs();
             }
-            tf2.class:@s = $__item_id__;
-            if ($__item_id__ matches 1..9 && tf2.last_class:@s != tf2.class:@s[tag=!tf2.in_spawn]) {
-                // Kill player if they change class outside of spawn
-                return run this.death();
-            }
-            if (tf2.last_class:@s != tf2.class:@s) {
-                return run class_select();
-            }
-            clear @s carrot_on_a_stick;
+
+            vars::class_name = @s::SelectedItem.components.minecraft:custom_model_data.strings[0];
+            class_select();
+
             attribute @s minecraft:jump_strength modifier remove tf2:no_jump;
             attribute @s minecraft:movement_speed modifier remove tf2:no_move;
+
+            // Kill player if they change class outside of spawn
+            if (tf2.class:@s matches 1..9 && tf2.last_class:@s != tf2.class:@s && entity @s[tag=!tf2.in_spawn]) {
+                this.death();
+            }
         }
         if (tf2.coas:@s) {
             this.coas_input();

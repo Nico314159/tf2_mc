@@ -120,6 +120,10 @@ class Class.Heavy {
     }
 
     function give() {
+        tf2.class:@s = Class.HEAVY;
+        tf2.max_health:@s = tf2.health:@s = 300;
+        attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.70);
+
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy;
         loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning;

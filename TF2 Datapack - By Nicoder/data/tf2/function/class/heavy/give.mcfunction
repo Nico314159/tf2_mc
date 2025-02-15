@@ -1,3 +1,6 @@
+scoreboard players set @s tf2.class 6
+execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 300
+attribute @s minecraft:movement_speed base set 0.0924
 clear @s
 loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy
 loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_spinning

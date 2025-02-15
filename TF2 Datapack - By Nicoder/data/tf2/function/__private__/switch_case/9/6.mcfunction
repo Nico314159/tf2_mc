@@ -1,4 +1,3 @@
-execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 300
-attribute @s minecraft:movement_speed base set 0.0924
-function tf2:class/heavy/give
-scoreboard players set __found_case__ tf2.var 1
+data modify storage tf2:lookup points[0].left set value '{"text":""}'
+data modify storage tf2:lookup points[0].mid set value '{"text":"7520"}'
+data modify storage tf2:lookup points[0].right set value '{"text":"6310"}'

@@ -42,61 +42,31 @@ function team_assign() {
     Spawn.init();
 }
 
-function class_select() {
-    clear @s[scores={tf2.class=1..9}];
+function remove_gameplay_effects() {
     tag @s remove tf2.on_fire;
     tf2.can_double_jump:@s = false;
     effect clear @s invisibility;
     attribute @s minecraft:jump_strength modifier remove tf2:no_jump;
     attribute @s minecraft:movement_speed modifier remove tf2:no_move;
-    switch (tf2.class:@s) {
-        case Class.SPY:
-            tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:movement_speed base set BASE_SPEED;
-            Class.Spy.give();
-        case Class.SNIPER:
-            tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:movement_speed base set BASE_SPEED;
-            Class.Sniper.give();
-        case Class.SCOUT:
-            tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 4/3);
-            Class.Scout.give();
-        case Class.SOLDIER:
-            tf2.max_health:@s = tf2.health:@s = 200;
-            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.85);
-            Class.Soldier.give();
-        case Class.DEMOMAN:
-            tf2.max_health:@s = tf2.health:@s = 175;
-            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.93);
-            Class.Demoman.give();
-        case Class.HEAVY:
-            tf2.max_health:@s = tf2.health:@s = 300;
-            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.70);
-            Class.Heavy.give();
-        case Class.PYRO:
-            tf2.max_health:@s = tf2.health:@s = 175;
-            attribute @s minecraft:movement_speed base set BASE_SPEED;
-            Class.Pyro.give();
-        case Class.ENGINEER:
-            tf2.max_health:@s = tf2.health:@s = 125;
-            attribute @s minecraft:movement_speed base set BASE_SPEED;
-            Class.Engineer.give();
-        case Class.MEDIC:
-            tf2.max_health:@s = tf2.health:@s = 150;
-            attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 1.07);
-            Class.Medic.give();
-        default: 
-            test_items();
-            attribute @s minecraft:movement_speed modifier add tf2:no_move -1 add_multiplied_total;
-            attribute @s minecraft:jump_strength modifier add tf2:no_jump -1 add_multiplied_total;
-            attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed;
-        break;
+}
+
+function class_select() {
+    clear @s[scores={tf2.class=1..9}];
+    remove_gameplay_effects();
+
+    if (data storage tf2:vars class_name) {
+        give.internal() with vars::;
     }
-    tf2.model_number:@s = tf2.class:@s;
-    tf2.model_number:@s *= 10;
-    tf2.model_number:@s += tf2.team:@s;
+
     playsound tf2:pickup.ammo player @s[scores={tf2.health=1..,tf2.class=1..9}];
+}
+
+function give.internal() {
+    // @needs_macro
+    say "give.interal called";
+    $say "class_name = $(class_name)";
+    JMC.put("$function tf2:class/$(class_name)/give");
+    data remove storage tf2:vars class_name;
 }
 
 function swap_hands() {

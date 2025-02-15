@@ -63,6 +63,10 @@ make_weapon(
 
 class Class.Demoman {
     function give() {
+        tf2.class:@s = Class.DEMOMAN;
+        tf2.max_health:@s = tf2.health:@s = 175;
+        attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.93);
+
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/demoman/grenade_launcher;
         loot replace entity @s hotbar.1 loot tf2:class/demoman/stickybomb_launcher;

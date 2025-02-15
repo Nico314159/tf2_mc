@@ -48,6 +48,10 @@ class Class.Soldier {
     // scale vector by factor of 1.048
 
     function give() {
+        tf2.class:@s = Class.SOLDIER;
+        tf2.max_health:@s = tf2.health:@s = 200;
+        attribute @s minecraft:movement_speed base set EVAL(BASE_SPEED * 0.85);
+
         clear @s;
         loot replace entity @s hotbar.0 loot tf2:class/soldier/rocket_launcher;
         loot replace entity @s hotbar.1 loot tf2:class/soldier/shotgun;

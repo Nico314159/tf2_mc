@@ -1,3 +1,6 @@
+scoreboard players set @s tf2.class 9
+execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 150
+attribute @s minecraft:movement_speed base set 0.14124
 clear @s
 loot replace entity @s hotbar.0 loot tf2:class/medic/syringe_gun
 loot replace entity @s hotbar.1 loot tf2:class/medic/medi_gun

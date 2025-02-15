@@ -1,3 +1,4 @@
+say test_items
 item replace entity @s hotbar.0 with air
 item replace entity @s hotbar.1 with air
 item replace entity @s hotbar.2 with air
@@ -16,4 +17,7 @@ give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strin
 give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["spy"]},custom_name='"Spy (WIP)"'] 1
 give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["medic"]},custom_name='"Medic"'] 1
 give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["demoman"]},custom_name='"Demoman (WIP)"'] 1
-give @s carrot_on_a_stick[item_model="tf2:choose_class",custom_model_data={strings:["engineer"]},custom_name='"Engineer (WIP)"'] 1
+attribute @s minecraft:movement_speed modifier add tf2:no_move -1 add_multiplied_total
+attribute @s minecraft:jump_strength modifier add tf2:no_jump -1 add_multiplied_total
+attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed
+scoreboard players reset @s tf2.class
