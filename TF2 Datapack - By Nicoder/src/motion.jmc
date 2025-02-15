@@ -414,7 +414,7 @@ new tag.block(motion_passable) {
 		"#minecraft:corals",
 		"#minecraft:fire",
 		"#minecraft:small_flowers",
-		"#minecraft:tall_flowers",
+		"#minecraft:flowers",
 		"#minecraft:pressure_plates",
 		"#minecraft:rails",
 		"#minecraft:signs",
