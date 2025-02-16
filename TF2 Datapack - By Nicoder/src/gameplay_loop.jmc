@@ -137,7 +137,7 @@
                 Invulnerable: 1b,
                 Tags: ["tf2.pickup", "tf2.new"],
                 Age: -32768s, PickupDelay: 32767s,
-                Item: {id: "minecraft:iron_ingot", count: 1b}
+                Item: {id: "minecraft:paper", count: 1b, components: {"minecraft:custom_model_data": {floats: [0f]}}}
             }]
         };
 
@@ -147,13 +147,12 @@
             tag @s remove tf2.new;
         }
         execute as @e[type=item,tag=tf2.new] run {
-            execute run { $tag @s add tf2.$(kind)_pack; }
-                    with summon::pickups[-1];
+            execute run { 
+                $tag @s add tf2.$(kind)_pack; 
+                $ @s::Item.components.minecraft:item_model = "tf2:$(kind)_pack";
+            } with summon::pickups[-1];
 
             tf2.size:@s = summon::pickups[-1].size;
-            tf2.model_number:@s = 10;
-            tf2.model_number:@s += tf2.size:@s;
-            tf2.model_number:@s[tag=tf2.ammo_pack] += 10;
 
             tf2.batch_number:@s = tf2.batch_number:$local;
             tf2.respawn_timer:@s = 1;
@@ -178,7 +177,7 @@
 
             summon::entity.Pos = summon::resupply[-1].Pos;
             summon::entity.Rotation = summon::resupply[-1].Rotation;
-            summon::entity.item = {id: "iron_ingot", components: {"minecraft:custom_model_data": 30}};
+            summon::entity.item = {id: "paper", components: {"minecraft:item_model": "tf2:resupply_cabinet"}};
             summon::entity.transformation.scale = [1.0f, 1.01f, 1.0f];
             summon::entity.transformation.translation = [0.0f, 1.0f, 0.0f];
 

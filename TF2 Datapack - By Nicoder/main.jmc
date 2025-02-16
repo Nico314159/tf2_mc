@@ -210,7 +210,7 @@ class Pickup {
         tf2.respawn_timer:@s --;
         if (tf2.respawn_timer:@s > 0) return 0;
 
-        @s[scores={tf2.respawn_timer=0}]::Item.components."minecraft:custom_model_data" = tf2.model_number:@s;
+        @s[scores={tf2.respawn_timer=0}]::Item.components."minecraft:custom_model_data".floats[0] = (float) tf2.size:@s;
         execute positioned ~ ~-500.5 ~
                 run ride @s[scores={tf2.respawn_timer=0}] 
                 mount @e[type=area_effect_cloud,distance=..0.01,limit=1];
@@ -245,7 +245,7 @@ class Pickup {
             execute as @a[tag=tf2.recipient] run this.give_ammo();
         }
         tf2.respawn_timer:@s = 200;
-        @s::Item.components."minecraft:custom_model_data" = -1b;
+        @s::Item.components."minecraft:custom_model_data".floats[0] = -1;
         ride @s[tag=!tf2.no_respawn] dismount;
         tp @s ~ ~500 ~;
         tag @a remove tf2.recipient;

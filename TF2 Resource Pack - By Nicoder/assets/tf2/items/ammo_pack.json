@@ -1,0 +1,33 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/ammo/small"
+                },
+                "threshold": 1.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/ammo/medium"
+                },
+                "threshold": 2.0
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:pickup/ammo/large"
+                },
+                "threshold": 3.0
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "tf2:item/empty"
+        }
+    }
+}
