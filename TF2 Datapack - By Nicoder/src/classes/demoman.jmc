@@ -23,7 +23,7 @@ make_weapon(
         'entity_collision': {'mode': Collision.BOUNCE, 'impact_if_first': true, 'elasticity': 0.3},
         'lifetime': 2.3, 'explode_after_lifetime': true
     },
-	team_specific=True
+	team_specific=False
 )
 `, jmc=true);
 
@@ -48,7 +48,7 @@ make_weapon(
         'explode_alt_fire': 8
     },
     controls={'alt_fire': True},
-    team_specific=True
+    team_specific=False
 )
 `, jmc=true);
 
