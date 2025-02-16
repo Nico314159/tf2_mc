@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:item_model": "tf2:soldier/melee/shovel"
+                                "minecraft:item_model": "tf2:weapon/soldier/melee/shovel"
                             }
                         },
                         {

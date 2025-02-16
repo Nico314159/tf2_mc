@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:item_model": "tf2:pyro/melee/fire_axe"
+                                "minecraft:item_model": "tf2:weapon/pyro/melee/fire_axe"
                             }
                         },
                         {

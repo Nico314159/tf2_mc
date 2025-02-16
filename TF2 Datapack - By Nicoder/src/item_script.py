@@ -151,7 +151,7 @@ def make_weapon(
     model_component = {
         "function": "minecraft:set_components",
         "components": {
-            "minecraft:item_model": f"tf2:{model_path}"
+            "minecraft:item_model": f"tf2:weapon/{model_path}"
         }
     }
 

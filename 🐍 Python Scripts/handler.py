@@ -48,7 +48,7 @@ def main():
                             "when": team,
                             "model": {
                                 "type": "minecraft:model",
-                                "model": item_model.replace(':', ':item/') + f"_{team}"
+                                "model": item_model.replace('weapon', 'item') + f"_{team}"
                             }
                         } for team in ('red', 'blu')
                     ]
@@ -56,7 +56,7 @@ def main():
             else:
                 item_model_definition["model"] = {
                     "type": "minecraft:model",
-                    "model": item_model.replace(':', ':item/')
+                    "model": item_model.replace('weapon', 'item')
                 }
 
             output_path = (RP_ROOT / 'assets' / 'tf2' / 'items' / item_model.replace('tf2:', '')).with_suffix('.json')

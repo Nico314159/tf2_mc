@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:item_model": "tf2:demoman/primary/grenade_launcher",
+                                "minecraft:item_model": "tf2:weapon/demoman/primary/grenade_launcher",
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }

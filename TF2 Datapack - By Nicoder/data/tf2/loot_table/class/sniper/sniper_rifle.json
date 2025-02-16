@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:item_model": "tf2:sniper/primary/sniper_rifle"
+                                "minecraft:item_model": "tf2:weapon/sniper/primary/sniper_rifle"
                             }
                         },
                         {

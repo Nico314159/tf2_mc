@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:item_model": "tf2:scout/melee/baseball_bat"
+                                "minecraft:item_model": "tf2:weapon/scout/melee/baseball_bat"
                             }
                         },
                         {

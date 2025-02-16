@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:item_model": "tf2:medic/primary/syringe_gun",
+                                "minecraft:item_model": "tf2:weapon/medic/primary/syringe_gun",
                                 "minecraft:unbreakable": {
                                     "show_in_tooltip": false
                                 }

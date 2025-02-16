@@ -10,7 +10,7 @@
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:item_model": "tf2:heavy/melee/right_fist"
+                                "minecraft:item_model": "tf2:weapon/heavy/melee/right_fist"
                             }
                         },
                         {

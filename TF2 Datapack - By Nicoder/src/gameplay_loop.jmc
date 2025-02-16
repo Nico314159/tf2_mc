@@ -149,7 +149,7 @@
         execute as @e[type=item,tag=tf2.new] run {
             execute run { 
                 $tag @s add tf2.$(kind)_pack; 
-                $ @s::Item.components.minecraft:item_model = "tf2:$(kind)_pack";
+                $ @s::Item.components.minecraft:item_model = "tf2:pickup/$(kind)";
             } with summon::pickups[-1];
 
             tf2.size:@s = summon::pickups[-1].size;
