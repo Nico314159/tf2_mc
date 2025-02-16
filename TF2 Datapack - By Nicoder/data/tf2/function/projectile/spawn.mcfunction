@@ -27,7 +27,9 @@ data modify storage tf2:summon projectile.spawnX set from storage tf2:lookup ite
 data modify storage tf2:summon projectile.spawnY set from storage tf2:lookup item.components.minecraft:custom_data.projectile.spawn[1]
 data modify storage tf2:summon projectile.spawnZ set from storage tf2:lookup item.components.minecraft:custom_data.projectile.spawn[2]
 data modify storage tf2:summon projectile.weapon_name set from storage tf2:lookup item.components.minecraft:custom_name
-execute store result storage tf2:summon projectile.CMD int 100 run data get storage tf2:lookup item.components.minecraft:custom_model_data
+data modify storage tf2:summon projectile.model set from storage tf2:lookup item.components.minecraft:custom_data.projectile.model
+execute if score @s tf2.team matches 1 run data modify storage tf2:summon projectile.team set value 'red'
+execute if score @s tf2.team matches 2 run data modify storage tf2:summon projectile.team set value 'blu'
 data modify storage tf2:summon projectile.owner set from entity @s UUID
 execute store result score $explosion tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.explosion
 execute store result score $has_trail tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.has_trail

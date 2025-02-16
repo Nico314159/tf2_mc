@@ -20,6 +20,7 @@ make_weapon(
 		'isProjectile': true
 	},
 	projectile={
+		'model': 'syringe',
 		'spawn': [0.0, -0.45, 0.06], 
 		'speed': 990, 'hitbox': 2,
 		'deviation': {'min': 0, 'max': 200}, 

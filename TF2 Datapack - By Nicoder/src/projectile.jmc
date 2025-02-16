@@ -58,7 +58,9 @@ class Projectile {
         summon::projectile.spawnY = lookup::item.components.minecraft:custom_data.projectile.spawn[1];
         summon::projectile.spawnZ = lookup::item.components.minecraft:custom_data.projectile.spawn[2];
         summon::projectile.weapon_name = lookup::item.components.minecraft:custom_name;
-        summon::projectile.CMD = 100 * lookup::item.components.minecraft:custom_model_data;
+        summon::projectile.model = lookup::item.components.minecraft:custom_data.projectile.model;
+        if (tf2.team:@s == 1) { summon::projectile.team = "red"; }
+        if (tf2.team:@s == 2) { summon::projectile.team = "blu"; }
         summon::projectile.owner = @s::UUID;
         Hardcode.repeatList("|property|", () => {
             $|property| = lookup::item.components.minecraft:custom_data.projectile.|property|;
@@ -75,7 +77,7 @@ class Projectile {
             tf2.player.id:@s = tf2.player.id:$temp;
             tf2.batch_number:@s = tf2.batch_number:$local;
 
-            tf2.model_number:@s = summon::projectile.CMD;
+            // tf2.model_number:@s = summon::projectile.CMD;
             @s::billboard = lookup::item.components.minecraft:custom_data.projectile.billboard;
             @s::item.components.minecraft:custom_data.attributes = lookup::item.components.minecraft:custom_data.attributes;
             @s::item.components.minecraft:custom_data.projectile = lookup::item.components.minecraft:custom_data.projectile;
@@ -130,8 +132,9 @@ class Projectile {
         $ summon item_display ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
             Rotation: [$(yaw)f, $(pitch)f],
             Tags: ["tf2.projectile", "tf2.new"],
-            item: {id: "minecraft:glowstone_dust", components:{
-                "minecraft:custom_model_data": $(CMD), 
+            item: {id: "minecraft:paper", components:{
+                "minecraft:item_model": "tf2:projectile/$(model)",
+                "minecraft:custom_model_data": {strings: [$(team)]},
                 "minecraft:custom_data": {}
             }},
             start_interpolation: -1,
@@ -201,7 +204,11 @@ class Projectile {
         tf2.model_number:@s++;
         item modify entity @s contents { 
             "function": "minecraft:set_custom_model_data",
-            "value": {"type": "minecraft:score", "target": "this", "score": "tf2.model_number"}
+            "floats": {
+                "values": [ {"type": "minecraft:score", "target": "this", "score": "tf2.model_number"} ],
+                "mode": "replace_section",
+                "offset": 0, "size": 1
+            }
         };
     }
     function calc_lifetime() {
