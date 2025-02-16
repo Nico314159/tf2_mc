@@ -148,14 +148,12 @@ def make_weapon(
     
     loot_path.replace('class.', '').replace('.', '/')
 
-    model_components = [
-        {
-            "function": "minecraft:set_components",
-            "components": {
-                "minecraft:item_model": f"tf2:{model_path}"
-            }
+    model_component = {
+        "function": "minecraft:set_components",
+        "components": {
+            "minecraft:item_model": f"tf2:{model_path}"
         }
-    ]
+    }
 
     functions = []
 
@@ -193,15 +191,46 @@ def make_weapon(
             functions.append(item)
 
     if base_item in {"tf2:crossbow_base", "minecraft:crossbow"} and not meter:
-        for temp in model_components:
-            temp["components"] |= {
-                "minecraft:unbreakable": {"show_in_tooltip": False}
-            }
+        model_component["components"] |= {
+            "minecraft:unbreakable": {"show_in_tooltip": False}
+        }
 
     if display_name is not False:
         functions.insert(0, {"function": "minecraft:set_name", "name": display_name})
 
-    functions = [ *model_components, *functions, {"function": "minecraft:set_custom_data", "tag": snbt} ]
+    if team_specific:
+        functions += [
+            {
+                "function": "minecraft:set_custom_model_data",
+                "strings": {
+                    "values": ["red"],
+                    "mode": "append"
+                },
+                "conditions": [
+                    {
+                        "condition": "minecraft:entity_scores",
+                        "entity": "this",
+                        "scores": {"tf2.team": 1}
+                    }
+                ]
+            },
+            {
+                "function": "minecraft:set_custom_model_data",
+                "strings": {
+                    "values": ["blu"],
+                    "mode": "append"
+                },
+                "conditions": [
+                    {
+                        "condition": "minecraft:entity_scores",
+                        "entity": "this",
+                        "scores": {"tf2.team": 2}
+                    }
+                ]
+            }
+        ]
+
+    functions = [ model_component, *functions, {"function": "minecraft:set_custom_data", "tag": snbt} ]
 
     loot = {
         "pools": [
@@ -213,7 +242,5 @@ def make_weapon(
             }
         ]
     }
-
-
 
     emit(f'new loot_table({loot_path}) {json.dumps(loot)}')

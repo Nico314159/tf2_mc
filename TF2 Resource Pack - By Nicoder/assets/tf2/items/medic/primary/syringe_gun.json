@@ -1,1 +1,23 @@
-{"model": {"type": "minecraft:model", "model": "tf2:item/medic/primary/syringe_gun"}}
+{
+    "model": {
+        "type": "minecraft:select",
+        "property": "minecraft:custom_model_data",
+        "index": 0,
+        "cases": [
+            {
+                "when": "red",
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/medic/primary/syringe_gun_red"
+                }
+            },
+            {
+                "when": "blu",
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/medic/primary/syringe_gun_blu"
+                }
+            }
+        ]
+    }
+}

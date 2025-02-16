@@ -1,1 +1,23 @@
-{"model": {"type": "minecraft:model", "model": "tf2:item/pyro/primary/flamethrower"}}
+{
+    "model": {
+        "type": "minecraft:select",
+        "property": "minecraft:custom_model_data",
+        "index": 0,
+        "cases": [
+            {
+                "when": "red",
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/pyro/primary/flamethrower_red"
+                }
+            },
+            {
+                "when": "blu",
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:item/pyro/primary/flamethrower_blu"
+                }
+            }
+        ]
+    }
+}

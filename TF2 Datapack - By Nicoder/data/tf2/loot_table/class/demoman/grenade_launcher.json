@@ -25,6 +25,42 @@
                             }
                         },
                         {
+                            "function": "minecraft:set_custom_model_data",
+                            "strings": {
+                                "values": [
+                                    "red"
+                                ],
+                                "mode": "append"
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.team": 1
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "function": "minecraft:set_custom_model_data",
+                            "strings": {
+                                "values": [
+                                    "blu"
+                                ],
+                                "mode": "append"
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.team": 2
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             "function": "minecraft:set_custom_data",
                             "tag": "{attributes:{damage:{base:100,uniform:true},attackDelay:0.6,reloadDelay:[1.24,0.6],clip:4,ammo:16,isProjectile:true},projectile:{spawn:[0,0,0],explosion:{radius:146,selfDamage:38},speed:1216,forces:{gravity:0.08,drag:0.98,collision_friction:0.95,torque:true},hitbox:4,block_collision:{mode:2,elasticity:0.6},entity_collision:{mode:2,impact_if_first:true,elasticity:0.3},lifetime:2.3,explode_after_lifetime:true},controls:{main_fire:true,alt_fire:false,reload:1},key:50}"
                         }

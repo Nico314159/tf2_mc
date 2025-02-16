@@ -44,6 +44,42 @@
                             "add": true
                         },
                         {
+                            "function": "minecraft:set_custom_model_data",
+                            "strings": {
+                                "values": [
+                                    "red"
+                                ],
+                                "mode": "append"
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.team": 1
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "function": "minecraft:set_custom_model_data",
+                            "strings": {
+                                "values": [
+                                    "blu"
+                                ],
+                                "mode": "append"
+                            },
+                            "conditions": [
+                                {
+                                    "condition": "minecraft:entity_scores",
+                                    "entity": "this",
+                                    "scores": {
+                                        "tf2.team": 2
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             "function": "minecraft:set_custom_data",
                             "tag": "{retina:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:500},attributes:{clip:1,damage:0,heal:{base:24,maxRamp:3.0},uber:{build:40.0,last:8.0}},controls:{alt_fire:true,reload:0,main_fire:true},key:91}"
                         }

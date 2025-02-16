@@ -8,14 +8,14 @@
                 "when": "red",
                 "model": {
                     "type": "minecraft:model",
-                    "model": "tf2:item/demoman/primary/grenade_launcher_red"
+                    "model": "tf2:item/medic/secondary/medi_gun_red"
                 }
             },
             {
                 "when": "blu",
                 "model": {
                     "type": "minecraft:model",
-                    "model": "tf2:item/demoman/primary/grenade_launcher_blu"
+                    "model": "tf2:item/medic/secondary/medi_gun_blu"
                 }
             }
         ]
