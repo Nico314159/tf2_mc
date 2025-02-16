@@ -58,15 +58,38 @@ function class_select() {
         give.internal() with vars::;
     }
 
+    replenish_ammo_and_health();
+
     playsound tf2:pickup.ammo player @s[scores={tf2.health=1..,tf2.class=1..9}];
 }
 
 function give.internal() {
     // @needs_macro
-    say "give.interal called";
-    $say "class_name = $(class_name)";
     JMC.put("$function tf2:class/$(class_name)/give");
     data remove storage tf2:vars class_name;
+}
+
+function replenish_ammo_and_health() {
+    // kinda hacky
+    tf2.health:@s = 1000;
+    Player.clamp_health();
+
+    tf2.primary_clip:@s = tf2.primary_maxClip:@s;
+    tf2.primary_ammo:@s = tf2.primary_maxAmmo:@s;
+    tf2.secondary_clip:@s = tf2.secondary_maxClip:@s;
+    tf2.secondary_ammo:@s = tf2.secondary_maxAmmo:@s;
+
+    // class-specific stuff
+    if (tf2.class:@s == Class.SPY) {
+        tf2.cloak:@s = @s::Inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge * 20;
+    }
+    if (tf2.class:@s[tag=tf2.dead] == Class.MEDIC) {
+        // drop Über on death
+        Class.Medic.drop_uber_on_death();
+    }
+    // if (tf2.class:@s == Class.ENGINEER) {
+    //     tf2.metal:@s = 200;
+    // }
 }
 
 function swap_hands() {

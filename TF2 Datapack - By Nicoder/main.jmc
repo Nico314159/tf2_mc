@@ -329,8 +329,9 @@ class Spawn {
         tf2.afterburn_ticks:@s =
         tf2.interpolate_rmb:@s = 0;
         tf2.time_surfaced:@s = tf2.drown_lost:@s = 0;
-        // Replenish ammo
-        class_select();
+        tf2.airblast_delay:@s = 0;
+        replenish_ammo_and_health();
+
         // Remove "You died!" message
         tag @s remove tf2.dead;
         Text.title(@s, "");

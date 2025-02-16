@@ -402,7 +402,6 @@ class reset {
 }
 
 function test_items() {
-    say "test_items";
     Hardcode.repeat("|i|", () => {
         item replace entity @s hotbar.|i| with air;
     }, start=0, stop=9);

@@ -96,12 +96,10 @@ class Class.Medic {
 		tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
 		tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
 
-		if (entity @s[tag=!tf2.dead]) {
-			return 1;
+		if (entity @s[tag=tf2.dead]) {
+			this.drop_uber_on_death();
 		}
-		scoreboard players reset @s tf2.heal_target;
-		tf2.ubercharge:@s = 0;
-		tag @s remove tf2.uber_source;
+		
 	}
 	@lazy
 	function tick() {
@@ -328,5 +326,10 @@ class Class.Medic {
 		tf2.ubercharge:@s[tag=tf2.uber_source] -= $drain_rate;
 		tf2.ubercharge:@s[tag=tf2.uber_source] > 0;
 		tag @s[scores={tf2.ubercharge=..0}] remove tf2.uber_source;
+	}
+	function drop_uber_on_death() {
+		scoreboard players reset @s tf2.heal_target;
+		tf2.ubercharge:@s = 0;
+		tag @s remove tf2.uber_source;
 	}
 }

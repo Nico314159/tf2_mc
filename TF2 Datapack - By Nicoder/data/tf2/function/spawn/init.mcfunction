@@ -8,7 +8,8 @@ tag @s remove tf2.on_fire
 tag @s remove tf2.uber_patient
 execute store result score @s tf2.afterburn_ticks run scoreboard players set @s tf2.interpolate_rmb 0
 execute store result score @s tf2.time_surfaced run scoreboard players set @s tf2.drown_lost 0
-function tf2:class_select
+scoreboard players set @s tf2.airblast_delay 0
+function tf2:replenish_ammo_and_health
 tag @s remove tf2.dead
 title @s title ""
 title @s subtitle ""

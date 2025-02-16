@@ -1,4 +1,3 @@
-say test_items
 item replace entity @s hotbar.0 with air
 item replace entity @s hotbar.1 with air
 item replace entity @s hotbar.2 with air
