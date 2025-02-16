@@ -390,7 +390,7 @@ class Player {
                 Invulnerable: 1b,
                 Tags: ["tf2.pickup", "tf2.ammo_pack", "tf2.no_respawn"],
                 Age: -32768s, PickupDelay: 32767s,
-                Item: {id: "minecraft:paper", components: {"minecraft:custom_model_data": {floats:[2f]}}}
+                Item: {id: "minecraft:paper", components: {"minecraft:item_model": "tf2:ammo_pack", "minecraft:custom_model_data": {floats:[2f]}}}
             }]
         };
         execute as @e[type=axolotl,tag=tf2.new,tag=tf2.no_respawn] expand {
