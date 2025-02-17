@@ -52,7 +52,10 @@
 
             summon::entity.Pos = summon::objectives[-1].Pos;
             summon::entity.Tags = summon::objectives[-1].Tags;
-            summon::entity.item = {id: "white_dye"};
+            summon::entity.item = {
+                id: "white_dye", 
+                components: {"minecraft:item_model": "tf2:map_element/control_point"}
+            };
             summon::entity.transformation.translation = [0.0f, 0.5f, 0.0f];
             @s::{} += summon::entity; 
             tag @s add tf2.objective;

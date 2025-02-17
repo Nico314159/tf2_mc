@@ -1,0 +1,26 @@
+{
+    "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:custom_model_data",
+        "entries": [
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:map_element/control_point/red_plate"
+                },
+                "threshold": 1
+            },
+            {
+                "model": {
+                    "type": "minecraft:model",
+                    "model": "tf2:map_element/control_point/blu_plate"
+                },
+                "threshold": 2
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "tf2:map_element/control_point/unclaimed_plate"
+        }
+    }
+}

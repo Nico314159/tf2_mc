@@ -369,7 +369,7 @@ class Objectives
                 // Update model to be RED
                 item modify entity @s contents {
                     "function": "minecraft:set_custom_model_data",
-                    "value": 11
+                    "floats": { "values": [1], "mode": "replace_all" }
                 };
 
                 
@@ -418,7 +418,7 @@ class Objectives
                 // Update model to be BLU
                 item modify entity @s contents {
                     "function": "minecraft:set_custom_model_data",
-                    "value": 12
+                    "floats": { "values": [2], "mode": "replace_all" }
                 };
 
 
@@ -475,11 +475,18 @@ class Objectives
                 lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
 
                 // Determine the custom model to use.
-                tf2.model_number:@s = 10;
-                tf2.model_number:@s += tf2.team:@s;
-                item modify entity @s contents { 
+                item modify entity @s contents {
                     "function": "minecraft:set_custom_model_data",
-                    "value": {"type": "minecraft:score", "target": "this", "score": "tf2.model_number"}
+                    "floats": {
+                        "values": [
+                            {
+                                "type": "minecraft:score",
+                                "target": "this",
+                                "score": "tf2.team"
+                            }
+                        ],
+                        "mode": "replace_all"
+                    }
                 };
 
                 this.add_symbol();

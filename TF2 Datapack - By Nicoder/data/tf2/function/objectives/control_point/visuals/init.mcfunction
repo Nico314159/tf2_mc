@@ -4,9 +4,7 @@ execute if score @s tf2.team matches 0 run data modify storage tf2:lookup points
 execute if score @s tf2.team matches 1 run data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]'
 execute if score @s tf2.team matches 2 run data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]'
 data modify storage tf2:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]'
-scoreboard players set @s tf2.model_number 10
-scoreboard players operation @s tf2.model_number += @s tf2.team
-item modify entity @s contents {"function":"minecraft:set_custom_model_data","value":{"type":"minecraft:score","target":"this","score":"tf2.model_number"}}
+item modify entity @s contents {"function":"minecraft:set_custom_model_data","floats":{"values":[{"type":"minecraft:score","target":"this","score":"tf2.team"}],"mode":"replace_all"}}
 function tf2:objectives/control_point/visuals/add_symbol
 execute if entity @s[tag=!tf2.letter] run data modify storage tf2:lookup points[0].extra set value '[{"text":"$#)","font":"tf2:square"}]'
 execute if score @s[tag=tf2.letter] tf2.index matches 0 run data modify storage tf2:lookup points[0].extra set value '[{"text":"3210|]","color":"gray"},{"text":"|21A$#","color":"black"}]'

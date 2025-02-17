@@ -6,7 +6,7 @@ data modify storage tf2:lookup points[0].owner set value '[{"text":"[","color":"
 data modify storage tf2:lookup points[0].progress set value '[{"text":"321))))))))))))))","color":"gray"}]'
 function tf2:objectives/control_point/find_index/reinsert
 tag @s remove tf2.said_dialogue
-item modify entity @s contents {"function":"minecraft:set_custom_model_data","value":11}
+item modify entity @s contents {"function":"minecraft:set_custom_model_data","floats":{"values":[1],"mode":"replace_all"}}
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 tag @e[type=marker,tag=tf2.current] remove tf2.current
 execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
