@@ -1,5 +1,5 @@
 data modify storage tf2:summon entity.Pos set from storage tf2:summon doors[-1].Pos
-data modify storage tf2:summon entity.item set value {id:"gold_ingot",components:{"minecraft:custom_model_data":100}}
+data modify storage tf2:summon entity.item set value {id:"white_dye",components:{"minecraft:item_model":"tf2:map_element/door/standard_metal"}}
 data modify storage tf2:summon entity.item_display set value 'ground'
 data modify storage tf2:summon entity.item.components.minecraft:custom_data.path set from storage tf2:summon doors[-1].path
 data modify storage tf2:summon entity.item.components.minecraft:custom_data.size_x set from storage tf2:summon doors[-1].size[0]

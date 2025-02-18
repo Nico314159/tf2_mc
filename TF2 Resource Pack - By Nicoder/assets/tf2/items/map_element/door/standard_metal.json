@@ -1,0 +1,6 @@
+{
+    "model": {
+        "type": "minecraft:model",
+        "model": "tf2:map_element/door/standard_metal"
+    }
+}

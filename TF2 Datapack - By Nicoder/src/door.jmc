@@ -27,7 +27,7 @@ class Door {
 
     function initialize_path() {
         summon::entity.Pos = summon::doors[-1].Pos;
-        summon::entity.item = {id: "gold_ingot", components: {"minecraft:custom_model_data": 100}};
+        summon::entity.item = {id: "white_dye", components: {"minecraft:item_model": "tf2:map_element/door/standard_metal"}};
         summon::entity.item_display = "ground";
 
         summon::entity.item.components.minecraft:custom_data.path = summon::doors[-1].path;
