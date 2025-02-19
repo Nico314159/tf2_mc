@@ -5,22 +5,49 @@
         "entries": [
             {
                 "model": {
-                    "type": "minecraft:model",
-                    "model": "tf2:map_element/control_point/red_plate"
+                    "type": "minecraft:composite",
+                    "models": [
+                        {
+                            "type": "minecraft:model",
+                            "model": "tf2:map_element/control_point/red_plate"
+                        },
+                        {
+                            "type": "minecraft:model",
+                            "model": "tf2:map_element/control_point/red_decal"
+                        }
+                    ]
                 },
                 "threshold": 1
             },
             {
                 "model": {
-                    "type": "minecraft:model",
-                    "model": "tf2:map_element/control_point/blu_plate"
+                    "type": "minecraft:composite",
+                    "models": [
+                        {
+                            "type": "minecraft:model",
+                            "model": "tf2:map_element/control_point/blu_plate"
+                        },
+                        {
+                            "type": "minecraft:model",
+                            "model": "tf2:map_element/control_point/blu_decal"
+                        }
+                    ]
                 },
                 "threshold": 2
             }
         ],
         "fallback": {
-            "type": "minecraft:model",
-            "model": "tf2:map_element/control_point/unclaimed_plate"
+            "type": "minecraft:composite",
+            "models": [
+                {
+                    "type": "minecraft:model",
+                    "model": "tf2:map_element/control_point/unclaimed_plate"
+                },
+                {
+                    "type": "minecraft:model",
+                    "model": "tf2:map_element/control_point/unclaimed_decal"
+                }
+            ]
         }
     }
 }
