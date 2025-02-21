@@ -197,8 +197,8 @@
 		}
 	],
 	"display": {
-		"head": {
-			"translation": [0, 3, 0]
+		"ground": {
+			"translation": [0, 31.25, 0]
 		}
 	}
 }

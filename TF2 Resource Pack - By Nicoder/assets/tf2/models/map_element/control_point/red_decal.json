@@ -436,8 +436,8 @@
 		}
 	],
 	"display": {
-		"head": {
-			"translation": [0, 5, 0]
+		"ground": {
+			"translation": [0, 28, 0]
 		}
 	}
 }
