@@ -12,7 +12,7 @@
                 {
                     "function": "minecraft:set_components",
                     "components": {
-                        "minecraft:item_model": "tf2:head"
+                        "minecraft:item_model": "tf2:misc/head"
                     }
                 },
                 {
