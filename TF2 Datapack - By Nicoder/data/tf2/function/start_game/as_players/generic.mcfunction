@@ -8,6 +8,7 @@ scoreboard players operation @s tf2.health = @s tf2.max_health
 tag @s add tf2.current
 scoreboard players set @s tf2.respawn_timer 0
 scoreboard players set @s tf2.reload_delay 0
+function tf2:test_items
 execute if score @s tf2.queue_type matches 1 run function tf2:start_game/as_players/competitive
 execute if score @s tf2.queue_type matches 2 run function tf2:start_game/as_players/casual
 execute if score @s tf2.queue_type matches 3 run function tf2:start_game/as_players/chaos

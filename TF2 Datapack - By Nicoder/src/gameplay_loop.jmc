@@ -305,6 +305,8 @@ class start_game {
             tf2.respawn_timer:@s = 0;
             tf2.reload_delay:@s = 0;
 
+            test_items();
+
             // apply gametype-specific settings
             if (tf2.queue_type:@s = 1) start_game.as_players.competitive();
             if (tf2.queue_type:@s = 2) start_game.as_players.casual();
