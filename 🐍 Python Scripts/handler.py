@@ -37,6 +37,7 @@ def main():
 
 
             item_model_definition = {"model": {}}
+            model_name_root = item_model.replace('weapon', 'item')
 
             if team_specific:
                 item_model_definition["model"] =  {
@@ -48,15 +49,28 @@ def main():
                             "when": team,
                             "model": {
                                 "type": "minecraft:model",
-                                "model": item_model.replace('weapon', 'item') + f"_{team}"
+                                "model": f"{model_name_root}_{team}"
                             }
                         } for team in ('red', 'blu')
                     ]
                 }
+            elif "sniper/primary" in item_model:
+                item_model_definition["model"] = {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:custom_model_data",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": f"{model_name_root}_scope"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": model_name_root
+                    }
+                }
             else:
                 item_model_definition["model"] = {
                     "type": "minecraft:model",
-                    "model": item_model.replace('weapon', 'item')
+                    "model": model_name_root
                 }
 
             output_path = (RP_ROOT / 'assets' / 'tf2' / 'items' / item_model.replace('tf2:', '')).with_suffix('.json')

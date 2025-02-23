@@ -1,1 +1,1 @@
-{"model": {"type": "minecraft:model", "model": "tf2:item/sniper/primary/sniper_rifle"}}
+{"model": {"type": "minecraft:condition", "property": "minecraft:custom_model_data", "on_true": {"type": "minecraft:model", "model": "tf2:item/sniper/primary/sniper_rifle_scope"}, "on_false": {"type": "minecraft:model", "model": "tf2:item/sniper/primary/sniper_rifle"}}}
