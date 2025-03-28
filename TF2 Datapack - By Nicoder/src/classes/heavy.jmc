@@ -181,8 +181,8 @@ class Class.Heavy {
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/heavy/chest_model;
 
         loot replace entity @s armor.head loot tf2:class/heavy/head;
-        $_count_ = clear @s white_dye 0;
-        if ($_count_ != 1) clear @s white_dye;
+        $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
+        if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/heavy/head;
 
         if (tf2.current_slot:@s == 2) {
@@ -191,7 +191,7 @@ class Class.Heavy {
             if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.HEAVY * 10 + 2), kind: "fake"}];
             if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/heavy/left_fist;
         } else {
-            clear @s white_dye;
+            clear @s white_dye[item_model="tf2:misc/head"];
         }
 
         if (predicate tf2:class/heavy/is_revving && tf2.current_slot:@s == 0) return run {

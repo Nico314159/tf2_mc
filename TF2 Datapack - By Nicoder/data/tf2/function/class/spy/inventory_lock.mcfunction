@@ -34,6 +34,6 @@ execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor
 scoreboard players set @s tf2.model_number 10
 scoreboard players operation @s tf2.model_number += @s tf2.team
 loot replace entity @s armor.head loot tf2:class/spy/head
-execute store result score $_count_ tf2.var run clear @s white_dye 0
-execute unless score $_count_ tf2.var matches 1 run clear @s white_dye
+execute store result score $_count_ tf2.var run clear @s white_dye[item_model="tf2:misc/head"] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s white_dye[item_model="tf2:misc/head"]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:class/spy/head

@@ -130,8 +130,8 @@ class Class.Sniper {
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/sniper/chest_model;
 
         loot replace entity @s armor.head loot tf2:class/sniper/head;
-        $_count_ = clear @s white_dye 0;
-        if ($_count_ != 1) clear @s white_dye;
+        $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
+        if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/sniper/head;
     }
     function scope() {

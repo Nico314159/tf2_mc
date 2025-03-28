@@ -302,8 +302,8 @@ class Class.Spy {
         tf2.model_number:@s += tf2.team:@s;
 
         loot replace entity @s armor.head loot tf2:class/spy/head;
-        $_count_ = clear @s white_dye 0;
-        if ($_count_ != 1) clear @s white_dye;
+        $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
+        if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/spy/head;
     }
     function disable_attacking() {
@@ -352,8 +352,8 @@ class Class.Spy {
         tf2.model_number:@s += tf2.disguise.team:@s;
 
         loot replace entity @s armor.head loot tf2:class/spy/head;
-        $_count_ = clear @s white_dye 0;
-        if ($_count_ != 1) clear @s white_dye;
+        $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
+        if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/spy/head;
 
         this.true_team_trail();

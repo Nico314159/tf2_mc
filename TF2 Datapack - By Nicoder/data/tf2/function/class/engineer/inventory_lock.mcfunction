@@ -28,6 +28,6 @@ execute store result score $_count_ tf2.var run clear @s iron_chestplate 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_chestplate
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.chest loot tf2:class/engineer/chest_model
 loot replace entity @s armor.head loot tf2:class/engineer/head
-execute store result score $_count_ tf2.var run clear @s white_dye 0
-execute unless score $_count_ tf2.var matches 1 run clear @s white_dye
+execute store result score $_count_ tf2.var run clear @s white_dye[item_model="tf2:misc/head"] 0
+execute unless score $_count_ tf2.var matches 1 run clear @s white_dye[item_model="tf2:misc/head"]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:class/engineer/head
