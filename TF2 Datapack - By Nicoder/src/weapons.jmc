@@ -538,7 +538,7 @@ class Weapons {
 
         execute run {
             $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
-                item: {id: "glowstone_dust", components: {"minecraft:custom_model_data": 0}},
+                item: {id: "glowstone_dust", components: {"minecraft:item_model": "tf2:bullet"}},
                 Rotation: [$(yaw)f, $(pitch)f],
                 Tags: ["tf2.visual", "tf2.newest"],
                 transformation: {

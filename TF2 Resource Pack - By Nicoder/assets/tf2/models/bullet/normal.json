@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [1, 1],
 	"textures": {
-		"0": "tf2:item/white",
-		"particle": "tf2:item/white"
+		"0": "tf2:item/off_white",
+		"particle": "tf2:item/off_white"
 	},
 	"elements": [
 		{
