@@ -315,7 +315,7 @@ Trigger.add(autoreload, () => {
 			"rolls": 1,
 			"entries": [{
 				"type": "minecraft:item",
-				"name": "paper"
+				"name": "white_dye"
 			}],
 			"functions": [
                 {

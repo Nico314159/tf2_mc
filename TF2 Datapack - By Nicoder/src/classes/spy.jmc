@@ -61,7 +61,7 @@ JMC.python(
                 "entries": [
                     {
                         "type": "item",
-                        "name": "paper",
+                        "name": "white_dye",
                         "functions": [name, *model, special_tag]
                     }
                 ]
@@ -84,7 +84,7 @@ make_weapon(
 JMC.python(`
 make_weapon(
     Class.SPY, slot=1, name='Sapper',
-    base_item='minecraft:clay_ball'
+    base_item='minecraft:white_dye'
 )
 `, jmc=true);
 
@@ -118,7 +118,7 @@ make_weapon(
         "italic": true
     },
     attributes={'cloak_recharge': 30.0},
-    base_item='minecraft:clay_ball',
+    base_item='minecraft:white_dye',
     extra=[
         { 
             "function": "minecraft:set_custom_data", 
@@ -219,10 +219,10 @@ class Class.Spy {
         }
 
         // Toggle cloak by switching hands
-        if (items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand clay_ball[custom_data~{cloak: 'cloak'}]) {
+        if (items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand white_dye[custom_data~{cloak: 'cloak'}]) {
             this.cloak();
         }
-        if (items entity @s[scores={tf2.is_invisible=1}] weapon.mainhand clay_ball[custom_data~{cloak: 'uncloak'}]) {
+        if (items entity @s[scores={tf2.is_invisible=1}] weapon.mainhand white_dye[custom_data~{cloak: 'uncloak'}]) {
             this.uncloak();
         }
 
@@ -302,8 +302,8 @@ class Class.Spy {
         tf2.model_number:@s += tf2.team:@s;
 
         loot replace entity @s armor.head loot tf2:class/spy/head;
-        $_count_ = clear @s paper 0;
-        if ($_count_ != 1) clear @s paper;
+        $_count_ = clear @s white_dye 0;
+        if ($_count_ != 1) clear @s white_dye;
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/spy/head;
     }
     function disable_attacking() {
@@ -340,8 +340,8 @@ class Class.Spy {
         if ($_count_ != 1) this.fake_leggings() with vars::;
 
         // loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
-        // $_count_ = clear @s clay_ball[custom_model_data=] 0;
-        // if ($_count_ != 1) clear @s clay_ball[custom_model_data=];
+        // $_count_ = clear @s white_dye[custom_model_data=] 0;
+        // if ($_count_ != 1) clear @s white_dye[custom_model_data=];
         // if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
         item modify entity @s weapon.offhand {
             "function": "minecraft:set_custom_model_data", "value": EVAL(EVAL(Class.SPY * 5 + 4) * 10 * 5 * 3 + 1)
@@ -352,8 +352,8 @@ class Class.Spy {
         tf2.model_number:@s += tf2.disguise.team:@s;
 
         loot replace entity @s armor.head loot tf2:class/spy/head;
-        $_count_ = clear @s paper 0;
-        if ($_count_ != 1) clear @s paper;
+        $_count_ = clear @s white_dye 0;
+        if ($_count_ != 1) clear @s white_dye;
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/spy/head;
 
         this.true_team_trail();
@@ -667,11 +667,11 @@ class Class.Spy {
                 for (slot, class_name) in enumerate(classes):
                     emit(f"loot replace entity @s hotbar.{slot} loot tf2:class/spy/disguise/{class_name.lower()}");
             `, jmc=false);
-            $_count_ = clear @s paper[custom_data~{disguise: true}] 0;
+            $_count_ = clear @s white_dye[custom_data~{disguise: true}] 0;
 
             JMC.python("emit(f'if ($_count_ == {len(classes)}) return true;')", jmc=true);
 
-            clear @s paper[custom_data~{disguise: true}];
+            clear @s white_dye[custom_data~{disguise: true}];
             this.give_heads();
         }
         function toggle_team() {

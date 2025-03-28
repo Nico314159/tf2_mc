@@ -132,7 +132,7 @@ class Projectile {
         $ summon item_display ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
             Rotation: [$(yaw)f, $(pitch)f],
             Tags: ["tf2.projectile", "tf2.new"],
-            item: {id: "minecraft:paper", components:{
+            item: {id: "minecraft:white_dye", components:{
                 "minecraft:item_model": "tf2:projectile/$(model)",
                 "minecraft:custom_model_data": {strings: [$(team)]},
                 "minecraft:custom_data": {}

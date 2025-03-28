@@ -20,7 +20,7 @@ execute store result score $_count_ tf2.var run clear @s iron_chestplate 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_chestplate
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.chest loot tf2:class/scout/chest_model
 loot replace entity @s armor.head loot tf2:class/scout/head
-execute store result score $_count_ tf2.var run clear @s paper 0
-execute unless score $_count_ tf2.var matches 1 run clear @s paper
+execute store result score $_count_ tf2.var run clear @s white_dye 0
+execute unless score $_count_ tf2.var matches 1 run clear @s white_dye
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:class/scout/head
 execute if score @s tf2.can_double_jump matches 1.. run function tf2:__private__/if_else/4

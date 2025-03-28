@@ -269,7 +269,7 @@ new loot_table(head) {
 		"rolls": 1,
 		"entries": [{
 			"type": "minecraft:item",
-			"name": "minecraft:paper",
+			"name": "minecraft:white_dye",
 			"functions": [{
 				"function": "minecraft:set_custom_model_data",
 				"value": {
@@ -494,7 +494,7 @@ class Weapons {
         return 1;
     }
     function attempt_autoreload() {
-        // if (items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand clay_ball[custom_data~{cloak: 'cloak'}]) {
+        // if (items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand white_dye[custom_data~{cloak: 'cloak'}]) {
         //     return fail;
         // }
         $should_animate = this.reload();
@@ -538,7 +538,7 @@ class Weapons {
 
         execute run {
             $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
-                item: {id: "glowstone_dust", components: {"minecraft:item_model": "tf2:bullet"}},
+                item: {id: "white_dye", components: {"minecraft:item_model": "tf2:bullet"}},
                 Rotation: [$(yaw)f, $(pitch)f],
                 Tags: ["tf2.visual", "tf2.newest"],
                 transformation: {

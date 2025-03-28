@@ -141,7 +141,7 @@
                 Invulnerable: 1b,
                 Tags: ["tf2.pickup", "tf2.new"],
                 Age: -32768s, PickupDelay: 32767s,
-                Item: {id: "minecraft:paper", count: 1b, components: {"minecraft:custom_model_data": {floats: [0f]}}}
+                Item: {id: "minecraft:white_dye", count: 1b, components: {"minecraft:custom_model_data": {floats: [0f]}}}
             }]
         };
 
@@ -181,7 +181,7 @@
 
             summon::entity.Pos = summon::resupply[-1].Pos;
             summon::entity.Rotation = summon::resupply[-1].Rotation;
-            summon::entity.item = {id: "paper", components: {"minecraft:item_model": "tf2:map_element/resupply_cabinet"}};
+            summon::entity.item = {id: "white_dye", components: {"minecraft:item_model": "tf2:map_element/resupply_cabinet"}};
             summon::entity.transformation.scale = [1.0f, 1.01f, 1.0f];
             summon::entity.transformation.translation = [0.0f, 1.0f, 0.0f];
 

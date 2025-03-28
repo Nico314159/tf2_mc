@@ -540,7 +540,7 @@ new loot_table(melee_base) {
                         },
                         {
                             "type": "minecraft:item",
-                            "name": "minecraft:brick"
+                            "name": "minecraft:white_dye"
                         }
                     ]
                 }

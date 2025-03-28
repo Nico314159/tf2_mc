@@ -2,8 +2,8 @@ function tf2:weapons/get_ammo
 function tf2:hud/actionbar
 function tf2:weapons/set_ammo
 execute if entity @s[tag=tf2.disguised] run function tf2:class/spy/nametag/follow
-execute if items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand clay_ball[custom_data~{cloak:"cloak"}] run function tf2:class/spy/cloak
-execute if items entity @s[scores={tf2.is_invisible=1}] weapon.mainhand clay_ball[custom_data~{cloak:"uncloak"}] run function tf2:class/spy/uncloak
+execute if items entity @s[scores={tf2.is_invisible=0}] weapon.mainhand white_dye[custom_data~{cloak:"cloak"}] run function tf2:class/spy/cloak
+execute if items entity @s[scores={tf2.is_invisible=1}] weapon.mainhand white_dye[custom_data~{cloak:"uncloak"}] run function tf2:class/spy/uncloak
 scoreboard players add @s[scores={tf2.is_invisible=0,tf2.cloak=..599}] tf2.cloak 1
 scoreboard players remove @s[scores={tf2.is_invisible=1}] tf2.cloak 3
 execute if score @s[scores={tf2.is_invisible=1}] tf2.cloak matches ..0 run function tf2:class/spy/uncloak

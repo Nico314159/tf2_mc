@@ -23,7 +23,7 @@
                         },
                         {
                             "type": "minecraft:item",
-                            "name": "minecraft:brick"
+                            "name": "minecraft:white_dye"
                         }
                     ]
                 }

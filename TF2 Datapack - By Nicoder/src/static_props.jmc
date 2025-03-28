@@ -253,25 +253,25 @@ function load_static_props() {
 
     //* -- Gorge computers -- *//
     @lazy function blu_spawn1_computers() {
-        summon minecraft:item_display 1177.5 115.5 -973.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1178.5 115.5 -973.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1180.5 115.5 -971.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
-        summon minecraft:item_display 1180.5 115.5 -970.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
-        summon minecraft:item_display 1180.5 115.5 -969.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
-        summon minecraft:item_display 1180.5 115.5 -968.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[2]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1177.5 115.5 -973.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1178.5 115.5 -973.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1180.5 115.5 -971.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1180.5 115.5 -970.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1180.5 115.5 -969.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1180.5 115.5 -968.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['blu'], floats:[2]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
     }
     blu_spawn1_computers();
 
     @lazy function upper_deck_data_link() {
-        summon item_display 1177.5 122.5 -923.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon item_display 1178.5 122.5 -923.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon item_display 1179.5 122.5 -923.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon item_display 1180.5 122.5 -923.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon item_display 1181.5 122.5 -923.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon item_display 1183.5 122.5 -922.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation: [90f,0f]};
-        summon item_display 1183.5 122.5 -921.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation: [90f,0f]};
-        summon item_display 1183.5 122.5 -920.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation: [90f,0f]};
-        summon item_display 1183.5 122.5 -919.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation: [90f,0f]};
+        summon item_display 1177.5 122.5 -923.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon item_display 1178.5 122.5 -923.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon item_display 1179.5 122.5 -923.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon item_display 1180.5 122.5 -923.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon item_display 1181.5 122.5 -923.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon item_display 1183.5 122.5 -922.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation: [90f,0f]};
+        summon item_display 1183.5 122.5 -921.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation: [90f,0f]};
+        summon item_display 1183.5 122.5 -920.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation: [90f,0f]};
+        summon item_display 1183.5 122.5 -919.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation: [90f,0f]};
         summon text_display 1179.5 124.25 -922.99 {
             transformation: {
                 left_rotation: [0f,0f,0f,1f],
@@ -286,10 +286,10 @@ function load_static_props() {
     upper_deck_data_link();
 
     @lazy function main_hallway_data_link() {
-        summon minecraft:item_display 1133.5 127.5 -828.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
-        summon minecraft:item_display 1132.5 127.5 -828.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
-        summon minecraft:item_display 1131.5 127.5 -828.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
-        summon minecraft:item_display 1130.5 127.5 -828.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
+        summon minecraft:item_display 1133.5 127.5 -828.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
+        summon minecraft:item_display 1132.5 127.5 -828.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
+        summon minecraft:item_display 1131.5 127.5 -828.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
+        summon minecraft:item_display 1130.5 127.5 -828.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
         summon text_display 1132.0 129.375 -828.01 {
             transformation: {
                 left_rotation: [0f,0f,0f,1f],
@@ -306,36 +306,36 @@ function load_static_props() {
 
     @lazy function blu_spawn2_computers() {
         summon item_display 1161.25 127.5 -901.5 {
-            item:{id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"],
+            item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"],
             Rotation:[90F,0F],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.5f,1.5f,1.5f]},
         };
         summon item_display 1161.25 127.5 -900.0 {
-            item:{id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"],
+            item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"],
             Rotation:[90F,0F],transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.5f,1.5f,1.5f]},
         };
         summon item_display 1153.667 127.750 -910.25 {
-            item:{id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"],
+            item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"],
             transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
         };
         summon item_display 1155.00 127.750 -910.25 {
-            item:{id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[5]}}}, Tags: ["tf2.static_prop"],
+            item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[5]}}}, Tags: ["tf2.static_prop"],
             transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
         };
         summon item_display 1156.333 127.750 -910.25 {
-            item:{id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[3]}}}, Tags: ["tf2.static_prop"],
+            item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[3]}}}, Tags: ["tf2.static_prop"],
             transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[1.333f,1.5f,1.5f]},
         };
     }
     blu_spawn2_computers();
 
     @lazy function upper_octagon_data_link() {
-        summon minecraft:item_display 1168.5 127.5 -807.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
-        summon minecraft:item_display 1169.5 127.5 -807.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
-        summon minecraft:item_display 1144.5 127.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1145.5 127.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1152.5 127.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1153.5 127.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1154.5 127.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1168.5 127.5 -807.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
+        summon minecraft:item_display 1169.5 127.5 -807.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"], Rotation:[-180f,0f]};
+        summon minecraft:item_display 1144.5 127.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1145.5 127.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1152.5 127.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1153.5 127.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1154.5 127.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/flat"}}, Tags: ["tf2.static_prop"]};
         summon text_display 1153.5 129.25 -826.99 {
             transformation: {
                 left_rotation: [0f,0f,0f,1f],
@@ -350,82 +350,82 @@ function load_static_props() {
     upper_octagon_data_link();
     
     @lazy function lower_octagon_computers() {
-        summon minecraft:item_display 1129.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1130.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[3]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1132.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[5]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1133.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[2]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1129.5 122.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1130.5 122.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[3]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1132.5 122.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[5]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1133.5 122.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[2]}}}, Tags: ["tf2.static_prop"]};
 
-        summon minecraft:item_display 1129.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1130.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[3]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1132.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[5]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1133.5 122.5 -826.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[2]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1174.5 124.5 -795.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[5]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
-        summon minecraft:item_display 1174.5 124.5 -794.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[2]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
-        summon minecraft:item_display 1174.5 124.5 -793.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[3]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
-        summon minecraft:item_display 1174.5 124.5 -791.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
-        summon minecraft:item_display 1174.5 124.5 -790.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1129.5 122.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1130.5 122.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[3]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1132.5 122.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[5]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1133.5 122.5 -826.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[2]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1174.5 124.5 -795.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[5]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1174.5 124.5 -794.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[2]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1174.5 124.5 -793.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[3]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1174.5 124.5 -791.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
+        summon minecraft:item_display 1174.5 124.5 -790.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[4]}}}, Tags: ["tf2.static_prop"], Rotation:[90f,0f]};
     }
     lower_octagon_computers();
 
     // (inaccessible)
     @lazy function 2nd_floor_conference_room() {
-        summon minecraft:item_display 1164.5 127.5 -831.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
-        summon minecraft:item_display 1164.5 127.5 -832.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
-        summon minecraft:item_display 1164.5 127.5 -833.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
-        summon minecraft:item_display 1164.5 127.5 -834.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
-        summon minecraft:item_display 1164.5 127.5 -835.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
-        summon minecraft:item_display 1164.5 127.5 -836.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
-        summon minecraft:item_display 1166.5 127.5 -838.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1167.5 127.5 -838.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1164.5 127.5 -831.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
+        summon minecraft:item_display 1164.5 127.5 -832.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
+        summon minecraft:item_display 1164.5 127.5 -833.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
+        summon minecraft:item_display 1164.5 127.5 -834.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
+        summon minecraft:item_display 1164.5 127.5 -835.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
+        summon minecraft:item_display 1164.5 127.5 -836.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[-90f,0f]};
+        summon minecraft:item_display 1166.5 127.5 -838.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1167.5 127.5 -838.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
     }
     2nd_floor_conference_room();
 
     // (inaccessible)
     @lazy function 2nd_floor_balcony_tape_room() {
-        summon minecraft:item_display 1176.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1175.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1174.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1173.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1171.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1170.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1169.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1168.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1167.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1165.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1164.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1163.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1162.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1161.5 129.5 -776.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1176.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1175.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1174.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1173.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1171.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1170.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1169.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1168.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1167.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1165.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1164.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1163.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1162.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1161.5 129.5 -776.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
 
-        summon minecraft:item_display 1176.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1175.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1174.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1173.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1171.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1170.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1169.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1168.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1167.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1165.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1164.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1163.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1162.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
-        summon minecraft:item_display 1161.5 129.5 -780.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1176.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1175.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1174.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1173.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1171.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1170.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1169.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1168.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1167.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1165.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1164.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1163.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1162.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
+        summon minecraft:item_display 1161.5 129.5 -780.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"]};
 
-        summon minecraft:item_display 1176.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1175.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1174.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1173.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1171.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1170.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1169.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1168.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1167.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1165.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1164.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1163.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1162.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
-        summon minecraft:item_display 1161.5 129.5 -781.5 {item: {id:"minecraft:gold_ingot",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1176.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1175.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1174.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1173.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1171.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1170.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1169.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1168.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1167.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1165.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1164.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1163.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1162.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
+        summon minecraft:item_display 1161.5 129.5 -781.5 {item: {id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:static_prop/computer/chonky", "minecraft:custom_model_data":{strings:['red'], floats:[1]}}}, Tags: ["tf2.static_prop"], Rotation:[180f,0f]};
 
     }
     2nd_floor_balcony_tape_room();
