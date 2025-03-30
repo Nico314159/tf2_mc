@@ -41,8 +41,21 @@
                             ]
                         },
                         {
-                            "function": "set_custom_model_data",
-                            "value": 11,
+                            "function": "minecraft:set_components",
+                            "components": {
+                                "minecraft:item_model": "tf2:misc/head"
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_custom_model_data",
+                            "strings": {
+                                "values": [
+                                    "spy",
+                                    "red"
+                                ],
+                                "mode": "insert",
+                                "offset": 0
+                            },
                             "conditions": [
                                 {
                                     "condition": "entity_scores",
@@ -54,8 +67,15 @@
                             ]
                         },
                         {
-                            "function": "set_custom_model_data",
-                            "value": 12,
+                            "function": "minecraft:set_custom_model_data",
+                            "strings": {
+                                "values": [
+                                    "spy",
+                                    "blu"
+                                ],
+                                "mode": "insert",
+                                "offset": 0
+                            },
                             "conditions": [
                                 {
                                     "condition": "entity_scores",

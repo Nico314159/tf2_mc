@@ -45,8 +45,17 @@ JMC.python(
         }
 
         model = [{
-            "function": "set_custom_model_data",
-            "value": id * 10 + n,
+            "function": "minecraft:set_components",
+            "components": {
+                "minecraft:item_model": "tf2:misc/head"
+            }
+        }] + [{
+            "function": "minecraft:set_custom_model_data",
+            "strings": {
+                "values": [class_name.lower(), ('', 'red', 'blu')[n]],
+                "mode": "insert",
+                "offset": 0
+            },
             "conditions": [{
                 "condition": "entity_scores",
                 "entity": "this", "scores": {"tf2.disguise.team": n}
@@ -179,9 +188,9 @@ class Class.Spy {
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
         tf2.cloak:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge * 20;
 
-        if (entity @s[tag=!tf2.dead]) {
-            return 1;
-        }
+        // if (entity @s[tag=!tf2.dead]) {
+        //     return 1;
+        // }
         tf2.is_invisible:@s = tf2.menu_ticks:@s = 0;
         tag @s remove tf2.disguised;
         tag @s remove tf2.in_disguise_menu;
