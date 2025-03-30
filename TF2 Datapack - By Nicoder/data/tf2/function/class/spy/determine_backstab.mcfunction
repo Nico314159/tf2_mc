@@ -26,7 +26,4 @@ execute as @a[tag=retina.target,limit=1] run function tf2:math/facing_vector
 function tf2:math/feed_left
 function tf2:math/dot_product
 execute if score $dot_product tf2.var matches ..-301 run return fail
-execute store result score $CMD tf2.var run data get entity @s SelectedItem.components.minecraft:custom_model_data 0.1
-scoreboard players operation $CMD tf2.var *= 10 tf2.const
-scoreboard players add $CMD tf2.var 1
 item modify entity @s weapon.mainhand tf2:class/spy/raise_knife

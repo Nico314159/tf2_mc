@@ -1,1 +1,1 @@
-{"model": {"type": "minecraft:model", "model": "tf2:item/spy/melee/butterfly_knife"}}
+{"model": {"type": "minecraft:condition", "property": "minecraft:custom_model_data", "on_true": {"type": "minecraft:model", "model": "tf2:item/spy/melee/butterfly_knife_raised"}, "on_false": {"type": "minecraft:model", "model": "tf2:item/spy/melee/butterfly_knife"}}}

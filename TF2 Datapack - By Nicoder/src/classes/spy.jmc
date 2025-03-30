@@ -146,23 +146,15 @@ make_weapon(
 
 class Class.Spy {
     new item_modifier(raise_knife) [
-        {
-            "function": "minecraft:set_custom_data",
-            "tag": "{attributes: {canBackstab: true}}"
-        },
-        {
-            "function": "minecraft:set_custom_model_data",
-            "value": {
-                "type": "minecraft:score",
-                "target": {
-                    "type": "minecraft:fixed",
-                    "name": "$CMD"
-                },
-                "score": "tf2.var",
-                "scale": 1
-            }
-        }
-    ];
+		{
+			"function": "minecraft:set_custom_data",
+			"tag": "{attributes: {canBackstab: true}}"
+		},
+		{
+			"function": "minecraft:set_custom_model_data",
+			"flags": { "values": [true], "mode": "insert" }
+		}
+	];
 
     function give() {
         tf2.class:@s = Class.SPY;
@@ -599,9 +591,6 @@ class Class.Spy {
         // $theta_1 -= $theta_2;
         // if ($theta_1 matches 90..270) {return fail;}
 
-        $CMD = @s::SelectedItem.components."minecraft:custom_model_data" * 0.1;
-        $CMD *= 10;
-        $CMD ++;
         item modify entity @s weapon.mainhand tf2:class/spy/raise_knife;
     }
 

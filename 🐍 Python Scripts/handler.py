@@ -67,6 +67,19 @@ def main():
                         "model": model_name_root
                     }
                 }
+            elif "spy/melee" in item_model:
+                item_model_definition["model"] = {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:custom_model_data",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": f"{model_name_root}_raised"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": model_name_root
+                    }
+                }
             else:
                 item_model_definition["model"] = {
                     "type": "minecraft:model",

@@ -5,14 +5,11 @@
     },
     {
         "function": "minecraft:set_custom_model_data",
-        "value": {
-            "type": "minecraft:score",
-            "target": {
-                "type": "minecraft:fixed",
-                "name": "$CMD"
-            },
-            "score": "tf2.var",
-            "scale": 1
+        "flags": {
+            "values": [
+                true
+            ],
+            "mode": "insert"
         }
     }
 ]
