@@ -1,1 +1,0 @@
-function tf2:class/soldier/inventory_lock

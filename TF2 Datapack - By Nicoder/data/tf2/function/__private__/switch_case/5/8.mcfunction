@@ -1,1 +1,0 @@
-function tf2:class/engineer/inventory_lock

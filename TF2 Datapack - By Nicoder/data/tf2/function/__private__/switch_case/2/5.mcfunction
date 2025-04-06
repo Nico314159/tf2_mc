@@ -1,1 +1,1 @@
-title @s subtitle ["",{"text":"_abcde","color":"gray","font":"tf2:zoom_meter","type":"text"},{"text":"fghijklm","color":"dark_gray","font":"tf2:zoom_meter","type":"text"}]
+function tf2:class/demoman/inventory_lock

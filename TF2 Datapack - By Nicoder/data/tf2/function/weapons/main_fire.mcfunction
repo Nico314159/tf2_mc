@@ -1,7 +1,7 @@
 execute if score @s tf2.attack_delay matches 1.. run return 0
 execute if score @s tf2.class matches 6 if score @s tf2.current_slot matches 0 if score @s tf2.time_revved < @s tf2.rev_threshold run return 0
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
-function tf2:__private__/switch_case/3/select with storage tf2:__storage__
+function tf2:__private__/switch_case/2/select with storage tf2:__storage__
 execute if items entity @s weapon.mainhand *[custom_data~{attributes:{heal:{}}}] run return run function tf2:class/medic/select_heal_target
 execute unless predicate tf2:has_main_fire run return 0
 function tf2:weapons/get_ammo
@@ -28,7 +28,7 @@ execute unless predicate tf2:holding_projectile run function tf2:weapons/hitscan
 execute store result score $_delay_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.attackDelay 20000
 scoreboard players operation @s tf2.attack_delay += $_delay_ tf2.var
 scoreboard players reset $func_id retina.__variable__
-execute if predicate tf2:holding_melee run return run function tf2:__private__/anonymous/3
+execute if predicate tf2:holding_melee run return run function tf2:__private__/anonymous/5
 scoreboard players remove $_clip_ tf2.var 1
 function tf2:weapons/set_ammo
 scoreboard players set @s tf2.consecutive_reload 0

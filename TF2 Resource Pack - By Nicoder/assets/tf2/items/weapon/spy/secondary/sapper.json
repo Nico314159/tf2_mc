@@ -1,1 +1,165 @@
-{"model": {"type": "minecraft:model", "model": "tf2:item/spy/secondary/sapper"}}
+{
+    "model": {
+        "type": "minecraft:select",
+        "property": "minecraft:custom_model_data",
+        "index": 0,
+        "cases": [
+            {
+                "when": "disguise_spy",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    }
+                }
+            },
+            {
+                "when": "disguise_sniper",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/sniper/secondary/smg"
+                    }
+                }
+            },
+            {
+                "when": "disguise_scout",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/scout/secondary/pistol"
+                    }
+                }
+            },
+            {
+                "when": "disguise_soldier",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/soldier/secondary/shotgun"
+                    }
+                }
+            },
+            {
+                "when": "disguise_demoman",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/demoman/secondary/stickybomb_launcher"
+                    }
+                }
+            },
+            {
+                "when": "disguise_heavy",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/heavy/secondary/shotgun"
+                    }
+                }
+            },
+            {
+                "when": "disguise_pyro",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/pyro/secondary/shotgun"
+                    }
+                }
+            },
+            {
+                "when": "disguise_engineer",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/engineer/secondary/pistol"
+                    }
+                }
+            },
+            {
+                "when": "disguise_medic",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/secondary/sapper"
+                    },
+                    "on_false": {
+                        "type": "minecraft:select",
+                        "property": "minecraft:custom_model_data",
+                        "index": 1,
+                        "cases": [
+                            {
+                                "when": "disguise_red",
+                                "model": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:item/medic/secondary/medi_gun_red"
+                                }
+                            },
+                            {
+                                "when": "disguise_blu",
+                                "model": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:item/medic/secondary/medi_gun_blu"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "tf2:item/spy/secondary/sapper"
+        }
+    }
+}

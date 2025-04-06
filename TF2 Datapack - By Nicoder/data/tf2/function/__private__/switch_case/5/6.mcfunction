@@ -1,1 +1,0 @@
-function tf2:class/heavy/inventory_lock

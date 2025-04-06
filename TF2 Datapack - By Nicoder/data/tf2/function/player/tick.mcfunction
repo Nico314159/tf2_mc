@@ -28,7 +28,7 @@ execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run scor
 scoreboard players add @s[scores={tf2.model_number=..100},predicate=tf2:ubercharge] tf2.model_number 100
 scoreboard players remove @s[scores={tf2.model_number=100..},predicate=!tf2:ubercharge] tf2.model_number 100
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
-function tf2:__private__/switch_case/17/select with storage tf2:__storage__
+function tf2:__private__/switch_case/16/select with storage tf2:__storage__
 item replace entity @s[scores={tf2.class=1..9},tag=!tf2.in_disguise_menu] hotbar.8 with carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name='"Change Class"']
 execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name='"Change Class"'] 0
 execute unless score $_count_ tf2.var matches 1 if entity @s[tag=!tf2.in_disguise_menu] run clear @s carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name='"Change Class"']

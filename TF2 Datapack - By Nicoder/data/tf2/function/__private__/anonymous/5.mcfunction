@@ -1,3 +1,3 @@
-scoreboard players operation @s tf2.primary_clip = $_clip_ tf2.var
-scoreboard players operation @s tf2.primary_maxClip = $_maxClip_ tf2.var
-scoreboard players operation @s tf2.primary_ammo = $_ammo_ tf2.var
+execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1
+execute unless data storage retina:output {Target:"ENTITY"} run return run playsound tf2:item.melee.miss player @s ~ ~ ~ 0.35 0.35 0.1
+playsound tf2:item.melee.hit player @s ~ ~ ~ 1.5 0.9 0.1

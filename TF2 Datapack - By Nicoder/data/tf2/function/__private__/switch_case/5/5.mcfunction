@@ -1,1 +1,0 @@
-function tf2:class/demoman/inventory_lock

@@ -1,3 +1,2 @@
-scoreboard players operation $_clip_ tf2.var = @s tf2.primary_clip
-scoreboard players operation $_maxClip_ tf2.var = @s tf2.primary_maxClip
-scoreboard players operation $_ammo_ tf2.var = @s tf2.primary_ammo
+execute if entity @s[scores={tf2.team=1}] run function tf2:__private__/if_else/5
+execute if entity @s[scores={tf2.team=2}] run function tf2:__private__/if_else/6

@@ -1,2 +1,3 @@
-data modify entity @s Pos set from storage retina:output ContactCoordinates
-tag @s add tf2.temp
+$item modify entity @s armor.head {"function":"minecraft:set_custom_model_data","strings":{"values":[$(class),$(team)],"mode":"replace_section"},}
+$item modify entity @s armor.chest {"function":"minecraft:set_components","components":{"minecraft:trim":{"material":"tf2:$(team)","pattern":"tf2:$(class)"}}}
+$item modify entity @s armor.legs {"function":"minecraft:set_components","components":{"minecraft:trim":{"material":"tf2:$(team)","pattern":"tf2:$(class)"}}}

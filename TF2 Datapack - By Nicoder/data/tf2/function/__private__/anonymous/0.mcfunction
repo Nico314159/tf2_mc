@@ -1,8 +1,9 @@
-loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning
-execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:60,kind:"real"}] 0
-execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:60,kind:"real"}]
-execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_spinning
-loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy
-execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:60,kind:"fake"}] 0
-execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:60,kind:"fake"}]
-execute unless score $_count_ tf2.var matches 1 run loot replace entity @s weapon.offhand loot tf2:class/heavy/minigun_decoy
+$item modify entity @s hotbar.0 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.1 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.2 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.3 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.4 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.5 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.6 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.7 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.8 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}

@@ -8,4 +8,4 @@ title @s times 0 4 2
 execute positioned ~-3 ~-1 ~-3 unless entity @e[type=item_display,tag=tf2.control_point,dx=5,dy=1,dz=5] run title @s title ""
 title @s[tag=!tf2.can_cap] title ""
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $bars tf2.var
-function tf2:__private__/switch_case/2/select with storage tf2:__storage__
+function tf2:__private__/switch_case/1/select with storage tf2:__storage__

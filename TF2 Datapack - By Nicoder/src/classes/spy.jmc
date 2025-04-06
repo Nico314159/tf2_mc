@@ -243,9 +243,6 @@ class Class.Spy {
         if (entity @s[tag=tf2.in_disguise_menu]) {
             return run this.disguise_menu.run();
         }
-        if (entity @s[tag=tf2.disguised, scores={tf2.is_invisible=0}]) {
-            return run this.fake_inventory_lock();
-        }
         this.inventory_lock();
     }
 
@@ -289,6 +286,10 @@ class Class.Spy {
 
         clear @s *[minecraft:custom_data~{cloak: 'uncloak'}];
 
+        if (entity @s[tag=tf2.disguised, scores={tf2.is_invisible=0}]) {
+            return run this.fake_inventory_lock();
+        }
+
         loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
@@ -298,9 +299,6 @@ class Class.Spy {
         $_count_ = clear @s iron_chestplate 0;
         if ($_count_ != 1) clear @s iron_chestplate;
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
-
-        tf2.model_number:@s = EVAL (Class.SPY * 10);
-        tf2.model_number:@s += tf2.team:@s;
 
         loot replace entity @s armor.head loot tf2:class/spy/head;
         $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
@@ -317,168 +315,26 @@ class Class.Spy {
         }
     }
     function fake_inventory_lock() {
-        JMC.python(`
-        emit('switch (tf2.disguise.class:@s) {')
-        for c in classes:
-            emit(f'case Class.{c.upper()}: vars::pattern = "{c.lower()}";')
-        emit('}')
-        `, jmc=true);
+        
+        disguise::class = @s::Inventory[{Slot:103b}].components.minecraft:custom_model_data.strings[0];
+        disguise::team = @s::Inventory[{Slot:103b}].components.minecraft:custom_model_data.strings[1];
 
-        if (tf2.disguise.team:@s == 1) {vars::material = "red";}
-        if (tf2.disguise.team:@s == 2) {vars::material = "blu";}
-
-        if (items entity @s player.cursor *) {
-            item replace entity @s player.cursor with air;
-        }
-        this.inventory_lock();
-        this.fake_primary();
-        this.fake_secondary();
-        this.fake_melee();
-
-        this.fake_leggings() with vars::;
-        $_count_ = clear @s iron_leggings 0;
-        if ($_count_ != 1) clear @s iron_leggings;
-        if ($_count_ != 1) this.fake_leggings() with vars::;
-
-        // loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
-        // $_count_ = clear @s white_dye[custom_model_data=] 0;
-        // if ($_count_ != 1) clear @s white_dye[custom_model_data=];
-        // if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
-        item modify entity @s weapon.offhand {
-            "function": "minecraft:set_custom_model_data", "value": EVAL(EVAL(Class.SPY * 5 + 4) * 10 * 5 * 3 + 1)
-        };
-
-        tf2.model_number:@s = tf2.disguise.class:@s;
-        tf2.model_number:@s *= 10;
-        tf2.model_number:@s += tf2.disguise.team:@s;
-
-        loot replace entity @s armor.head loot tf2:class/spy/head;
-        $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
-        if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
-        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/spy/head;
+        execute run { 
+            Hardcode.repeat("|i|", () => {
+                $ item modify entity @s hotbar.|i| {
+                    "function": "minecraft:set_custom_model_data",
+                    "strings": {
+                        "values": ["disguise_$(class)", "disguise_$(team)"],
+                        "mode": "replace_section",
+                        "offset": 0, "size": 2
+                    }
+                };
+            }, start=0, stop=9);
+        } with disguise::;
 
         this.true_team_trail();
     }
-    function fake_primary() {
-        // $merge_CMD = @s::Inventory[{Slot:0b}].components.minecraft:custom_model_data;
-        // $world_CMD = tf2.disguise.class:@s;
-        
-        // JMC.python(`
-        // emit(f"$world_CMD *= {SLOTS};")
-        // emit(f"$world_CMD += 0;")
-        // emit(f"$world_CMD *= {SERIAL_MAX};")
-        // # TODO
-        // emit(f"$world_CMD *= 3;")
-        // emit(f"$world_CMD += tf2.disguise.team:@s;")
-        // emit(f"$world_CMD *= {VARIATIONS};")
-                
-        // emit(f"$merge_CMD *= {MAX_CMD};")
-        // emit(f"$merge_CMD += $world_CMD;")
-        // `, jmc=true);
 
-        // item modify entity @s hotbar.0 {
-        //     "function": "minecraft:set_custom_model_data",
-        //     "value": {
-        //         "type": "minecraft:score",
-        //         "target": {
-        //             "type": "minecraft:fixed",
-        //             "name": "$merge_CMD"
-        //         },
-        //         "score": "tf2.var"
-        //     }
-        // };
-
-        // JMC.python(`
-        // emit(f"$merge_CMD += {3 * SERIAL_MAX * 3 * VARIATIONS * MAX_CMD};")
-        // `, jmc=true);
-        // item modify entity @s hotbar.3 {
-        //     "function": "minecraft:set_custom_model_data",
-        //     "value": {
-        //         "type": "minecraft:score",
-        //         "target": {
-        //             "type": "minecraft:fixed",
-        //             "name": "$merge_CMD"
-        //         },
-        //         "score": "tf2.var"
-        //     }
-        // };
-    }
-    function fake_secondary() {
-        // // loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
-        // $merge_CMD = @s::Inventory[{Slot:1b}].components.minecraft:custom_model_data;
-        // $world_CMD = tf2.disguise.class:@s;
-        
-        // JMC.python(`
-        // emit(f"$world_CMD *= {SLOTS};")
-        // emit(f"$world_CMD += 1;")
-        // emit(f"$world_CMD *= {SERIAL_MAX};")
-        // # TODO
-        // emit(f"$world_CMD *= 3;")
-        // emit(f"$world_CMD += tf2.disguise.team:@s;")
-        // emit(f"$world_CMD *= {VARIATIONS};")
-                
-        // emit(f"$merge_CMD *= {MAX_CMD};")
-        // emit(f"$merge_CMD += $world_CMD;")
-        // `, jmc=true);
-
-        // item modify entity @s hotbar.1 {
-        //     "function": "minecraft:set_custom_model_data",
-        //     "value": {
-        //         "type": "minecraft:score",
-        //         "target": {
-        //             "type": "minecraft:fixed",
-        //             "name": "$merge_CMD"
-        //         },
-        //         "score": "tf2.var"
-        //     }
-        // };
-    }
-    function fake_melee() {
-        // // loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
-        // $merge_CMD = @s::Inventory[{Slot:2b}].components.minecraft:custom_model_data;
-        // $world_CMD = tf2.disguise.class:@s;
-        
-        // JMC.python(`
-        // emit(f"$world_CMD *= {SLOTS};")
-        // emit(f"$world_CMD += 2;")
-        // emit(f"$world_CMD *= {SERIAL_MAX};")
-        // # TODO
-        // emit(f"$world_CMD *= 3;")
-        // emit(f"$world_CMD += tf2.disguise.team:@s;")
-        // emit(f"$world_CMD *= {VARIATIONS};")
-                
-        // emit(f"$merge_CMD *= {MAX_CMD};")
-        // emit(f"$merge_CMD += $world_CMD;")
-        // `, jmc=true);
-
-        // item modify entity @s hotbar.2 {
-        //     "function": "minecraft:set_custom_model_data",
-        //     "value": {
-        //         "type": "minecraft:score",
-        //         "target": {
-        //             "type": "minecraft:fixed",
-        //             "name": "$merge_CMD"
-        //         },
-        //         "score": "tf2.var"
-        //     }
-        // };
-    }
-    function fake_leggings() {
-        $ loot replace entity @s armor.legs loot {
-            "pools": [{
-                "rolls": 1,
-                "entries": [{"type": "minecraft:item", "name": "minecraft:iron_leggings"}],
-                "functions": [{
-                    "function": "minecraft:set_components",
-                    "components": {
-                        "minecraft:enchantments": {"minecraft:binding_curse": 1},
-                        "minecraft:enchantment_glint_override": false,
-                        "minecraft:trim": {"material": "tf2:$(material)", "pattern": "tf2:$(pattern)"}
-                    }
-                }]
-            }]
-        };   
-    }
     class nametag {
         function create() {
             team leave @s;
@@ -649,14 +505,14 @@ class Class.Spy {
             }
             item modify entity @s weapon.offhand tf2:load_crossbow;
 
-            item modify entity @s weapon.offhand {
-                "function": "minecraft:set_custom_model_data",
-                "value": {
-                    "type": "minecraft:score",
-                    "target": "this",
-                    "score": "tf2.disguise.primary_CMD"
-                }
-            };
+            // item modify entity @s weapon.offhand {
+            //     "function": "minecraft:set_custom_model_data",
+            //     "value": {
+            //         "type": "minecraft:score",
+            //         "target": "this",
+            //         "score": "tf2.disguise.primary_CMD"
+            //     }
+            // };
 
             this.give_heads();
         }
@@ -692,7 +548,6 @@ class Class.Spy {
             if (tf2.menu_ticks:@s < 10) {
                 return 0;
             }
-            tf2.disguise.primary_CMD:@s = @s::Inventory[{Slot:3b}].components.minecraft:custom_model_data;
             tag @s add tf2.in_disguise_menu;
             tf2.menu_ticks:@s = -10;
         }
@@ -712,11 +567,16 @@ class Class.Spy {
             $error = Text.tellraw(@s, "&<yellow, italic>ERROR: You can't use disguises if you're not playing as the Spy.");
         }
 
-        tf2.disguise.team:@s = tf2.disguise.class:@s = @s::SelectedItem.components.minecraft:custom_model_data;
-        tf2.disguise.class:@s /= 10;
-        tf2.disguise.team:@s %= 10;
-        
-        if (tf2.disguise.class:@s == Class.SPY && tf2.disguise.team:@s == tf2.team:@s) {
+        disguise::class = @s::SelectedItem.components.minecraft:custom_model_data.strings[0];
+        disguise::team = @s::SelectedItem.components.minecraft:custom_model_data.strings[1];
+
+        if (data storage tf2:disguise {team: "red"}) {
+            tf2.disguise.team:@s = 1;
+        }
+        if (data storage tf2:disguise {team: "blu"}) {
+            tf2.disguise.team:@s = 2;
+        }
+        if (data storage tf2:disguise {class: "spy"} && tf2.disguise.team:@s == tf2.team:@s) {
             // Disguising as a friendly Spy simply removes your disguise without an error message;
             $error = true;
         }
@@ -735,22 +595,48 @@ class Class.Spy {
                 attribute @s minecraft:movement_speed modifier add tf2:match_disguise_speed -0.30 add_multiplied_base;
         }
 
+        // cool visuals
         tag @s add self;
-
         if (entity @s[tag=!tf2.disguised,scores={tf2.is_invisible=0}]) {
             this.thick_smoke();
         }
-
         if (entity @s[tag=tf2.disguised,scores={tf2.is_invisible=0}]) {
             this.light_smoke();
         }
         this.title_image();
-
         execute unless score @s tf2.team = @s tf2.disguise.team
                 at @s anchored eyes  
                 run this.nametag.create();
-
         tag @s remove self;
+
+        execute run {
+            $ item modify entity @s armor.head {
+                "function": "minecraft:set_custom_model_data",
+                "strings": {
+                    "values": [$(class), $(team)],
+                    "mode": "replace_section"
+                },
+            };
+            $ item modify entity @s armor.chest {
+                "function": "minecraft:set_components",
+                "components": {
+                    "minecraft:trim": {
+                        "material": "tf2:$(team)",
+                        "pattern": "tf2:$(class)"
+                    }
+                }
+            };
+            $ item modify entity @s armor.legs {
+                "function": "minecraft:set_components",
+                "components": {
+                    "minecraft:trim": {
+                        "material": "tf2:$(team)",
+                        "pattern": "tf2:$(class)"
+                    }
+                }
+            };
+        } with disguise::;
+
         tag @s add tf2.disguised;
     }
 }

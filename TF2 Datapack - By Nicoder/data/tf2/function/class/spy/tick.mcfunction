@@ -10,5 +10,4 @@ execute if score @s[scores={tf2.is_invisible=1}] tf2.cloak matches ..0 run funct
 execute if items entity @s weapon.offhand crossbow[charged_projectiles=[],custom_data~{should_detect_click:true}] run function tf2:class/spy/disguise_menu/detect_input
 function tf2:class/spy/disguise_menu/count_ticks
 execute if entity @s[tag=tf2.in_disguise_menu] run return run function tf2:class/spy/disguise_menu/run
-execute if entity @s[tag=tf2.disguised,scores={tf2.is_invisible=0}] run return run function tf2:class/spy/fake_inventory_lock
 function tf2:class/spy/inventory_lock

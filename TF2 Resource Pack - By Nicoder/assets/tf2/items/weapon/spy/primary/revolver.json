@@ -1,1 +1,182 @@
-{"model": {"type": "minecraft:model", "model": "tf2:item/spy/primary/revolver"}}
+{
+    "model": {
+        "type": "minecraft:select",
+        "property": "minecraft:custom_model_data",
+        "index": 0,
+        "cases": [
+            {
+                "when": "disguise_spy",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    }
+                }
+            },
+            {
+                "when": "disguise_sniper",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/sniper/primary/sniper_rifle"
+                    }
+                }
+            },
+            {
+                "when": "disguise_scout",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/scout/primary/scattergun"
+                    }
+                }
+            },
+            {
+                "when": "disguise_soldier",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/soldier/primary/rocket_launcher"
+                    }
+                }
+            },
+            {
+                "when": "disguise_demoman",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/demoman/primary/grenade_launcher"
+                    }
+                }
+            },
+            {
+                "when": "disguise_heavy",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/heavy/primary/minigun_decoy"
+                    }
+                }
+            },
+            {
+                "when": "disguise_pyro",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:select",
+                        "property": "minecraft:custom_model_data",
+                        "index": 1,
+                        "cases": [
+                            {
+                                "when": "disguise_red",
+                                "model": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:item/pyro/primary/flamethrower_red"
+                                }
+                            },
+                            {
+                                "when": "disguise_blu",
+                                "model": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:item/pyro/primary/flamethrower_blu"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "when": "disguise_engineer",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/engineer/primary/shotgun"
+                    }
+                }
+            },
+            {
+                "when": "disguise_medic",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/primary/revolver"
+                    },
+                    "on_false": {
+                        "type": "minecraft:select",
+                        "property": "minecraft:custom_model_data",
+                        "index": 1,
+                        "cases": [
+                            {
+                                "when": "disguise_red",
+                                "model": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:item/medic/primary/syringe_gun_red"
+                                }
+                            },
+                            {
+                                "when": "disguise_blu",
+                                "model": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:item/medic/primary/syringe_gun_blu"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:model",
+            "model": "tf2:item/spy/primary/revolver"
+        }
+    }
+}

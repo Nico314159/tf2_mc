@@ -1,2 +1,1 @@
-$data modify storage tf2:running_games $(i).spawn_time.red[0] set from storage tf2:running_games $(i).spawn_time.red[$(red)]
-$data modify storage tf2:running_games $(i).spawn_time.blu[0] set from storage tf2:running_games $(i).spawn_time.blu[$(blu)]
+$data modify storage tf2:lookup events set from storage tf2:running_games $(i).objectives[$(j)].data.events
