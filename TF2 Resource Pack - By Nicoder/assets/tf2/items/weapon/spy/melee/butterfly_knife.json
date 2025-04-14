@@ -1,14 +1,228 @@
 {
     "model": {
-        "type": "minecraft:condition",
+        "type": "minecraft:select",
         "property": "minecraft:custom_model_data",
-        "on_true": {
-            "type": "minecraft:model",
-            "model": "tf2:item/spy/melee/butterfly_knife_raised"
-        },
-        "on_false": {
-            "type": "minecraft:model",
-            "model": "tf2:item/spy/melee/butterfly_knife"
+        "index": 0,
+        "cases": [
+            {
+                "when": "disguise_spy",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/spy/melee/butterfly_knife"
+                    }
+                }
+            },
+            {
+                "when": "disguise_sniper",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/sniper/melee/kukri"
+                    }
+                }
+            },
+            {
+                "when": "disguise_scout",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/scout/melee/baseball_bat"
+                    }
+                }
+            },
+            {
+                "when": "disguise_soldier",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/soldier/melee/shovel"
+                    }
+                }
+            },
+            {
+                "when": "disguise_demoman",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/demoman/melee/bottle"
+                    }
+                }
+            },
+            {
+                "when": "disguise_heavy",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/heavy/melee/left_fist"
+                    }
+                }
+            },
+            {
+                "when": "disguise_pyro",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/pyro/melee/fire_axe"
+                    }
+                }
+            },
+            {
+                "when": "disguise_engineer",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/engineer/melee/wrench"
+                    }
+                }
+            },
+            {
+                "when": "disguise_medic",
+                "model": {
+                    "type": "minecraft:condition",
+                    "property": "minecraft:view_entity",
+                    "on_true": {
+                        "type": "minecraft:condition",
+                        "property": "minecraft:custom_model_data",
+                        "on_true": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife_raised"
+                        },
+                        "on_false": {
+                            "type": "minecraft:model",
+                            "model": "tf2:item/spy/melee/butterfly_knife"
+                        }
+                    },
+                    "on_false": {
+                        "type": "minecraft:model",
+                        "model": "tf2:item/medic/melee/bonesaw"
+                    }
+                }
+            }
+        ],
+        "fallback": {
+            "type": "minecraft:condition",
+            "property": "minecraft:custom_model_data",
+            "on_true": {
+                "type": "minecraft:model",
+                "model": "tf2:item/spy/melee/butterfly_knife_raised"
+            },
+            "on_false": {
+                "type": "minecraft:model",
+                "model": "tf2:item/spy/melee/butterfly_knife"
+            }
         }
     }
 }

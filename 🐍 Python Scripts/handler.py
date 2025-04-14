@@ -124,9 +124,9 @@ def write_models_to_files(all_models_dict: AdHoc) -> None:
 
             if is_disguisable_slot(class_and_slot):
                 try: 
-                    assert m1['model']['type'] == 'minecraft:model'
+                    # assert m1['model']['type'] == 'minecraft:model'
                     
-                    undisguised_model =  m1['model']['model']
+                    undisguised_model =  m1['model']
                     def disguised_model(class_name: str):
                         disguised_root = all_models_dict[corresponding_slot(class_and_slot, class_name)][i][0]
                         if all_models_dict[corresponding_slot(class_and_slot, class_name)][i][2]:
@@ -162,18 +162,12 @@ def write_models_to_files(all_models_dict: AdHoc) -> None:
                                     "model": {
                                         "type": "minecraft:condition",
                                         "property": "minecraft:view_entity",
-                                        "on_true": {
-                                            "type": "minecraft:model",
-                                            "model": undisguised_model
-                                        },
+                                        "on_true": undisguised_model,
                                         "on_false": disguised_model(class_name)
                                     }
                                 } for class_name in ('spy', 'sniper', 'scout', 'soldier', 'demoman', 'heavy', 'pyro', 'engineer', 'medic')
                             ],
-                            "fallback": {
-                                "type": "minecraft:model",
-                                "model": undisguised_model
-                            }
+                            "fallback": undisguised_model
                         }
                     }
 
