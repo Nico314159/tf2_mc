@@ -604,61 +604,61 @@ if (!$initialization_complete) {
                            = false;
     $Settings.max_batches = 1;
 
-    actionbar:: += {string:'[""]'};
+    actionbar:: += {};
     summon:: += {};
     index:: += {};
     lookup:: += {points:[{}]};
     control_points:: += {info:[
         [],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {left:'[""]', mid:'[""]', right:'[""]'}
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {left:[""], mid:[""], right:[""]}
         ],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {left:'[""]', mid:'[""]', right:'[""]'}
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {left:[""], mid:[""], right:[""]}
         ],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {left:'[""]', mid:'[""]', right:'[""]'}
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {left:[""], mid:[""], right:[""]}
         ],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {left:'[""]', mid:'[""]', right:'[""]'}
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {left:[""], mid:[""], right:[""]}
         ],
         [
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {owner:'[""]', progress:'[""]', symbol:'[""]', extra:'[""]', wheel:{spacing:'[""]', owner:'[""]', progress:'[""]'}},
-            {left:'[""]', mid:'[""]', right:'[""]'}
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {owner:[""], progress:[""], symbol:[""], extra:[""], wheel:{spacing:[""], owner:[""], progress:[""]}},
+            {left:[""], mid:[""], right:[""]}
         ]
     ]};
 
