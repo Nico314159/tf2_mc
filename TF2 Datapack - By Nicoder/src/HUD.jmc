@@ -24,9 +24,9 @@ class HUD {
     }
     function handle_ammo() {
         actionbar::spacing = {text: "             ", color: "white"};
-        actionbar::clip_ammo = '[{"text": "Ammo: ", "color":"gray"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score"}]';
+        actionbar::clip_ammo = [{"text": "Ammo: ", "color":"gray"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score"}];
         if ($_clip_ == $_maxClip_) {
-            actionbar::clip_ammo = '[{"text": "Ammo: ", "color":"white"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score","underlined":true}, {"text": "", "underlined": false}]';
+            actionbar::clip_ammo = [{"text": "Ammo: ", "color":"white"}, {"score":{"name":"$_clip_","objective":"tf2.var"},"type":"score","underlined":true}, {"text": "", "underlined": false}];
         }
         actionbar::reserve_ammo = [
             {text: "(", type: "text"},
