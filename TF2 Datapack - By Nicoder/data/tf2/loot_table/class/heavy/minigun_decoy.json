@@ -11,8 +11,11 @@
                             "function": "minecraft:set_components",
                             "components": {
                                 "minecraft:item_model": "tf2:weapon/heavy/primary/minigun_decoy",
-                                "minecraft:unbreakable": {
-                                    "show_in_tooltip": false
+                                "minecraft:unbreakable": {},
+                                "minecraft:tooltip_display": {
+                                    "hidden_components": [
+                                        "minecraft:unbreakable"
+                                    ]
                                 }
                             }
                         },

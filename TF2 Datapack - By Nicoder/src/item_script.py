@@ -192,7 +192,10 @@ def make_weapon(
 
     if base_item in {"tf2:crossbow_base", "minecraft:crossbow"} and not meter:
         model_component["components"] |= {
-            "minecraft:unbreakable": {"show_in_tooltip": False}
+            "minecraft:unbreakable": {},
+            "minecraft:tooltip_display": {
+                "hidden_components": ["minecraft:unbreakable"]
+            }
         }
 
     if display_name is not False:
