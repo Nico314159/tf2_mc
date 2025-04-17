@@ -1,7 +1,5 @@
-import disguise
-import disguise_model
-import handler
+import head_handler
+import weapon_handler
 
-disguise.main()
-disguise_model.main()
-handler.main()
+head_handler.main()
+weapon_handler.main()
