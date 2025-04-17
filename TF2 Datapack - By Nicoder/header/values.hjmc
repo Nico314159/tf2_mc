@@ -33,7 +33,7 @@
 
 #enum Door OPEN CLOSED RED_PROXIMITY BLU_PROXIMITY ALL_PROXIMITY
 
-#define Projectile.SPECIAL_PROPERTIES ["explosion", "has_trail", "gravity", "drag", "ignore_env", "convection", "unreflectable", "animated"]
+#define Projectile.SPECIAL_PROPERTIES ["explosion", "has_trail", "unreflectable", "animated"]
 #define Projectile.DEFAULT_LIFETIME EVAL(10 * 20) 
 
 #define FIRE_SOUND_LENGTH EVAL(1.8 * 20)

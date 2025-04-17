@@ -30,15 +30,9 @@ data modify storage tf2:summon projectile.weapon_name set from storage tf2:looku
 data modify storage tf2:summon projectile.model set from storage tf2:lookup item.components.minecraft:custom_data.projectile.model
 execute if score @s tf2.team matches 1 run data modify storage tf2:summon projectile.team set value 'red'
 execute if score @s tf2.team matches 2 run data modify storage tf2:summon projectile.team set value 'blu'
-data modify storage tf2:summon projectile.owner set from entity @s UUID
 execute store result score $explosion tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.explosion
 execute store result score $has_trail tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.has_trail
-execute store result score $gravity tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.gravity
-execute store result score $drag tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.drag
-execute store result score $ignore_env tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.ignore_env
-execute store result score $convection tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.convection
 execute store result score $unreflectable tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.unreflectable
 execute store result score $animated tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.animated
-execute store success storage tf2:summon projectile.no_gravity int 1 if score $gravity tf2.var matches 0
 execute at @s anchored eyes run function tf2:projectile/spawn_internal with storage tf2:summon projectile
 execute as @n[type=item_display,tag=tf2.new,tag=tf2.projectile] run function tf2:__private__/anonymous/10
