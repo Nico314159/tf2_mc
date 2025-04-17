@@ -144,16 +144,16 @@ class Objectives
             tf2.red_progress:@s[scores={tf2.team=2}] = 0;
             tf2.blu_progress:@s[scores={tf2.team=2}] = tf2.capture_threshold:@s;
             this.find_index.main();
-            if (tf2.team:@s == 1) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
-            if (tf2.team:@s == 2) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
-            lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
-            lookup::points[0].symbol = '[{"text":"320L@","font":"tf2:square"}]';
+            if (tf2.team:@s == 1) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}];
+            if (tf2.team:@s == 2) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}];
+            lookup::points[0].progress = [{"text":"321))))))))))))))","color":"gray"}];
+            lookup::points[0].symbol = [{"text":"320L@","font":"tf2:square"}];
             this.find_index.reinsert();
         }
         function unlock() {
             tag @s remove tf2.locked;
             this.find_index.main();
-            lookup::points[0].symbol = '[{"text":"320#)@","font":"tf2:square"}]';
+            lookup::points[0].symbol = [{"text":"320#)@","font":"tf2:square"}];
             this.find_index.reinsert();
         }
 
@@ -361,8 +361,8 @@ class Objectives
                 tf2.red_progress:@s = tf2.capture_threshold:@s;
 
                 Objectives.control_point.find_index.main();
-                lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}]';
-                lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
+                lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D95A58"}];
+                lookup::points[0].progress = [{"text":"321))))))))))))))","color":"gray"}];
                 Objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
 
@@ -410,8 +410,8 @@ class Objectives
                 tf2.blu_progress:@s = tf2.capture_threshold:@s;
 
                 Objectives.control_point.find_index.main();
-                lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}]';
-                lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
+                lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#517AB8"}];
+                lookup::points[0].progress = [{"text":"321))))))))))))))","color":"gray"}];
                 Objectives.control_point.find_index.reinsert();
                 tag @s remove tf2.said_dialogue;
 
@@ -467,12 +467,12 @@ class Objectives
                     ["_num_", "_color_", "_hex_"],
                     () => {
                         if (tf2.team:@s == _num_) {
-                            lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}]';
+                            lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}];
                         }
                     },
                     [["0", "1", "2"], ["white", "red", "blue"], ["A1A1A1", "D95A58", "517AB8"]]
                 );
-                lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
+                lookup::points[0].progress = [{"text":"321))))))))))))))","color":"gray"}];
 
                 // Determine the custom model to use.
                 item modify entity @s contents {
@@ -491,14 +491,14 @@ class Objectives
 
                 this.add_symbol();
                 if (entity @s[tag=!tf2.letter]) {
-					lookup::points[0].extra = '[{"text":"$#)","font":"tf2:square"}]';
+					lookup::points[0].extra = [{"text":"$#)","font":"tf2:square"}];
 				}
 
                 // Puts a letter in the corner of the HUD icon, if the `tf2.letter` tag is present.
                 Hardcode.repeatLists(
                     ["_num_", "_letter_"],
                     () => {
-                        if (tf2.index:@s[tag=tf2.letter] == _num_) lookup::points[0].extra = '[{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}]';
+                        if (tf2.index:@s[tag=tf2.letter] == _num_) lookup::points[0].extra = [{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}];
                     },
                     [["0", "10", "20", "30", "40"], ["A", "B", "C", "D", "E"]]
                 );
@@ -508,12 +508,12 @@ class Objectives
             function add_symbol() {
 				// @within this.init()
                 if (entity @s[tag=tf2.locked]) {
-	                return run lookup::points[0].symbol = '[{"text":"320L@","font":"tf2:square"}]';
+	                return run lookup::points[0].symbol = [{"text":"320L@","font":"tf2:square"}];
     		    }
                 if (entity @s[tag=tf2.star]) {
-    	        	return run lookup::points[0].symbol = '[{"text":"321S!)","font":"tf2:square"}]';
+    	        	return run lookup::points[0].symbol = [{"text":"321S!)","font":"tf2:square"}];
                 }
-                lookup::points[0].symbol = '[""]';
+                lookup::points[0].symbol = [""];
             }
             function spacing() {
                 // Determines the spacing to use in the HUD bar.
@@ -527,33 +527,33 @@ class Objectives
                 $temp ++;
                 switch ($temp) {
                 case 1:
-                    lookup::points[0].left =  '{"text":"430"}';
-                    lookup::points[0].mid =   '{"text":"60"}';
-                    lookup::points[0].right = '{"text":""}';
+                    lookup::points[0].left =  {"text":"430"};
+                    lookup::points[0].mid =   {"text":"60"};
+                    lookup::points[0].right = {"text":""};
                 case 2:
-                    lookup::points[0].left =  '{"text":"20"}';
-                    lookup::points[0].mid =   '{"text":"6420"}';
-                    lookup::points[0].right = '{"text":""}';
+                    lookup::points[0].left =  {"text":"20"};
+                    lookup::points[0].mid =   {"text":"6420"};
+                    lookup::points[0].right = {"text":""};
                 case 3:
-                    lookup::points[0].left =  '{"text":""}';
-                    lookup::points[0].mid =   '{"text":"6530"}';
-                    lookup::points[0].right = '{"text":"3210"}';
+                    lookup::points[0].left =  {"text":""};
+                    lookup::points[0].mid =   {"text":"6530"};
+                    lookup::points[0].right = {"text":"3210"};
                 case 4:
-                    lookup::points[0].left =  '{"text":""}';
-                    lookup::points[0].mid =   '{"text":"654320"}';
-                    lookup::points[0].right = '{"text":"510"}';
+                    lookup::points[0].left =  {"text":""};
+                    lookup::points[0].mid =   {"text":"654320"};
+                    lookup::points[0].right = {"text":"510"};
                 case 5:
-                    lookup::points[0].left =  '{"text":""}';
-                    lookup::points[0].mid =   '{"text":"740"}';
-                    lookup::points[0].right = '{"text":"54210"}';
+                    lookup::points[0].left =  {"text":""};
+                    lookup::points[0].mid =   {"text":"740"};
+                    lookup::points[0].right = {"text":"54210"};
                 case 6:
-                    lookup::points[0].left =  '{"text":""}';
-                    lookup::points[0].mid =   '{"text":"7520"}';
-                    lookup::points[0].right = '{"text":"6310"}';
+                    lookup::points[0].left =  {"text":""};
+                    lookup::points[0].mid =   {"text":"7520"};
+                    lookup::points[0].right = {"text":"6310"};
                 case 7:
-                    lookup::points[0].left =  '{"text":""}';
-                    lookup::points[0].mid =   '{"text":"75430"}';
-                    lookup::points[0].right = '{"text":"643210"}';
+                    lookup::points[0].left =  {"text":""};
+                    lookup::points[0].mid =   {"text":"75430"};
+                    lookup::points[0].right = {"text":"643210"};
                 }
                 Objectives.control_point.find_index.reinsert();
 
@@ -574,19 +574,19 @@ class Objectives
                 $wheel_spacing /= 5;
 
                 switch ($wheel_spacing) {
-                case -6: lookup::points[0].wheel.spacing = "[{'text':'^%$#'}]";
-                case -5: lookup::points[0].wheel.spacing = "[{'text':'^%@'}]";
-                case -4: lookup::points[0].wheel.spacing = "[{'text':'^$'}]";
-                case -3: lookup::points[0].wheel.spacing = "[{'text':'%$#@'}]";
-                case -2: lookup::points[0].wheel.spacing = "[{'text':'%#'}]";
-                case -1: lookup::points[0].wheel.spacing = "[{'text':'$@'}]";
-                case  0: lookup::points[0].wheel.spacing = "['']";
-                case  1: lookup::points[0].wheel.spacing = "'41'";
-                case  2: lookup::points[0].wheel.spacing = "'52'";
-                case  3: lookup::points[0].wheel.spacing = "'543'";
-                case  4: lookup::points[0].wheel.spacing = "'632'";
-                case  5: lookup::points[0].wheel.spacing = "'65'";
-                case  6: lookup::points[0].wheel.spacing = "6542";
+                case -6: lookup::points[0].wheel.spacing = [{'text':'^%$#'}];
+                case -5: lookup::points[0].wheel.spacing = [{'text':'^%@'}];
+                case -4: lookup::points[0].wheel.spacing = [{'text':'^$'}];
+                case -3: lookup::points[0].wheel.spacing = [{'text':'%$#@'}];
+                case -2: lookup::points[0].wheel.spacing = [{'text':'%#'}];
+                case -1: lookup::points[0].wheel.spacing = [{'text':'$@'}];
+                case  0: lookup::points[0].wheel.spacing = [''];
+                case  1: lookup::points[0].wheel.spacing = '41';
+                case  2: lookup::points[0].wheel.spacing = '52';
+                case  3: lookup::points[0].wheel.spacing = '543';
+                case  4: lookup::points[0].wheel.spacing = '632';
+                case  5: lookup::points[0].wheel.spacing = '65';
+                case  6: lookup::points[0].wheel.spacing = '6542';
                 }
             }
             class capture_progress {
@@ -606,25 +606,25 @@ class Objectives
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.red.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
-                            case  0: lookup::points[0].progress = '[{"text":"321#@|a0)","color":"#D95A58"}]';
-                            case  1: lookup::points[0].progress = '[{"text":"321#!)|a0b0)","color":"#D95A58"}]';
-                            case  2: lookup::points[0].progress = '[{"text":"321#!|a0b0c0)","color":"#D95A58"}]';
-                            case  3: lookup::points[0].progress = '[{"text":"321#)|a0b0c0d0)","color":"#D95A58"}]';
-                            case  4: lookup::points[0].progress = '[{"text":"321#|a0b0c0d0e0)","color":"#D95A58"}]';
-                            case  5: lookup::points[0].progress = '[{"text":"321@!)|a0b0c0d0e0e0)","color":"#D95A58"}]';
-                            case  6: lookup::points[0].progress = '[{"text":"321@!|a0b0c0d0e0e0e0)","color":"#D95A58"}]';
-                            case  7: lookup::points[0].progress = '[{"text":"321@)|a0b0c0d0e0e0e0e0)","color":"#D95A58"}]';
-                            case  8: lookup::points[0].progress = '[{"text":"321@|a0b0c0d0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case  9: lookup::points[0].progress = '[{"text":"321!)|a0b0c0d0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 10: lookup::points[0].progress = '[{"text":"321!|a0b0c0d0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 11: lookup::points[0].progress = '[{"text":"321)|a0b0c0d0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 12: lookup::points[0].progress = '[{"text":"321|a0b0c0d0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 13: lookup::points[0].progress = '[{"text":"321|b0c0d0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 14: lookup::points[0].progress = '[{"text":"321|c0d0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
-                            case 15: lookup::points[0].progress = '[{"text":"321|d0e0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}]';
+                            case  0: lookup::points[0].progress = [{"text":"321#@|a0)","color":"#D95A58"}];
+                            case  1: lookup::points[0].progress = [{"text":"321#!)|a0b0)","color":"#D95A58"}];
+                            case  2: lookup::points[0].progress = [{"text":"321#!|a0b0c0)","color":"#D95A58"}];
+                            case  3: lookup::points[0].progress = [{"text":"321#)|a0b0c0d0)","color":"#D95A58"}];
+                            case  4: lookup::points[0].progress = [{"text":"321#|a0b0c0d0e0)","color":"#D95A58"}];
+                            case  5: lookup::points[0].progress = [{"text":"321@!)|a0b0c0d0e0e0)","color":"#D95A58"}];
+                            case  6: lookup::points[0].progress = [{"text":"321@!|a0b0c0d0e0e0e0)","color":"#D95A58"}];
+                            case  7: lookup::points[0].progress = [{"text":"321@)|a0b0c0d0e0e0e0e0)","color":"#D95A58"}];
+                            case  8: lookup::points[0].progress = [{"text":"321@|a0b0c0d0e0e0e0e0e0)","color":"#D95A58"}];
+                            case  9: lookup::points[0].progress = [{"text":"321!)|a0b0c0d0e0e0e0e0e0e0)","color":"#D95A58"}];
+                            case 10: lookup::points[0].progress = [{"text":"321!|a0b0c0d0e0e0e0e0e0e0e0)","color":"#D95A58"}];
+                            case 11: lookup::points[0].progress = [{"text":"321)|a0b0c0d0e0e0e0e0e0e0e0e0)","color":"#D95A58"}];
+                            case 12: lookup::points[0].progress = [{"text":"321|a0b0c0d0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}];
+                            case 13: lookup::points[0].progress = [{"text":"321|b0c0d0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}];
+                            case 14: lookup::points[0].progress = [{"text":"321|c0d0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}];
+                            case 15: lookup::points[0].progress = [{"text":"321|d0e0e0e0e0e0e0e0e0e0e0e0e0)","color":"#D95A58"}];
                         }
-                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
-                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
+                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}];
+                        if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) lookup::points[0].progress = [{"text":"321))))))))))))))","color":"gray"}];
                         if (tf2.team:@s[scores={tf2.red_progress=0}] == 0) tf2.red_progress:@s --;
                         if (tf2.team:@s[scores={tf2.red_progress=1..}] == 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
                         if (tf2.team:@s == 2) Objectives.control_point.visuals.capture_progress.blu.flicker();
@@ -639,60 +639,60 @@ class Objectives
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
                         Objectives.control_point.visuals.wheel_spacing();
-                        if (tf2.team:@s == 0) lookup::points[0].wheel.owner = '[{"text":"=","color":"#A1A1A1"}]';
-                        if (tf2.team:@s == 2) lookup::points[0].wheel.owner = '[{"text":"=","color":"#517AB8"}]';
+                        if (tf2.team:@s == 0) lookup::points[0].wheel.owner = [{"text":"=","color":"#A1A1A1"}];
+                        if (tf2.team:@s == 2) lookup::points[0].wheel.owner = [{"text":"=","color":"#517AB8"}];
                         switch ($wheel_frame) {
-                            case  0: lookup::points[0].wheel.progress = '[{"text":"))))))))a10a2b2c#!","color":"#D95A58"}]';
-                            case  1: lookup::points[0].wheel.progress = '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  2: lookup::points[0].wheel.progress = '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  3: lookup::points[0].wheel.progress = '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  4: lookup::points[0].wheel.progress = '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  5: lookup::points[0].wheel.progress = '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  6: lookup::points[0].wheel.progress = '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  7: lookup::points[0].wheel.progress = '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  8: lookup::points[0].wheel.progress = '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case  9: lookup::points[0].wheel.progress = '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 10: lookup::points[0].wheel.progress = '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 11: lookup::points[0].wheel.progress = '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
+                            case  0: lookup::points[0].wheel.progress = [{"text":"))))))))a10a2b2c#!","color":"#D95A58"}];
+                            case  1: lookup::points[0].wheel.progress = [{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case  2: lookup::points[0].wheel.progress = [{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case  3: lookup::points[0].wheel.progress = [{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case  4: lookup::points[0].wheel.progress = [{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case  5: lookup::points[0].wheel.progress = [{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case  6: lookup::points[0].wheel.progress = [{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case  7: lookup::points[0].wheel.progress = [{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case  8: lookup::points[0].wheel.progress = [{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case  9: lookup::points[0].wheel.progress = [{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 10: lookup::points[0].wheel.progress = [{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 11: lookup::points[0].wheel.progress = [{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
 
-                            case 12: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 13: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 14: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 15: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 16: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 17: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 18: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 19: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 20: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 21: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#D95A58"}]';
-                            case 22: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#D95A58"}]';
-                            case 23: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#D95A58"}]';
+                            case 12: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 13: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 14: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 15: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 16: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 17: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 18: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 19: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 20: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 21: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#D95A58"}];
+                            case 22: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#D95A58"}];
+                            case 23: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#D95A58"}];
 
-                            case 24: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#D95A58"}]';
-                            case 25: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#D95A58"}]';
-                            case 26: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#D95A58"}]';
-                            case 27: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#D95A58"}]';
-                            case 28: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#D95A58"}]';
-                            case 29: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#D95A58"}]';
-                            case 30: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#D95A58"}]';
-                            case 31: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#D95A58"}]';
-                            case 32: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#D95A58"}]';
-                            case 33: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#D95A58"}]';
-                            case 34: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#D95A58"}]';
-                            case 35: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#D95A58"}]';
+                            case 24: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#D95A58"}];
+                            case 25: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#D95A58"}];
+                            case 26: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#D95A58"}];
+                            case 27: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#D95A58"}];
+                            case 28: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#D95A58"}];
+                            case 29: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#D95A58"}];
+                            case 30: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#D95A58"}];
+                            case 31: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#D95A58"}];
+                            case 32: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#D95A58"}];
+                            case 33: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#D95A58"}];
+                            case 34: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#D95A58"}];
+                            case 35: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#D95A58"}];
 
-                            case 36: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#D95A58"}]';
-                            case 37: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 38: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 39: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 40: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 41: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 42: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 43: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 44: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 45: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 46: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
-                            case 47: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}]';
+                            case 36: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#D95A58"}];
+                            case 37: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 38: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 39: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 40: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 41: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 42: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 43: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 44: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 45: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 46: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
+                            case 47: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#D95A58"}];
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
                         if (tf2.gamemode:@s == Gamemode.KOTH) {
@@ -703,15 +703,15 @@ class Objectives
                     function flicker() {
                         $flicker = 0008it54g_p_join:$__global__;
                         $flicker %= 20;
-                        if ($flicker == 0)           lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
-                        if ($flicker matches  1..2 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
-                        if ($flicker matches  3..4 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
-                        if ($flicker matches  5..7 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
-                        if ($flicker matches  8..11) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CABCC0"}]';
-                        if ($flicker matches 12..14) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}]';
-                        if ($flicker matches 15..16) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}]';
-                        if ($flicker matches 17..18) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]';
-                        if ($flicker == 19)          lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]';
+                        if ($flicker == 0)           lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}];
+                        if ($flicker matches  1..2 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}];
+                        if ($flicker matches  3..4 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}];
+                        if ($flicker matches  5..7 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}];
+                        if ($flicker matches  8..11) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CABCC0"}];
+                        if ($flicker matches 12..14) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CEB6B9"}];
+                        if ($flicker matches 15..16) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}];
+                        if ($flicker matches 17..18) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}];
+                        if ($flicker == 19)          lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}];
                     }
                 } class blu {
                     function main() {
@@ -729,25 +729,25 @@ class Objectives
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.blu.wheel()`
                         $frame /= tf2.capture_threshold:@s;
                         switch ($frame) {
-                            case  0: lookup::points[0].progress = '[{"text":"321a0#@)","color":"#517AB8"}]';
-                            case  1: lookup::points[0].progress = '[{"text":"321b0a0#@","color":"#517AB8"}]';
-                            case  2: lookup::points[0].progress = '[{"text":"321c0b0a0#!)","color":"#517AB8"}]';
-                            case  3: lookup::points[0].progress = '[{"text":"321d0c0b0a0#!","color":"#517AB8"}]';
-                            case  4: lookup::points[0].progress = '[{"text":"321e0d0c0b0a0#)","color":"#517AB8"}]';
-                            case  5: lookup::points[0].progress = '[{"text":"321e0e0d0c0b0a0#","color":"#517AB8"}]';
-                            case  6: lookup::points[0].progress = '[{"text":"321e0e0e0d0c0b0a0@!)","color":"#517AB8"}]';
-                            case  7: lookup::points[0].progress = '[{"text":"321e0e0e0e0d0c0|b0a0@!","color":"#517AB8"}]';
-                            case  8: lookup::points[0].progress = '[{"text":"321e0e0e0e0e0d0c0|b0a0@)","color":"#517AB8"}]';
-                            case  9: lookup::points[0].progress = '[{"text":"321e0e0e0e0e0e0|d0c0b0a0@","color":"#517AB8"}]';
-                            case 10: lookup::points[0].progress = '[{"text":"321e0e0e0e0e0e0e0|d0c0b0a0!)","color":"#517AB8"}]';
-                            case 11: lookup::points[0].progress = '[{"text":"321e0e0e0e0e0e0e0|e0d0c0b0a0!","color":"#517AB8"}]';
-                            case 12: lookup::points[0].progress = '[{"text":"321e0e0e0e0e0e0e0|e0e0d0c0b0a0)","color":"#517AB8"}]';
-                            case 13: lookup::points[0].progress = '[{"text":"321e0e0e0e0e0e0e0|e0e0e0d0c0b0)","color":"#517AB8"}]';
-                            case 14: lookup::points[0].progress = '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0d0c0)","color":"#517AB8"}]';
-                            case 15: lookup::points[0].progress = '[{"text":"321e0e0e0e0e0e0e0|e0e0e0e0e0d0)","color":"#517AB8"}]';
+                            case  0: lookup::points[0].progress = [{"text":"321a0#@)","color":"#517AB8"}];
+                            case  1: lookup::points[0].progress = [{"text":"321b0a0#@","color":"#517AB8"}];
+                            case  2: lookup::points[0].progress = [{"text":"321c0b0a0#!)","color":"#517AB8"}];
+                            case  3: lookup::points[0].progress = [{"text":"321d0c0b0a0#!","color":"#517AB8"}];
+                            case  4: lookup::points[0].progress = [{"text":"321e0d0c0b0a0#)","color":"#517AB8"}];
+                            case  5: lookup::points[0].progress = [{"text":"321e0e0d0c0b0a0#","color":"#517AB8"}];
+                            case  6: lookup::points[0].progress = [{"text":"321e0e0e0d0c0b0a0@!)","color":"#517AB8"}];
+                            case  7: lookup::points[0].progress = [{"text":"321e0e0e0e0d0c0|b0a0@!","color":"#517AB8"}];
+                            case  8: lookup::points[0].progress = [{"text":"321e0e0e0e0e0d0c0|b0a0@)","color":"#517AB8"}];
+                            case  9: lookup::points[0].progress = [{"text":"321e0e0e0e0e0e0|d0c0b0a0@","color":"#517AB8"}];
+                            case 10: lookup::points[0].progress = [{"text":"321e0e0e0e0e0e0e0|d0c0b0a0!)","color":"#517AB8"}];
+                            case 11: lookup::points[0].progress = [{"text":"321e0e0e0e0e0e0e0|e0d0c0b0a0!","color":"#517AB8"}];
+                            case 12: lookup::points[0].progress = [{"text":"321e0e0e0e0e0e0e0|e0e0d0c0b0a0)","color":"#517AB8"}];
+                            case 13: lookup::points[0].progress = [{"text":"321e0e0e0e0e0e0e0|e0e0e0d0c0b0)","color":"#517AB8"}];
+                            case 14: lookup::points[0].progress = [{"text":"321e0e0e0e0e0e0e0|e0e0e0e0d0c0)","color":"#517AB8"}];
+                            case 15: lookup::points[0].progress = [{"text":"321e0e0e0e0e0e0e0|e0e0e0e0e0d0)","color":"#517AB8"}];
                         }
-                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}]';
-                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) lookup::points[0].progress = '[{"text":"321))))))))))))))","color":"gray"}]';
+                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A1A1A1"}];
+                        if (tf2.team:@s[scores={tf2.blu_progress=0}] == 0) lookup::points[0].progress = [{"text":"321))))))))))))))","color":"gray"}];
                         if (tf2.team:@s[scores={tf2.blu_progress=1..}] == 0) Objectives.control_point.visuals.capture_progress.neutral_flicker();
                         if (tf2.team:@s == 1) Objectives.control_point.visuals.capture_progress.red.flicker();
                         this.wheel();
@@ -761,60 +761,60 @@ class Objectives
                         $wheel_frame *= 3;
                         $wheel_frame /= tf2.capture_threshold:@s;
                         Objectives.control_point.visuals.wheel_spacing();
-                        if (tf2.team:@s == 0) lookup::points[0].wheel.owner = '[{"text":"=","color":"#A1A1A1"}]';
-                        if (tf2.team:@s == 1) lookup::points[0].wheel.owner = '[{"text":"=","color":"#D95A58"}]';
+                        if (tf2.team:@s == 0) lookup::points[0].wheel.owner = [{"text":"=","color":"#A1A1A1"}];
+                        if (tf2.team:@s == 1) lookup::points[0].wheel.owner = [{"text":"=","color":"#D95A58"}];
                         switch ($wheel_frame) {
-                            case  0: lookup::points[0].wheel.progress = '[{"text":"))))))))a10a2b2c#!","color":"#517AB8"}]';
-                            case  1: lookup::points[0].wheel.progress = '[{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  2: lookup::points[0].wheel.progress = '[{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  3: lookup::points[0].wheel.progress = '[{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  4: lookup::points[0].wheel.progress = '[{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  5: lookup::points[0].wheel.progress = '[{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  6: lookup::points[0].wheel.progress = '[{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  7: lookup::points[0].wheel.progress = '[{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  8: lookup::points[0].wheel.progress = '[{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case  9: lookup::points[0].wheel.progress = '[{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 10: lookup::points[0].wheel.progress = '[{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 11: lookup::points[0].wheel.progress = '[{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
+                            case  0: lookup::points[0].wheel.progress = [{"text":"))))))))a10a2b2c#!","color":"#517AB8"}];
+                            case  1: lookup::points[0].wheel.progress = [{"text":")))))))a10a2b2c10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case  2: lookup::points[0].wheel.progress = [{"text":")))))))a2b2c10a2b2c2d2e10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case  3: lookup::points[0].wheel.progress = [{"text":"))))))b2c10a2b2c2d10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case  4: lookup::points[0].wheel.progress = [{"text":")))))b2c10b2c2d10a2b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case  5: lookup::points[0].wheel.progress = [{"text":"))))c10b2c2d10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case  6: lookup::points[0].wheel.progress = [{"text":"))e10f10c2g10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case  7: lookup::points[0].wheel.progress = [{"text":")f10e2f10f2g10c2g2h10b2c2d2h10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case  8: lookup::points[0].wheel.progress = [{"text":")f2g10e2f2g10f2g2h10c2g2h10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case  9: lookup::points[0].wheel.progress = [{"text":")f2g2h10e2f2g2h10f2g2h2i10c2g2h2i10b2c2d2h2i10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 10: lookup::points[0].wheel.progress = [{"text":"h10f2g2h2i10e2f2g2h2i10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 11: lookup::points[0].wheel.progress = [{"text":"h2i2j10f2g2h2i2j10e2f2g2h2i2j10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
 
-                            case 12: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 13: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 14: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 15: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 16: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 17: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 18: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 19: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 20: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 21: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#517AB8"}]';
-                            case 22: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#517AB8"}]';
-                            case 23: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#517AB8"}]';
+                            case 12: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l10f2g2h2i2j2k10e2f2g2h2i2j2k10f2g2h2i2j10c2g2h2i2j10b2c2d2h2i2j10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 13: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l10e2f2g2h2i2j2k2l10f2g2h2i2j2k10c2g2h2i2j2k10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 14: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m10e2f2g2h2i2j2k2l2m10f2g2h2i2j2k2l10c2g2h2i2j2k2l10b2c2d2h2i2j2k10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 15: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n10e2f2g2h2i2j2k2l2m2n10f2g2h2i2j2k2l2m10c2g2h2i2j2k2l10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 16: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n10c2g2h2i2j2k2l2m10b2c2d2h2i2j2k2l10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 17: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n10b2c2d2h2i2j2k2l2m10b2c2d2e10a2b2c2d2e2f10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 18: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q10b2c2d2e2p10a2b2c2d2e2f2o10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 19: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q10a2b2c2d2e2f2o2p10a2b2c2d2e2f10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 20: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f2o10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 21: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q10a2b2c2d2e2f#!","color":"#517AB8"}];
+                            case 22: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s10a2b2c2d2e2f2o2p2q#!","color":"#517AB8"}];
+                            case 23: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t#!","color":"#517AB8"}];
 
-                            case 24: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#517AB8"}]';
-                            case 25: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#517AB8"}]';
-                            case 26: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#517AB8"}]';
-                            case 27: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#517AB8"}]';
-                            case 28: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#517AB8"}]';
-                            case 29: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#517AB8"}]';
-                            case 30: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#517AB8"}]';
-                            case 31: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#517AB8"}]';
-                            case 32: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#517AB8"}]';
-                            case 33: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#517AB8"}]';
-                            case 34: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#517AB8"}]';
-                            case 35: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#517AB8"}]';
+                            case 24: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10r2s2t10t#","color":"#517AB8"}];
+                            case 25: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10r2s2t10t@!)","color":"#517AB8"}];
+                            case 26: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10r2s2t@!)","color":"#517AB8"}];
+                            case 27: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10q2r2s2t10r2s@!","color":"#517AB8"}];
+                            case 28: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s2t10q2r2s10r2s@)","color":"#517AB8"}];
+                            case 29: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10q2r2s10r@","color":"#517AB8"}];
+                            case 30: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10n2r10o10p!","color":"#517AB8"}];
+                            case 31: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10m2q2r2s10m2n2r10n2o10o2p10o)","color":"#517AB8"}];
+                            case 32: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10m2n2r10m2n2o10n2o2p10n2o)","color":"#517AB8"}];
+                            case 33: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10l2m2q2r2s10l2m2n2r10l2m2n2o10m2n2o2p10m2n2o)","color":"#517AB8"}];
+                            case 34: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10l2m2n2o2p10l2m2n2o10m","color":"#517AB8"}];
+                            case 35: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10k2l2m2n2o2p10k2l2m2n2o10k2l2m","color":"#517AB8"}];
 
-                            case 36: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#517AB8"}]';
-                            case 37: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 38: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 39: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 40: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 41: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 42: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 43: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 44: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 45: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 46: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
-                            case 47: lookup::points[0].wheel.progress = '[{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}]';
+                            case 36: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10k2l2m2q2r2s10k2l2m2n2r10k2l2m2n2o10j2k2l2m2n2o2p10j2k2l2m2n2o10i2j2k2l2m","color":"#517AB8"}];
+                            case 37: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10j2k2l2m2n2r10j2k2l2m2n2o10i2j2k2l2m2n2o2p10i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 38: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10j2k2l2m2q2r2s10i2j2k2l2m2n2r10i2j2k2l2m2n2o10h2i2j2k2l2m2n2o2p10h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 39: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10i2j2k2l2m2n2r10h2i2j2k2l2m2n2o10g2h2i2j2k2l2m2n2o2p10g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 40: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10i2j2k2l2m2q2r2s10h2i2j2k2l2m2n2r10g2h2i2j2k2l2m2n2o10f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 41: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10p2q2r2s10h2i2j2k2l2m2q2r2s10g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 42: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10e2p2q2r2s10d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 43: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10o2p2q2r2s2t10e2f2o2p2q2r2s2t10d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 44: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 45: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 46: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10d2e2f2o2p2q2r2s2t10b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
+                            case 47: lookup::points[0].wheel.progress = [{"text":"h2i2j2k2l2m10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10c2g2h2i2j2k2l2m2n2r10b2c2d2h2i2j2k2l2m2q2r2s10b2c2d2e2p2q2r2s10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10a2b2c2d2e2f2o2p2q2r2s2t10b2c2d2e2p2q2r2s10b2c2d2h2i2j2k2l2m2q2r2s10c2g2h2i2j2k2l2m2n2r10f2g2h2i2j2k2l2m2n2o10e2f2g2h2i2j2k2l2m2n2o2p10f2g2h2i2j2k2l2m2n2o10h2i2j2k2l2m","color":"#517AB8"}];
                         }
                         title @a[tag=tf2.on_point] times 0 4 5;
                         if (tf2.gamemode:@s == Gamemode.KOTH) {
@@ -825,28 +825,28 @@ class Objectives
                     function flicker() {
                         $flicker = 0008it54g_p_join:$__global__;
                         $flicker %= 20;
-                        if ($flicker == 0)           lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
-                        if ($flicker matches  1..2 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
-                        if ($flicker matches  3..4 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
-                        if ($flicker matches  5..7 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
-                        if ($flicker matches  8..11) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B4BECA"}]';
-                        if ($flicker matches 12..14) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}]';
-                        if ($flicker matches 15..16) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}]';
-                        if ($flicker matches 17..18) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}]';
-                        if ($flicker == 19)          lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}]';
+                        if ($flicker == 0)           lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}];
+                        if ($flicker matches  1..2 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}];
+                        if ($flicker matches  3..4 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}];
+                        if ($flicker matches  5..7 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}];
+                        if ($flicker matches  8..11) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B4BECA"}];
+                        if ($flicker matches 12..14) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A8B9CC"}];
+                        if ($flicker matches 15..16) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}];
+                        if ($flicker matches 17..18) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}];
+                        if ($flicker == 19)          lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}];
                     }
                 } function neutral_flicker() {
                     $flicker = 0008it54g_p_join:$__global__;
                     $flicker %= 20;
-                    if ($flicker == 0)           lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
-                    if ($flicker matches  1..2 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
-                    if ($flicker matches  3..4 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
-                    if ($flicker matches  5..7 ) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
-                    if ($flicker matches  8..11) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#C4C4C4"}]';
-                    if ($flicker matches 12..14) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}]';
-                    if ($flicker matches 15..16) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}]';
-                    if ($flicker matches 17..18) lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}]';
-                    if ($flicker == 19)          lookup::points[0].owner = '[{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}]';
+                    if ($flicker == 0)           lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}];
+                    if ($flicker matches  1..2 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}];
+                    if ($flicker matches  3..4 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}];
+                    if ($flicker matches  5..7 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}];
+                    if ($flicker matches  8..11) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#C4C4C4"}];
+                    if ($flicker matches 12..14) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#BDBDBD"}];
+                    if ($flicker matches 15..16) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}];
+                    if ($flicker matches 17..18) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}];
+                    if ($flicker == 19)          lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}];
                 }
             }
         }
