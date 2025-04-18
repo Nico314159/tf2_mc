@@ -171,6 +171,9 @@ class Player {
             case Class.ENGINEER: Class.Engineer.tick();
             case Class.MEDIC: Class.Medic.tick();
         }
+        if (tf2.class:@s != Class.SPY) {
+            tag @s remove tf2.in_disguise_menu;
+        }
         item replace entity @s[scores={tf2.class=1..9}, tag=!tf2.in_disguise_menu] hotbar.8 with Item.CHANGE_CLASS;
         $_count_ = clear @s Item.CHANGE_CLASS 0;
         if ($_count_ != 1 && entity @s[tag=!tf2.in_disguise_menu]) expand {

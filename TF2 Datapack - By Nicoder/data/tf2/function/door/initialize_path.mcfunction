@@ -34,7 +34,6 @@ data modify storage tf2:summon entity.item.components.minecraft:custom_data.fill
 data modify entity @s item merge from storage tf2:summon entity.item
 scoreboard players set @s tf2.door.state 4
 execute if data storage tf2:summon doors[-1].state store result score @s tf2.door.state run data get storage tf2:summon doors[-1].state
-data modify entity @s item.id set from storage tf2:summon entity.id
 data modify entity @s {} merge from storage tf2:summon entity
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 tag @s add tf2.door
