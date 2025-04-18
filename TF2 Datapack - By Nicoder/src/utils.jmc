@@ -81,7 +81,7 @@ function replenish_ammo_and_health() {
 
     // class-specific stuff
     if (tf2.class:@s == Class.SPY) {
-        tf2.cloak:@s = @s::Inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge * 20;
+        tf2.cloak:@s = @s::equipment.offhand.components.minecraft:custom_data.attributes.cloak_recharge * 20;
     }
     if (tf2.class:@s[tag=tf2.dead] == Class.MEDIC) {
         // drop Über on death

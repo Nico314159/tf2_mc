@@ -133,11 +133,12 @@ class Class.Heavy {
         loot replace entity @s armor.chest loot tf2:class/heavy/chest_model;
 
         lookup::inventory = @s::Inventory;
-        tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.clip;
-        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.ammo;
+        lookup::equipment = @s::equipment;
+        tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::equipment.offhand.components.minecraft:custom_data.attributes.clip;
+        tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::equipment.offhand.components.minecraft:custom_data.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.clip;
         tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = lookup::inventory[1].components.minecraft:custom_data.attributes.ammo;
-        tf2.rev_threshold:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.spinupDelay * 20000;
+        tf2.rev_threshold:@s = lookup::equipment.offhand.components.minecraft:custom_data.attributes.spinupDelay * 20000;
     }
     @lazy
     function tick() {

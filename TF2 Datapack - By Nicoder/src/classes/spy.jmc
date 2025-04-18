@@ -183,10 +183,11 @@ class Class.Spy {
         }
         
         lookup::inventory = @s::Inventory;
+        lookup::equipment = @s::equipment;
         tf2.primary_maxClip:@s = tf2.primary_clip:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.clip;
         tf2.primary_maxAmmo:@s = tf2.primary_ammo:@s = lookup::inventory[0].components.minecraft:custom_data.attributes.ammo;
         tf2.secondary_maxClip:@s = tf2.secondary_clip:@s = tf2.secondary_maxAmmo:@s = tf2.secondary_ammo:@s = 0;
-        tf2.cloak:@s = lookup::inventory[{Slot:-106b}].components.minecraft:custom_data.attributes.cloak_recharge * 20;
+        tf2.cloak:@s = lookup::equipment.offhand.components.minecraft:custom_data.attributes.cloak_recharge * 20;
 
         // if (entity @s[tag=!tf2.dead]) {
         //     return 1;
@@ -316,8 +317,9 @@ class Class.Spy {
     }
     function fake_inventory_lock() {
         
-        disguise::class = @s::Inventory[{Slot:103b}].components.minecraft:custom_model_data.strings[0];
-        disguise::team = @s::Inventory[{Slot:103b}].components.minecraft:custom_model_data.strings[1];
+        lookup::equipment = @s::equipment;
+        disguise::class = lookup::equipment.head.components.minecraft:custom_model_data.strings[0];
+        disguise::team = lookup::equipment.head.components.minecraft:custom_model_data.strings[1];
 
         execute run { 
             Hardcode.repeat("|i|", () => {
