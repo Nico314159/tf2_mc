@@ -388,7 +388,7 @@ class reset {
         Objectives.control_point.find_index.main();
         Hardcode.repeatList(
             "key",
-            () => {lookup::points[0].key = [];},
+            () => {lookup::points[0].key = [""];},
             ["owner", "progress", "symbol", "extra"]
         );
         Objectives.control_point.find_index.reinsert();
