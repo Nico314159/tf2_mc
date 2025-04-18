@@ -135,6 +135,8 @@
             WaitTime: -2147483648,
             Invulnerable: 1b,
             Tags: ["tf2.new"],
+            Particle: {type: "block", block_state: "minecraft:air"},
+            Radius: 0.0f,
             Passengers: [{
                 id: "minecraft:item",
                 NoGravity: 1b,
