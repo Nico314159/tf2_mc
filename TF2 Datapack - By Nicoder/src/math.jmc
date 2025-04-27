@@ -323,6 +323,53 @@ class Math {
         $output_vector_y *= -1;
     }
 
+    function gimbal_to_matrix() {
+        // Get sine and cosine values of yaw and pitch
+        $input = $input_pitch;
+        Math.sine();
+        $sin_X = $output;
+        $sin_X *= Retina.SCALE;
+        $sin_X /= 1000;
+        Math.cosine();
+        $cos_X = $output;
+        $cos_X *= Retina.SCALE;
+        $cos_X /= 1000;
+
+        $input = $input_yaw;
+        Math.sine();
+        $sin_Y = $output;
+        $sin_Y *= Retina.SCALE;
+        $sin_Y /= 1000;
+        Math.cosine();
+        $cos_Y = $output;
+        $cos_Y *= Retina.SCALE;
+        $cos_Y /= 1000;
+
+        // Compute vectors of matrix
+        $output_matrix_XX = $cos_Y;
+        $output_matrix_XY = 0;
+        $output_matrix_XZ = $sin_Y;
+
+        $output_matrix_YX = $sin_Y;
+        $output_matrix_YX *= $sin_X;
+        $output_matrix_YX *= -1;
+        $output_matrix_YX /= Retina.SCALE;
+        $output_matrix_YY = $cos_X;
+        $output_matrix_YZ = $cos_Y;
+        $output_matrix_YZ *= $sin_X;
+        $output_matrix_YZ /= Retina.SCALE;
+
+        $output_matrix_ZX = $sin_Y;
+        $output_matrix_ZX *= $cos_X;
+        $output_matrix_ZX *= -1;
+        $output_matrix_ZX /= Retina.SCALE;
+        $output_matrix_ZY = $sin_X;
+        $output_matrix_ZY *= -1;
+        $output_matrix_ZZ = $cos_Y;
+        $output_matrix_ZZ *= $cos_X;
+        $output_matrix_ZZ /= Retina.SCALE;
+    }
+
 
     function axis_to_quaternion() {
         $input = $input_angle;
@@ -441,5 +488,87 @@ class Math {
             },
             start=0, stop=3599, step=50
         );
+    }
+
+
+
+
+    class Sway_Heave_Surge {
+        function find() {
+            $input_vector_x = $i;
+            $input_vector_x *= 2;
+            $input_vector_x += 10;
+            $input_vector_x -= $horizontal_count;
+            if ($horizontal_count == 10) expand {
+                $input_vector_x = execute run random value 2..6;
+                $input_vector_x %= 3;
+                $input_vector_x --;
+                $input_vector_x *= 20;
+            }
+            $spread = Math.random($spread_least, $spread_most);
+            $input_vector_x *= $spread;
+            $input_vector_x /= 100;
+
+            $input_vector_y = $j;
+            $input_vector_y *= 2;
+            $input_vector_y += 10;
+            $input_vector_y -= $vertical_count;
+            if ($vertical_count == 10) expand {
+                $input_vector_y = execute run random value 2..6;
+                $input_vector_y %= 3;
+                $input_vector_y --;
+                $input_vector_y *= 20;
+            }
+            $spread = Math.random($spread_least, $spread_most);
+            $input_vector_y *= $spread;
+            $input_vector_y /= 100;
+
+            $input_vector_z = 500;
+            if ($debug_messages) Text.tellraw(@a, "Input Vector: &<red, italic>[&<$input_vector_x, italic>, &<$input_vector_y, italic>, &<$input_vector_z, italic>]"); 
+        }
+        function apply() {
+            $length = 0;
+            Hardcode.repeatList("[axis]", () => {$temp = $input_vector_[axis]; $temp *= $input_vector_[axis]; $length += $temp;}, ["x", "y", "z"]);
+            $length = Math.sqrt($length);
+            Hardcode.repeatList("[pair]", () => {$input_matrix_[pair] = $output_matrix_[pair];}, ["XX", "XY", "XZ", "YX", "YY", "YZ", "ZX", "ZY", "ZZ"]);
+            Math.matrix_transform();
+            Hardcode.repeatList("[axis]", () => {$output_vector_[axis] *= Retina.SCALE; $output_vector_[axis] /= $length;}, ["x", "y", "z"]);
+            if ($debug_messages) Text.tellraw(@a, "Angled Vector: &<gold, italic>[&<$output_vector_x, italic>, &<$output_vector_y, italic>, &<$output_vector_z, italic>]");
+        }
+    }
+    function matrix_transform() {
+        // Perform linear transformation
+        $matrix_column_0 = $input_matrix_XX;
+        $matrix_column_1 = $input_matrix_YX;
+        $matrix_column_2 = $input_matrix_ZX;
+        $matrix_column_0 *= $input_vector_x;
+        $matrix_column_1 *= $input_vector_y;
+        $matrix_column_2 *= $input_vector_z;
+        $output_vector_x = $matrix_column_0;
+        $output_vector_x += $matrix_column_1;
+        $output_vector_x += $matrix_column_2;
+        $output_vector_x /= Retina.SCALE;
+
+        $matrix_column_0 = $input_matrix_XY;
+        $matrix_column_1 = $input_matrix_YY;
+        $matrix_column_2 = $input_matrix_ZY;
+        $matrix_column_0 *= $input_vector_x;
+        $matrix_column_1 *= $input_vector_y;
+        $matrix_column_2 *= $input_vector_z;
+        $output_vector_y = $matrix_column_0;
+        $output_vector_y += $matrix_column_1;
+        $output_vector_y += $matrix_column_2;
+        $output_vector_y /= Retina.SCALE;
+
+        $matrix_column_0 = $input_matrix_XZ;
+        $matrix_column_1 = $input_matrix_YZ;
+        $matrix_column_2 = $input_matrix_ZZ;
+        $matrix_column_0 *= $input_vector_x;
+        $matrix_column_1 *= $input_vector_y;
+        $matrix_column_2 *= $input_vector_z;
+        $output_vector_z = $matrix_column_0;
+        $output_vector_z += $matrix_column_1;
+        $output_vector_z += $matrix_column_2;
+        $output_vector_z /= Retina.SCALE;
     }
 }

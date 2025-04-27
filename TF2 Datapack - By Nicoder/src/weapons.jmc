@@ -316,14 +316,14 @@ class Weapons {
 
         tf2.team:$current = tf2.team:@s;
         lookup::item = @s::SelectedItem;
-        retina:input::{} += lookup::item.components.minecraft:custom_data.retina;
+        multicast::{} += lookup::item.components.minecraft:custom_data.retina;
         retina:input::TargetBlocks = true;
         retina:input::TargetEntities = true;
         
         if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery) expand {
             $_sr_ = lookup::item.components.minecraft:custom_data.attributes.spreadRecovery;
             if (tf2.time_idle:@s > $_sr_) {
-                retina:input::SpreadFactor = [0, 0];
+                multicast::SpreadFactor = [0, 0];
             }
         }
         $_damage_  = lookup::item.components.minecraft:custom_data.attributes.damage.base;
@@ -334,7 +334,6 @@ class Weapons {
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
         // retina._variable_:$end_particle = true;
 
-        retina.__variable__:$func_id = 100;
         if (predicate tf2:holding_projectile) {
             Projectile.spawn();
         }
@@ -344,7 +343,6 @@ class Weapons {
         // retina._variable_:$end_particle = false;
         $_delay_ = lookup::item.components.minecraft:custom_data.attributes.attackDelay * 20000;
         tf2.attack_delay:@s += $_delay_;
-        scoreboard players reset $func_id retina.__variable__;
 
         // Melee sound effects
         if (predicate tf2:holding_melee) return run {
@@ -408,13 +406,54 @@ class Weapons {
     }
     function hitscan() {
         if (!items entity @s weapon.mainhand *[custom_data~{key: EVAL(Class.HEAVY * 10 + 0)}]) {
-            return run function retina:traverse/multicast;
+            return run this.multicast();
         }
-        retina:input:: += {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
-        function retina:traverse/multicast;
-        function retina:traverse/multicast;
-        function retina:traverse/multicast;
-        function retina:traverse/multicast;
+        multicast:: += {HorizontalCount: 1, VerticalCount: 1, CenteredCount: 0};
+        this.multicast();
+        this.multicast();
+        this.multicast();
+        this.multicast();
+    }
+
+    function multicast() {
+        $horizontal_count = multicast::HorizontalCount * 10;
+        $vertical_count = multicast::VerticalCount * 10;
+        $centered_count = multicast::CenteredCount * 1;
+
+        // input validation
+        if ($horizontal_count <= 0) return run {
+            Text.tellraw(@a, "&<dark_red>[Error] &<red>HorizontalCount storage has invalid value of &<$horizontal_count>");
+        }
+        if ($vertical_count <= 0) return run {
+            Text.tellraw(@a, "&<dark_red>[Error] &<red>VerticalCount storage has invalid value of &<$vertical_count>");
+        } 
+        if ($centered_count < 0) return run {
+            Text.tellraw(@a, "&<dark_red>[Error] &<red>CenteredCount storage has invalid value of &<$centered_count>");
+        }
+
+        $spread_least = multicast::SpreadFactor[0];
+        $spread_most = multicast::SpreadFactor[1];
+
+        __retina.__variable__:$single_call = false;
+        tag @e remove retina.target;
+        scoreboard players reset * retina.hit;
+        kill @e[type=marker,tag=retina.endpoint];
+        $input_pitch = @s::Rotation[1] * 10;
+        $input_yaw = @s::Rotation[0] * 10;
+        Math.gimbal_to_matrix();
+        for ($i = 0; $i < $horizontal_count; $i += 10) { 
+            for ($j = 0; $j < $vertical_count; $j += 10) {
+                Math.Sway_Heave_Surge.find();
+                Math.Sway_Heave_Surge.apply();
+                __retina.__variable__:$output_vec3.X = $output_vector_x;
+                __retina.__variable__:$output_vec3.Y = $output_vector_y;
+                __retina.__variable__:$output_vec3.Z = $output_vector_z;
+                function retina:traverse/setup;
+            } 
+        }
+
+        for ($k = 0; $k < $centered_count; $k++) {function retina:traverse/setup;}
+        __retina.__variable__:$single_call = true;
     }
 
     function get_ammo() {
