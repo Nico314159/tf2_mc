@@ -434,7 +434,7 @@ class Weapons {
         $spread_least = multicast::SpreadFactor[0];
         $spread_most = multicast::SpreadFactor[1];
 
-        __retina.__variable__:$single_call = false;
+        retina.__variable__:$single_call = false;
         tag @e remove retina.target;
         scoreboard players reset * retina.hit;
         kill @e[type=marker,tag=retina.endpoint];
@@ -445,15 +445,15 @@ class Weapons {
             for ($j = 0; $j < $vertical_count; $j += 10) {
                 Math.Sway_Heave_Surge.find();
                 Math.Sway_Heave_Surge.apply();
-                __retina.__variable__:$output_vec3.X = $output_vector_x;
-                __retina.__variable__:$output_vec3.Y = $output_vector_y;
-                __retina.__variable__:$output_vec3.Z = $output_vector_z;
+                retina.__variable__:$output_vec3.X = $output_vector_x;
+                retina.__variable__:$output_vec3.Y = $output_vector_y;
+                retina.__variable__:$output_vec3.Z = $output_vector_z;
                 function retina:traverse/setup;
             } 
         }
 
         for ($k = 0; $k < $centered_count; $k++) {function retina:traverse/setup;}
-        __retina.__variable__:$single_call = true;
+        retina.__variable__:$single_call = true;
     }
 
     function get_ammo() {
@@ -544,41 +544,39 @@ class Weapons {
         return 1;
     }
     function on_hit() {
-        if (retina.__variable__:$func_id !== 100) return 0;
-
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
         execute as @e[type=#tf2:player_like, scores={retina.hit=1..}, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
     }
     function draw_line() {
-        // @within this.damage()
-        execute summon minecraft:marker run {
-            if (retina.__variable__:$offset_Y matches 776..778) {tp @s ~ ~1.42 ~;}
-            if (retina.__variable__:$offset_Y matches 608..610) {tp @s ~ ~1.07 ~;}
-            if (retina.__variable__:$offset_Y === 192)          {tp @s ~ ~0.20 ~;}
-            tag @s add tf2.height;
+        // Get weapon position
+        execute anchored eyes positioned ^-0.3 ^-0.2 ^ positioned ~ ~ ~ summon minecraft:marker run {
             summon::line.X = @s::Pos[0];
             summon::line.Y = @s::Pos[1];
             summon::line.Z = @s::Pos[2];
             kill @s;
         }
-        // rotate according to player vector
-        $input_vec3.X = retina.__variable__:$output_vec3.X;
-        $input_vec3.Y = retina.__variable__:$output_vec3.Y;
-        $input_vec3.Z = retina.__variable__:$output_vec3.Z;
-        Math.vec_to_gimbal();
-        summon::line.yaw = 0.1 * (float) $output_yaw;
-        summon::line.pitch = 0.1 * (float) $output_pitch;
 
-        $scale_length = retina:output::Distance * 2000;
-        //$scale_length -= 400;
-        summon::line.scale = 0.001 * (float) $scale_length;
+        // Get vector from start to end
+        summon::line.endX = retina:output::ContactCoordinates[0];
+        summon::line.endY = retina:output::ContactCoordinates[1];
+        summon::line.endZ = retina:output::ContactCoordinates[2];
+
+        $length = 0;
+        Hardcode.repeatList("[AXIS]", () => {
+            $component = summon::line.end[AXIS] * 1000;
+            $start = summon::line.[AXIS] * 1000;
+            $component -= $start;
+            $component *= $component;
+            $length += $component;
+        }, ["X", "Y", "Z"]);
+        $length = Math.sqrt($length);
+        summon::line.scale = 0.002 * (float) $length;
 
         execute run {
-            $execute positioned $(X) $(Y) $(Z) run summon item_display ^ ^ ^0.15 {
+            $ summon item_display $(X) $(Y) $(Z) {
                 item: {id: "white_dye", components: {"minecraft:item_model": "tf2:bullet"}},
-                Rotation: [$(yaw)f, $(pitch)f],
                 Tags: ["tf2.visual", "tf2.newest"],
                 transformation: {
                 left_rotation: [0f, 0f, 0f, 1f],
@@ -587,11 +585,16 @@ class Weapons {
                 scale: [1f, 1f, $(scale)f]
                 }
             };
+            $ execute as @e[type=item_display,tag=tf2.visual,tag=tf2.newest]
+                      at @s 
+                      run rotate @s 
+                      facing $(endX) $(endY) $(endZ);
+
             tf2.lifetime:@e[type=item_display,tag=tf2.visual,tag=tf2.newest] = 4;
             tag @e[type=item_display,tag=tf2.visual,tag=tf2.newest] remove tf2.newest;
-            // damage @s 1 arrow;
+
         } with summon::line;
-        summon::line.del();
+        // summon::line.del();
     }
     function apply_damage() {
         // @within this.damage()

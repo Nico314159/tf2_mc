@@ -1,11 +1,25 @@
-execute summon minecraft:marker run function tf2:__private__/anonymous/8
-scoreboard players operation $input_vec3.X tf2.var = $output_vec3.X retina.__variable__
-scoreboard players operation $input_vec3.Y tf2.var = $output_vec3.Y retina.__variable__
-scoreboard players operation $input_vec3.Z tf2.var = $output_vec3.Z retina.__variable__
-function tf2:math/vec_to_gimbal
-execute store result storage tf2:summon line.yaw float 0.1 run scoreboard players get $output_yaw tf2.var
-execute store result storage tf2:summon line.pitch float 0.1 run scoreboard players get $output_pitch tf2.var
-execute store result score $scale_length tf2.var run data get storage retina:output Distance 2000
-execute store result storage tf2:summon line.scale float 0.001 run scoreboard players get $scale_length tf2.var
+execute anchored eyes positioned ^-0.3 ^-0.2 ^ positioned ~ ~ ~ summon minecraft:marker run function tf2:__private__/anonymous/8
+data modify storage tf2:summon line.endX set from storage retina:output ContactCoordinates[0]
+data modify storage tf2:summon line.endY set from storage retina:output ContactCoordinates[1]
+data modify storage tf2:summon line.endZ set from storage retina:output ContactCoordinates[2]
+scoreboard players set $length tf2.var 0
+execute store result score $component tf2.var run data get storage tf2:summon line.endX 1000
+execute store result score $start tf2.var run data get storage tf2:summon line.X 1000
+scoreboard players operation $component tf2.var -= $start tf2.var
+scoreboard players operation $component tf2.var *= $component tf2.var
+scoreboard players operation $length tf2.var += $component tf2.var
+execute store result score $component tf2.var run data get storage tf2:summon line.endY 1000
+execute store result score $start tf2.var run data get storage tf2:summon line.Y 1000
+scoreboard players operation $component tf2.var -= $start tf2.var
+scoreboard players operation $component tf2.var *= $component tf2.var
+scoreboard players operation $length tf2.var += $component tf2.var
+execute store result score $component tf2.var run data get storage tf2:summon line.endZ 1000
+execute store result score $start tf2.var run data get storage tf2:summon line.Z 1000
+scoreboard players operation $component tf2.var -= $start tf2.var
+scoreboard players operation $component tf2.var *= $component tf2.var
+scoreboard players operation $length tf2.var += $component tf2.var
+scoreboard players operation __math__.N tf2.var = $length tf2.var
+function tf2:__private__/math_sqrt/main
+scoreboard players operation $length tf2.var = __math__.x_n tf2.var
+execute store result storage tf2:summon line.scale float 0.002 run scoreboard players get $length tf2.var
 function tf2:__private__/anonymous/9 with storage tf2:summon line
-data remove storage tf2:summon line
