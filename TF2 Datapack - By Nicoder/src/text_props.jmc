@@ -192,9 +192,7 @@ Trigger.add(autoreload, () => {
                     {
                         "function": "minecraft:set_components",
                         "components": {
-                            "minecraft:enchantments": {
-                                "minecraft:binding_curse": 1
-                            },
+                            "minecraft:enchantments": { "minecraft:binding_curse": 1 },
                             "minecraft:enchantment_glint_override": false
                         }
                     }
@@ -299,9 +297,7 @@ Trigger.add(autoreload, () => {
                     {
                         "function": "minecraft:set_components",
                         "components": {
-                            "minecraft:enchantments": {
-                                "minecraft:binding_curse": 1
-                            },
+                            "minecraft:enchantments": { "minecraft:binding_curse": 1 },
                             "minecraft:enchantment_glint_override": false
                         }
                     }
@@ -321,7 +317,9 @@ Trigger.add(autoreload, () => {
                 {
                     "function": "minecraft:set_components",
                     "components": {
-                        "minecraft:item_model": "tf2:misc/head"
+                        "minecraft:item_model": "tf2:misc/head",
+                        "minecraft:enchantments": { "minecraft:binding_curse": 1 },
+                        "minecraft:enchantment_glint_override": false
                     }
                 },
 				{

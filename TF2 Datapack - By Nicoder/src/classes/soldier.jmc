@@ -91,17 +91,14 @@ class Class.Soldier {
         if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SOLDIER * 10 + 2)}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/soldier/shovel;
 
-        loot replace entity @s armor.legs loot tf2:class/soldier/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/soldier/leg_model;
 
-        loot replace entity @s armor.chest loot tf2:class/soldier/chest_model;
         $_count_ = clear @s iron_chestplate 0;
         if ($_count_ != 1) clear @s iron_chestplate;
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/soldier/chest_model;
 
-        loot replace entity @s armor.head loot tf2:class/soldier/head;
         $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
         if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/soldier/head;

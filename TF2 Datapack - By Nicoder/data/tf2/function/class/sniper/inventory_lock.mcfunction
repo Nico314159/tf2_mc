@@ -11,15 +11,12 @@ loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri
 execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:22}] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:22}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri
-loot replace entity @s armor.legs loot tf2:class/sniper/leg_model
 execute store result score $_count_ tf2.var run clear @s iron_leggings 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/sniper/leg_model
-loot replace entity @s armor.chest loot tf2:class/sniper/chest_model
 execute store result score $_count_ tf2.var run clear @s iron_chestplate 0
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_chestplate
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.chest loot tf2:class/sniper/chest_model
-loot replace entity @s armor.head loot tf2:class/sniper/head
 execute store result score $_count_ tf2.var run clear @s white_dye[item_model="tf2:misc/head"] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s white_dye[item_model="tf2:misc/head"]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:class/sniper/head

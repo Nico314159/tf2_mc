@@ -178,8 +178,9 @@ class Class.Spy {
         loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
         loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
-        if (!entity @s[tag=tf2.disguised, tag=!tf2.dead]) {
+        if (!entity @s[tag=tf2.disguised, tag=!tf2.dead]) expand {
             loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
+            loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
         }
         
         lookup::inventory = @s::Inventory;
@@ -291,17 +292,14 @@ class Class.Spy {
             return run this.fake_inventory_lock();
         }
 
-        loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
 
-        loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
         $_count_ = clear @s iron_chestplate 0;
         if ($_count_ != 1) clear @s iron_chestplate;
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
 
-        loot replace entity @s armor.head loot tf2:class/spy/head;
         $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
         if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/spy/head;

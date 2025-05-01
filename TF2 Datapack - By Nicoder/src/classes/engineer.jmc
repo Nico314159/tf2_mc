@@ -112,21 +112,18 @@ class Class.Engineer {
             loot replace entity @s hotbar.4 loot tf2:class/engineer/destruction_pda;
         }
 
-        loot replace entity @s armor.legs loot tf2:class/engineer/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) expand {
             clear @s iron_leggings;
             loot replace entity @s armor.legs loot tf2:class/engineer/leg_model;
         }
 
-        loot replace entity @s armor.chest loot tf2:class/engineer/chest_model;
         $_count_ = clear @s iron_chestplate 0;
         if ($_count_ != 1) expand {
             clear @s iron_chestplate;
             loot replace entity @s armor.chest loot tf2:class/engineer/chest_model;
         }
 
-        loot replace entity @s armor.head loot tf2:class/engineer/head;
         $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
         if ($_count_ != 1) expand {
             clear @s white_dye[item_model="tf2:misc/head"];

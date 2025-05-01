@@ -119,17 +119,14 @@ class Class.Sniper {
         if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SNIPER * 10 + 2)}];
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/sniper/kukri;
 
-        loot replace entity @s armor.legs loot tf2:class/sniper/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/sniper/leg_model;
 
-        loot replace entity @s armor.chest loot tf2:class/sniper/chest_model;
         $_count_ = clear @s iron_chestplate 0;
         if ($_count_ != 1) clear @s iron_chestplate;
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/sniper/chest_model;
 
-        loot replace entity @s armor.head loot tf2:class/sniper/head;
         $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
         if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
         if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/sniper/head;
