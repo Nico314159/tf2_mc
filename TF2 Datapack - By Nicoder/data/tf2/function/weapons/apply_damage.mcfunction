@@ -1,6 +1,6 @@
 execute if score @s tf2.team = $current tf2.team run return 0
 data remove storage tf2:vars kill_verb
-execute store result score $_distance_ tf2.var run data get storage retina:output Distance 1000
+execute store result score $_distance_ tf2.var run data get storage tf2:vars distance 1000
 execute store result score $_hitHead_ tf2.var run data get storage retina:output HitEntityHead
 execute if score $_distance_ tf2.var > $_range_ tf2.var run return 0
 scoreboard players operation $_finalDamage_ tf2.var = $_damage_ tf2.var

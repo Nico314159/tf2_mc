@@ -1,4 +1,4 @@
-execute store result score $_hammerUnits_ tf2.var run data get storage retina:output Distance 52.493
+execute store result score $_hammerUnits_ tf2.var run data get storage tf2:vars distance 52.493
 scoreboard players operation $_hammerUnits_ tf2.var < 1024 tf2.const
 scoreboard players operation $_temp1_ tf2.var = $_hammerUnits_ tf2.var
 scoreboard players operation $_temp1_ tf2.var *= $_hammerUnits_ tf2.var

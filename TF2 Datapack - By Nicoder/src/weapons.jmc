@@ -544,6 +544,7 @@ class Weapons {
         return 1;
     }
     function on_hit() {
+        vars::distance = retina:output::Distance;
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
@@ -600,7 +601,7 @@ class Weapons {
         // @within this.damage()
         if (score @s tf2.team = $current tf2.team) return 0;
         vars::kill_verb.del();
-        $_distance_ = retina:output::Distance * 1000;
+        $_distance_ = vars::distance * 1000;
         $_hitHead_ = retina:output::HitEntityHead;
         if ($_distance_ > $_range_) return 0;
         $_finalDamage_ = $_damage_;
@@ -641,7 +642,7 @@ class Weapons {
 
     function calculate_falloff() {
         if ($_rangeDependent_) {
-            $_hammerUnits_ = retina:output::Distance * EVAL (1 / 0.01905);
+            $_hammerUnits_ = vars::distance * EVAL (1 / 0.01905);
             $_hammerUnits_ < 1024;
 
             $_temp1_ = $_hammerUnits_;

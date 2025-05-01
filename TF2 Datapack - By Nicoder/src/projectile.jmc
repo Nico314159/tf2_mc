@@ -224,20 +224,16 @@ class Projectile {
         return Projectile.DEFAULT_LIFETIME;
     }
     function deviation() {
-        retina.__variable__:$input_pitch = @s::Rotation[1] * 10;
-        retina.__variable__:$input_yaw = @s::Rotation[0] * 10;
-        function retina:math/gimbal_to_matrix;
+        $input_pitch = @s::Rotation[1] * 10;
+        $input_yaw = @s::Rotation[0] * 10;
+        Math.gimbal_to_matrix();
 
-        retina.__variable__:$horizontal_count = retina.__variable__:$vertical_count = 10;
-        retina.__variable__:$spread_least = summon::projectile.deviation.min;
-        retina.__variable__:$spread_most = summon::projectile.deviation.max;
+        $horizontal_count = $vertical_count = 10;
+        $spread_least = summon::projectile.deviation.min;
+        $spread_most = summon::projectile.deviation.max;
 
-        function retina:math/sway_heave_surge/find;
-        function retina:math/sway_heave_surge/apply;
-
-        $output_vector_x = retina.__variable__:$output_vec3.X;
-        $output_vector_y = retina.__variable__:$output_vec3.Y;
-        $output_vector_z = retina.__variable__:$output_vec3.Z;
+        Math.Sway_Heave_Surge.find();
+        Math.Sway_Heave_Surge.apply();
     }
     function compensate_velocity() {
         $mot.mot_x += tf2.now_x:@s;
@@ -476,7 +472,7 @@ class Projectile {
         summon::matrix[8] = (float) $deltaZ;
         execute summon item_display run {
             @s::transformation = tf2:summon::matrix;
-            retina:output::Distance = 0.01 * (double) @s::transformation.scale[0];
+            vars::distance = 0.01 * (double) @s::transformation.scale[0];
             kill;
         }
     }
