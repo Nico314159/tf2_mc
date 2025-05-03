@@ -398,7 +398,7 @@ class Class.Spy {
     }
 
     function determine_backstab() {
-        function retina:traverse/setup;
+        Raycast.informational();
         if (!data storage retina:output {Target: "ENTITY"}) {
             return fail;
         }

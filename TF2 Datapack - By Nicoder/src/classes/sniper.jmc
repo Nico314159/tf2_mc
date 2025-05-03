@@ -135,7 +135,7 @@ class Class.Sniper {
         tf2.time_scoped:@s += 1;
         tf2.grace_period:@s = 0;
         tag @s add tf2.scoped;
-        execute at @s run function retina:traverse/setup;
+        execute at @s run Raycast.informational();
         execute summon marker run {
             @s::Pos = retina:output::ContactCoordinates;
             tag @s add tf2.temp;

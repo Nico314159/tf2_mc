@@ -211,7 +211,7 @@ class Class.Medic {
 		        run tag @s add tf2.valid_heal_target;
 		tag @s remove self;
 
-		function retina:traverse/setup;
+		Raycast.informational();
 
 		scoreboard players reset @s tf2.heal_target;
 		tf2.heal_target:@s = tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, scores={retina.hit=1..}];

@@ -1,3 +1,4 @@
+execute unless score $callback tf2.var matches 1.. run return fail
 data modify storage tf2:vars distance set from storage retina:output Distance
 execute unless predicate tf2:hide_ammo at @s run function tf2:weapons/draw_line
 execute store success score $backstab tf2.var if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab:true}}]

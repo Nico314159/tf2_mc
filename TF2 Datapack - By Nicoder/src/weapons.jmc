@@ -282,6 +282,7 @@ new loot_table(head) {
 	}]
 }
 
+import "raycast";
 class Weapons {
     function main_fire() {
         if (tf2.attack_delay:@s > 0) return 0;
@@ -448,11 +449,11 @@ class Weapons {
                 retina.__variable__:$output_vec3.X = $output_vector_x;
                 retina.__variable__:$output_vec3.Y = $output_vector_y;
                 retina.__variable__:$output_vec3.Z = $output_vector_z;
-                function retina:traverse/setup;
+                Raycast.damaging();
             } 
         }
 
-        for ($k = 0; $k < $centered_count; $k++) {function retina:traverse/setup;}
+        for ($k = 0; $k < $centered_count; $k++) {Raycast.damaging();}
         retina.__variable__:$single_call = true;
     }
 
@@ -544,6 +545,8 @@ class Weapons {
         return 1;
     }
     function on_hit() {
+        if (!$callback) {return fail;}
+
         vars::distance = retina:output::Distance;
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 

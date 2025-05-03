@@ -1,4 +1,4 @@
-function retina:traverse/setup
+function tf2:raycast/informational
 execute unless data storage retina:output {Target:"ENTITY"} run return fail
 execute if entity @a[tag=retina.target,gamemode=spectator] run return fail
 scoreboard players operation $current tf2.team = @s tf2.team
