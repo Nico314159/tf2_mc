@@ -439,17 +439,10 @@ new predicate(burning) {
 	}
 }
 new predicate(grounded) {
-    "condition": "minecraft:inverted",
-    "term": {
-        "condition": "minecraft:entity_properties",
-        "entity": "this",
-        "predicate": {
-            "stepping_on": {
-                "block": {
-                    "blocks": ["minecraft:air"]
-                }
-            }
-        }
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "stepping_on": {}
     }
 }
 new predicate(no_vehicle) {
