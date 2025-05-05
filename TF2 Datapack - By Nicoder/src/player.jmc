@@ -30,9 +30,7 @@ Player.join(() => {
 	];
 
     Hardcode.repeat("|n|", () => {
-        if (tf2.uuid.|n|:@s != tf2.uuid.|n|:@s) {
-            tf2.uuid.|n|:@s = @s::UUID[|n|];
-        }
+        tf2.uuid.|n|:@s ??= @s::UUID[|n|];
     }, 0, 4);
         
     scoreboard players enable @s tf2.queue_type;
