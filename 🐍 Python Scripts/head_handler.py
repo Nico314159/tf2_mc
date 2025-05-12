@@ -8,7 +8,7 @@ classes = ['spy', 'sniper', 'scout', 'soldier', 'demoman', 'heavy', 'pyro', 'eng
 
 def make_case(cl):
     team_dependent = cl in ['spy', 'scout', 'soldier', 'engineer']
-    if team_dependent:
+    if True:
         return {
             "type": "minecraft:select",
             "property": "minecraft:custom_model_data",
@@ -26,7 +26,7 @@ def make_case(cl):
                         },
                         "on_false": {
                             "type": "minecraft:model",
-                            "model": f"tf2:head/{cl}_red"
+                            "model": f"tf2:head/{cl}_red" if team_dependent else f"tf2:head/{cl}"
                         }
                     }
                 },
@@ -42,25 +42,11 @@ def make_case(cl):
                         },
                         "on_false": {
                             "type": "minecraft:model",
-                            "model": f"tf2:head/{cl}_blu"
+                            "model": f"tf2:head/{cl}_blu" if team_dependent else f"tf2:head/{cl}"
                         }
                     }
                 }
             ]
-        }
-    else:
-        return {
-            "type": "minecraft:condition",
-            "property": "minecraft:custom_model_data",
-            "index": 0,
-            "on_true": {
-                "type": "minecraft:model",
-                "model": f"tf2:head/uber/{cl}"
-            },
-            "on_false": {
-                "type": "minecraft:model",
-                "model": f"tf2:head/{cl}"
-            }
         }
 
 def main():
