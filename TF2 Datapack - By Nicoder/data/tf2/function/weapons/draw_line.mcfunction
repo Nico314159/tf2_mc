@@ -1,4 +1,4 @@
-execute anchored eyes positioned ^-0.3 ^-0.2 ^ positioned ~ ~ ~ summon minecraft:marker run function tf2:__private__/anonymous/8
+execute anchored eyes positioned ^-0.25 ^-0.25 ^ positioned ~ ~ ~ summon minecraft:marker run function tf2:__private__/anonymous/8
 data modify storage tf2:summon line.endX set from storage retina:output ContactCoordinates[0]
 data modify storage tf2:summon line.endY set from storage retina:output ContactCoordinates[1]
 data modify storage tf2:summon line.endZ set from storage retina:output ContactCoordinates[2]

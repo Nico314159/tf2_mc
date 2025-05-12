@@ -536,7 +536,7 @@ class Weapons {
     }
     function draw_line() {
         // Get weapon position
-        execute anchored eyes positioned ^-0.3 ^-0.2 ^ positioned ~ ~ ~ summon minecraft:marker run {
+        execute anchored eyes positioned ^-0.25 ^-0.25 ^ positioned ~ ~ ~ summon minecraft:marker run {
             summon::line.X = @s::Pos[0];
             summon::line.Y = @s::Pos[1];
             summon::line.Z = @s::Pos[2];
