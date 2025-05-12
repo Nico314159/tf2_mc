@@ -264,24 +264,6 @@ new tags.item(minecraft.trim_materials) {
     ]
 }
 
-new loot_table(head) {
-	"pools": [{
-		"rolls": 1,
-		"entries": [{
-			"type": "minecraft:item",
-			"name": "minecraft:white_dye",
-			"functions": [{
-				"function": "minecraft:set_custom_model_data",
-				"value": {
-					"type": "minecraft:score",
-					"target": "this",
-				 	"score": "tf2.model_number"
-				}
-			}]
-		}]
-	}]
-}
-
 import "raycast";
 class Weapons {
     function main_fire() {
