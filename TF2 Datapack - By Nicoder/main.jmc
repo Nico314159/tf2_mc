@@ -325,7 +325,9 @@ class Spawn {
         tag @s add tf2.dead;
         tag @s remove tf2.said_death_msg;
         tag @s remove tf2.on_fire;
-        tag @s remove tf2.uber_patient;
+        if (entity @s[tag=tf2.uber_patient]) {
+            Class.Medic.uber_model(remove, patient);
+        }
         tf2.afterburn_ticks:@s =
         tf2.interpolate_rmb:@s = 0;
         tf2.time_surfaced:@s = tf2.drown_lost:@s = 0;

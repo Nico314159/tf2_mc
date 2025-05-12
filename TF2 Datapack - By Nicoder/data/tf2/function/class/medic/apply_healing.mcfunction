@@ -29,5 +29,5 @@ execute if score @s tf2.health >= $slow_threshold tf2.var if score $medic_count 
 scoreboard players operation $current tf2.batch_number = @s tf2.batch_number
 execute as @e[type=marker,tag=tf2.in_use,tag=tf2.setup_time] if score $current tf2.batch_number = @s tf2.batch_number run scoreboard players operation $uber_gain tf2.var *= 3 tf2.const
 scoreboard players operation @p[tag=self] tf2.ubercharge += $uber_gain tf2.var
-execute if entity @p[tag=self,tag=tf2.uber_source] run tag @s add tf2.uber_patient
+execute if entity @p[tag=self,tag=tf2.uber_source] run function tf2:__private__/if_else/7
 execute at @p[tag=self] anchored eyes facing entity @s eyes run function tf2:class/medic/particlefx

@@ -111,7 +111,6 @@ class Class.Scout {
         if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat;
 
         $_count_ = clear @s iron_leggings 0;
-        if ($_count_ != 1) say "COUNT IS NOT ONE!";
         if ($_count_ != 1) clear @s iron_leggings;
         if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/scout/leg_model;
 

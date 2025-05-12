@@ -1,6 +1,3 @@
-scoreboard players operation @s tf2.mot_x *= $elasticity tf2.var
-scoreboard players operation @s tf2.mot_x /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_y *= $elasticity tf2.var
-scoreboard players operation @s tf2.mot_y /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_z *= $elasticity tf2.var
-scoreboard players operation @s tf2.mot_z /= 1000 tf2.const
+execute store result score $mu tf2.var run data get storage tf2:forces collision_friction 1000
+scoreboard players operation $friction tf2.var *= $mu tf2.var
+scoreboard players operation $friction tf2.var /= 1000 tf2.const

@@ -18,5 +18,5 @@ scoreboard players operation @s tf2.mot_y = $mot.mot_y tf2.var
 execute store result score @s tf2.hitbox_y run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.hitbox 19.050
 scoreboard players operation @s tf2.mot_z = $mot.mot_z tf2.var
 execute store result score @s tf2.hitbox_z run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.hitbox 19.050
-execute if data storage tf2:lookup item.components.minecraft:custom_data.projectile.forces.torque run function tf2:__private__/if_else/14
+execute if data storage tf2:lookup item.components.minecraft:custom_data.projectile.forces.torque run function tf2:__private__/if_else/16
 tag @s remove tf2.new

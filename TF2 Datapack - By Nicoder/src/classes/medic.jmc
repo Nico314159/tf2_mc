@@ -79,6 +79,23 @@ new predicate(ubercharge) {
 
 class Class.Medic {
 
+	@lazy	
+	function uber_model(x, y) {
+		JMC.python(`
+		condition = 'entity @s[tag=tf2.uber_$y]'
+		if '$x' == 'remove': 
+			condition = condition.replace('=', '=!')
+
+		emit(f'''
+		execute if {condition} run return fail
+		tag @s $x tf2.uber_$y
+		item replace entity @s armor.head with air
+		item replace entity @s armor.chest with air
+		item replace entity @s armor.legs with air
+		''')
+		`, jmc=false);
+	}
+
 	function give() {
 		tf2.class:@s = Class.MEDIC;
 		tf2.max_health:@s = tf2.health:@s = 150;
@@ -220,7 +237,7 @@ class Class.Medic {
 		tag @e remove tf2.valid_heal_target;
 	}
 	function disconnect() {
-		tag @s remove tf2.uber_patient;
+		this.uber_model(remove, patient);
 		scoreboard players reset @p[tag=self] tf2.heal_target;
 	}
 	function apply_healing() {
@@ -273,7 +290,7 @@ class Class.Medic {
 		tf2.ubercharge:@p[tag=self] += $uber_gain;
 
 		if (entity @p[tag=self, tag=tf2.uber_source]) {
-			tag @s add tf2.uber_patient;
+			this.uber_model(add, patient);
 		}
 
 		execute at @p[tag=self] 
@@ -298,7 +315,7 @@ class Class.Medic {
 	function activate_uber() {
 		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build * EVAL(4 * 20);
 		if (tf2.ubercharge:@s >= $full_bar) {
-			tag @s add tf2.uber_source;
+			this.uber_model(add, source);
 		}
 	}
 	@lazy
@@ -323,11 +340,14 @@ class Class.Medic {
 
 		tf2.ubercharge:@s[tag=tf2.uber_source] -= $drain_rate;
 		tf2.ubercharge:@s[tag=tf2.uber_source] > 0;
-		tag @s[scores={tf2.ubercharge=..0}] remove tf2.uber_source;
+		if (tf2.ubercharge:@s > 0) {
+			return 1;
+		}
+		this.uber_model(remove, source);
 	}
 	function drop_uber_on_death() {
 		scoreboard players reset @s tf2.heal_target;
 		tf2.ubercharge:@s = 0;
-		tag @s remove tf2.uber_source;
+		this.uber_model(remove, source);
 	}
 }

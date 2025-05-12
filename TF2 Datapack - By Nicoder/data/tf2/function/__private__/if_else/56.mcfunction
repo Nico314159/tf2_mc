@@ -1,2 +1,3 @@
-execute as @e[tag=tf2.self] run function tf2:weapons/reload
-kill @s
+data modify storage tf2:lookup damages append value {instakill:true,cause:-2147483648,kill_verb:"fell into the void"}
+execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @s tf2.player.id
+tp @s ~ 5 ~

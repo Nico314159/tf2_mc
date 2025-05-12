@@ -12,7 +12,6 @@ execute store result score $_count_ tf2.var run clear @s *[custom_data~{key:32}]
 execute unless score $_count_ tf2.var matches 1 run clear @s *[custom_data~{key:32}]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s hotbar.2 loot tf2:class/scout/baseball_bat
 execute store result score $_count_ tf2.var run clear @s iron_leggings 0
-execute unless score $_count_ tf2.var matches 1 run say COUNT IS NOT ONE!
 execute unless score $_count_ tf2.var matches 1 run clear @s iron_leggings
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.legs loot tf2:class/scout/leg_model
 execute store result score $_count_ tf2.var run clear @s iron_chestplate 0

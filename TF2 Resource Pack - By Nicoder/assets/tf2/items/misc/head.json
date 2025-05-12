@@ -49,17 +49,43 @@
             {
                 "when": "sniper",
                 "model": {
-                    "type": "minecraft:condition",
+                    "type": "minecraft:select",
                     "property": "minecraft:custom_model_data",
-                    "index": 0,
-                    "on_true": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/uber/sniper"
-                    },
-                    "on_false": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/sniper"
-                    }
+                    "index": 1,
+                    "cases": [
+                        {
+                            "when": "red",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/sniper_red"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/sniper"
+                                }
+                            }
+                        },
+                        {
+                            "when": "blu",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/sniper_blu"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/sniper"
+                                }
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -149,49 +175,127 @@
             {
                 "when": "demoman",
                 "model": {
-                    "type": "minecraft:condition",
+                    "type": "minecraft:select",
                     "property": "minecraft:custom_model_data",
-                    "index": 0,
-                    "on_true": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/uber/demoman"
-                    },
-                    "on_false": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/demoman"
-                    }
+                    "index": 1,
+                    "cases": [
+                        {
+                            "when": "red",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/demoman_red"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/demoman"
+                                }
+                            }
+                        },
+                        {
+                            "when": "blu",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/demoman_blu"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/demoman"
+                                }
+                            }
+                        }
+                    ]
                 }
             },
             {
                 "when": "heavy",
                 "model": {
-                    "type": "minecraft:condition",
+                    "type": "minecraft:select",
                     "property": "minecraft:custom_model_data",
-                    "index": 0,
-                    "on_true": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/uber/heavy"
-                    },
-                    "on_false": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/heavy"
-                    }
+                    "index": 1,
+                    "cases": [
+                        {
+                            "when": "red",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/heavy_red"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/heavy"
+                                }
+                            }
+                        },
+                        {
+                            "when": "blu",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/heavy_blu"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/heavy"
+                                }
+                            }
+                        }
+                    ]
                 }
             },
             {
                 "when": "pyro",
                 "model": {
-                    "type": "minecraft:condition",
+                    "type": "minecraft:select",
                     "property": "minecraft:custom_model_data",
-                    "index": 0,
-                    "on_true": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/uber/pyro"
-                    },
-                    "on_false": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/pyro"
-                    }
+                    "index": 1,
+                    "cases": [
+                        {
+                            "when": "red",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/pyro_red"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/pyro"
+                                }
+                            }
+                        },
+                        {
+                            "when": "blu",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/pyro_blu"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/pyro"
+                                }
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -239,17 +343,43 @@
             {
                 "when": "medic",
                 "model": {
-                    "type": "minecraft:condition",
+                    "type": "minecraft:select",
                     "property": "minecraft:custom_model_data",
-                    "index": 0,
-                    "on_true": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/uber/medic"
-                    },
-                    "on_false": {
-                        "type": "minecraft:model",
-                        "model": "tf2:head/medic"
-                    }
+                    "index": 1,
+                    "cases": [
+                        {
+                            "when": "red",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/medic_red"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/medic"
+                                }
+                            }
+                        },
+                        {
+                            "when": "blu",
+                            "model": {
+                                "type": "minecraft:condition",
+                                "property": "minecraft:custom_model_data",
+                                "index": 0,
+                                "on_true": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/uber/medic_blu"
+                                },
+                                "on_false": {
+                                    "type": "minecraft:model",
+                                    "model": "tf2:head/medic"
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         ]

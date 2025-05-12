@@ -225,7 +225,7 @@ class Player {
             this.overheal_decay();
         }
 		if (!entity @a[tag=tf2.search, tag=tf2.uber_source]) {
-			tag @s remove tf2.uber_patient;
+			Class.Medic.uber_model(remove, patient);
 		}
 		tag @e remove tf2.search;
 

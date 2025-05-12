@@ -359,8 +359,8 @@ Trigger.add(autoreload, () => {
 				},
 				{
 					"function": "minecraft:set_custom_model_data",
-					"strings": {
-						"values": ["uber"],
+					"flags": {
+						"values": [true],
 						"mode": "append"
 					},
 					"conditions": [

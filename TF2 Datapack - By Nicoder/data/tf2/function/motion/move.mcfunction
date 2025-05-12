@@ -29,8 +29,8 @@ scoreboard players operation $mot.motion_head_x tf2.var = $mot.head_x tf2.var
 scoreboard players operation $mot.motion_tail_x tf2.var = $mot.tail_x tf2.var
 scoreboard players operation $mot.motion_head_x tf2.var %= 500 tf2.const
 scoreboard players operation $mot.motion_tail_x tf2.var %= 500 tf2.const
-execute if score $mot.sign_x tf2.var matches 1 run function tf2:__private__/if_else/32
-execute if score $mot.sign_x tf2.var matches 1 run function tf2:__private__/if_else/33
+execute if score $mot.sign_x tf2.var matches 1 run function tf2:__private__/if_else/34
+execute if score $mot.sign_x tf2.var matches 1 run function tf2:__private__/if_else/35
 scoreboard players operation $mot.distance_head_x tf2.var = $mot.delta_x tf2.var
 scoreboard players operation $mot.distance_tail_x tf2.var = $mot.delta_x tf2.var
 scoreboard players operation $mot.distance_head_x tf2.var *= $mot.motion_head_x tf2.var
@@ -68,8 +68,8 @@ scoreboard players operation $mot.motion_head_y tf2.var = $mot.head_y tf2.var
 scoreboard players operation $mot.motion_tail_y tf2.var = $mot.tail_y tf2.var
 scoreboard players operation $mot.motion_head_y tf2.var %= 500 tf2.const
 scoreboard players operation $mot.motion_tail_y tf2.var %= 500 tf2.const
-execute if score $mot.sign_y tf2.var matches 1 run function tf2:__private__/if_else/34
-execute if score $mot.sign_y tf2.var matches 1 run function tf2:__private__/if_else/35
+execute if score $mot.sign_y tf2.var matches 1 run function tf2:__private__/if_else/36
+execute if score $mot.sign_y tf2.var matches 1 run function tf2:__private__/if_else/37
 scoreboard players operation $mot.distance_head_y tf2.var = $mot.delta_y tf2.var
 scoreboard players operation $mot.distance_tail_y tf2.var = $mot.delta_y tf2.var
 scoreboard players operation $mot.distance_head_y tf2.var *= $mot.motion_head_y tf2.var
@@ -107,8 +107,8 @@ scoreboard players operation $mot.motion_head_z tf2.var = $mot.head_z tf2.var
 scoreboard players operation $mot.motion_tail_z tf2.var = $mot.tail_z tf2.var
 scoreboard players operation $mot.motion_head_z tf2.var %= 500 tf2.const
 scoreboard players operation $mot.motion_tail_z tf2.var %= 500 tf2.const
-execute if score $mot.sign_z tf2.var matches 1 run function tf2:__private__/if_else/36
-execute if score $mot.sign_z tf2.var matches 1 run function tf2:__private__/if_else/37
+execute if score $mot.sign_z tf2.var matches 1 run function tf2:__private__/if_else/38
+execute if score $mot.sign_z tf2.var matches 1 run function tf2:__private__/if_else/39
 scoreboard players operation $mot.distance_head_z tf2.var = $mot.delta_z tf2.var
 scoreboard players operation $mot.distance_tail_z tf2.var = $mot.delta_z tf2.var
 scoreboard players operation $mot.distance_head_z tf2.var *= $mot.motion_head_z tf2.var
@@ -122,7 +122,7 @@ scoreboard players set @s tf2.collision 0
 execute unless score @s tf2.collision_x matches 0 run scoreboard players set @s tf2.collision 1
 execute unless score @s tf2.collision_y matches 0 run scoreboard players set @s tf2.collision 1
 execute unless score @s tf2.collision_z matches 0 run scoreboard players set @s tf2.collision 1
-execute if score @s tf2.collision matches 1 if score @s tf2.halt matches 1 run function tf2:__private__/if_else/41
+execute if score @s tf2.collision matches 1 if score @s tf2.halt matches 1 run function tf2:__private__/if_else/43
 scoreboard players operation $mot.motion_head_x tf2.var < @s tf2.mot_x
 scoreboard players operation $mot.motion_head_x tf2.var *= $mot.sign_x tf2.var
 scoreboard players operation @s tf2.x += $mot.motion_head_x tf2.var

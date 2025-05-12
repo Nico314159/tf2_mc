@@ -3,4 +3,9 @@ execute store result score $drain_rate tf2.var run data get entity @s Inventory[
 scoreboard players operation $drain_rate tf2.var /= $duration tf2.var
 scoreboard players operation @s[tag=tf2.uber_source] tf2.ubercharge -= $drain_rate tf2.var
 scoreboard players operation @s[tag=tf2.uber_source] tf2.ubercharge > 0 tf2.const
-tag @s[scores={tf2.ubercharge=..0}] remove tf2.uber_source
+execute if score @s tf2.ubercharge matches 1.. run return 1
+execute if entity @s[tag=!tf2.uber_source] run return fail
+tag @s remove tf2.uber_source
+item replace entity @s armor.head with air
+item replace entity @s armor.chest with air
+item replace entity @s armor.legs with air

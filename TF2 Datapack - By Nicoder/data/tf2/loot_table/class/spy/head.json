@@ -66,9 +66,9 @@
                 },
                 {
                     "function": "minecraft:set_custom_model_data",
-                    "strings": {
+                    "flags": {
                         "values": [
-                            "uber"
+                            true
                         ],
                         "mode": "append"
                     },

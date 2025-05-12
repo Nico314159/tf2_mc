@@ -1,6 +1,3 @@
-scoreboard players operation @s tf2.mot_x *= 600 tf2.const
-scoreboard players operation @s tf2.mot_x /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_y *= 600 tf2.const
-scoreboard players operation @s tf2.mot_y /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_z *= 600 tf2.const
-scoreboard players operation @s tf2.mot_z /= 1000 tf2.const
+scoreboard players set $mot.temp_hitbox_x tf2.var -1
+scoreboard players set $mot.temp_hitbox_y tf2.var -1
+scoreboard players set $mot.temp_hitbox_z tf2.var -1
