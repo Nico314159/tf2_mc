@@ -245,18 +245,52 @@ class Class.Pyro {
 		tf2.team:@s = tf2.team:@p[tag=origin];
 
 		// Change team visually
-		$team_info = tf2.model_number:@s;
-		$team_info %= 1500;
-		if ($team_info matches 500..999) {
-			tf2.model_number:@s += 500;
-		}
-		if ($team_info matches 1000..1499) {
-			tf2.model_number:@s -= 500;
-		}
-		item modify entity @s contents { 
-            "function": "minecraft:set_custom_model_data",
-            "value": {"type": "minecraft:score", "target": "this", "score": "tf2.model_number"}
-        };
+		item modify entity @s contents [
+			{
+				"function": "minecraft:set_custom_model_data",
+				"strings": {
+					"values": ["blu"],
+					"mode": "insert"
+				},
+				"conditions": [{
+					"condition": "minecraft:entity_properties",
+					"entity": "this",
+					"predicate": {
+						"slots": {
+							"contents": {
+								"components": {
+									"minecraft:custom_model_data": {
+										"strings": ["red"]
+									}
+								}
+							}
+						}
+					}
+				}]
+			},
+			{
+				"function": "minecraft:set_custom_model_data",
+				"strings": { 
+					"values": ["red"], 
+					"mode": "insert" 
+				},
+				"conditions": [{
+					"condition": "minecraft:entity_properties",
+					"entity": "this",
+					"predicate": {
+						"slots": {
+							"contents": {
+								"components": {
+									"minecraft:custom_model_data": {
+										"strings": ["blu"]
+									}
+								}
+							}
+						}
+					}
+				}]
+			}
+		];
 
 		// Get existing motion vector & its length
 		$motion_length = 0;
