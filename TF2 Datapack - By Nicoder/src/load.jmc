@@ -73,6 +73,11 @@ TextProp.hoverText("retina_hover", "https://github.com/Nico314159/Retina_v2", tr
 $found_dependency ?= execute run function retina:__load__;
 if (!$found_dependency) return run Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,retina_link,retina_hover>Retina 2&<red> was not found.");
 
+TextProp.clickURL("iris_link", "https://github.com/Aeldrion/Iris", true);
+TextProp.hoverText("iris_hover", "https://github.com/Aeldrion/Iris", true);
+$found_dependency ?= execute run function iris:setup/load;
+if (!$found_dependency) return run Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,iris_link,iris_hover>Iris&<red> was not found.");
+
 TextProp.clickURL("delta_link", "https://github.com/MulverineX/player_motion", true);
 TextProp.hoverText("delta_hover", "https://github.com/MulverineX/player_motion", true);
 $found_dependency ?= execute run function player_motion:internal/technical/load;

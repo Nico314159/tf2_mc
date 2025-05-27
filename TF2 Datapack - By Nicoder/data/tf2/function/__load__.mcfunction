@@ -15,14 +15,14 @@ scoreboard players set 1800 tf2.const 1800
 scoreboard players set 8 tf2.const 8
 scoreboard players set 10 tf2.const 10
 scoreboard players set 1 tf2.const 1
-scoreboard players set 9 tf2.const 9
+scoreboard players set 12 tf2.const 12
 scoreboard players set 13 tf2.const 13
+scoreboard players set 9 tf2.const 9
 scoreboard players set 15 tf2.const 15
 scoreboard players set 10000 tf2.const 10000
 scoreboard players set 1425 tf2.const 1425
 scoreboard players set 3600 tf2.const 3600
 scoreboard players set 20 tf2.const 20
-scoreboard players set 25 tf2.const 25
 scoreboard players set 1050 tf2.const 1050
 scoreboard players set -100 tf2.const -100
 scoreboard players set 800 tf2.const 800
@@ -216,6 +216,8 @@ bossbar add tf2:blu_timer_5 ""
 bossbar set tf2:blu_timer_5 color blue
 execute store success score $found_dependency tf2.var run function retina:__load__
 execute unless score $found_dependency tf2.var matches 1.. run return run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"Retina 2","color":"aqua","underlined":true,"click_event":{"action":"open_url","url":"https://github.com/Nico314159/Retina_v2"},"hover_event":{"action":"show_text","value":"https://github.com/Nico314159/Retina_v2"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
+execute store success score $found_dependency tf2.var run function iris:setup/load
+execute unless score $found_dependency tf2.var matches 1.. run return run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"Iris","color":"aqua","underlined":true,"click_event":{"action":"open_url","url":"https://github.com/Aeldrion/Iris"},"hover_event":{"action":"show_text","value":"https://github.com/Aeldrion/Iris"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
 execute store success score $found_dependency tf2.var run function player_motion:internal/technical/load
 execute unless score $found_dependency tf2.var matches 1.. run return run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"player_motion","color":"aqua","underlined":true,"click_event":{"action":"open_url","url":"https://github.com/MulverineX/player_motion"},"hover_event":{"action":"show_text","value":"https://github.com/MulverineX/player_motion"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
 execute store success score $profiler_installed tf2.var run function timekeeper:__load__

@@ -7,4 +7,4 @@ scoreboard players operation @s tf2.uuid.0 = $uuid.0 tf2.var
 scoreboard players operation @s tf2.uuid.1 = $uuid.1 tf2.var
 scoreboard players operation @s tf2.uuid.2 = $uuid.2 tf2.var
 scoreboard players operation @s tf2.uuid.3 = $uuid.3 tf2.var
-tag @s add retina.ignore
+tag @s add iris.ignore

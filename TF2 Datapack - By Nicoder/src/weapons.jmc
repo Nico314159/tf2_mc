@@ -186,7 +186,7 @@ new item_modifier(load_crossbow) [
 	}
 ];
 
-new tags.function(retina.on_hit) {
+new tags.function(iris.on_hit) {
     "values": [
         "tf2:weapons/on_hit"
     ],
@@ -300,8 +300,9 @@ class Weapons {
         tf2.team:$current = tf2.team:@s;
         lookup::item = @s::SelectedItem;
         multicast::{} += lookup::item.components.minecraft:custom_data.retina;
-        retina:input::TargetBlocks = true;
-        retina:input::TargetEntities = true;
+        // retina:input::TargetBlocks = true;
+        iris:settings::MaxRecursionDepth = lookup::item.components.minecraft:custom_data.retina.MaxRecursionDepth;
+        iris:settings::TargetEntities = true;
         
         if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery) expand {
             $_sr_ = lookup::item.components.minecraft:custom_data.attributes.spreadRecovery;
@@ -315,7 +316,7 @@ class Weapons {
         if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.range) $_range_ = 2147483647;
         if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
-        // retina._variable_:$end_particle = true;
+        // iris._variable_:$end_particle = true;
 
         if (predicate tf2:holding_projectile) {
             Projectile.spawn();
@@ -323,14 +324,14 @@ class Weapons {
         if (!predicate tf2:holding_projectile) {
             this.hitscan();
         }
-        // retina._variable_:$end_particle = false;
+        // iris._variable_:$end_particle = false;
         $_delay_ = lookup::item.components.minecraft:custom_data.attributes.attackDelay * 20000;
         tf2.attack_delay:@s += $_delay_;
 
         // Melee sound effects
         if (predicate tf2:holding_melee) return run {
             execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-            if (!data storage retina:output {Target: "ENTITY"}) {
+            if (!data storage iris:output {TargetType: "ENTITY"}) {
                 return run playsound tf2:item.melee.miss player @s ~ ~ ~ 0.35 0.35 0.1;
             }
             playsound tf2:item.melee.hit player @s ~ ~ ~ 1.5 0.9 0.1;
@@ -417,10 +418,10 @@ class Weapons {
         $spread_least = multicast::SpreadFactor[0];
         $spread_most = multicast::SpreadFactor[1];
 
-        retina.__variable__:$single_call = false;
-        tag @e remove retina.target;
-        scoreboard players reset * retina.hit;
-        kill @e[type=marker,tag=retina.endpoint];
+        iris.__variable__:$single_call = false;
+        tag @e remove iris.target;
+        scoreboard players reset * iris.hit;
+        kill @e[type=marker,tag=iris.endpoint];
         $input_pitch = @s::Rotation[1] * 10;
         $input_yaw = @s::Rotation[0] * 10;
         Math.gimbal_to_matrix();
@@ -428,15 +429,17 @@ class Weapons {
             for ($j = 0; $j < $vertical_count; $j += 10) {
                 Math.Sway_Heave_Surge.find();
                 Math.Sway_Heave_Surge.apply();
-                retina.__variable__:$output_vec3.X = $output_vector_x;
-                retina.__variable__:$output_vec3.Y = $output_vector_y;
-                retina.__variable__:$output_vec3.Z = $output_vector_z;
-                Raycast.damaging();
+                raycast::direction.X = EVAL(1 / 480) * (float) $output_vector_x;
+                raycast::direction.Y = EVAL(1 / 480) * (float) $output_vector_y;
+                raycast::direction.Z = EVAL(1 / 480) * (float) $output_vector_z;
+                execute at @s anchored eyes positioned ^ ^ ^ run Raycast.damaging();
             } 
         }
 
-        for ($k = 0; $k < $centered_count; $k++) {Raycast.damaging();}
-        retina.__variable__:$single_call = true;
+        for ($k = 0; $k < $centered_count; $k++) {
+            execute at @s anchored eyes positioned ^ ^ ^ run Raycast.damaging();
+        }
+        iris.__variable__:$single_call = true;
     }
 
     function get_ammo() {
@@ -526,13 +529,18 @@ class Weapons {
         return 1;
     }
     function on_hit() {
-        if (!$callback) {return fail;}
-
-        vars::distance = retina:output::Distance;
+        vars::distance = iris:output::Distance;
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
-        execute as @e[type=#tf2:player_like, scores={retina.hit=1..}, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
+        execute as @e[type=#tf2:player_like, tag=iris.target, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
+    }
+    function get_endpoint() {
+        function iris:set_coordinates/main;
+        summon::line.endX = @s::Pos[0];
+        summon::line.endY = @s::Pos[1];
+        summon::line.endZ = @s::Pos[2];
+        kill @s;
     }
     function draw_line() {
         // Get weapon position
@@ -544,9 +552,7 @@ class Weapons {
         }
 
         // Get vector from start to end
-        summon::line.endX = retina:output::ContactCoordinates[0];
-        summon::line.endY = retina:output::ContactCoordinates[1];
-        summon::line.endZ = retina:output::ContactCoordinates[2];
+        execute summon marker run this.get_endpoint();
 
         $length = 0;
         Hardcode.repeatList("[AXIS]", () => {
@@ -604,11 +610,11 @@ class Weapons {
         }
         // TODO: implement critical hits and resistances
         
-        if ($_hitHead_ && entity @a[tag=retina.executing, scores={tf2.class=Class.SNIPER, tf2.time_scoped=4..}]) {
+        if ($_hitHead_ && entity @a[tag=iris.executing, scores={tf2.class=Class.SNIPER, tf2.time_scoped=4..}]) {
             vars::kill_verb = "headshot";
         } 
 
-        $cause = tf2.player.id:@a[tag=retina.executing, limit=1];
+        $cause = tf2.player.id:@a[tag=iris.executing, limit=1];
         $target = tf2.player.id:@s;
         
         if (Damage.try_merge_into_last()) {
@@ -620,7 +626,7 @@ class Weapons {
         lookup::damages[-1].target = $target;
         lookup::damages[-1].amount = $_finalDamage_;
         lookup::damages[-1].kill_verb = vars::kill_verb;
-        lookup::damages[-1].weapon = @a[tag=retina.executing, limit=1]::SelectedItem.components.minecraft:custom_name;
+        lookup::damages[-1].weapon = @a[tag=iris.executing, limit=1]::SelectedItem.components.minecraft:custom_name;
         return true;
     }
 
@@ -656,7 +662,7 @@ class Weapons {
             $_multiplier_ /= 100;
             $_multiplier_ += 100;
         }
-        else if (entity @a[tag=retina.executing, scores={tf2.class=Class.SNIPER, tf2.time_scoped=4..}]) {
+        else if (entity @a[tag=iris.executing, scores={tf2.class=Class.SNIPER, tf2.time_scoped=4..}]) {
             Class.Sniper.damage_scale();
         }
         else {$_multiplier_ = 100;}

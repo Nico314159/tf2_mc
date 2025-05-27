@@ -381,7 +381,7 @@ class Player {
             ],
             Invulnerable: 1b,
             Silent: 1b,
-            Tags: ["tf2.no_respawn", "tf2.new", "retina.ignore"],
+            Tags: ["tf2.no_respawn", "tf2.new", "iris.ignore"],
             active_effects: [{id:"minecraft:invisibility",amplifier:1b,duration:-1,show_particles:0b,show_icon:0b,ambient:0b}],
             Passengers: [{
                 id: "minecraft:item",

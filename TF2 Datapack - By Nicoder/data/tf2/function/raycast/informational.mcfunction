@@ -1,3 +1,4 @@
-scoreboard players set $callback tf2.var 0
-data merge storage retina:input {MaxRecursionDepth:127b,VerticalCount:1,HorizontalCount:1,CenteredCount:0,TargetEntities:true,SpreadFactor:[0,0]}
-function retina:traverse/setup
+data remove storage iris:settings Callback
+data merge storage iris:settings {MaxRecursionDepth:127,TargetEntities:true}
+execute unless data storage tf2:raycast direction run return run execute at @s anchored eyes positioned ^ ^ ^ run function iris:get_target
+function tf2:raycast/contact with storage tf2:raycast direction

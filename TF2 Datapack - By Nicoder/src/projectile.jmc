@@ -502,16 +502,20 @@ class Projectile {
         execute summon marker run {
             @s::NoAI = 1b;
             rotate @s facing entity @e[tag=tf2.player,limit=1] eyes;
+            $input_pitch = @s::Rotation[1] * 10;
+            $input_yaw = @s::Rotation[0] * 10;
+            Math.gimbal_to_vector();
             Raycast.informational();
             kill @s;
         }
-        vars::distance = retina:output::Distance;
+        vars::distance = iris:output::Distance;
         tag @s remove tf2.player;
         if (entity @s[tag=tf2.hit_by_projectile]) expand {
             vars::distance = 0;
             this.splash_damage();
         }
-        if (!entity @s[tag=tf2.hit_by_projectile] && data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
+        vars::id = iris.entity_id:@e[type=#tf2:player_like,tag=tf2.check,limit=1];
+        if (!entity @s[tag=tf2.hit_by_projectile] && data storage iris:output {TargetType: "ENTITY"} && Object.isEqual("iris:output", "TargetedEntity", "tf2:vars", "id")) {
             this.splash_damage();
         } 
     }
@@ -571,12 +575,12 @@ class Projectile {
         return run $_finalDamage_.get();
     }
     function knockback() {
-        player_motion.api.launch:$x = retina.__variable__:$output_vec3.X;
-        player_motion.api.launch:$x *= EVAL (12000 / Retina.SCALE);
-        player_motion.api.launch:$y = retina.__variable__:$output_vec3.Y;
-        player_motion.api.launch:$y *= EVAL (12000 / Retina.SCALE);
-        player_motion.api.launch:$z = retina.__variable__:$output_vec3.Z;
-        player_motion.api.launch:$z *= EVAL (12000 / Retina.SCALE);
+        player_motion.api.launch:$x = $output_vector_x;
+        player_motion.api.launch:$x *= 12;
+        player_motion.api.launch:$y = $output_vector_y;
+        player_motion.api.launch:$y *= 12;
+        player_motion.api.launch:$z = $output_vector_z;
+        player_motion.api.launch:$z *= 12;
         function player_motion:api/launch_xyz;
     }
     function detonate_if_armed() {

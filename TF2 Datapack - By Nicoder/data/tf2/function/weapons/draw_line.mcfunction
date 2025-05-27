@@ -1,7 +1,5 @@
 execute anchored eyes positioned ^-0.25 ^-0.25 ^ positioned ~ ~ ~ summon minecraft:marker run function tf2:__private__/anonymous/8
-data modify storage tf2:summon line.endX set from storage retina:output ContactCoordinates[0]
-data modify storage tf2:summon line.endY set from storage retina:output ContactCoordinates[1]
-data modify storage tf2:summon line.endZ set from storage retina:output ContactCoordinates[2]
+execute summon marker run function tf2:weapons/get_endpoint
 scoreboard players set $length tf2.var 0
 execute store result score $component tf2.var run data get storage tf2:summon line.endX 1000
 execute store result score $start tf2.var run data get storage tf2:summon line.X 1000

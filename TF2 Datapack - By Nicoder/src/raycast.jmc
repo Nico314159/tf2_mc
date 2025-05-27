@@ -1,11 +1,20 @@
 class Raycast {
     function damaging() {
-        $callback = true;
-        function retina:traverse/setup;
+        iris:settings::Callback = "tf2:weapons/on_hit";
+        if (!data storage tf2:raycast direction) return run {
+            function iris:get_target;
+        }
+        this.contact() with raycast::direction;
     }
     function informational() {
-        $callback = false;
-        retina:input:: += {MaxRecursionDepth: 127b, VerticalCount: 1, HorizontalCount: 1, CenteredCount: 0, TargetEntities: true, SpreadFactor: [0, 0]};
-        function retina:traverse/setup; 
+        iris:settings::Callback.del();
+        iris:settings:: += {MaxRecursionDepth: 127, TargetEntities: true};
+        if (!data storage tf2:raycast direction) return run {
+            execute at @s anchored eyes positioned ^ ^ ^ run function iris:get_target;
+        }
+        this.contact() with raycast::direction;
+    }
+    function contact() {
+        $ execute facing ~$(X) ~$(Y) ~$(Z) run function iris:get_target;
     }
 }
