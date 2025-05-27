@@ -1,4 +1,4 @@
-execute store result score $_centerDist_ tf2.var run data get storage retina:output Distance 52.493
+execute store result score $_centerDist_ tf2.var run data get storage tf2:vars distance 52.493
 execute store result score $_splashEdge_ tf2.var run data get storage tf2:vars radius 52.493
 function tf2:projectile/pythagorean_3d
 scoreboard players operation $_finalDamage_ tf2.var = $_damage_ tf2.var

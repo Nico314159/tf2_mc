@@ -501,14 +501,14 @@ class Projectile {
         tag @s add tf2.player;
         execute summon marker run {
             @s::NoAI = 1b;
-            retina:input:: += {MaxRecursionDepth: 127b, VerticalCount: 1, HorizontalCount: 1, CenteredCount: 0, TargetEntities: true};
             rotate @s facing entity @e[tag=tf2.player,limit=1] eyes;
             Raycast.informational();
             kill @s;
         }
+        vars::distance = retina:output::Distance;
         tag @s remove tf2.player;
         if (entity @s[tag=tf2.hit_by_projectile]) expand {
-            retina:output::Distance = 0;
+            vars::distance = 0;
             this.splash_damage();
         }
         if (!entity @s[tag=tf2.hit_by_projectile] && data storage retina:output {Target: "ENTITY"} && Object.isEqual("retina:output", "TargetedEntity.UUID", "@e[type=#tf2:player_like,tag=tf2.check,limit=1]", "UUID")) {
@@ -532,7 +532,7 @@ class Projectile {
         this.knockback();
     }
     function calculate_splash() {
-        $_centerDist_ = retina:output::Distance * EVAL (1 / 0.01905);
+        $_centerDist_ = vars::distance * EVAL (1 / 0.01905);
         $_splashEdge_ = vars::radius * EVAL (1 / 0.01905);
         this.pythagorean_3D();
         $_finalDamage_ = $_damage_;
