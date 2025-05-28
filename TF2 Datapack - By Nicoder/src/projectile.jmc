@@ -514,7 +514,7 @@ class Projectile {
             vars::distance = 0;
             this.splash_damage();
         }
-        vars::id = iris.entity_id:@e[type=#tf2:player_like,tag=tf2.check,limit=1];
+        vars::id = iris.id:@e[type=#tf2:player_like,tag=tf2.check,limit=1];
         if (!entity @s[tag=tf2.hit_by_projectile] && data storage iris:output {TargetType: "ENTITY"} && Object.isEqual("iris:output", "TargetedEntity", "tf2:vars", "id")) {
             this.splash_damage();
         } 
