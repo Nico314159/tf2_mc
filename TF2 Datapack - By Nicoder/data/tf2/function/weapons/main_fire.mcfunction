@@ -11,8 +11,8 @@ tag @s remove tf2.disguised
 execute unless predicate tf2:holding_melee run playsound tf2:item.gun.shoot player @s ~ ~ ~ 1.35 1 0.1
 scoreboard players operation $current tf2.team = @s tf2.team
 data modify storage tf2:lookup item set from entity @s SelectedItem
-data modify storage tf2:multicast {} merge from storage tf2:lookup item.components.minecraft:custom_data.retina
-data modify storage iris:settings MaxRecursionDepth set from storage tf2:lookup item.components.minecraft:custom_data.retina.MaxRecursionDepth
+data modify storage tf2:multicast {} merge from storage tf2:lookup item.components.minecraft:custom_data.raycast
+data modify storage iris:settings MaxRecursionDepth set from storage tf2:lookup item.components.minecraft:custom_data.raycast.MaxRecursionDepth
 data modify storage iris:settings TargetEntities set value true
 execute if data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery store result score $_sr_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery
 execute if data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery if score @s tf2.time_idle > $_sr_ tf2.var run data modify storage tf2:multicast SpreadFactor set value [0,0]

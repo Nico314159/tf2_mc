@@ -214,8 +214,6 @@ bossbar add tf2:red_timer_5 ""
 bossbar set tf2:red_timer_5 color red
 bossbar add tf2:blu_timer_5 ""
 bossbar set tf2:blu_timer_5 color blue
-execute store success score $found_dependency tf2.var run function retina:__load__
-execute unless score $found_dependency tf2.var matches 1.. run return run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"Retina 2","color":"aqua","underlined":true,"click_event":{"action":"open_url","url":"https://github.com/Nico314159/Retina_v2"},"hover_event":{"action":"show_text","value":"https://github.com/Nico314159/Retina_v2"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
 execute store success score $found_dependency tf2.var run function iris:setup/load
 execute unless score $found_dependency tf2.var matches 1.. run return run tellraw @a ["",{"text":"[ERROR] ","color":"dark_red","type":"text"},{"text":"Dependency ","color":"red","type":"text"},{"text":"Iris","color":"aqua","underlined":true,"click_event":{"action":"open_url","url":"https://github.com/Aeldrion/Iris"},"hover_event":{"action":"show_text","value":"https://github.com/Aeldrion/Iris"},"type":"text"},{"text":" was not found.","color":"red","type":"text"}]
 execute store success score $found_dependency tf2.var run function player_motion:internal/technical/load

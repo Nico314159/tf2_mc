@@ -299,9 +299,8 @@ class Weapons {
 
         tf2.team:$current = tf2.team:@s;
         lookup::item = @s::SelectedItem;
-        multicast::{} += lookup::item.components.minecraft:custom_data.retina;
-        // retina:input::TargetBlocks = true;
-        iris:settings::MaxRecursionDepth = lookup::item.components.minecraft:custom_data.retina.MaxRecursionDepth;
+        multicast::{} += lookup::item.components.minecraft:custom_data.raycast;
+        iris:settings::MaxRecursionDepth = lookup::item.components.minecraft:custom_data.raycast.MaxRecursionDepth;
         iris:settings::TargetEntities = true;
         
         if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery) expand {
@@ -592,7 +591,7 @@ class Weapons {
         if (score @s tf2.team = $current tf2.team) return 0;
         vars::kill_verb.del();
         $_distance_ = vars::distance * 1000;
-        $_hitHead_ = retina:output::HitEntityHead;
+        $_hitHead_ = iris:output::HitEntityHead;
         if ($_distance_ > $_range_) return 0;
         $_finalDamage_ = $_damage_;
         

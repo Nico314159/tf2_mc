@@ -4,6 +4,5 @@
 
 #command rotate
 #override minecraft
-#override retina
 #nometa
 #uninstall

@@ -73,7 +73,7 @@ def make_weapon(
     *, 
     display_name = None,
     base_item = None, 
-    retina = None,
+    raycast = None,
     bullets = None,
     spread = None,
     attributes = None,
@@ -124,7 +124,7 @@ def make_weapon(
         elif len(spread) == 1:
             spread *= 2
 
-        retina = {
+        raycast = {
             "HorizontalCount": bullets[0], 
             "VerticalCount": bullets[1], 
             "CenteredCount": bullets[2],   
@@ -135,8 +135,8 @@ def make_weapon(
         }
 
     custom_data = {}
-    if retina is not None: 
-        custom_data["retina"] = retina
+    if raycast is not None: 
+        custom_data["raycast"] = raycast
     custom_data["attributes"] = attributes
     if projectile is not None: 
         custom_data["projectile"] = projectile

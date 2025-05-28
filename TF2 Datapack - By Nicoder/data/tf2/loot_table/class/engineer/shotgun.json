@@ -29,7 +29,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{retina:{HorizontalCount:3,VerticalCount:3,CenteredCount:1,EndpointEntity:false,TargetEntities:true,SpreadFactor:[100,250],MaxRecursionDepth:500},attributes:{damage:{base:6,maxRamp:1.5},attackDelay:0.625,reloadDelay:[0.87,0.51],clip:6,ammo:32},controls:{main_fire:true,alt_fire:false,reload:1},key:80}"
+                            "tag": "{raycast:{HorizontalCount:3,VerticalCount:3,CenteredCount:1,EndpointEntity:false,TargetEntities:true,SpreadFactor:[100,250],MaxRecursionDepth:500},attributes:{damage:{base:6,maxRamp:1.5},attackDelay:0.625,reloadDelay:[0.87,0.51],clip:6,ammo:32},controls:{main_fire:true,alt_fire:false,reload:1},key:80}"
                         }
                     ]
                 }

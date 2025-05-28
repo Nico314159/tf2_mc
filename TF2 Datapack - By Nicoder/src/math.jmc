@@ -337,21 +337,21 @@ class Math {
         $input = $input_pitch;
         Math.sine();
         $sin_X = $output;
-        $sin_X *= Retina.SCALE;
+        $sin_X *= 480;
         $sin_X /= 1000;
         Math.cosine();
         $cos_X = $output;
-        $cos_X *= Retina.SCALE;
+        $cos_X *= 480;
         $cos_X /= 1000;
 
         $input = $input_yaw;
         Math.sine();
         $sin_Y = $output;
-        $sin_Y *= Retina.SCALE;
+        $sin_Y *= 480;
         $sin_Y /= 1000;
         Math.cosine();
         $cos_Y = $output;
-        $cos_Y *= Retina.SCALE;
+        $cos_Y *= 480;
         $cos_Y /= 1000;
 
         // Compute vectors of matrix
@@ -362,21 +362,21 @@ class Math {
         $output_matrix_YX = $sin_Y;
         $output_matrix_YX *= $sin_X;
         $output_matrix_YX *= -1;
-        $output_matrix_YX /= Retina.SCALE;
+        $output_matrix_YX /= 480;
         $output_matrix_YY = $cos_X;
         $output_matrix_YZ = $cos_Y;
         $output_matrix_YZ *= $sin_X;
-        $output_matrix_YZ /= Retina.SCALE;
+        $output_matrix_YZ /= 480;
 
         $output_matrix_ZX = $sin_Y;
         $output_matrix_ZX *= $cos_X;
         $output_matrix_ZX *= -1;
-        $output_matrix_ZX /= Retina.SCALE;
+        $output_matrix_ZX /= 480;
         $output_matrix_ZY = $sin_X;
         $output_matrix_ZY *= -1;
         $output_matrix_ZZ = $cos_Y;
         $output_matrix_ZZ *= $cos_X;
-        $output_matrix_ZZ /= Retina.SCALE;
+        $output_matrix_ZZ /= 480;
     }
 
 
@@ -541,7 +541,7 @@ class Math {
             $length = Math.sqrt($length);
             Hardcode.repeatList("[pair]", () => {$input_matrix_[pair] = $output_matrix_[pair];}, ["XX", "XY", "XZ", "YX", "YY", "YZ", "ZX", "ZY", "ZZ"]);
             Math.matrix_transform();
-            Hardcode.repeatList("[axis]", () => {$output_vector_[axis] *= Retina.SCALE; $output_vector_[axis] /= $length;}, ["x", "y", "z"]);
+            Hardcode.repeatList("[axis]", () => {$output_vector_[axis] *= 480; $output_vector_[axis] /= $length;}, ["x", "y", "z"]);
             if ($debug_messages) Text.tellraw(@a, "Angled Vector: &<gold, italic>[&<$output_vector_x, italic>, &<$output_vector_y, italic>, &<$output_vector_z, italic>]");
         }
     }
@@ -556,7 +556,7 @@ class Math {
         $output_vector_x = $matrix_column_0;
         $output_vector_x += $matrix_column_1;
         $output_vector_x += $matrix_column_2;
-        $output_vector_x /= Retina.SCALE;
+        $output_vector_x /= 480;
 
         $matrix_column_0 = $input_matrix_XY;
         $matrix_column_1 = $input_matrix_YY;
@@ -567,7 +567,7 @@ class Math {
         $output_vector_y = $matrix_column_0;
         $output_vector_y += $matrix_column_1;
         $output_vector_y += $matrix_column_2;
-        $output_vector_y /= Retina.SCALE;
+        $output_vector_y /= 480;
 
         $matrix_column_0 = $input_matrix_XZ;
         $matrix_column_1 = $input_matrix_YZ;
@@ -578,6 +578,6 @@ class Math {
         $output_vector_z = $matrix_column_0;
         $output_vector_z += $matrix_column_1;
         $output_vector_z += $matrix_column_2;
-        $output_vector_z /= Retina.SCALE;
+        $output_vector_z /= 480;
     }
 }
