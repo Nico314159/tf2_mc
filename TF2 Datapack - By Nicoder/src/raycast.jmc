@@ -1,5 +1,6 @@
 class Raycast {
     function damaging() {
+        tag @e remove iris.executing;
         iris:settings::Callback = "tf2:weapons/on_hit";
         if (!data storage tf2:raycast direction) return run {
             function iris:get_target;
@@ -7,6 +8,7 @@ class Raycast {
         this.contact() with raycast::direction;
     }
     function informational() {
+        tag @e remove iris.executing;
         iris:settings::Callback.del();
         iris:settings:: += {MaxRecursionDepth: 127, TargetEntities: true};
         if (!data storage tf2:raycast direction) return run {
