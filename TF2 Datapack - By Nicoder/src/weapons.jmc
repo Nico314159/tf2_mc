@@ -536,6 +536,7 @@ class Weapons {
     }
     function get_endpoint() {
         function iris:set_coordinates/main;
+        // execute at @s run particle minecraft:electric_spark ~ ~ ~ 0 0 0 0 1 force @a;
         summon::line.endX = @s::Pos[0];
         summon::line.endY = @s::Pos[1];
         summon::line.endZ = @s::Pos[2];
@@ -573,7 +574,9 @@ class Weapons {
                 right_rotation: [0f, 0f, 0f, 1f],
                 translation: [0f, 0f, 0f],
                 scale: [1f, 1f, $(scale)f]
-                }
+                },
+                interpolation_duration: -1,
+                teleport_duration: -1
             };
             $ execute as @e[type=item_display,tag=tf2.visual,tag=tf2.newest]
                       at @s 
