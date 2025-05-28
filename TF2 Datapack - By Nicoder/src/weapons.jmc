@@ -186,13 +186,6 @@ new item_modifier(load_crossbow) [
 	}
 ];
 
-new tags.function(iris.on_hit) {
-    "values": [
-        "tf2:weapons/on_hit"
-    ],
-    "replace": false
-}
-
 new tags.damage_type(minecraft.no_impact) {
     "values": [
         "tf2:screenshake",
@@ -315,7 +308,6 @@ class Weapons {
         if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.range) $_range_ = 2147483647;
         if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
-        // iris._variable_:$end_particle = true;
 
         if (predicate tf2:holding_projectile) {
             Projectile.spawn();
@@ -323,7 +315,7 @@ class Weapons {
         if (!predicate tf2:holding_projectile) {
             this.hitscan();
         }
-        // iris._variable_:$end_particle = false;
+
         $_delay_ = lookup::item.components.minecraft:custom_data.attributes.attackDelay * 20000;
         tf2.attack_delay:@s += $_delay_;
 
@@ -417,9 +409,7 @@ class Weapons {
         $spread_least = multicast::SpreadFactor[0];
         $spread_most = multicast::SpreadFactor[1];
 
-        iris.__variable__:$single_call = false;
         tag @e remove iris.targeted_entity;
-        scoreboard players reset * iris.hit;
         kill @e[type=marker,tag=iris.endpoint];
         $input_pitch = @s::Rotation[1] * 10;
         $input_yaw = @s::Rotation[0] * 10;
@@ -438,7 +428,6 @@ class Weapons {
         for ($k = 0; $k < $centered_count; $k++) {
             execute at @s anchored eyes positioned ^ ^ ^ run Raycast.damaging();
         }
-        iris.__variable__:$single_call = true;
     }
 
     function get_ammo() {
