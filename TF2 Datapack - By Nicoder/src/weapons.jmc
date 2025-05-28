@@ -428,9 +428,9 @@ class Weapons {
             for ($j = 0; $j < $vertical_count; $j += 10) {
                 Math.Sway_Heave_Surge.find();
                 Math.Sway_Heave_Surge.apply();
-                raycast::direction.X = EVAL(1 / 480) * (float) $output_vector_x;
-                raycast::direction.Y = EVAL(1 / 480) * (float) $output_vector_y;
-                raycast::direction.Z = EVAL(1 / 480) * (float) $output_vector_z;
+                raycast::direction.X = EVAL(1 / 1000) * (float) $output_vector_x;
+                raycast::direction.Y = EVAL(1 / 1000) * (float) $output_vector_y;
+                raycast::direction.Z = EVAL(1 / 1000) * (float) $output_vector_z;
                 execute at @s anchored eyes positioned ^ ^ ^ run Raycast.damaging();
             } 
         }
