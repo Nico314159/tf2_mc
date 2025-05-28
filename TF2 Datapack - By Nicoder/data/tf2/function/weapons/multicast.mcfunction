@@ -7,7 +7,7 @@ execute if score $centered_count tf2.var matches ..-1 run return run tellraw @a 
 execute store result score $spread_least tf2.var run data get storage tf2:multicast SpreadFactor[0]
 execute store result score $spread_most tf2.var run data get storage tf2:multicast SpreadFactor[1]
 scoreboard players set $single_call iris.__variable__ 0
-tag @e remove iris.target
+tag @e remove iris.targeted_entity
 scoreboard players reset * iris.hit
 kill @e[type=marker,tag=iris.endpoint]
 execute store result score $input_pitch tf2.var run data get entity @s Rotation[1] 10

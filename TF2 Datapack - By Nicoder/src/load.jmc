@@ -68,14 +68,29 @@ Hardcode.repeat("_i_", () => {
     bossbar set tf2:blu_timer__i_ color blue;
 }, 1, _INSTANCES_CAP_);
 
+function minecraft.success() {
+    return 1;
+}
+new tags.function(iris.dependency_check) {
+    "values": [
+        "minecraft:success",
+        "iris:setup/load"
+    ]
+}
 TextProp.clickURL("iris_link", "https://github.com/Aeldrion/Iris", true);
 TextProp.hoverText("iris_hover", "https://github.com/Aeldrion/Iris", true);
-$found_dependency ?= execute run function iris:setup/load;
+$found_dependency ?= execute run function #iris:dependency_check;
 if (!$found_dependency) return run Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,iris_link,iris_hover>Iris&<red> was not found.");
 
+new tags.function(player_motion.dependency_check) {
+    "values": [
+        "minecraft:success",
+        "player_motion:internal/technical/load"
+    ]
+}
 TextProp.clickURL("delta_link", "https://github.com/MulverineX/player_motion", true);
 TextProp.hoverText("delta_hover", "https://github.com/MulverineX/player_motion", true);
-$found_dependency ?= execute run function player_motion:internal/technical/load;
+$found_dependency ?= execute run function #player_motion:dependency_check;
 if (!$found_dependency) return run Text.tellraw(@a, "&<dark_red>[ERROR] &<red>Dependency &<aqua,underlined,delta_link,delta_hover>player_motion&<red> was not found.");
 
 $profiler_installed ?= execute run function timekeeper:__load__;
