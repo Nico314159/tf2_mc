@@ -418,7 +418,7 @@ class Weapons {
         $spread_most = multicast::SpreadFactor[1];
 
         iris.__variable__:$single_call = false;
-        tag @e remove iris.target;
+        tag @e remove iris.targeted_entity;
         scoreboard players reset * iris.hit;
         kill @e[type=marker,tag=iris.endpoint];
         $input_pitch = @s::Rotation[1] * 10;
@@ -532,7 +532,7 @@ class Weapons {
         execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
-        execute as @e[type=#tf2:player_like, tag=iris.target, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
+        execute as @e[type=#tf2:player_like, tag=iris.targeted_entity, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
     }
     function get_endpoint() {
         function iris:set_coordinates/main;

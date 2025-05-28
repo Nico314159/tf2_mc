@@ -403,12 +403,12 @@ class Class.Spy {
         if (!data storage iris:output {TargetType: "ENTITY"}) {
             return fail;
         }
-        if (entity @a[tag=iris.target,gamemode=spectator]) {
+        if (entity @a[tag=iris.targeted_entity,gamemode=spectator]) {
             return fail;
         }
 
         tf2.team:$current = tf2.team:@s;
-        execute as @a[tag=iris.target,limit=1]
+        execute as @a[tag=iris.targeted_entity,limit=1]
                 if score @s tf2.team = $current tf2.team
                 run return fail;
 
@@ -418,18 +418,18 @@ class Class.Spy {
         if ($enemy_dist > $backstab_range) {return fail;}
 
         lookup::spy_pos = @s::Pos;
-        lookup::enemy_pos = @a[tag=iris.target,limit=1]::Pos;
+        lookup::enemy_pos = @a[tag=iris.targeted_entity,limit=1]::Pos;
 
         // (Spy pos to enemy pos) * (Enemy rotation)
         execute at @s summon marker run tag @s add get_pos;
         execute as @e[type=marker, tag=get_pos] expand {
-            tp @s ~ ~ ~ facing entity @a[tag=iris.target,limit=1] feet;
+            tp @s ~ ~ ~ facing entity @a[tag=iris.targeted_entity,limit=1] feet;
             Math.facing_vector();
             kill @s;
         }
         Math.feed_left();
         
-        execute as @a[tag=iris.target,limit=1] run Math.facing_vector();
+        execute as @a[tag=iris.targeted_entity,limit=1] run Math.facing_vector();
         Math.feed_right();
         Math.dot_product();
         // printf("&<bold>Enemy: &<!bold>[&<$input_vector_2_x>, &<$input_vector_2_y>, &<$input_vector_2_z>]");
@@ -444,7 +444,7 @@ class Class.Spy {
         if ($dot_product < 500) {return fail;}
 
         // (Enemy rotation) * (Spy rotation)
-        execute as @a[tag=iris.target,limit=1] run Math.facing_vector();
+        execute as @a[tag=iris.targeted_entity,limit=1] run Math.facing_vector();
         Math.feed_left();
         Math.dot_product();
         // printf("&<blue>3rd dot product: &<white>&<$dot_product>");
@@ -452,7 +452,7 @@ class Class.Spy {
 
         // $theta_1 = @s::Rotation[0];
         // if ($theta_1 < 0) {$theta_1 += 360;}
-        // $theta_2 = @a[tag=iris.target,limit=1]::Rotation[0];
+        // $theta_2 = @a[tag=iris.targeted_entity,limit=1]::Rotation[0];
         // if ($theta_2 < 0) {$theta_2 += 360;}
         // $theta_1 -= $theta_2;
         // if ($theta_1 matches 90..270) {return fail;}

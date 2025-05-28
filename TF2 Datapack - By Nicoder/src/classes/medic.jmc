@@ -232,7 +232,7 @@ class Class.Medic {
 		Raycast.informational();
 
 		scoreboard players reset @s tf2.heal_target;
-		tf2.heal_target:@s = tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, tag=iris.target];
+		tf2.heal_target:@s = tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, tag=iris.targeted_entity];
 		tf2.heal_target:@s ??= tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, sort=nearest, limit=1];
 		
 		tag @e remove tf2.valid_heal_target;

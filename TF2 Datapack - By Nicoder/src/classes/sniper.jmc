@@ -144,20 +144,20 @@ class Class.Sniper {
         tag @s add tf2.self;
         execute at @e[type=marker, tag=tf2.temp] run {
             if (entity @s[scores={tf2.team=1}]) {
-                particle dust{color: [1.0, 0.2, 0.0], scale: 0.9} ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!iris.target];
+                particle dust{color: [1.0, 0.2, 0.0], scale: 0.9} ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!iris.targeted_entity];
                 if (entity @s[distance=  ..02]) particle dust{color: [1.0, 0.2, 0.0], scale: 0.10} ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=02..05]) particle dust{color: [1.0, 0.2, 0.0], scale: 0.25} ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=05..50]) particle dust{color: [1.0, 0.2, 0.0], scale: 0.55} ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=50..  ]) particle dust{color: [1.0, 0.2, 0.0], scale: 0.90} ^ ^ ^ 0 0 0 0 2 force @s;
-                particle dust{color: [1.0, 0.2, 0.0], scale: 0.3} ^ ^ ^ 0 0 0 0 2 force @a[tag=iris.target];
+                particle dust{color: [1.0, 0.2, 0.0], scale: 0.3} ^ ^ ^ 0 0 0 0 2 force @a[tag=iris.targeted_entity];
             }
             if (entity @s[scores={tf2.team=2}]) {
-                particle dust{color: [0.0, 0.4, 1.0], scale: 0.9} ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!iris.target];
+                particle dust{color: [0.0, 0.4, 1.0], scale: 0.9} ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!iris.targeted_entity];
                 if (entity @s[distance=  ..02]) particle dust{color: [0.0, 0.4, 1.0], scale: 0.10} ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=02..05]) particle dust{color: [0.0, 0.4, 1.0], scale: 0.25} ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=05..50]) particle dust{color: [0.0, 0.4, 1.0], scale: 0.55} ^ ^ ^ 0 0 0 0 2 force @s;
                 if (entity @s[distance=50..  ]) particle dust{color: [0.0, 0.4, 1.0], scale: 0.90} ^ ^ ^ 0 0 0 0 2 force @s;
-                particle dust{color: [0.0, 0.4, 1.0], scale: 0.3} ^ ^ ^ 0 0 0 0 2 force @a[tag=iris.target];
+                particle dust{color: [0.0, 0.4, 1.0], scale: 0.3} ^ ^ ^ 0 0 0 0 2 force @a[tag=iris.targeted_entity];
             }
         }
         tag @s remove tf2.self;
