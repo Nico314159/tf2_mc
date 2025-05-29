@@ -291,10 +291,12 @@ class Motion {
 
     // Checks if the current block is solid
     function block() {
-        if ($mot.collision = 0) expand {
-            if (block ~ ~ ~ #minecraft:slabs) this.slabs();
-            if (block ~ ~ ~ #minecraft:stairs) this.stairs();
-            if (!block ~ ~ ~ #tf2:motion_passable) $mot.collision = 1;
+        if ($mot.collision = 0 && !block ~ ~ ~ minecraft:air) expand {
+            iris:settings::MaxRecursionDepth = 2;
+            execute at @s positioned ^ ^ ^-0.1 run function iris:get_target;
+            if (data storage iris:output {TargetType: "BLOCK"}) {
+                $mot.collision = true;
+            }
         }
 
         // Stop scanning hitbox if there was a collision
