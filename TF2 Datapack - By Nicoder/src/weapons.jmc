@@ -594,7 +594,7 @@ class Weapons {
         if (score @s tf2.team = $current tf2.team) return 0;
         vars::kill_verb.del();
         $_distance_ = vars::distance * 1000;
-        $_hitHead_ = iris:output::HitEntityHead;
+        $_hitHead_ = this.check_headshot();
         if ($_distance_ > $_range_) return 0;
         $_finalDamage_ = $_damage_;
         
@@ -630,6 +630,26 @@ class Weapons {
         lookup::damages[-1].kill_verb = vars::kill_verb;
         lookup::damages[-1].weapon = @a[tag=iris.executing, limit=1]::SelectedItem.components.minecraft:custom_name;
         return true;
+    }
+    function check_headshot() {
+        $feet_Y = @n[tag=iris.targeted_entity]::Pos[1];
+        $intersection_Y = iris:args::y;
+        if ($intersection_Y < 0) {
+            $intersection_Y--;
+        }
+        if ($intersection_Y <= $feet_Y) {
+            return false;
+        }
+
+        $top_Y = iris:output::TargetedFace.max[1] * EVAL(10 ** 6);
+        $intersection_Y = iris:output::TargetPosition.point[1] * EVAL(10 ** 6);
+        $diff_Y = $top_Y;
+        $diff_Y -= $intersection_Y;
+        
+        if ($diff_Y < 500000) {
+            return true;
+        }
+        return false;
     }
 
     function calculate_falloff() {
