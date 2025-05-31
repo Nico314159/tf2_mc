@@ -1,4 +1,4 @@
-scoreboard players operation @s 0008it54g_p_join = $__global__ 0008it54g_p_join
+scoreboard players operation @s xrroou1m8_p_join = $__global__ xrroou1m8_p_join
 execute if score $Settings.show_debug_messages tf2.var matches 1.. run tellraw @a ["",{"text":"<Debug> ","bold":true,"type":"text"},{"text":"Player ","bold":false,"type":"text"},{"selector":"@s","type":"selector"},{"text":" has logged in at "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"},"type":"score"},{"text":" ticks gametime."}]
 tp @s[tag=!tf2.admin] 30 25 25 0 0
 gamemode adventure @s[tag=!tf2.admin]

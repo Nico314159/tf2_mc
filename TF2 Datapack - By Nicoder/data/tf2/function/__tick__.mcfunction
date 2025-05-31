@@ -1,7 +1,7 @@
 function tf2:__private__/trigger_add/main
-scoreboard players add $__global__ 0008it54g_p_join 1
-scoreboard players add @a 0008it54g_p_join 1
-execute as @a unless score @s 0008it54g_p_join = $__global__ 0008it54g_p_join run function tf2:__private__/player_join/main
+scoreboard players add $__global__ xrroou1m8_p_join 1
+scoreboard players add @a xrroou1m8_p_join 1
+execute as @a unless score @s xrroou1m8_p_join = $__global__ xrroou1m8_p_join run function tf2:__private__/player_join/main
 execute unless score $found_dependency tf2.var matches 1.. run return fail
 tag @e[type=#tf2:player_like] remove tf2.in_spawn
 scoreboard players remove @e[tag=tf2.visual] tf2.lifetime 1
