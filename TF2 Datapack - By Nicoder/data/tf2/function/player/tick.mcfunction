@@ -26,7 +26,7 @@ execute if entity @s[tag=tf2.autoreload,scores={tf2.time_idle=30..,tf2.reload_de
 execute if items entity @s weapon.offhand *[custom_data~{controls:{alt_fire:true}}] run function tf2:weapons/alt_fire
 execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run scoreboard players operation @s tf2.class = @s tf2.last_class
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
-function tf2:__private__/switch_case/16/select with storage tf2:__storage__
+function tf2:__private__/switch_case/17/select with storage tf2:__storage__
 execute unless score @s tf2.class matches 1 run tag @s remove tf2.in_disguise_menu
 item replace entity @s[scores={tf2.class=1..9},tag=!tf2.in_disguise_menu] hotbar.8 with carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name="Change Class"]
 execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name="Change Class"] 0

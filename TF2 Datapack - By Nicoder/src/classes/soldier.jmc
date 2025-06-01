@@ -18,6 +18,7 @@ make_weapon(
         'speed': 1100, 'hitbox': 0, 'has_trail': true,
         'block_collision': {'mode': Collision.IMPACT},
         'entity_collision': {'mode': Collision.IMPACT},
+        'rotation': {'mode': Rotation.FIXED}
     },
 )
 `, jmc=true);

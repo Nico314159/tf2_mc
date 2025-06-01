@@ -27,6 +27,7 @@ make_weapon(
 		'forces': {'gravity': 0.08},
 		'block_collision': {'mode': Collision.STICK},
 		'entity_collision': {'mode': Collision.IMPACT},
+		'rotation': {'mode': Rotation.CHASE},
 		'unreflectable': true
 	},
 	controls={'reload': 3},

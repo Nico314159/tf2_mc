@@ -161,7 +161,16 @@ class Math {
         if ($trig_0 >= 1800) $output *= -1;
     }
 
+    function quaternion_from_axis() {
+        $input := ($input_angle % 3600) / 2;
+        this.cosine();
+        $output_quaternion_r = $output;
 
+        this.sine();
+        $output_quaternion_i := ($input_axis_x * $output) / 1000;
+        $output_quaternion_j := ($input_axis_y * $output) / 1000;
+        $output_quaternion_k := ($input_axis_z * $output) / 1000;
+    }
 
     function multiply_quaternions() {
         $math_quaternion_r := $input_quaternion_1_r * $input_quaternion_2_r;

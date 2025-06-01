@@ -18,10 +18,11 @@ make_weapon(
         'spawn': [0, 0, 0], 
         'explosion': {'radius': 146, 'selfDamage': 38}, 
         'speed': 1216,
-        'forces': {'gravity': 0.08, 'drag': 0.98, 'collision_friction': 0.95, 'torque': true},
+        'forces': {'gravity': 0.08, 'drag': 0.98, 'collision_friction': 0.95},
         'hitbox': 4,
         'block_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.6},
         'entity_collision': {'mode': Collision.BOUNCE, 'impact_if_first': true, 'elasticity': 0.3},
+        'rotation': {'mode': Rotation.PHYSICAL, 'initial': 0.2},
         'lifetime': 2.3, 'explode_after_lifetime': true
     },
 	team_specific=False
@@ -44,6 +45,7 @@ make_weapon(
         'hitbox': 4,
         'block_collision': {'mode': Collision.STICK},
         'entity_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.1},
+        'rotation': {'mode': Rotation.CHASE},
         'lifetime': 2147483647,
         'unreflectable': true,
         'arm_time': 0.7,

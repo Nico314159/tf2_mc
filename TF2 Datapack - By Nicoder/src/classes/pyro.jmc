@@ -33,6 +33,7 @@ make_weapon(
 		'forces': {'gravity': -0.007, 'drag': 0.99},
 		'block_collision': {'mode': Collision.CONTINUE},
 		'entity_collision': {'mode': Collision.CONTINUE},
+		'rotation': {'mode': Rotation.FIXED}
 	},
 	controls={'main_fire': true, 'alt_fire': true, 'reload': 0},
 	team_specific=True

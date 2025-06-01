@@ -1,3 +1,4 @@
+execute store result score $angular_speed tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation.initial 1000
 function tf2:math/random_quaternion
 scoreboard players operation @s tf2.quaternion_r = $output_quaternion_r tf2.var
 scoreboard players operation @s tf2.quaternion_i = $output_quaternion_i tf2.var

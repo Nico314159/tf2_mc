@@ -101,7 +101,8 @@ class Projectile {
                 ]
             );
 
-            if (data storage tf2:lookup item.components.minecraft:custom_data.projectile.forces.torque) {
+            if (data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.PHYSICAL}) {
+                $angular_speed = lookup::item.components.minecraft:custom_data.projectile.rotation.initial * 1000;
                 Math.random_quaternion();
                 Hardcode.repeatList(
                     "[PARAM]",
@@ -568,6 +569,58 @@ class Projectile {
         this.impact();
     }
     function handle_rotation() {
+        $mode = @s::item.components.minecraft:custom_data.projectile.rotation.mode;
+
+        switch ($mode) {
+            case Rotation.FIXED:
+            break;
+
+            case Rotation.CHASE:
+            this.linear_velocity_to_quaternion();
+
+            case Rotation.PHYSICAL:
+            this.simulate_rotation();
+        }   
+    }
+    function linear_velocity_to_quaternion() {
+        // Convert vector to gimbals
+        $input_vec3.X = tf2.mot_x:@s;
+        $input_vec3.Y = tf2.mot_y:@s;
+        $input_vec3.Z = tf2.mot_z:@s;
+        Math.vec_to_gimbal();
+
+        // Construct quaternions
+        $input_axis_x = 1000;
+        $input_axis_y = 0;
+        $input_axis_z = 0;
+        $input_angle = $output_pitch;
+        Math.quaternion_from_axis();
+        $input_quaternion_2_r = $output_quaternion_r;
+        $input_quaternion_2_i = $output_quaternion_i;
+        $input_quaternion_2_j = $output_quaternion_j;
+        $input_quaternion_2_k = $output_quaternion_k;
+        
+        $input_vector_x = 0;
+        $input_vector_y = -1000;
+        $input_vector_z = 0;
+        $input_angle = $output_yaw;
+        Math.quaternion_from_axis();
+        $input_quaternion_1_r = $output_quaternion_r;
+        $input_quaternion_1_i = $output_quaternion_i;
+        $input_quaternion_1_j = $output_quaternion_j;
+        $input_quaternion_1_k = $output_quaternion_k;
+
+        Math.multiply_quaternions();
+
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => { $input_quaternion_[PARAM] = $output_quaternion_[PARAM]; },
+            ["r", "i", "j", "k"]
+        );
+        Math.normalize_quaternion();
+        this.save_output_rotation_to_entity();
+    }
+    function simulate_rotation() {
         // Apply friction to angular velocity
         Hardcode.repeatList(
             "[AXIS]",
@@ -622,6 +675,9 @@ class Projectile {
             ["r", "i", "j", "k"]
         );
         Math.normalize_quaternion();
+        this.save_output_rotation_to_entity();
+    }
+    function save_output_rotation_to_entity() {
         Hardcode.repeatList(
             "[PARAM]",
             () => { tf2.quaternion_[PARAM]:@s = $output_quaternion_[PARAM]; },

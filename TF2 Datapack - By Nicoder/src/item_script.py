@@ -11,6 +11,7 @@ false: Final = False
 
 Class = Enum("Class", ["SPY", "SNIPER", "SCOUT", "SOLDIER", "DEMOMAN", "HEAVY", "PYRO", "ENGINEER", "MEDIC"])
 Collision = IntEnum("Collision", ["CONTINUE", "IMPACT", "BOUNCE", "STICK"], start=0)
+Rotation = IntEnum("Rotation", ["FIXED", "CHASE", "PHYSICAL"], start=0)
 
 unlock_counter = Counter()
 # _sentinel = object()
