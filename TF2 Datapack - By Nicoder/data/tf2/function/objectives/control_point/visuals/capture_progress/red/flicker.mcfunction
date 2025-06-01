@@ -1,4 +1,4 @@
-scoreboard players operation $flicker tf2.var = $__global__ 0008it54g_p_join
+scoreboard players operation $flicker tf2.var = $__global__ xrroou1m8_p_join
 scoreboard players operation $flicker tf2.var %= 20 tf2.const
 execute if score $flicker tf2.var matches 0 run data modify storage tf2:lookup points[0].owner set value [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}]
 execute if score $flicker tf2.var matches 1..2 run data modify storage tf2:lookup points[0].owner set value [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}]

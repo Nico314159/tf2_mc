@@ -48,7 +48,7 @@ execute as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var r
 execute if entity @s[tag=tf2.overheal] unless entity @a[tag=tf2.search] run function tf2:player/overheal_decay
 execute unless entity @a[tag=tf2.search,tag=tf2.uber_source] run function tf2:__private__/if_else/65
 tag @e remove tf2.search
-scoreboard players operation $tick_cycle tf2.var = $__global__ 0008it54g_p_join
+scoreboard players operation $tick_cycle tf2.var = $__global__ xrroou1m8_p_join
 scoreboard players operation $tick_cycle tf2.var %= 40 tf2.const
 execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/66
 tag @a remove tf2.current

@@ -1,4 +1,4 @@
-execute if score $Settings.show_debug_messages tf2.var matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true,"type":"text"},{"text":"Game controlled by ","bold":false,"type":"text"},{"selector":"@s","type":"selector"},{"text":" has ended at "},{"score":{"name":"$__global__","objective":"0008it54g_p_join"},"type":"score"},{"text":" ticks gametime"}]
+execute if score $Settings.show_debug_messages tf2.var matches 1 run tellraw @a ["",{"text":"<Debug> ","bold":true,"type":"text"},{"text":"Game controlled by ","bold":false,"type":"text"},{"selector":"@s","type":"selector"},{"text":" has ended at "},{"score":{"name":"$__global__","objective":"xrroou1m8_p_join"},"type":"score"},{"text":" ticks gametime"}]
 execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
 function tf2:timer/hide with storage tf2:index
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
