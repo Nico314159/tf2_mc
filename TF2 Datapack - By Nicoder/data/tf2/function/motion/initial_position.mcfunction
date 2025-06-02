@@ -1,1 +1,1 @@
-$execute positioned $(x) $(y) $(z) run function tf2:motion/traverse
+$execute positioned $(x) $(y) $(z) run function tf2:motion/initial_hitbox_check

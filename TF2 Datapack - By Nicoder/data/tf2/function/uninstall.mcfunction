@@ -101,6 +101,7 @@ scoreboard objectives remove tf2.z
 scoreboard objectives remove tf2.mot_x
 scoreboard objectives remove tf2.mot_y
 scoreboard objectives remove tf2.mot_z
+scoreboard objectives remove tf2.hitbox
 scoreboard objectives remove tf2.hitbox_x
 scoreboard objectives remove tf2.hitbox_y
 scoreboard objectives remove tf2.hitbox_z
@@ -108,6 +109,11 @@ scoreboard objectives remove tf2.collision_x
 scoreboard objectives remove tf2.collision_y
 scoreboard objectives remove tf2.collision_z
 scoreboard objectives remove tf2.collision
+scoreboard objectives remove tf2.collision_entity
+scoreboard objectives remove tf2.collision_entity_x
+scoreboard objectives remove tf2.collision_entity_y
+scoreboard objectives remove tf2.collision_entity_z
+scoreboard objectives remove tf2.consider_entities
 scoreboard objectives remove tf2.friction
 scoreboard objectives remove tf2.collision_friction
 scoreboard objectives remove tf2.halt

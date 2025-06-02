@@ -1,2 +1,2 @@
-return run function tf2:__private__/anonymous/36
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players operation @s tf2.ang_vel_x *= 800 tf2.const
+scoreboard players operation @s tf2.ang_vel_x /= 1000 tf2.const

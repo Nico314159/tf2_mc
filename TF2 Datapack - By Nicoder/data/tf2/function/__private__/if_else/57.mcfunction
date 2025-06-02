@@ -1,6 +1,8 @@
-scoreboard players remove @s tf2.respawn_timer 1
-scoreboard players operation @s tf2.respawn_timer.sec = @s tf2.respawn_timer
-scoreboard players add @s tf2.respawn_timer.sec 19
-scoreboard players operation @s tf2.respawn_timer.sec /= 20 tf2.const
-title @s title {"text":"You died!","color":"white","type":"text"}
-title @s subtitle ["",{"text":"Respawn in... ","color":"gray","type":"text"},{"score":{"name":"@s","objective":"tf2.respawn_timer.sec"},"bold":true,"color":"dark_gray","type":"score"}]
+scoreboard players set $mot.on_edge tf2.var 1
+scoreboard players remove $mot.temp_max_z tf2.var 3
+scoreboard players add $mot.temp_min_z tf2.var 3
+scoreboard players remove $mot.temp_max_x tf2.var 3
+scoreboard players add $mot.temp_min_x tf2.var 3
+execute if score $mot.temp_max_z tf2.var > $mot.geo_min_z tf2.var if score $mot.temp_min_z tf2.var < $mot.geo_max_z tf2.var if score $mot.temp_max_x tf2.var > $mot.geo_min_x tf2.var if score $mot.temp_min_x tf2.var < $mot.geo_max_x tf2.var run scoreboard players set $mot.on_edge tf2.var 0
+execute if score $mot.on_edge tf2.var matches 1 run scoreboard players add $mot.distance_y tf2.var 50
+execute if score $mot.distance_y tf2.var < $mot.collision_distance_y tf2.var run function tf2:__private__/if_else/56

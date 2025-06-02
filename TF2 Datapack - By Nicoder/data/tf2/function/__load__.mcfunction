@@ -48,7 +48,6 @@ scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
 scoreboard players set 999 tf2.const 999
 scoreboard players set 1000 tf2.const 1000
-scoreboard players set 500 tf2.const 500
 scoreboard players set 120 tf2.const 120
 scoreboard players set -4 tf2.const -4
 scoreboard players set -1 tf2.const -1
@@ -152,6 +151,7 @@ scoreboard objectives add tf2.z dummy
 scoreboard objectives add tf2.mot_x dummy
 scoreboard objectives add tf2.mot_y dummy
 scoreboard objectives add tf2.mot_z dummy
+scoreboard objectives add tf2.hitbox dummy
 scoreboard objectives add tf2.hitbox_x dummy
 scoreboard objectives add tf2.hitbox_y dummy
 scoreboard objectives add tf2.hitbox_z dummy
@@ -159,6 +159,11 @@ scoreboard objectives add tf2.collision_x dummy
 scoreboard objectives add tf2.collision_y dummy
 scoreboard objectives add tf2.collision_z dummy
 scoreboard objectives add tf2.collision dummy
+scoreboard objectives add tf2.collision_entity dummy
+scoreboard objectives add tf2.collision_entity_x dummy
+scoreboard objectives add tf2.collision_entity_y dummy
+scoreboard objectives add tf2.collision_entity_z dummy
+scoreboard objectives add tf2.consider_entities dummy
 scoreboard objectives add tf2.friction dummy
 scoreboard objectives add tf2.collision_friction dummy
 scoreboard objectives add tf2.halt dummy

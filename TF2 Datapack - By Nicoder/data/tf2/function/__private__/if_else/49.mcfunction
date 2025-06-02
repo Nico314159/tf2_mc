@@ -1,6 +1,2 @@
-scoreboard players operation @s tf2.mot_x *= 600 tf2.const
-scoreboard players operation @s tf2.mot_x /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_y *= 600 tf2.const
-scoreboard players operation @s tf2.mot_y /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_z *= 600 tf2.const
-scoreboard players operation @s tf2.mot_z /= 1000 tf2.const
+scoreboard players operation $mot.collision_surface_x tf2.var = $mot.geo_min_x tf2.var
+scoreboard players set __if_else__ tf2.var 1

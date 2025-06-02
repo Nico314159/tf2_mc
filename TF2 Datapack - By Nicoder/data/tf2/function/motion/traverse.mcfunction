@@ -1,9 +1,20 @@
-execute if score $mot.motion_head_x tf2.var > @s tf2.mot_x run scoreboard players set $mot.distance_head_x tf2.var 2147483647
-execute if score $mot.motion_tail_x tf2.var > @s tf2.mot_x run scoreboard players set $mot.distance_tail_x tf2.var 2147483647
-execute if score $mot.motion_head_y tf2.var > @s tf2.mot_y run scoreboard players set $mot.distance_head_y tf2.var 2147483647
-execute if score $mot.motion_tail_y tf2.var > @s tf2.mot_y run scoreboard players set $mot.distance_tail_y tf2.var 2147483647
-execute if score $mot.motion_head_z tf2.var > @s tf2.mot_z run scoreboard players set $mot.distance_head_z tf2.var 2147483647
-execute if score $mot.motion_tail_z tf2.var > @s tf2.mot_z run scoreboard players set $mot.distance_tail_z tf2.var 2147483647
-scoreboard players set __if_else__ tf2.var 0
-execute if score $mot.distance_head_x tf2.var matches 2147483647 if score $mot.distance_head_y tf2.var matches 2147483647 if score $mot.distance_head_z tf2.var matches 2147483647 if score $mot.distance_tail_x tf2.var matches 2147483647 if score $mot.distance_tail_y tf2.var matches 2147483647 if score $mot.distance_tail_z tf2.var matches 2147483647 run function tf2:__private__/if_else/44
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/45
+scoreboard players set $mot.shortest_distance tf2.var 2147483647
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.distance_head_x tf2.var
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.distance_tail_x tf2.var
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.collision_distance_x tf2.var
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.distance_head_y tf2.var
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.distance_tail_y tf2.var
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.collision_distance_y tf2.var
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.distance_head_z tf2.var
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.distance_tail_z tf2.var
+scoreboard players operation $mot.shortest_distance tf2.var < $mot.collision_distance_z tf2.var
+execute if score $mot.shortest_distance tf2.var > $mot.distance tf2.var run return run function tf2:motion/stop_motion
+execute if score $mot.shortest_distance tf2.var = $mot.collision_distance_x tf2.var run return run function tf2:motion/collision_x
+execute if score $mot.shortest_distance tf2.var = $mot.distance_head_x tf2.var run return run function tf2:motion/head_x
+execute if score $mot.shortest_distance tf2.var = $mot.distance_tail_x tf2.var run return run function tf2:motion/tail_x
+execute if score $mot.shortest_distance tf2.var = $mot.collision_distance_y tf2.var run return run function tf2:motion/collision_y
+execute if score $mot.shortest_distance tf2.var = $mot.distance_head_y tf2.var run return run function tf2:motion/head_y
+execute if score $mot.shortest_distance tf2.var = $mot.distance_tail_y tf2.var run return run function tf2:motion/tail_y
+execute if score $mot.shortest_distance tf2.var = $mot.collision_distance_z tf2.var run return run function tf2:motion/collision_z
+execute if score $mot.shortest_distance tf2.var = $mot.distance_head_z tf2.var run return run function tf2:motion/head_z
+execute if score $mot.shortest_distance tf2.var = $mot.distance_tail_z tf2.var run return run function tf2:motion/tail_z

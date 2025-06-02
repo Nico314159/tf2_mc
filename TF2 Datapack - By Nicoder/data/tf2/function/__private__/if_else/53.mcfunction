@@ -1,4 +1,3 @@
-scoreboard players operation $surface_x tf2.var = @s tf2.collision_x
-scoreboard players set $surface_y tf2.var 0
-scoreboard players set $surface_z tf2.var 0
-function tf2:grenade/roll
+scoreboard players operation $mot.distance_y tf2.var = $mot.geo_min_y tf2.var
+scoreboard players operation $mot.distance_y tf2.var -= $mot.max_y tf2.var
+scoreboard players set __if_else__ tf2.var 1

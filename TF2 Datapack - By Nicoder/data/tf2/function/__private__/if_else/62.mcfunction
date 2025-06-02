@@ -1,2 +1,6 @@
-scoreboard players operation @s tf2.attack_delay += @s tf2.rev_threshold
-scoreboard players set @s tf2.time_revved 0
+scoreboard players operation $mot.collision_distance_z tf2.var = $mot.distance_z tf2.var
+scoreboard players operation $mot.collision_edge_z tf2.var = $mot.on_edge tf2.var
+scoreboard players operation $mot.collision_entity_z tf2.var = $mot.is_entity tf2.var
+scoreboard players set __if_else__ tf2.var 0
+execute if score $mot.sign_z tf2.var matches 1 run function tf2:__private__/if_else/61
+execute if score __if_else__ tf2.var matches 0 run scoreboard players operation $mot.collision_surface_z tf2.var = $mot.geo_max_z tf2.var

@@ -1,2 +1,2 @@
-scoreboard players operation $mot.numerator tf2.var = $mot.motion_head_z tf2.var
-scoreboard players operation $mot.denominator tf2.var = @s tf2.mot_z
+scoreboard players operation @s tf2.y -= @s tf2.hitbox_y
+scoreboard players set __if_else__ tf2.var 1

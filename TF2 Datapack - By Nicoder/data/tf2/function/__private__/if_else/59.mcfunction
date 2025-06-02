@@ -1,2 +1,3 @@
-execute as @e[tag=tf2.self] run function tf2:weapons/main_fire
-kill @s
+scoreboard players operation $mot.distance_z tf2.var = $mot.geo_min_z tf2.var
+scoreboard players operation $mot.distance_z tf2.var -= $mot.max_z tf2.var
+scoreboard players set __if_else__ tf2.var 1
