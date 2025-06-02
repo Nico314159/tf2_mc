@@ -8,11 +8,10 @@ scoreboard players add $_finalDamage_ tf2.var 99
 scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const
 execute if entity @s[tag=tf2.hit_by_projectile,tag=!tf2.origin] run return run scoreboard players get $_finalDamage_ tf2.var
 execute if entity @s[tag=tf2.origin] run scoreboard players operation $_finalDamage_ tf2.var = $_selfDamage_ tf2.var
-scoreboard players set $_splash_multiplier_ tf2.var -1
-scoreboard players operation $_splash_multiplier_ tf2.var *= $_centerDist_ tf2.var
-scoreboard players operation $_splash_multiplier_ tf2.var *= 50 tf2.const
-scoreboard players add $_splash_multiplier_ tf2.var 100
+scoreboard players operation $_splash_multiplier_ tf2.var = $_centerDist_ tf2.var
+scoreboard players operation $_splash_multiplier_ tf2.var *= -50 tf2.const
 scoreboard players operation $_splash_multiplier_ tf2.var /= $_splashEdge_ tf2.var
+scoreboard players add $_splash_multiplier_ tf2.var 100
 scoreboard players operation $_finalDamage_ tf2.var *= $_splash_multiplier_ tf2.var
 scoreboard players add $_finalDamage_ tf2.var 99
 scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const

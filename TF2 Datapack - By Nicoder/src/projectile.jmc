@@ -538,7 +538,7 @@ class Projectile {
         if (entity @s[tag=tf2.origin]) {
             $_finalDamage_ = $_selfDamage_;
         }
-        $_splash_multiplier_ := 100 + (-$_centerDist_ * 50 / $_splashEdge_);
+        $_splash_multiplier_ := 100 + ($_centerDist_ * -50 / $_splashEdge_);
         $_finalDamage_ := ($_finalDamage_ * $_splash_multiplier_ + 99) / 100;
         if (!entity @s[tag=tf2.origin,scores={tf2.class=4..5}]) {
             return run $_finalDamage_.get();

@@ -33,7 +33,7 @@ make_weapon(
     Class.DEMOMAN, slot=1, 
     name='Stickybomb Launcher',
     display_name="Stickybomb Launcher (WIP)",
-    attributes={'damage': {'base': 0, 'maxRamp': 1.2}, 'attackDelay': 0.6, 'reloadDelay': [1.09, 0.67], 'clip': 8, 'ammo': 24, 'isProjectile': true},
+    attributes={'damage': {'base': 120, 'maxRamp': 1.2}, 'attackDelay': 0.6, 'reloadDelay': [1.09, 0.67], 'clip': 8, 'ammo': 24, 'isProjectile': true},
     projectile={
         'model': 'stickybomb',
         'spawn': [0, 0, 0], 
