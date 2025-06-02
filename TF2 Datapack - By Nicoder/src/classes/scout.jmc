@@ -69,17 +69,13 @@ class Class.Scout {
         Class.Scout.inventory_lock();
     }
     function double_jump() {
-		player_motion.api.launch:$x = tf2.now_x:@s;
-		player_motion.api.launch:$x -= tf2.last_x:@s;
-		player_motion.api.launch:$x *= 4;
+		player_motion.api.launch:$x := (tf2.now_x:@s - tf2.last_x:@s) * 4;
         player_motion.api.launch:$x < 2000;
         player_motion.api.launch:$x > -2000;
 		// printf("X: &<player_motion.api.launch:$x>");
 		player_motion.api.launch:$y = 5500;
 		// printf("y: &<player_motion.api.launch:$y>");
-		player_motion.api.launch:$z = tf2.now_z:@s;
-		player_motion.api.launch:$z -= tf2.last_z:@s;
-		player_motion.api.launch:$z *= 4;
+		player_motion.api.launch:$z := (tf2.now_z:@s - tf2.last_z:@s) * 4;
         player_motion.api.launch:$z < 2000;
         player_motion.api.launch:$z > -2000;
 		// printf("Z: &<player_motion.api.launch:$z>");

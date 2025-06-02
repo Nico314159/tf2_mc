@@ -40,9 +40,7 @@ class Projectile {
         Hardcode.repeatList(
             "[AXIS]",
             () => { 
-                $mot.mot_[AXIS] = summon::projectile.speed * 1000;
-                $mot.mot_[AXIS] *= $output_vector_[AXIS];
-                $mot.mot_[AXIS] /= 1000;
+                $mot.mot_[AXIS] := ({summon::projectile.speed * 1000} * $output_vector_[AXIS]) / 1000;
             },
             ["x", "y", "z"]
         );
@@ -115,9 +113,7 @@ class Projectile {
                 Hardcode.repeatList(
                     "[AXIS]",
                     () => {
-                        tf2.ang_vel_[AXIS]:@s = $output_vector_[AXIS];
-                        tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_SPEED;
-                        tf2.ang_vel_[AXIS]:@s /= 1000;
+                        tf2.ang_vel_[AXIS]:@s := ($output_vector_[AXIS] * GRENADE_ANGULAR_SPEED) / 1000;
                     },
                     ["x", "y", "z"]
                 );
@@ -410,7 +406,6 @@ class Projectile {
         tf2.player.id:$temp = tf2.player.id:@s;
         execute as @a if score @s tf2.player.id = $temp tf2.player.id run tag @s add tf2.origin;
         
-        $_finalDamage_ = $_damage_;
         if (!$_temporalFalloff_) expand {
             this.pythagorean_3D();
             Weapons.calculate_falloff();
@@ -418,9 +413,7 @@ class Projectile {
         if ($_temporalFalloff_) {
             this.temporal_falloff();
         }
-        $_finalDamage_ *= $_multiplier_;
-        $_finalDamage_ += 99;
-        $_finalDamage_ /= 100;
+        $_finalDamage_ := ($_damage_ * $_multiplier_ + 99) / 100;
 
         lookup::damages << {};
         lookup::damages[-1].cause = tf2.player.id:@s;
@@ -477,11 +470,7 @@ class Projectile {
         }
     }
     function temporal_falloff() {
-        $_multiplier_ = tf2.age:@s; 
-        $_multiplier_ *= 100;
-        $_multiplier_ /= tf2.lifetime:@s;
-        $_multiplier_ *= -1;
-        $_multiplier_ += 100;
+        $_multiplier_ := 100 + (-tf2.age:@s * 100 / tf2.lifetime:@s); 
         $_multiplier_ > 50;
         $_multiplier_ < 100;
     }
@@ -539,11 +528,9 @@ class Projectile {
         $_centerDist_ = vars::distance * EVAL (1 / 0.01905);
         $_splashEdge_ = vars::radius * EVAL (1 / 0.01905);
         this.pythagorean_3D();
-        $_finalDamage_ = $_damage_;
+        
         Weapons.calculate_falloff();
-        $_finalDamage_ *= $_multiplier_;
-        $_finalDamage_ += 99;
-        $_finalDamage_ /= 100;
+        $_finalDamage_ := ($_damage_ * $_multiplier_ + 99) / 100;
         if (entity @s[tag=tf2.hit_by_projectile,tag=!tf2.origin]) {
             return run $_finalDamage_.get();
         }
@@ -551,14 +538,8 @@ class Projectile {
         if (entity @s[tag=tf2.origin]) {
             $_finalDamage_ = $_selfDamage_;
         }
-        $_splash_multiplier_ = $_centerDist_;
-        $_splash_multiplier_ *= 50;
-        $_splash_multiplier_ /= $_splashEdge_;
-        $_splash_multiplier_ *= -1;
-        $_splash_multiplier_ += 100;
-        $_finalDamage_ *= $_splash_multiplier_;
-        $_finalDamage_ += 99;
-        $_finalDamage_ /= 100;
+        $_splash_multiplier_ := 100 + (-$_centerDist_ * 50 / $_splashEdge_);
+        $_finalDamage_ := ($_finalDamage_ * $_splash_multiplier_ + 99) / 100;
         if (!entity @s[tag=tf2.origin,scores={tf2.class=4..5}]) {
             return run $_finalDamage_.get();
         }
@@ -569,18 +550,14 @@ class Projectile {
             return run $_finalDamage_.get();
         }
         $_finalDamage_ *= 3;
-        $_temp_ = 9;
-        $_temp_ -= tf2.class:@s;
+        $_temp_ := 9 - tf2.class:@s;
         $_finalDamage_ /= $_temp_;
         return run $_finalDamage_.get();
     }
     function knockback() {
-        player_motion.api.launch:$x = $output_vector_x;
-        player_motion.api.launch:$x *= 12;
-        player_motion.api.launch:$y = $output_vector_y;
-        player_motion.api.launch:$y *= 12;
-        player_motion.api.launch:$z = $output_vector_z;
-        player_motion.api.launch:$z *= 12;
+        player_motion.api.launch:$x := $output_vector_x * 12;
+        player_motion.api.launch:$y := $output_vector_y * 12;
+        player_motion.api.launch:$z := $output_vector_z * 12;
         function player_motion:api/launch_xyz;
     }
     function detonate_if_armed() {
@@ -665,9 +642,7 @@ class Projectile {
         Hardcode.repeatList(
             "[AXIS]",
             () => {
-                $input_vector_1_[AXIS] = tf2.ang_vel_[AXIS]:@s;
-                $input_vector_1_[AXIS] *= tf2.hitbox_[AXIS]:@s;
-                $input_vector_1_[AXIS] /= 1000;
+                $input_vector_1_[AXIS] := (tf2.ang_vel_[AXIS]:@s * tf2.hitbox_[AXIS]:@s) / 1000;
                 $input_vector_2_[AXIS] = $surface_[AXIS];
             },
             ["x", "y", "z"]
@@ -677,9 +652,7 @@ class Projectile {
             "[AXIS]",
             () => {
                 if ($surface_[AXIS] == 0) {$output_vector_[AXIS] += tf2.mot_[AXIS]:@s;}
-                $input_vector_1_[AXIS] = $output_vector_[AXIS];
-                $input_vector_1_[AXIS] *= 1000;
-                $input_vector_1_[AXIS] /= tf2.hitbox_[AXIS]:@s;
+                $input_vector_1_[AXIS] := ($output_vector_[AXIS] * 1000) / tf2.hitbox_[AXIS]:@s;
 
                 $input_vector_1_[AXIS] *= 32;
             },

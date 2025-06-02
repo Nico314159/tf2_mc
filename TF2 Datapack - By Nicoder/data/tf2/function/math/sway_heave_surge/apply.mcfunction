@@ -1,12 +1,12 @@
 scoreboard players set $length tf2.var 0
 scoreboard players operation $temp tf2.var = $input_vector_x tf2.var
-scoreboard players operation $temp tf2.var *= $input_vector_x tf2.var
+scoreboard players operation $temp tf2.var *= $temp tf2.var
 scoreboard players operation $length tf2.var += $temp tf2.var
 scoreboard players operation $temp tf2.var = $input_vector_y tf2.var
-scoreboard players operation $temp tf2.var *= $input_vector_y tf2.var
+scoreboard players operation $temp tf2.var *= $temp tf2.var
 scoreboard players operation $length tf2.var += $temp tf2.var
 scoreboard players operation $temp tf2.var = $input_vector_z tf2.var
-scoreboard players operation $temp tf2.var *= $input_vector_z tf2.var
+scoreboard players operation $temp tf2.var *= $temp tf2.var
 scoreboard players operation $length tf2.var += $temp tf2.var
 scoreboard players operation __math__.N tf2.var = $length tf2.var
 function tf2:__private__/math_sqrt/main

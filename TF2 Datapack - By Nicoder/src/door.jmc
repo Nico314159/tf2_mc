@@ -15,10 +15,9 @@ class Door {
     @lazy function determine_fill_coords() {
         Hardcode.repeatLists(["|axis|", "|#|"], () => {
             $|axis|_from = summon::entity.Pos[|#|];
-            $|axis|_to = summon::entity.item.components.minecraft:custom_data.size_|axis|;
-            $|axis|_to > 1;
-            $|axis|_to += $|axis|_from;
-            $|axis|_to --;
+            $|axis|_to := {summon::entity.item.components.minecraft:custom_data.size_|axis|} + $|axis|_from - 1;
+            $|axis|_to > $|axis|_from;
+
             summon::entity.item.components.minecraft:custom_data.fill.|axis|_from = $|axis|_from;
             summon::entity.item.components.minecraft:custom_data.fill.|axis|_to   = $|axis|_to;
         }, [["x", "y", "z"], ["0", "1", "2"]]);
@@ -37,9 +36,9 @@ class Door {
         summon::entity.transformation.scale = summon::doors[-1].size;
 
         tf2.door.wait:@s = summon::doors[-1].wait;
-        tf2.door.length:@s = summon::doors[-1].path_length * 10000;
-        // prevent Z-fighting
-        tf2.door.length:@s += 10;
+        tf2.door.length:@s := {summon::doors[-1].path_length * 10000} + 10;
+        // +10 prevents Z-fighting
+
         this.determine_fill_coords();
         @s::item += summon::entity.item;
         // temporary
@@ -89,8 +88,7 @@ class Door {
             // Should never execute
             return run printf("&<dark_red>[ERROR] &<red>Unexpected value for door state: &<tf2.door.state:@s>");
         }
-        tf2.team:$wrong = 4;
-        tf2.team:$wrong -= tf2.door.state:@s;
+        tf2.team:$wrong := 4 - tf2.door.state:@s;
 
         $ return run execute 
                  positioned ~-.5 ~-.5 ~-.5
@@ -130,9 +128,7 @@ class Door {
     }
 
     function animate() {
-        tf2.door.vel:@s *= 9;
-        tf2.door.vel:@s /= 10;
-        tf2.door.vel:@s += tf2.door.accel:@s; 
+        tf2.door.vel:@s := ((tf2.door.vel:@s * 9) / 10) + tf2.door.accel:@s; 
         tf2.door.pos:@s += tf2.door.vel:@s;
         this.clamp();
         this.projection() with lookup::entity.item.components.minecraft:custom_data;

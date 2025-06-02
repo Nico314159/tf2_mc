@@ -167,10 +167,7 @@ class Class.Sniper {
     @lazy
     function damage_scale() {
         $_multiplier_ = tf2.time_scoped:@a[tag=iris.executing, limit=1];
-        $_multiplier_ -= 26;
-        $_multiplier_ *= 5;
-        $_multiplier_ += 100;
-
+        $_multiplier_ := ($_multiplier_ - 26) * 5 + 100;
         $_multiplier_ > 100;
         $_multiplier_ < 300;
 
@@ -179,10 +176,7 @@ class Class.Sniper {
         }
     }
     function zoom_meter() {
-        $bars = tf2.time_scoped:@s;
-        $bars *= 10;
-        $bars /= 66;
-        $bars += 3;
+        $bars := (tf2.time_scoped:@s * 10) / 66 + 3;
         $bars < 13;
         $bars > 3;
         title @s times 0 4 2;

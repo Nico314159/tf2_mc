@@ -1,10 +1,10 @@
 execute unless entity @a[tag=tf2.hit_by_projectile,tag=tf2.opponent,scores={tf2.health=1..}] run return fail
 scoreboard players operation $temp tf2.player.id = @s tf2.player.id
 execute as @a if score @s tf2.player.id = $temp tf2.player.id run tag @s add tf2.origin
-scoreboard players operation $_finalDamage_ tf2.var = $_damage_ tf2.var
 execute unless score $_temporalFalloff_ tf2.var matches 1.. run function tf2:projectile/pythagorean_3d
 execute unless score $_temporalFalloff_ tf2.var matches 1.. run function tf2:weapons/calculate_falloff
 execute if score $_temporalFalloff_ tf2.var matches 1.. run function tf2:projectile/temporal_falloff
+scoreboard players operation $_finalDamage_ tf2.var = $_damage_ tf2.var
 scoreboard players operation $_finalDamage_ tf2.var *= $_multiplier_ tf2.var
 scoreboard players add $_finalDamage_ tf2.var 99
 scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const

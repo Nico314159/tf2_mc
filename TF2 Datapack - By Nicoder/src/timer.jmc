@@ -11,9 +11,7 @@ class Timer
         index::i = tf2.batch_number:@s;
         tf2.timer:@s[tag=!tf2.overtime]--;
         Timer.set_value() with index::;
-        tf2.timer.sec:@s = tf2.timer:@s;
-        tf2.timer.sec:@s += 19;
-        tf2.timer.sec:@s /= 20;
+        tf2.timer.sec:@s := (tf2.timer:@s + 19) / 20;
         tf2.timer.sec:@s > 0;
         tf2.timer.min:@s = tf2.timer.sec:@s;
         tf2.timer.sec:@s %= 60;
@@ -190,8 +188,7 @@ class Timer
         //  Objectives.control_point.decay.main()
         scoreboard players reset $winner tf2.var;
         tag @s remove tf2.overtime;
-        $temp = tf2.gamemode:@s;
-        $temp %= 4; // determines whether gamemode is symmetric or not (see gamemode key).
+        $temp := tf2.gamemode:@s % 4; // determines whether gamemode is symmetric or not (see gamemode key).
         if ($temp == 1) $winner = 1; // RED wins in asymmetric gamemodes (like A/D or Payload)
         if ($temp != 1) $winner = -1; // Stalemate in symmetric gamemodes (like 5CP or CTF)
         reset.announce_winner();
@@ -252,9 +249,7 @@ class KOTH_Timer
         function red() {
             tf2.red_timer:@s --;
             $execute store result bossbar tf2:red_timer_$(i) value run tf2.red_timer:@s.get();
-            tf2.red_timer.sec:@s = tf2.red_timer:@s;
-            tf2.red_timer.sec:@s += 19;
-            tf2.red_timer.sec:@s /= 20;
+            tf2.red_timer.sec:@s := (tf2.red_timer:@s + 19) / 20;
             tf2.red_timer.min:@s = tf2.red_timer.sec:@s;
             tf2.red_timer.sec:@s %= 60;
             tf2.red_timer.min:@s /= 60;
@@ -262,9 +257,7 @@ class KOTH_Timer
         function blu() {
             tf2.blu_timer:@s --;
             $execute store result bossbar tf2:blu_timer_$(i) value run tf2.blu_timer:@s.get();
-            tf2.blu_timer.sec:@s = tf2.blu_timer:@s;
-            tf2.blu_timer.sec:@s += 19;
-            tf2.blu_timer.sec:@s /= 20;
+            tf2.blu_timer.sec:@s := (tf2.blu_timer:@s + 19) / 20;
             tf2.blu_timer.min:@s = tf2.blu_timer.sec:@s;
             tf2.blu_timer.sec:@s %= 60;
             tf2.blu_timer.min:@s /= 60;

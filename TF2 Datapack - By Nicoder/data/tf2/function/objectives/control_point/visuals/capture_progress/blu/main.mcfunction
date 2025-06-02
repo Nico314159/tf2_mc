@@ -1,6 +1,5 @@
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 function tf2:objectives/control_point/find_index/main
-scoreboard players set $frame tf2.var 0
 scoreboard players operation $frame tf2.var = @s[scores={tf2.team=1}] tf2.capture_threshold
 scoreboard players operation $frame tf2.var += @s tf2.blu_progress
 scoreboard players operation $frame tf2.var -= @s tf2.red_progress

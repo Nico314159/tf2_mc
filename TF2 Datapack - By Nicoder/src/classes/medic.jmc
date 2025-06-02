@@ -127,8 +127,7 @@ class Class.Medic {
 
 		this.inventory_lock();
 
-		$regen_modulo = xrroou1m8_p_join:$__global__;
-		$regen_modulo %= 20;
+		$regen_modulo := xrroou1m8_p_join:$__global__ % 20;
 		if ($regen_modulo == 0) {
 			this.natural_regen();
 		}
@@ -247,21 +246,16 @@ class Class.Medic {
 		}
 		$base_heal = @p[tag=self]::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.heal.base;
 		$maxRamp = @p[tag=self]::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.heal.maxRamp * 50;
-		$heal_amount = tf2.ticks_since_hurt:@s;
-		$heal_amount -= 150;
+		$heal_amount := tf2.ticks_since_hurt:@s - 150;
 		$heal_amount > 50;
 		$heal_amount < $maxRamp;
 		$heal_amount *= $base_heal;
 		$heal_amount /= 50;
 
-		$fraction_numerator = $heal_amount;
-		$fraction_numerator %= 20;
+		$fraction_numerator := $heal_amount % 20;
 		$heal_amount /= 20;
 
-		$t = xrroou1m8_p_join:$__global__;
-		$t %= 20;
-		$t *= $fraction_numerator;
-		$t %= 20;
+		$t := ((xrroou1m8_p_join:$__global__ % 20) * $fraction_numerator) % 20;
 		if ($t < $fraction_numerator) {
 			$heal_amount++;
 		}
@@ -271,9 +265,7 @@ class Class.Medic {
 		}
 		Player.clamp_health();
 
-		$slow_threshold = tf2.max_health:@s;
-		$slow_threshold *= 1425;
-		$slow_threshold /= 1000;
+		$slow_threshold := (tf2.max_health:@s * 1425) / 1000;
 		$uber_gain = 4;
 		$id = tf2.player.id:@s;
 		$medic_count = execute as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var;
@@ -328,16 +320,13 @@ class Class.Medic {
 		
 		$full_bar = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build * EVAL(4 * 20);
 		tf2.ubercharge:@s < $full_bar;
-		$percent_ubercharge = tf2.ubercharge:@s;
-		$percent_ubercharge *= 100;
-		$percent_ubercharge /= $full_bar;
+		$percent_ubercharge := (tf2.ubercharge:@s * 100) / $full_bar;
 		Text.subtitle(@s, "&<$percent_ubercharge>% Übercharge");
 		title @s times 0 4 2;
 	}
 	function consume_uber() {
 		$duration = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.last * 100;
-		$drain_rate = @s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build * EVAL(4 * 100);
-		$drain_rate /= $duration;
+		$drain_rate := {@s::Inventory[{Slot: 1b}].components.minecraft:custom_data.attributes.uber.build * EVAL(4 * 100)} / $duration;
 
 		tf2.ubercharge:@s[tag=tf2.uber_source] -= $drain_rate;
 		tf2.ubercharge:@s[tag=tf2.uber_source] > 0;

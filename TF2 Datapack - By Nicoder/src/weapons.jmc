@@ -498,8 +498,7 @@ class Weapons {
                 $_clip_ = $_ammoCost_;
                 $_ammo_ -= $_ammoCost_;
             case Reload.LOSSLESS:
-                $_ammoCost_ = $_maxClip_;
-                $_ammoCost_ -= $_clip_;
+                $_ammoCost_ := $_maxClip_ - $_clip_;
                 $_ammoCost_ < $_ammo_;
                 $_clip_ += $_ammoCost_;
                 $_ammo_ -= $_ammoCost_;
@@ -596,19 +595,16 @@ class Weapons {
         $_distance_ = vars::distance * 1000;
         $_hitHead_ = this.check_headshot();
         if ($_distance_ > $_range_) return 0;
-        $_finalDamage_ = $_damage_;
         
         this.calculate_falloff();
-        $_finalDamage_ *= $_multiplier_;
-        $_finalDamage_ += 99;
-        $_finalDamage_ /= 100;
+
+        $_finalDamage_ := ($_damage_ * $_multiplier_ + 99) / 100;
 
         vars::kill_verb = "killed";
 
         if ($backstab) expand {
             vars::kill_verb = "backstabbed";
-            $_finalDamage_ = tf2.max_health:@s;
-            $_finalDamage_ *= 6;
+            $_finalDamage_ := tf2.max_health:@s * 6;
         }
         // TODO: implement critical hits and resistances
         
@@ -643,8 +639,7 @@ class Weapons {
 
         $top_Y = iris:output::TargetedFace.max[1] * EVAL(10 ** 6);
         $intersection_Y = iris:output::TargetPosition.point[1] * EVAL(10 ** 6);
-        $diff_Y = $top_Y;
-        $diff_Y -= $intersection_Y;
+        $diff_Y := $top_Y - $intersection_Y;
         
         if ($diff_Y < 500000) {
             return true;
@@ -657,32 +652,19 @@ class Weapons {
             $_hammerUnits_ = vars::distance * EVAL (1 / 0.01905);
             $_hammerUnits_ < 1024;
 
-            $_temp1_ = $_hammerUnits_;
-            $_temp1_ *= $_hammerUnits_;
-            $_temp1_ *= 3;
+            $_temp1_ := ($_hammerUnits_ * $_hammerUnits_) * 3;
 
-            $_temp2_ = $_hammerUnits_;
-            $_temp2_ *= $_hammerUnits_;
-            $_temp2_ *= $_hammerUnits_;
-            $_temp2_ *= 2;
+            $_temp2_ := ($_hammerUnits_ * $_hammerUnits_ * $_hammerUnits_) * 2;
             if ($_temp2_ == -2147483648) $_temp2_ --;
             $_temp2_ /= 1024;
 
-            $_multiplier_ = $_temp1_;
-            $_multiplier_ -= $_temp2_;
-            $_multiplier_ *= -100;
-            $_multiplier_ /= 1048576;
-            $_multiplier_ += 50;
+            $_multiplier_ := (($_temp1_ - $_temp2_) * -100) / 1048576 + 50;
 
             $_temp3_ = 100;
             if ($_hammerUnits_ < 512) {
-                $_temp3_ = $_maxRamp_;
-                $_temp3_ -= 100;
-                $_temp3_ *= 2;
+                $_temp3_ := ($_maxRamp_ - 100) * 2;
             }
-            $_multiplier_ *= $_temp3_;
-            $_multiplier_ /= 100;
-            $_multiplier_ += 100;
+            $_multiplier_ := ($_multiplier_ * $_temp3_) / 100 + 100;
         }
         else if (entity @a[tag=iris.executing, scores={tf2.class=Class.SNIPER, tf2.time_scoped=4..}]) {
             Class.Sniper.damage_scale();

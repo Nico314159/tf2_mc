@@ -413,8 +413,7 @@ class Class.Spy {
                 run return fail;
 
         $enemy_dist = iris:output::Distance * 10;
-        $backstab_range = @s::SelectedItem.components."minecraft:custom_data".attributes.range * 50;
-        $backstab_range /= 6;
+        $backstab_range := {@s::SelectedItem.components."minecraft:custom_data".attributes.range * 50} / 6;
         if ($enemy_dist > $backstab_range) {return fail;}
 
         lookup::spy_pos = @s::Pos;
@@ -531,8 +530,7 @@ class Class.Spy {
         }
         function toggle_team() {
             // @within Weapons.reload
-            tf2.disguise.team:@s %= 2;
-            tf2.disguise.team:@s ++;
+            tf2.disguise.team:@s := (tf2.disguise.team:@s % 2) + 1;
         }
         function count_ticks() {
             if (entity @s[tag=tf2.in_disguise_menu]) return run {

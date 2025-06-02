@@ -29,9 +29,7 @@ scoreboard players operation $output tf2.var += $math_trigonometry_4 tf2.var
 scoreboard players operation $output tf2.var /= 100000 tf2.const
 scoreboard players operation $output tf2.var *= 9000 tf2.const
 scoreboard players operation $output tf2.var /= 15707 tf2.const
-execute if score $arctangent_swap_boolean tf2.var matches 1.. run scoreboard players operation $output tf2.var *= -1 tf2.const
-execute if score $arctangent_swap_boolean tf2.var matches 1.. run scoreboard players add $output tf2.var 9000
+execute if score $arctangent_swap_boolean tf2.var matches 1.. run function tf2:__private__/expand/1
 execute if score $quadrant_X tf2.var matches -1 if score $quadrant_Y tf2.var matches -1 run scoreboard players remove $output tf2.var 18000
-execute if score $quadrant_X tf2.var matches -1 if score $quadrant_Y tf2.var matches 1 run scoreboard players operation $output tf2.var *= -1 tf2.const
-execute if score $quadrant_X tf2.var matches -1 if score $quadrant_Y tf2.var matches 1 run scoreboard players add $output tf2.var 18000
+execute if score $quadrant_X tf2.var matches -1 if score $quadrant_Y tf2.var matches 1 run function tf2:__private__/expand/2
 execute if score $quadrant_X tf2.var matches 1 if score $quadrant_Y tf2.var matches -1 run scoreboard players operation $output tf2.var *= -1 tf2.const

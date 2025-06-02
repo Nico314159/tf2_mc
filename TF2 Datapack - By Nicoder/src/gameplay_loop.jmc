@@ -32,8 +32,7 @@
 @lazy function summon_entities() {
     // Objectives
     summon::objectives = @s::data.map.objectives;
-    tf2.index:$temp = tf2:summon::objectives;
-    tf2.index:$temp *= 10;
+    tf2.index:$temp := {tf2:summon::objectives} * 10;
     while (data storage tf2:summon objectives[]) {
         tf2.index:$temp -= 10;
         execute summon item_display run {

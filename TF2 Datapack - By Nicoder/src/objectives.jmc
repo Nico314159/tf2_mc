@@ -208,8 +208,7 @@ class Objectives
             function main() {
                 // @within this.init()
 
-                $sum = tf2.capture_threshold:@s;
-                $sum /= 1800; // Takes 90 seconds to fully revert progress.
+                $sum := tf2.capture_threshold:@s / 1800; // Takes 90 seconds to fully revert progress.
                 if (tf2.team:@s != 0) $sum *= 2;
                 if (entity @s[tag=tf2.overtime]) $sum *= 6;
                 tf2.batch_number:$local = tf2.batch_number:@s;
@@ -235,8 +234,7 @@ class Objectives
         class on_capture {
             class red {
                 function symmetric() {
-                    tf2.index:$temp = tf2.index:@s;
-                    tf2.index:$temp -= 10;
+                    tf2.index:$temp := tf2.index:@s - 10;
 
                     execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current,scores={tf2.team=2}]
 							if score @s tf2.index = $temp tf2.index
@@ -261,8 +259,7 @@ class Objectives
                 }
             } class blu {
                 function atk_def() {
-                    tf2.index:$temp = tf2.index:@s;
-                    tf2.index:$temp += 10;
+                    tf2.index:$temp := tf2.index:@s + 10;
 
                     execute at @s run Objectives.control_point.lock();
                     execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current]
@@ -272,8 +269,7 @@ class Objectives
                     // TODO: add support for map events (like doors opening)
                 }
 				function symmetric() {
-                    tf2.index:$temp = tf2.index:@s;
-                    tf2.index:$temp += 10;
+                    tf2.index:$temp := tf2.index:@s + 10;
 
                     execute as @e[type=item_display,tag=tf2.control_point,tag=tf2.current,scores={tf2.team=1}]
 							if score @s tf2.index = $temp tf2.index
@@ -522,9 +518,7 @@ class Objectives
                 tf2.index:@s = 70; // Set to 70 so that `Objectives.control_point.find_index.main()` fetches the `info[@s tf2.batch_number][7]` path, which handles spacing.
                 Objectives.control_point.find_index.main();
 
-                $temp = tf2.index:$highest;
-                $temp /= 10;
-                $temp ++;
+                $temp := (tf2.index:$highest / 10) + 1;
                 switch ($temp) {
                 case 1:
                     lookup::points[0].left =  {"text":"430"};
@@ -569,9 +563,7 @@ class Objectives
 						run  tag @s add tf2.current;
 
                 $wheel_spacing > tf2.index:@e[type=item_display,tag=tf2.current];
-                $wheel_spacing /= 2;
-                $wheel_spacing -= tf2.index:@s;
-                $wheel_spacing /= 5;
+                $wheel_spacing := ( ($wheel_spacing / 2) - tf2.index:@s ) / 5;
 
                 switch ($wheel_spacing) {
                 case -6: lookup::points[0].wheel.spacing = [{'text':'^%$#'}];
@@ -597,11 +589,8 @@ class Objectives
 
                         tf2.batch_number:$local = tf2.batch_number:@s;
                         Objectives.control_point.find_index.main();
-                        $frame = 0;
                         $frame = tf2.capture_threshold:@s[scores={tf2.team=2}];
-                        $frame += tf2.red_progress:@s;
-                        $frame -= tf2.blu_progress:@s;
-                        $frame *= 8;
+                        $frame := ($frame + tf2.red_progress:@s - tf2.blu_progress:@s) * 8;
                         if (tf2.team:@s == 0) $frame *= 2;
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.red.wheel()`
                         $frame /= tf2.capture_threshold:@s;
@@ -636,8 +625,7 @@ class Objectives
                         // Owner team determines color of the background circle. (unowned = #A1A1A1, BLU-owned = #517AB8)
                         // @within this.main()
 
-                        $wheel_frame *= 3;
-                        $wheel_frame /= tf2.capture_threshold:@s;
+                        $wheel_frame := ($wheel_frame * 3) / tf2.capture_threshold:@s;
                         Objectives.control_point.visuals.wheel_spacing();
                         if (tf2.team:@s == 0) lookup::points[0].wheel.owner = [{"text":"=","color":"#A1A1A1"}];
                         if (tf2.team:@s == 2) lookup::points[0].wheel.owner = [{"text":"=","color":"#517AB8"}];
@@ -701,8 +689,7 @@ class Objectives
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
                     }
                     function flicker() {
-                        $flicker = xrroou1m8_p_join:$__global__;
-                        $flicker %= 20;
+                        $flicker := xrroou1m8_p_join:$__global__ % 20;
                         if ($flicker == 0)           lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#D28991"}];
                         if ($flicker matches  1..2 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CF9198"}];
                         if ($flicker matches  3..4 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#CDACB1"}];
@@ -720,11 +707,8 @@ class Objectives
 
                         tf2.batch_number:$local = tf2.batch_number:@s;
                         Objectives.control_point.find_index.main();
-                        $frame = 0;
                         $frame = tf2.capture_threshold:@s[scores={tf2.team=1}];
-                        $frame += tf2.blu_progress:@s;
-                        $frame -= tf2.red_progress:@s;
-                        $frame *= 8;
+                        $frame := ($frame + tf2.blu_progress:@s - tf2.red_progress:@s) * 8;
                         if (tf2.team:@s == 0) $frame *= 2;
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.blu.wheel()`
                         $frame /= tf2.capture_threshold:@s;
@@ -758,8 +742,7 @@ class Objectives
                         // Owner team determines color of the background circle. (unowned = #A1A1A1, RED-owned = #D95A58)
                         // @within this.main()
 
-                        $wheel_frame *= 3;
-                        $wheel_frame /= tf2.capture_threshold:@s;
+                        $wheel_frame := ($wheel_frame * 3) / tf2.capture_threshold:@s;
                         Objectives.control_point.visuals.wheel_spacing();
                         if (tf2.team:@s == 0) lookup::points[0].wheel.owner = [{"text":"=","color":"#A1A1A1"}];
                         if (tf2.team:@s == 1) lookup::points[0].wheel.owner = [{"text":"=","color":"#D95A58"}];
@@ -823,8 +806,7 @@ class Objectives
                         Text.title(@a[tag=tf2.on_point], "&<gui_wheel(spacing),font(wheel)>&<#291A15,font(wheel)>?43&<gui_wheel(owner),font(wheel)>&<font(wheel)>421|&<gui_wheel(progress),font(wheel)>");
                     }
                     function flicker() {
-                        $flicker = xrroou1m8_p_join:$__global__;
-                        $flicker %= 20;
+                        $flicker := xrroou1m8_p_join:$__global__ % 20;
                         if ($flicker == 0)           lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}];
                         if ($flicker matches  1..2 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#8EABCD"}];
                         if ($flicker matches  3..4 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#9AB1CB"}];
@@ -836,8 +818,7 @@ class Objectives
                         if ($flicker == 19)          lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#7EA3CE"}];
                     }
                 } function neutral_flicker() {
-                    $flicker = xrroou1m8_p_join:$__global__;
-                    $flicker %= 20;
+                    $flicker := xrroou1m8_p_join:$__global__ % 20;
                     if ($flicker == 0)           lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#A0A0A0"}];
                     if ($flicker matches  1..2 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#ABABAB"}];
                     if ($flicker matches  3..4 ) lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#B6B6B6"}];

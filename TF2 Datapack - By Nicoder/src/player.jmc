@@ -98,9 +98,7 @@ class Player {
         }
         if (entity @s[tag=tf2.dead]) {
             tf2.respawn_timer:@s --;
-            tf2.respawn_timer.sec:@s = tf2.respawn_timer:@s;
-            tf2.respawn_timer.sec:@s += 19;
-            tf2.respawn_timer.sec:@s /= 20;
+            tf2.respawn_timer.sec:@s := (tf2.respawn_timer:@s + 19) / 20;
             Text.title(@s, "&<white>You died!");
             Text.subtitle(@s, "&<gray>Respawn in... &<tf2.respawn_timer.sec:@s, bold, dark_gray>");
         }
@@ -228,8 +226,7 @@ class Player {
 		tag @e remove tf2.search;
 
 
-        $tick_cycle = xrroou1m8_p_join:$__global__;
-        $tick_cycle %= 40;
+        $tick_cycle := xrroou1m8_p_join:$__global__ % 40;
         if (tf2.team:@s == tf2.team:@e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] && $tick_cycle == 0) {
             $do_effects = false;
             if (tf2.health:@s < tf2.max_health:@s) { $do_effects = true; }
@@ -278,18 +275,13 @@ class Player {
         }
     }
     function fall_damage() {
-        $2nd_previous_dy = tf2.fall_y3:@s;
-        $2nd_previous_dy -= tf2.fall_y2:@s;
-        $previous_dy = tf2.fall_y2:@s;
-        $previous_dy -= tf2.fall_y1:@s;
-        $current_dy = tf2.fall_y1:@s;
-        $current_dy -= tf2.fall_y:@s;
+        $2nd_previous_dy := tf2.fall_y3:@s - tf2.fall_y2:@s;
+        $previous_dy := tf2.fall_y2:@s - tf2.fall_y1:@s;
+        $current_dy := tf2.fall_y1:@s - tf2.fall_y:@s;
 
         if ($previous_dy >= $current_dy) {
             // Most recent interval was interrupted by collision
-            $impact_velocity = $previous_dy;
-            $impact_velocity += $previous_dy;
-            $impact_velocity -= $2nd_previous_dy;  // get the ∆ with the last 2 ticks.
+            $impact_velocity := $previous_dy + $previous_dy - $2nd_previous_dy;  // get the ∆ with the last 2 ticks.
         } else {
             $impact_velocity = $current_dy;
         }
@@ -301,9 +293,8 @@ class Player {
             $impact_velocity = 0;
         }
 
-        $fall_damage = $impact_velocity;
+        $fall_damage := $impact_velocity / 120;
         // Made it 120 instead of 60 from TF2, because Minecraft has higher gravity
-        $fall_damage /= 120;
         $fall_damage < 5833; // Means 58.33% max health due to the scale
 
         $fall_damage *= tf2.max_health:@s;
@@ -432,20 +423,13 @@ class Player {
             return run tf2.health:@s < tf2.max_health:@s;
         }
 
-        $new_max = tf2.max_health:@s;
-        $new_max *= 3;
-        $new_max /= 2;
+        $new_max := (tf2.max_health:@s * 3) / 2;
         tf2.health:@s < $new_max;
     }
     function overheal_decay() {
-		$decay_per_second = tf2.max_health:@s;
-		$decay_per_second /= 2;
-		$decay_per_second /= 15;
+		$decay_per_second := (tf2.max_health:@s / 2) / 15;
 
-		$t = xrroou1m8_p_join:$__global__;
-		$t %= 20;
-		$t *= $decay_per_second;
-		$t %= 20;
+		$t := ((xrroou1m8_p_join:$__global__ % 20) * $decay_per_second) % 20;
 		if ($t < $decay_per_second) {
 			tf2.health:@s--;
 		}

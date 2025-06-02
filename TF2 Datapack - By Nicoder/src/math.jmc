@@ -18,8 +18,7 @@ class Math {
 
         $sum = 0;
         for ($index = 1; $index <= $bound; $index ++;) {
-            $add = 1000;
-            $add /= $index;
+            $add := 1000 / $index;
             $sum += $add;
         }
     }
@@ -45,18 +44,14 @@ class Math {
         } 
 
         // Compute function
-        $math_trigonometry_0 = $input_Y;
-        $math_trigonometry_0 *= 10000;
-        $math_trigonometry_0 /= $input_X;
+        $math_trigonometry_0 := $input_Y * 10000 / $input_X;
         $math_trigonometry_1 = $math_trigonometry_0;
         $math_trigonometry_0 *= $math_trigonometry_0;
         $math_trigonometry_0 /= 10000;
 
         $math_trigonometry_2 = 7765;
         $math_trigonometry_3 = -28743;
-        $math_trigonometry_4 = 99518;
-
-        $math_trigonometry_4 *= $math_trigonometry_1;
+        $math_trigonometry_4 := 99518 * $math_trigonometry_1;
 
         $math_trigonometry_1 *= $math_trigonometry_0;
         $math_trigonometry_1 /= 10000;
@@ -68,25 +63,20 @@ class Math {
 
         $math_trigonometry_2 *= $math_trigonometry_1;
 
-        $output = $math_trigonometry_2;
-        $output += $math_trigonometry_3;
-        $output += $math_trigonometry_4;
-        $output /= 100000;
+        $output := ($math_trigonometry_2 + $math_trigonometry_3 + $math_trigonometry_4) / 100000;
 
-        $output *= 9000;
-        $output /= 15707;
+        $output := ($output * 9000) / 15707;
 
         // Adjust for swap and quadrant
         if ($arctangent_swap_boolean) expand {
-            $output *= -1;
-            $output += 9000;
+            $output := -$output + 9000;
         }
 
         if ($quadrant_X == -1 && $quadrant_Y == -1) {
             $output -= 18000;
         }
         if ($quadrant_X == -1 && $quadrant_Y == 1) expand {
-            $output *= -1; $output += 18000;
+            $output := -$output + 18000;
         }
         if ($quadrant_X == 1 && $quadrant_Y == -1) {
             $output *= -1;
@@ -95,39 +85,28 @@ class Math {
     function vec_to_gimbal() {
         // Get yaw from vector
         $input_X = $input_vec3.Z;
-        $input_Y = $input_vec3.X;
-        $input_Y *= -1;
+        $input_Y := -$input_vec3.X;
         Math.arctangent();
         $output_yaw = $output;
 
         // Compute length of horizontal component of vector
-        $temp_vec2.X = $input_vec3.X;
-        $temp_vec2.X *= $temp_vec2.X;
-        $temp_vec2.Y = $input_vec3.Z;
-        $temp_vec2.Y *= $temp_vec2.Y;
-        $radicand = $temp_vec2.X;
-        $radicand += $temp_vec2.Y;
+        $temp_vec2.X := $input_vec3.X ** 2;
+        $temp_vec2.Y := $input_vec3.Z ** 2;
+        $radicand := $temp_vec2.X + $temp_vec2.Y;
         $length = Math.sqrt($radicand);
 
         // Get pitch from vector
         $input_X = $length;
-        $input_Y = $input_vec3.Y;
-        $input_Y *= -1;
+        $input_Y := -$input_vec3.Y;
         Math.arctangent();
         $output_pitch = $output;
     }
 
     function dot_product() {
-        $math_term_0 = $input_vector_1_x;
-        $math_term_0 *= $input_vector_2_x;
-        $math_term_1 = $input_vector_1_y;
-        $math_term_1 *= $input_vector_2_y;
-        $math_term_2 = $input_vector_1_z;
-        $math_term_2 *= $input_vector_2_z;
-        $output = $math_term_0;
-        $output += $math_term_1;
-        $output += $math_term_2;
-        $dot_product = $output /= 1000;
+        $math_term_0 := $input_vector_1_x * $input_vector_2_x;
+        $math_term_1 := $input_vector_1_y * $input_vector_2_y;
+        $math_term_2 := $input_vector_1_z * $input_vector_2_z;
+        $dot_product := ($math_term_0 + $math_term_1 + $math_term_2) / 1000;
     }
    
     function feed_left() {
@@ -141,141 +120,80 @@ class Math {
 
 
     function cross_product() {
-        $math_term_0 = $input_vector_1_y;
-        $math_term_0 *= $input_vector_2_z;
-        $math_term_1 = $input_vector_1_z;
-        $math_term_1 *= $input_vector_2_y;
-        $output_vector_x = $math_term_0;
-        $output_vector_x -= $math_term_1;
-        $output_vector_x /= 1000;
+        $math_term_0 := $input_vector_1_y * $input_vector_2_z;
+        $math_term_1 := $input_vector_1_z * $input_vector_2_y;
+        $output_vector_x := ($math_term_0 - $math_term_1) / 1000;
 
-        $math_term_0 = $input_vector_1_z;
-        $math_term_0 *= $input_vector_2_x;
-        $math_term_1 = $input_vector_1_x;
-        $math_term_1 *= $input_vector_2_z;
-        $output_vector_y = $math_term_0;
-        $output_vector_y -= $math_term_1;
-        $output_vector_y /= 1000;
+        $math_term_0 := $input_vector_1_z * $input_vector_2_x;
+        $math_term_1 := $input_vector_1_x * $input_vector_2_z;
+        $output_vector_y := ($math_term_0 - $math_term_1) / 1000;
 
-        $math_term_0 = $input_vector_1_x;
-        $math_term_0 *= $input_vector_2_y;
-        $math_term_1 = $input_vector_1_y;
-        $math_term_1 *= $input_vector_2_x;
-        $output_vector_z = $math_term_0;
-        $output_vector_z -= $math_term_1;
-        $output_vector_z /= 1000;
+        $math_term_0 := $input_vector_1_x * $input_vector_2_y;
+        $math_term_1 := $input_vector_1_y * $input_vector_2_x;
+        $output_vector_z := ($math_term_0 - $math_term_1) / 1000;
     }
 
     function cosine() {
         // Transform input
-        $output = $input;
-        $output -= 900;
-        $output %= 1800;
-        $output -= 900;
+        $output := (($input - 900) % 1800) - 900;
 
         // Compute Bhaskara's approximation
         $output *= $output;
-        $trig_0 = $output;
-        $trig_0 += 3240000;
-        $trig_0 /= 1000;
-        $output *= -4;
-        $output += 3240000;
-        $output /= $trig_0;
+        $trig_0 := ($output + 3240000) / 1000;
+        $output := ($output * -4 + 3240000) / $trig_0;
 
         // Apply sign
-        $trig_0 = $input;
-        $trig_0 += 900;
-        $trig_0 %= 3600;
-        if ($trig_0 >= 1800) $output *= -1;
+        $trig_0 := ($input + 900) % 3600;
+        if ($trig_0 >= 1800) {$output *= -1;}
     }
 
     function sine() {
         // Transform input
-        $output = $input;
-        $output -= 1800;
-        $output %= 1800;
-        $output -= 900;
+        $output := (($input - 1800) % 1800) - 900;
 
         // Compute Bhaskara's approximation
         $output *= $output;
-        $trig_0 = $output;
-        $trig_0 += 3240000;
-        $trig_0 /= 1000;
-        $output *= -4;
-        $output += 3240000;
-        $output /= $trig_0;
+        $trig_0 := ($output + 3240000) / 1000;
+        $output := ($output * -4 + 3240000) / $trig_0;
 
         // Apply sign
-        $trig_0 = $input;
-        $trig_0 %= 3600;
+        $trig_0 := $input % 3600;
         if ($trig_0 >= 1800) $output *= -1;
     }
 
 
 
     function multiply_quaternions() {
-        $math_quaternion_r = $input_quaternion_1_r;
-        $math_quaternion_r *= $input_quaternion_2_r;
-        $math_quaternion_i = $input_quaternion_1_i;
-        $math_quaternion_i *= $input_quaternion_2_i;
-        $math_quaternion_j = $input_quaternion_1_j;
-        $math_quaternion_j *= $input_quaternion_2_j;
-        $math_quaternion_k = $input_quaternion_1_k;
-        $math_quaternion_k *= $input_quaternion_2_k;
+        $math_quaternion_r := $input_quaternion_1_r * $input_quaternion_2_r;
+        $math_quaternion_i := $input_quaternion_1_i * $input_quaternion_2_i;
+        $math_quaternion_j := $input_quaternion_1_j * $input_quaternion_2_j;
+        $math_quaternion_k := $input_quaternion_1_k * $input_quaternion_2_k;
 
-        $output_quaternion_r = $math_quaternion_r;
-        $output_quaternion_r -= $math_quaternion_i;
-        $output_quaternion_r -= $math_quaternion_j;
-        $output_quaternion_r -= $math_quaternion_k;
-        $output_quaternion_r /= 1000;
+        $output_quaternion_r := ($math_quaternion_r - $math_quaternion_i - $math_quaternion_j - $math_quaternion_k) / 1000;
 
 
-        $math_quaternion_r = $input_quaternion_1_r;
-        $math_quaternion_r *= $input_quaternion_2_i;
-        $math_quaternion_i = $input_quaternion_1_i;
-        $math_quaternion_i *= $input_quaternion_2_r;
-        $math_quaternion_j = $input_quaternion_1_j;
-        $math_quaternion_j *= $input_quaternion_2_k;
-        $math_quaternion_k = $input_quaternion_1_k;
-        $math_quaternion_k *= $input_quaternion_2_j;
+        $math_quaternion_r := $input_quaternion_1_r * $input_quaternion_2_i;
+        $math_quaternion_i := $input_quaternion_1_i * $input_quaternion_2_r;
+        $math_quaternion_j := $input_quaternion_1_j * $input_quaternion_2_k;
+        $math_quaternion_k := $input_quaternion_1_k * $input_quaternion_2_j;
 
-        $output_quaternion_i = $math_quaternion_r;
-        $output_quaternion_i += $math_quaternion_i;
-        $output_quaternion_i += $math_quaternion_j;
-        $output_quaternion_i -= $math_quaternion_k;
-        $output_quaternion_i /= 1000;
+        $output_quaternion_i := ($math_quaternion_r + $math_quaternion_i + $math_quaternion_j - $math_quaternion_k) / 1000;
 
 
-        $math_quaternion_r = $input_quaternion_1_r;
-        $math_quaternion_r *= $input_quaternion_2_j;
-        $math_quaternion_i = $input_quaternion_1_i;
-        $math_quaternion_i *= $input_quaternion_2_k;
-        $math_quaternion_j = $input_quaternion_1_j;
-        $math_quaternion_j *= $input_quaternion_2_r;
-        $math_quaternion_k = $input_quaternion_1_k;
-        $math_quaternion_k *= $input_quaternion_2_i;
+        $math_quaternion_r := $input_quaternion_1_r * $input_quaternion_2_j;
+        $math_quaternion_i := $input_quaternion_1_i * $input_quaternion_2_k;
+        $math_quaternion_j := $input_quaternion_1_j * $input_quaternion_2_r;
+        $math_quaternion_k := $input_quaternion_1_k * $input_quaternion_2_i;
 
-        $output_quaternion_j = $math_quaternion_r;
-        $output_quaternion_j -= $math_quaternion_i;
-        $output_quaternion_j += $math_quaternion_j;
-        $output_quaternion_j += $math_quaternion_k;
-        $output_quaternion_j /= 1000;
+        $output_quaternion_j := ($math_quaternion_r - $math_quaternion_i + $math_quaternion_j + $math_quaternion_k) / 1000;
 
 
-        $math_quaternion_r = $input_quaternion_1_r;
-        $math_quaternion_r *= $input_quaternion_2_k;
-        $math_quaternion_i = $input_quaternion_1_i;
-        $math_quaternion_i *= $input_quaternion_2_j;
-        $math_quaternion_j = $input_quaternion_1_j;
-        $math_quaternion_j *= $input_quaternion_2_i;
-        $math_quaternion_k = $input_quaternion_1_k;
-        $math_quaternion_k *= $input_quaternion_2_r;
+        $math_quaternion_r := $input_quaternion_1_r * $input_quaternion_2_k;
+        $math_quaternion_i := $input_quaternion_1_i * $input_quaternion_2_j;
+        $math_quaternion_j := $input_quaternion_1_j * $input_quaternion_2_i;
+        $math_quaternion_k := $input_quaternion_1_k * $input_quaternion_2_r;
 
-        $output_quaternion_k = $math_quaternion_r;
-        $output_quaternion_k += $math_quaternion_i;
-        $output_quaternion_k -= $math_quaternion_j;
-        $output_quaternion_k += $math_quaternion_k;
-        $output_quaternion_k /= 1000;
+        $output_quaternion_k := ($math_quaternion_r + $math_quaternion_i - $math_quaternion_j + $math_quaternion_k) / 1000;
     }
 
 
@@ -284,8 +202,7 @@ class Math {
         Hardcode.repeatList(
             "[PARAM]",
             () => {
-                $math_quaternion_[PARAM] = $input_quaternion_[PARAM];
-                $math_quaternion_[PARAM] *= $math_quaternion_[PARAM];
+                $math_quaternion_[PARAM] := $input_quaternion_[PARAM] ** 2;
                 $magnitude += $math_quaternion_[PARAM];
             },
             ["r", "i", "j", "k"]
@@ -295,9 +212,7 @@ class Math {
         Hardcode.repeatList(
             "[PARAM]",
             () => {
-                $output_quaternion_[PARAM] = $input_quaternion_[PARAM];
-                $output_quaternion_[PARAM] *= 1000;
-                $output_quaternion_[PARAM] /= $magnitude;
+                $output_quaternion_[PARAM] := ($input_quaternion_[PARAM] * 1000) / $magnitude;
             },
             ["r", "i", "j", "k"]
         );
@@ -315,8 +230,7 @@ class Math {
     function gimbal_to_vector() {
         $input = $input_yaw;
         this.sine();
-        $output_vector_x = $output;
-        $output_vector_x *= -1;
+        $output_vector_x := -$output;
         this.cosine();
         $output_vector_z = $output;
 
@@ -328,8 +242,7 @@ class Math {
         $output_vector_x /= 1000;
         $output_vector_z /= 1000;
         this.sine();
-        $output_vector_y = $output;
-        $output_vector_y *= -1;
+        $output_vector_y := -$output;
     }
 
     function gimbal_to_matrix() {
@@ -351,31 +264,18 @@ class Math {
         $output_matrix_XY = 0;
         $output_matrix_XZ = $sin_Y;
 
-        $output_matrix_YX = $sin_Y;
-        $output_matrix_YX *= $sin_X;
-        $output_matrix_YX *= -1;
-        $output_matrix_YX /= 1000;
+        $output_matrix_YX := (-$sin_Y * $sin_X) / 1000;
         $output_matrix_YY = $cos_X;
-        $output_matrix_YZ = $cos_Y;
-        $output_matrix_YZ *= $sin_X;
-        $output_matrix_YZ /= 1000;
+        $output_matrix_YZ := ($cos_Y * $sin_X) / 1000;
 
-        $output_matrix_ZX = $sin_Y;
-        $output_matrix_ZX *= $cos_X;
-        $output_matrix_ZX *= -1;
-        $output_matrix_ZX /= 1000;
-        $output_matrix_ZY = $sin_X;
-        $output_matrix_ZY *= -1;
-        $output_matrix_ZZ = $cos_Y;
-        $output_matrix_ZZ *= $cos_X;
-        $output_matrix_ZZ /= 1000;
+        $output_matrix_ZX := (-$sin_Y * $cos_X) / 1000;
+        $output_matrix_ZY := -$sin_X;
+        $output_matrix_ZZ := ($cos_Y * $cos_X) / 1000;
     }
 
 
     function axis_to_quaternion() {
-        $input = $input_angle;
-        $input %= 3600;
-        $input /= 2;
+        $input := ($input_angle % 3600) / 2;
 
         this.cosine();
         $output_quaternion_r = $output;
@@ -384,9 +284,7 @@ class Math {
         Hardcode.repeatLists(
             ["[AXIS]", "[PARAM]"],
             () => {
-                $output_quaternion_[PARAM] = $input_axis_[AXIS];
-                $output_quaternion_[PARAM] *= $output;
-                $output_quaternion_[PARAM] /= 1000;
+                $output_quaternion_[PARAM] := ($input_axis_[AXIS] * $output) / 1000;
             },
             [["x", "y", "z"],
              ["i", "j", "k"]]
@@ -399,8 +297,7 @@ class Math {
         Hardcode.repeatList(
             "[AXIS]",
             () => {
-                $math_[AXIS] = $input_ang_vel_[AXIS];
-                $math_[AXIS] *= $math_[AXIS];
+                $math_[AXIS] := $input_ang_vel_[AXIS] ** 2;
                 $magnitude += $math_[AXIS];
             },
             ["x", "y", "z"]
@@ -410,16 +307,12 @@ class Math {
         Hardcode.repeatList(
             "[AXIS]",
             () => {
-                $input_axis_[AXIS] = $input_ang_vel_[AXIS];
-                $input_axis_[AXIS] *= 1000;
-                $input_axis_[AXIS] /= $magnitude;
+                $input_axis_[AXIS] := ($input_ang_vel_[AXIS] * 1000) / $magnitude;
             },
             ["x", "y", "z"]
         );
 
-        $input_angle = $magnitude;
-        $input_angle *= 1800;
-        $input_angle /= 3141;
+        $input_angle := ($magnitude * 1800) / 3141;
         this.axis_to_quaternion();
     }
 
@@ -432,10 +325,7 @@ class Math {
         $output_vector_y = $output;
 
         $output_vector_z = random value -1000..1000;
-        $math_inverse_z = $output_vector_z;
-        $math_inverse_z *= $math_inverse_z;
-        $math_inverse_z *= -1;
-        $math_inverse_z += 1000000;
+        $math_inverse_z := (-$output_vector_z ** 2) + 1000000;
         $math_inverse_z = Math.sqrt($math_inverse_z);
 
         $output_vector_x *= $math_inverse_z;
@@ -443,15 +333,10 @@ class Math {
         $output_vector_x /= 1000;
         $output_vector_y /= 1000;
 
-        $math_vector_x = $output_vector_x;
-        $math_vector_y = $output_vector_y;
-        $math_vector_z = $output_vector_z;
-        $math_vector_x *= $output_vector_x;
-        $math_vector_y *= $output_vector_y;
-        $math_vector_z *= $output_vector_z;
-        $magnitude = $math_vector_x;
-        $magnitude += $math_vector_y;
-        $magnitude += $math_vector_z;
+        $math_vector_x := $output_vector_x ** 2;
+        $math_vector_y := $output_vector_y ** 2;
+        $math_vector_z := $output_vector_z ** 2;
+        $magnitude := $math_vector_x + $math_vector_y + $math_vector_z;
     }
 
 
@@ -496,29 +381,17 @@ class Math {
 
     class Sway_Heave_Surge {
         function find() {
-            $input_vector_x = $i;
-            $input_vector_x *= 2;
-            $input_vector_x += 10;
-            $input_vector_x -= $horizontal_count;
+            $input_vector_x := (($i * 2) + 10) - $horizontal_count;
             if ($horizontal_count == 10) expand {
-                $input_vector_x = execute run random value 2..6;
-                $input_vector_x %= 3;
-                $input_vector_x --;
-                $input_vector_x *= 20;
+                $input_vector_x := (({random value 2..6} % 3) - 1) * 20;
             }
             $spread = Math.random($spread_least, $spread_most);
             $input_vector_x *= $spread;
             $input_vector_x /= 100;
 
-            $input_vector_y = $j;
-            $input_vector_y *= 2;
-            $input_vector_y += 10;
-            $input_vector_y -= $vertical_count;
+            $input_vector_y := (($j * 2) + 10) - $vertical_count;
             if ($vertical_count == 10) expand {
-                $input_vector_y = execute run random value 2..6;
-                $input_vector_y %= 3;
-                $input_vector_y --;
-                $input_vector_y *= 20;
+                $input_vector_y := (({random value 2..6} % 3) - 1) * 20;
             }
             $spread = Math.random($spread_least, $spread_most);
             $input_vector_y *= $spread;
@@ -529,47 +402,31 @@ class Math {
         }
         function apply() {
             $length = 0;
-            Hardcode.repeatList("[axis]", () => {$temp = $input_vector_[axis]; $temp *= $input_vector_[axis]; $length += $temp;}, ["x", "y", "z"]);
+            Hardcode.repeatList("[axis]", () => {$temp := $input_vector_[axis] ** 2; $length += $temp;}, ["x", "y", "z"]);
             $length = Math.sqrt($length);
+
             Hardcode.repeatList("[pair]", () => {$input_matrix_[pair] = $output_matrix_[pair];}, ["XX", "XY", "XZ", "YX", "YY", "YZ", "ZX", "ZY", "ZZ"]);
             Math.matrix_transform();
+
             Hardcode.repeatList("[axis]", () => {$output_vector_[axis] *= 1000; $output_vector_[axis] /= $length;}, ["x", "y", "z"]);
             if ($debug_messages) Text.tellraw(@a, "Angled Vector: &<gold, italic>[&<$output_vector_x, italic>, &<$output_vector_y, italic>, &<$output_vector_z, italic>]");
         }
     }
     function matrix_transform() {
         // Perform linear transformation
-        $matrix_column_0 = $input_matrix_XX;
-        $matrix_column_1 = $input_matrix_YX;
-        $matrix_column_2 = $input_matrix_ZX;
-        $matrix_column_0 *= $input_vector_x;
-        $matrix_column_1 *= $input_vector_y;
-        $matrix_column_2 *= $input_vector_z;
-        $output_vector_x = $matrix_column_0;
-        $output_vector_x += $matrix_column_1;
-        $output_vector_x += $matrix_column_2;
-        $output_vector_x /= 1000;
+        $matrix_column_0 := $input_matrix_XX * $input_vector_x;
+        $matrix_column_1 := $input_matrix_YX * $input_vector_y;
+        $matrix_column_2 := $input_matrix_ZX * $input_vector_z;
+        $output_vector_x := ($matrix_column_0 + $matrix_column_1 + $matrix_column_2) / 1000;
 
-        $matrix_column_0 = $input_matrix_XY;
-        $matrix_column_1 = $input_matrix_YY;
-        $matrix_column_2 = $input_matrix_ZY;
-        $matrix_column_0 *= $input_vector_x;
-        $matrix_column_1 *= $input_vector_y;
-        $matrix_column_2 *= $input_vector_z;
-        $output_vector_y = $matrix_column_0;
-        $output_vector_y += $matrix_column_1;
-        $output_vector_y += $matrix_column_2;
-        $output_vector_y /= 1000;
+        $matrix_column_0 := $input_matrix_XY * $input_vector_x;
+        $matrix_column_1 := $input_matrix_YY * $input_vector_y;
+        $matrix_column_2 := $input_matrix_ZY * $input_vector_z;
+        $output_vector_y := ($matrix_column_0 + $matrix_column_1 + $matrix_column_2) / 1000;
 
-        $matrix_column_0 = $input_matrix_XZ;
-        $matrix_column_1 = $input_matrix_YZ;
-        $matrix_column_2 = $input_matrix_ZZ;
-        $matrix_column_0 *= $input_vector_x;
-        $matrix_column_1 *= $input_vector_y;
-        $matrix_column_2 *= $input_vector_z;
-        $output_vector_z = $matrix_column_0;
-        $output_vector_z += $matrix_column_1;
-        $output_vector_z += $matrix_column_2;
-        $output_vector_z /= 1000;
+        $matrix_column_0 := $input_matrix_XZ * $input_vector_x;
+        $matrix_column_1 := $input_matrix_YZ * $input_vector_y;
+        $matrix_column_2 := $input_matrix_ZZ * $input_vector_z;
+        $output_vector_z := ($matrix_column_0 + $matrix_column_1 + $matrix_column_2) / 1000;
     }
 }

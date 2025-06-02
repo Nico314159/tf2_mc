@@ -1,7 +1,6 @@
 class HUD {
     @lazy function check_low_health() {
-        $threshold = tf2.max_health:@s;
-        $threshold /= 2;
+        $threshold := tf2.max_health:@s / 2;
         if (tf2.health:@s[scores={tf2.health=1..}] < $threshold) expand {
             if ($flicker matches 0..15) {actionbar::health[0].color = "dark_red";}
             if ($flicker matches 16..19 && !$flicker matches 17..18) {actionbar::health[0].color = "red";}
