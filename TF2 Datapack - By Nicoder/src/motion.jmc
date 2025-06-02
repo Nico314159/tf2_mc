@@ -5,7 +5,7 @@ class Motion {
     // The following values are scaled up 1000 times.
     // Entity position encoded by tf2.[x,y,z]
     // Entity motion encoded by tf2.mot_[x,y,z]
-    // Entity hitbox size encoded by tf2.hitbox_[x,y,z], represents hitbox radius, so half the total.
+    // Entity hitbox size encoded by tf2.hitbox, represents hitbox radius, so half the total.
     // Base friction assigned with tf2.friction.
     // Collision friction assigned with tf2.collision_friction.
 
@@ -14,28 +14,34 @@ class Motion {
     // Returns collision flags on the entity encoded by tf2.collision and tf2.collision_[x,y,z]
     function move() {
         // Prepare data
-        $mot.end = 0;
         motion::pos = {};
+        $mot.distance = 1000;
+
+        // printf("Pos: &<tf2.x:@s>, &<tf2.y:@s>, &<tf2.z:@s> - Mot: &<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s> - Hitbox: &<tf2.hitbox:@s>");
 
         Hardcode.repeatList(
             "[AXIS]", () => {
             // Prepare data
             tf2.collision_[AXIS]:@s = 0;
+            tf2.hitbox_[AXIS]:@s = tf2.hitbox:@s;
 
             // Compute signs of motion vector so the math works in one direction
+            $mot.motion_[AXIS] = tf2.mot_[AXIS]:@s;
             if (tf2.mot_[AXIS]:@s >= 0) $mot.sign_[AXIS] = 1;
             if (tf2.mot_[AXIS]:@s < 0) $mot.sign_[AXIS] = -1;
             tf2.mot_[AXIS]:@s *= $mot.sign_[AXIS];
 
-            // Compute initial position and subblock position
-            $mot.initial_[AXIS] = tf2.[AXIS]:@s;
-            $mot.initial_[AXIS] -= tf2.hitbox_[AXIS]:@s;
-            $mot.subblock_[AXIS] = $mot.initial_[AXIS];
-            $mot.subblock_[AXIS] %= 1000;
-            $mot.subblock_[AXIS] /= 500;
+            // Compute min and max points
+            $mot.min_[AXIS] = tf2.[AXIS]:@s;
+            $mot.max_[AXIS] = tf2.[AXIS]:@s;
+            $mot.min_[AXIS] -= tf2.hitbox_[AXIS]:@s;
+            $mot.max_[AXIS] += tf2.hitbox_[AXIS]:@s;
+            $mot.base_[AXIS] = $mot.min_[AXIS];
+            $mot.base_[AXIS] /= 1000;
+            $mot.base_[AXIS] *= 1000;
 
-            // Push initial position to storage for macro usage
-            motion::pos.[AXIS] = 0.001 * (double) $mot.initial_[AXIS];
+            // Push min position to storage to begin traversal at min position
+            motion::pos.[AXIS] = 0.001 * (int) $mot.base_[AXIS];
 
             // Compute head and tail points
             $mot.hitbox_[AXIS] = tf2.hitbox_[AXIS]:@s;
@@ -47,9 +53,9 @@ class Motion {
 
             // Compute size of hitbox
             $mot.hitbox_[AXIS] = $mot.head_[AXIS];
-            $mot.hitbox_[AXIS] /= 500;
+            $mot.hitbox_[AXIS] /= 1000;
             $mot.temp = $mot.tail_[AXIS];
-            $mot.temp /= 500;
+            $mot.temp /= 1000;
             $mot.hitbox_[AXIS] -= $mot.temp;
             if ($mot.hitbox_[AXIS] < 0) $mot.hitbox_[AXIS] *= -1;
 
@@ -58,22 +64,22 @@ class Motion {
             $mot.delta_[AXIS] /= tf2.mot_[AXIS]:@s;
             if (tf2.mot_[AXIS]:@s = 0) $mot.delta_[AXIS] = _MAX_INT_;
 
-            // Compute distances along axes to voxel borders
-            $mot.motion_head_[AXIS] = $mot.head_[AXIS];
-            $mot.motion_tail_[AXIS] = $mot.tail_[AXIS];
-            $mot.motion_head_[AXIS] %= 500;
-            $mot.motion_tail_[AXIS] %= 500;
-            if ($mot.sign_[AXIS] = 1) { $mot.motion_head_[AXIS] *= -1; $mot.motion_head_[AXIS] += 500; }
-            if ($mot.sign_[AXIS] = 1) { $mot.motion_tail_[AXIS] *= -1; $mot.motion_tail_[AXIS] += 500; }
-
             // Compute distances along ray to voxel borders
-            $mot.distance_head_[AXIS] = $mot.delta_[AXIS];
-            $mot.distance_tail_[AXIS] = $mot.delta_[AXIS];
-            $mot.distance_head_[AXIS] *= $mot.motion_head_[AXIS];
-            $mot.distance_tail_[AXIS] *= $mot.motion_tail_[AXIS];
-            $mot.distance_head_[AXIS] /= 500;
-            $mot.distance_tail_[AXIS] /= 500;
-            if (tf2.mot_[AXIS]:@s = 0) expand {
+            $mot.distance_head_[AXIS] = $mot.head_[AXIS];
+            $mot.distance_tail_[AXIS] = $mot.tail_[AXIS];
+            $mot.distance_head_[AXIS] %= 1000;
+            $mot.distance_tail_[AXIS] %= 1000;
+            if ($mot.sign_[AXIS] = 1) {
+                $mot.distance_head_[AXIS] *= -1;
+                $mot.distance_tail_[AXIS] *= -1;
+                $mot.distance_head_[AXIS] += 1000;
+                $mot.distance_tail_[AXIS] += 1000;
+            }
+            $mot.distance_head_[AXIS] *= $mot.delta_[AXIS];
+            $mot.distance_tail_[AXIS] *= $mot.delta_[AXIS];
+            $mot.distance_head_[AXIS] /= 1000;
+            $mot.distance_tail_[AXIS] /= 1000;
+            if (tf2.mot_[AXIS]:@s = 0) {
                 $mot.distance_head_[AXIS] = _MAX_INT_;
                 $mot.distance_tail_[AXIS] = _MAX_INT_;
             }
@@ -81,189 +87,138 @@ class Motion {
             }, ["x", "y", "z"]
         );
 
+        // printf("Hitbox: &<tf2.hitbox_x:@s>, &<tf2.hitbox_y:@s>, &<tf2.hitbox_z:@s>");
+
         // Begin voxel traversal
         this.initial_position() with motion::pos;
-
-        // Set collision flag
-        tf2.collision:@s = 0;
-        Hardcode.repeatList(
-            "[AXIS]",
-            () => { if (tf2.collision_[AXIS]:@s != 0) tf2.collision:@s = 1; },
-            ["x", "y", "z"]
-        );
-
-        // Adjust motion for halt mode
-        if (tf2.collision:@s = 1 && tf2.halt:@s = 1) {
-            // Set ratio to scale motion vector
-            Hardcode.repeatList(
-                "[AXIS]",
-                () => {
-                    if (tf2.collision_[AXIS]:@s != 0) {
-                        $mot.numerator = $mot.motion_head_[AXIS];
-                        $mot.denominator = tf2.mot_[AXIS]:@s;
-                    }
-                },
-                ["x", "y", "z"]
-            );
-
-            // Scale motion vector using ratio
-            Hardcode.repeatList(
-                "[AXIS]",
-                () => {
-                    $mot.motion_head_[AXIS] = tf2.mot_[AXIS]:@s;
-                    $mot.motion_head_[AXIS] *= $mot.numerator;
-                    $mot.motion_head_[AXIS] /= $mot.denominator;
-                },
-                ["x", "y", "z"]
-            );
-        }
-
-        // Move entity
-        Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                $mot.motion_head_[AXIS] < tf2.mot_[AXIS]:@s;
-                $mot.motion_head_[AXIS] *= $mot.sign_[AXIS];
-                tf2.[AXIS]:@s += $mot.motion_head_[AXIS];
-                motion::pos.[AXIS] = 0.001 * (double) tf2.[AXIS]:@s;
-            },
-            ["x", "y", "z"]
-        );
-        this.final_position() with motion::pos;
-
-        // Restore motion signs to normal
-        Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                tf2.mot_[AXIS]:@s *= $mot.sign_[AXIS];
-            },
-            ["x", "y", "z"]
-        );
+        // execute at @s run summon minecraft:item_display ~ ~ ~ {Tags:["point"],item:{id:"minecraft:stone",count:1},transformation:{right_rotation:[0.0f,0.0f,0.0f,1.0f],scale:[0.1f,0.1f,0.1f],left_rotation:[0.0f,0.0f,0.0f,1.0f],translation:[0.0f,0.0f,0.0f]}};
+        // kill @s;
     }
 
-    // Macro functions
     function initial_position() {
-        $ execute positioned $(x) $(y) $(z) run this.traverse();
+        $ execute positioned $(x) $(y) $(z) run this.initial_hitbox_check();
     }
 
-    function final_position() {
-        $ teleport @s $(x) $(y) $(z);
+    // Checks the initial state of the hitbox to find any geometry within the same space
+    function initial_hitbox_check() {
+        Hardcode.repeatList(
+            "[AXIS]", () => {
+                $mot.voxel_[AXIS] = $mot.base_[AXIS];
+                $mot.collision_distance_[AXIS] = _MAX_INT_;
+                $mot.collision_surface_[AXIS] = 0;
+            }, ["x", "y", "z"]
+        );
+
+        this.initial_hitbox_check_x();
+        this.traverse();
+
+        JMC.pythonFile("initial_hitbox_check_script.py", jmc=true);
     }
 
     // Determines which step needs to be taken
     function traverse() {
-        // Cancel axis if motion has exceeded native value
+        // Find shortest distance
+        $mot.shortest_distance = _MAX_INT_;
         Hardcode.repeatList(
             "[AXIS]", () => {
-            Hardcode.repeatList(
-                "[SIDE]", () => {
-                    if ($mot.motion_[SIDE]_[AXIS] > tf2.mot_[AXIS]:@s) $mot.distance_[SIDE]_[AXIS] = _MAX_INT_;
-                }, ["head", "tail"]
-            ); }, ["x", "y", "z"]
+                Hardcode.repeatList(
+                    "[SIDE]", () => {
+                        $mot.shortest_distance < $mot.distance_[SIDE]_[AXIS];
+                    }, ["head", "tail"]
+                );
+                $mot.shortest_distance < $mot.collision_distance_[AXIS];
+            }, ["x", "y", "z"]
+        );
+        // printf("Distances: head: &<$mot.distance_head_x>, &<$mot.distance_head_y>, &<$mot.distance_head_z> - tail: &<$mot.distance_tail_x>, &<$mot.distance_tail_y>, &<$mot.distance_tail_z> - col: &<$mot.collision_distance_x>, &<$mot.collision_distance_y>, &<$mot.collision_distance_z> - short: &<$mot.shortest_distance>");
+
+        // Stop traversal if the shortest distance is too far away
+        if ($mot.shortest_distance > $mot.distance) return run this.stop_motion();
+
+        // Process data based on nearest axis
+        Hardcode.repeatList(
+            "[AXIS]", () => {
+                if ($mot.shortest_distance = $mot.collision_distance_[AXIS]) return run this.collision_[AXIS]();
+                Hardcode.repeatList(
+                    "[SIDE]", () => {
+                        if ($mot.shortest_distance = $mot.distance_[SIDE]_[AXIS]) return run this.[SIDE]_[AXIS]();
+                    }, ["head", "tail"]
+                );
+            }, ["x", "y", "z"]
         );
 
-        // Stop if motion ceases
-        if (
-            $mot.distance_head_x = _MAX_INT_ &&
-            $mot.distance_head_y = _MAX_INT_ &&
-            $mot.distance_head_z = _MAX_INT_ &&
-            $mot.distance_tail_x = _MAX_INT_ &&
-            $mot.distance_tail_y = _MAX_INT_ &&
-            $mot.distance_tail_z = _MAX_INT_
-        ) {
-            $mot.end = true;
-
-        } else {
-
-            // Find shortest distance
-            $mot.shortest_distance = _MAX_INT_;
-            Hardcode.repeatList(
-                "[SIDE]", () => {
-                Hardcode.repeatList(
-                    "[AXIS]", () => {
-                        $mot.shortest_distance < $mot.distance_[SIDE]_[AXIS];
-                    }, ["x", "y", "z"]
-                ); }, ["head", "tail"]
-            );
-
-            // Process data based on nearest axis
-            Hardcode.repeatList(
-                "[SIDE]", () => {
-                Hardcode.repeatList(
-                    "[AXIS]", () => {
-                        if ($mot.shortest_distance = $mot.distance_[SIDE]_[AXIS]) this.[SIDE]_[AXIS]();
-                    }, ["x", "y", "z"]
-                ); }, ["head", "tail"]
-            );
-
-            // Repeat step if check failed
-            if ($mot.end == 0) this.traverse();
-        }
-
-
-
-
         // Generate progression functions
-        Hardcode.repeatLists(
-            ["[SIDE]", "[SIGN]", "[INVERSE_SIGN]", "[OPERATOR]", "[FUNCTION]", "[STEP_DIRECTION]"], () => {
+        JMC.pythonFile("traversal_progression.py", jmc=true);
 
-            Hardcode.repeatLists(
-                ["[AXIS]", "[AXES_LEFT]", "[AXES_RIGHT]", "[STEP_AXIS]"], () => {
+        // Generate collision functions
+        Hardcode.repeatList(
+            "[AXIS]", () => {
 
-                function [SIDE]_[AXIS]() {
-                    // Set shortest distance to prevent other branches from running
-                    $mot.shortest_distance = -1;
+            function collision_[AXIS]() {
+                Hardcode.repeatList(
+                    "[SECOND_AXIS]", () => {
+                        // Update position
+                        $mot.step_[SECOND_AXIS] = $mot.motion_[SECOND_AXIS];
+                        $mot.step_[SECOND_AXIS] *= $mot.shortest_distance;
+                        $mot.step_[SECOND_AXIS] /= $mot.distance;
+                        tf2.[SECOND_AXIS]:@s += $mot.step_[SECOND_AXIS];
+                        $mot.motion_[SECOND_AXIS] -= $mot.step_[SECOND_AXIS];
 
-                    // Set step direction to use for later
-                    $mot.step = EVAL([STEP_DIRECTION] + [STEP_AXIS]);
+                        // Update distances
+                        $mot.distance_head_[SECOND_AXIS] -= $mot.shortest_distance;
+                        $mot.distance_tail_[SECOND_AXIS] -= $mot.shortest_distance;
+                    }, ["x", "y", "z"]
+                );
+                tf2.[AXIS]:@s = $mot.collision_surface_[AXIS];
+                if ($mot.sign_[AXIS] = 1) {
+                    tf2.[AXIS]:@s -= tf2.hitbox_[AXIS]:@s;
+                } else {
+                    tf2.[AXIS]:@s += tf2.hitbox_[AXIS]:@s;
+                }
+                tf2.[AXIS]:@s -= $mot.sign_[AXIS];
+                Hardcode.repeatList(
+                    "[SECOND_AXIS]", () => {
+                        // Recompute min and max positions
+                        $mot.min_[SECOND_AXIS] = tf2.[SECOND_AXIS]:@s;
+                        $mot.max_[SECOND_AXIS] = tf2.[SECOND_AXIS]:@s;
+                        $mot.min_[SECOND_AXIS] -= tf2.hitbox_[SECOND_AXIS]:@s;
+                        $mot.max_[SECOND_AXIS] += tf2.hitbox_[SECOND_AXIS]:@s;
+                    }, ["x", "y", "z"]
+                );
 
-                    // Apply delta to nearest axis
-                    $mot.distance_[SIDE]_[AXIS] += $mot.delta_[AXIS];
+                // Update total distance
+                $mot.distance -= $mot.shortest_distance;
 
-                    // Change sub-block position
-                    if ($mot.sign_[AXIS] = [INVERSE_SIGN]1) $mot.subblock_[AXIS] += 1;
+                // Set collision axis
+                tf2.collision_[AXIS]:@s = $mot.sign_[AXIS];
 
-                    // Change size of hitbox
-                    $mot.hitbox_[AXIS] [OPERATOR]= 1;
+                // Cap distance to prevent motion along that axis
+                $mot.distance_head_[AXIS] = _MAX_INT_;
+                $mot.distance_tail_[AXIS] = _MAX_INT_;
+                $mot.motion_[AXIS] = 0;
+                // printf("Collision on [AXIS]");
 
-                    // Apply offset to motion
-                    if ($mot.end = 0) $mot.motion_[SIDE]_[AXIS] += 500;
-
-                    // Run check function
-                    if ($mot.end = 0 && $mot.sign_[AXIS] = [INVERSE_SIGN]1) execute positioned [AXES_LEFT]~[INVERSE_SIGN]0.5[AXES_RIGHT] run this.[FUNCTION]();
-                    if ($mot.end = 0 && $mot.sign_[AXIS] = [SIGN]1) this.[FUNCTION]();
-                }},
-                [
-                    ["x", "y", "z"],
-                    ["", "~ ", "~ ~ "],
-                    [" ~ ~", " ~", ""],
-                    ["0", "1", "2"]
-                ]
-            );
-
-            },
-            [
-                ["head", "tail"],
-                ["", "-"],
-                ["-", ""],
-                ["+", "-"],
-                ["check", "traverse"],
-                ["0", "3"]
-            ]
+                // End if the conditions fit
+                if (tf2.halt:@s = 1 || $mot.distance = 0) {
+                    this.stop_motion();
+                } else {
+                    // Refresh the collision distances
+                    this.initial_hitbox_check();
+                }
+            }}, ["x", "y", "z"]
         );
     }
 
-    // Checks the hitbox for blocks in the newly-acquired space
-    function check() {
-        // Push hitbox size to temporary variables
+    // Scans through the newly-acquired blocks in the hitbox and updates the collision distances
+    function update_collision_distance() {
+        // printf("Hitbox: x: &<$mot.hitbox_x>, y: &<$mot.hitbox_y>, z: &<$mot.hitbox_z>");
+        // printf("base: x: &<$mot.base_x>, y: &<$mot.base_y>, z: &<$mot.base_z>");
+
         Hardcode.repeatList(
-            "[AXIS]",
-            () => { $mot.temp_hitbox_[AXIS] = $mot.hitbox_[AXIS]; },
-            ["x", "y", "z"]
+            "[AXIS]", () => {
+                $mot.voxel_[AXIS] = $mot.base_[AXIS];
+            }, ["x", "y", "z"]
         );
 
-        // Scan hitbox for collision points
-        $mot.collision = 0;
         Hardcode.repeatLists(
             ["[STEP]", "[FIRST_AXIS]", "[SECOND_AXIS]"],
             () => {
@@ -277,230 +232,233 @@ class Motion {
             ]
         );
 
-        // Adjust motion if a collision is detected
-        if ($mot.collision == 1) {
-            this.collision();
-        } else {
-            // Continue traversing at current position if there was no collision
-            this.traverse();
-        }
+        // Continue traversing
+        this.traverse();
 
         // Generate hitbox functions
         JMC.pythonFile("hitbox_script.py", jmc=true);
     }
 
-    // Checks if the current block is solid
-    function block() {
-        if ($mot.collision = 0 && !block ~ ~ ~ minecraft:air) expand {
-            iris:settings::MaxRecursionDepth = 2;
-            execute at @s positioned ^ ^ ^-0.1 run function iris:get_target;
-            if (data storage iris:output {TargetType: "BLOCK"}) {
-                $mot.collision = true;
-            }
-        }
+    // Updates the collision distance variables based on the nearest geometry in the execution context's block
+    function get_distance_to_geometry() {
+        // Skip if the block has no hitbox
+        if (block ~ ~ ~ #tf2:motion_passable) return 1;
 
-        // Stop scanning hitbox if there was a collision
-        if ($mot.collision == 1) {
-            Hardcode.repeatList(
-                "[AXIS]",
-                () => { $mot.temp_hitbox_[AXIS] = -1; },
-                ["x", "y", "z"]
+        // Get the geometry data of the block
+        iris:data::Shape = [];
+        function iris:get_hitbox/block;
+
+        // printf("min: &<$mot.min_x>, &<$mot.min_y>, &<$mot.min_z> - max: &<$mot.max_x>, &<$mot.max_y>, &<$mot.max_z> - motion: &<$mot.motion_x>, &<$mot.motion_y>, &<$mot.motion_z> - dist: &<$mot.distance>");
+
+        // Iterate through the geometry and find the nearest
+        while (data storage iris:data Shape[]) {
+            // Get bounding box parameters
+            Hardcode.repeatLists(
+                ["[AXIS]", "[INDEX]"],
+                () => {
+                    $mot.geo_min_[AXIS] = iris:data::Shape[-1].min[[INDEX]] * 1000;
+                    $mot.geo_max_[AXIS] = iris:data::Shape[-1].max[[INDEX]] * 1000;
+                    $mot.geo_min_[AXIS] += $mot.voxel_[AXIS];
+                    $mot.geo_max_[AXIS] += $mot.voxel_[AXIS];
+                },
+                [
+                    ["x", "y", "z"],
+                    ["0", "1", "2"]
+                ]
             );
+
+            // printf("geo: min: &<$mot.geo_min_x>, &<$mot.geo_min_y>, &<$mot.geo_min_z> - max: &<$mot.geo_max_x>, &<$mot.geo_max_y>, &<$mot.geo_max_z>");
+
+            Hardcode.repeatLists(
+                ["[AXIS]", "[SECOND_AXIS]", "[THIRD_AXIS]"],
+                () => {
+                    // Compute distance along ray to geometry under a certain axis
+                    if ($mot.sign_[AXIS] = 1) {
+                        $mot.distance_[AXIS] = $mot.geo_min_[AXIS];
+                        $mot.distance_[AXIS] -= $mot.max_[AXIS];
+                    } else {
+                        $mot.distance_[AXIS] = $mot.geo_max_[AXIS];
+                        $mot.distance_[AXIS] -= $mot.min_[AXIS];
+                    }
+                    
+                    $mot.distance_[AXIS] *= $mot.distance;
+                    $mot.distance_[AXIS] /= $mot.motion_[AXIS];
+
+                    // Check if collision is valid
+                    if ($mot.motion_[AXIS] != 0 && $mot.distance_[AXIS] >= 0 && $mot.distance_[AXIS] <= $mot.distance) {
+                        $mot.temp_distance_[SECOND_AXIS] = $mot.motion_[SECOND_AXIS];
+                        $mot.temp_distance_[SECOND_AXIS] *= $mot.distance_[AXIS];
+                        $mot.temp_distance_[SECOND_AXIS] /= 1000;
+                        $mot.temp_min_[SECOND_AXIS] = $mot.min_[SECOND_AXIS];
+                        $mot.temp_max_[SECOND_AXIS] = $mot.max_[SECOND_AXIS];
+                        $mot.temp_min_[SECOND_AXIS] += $mot.temp_distance_[SECOND_AXIS];
+                        $mot.temp_max_[SECOND_AXIS] += $mot.temp_distance_[SECOND_AXIS];
+
+                        $mot.temp_distance_[THIRD_AXIS] = $mot.motion_[THIRD_AXIS];
+                        $mot.temp_distance_[THIRD_AXIS] *= $mot.distance_[AXIS];
+                        $mot.temp_distance_[THIRD_AXIS] /= 1000;
+                        $mot.temp_min_[THIRD_AXIS] = $mot.min_[THIRD_AXIS];
+                        $mot.temp_max_[THIRD_AXIS] = $mot.max_[THIRD_AXIS];
+                        $mot.temp_min_[THIRD_AXIS] += $mot.temp_distance_[THIRD_AXIS];
+                        $mot.temp_max_[THIRD_AXIS] += $mot.temp_distance_[THIRD_AXIS];
+
+                        // printf("cast: min: [SECOND_AXIS]: &<$mot.temp_min_[SECOND_AXIS]>, [THIRD_AXIS]: &<$mot.temp_min_[THIRD_AXIS]> - max: [SECOND_AXIS]: &<$mot.temp_max_[SECOND_AXIS]>, [THIRD_AXIS]: &<$mot.temp_max_[THIRD_AXIS]>");
+
+                        if (
+                            $mot.temp_max_[SECOND_AXIS] >= $mot.geo_min_[SECOND_AXIS] &&
+                            $mot.temp_min_[SECOND_AXIS] <= $mot.geo_max_[SECOND_AXIS] &&
+                            $mot.temp_max_[THIRD_AXIS] >= $mot.geo_min_[THIRD_AXIS] &&
+                            $mot.temp_min_[THIRD_AXIS] <= $mot.geo_max_[THIRD_AXIS]
+                        ) {
+                            $mot.collision_distance_[AXIS] < $mot.distance_[AXIS];
+                            if ($mot.sign_[AXIS] = 1) {
+                                $mot.collision_surface_[AXIS] = $mot.geo_min_[AXIS];
+                            } else {
+                                $mot.collision_surface_[AXIS] = $mot.geo_max_[AXIS];
+                            }
+                        }
+                    }
+                },
+                [
+                    ["x", "y", "z"],
+                    ["y", "z", "x"],
+                    ["z", "x", "y"]
+                ]
+            );
+
+            // printf("dist: &<$mot.distance_x>, &<$mot.distance_y>, &<$mot.distance_z>");
+
+            iris:data::Shape[-1].del();
         }
     }
 
-    // Checks if the current position collides with a slab
-    function slabs() {
-        $mot.subblock_y %= 2;
-
-        if (block ~ ~ ~ #minecraft:slabs[type=double]) $mot.collision = 1;
-        if ($mot.subblock_y = 1 && block ~ ~ ~ #minecraft:slabs[type=top   ]) $mot.collision = 1;
-        if ($mot.subblock_y = 0 && block ~ ~ ~ #minecraft:slabs[type=bottom]) $mot.collision = 1;
-    }
-
-    // Checks if the current position collides with a stair
-    function stairs() {
+    // Logic for when the traversal comes to an end
+    function stop_motion() {
+        tf2.collision:@s = 0;
         Hardcode.repeatList(
             "[AXIS]",
-            () => { $mot.subblock_[AXIS] %= 2; },
+            () => {
+                // Set collision flag
+                if (tf2.collision_[AXIS]:@s != 0) tf2.collision:@s = 1;
+            },
             ["x", "y", "z"]
-        );
-        
-        if ($mot.subblock_y = 1 && block ~ ~ ~ #minecraft:stairs[half=top   ]) $mot.collision = 1;
-        if ($mot.subblock_y = 0 && block ~ ~ ~ #minecraft:stairs[half=bottom]) $mot.collision = 1;
-
-        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=straight,facing=west ]) $mot.collision = 1;
-        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=straight,facing=east ]) $mot.collision = 1;
-        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=straight,facing=north]) $mot.collision = 1;
-        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=straight,facing=south]) $mot.collision = 1;
-
-
-
-        if ($mot.subblock_x = 0 && $mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=north]) $mot.collision = 1;
-        if ($mot.subblock_x = 0 && $mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=west ]) $mot.collision = 1;
-        if ($mot.subblock_x = 1 && $mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=east ]) $mot.collision = 1;
-        if ($mot.subblock_x = 1 && $mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=north]) $mot.collision = 1;
-        if ($mot.subblock_x = 0 && $mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=west ]) $mot.collision = 1;
-        if ($mot.subblock_x = 0 && $mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=south]) $mot.collision = 1;
-        if ($mot.subblock_x = 1 && $mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=outer_left ,facing=south]) $mot.collision = 1;
-        if ($mot.subblock_x = 1 && $mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=outer_right,facing=east ]) $mot.collision = 1;
-
-
-
-        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=north]) $mot.collision = 1;
-        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=north]) $mot.collision = 1;
-        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=west ]) $mot.collision = 1;
-        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=west ]) $mot.collision = 1;
-
-        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=east ]) $mot.collision = 1;
-        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=east ]) $mot.collision = 1;
-        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=north]) $mot.collision = 1;
-        if ($mot.subblock_z = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=north]) $mot.collision = 1;
-
-        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=west ]) $mot.collision = 1;
-        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=west ]) $mot.collision = 1;
-        if ($mot.subblock_x = 0 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=south]) $mot.collision = 1;
-        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=south]) $mot.collision = 1;
-
-        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=south]) $mot.collision = 1;
-        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_left ,facing=south]) $mot.collision = 1;
-        if ($mot.subblock_x = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=east ]) $mot.collision = 1;
-        if ($mot.subblock_z = 1 && block ~ ~ ~ #minecraft:stairs[shape=inner_right,facing=east ]) $mot.collision = 1;
-    }
-
-    // Handles collision events
-    function collision() {
-        Hardcode.repeatLists(
-            ["[STEP]", "[AXIS]"],
-            () => { if ($mot.step = [STEP]) this.collision_[AXIS](); },
-            [
-                ["0", "1", "2"],
-                ["x", "y", "z"]
-            ]
         );
 
         Hardcode.repeatList(
             "[AXIS]",
             () => {
+                // Update position
+                if (tf2.halt:@s = 0 || tf2.collision:@s = 0) tf2.[AXIS]:@s += $mot.motion_[AXIS];
+                motion::pos.[AXIS] = 0.001 * (double) tf2.[AXIS]:@s;
 
-            function collision_[AXIS]() {
-                // Set collision axis
-                tf2.collision_[AXIS]:@s = $mot.sign_[AXIS];
-
-                // Kick back values
-                $mot.motion_head_[AXIS] -= 501;
-                $mot.hitbox_[AXIS] -= 1;
-                if ($mot.sign_[AXIS] = -1) $mot.subblock_[AXIS] += 1;
-                $mot.subblock_[AXIS] %= 2;
-
-                // Cap distance to prevent motion along that axis
-                $mot.distance_head_[AXIS] = _MAX_INT_;
-                $mot.distance_tail_[AXIS] = _MAX_INT_;
-
-                // Halt
-                if (tf2.halt:@s = 1) {$mot.end = 1;}
-            }},
+                // Restore motion signs to normal
+                tf2.mot_[AXIS]:@s *= $mot.sign_[AXIS];
+            },
             ["x", "y", "z"]
         );
+
+        // Move entity
+        this.final_position() with motion::pos;
+    }
+
+    function final_position() {
+        $ teleport @s $(x) $(y) $(z);
     }
 }
 
 new tag.block(motion_passable) {
-	"values": [
-        "#minecraft:slabs",
-		"#minecraft:stairs",
-
-		"#minecraft:banners",
-		"#minecraft:bee_growables",
-		"#minecraft:buttons",
-		"#minecraft:corals",
-		"#minecraft:fire",
-		"#minecraft:small_flowers",
-		"#minecraft:flowers",
-		"#minecraft:pressure_plates",
-		"#minecraft:rails",
-		"#minecraft:signs",
+    "values": [
+        "#minecraft:banners",
+        "#minecraft:bee_growables",
+        "#minecraft:buttons",
+        "#minecraft:corals",
+        "#minecraft:fire",
+        "#minecraft:small_flowers",
+        "#minecraft:flowers",
+        "#minecraft:pressure_plates",
+        "#minecraft:rails",
+        "#minecraft:signs",
         "#minecraft:wall_corals",
-		"#minecraft:candles",
-		"#minecraft:saplings",
+        "#minecraft:candles",
+        "#minecraft:saplings",
         "#minecraft:wool_carpets",
 
-		"minecraft:air",
-		"minecraft:attached_melon_stem",
-		"minecraft:attached_pumpkin_stem",
-		"minecraft:bamboo_sapling",
-		"minecraft:big_dripleaf",
-		"minecraft:brown_mushroom",
-		"minecraft:bubble_column",
-		"minecraft:cave_air",
-		"minecraft:cave_vines",
-		"minecraft:cave_vines_plant",
-		"minecraft:cobweb",
-		"minecraft:crimson_fungus",
-		"minecraft:crimson_roots",
-		"minecraft:dead_brain_coral",
-		"minecraft:dead_brain_coral_fan",
-		"minecraft:dead_brain_coral_wall_fan",
-		"minecraft:dead_bubble_coral",
-		"minecraft:dead_bubble_coral_fan",
-		"minecraft:dead_bubble_coral_wall_fan",
-		"minecraft:dead_bush",
-		"minecraft:dead_fire_coral",
-		"minecraft:dead_fire_coral_fan",
-		"minecraft:dead_fire_coral_wall_fan",
-		"minecraft:dead_horn_coral",
-		"minecraft:dead_horn_coral_fan",
-		"minecraft:dead_horn_coral_wall_fan",
-		"minecraft:dead_tube_coral",
-		"minecraft:dead_tube_coral_fan",
-		"minecraft:dead_tube_coral_wall_fan",
-		"minecraft:fern",
-		"minecraft:frogspawn",
-		"minecraft:glow_lichen",
-		"minecraft:hanging_roots",
-		"minecraft:kelp",
-		"minecraft:kelp_plant",
+        "minecraft:air",
+        "minecraft:attached_melon_stem",
+        "minecraft:attached_pumpkin_stem",
+        "minecraft:bamboo_sapling",
+        "minecraft:big_dripleaf",
+        "minecraft:brown_mushroom",
+        "minecraft:bubble_column",
+        "minecraft:cave_air",
+        "minecraft:cave_vines",
+        "minecraft:cave_vines_plant",
+        "minecraft:cobweb",
+        "minecraft:crimson_fungus",
+        "minecraft:crimson_roots",
+        "minecraft:dead_brain_coral",
+        "minecraft:dead_brain_coral_fan",
+        "minecraft:dead_brain_coral_wall_fan",
+        "minecraft:dead_bubble_coral",
+        "minecraft:dead_bubble_coral_fan",
+        "minecraft:dead_bubble_coral_wall_fan",
+        "minecraft:dead_bush",
+        "minecraft:dead_fire_coral",
+        "minecraft:dead_fire_coral_fan",
+        "minecraft:dead_fire_coral_wall_fan",
+        "minecraft:dead_horn_coral",
+        "minecraft:dead_horn_coral_fan",
+        "minecraft:dead_horn_coral_wall_fan",
+        "minecraft:dead_tube_coral",
+        "minecraft:dead_tube_coral_fan",
+        "minecraft:dead_tube_coral_wall_fan",
+        "minecraft:fern",
+        "minecraft:frogspawn",
+        "minecraft:glow_lichen",
+        "minecraft:hanging_roots",
+        "minecraft:kelp",
+        "minecraft:kelp_plant",
         "minecraft:large_fern",
         "minecraft:ladder",
-		"minecraft:lava",
+        "minecraft:lava",
         "minecraft:lever",
-		"minecraft:light",
+        "minecraft:light",
         "minecraft:lily_pad",
-		"minecraft:moss_carpet",
-		"minecraft:moving_piston",
-		"minecraft:nether_portal",
-		"minecraft:nether_sprouts",
-		"minecraft:nether_wart",
-		"minecraft:powder_snow",
-		"minecraft:red_mushroom",
-		"minecraft:redstone_torch",
-		"minecraft:redstone_wall_torch",
-		"minecraft:redstone_wire",
-		"minecraft:scaffolding",
-		"minecraft:sculk_vein",
+        "minecraft:moss_carpet",
+        "minecraft:moving_piston",
+        "minecraft:nether_portal",
+        "minecraft:nether_sprouts",
+        "minecraft:nether_wart",
+        "minecraft:powder_snow",
+        "minecraft:red_mushroom",
+        "minecraft:redstone_torch",
+        "minecraft:redstone_wall_torch",
+        "minecraft:redstone_wire",
+        "minecraft:scaffolding",
+        "minecraft:sculk_vein",
         "minecraft:seagrass",
         "minecraft:short_grass",
-		"minecraft:small_dripleaf",
+        "minecraft:small_dripleaf",
         "minecraft:snow",
-		"minecraft:soul_torch",
-		"minecraft:soul_wall_torch",
-		"minecraft:spore_blossom",
-		"minecraft:structure_void",
-		"minecraft:sugar_cane",
-		"minecraft:tall_grass",
-		"minecraft:tall_seagrass",
-		"minecraft:torch",
-		"minecraft:tripwire",
-		"minecraft:tripwire_hook",
-		"minecraft:twisting_vines",
-		"minecraft:twisting_vines_plant",
-		"minecraft:vine",
-		"minecraft:void_air",
-		"minecraft:wall_torch",
-		"minecraft:warped_fungus",
-		"minecraft:warped_roots",
-		"minecraft:water",
-		"minecraft:weeping_vines",
-		"minecraft:weeping_vines_plant"
-	]
+        "minecraft:soul_torch",
+        "minecraft:soul_wall_torch",
+        "minecraft:spore_blossom",
+        "minecraft:structure_void",
+        "minecraft:sugar_cane",
+        "minecraft:tall_grass",
+        "minecraft:tall_seagrass",
+        "minecraft:torch",
+        "minecraft:tripwire",
+        "minecraft:tripwire_hook",
+        "minecraft:twisting_vines",
+        "minecraft:twisting_vines_plant",
+        "minecraft:vine",
+        "minecraft:void_air",
+        "minecraft:wall_torch",
+        "minecraft:warped_fungus",
+        "minecraft:warped_roots",
+        "minecraft:water",
+        "minecraft:weeping_vines",
+        "minecraft:weeping_vines_plant"
+    ]
 }
