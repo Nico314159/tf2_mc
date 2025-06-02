@@ -10,19 +10,21 @@ class Motion {
     // Collision friction assigned with tf2.collision_friction.
 
     // Mark entity to halt on collision with tf2.halt.
+    // Mark traversal as considering collision with entities with tf2.consider_entities.
 
-    // Returns collision flags on the entity encoded by tf2.collision and tf2.collision_[x,y,z]
+    // Returns collision flags on the entity encoded by tf2.collision, tf2.collision_[x,y,z], tf2.collision_entity, and tf2.collision_entity_[x,y,z].
     function move() {
         // Prepare data
         motion::pos = {};
         $mot.distance = 1000;
-
-        // printf("Pos: &<tf2.x:@s>, &<tf2.y:@s>, &<tf2.z:@s> - Mot: &<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s> - Hitbox: &<tf2.hitbox:@s>");
+        tf2.consider_entities:@s += 0;
 
         Hardcode.repeatList(
             "[AXIS]", () => {
             // Prepare data
+            tag @s add tf2.executing_entity;
             tf2.collision_[AXIS]:@s = 0;
+            tf2.collision_entity_[AXIS]:@s = 0;
             tf2.hitbox_[AXIS]:@s = tf2.hitbox:@s;
 
             // Compute signs of motion vector so the math works in one direction
@@ -87,12 +89,9 @@ class Motion {
             }, ["x", "y", "z"]
         );
 
-        // printf("Hitbox: &<tf2.hitbox_x:@s>, &<tf2.hitbox_y:@s>, &<tf2.hitbox_z:@s>");
-
         // Begin voxel traversal
         this.initial_position() with motion::pos;
-        // execute at @s run summon minecraft:item_display ~ ~ ~ {Tags:["point"],item:{id:"minecraft:stone",count:1},transformation:{right_rotation:[0.0f,0.0f,0.0f,1.0f],scale:[0.1f,0.1f,0.1f],left_rotation:[0.0f,0.0f,0.0f,1.0f],translation:[0.0f,0.0f,0.0f]}};
-        // kill @s;
+        tag @s remove tf2.executing_entity;
     }
 
     function initial_position() {
@@ -106,6 +105,8 @@ class Motion {
                 $mot.voxel_[AXIS] = $mot.base_[AXIS];
                 $mot.collision_distance_[AXIS] = _MAX_INT_;
                 $mot.collision_surface_[AXIS] = 0;
+                $mot.collision_edge_[AXIS] = 0;
+                $mot.collision_entity_[AXIS] = 0;
             }, ["x", "y", "z"]
         );
 
@@ -129,7 +130,6 @@ class Motion {
                 $mot.shortest_distance < $mot.collision_distance_[AXIS];
             }, ["x", "y", "z"]
         );
-        // printf("Distances: head: &<$mot.distance_head_x>, &<$mot.distance_head_y>, &<$mot.distance_head_z> - tail: &<$mot.distance_tail_x>, &<$mot.distance_tail_y>, &<$mot.distance_tail_z> - col: &<$mot.collision_distance_x>, &<$mot.collision_distance_y>, &<$mot.collision_distance_z> - short: &<$mot.shortest_distance>");
 
         // Stop traversal if the shortest distance is too far away
         if ($mot.shortest_distance > $mot.distance) return run this.stop_motion();
@@ -154,6 +154,9 @@ class Motion {
             "[AXIS]", () => {
 
             function collision_[AXIS]() {
+                // Adjust shortest distance if it hit an edge
+                if ($mot.collision_edge_[AXIS] = 1) $mot.shortest_distance -= 50;
+
                 Hardcode.repeatList(
                     "[SECOND_AXIS]", () => {
                         // Update position
@@ -190,12 +193,12 @@ class Motion {
 
                 // Set collision axis
                 tf2.collision_[AXIS]:@s = $mot.sign_[AXIS];
+                tf2.collision_entity_[AXIS]:@s = $mot.collision_entity_[AXIS];
 
                 // Cap distance to prevent motion along that axis
                 $mot.distance_head_[AXIS] = _MAX_INT_;
                 $mot.distance_tail_[AXIS] = _MAX_INT_;
                 $mot.motion_[AXIS] = 0;
-                // printf("Collision on [AXIS]");
 
                 // End if the conditions fit
                 if (tf2.halt:@s = 1 || $mot.distance = 0) {
@@ -210,8 +213,6 @@ class Motion {
 
     // Scans through the newly-acquired blocks in the hitbox and updates the collision distances
     function update_collision_distance() {
-        // printf("Hitbox: x: &<$mot.hitbox_x>, y: &<$mot.hitbox_y>, z: &<$mot.hitbox_z>");
-        // printf("base: x: &<$mot.base_x>, y: &<$mot.base_y>, z: &<$mot.base_z>");
 
         Hardcode.repeatList(
             "[AXIS]", () => {
@@ -241,23 +242,30 @@ class Motion {
 
     // Updates the collision distance variables based on the nearest geometry in the execution context's block
     function get_distance_to_geometry() {
-        // Skip if the block has no hitbox
-        if (block ~ ~ ~ #tf2:motion_passable) return 1;
-
         // Get the geometry data of the block
         iris:data::Shape = [];
-        function iris:get_hitbox/block;
+        if (!block ~ ~ ~ #tf2:motion_passable) function iris:get_hitbox/block;
 
-        // printf("min: &<$mot.min_x>, &<$mot.min_y>, &<$mot.min_z> - max: &<$mot.max_x>, &<$mot.max_y>, &<$mot.max_z> - motion: &<$mot.motion_x>, &<$mot.motion_y>, &<$mot.motion_z> - dist: &<$mot.distance>");
+        // Get the geometry data of entities
+        if (tf2.consider_entities:@s = 1) {
+            Hardcode.repeatList(
+                "[AXIS]", () => {
+                    iris:$[[AXIS]] = $mot.voxel_[AXIS];
+                    iris:$[[AXIS]] /= 1000;
+                }, ["x", "y", "z"]
+            );
+            execute align xyz as @e[type=!#iris:ignore,dx=0,dy=0,dz=0,tag=!tf2.executing_entity] at @s run function iris:get_hitbox/entity;
+        }
 
         // Iterate through the geometry and find the nearest
         while (data storage iris:data Shape[]) {
             // Get bounding box parameters
+            motion::geo = iris:data::Shape[-1];
             Hardcode.repeatLists(
                 ["[AXIS]", "[INDEX]"],
                 () => {
-                    $mot.geo_min_[AXIS] = iris:data::Shape[-1].min[[INDEX]] * 1000;
-                    $mot.geo_max_[AXIS] = iris:data::Shape[-1].max[[INDEX]] * 1000;
+                    $mot.geo_min_[AXIS] = motion::geo.min[[INDEX]] * 1000;
+                    $mot.geo_max_[AXIS] = motion::geo.max[[INDEX]] * 1000;
                     $mot.geo_min_[AXIS] += $mot.voxel_[AXIS];
                     $mot.geo_max_[AXIS] += $mot.voxel_[AXIS];
                 },
@@ -266,8 +274,7 @@ class Motion {
                     ["0", "1", "2"]
                 ]
             );
-
-            // printf("geo: min: &<$mot.geo_min_x>, &<$mot.geo_min_y>, &<$mot.geo_min_z> - max: &<$mot.geo_max_x>, &<$mot.geo_max_y>, &<$mot.geo_max_z>");
+            $mot.is_entity = execute if data storage tf2:motion geo{type:"ENTITY"};
 
             Hardcode.repeatLists(
                 ["[AXIS]", "[SECOND_AXIS]", "[THIRD_AXIS]"],
@@ -302,19 +309,37 @@ class Motion {
                         $mot.temp_min_[THIRD_AXIS] += $mot.temp_distance_[THIRD_AXIS];
                         $mot.temp_max_[THIRD_AXIS] += $mot.temp_distance_[THIRD_AXIS];
 
-                        // printf("cast: min: [SECOND_AXIS]: &<$mot.temp_min_[SECOND_AXIS]>, [THIRD_AXIS]: &<$mot.temp_min_[THIRD_AXIS]> - max: [SECOND_AXIS]: &<$mot.temp_max_[SECOND_AXIS]>, [THIRD_AXIS]: &<$mot.temp_max_[THIRD_AXIS]>");
-
                         if (
                             $mot.temp_max_[SECOND_AXIS] >= $mot.geo_min_[SECOND_AXIS] &&
                             $mot.temp_min_[SECOND_AXIS] <= $mot.geo_max_[SECOND_AXIS] &&
                             $mot.temp_max_[THIRD_AXIS] >= $mot.geo_min_[THIRD_AXIS] &&
                             $mot.temp_min_[THIRD_AXIS] <= $mot.geo_max_[THIRD_AXIS]
                         ) {
-                            $mot.collision_distance_[AXIS] < $mot.distance_[AXIS];
-                            if ($mot.sign_[AXIS] = 1) {
-                                $mot.collision_surface_[AXIS] = $mot.geo_min_[AXIS];
-                            } else {
-                                $mot.collision_surface_[AXIS] = $mot.geo_max_[AXIS];
+                            // Reduce distance by 1 of interior collisions to break ties with edge collisions
+                            $mot.on_edge = 1;
+                            $mot.temp_max_[SECOND_AXIS] -= 3;
+                            $mot.temp_min_[SECOND_AXIS] += 3;
+                            $mot.temp_max_[THIRD_AXIS] -= 3;
+                            $mot.temp_min_[THIRD_AXIS] += 3;
+                            if (
+                                $mot.temp_max_[SECOND_AXIS] > $mot.geo_min_[SECOND_AXIS] &&
+                                $mot.temp_min_[SECOND_AXIS] < $mot.geo_max_[SECOND_AXIS] &&
+                                $mot.temp_max_[THIRD_AXIS] > $mot.geo_min_[THIRD_AXIS] &&
+                                $mot.temp_min_[THIRD_AXIS] < $mot.geo_max_[THIRD_AXIS]
+                            ) {
+                                $mot.on_edge = 0;
+                            }
+                            if ($mot.on_edge = 1) $mot.distance_[AXIS] += 50;
+
+                            if ($mot.distance_[AXIS] < $mot.collision_distance_[AXIS]) {
+                                $mot.collision_distance_[AXIS] = $mot.distance_[AXIS];
+                                $mot.collision_edge_[AXIS] = $mot.on_edge;
+                                $mot.collision_entity_[AXIS] = $mot.is_entity;
+                                if ($mot.sign_[AXIS] = 1) {
+                                    $mot.collision_surface_[AXIS] = $mot.geo_min_[AXIS];
+                                } else {
+                                    $mot.collision_surface_[AXIS] = $mot.geo_max_[AXIS];
+                                }
                             }
                         }
                     }
@@ -326,8 +351,6 @@ class Motion {
                 ]
             );
 
-            // printf("dist: &<$mot.distance_x>, &<$mot.distance_y>, &<$mot.distance_z>");
-
             iris:data::Shape[-1].del();
         }
     }
@@ -335,11 +358,13 @@ class Motion {
     // Logic for when the traversal comes to an end
     function stop_motion() {
         tf2.collision:@s = 0;
+        tf2.collision_entity:@s = 0;
         Hardcode.repeatList(
             "[AXIS]",
             () => {
                 // Set collision flag
                 if (tf2.collision_[AXIS]:@s != 0) tf2.collision:@s = 1;
+                if (tf2.collision_entity_[AXIS]:@s != 0) tf2.collision_entity:@s = 1;
             },
             ["x", "y", "z"]
         );

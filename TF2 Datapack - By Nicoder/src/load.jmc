@@ -36,9 +36,13 @@ Hardcode.repeatList(
 
         "x", "y", "z",
         "mot_x", "mot_y", "mot_z",
+        "hitbox",
         "hitbox_x", "hitbox_y", "hitbox_z",
         "collision_x", "collision_y", "collision_z",
         "collision",
+        "collision_entity",
+        "collision_entity_x", "collision_entity_y", "collision_entity_z",
+        "consider_entities",
         "friction", "collision_friction",
         "halt",
         "quaternion_r", "quaternion_i", "quaternion_j", "quaternion_k",
