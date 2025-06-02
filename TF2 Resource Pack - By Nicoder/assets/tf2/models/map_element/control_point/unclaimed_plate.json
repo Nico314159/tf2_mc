@@ -3,7 +3,8 @@
 	"texture_size": [144, 144],
 	"textures": {
 		"0": "tf2:map_element/control_point/base",
-		"1": "tf2:map_element/control_point/unclaimed"
+		"1": "tf2:map_element/control_point/unclaimed",
+		"particle": "tf2:item/transparent"
 	},
 	"elements": [
 		{

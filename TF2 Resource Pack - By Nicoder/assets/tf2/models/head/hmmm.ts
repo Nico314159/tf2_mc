@@ -8,7 +8,8 @@ for (const tf2class of ["scout", "sniper", "soldier", "spy", "heavy", "demoman",
                 credit: "Made with Blockbench",
                 parent: "tf2:head/_default_",
                 textures: {
-                    0: `tf2:head/uber/${tf2class}_${team}`
+                    0: `tf2:head/uber/${tf2class}_${team}`,
+                    "particle": "tf2:item/transparent",
                 }
             }, undefined, "\t")
         );

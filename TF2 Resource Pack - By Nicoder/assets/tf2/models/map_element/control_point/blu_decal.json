@@ -3,7 +3,8 @@
 	"ambientocclusion": false,
 	"texture_size": [144, 144],
 	"textures": {
-		"1": "tf2:map_element/control_point/blu"
+		"1": "tf2:map_element/control_point/blu",
+		"particle": "tf2:item/transparent"
 	},
 	"elements": [
 		{

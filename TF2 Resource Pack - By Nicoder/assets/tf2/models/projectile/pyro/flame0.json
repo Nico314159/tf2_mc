@@ -1,7 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "tf2:projectile/pyro/flame0"
+		"1": "tf2:projectile/pyro/flame0",
+		"particle": "tf2:item/transparent"
 	},
 	"elements": [
 		{

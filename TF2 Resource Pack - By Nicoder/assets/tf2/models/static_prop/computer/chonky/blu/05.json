@@ -1,6 +1,7 @@
 {
 	"parent": "tf2:static_prop/computer/chonky/red/05",
 	"textures": {
-		"0": "tf2:static_prop/computer/chonky/blu/05"
+		"0": "tf2:static_prop/computer/chonky/blu/05",
+		"particle": "tf2:item/transparent"
 	}
 }

@@ -2,6 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "tf2:head/_default_",
 	"textures": {
-		"0": "tf2:head/pyro"
+		"0": "tf2:head/pyro",
+		"particle": "tf2:item/transparent"
 	}
 }

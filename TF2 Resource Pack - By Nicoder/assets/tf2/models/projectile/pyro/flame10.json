@@ -1,6 +1,7 @@
 {
 	"parent": "tf2:projectile/pyro/flame0",
 	"textures": {
-		"1": "tf2:projectile/pyro/flame10"
+		"1": "tf2:projectile/pyro/flame10",
+		"particle": "tf2:item/transparent"
 	}
 }
