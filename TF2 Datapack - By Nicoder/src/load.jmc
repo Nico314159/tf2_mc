@@ -677,7 +677,7 @@ if (!$initialization_complete) {
     // this could *technically* be part of the previous command, but then it would be so long that it's a total PITA.
     Hardcode.repeat("_i_", () => {
         Hardcode.repeat("_j_", () => {
-            control_points::info[_i_][_j_].main = [{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
+            control_points::info[_i_][_j_].main = [{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square","shadow_color":0},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
         }, start=0, stop=7);
     }, start=1, stop=_INSTANCES_CAP_);
 
