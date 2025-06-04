@@ -6,6 +6,7 @@ scoreboard players set $input_axis_x tf2.var 1000
 scoreboard players set $input_axis_y tf2.var 0
 scoreboard players set $input_axis_z tf2.var 0
 scoreboard players operation $input_angle tf2.var = $output_pitch tf2.var
+scoreboard players operation $input_angle tf2.var /= 10 tf2.const
 function tf2:math/quaternion_from_axis
 scoreboard players operation $input_quaternion_2_r tf2.var = $output_quaternion_r tf2.var
 scoreboard players operation $input_quaternion_2_i tf2.var = $output_quaternion_i tf2.var
@@ -15,6 +16,7 @@ scoreboard players set $input_vector_x tf2.var 0
 scoreboard players set $input_vector_y tf2.var -1000
 scoreboard players set $input_vector_z tf2.var 0
 scoreboard players operation $input_angle tf2.var = $output_yaw tf2.var
+scoreboard players operation $input_angle tf2.var /= 10 tf2.const
 function tf2:math/quaternion_from_axis
 scoreboard players operation $input_quaternion_1_r tf2.var = $output_quaternion_r tf2.var
 scoreboard players operation $input_quaternion_1_i tf2.var = $output_quaternion_i tf2.var

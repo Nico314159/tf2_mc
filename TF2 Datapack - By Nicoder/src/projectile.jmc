@@ -593,7 +593,7 @@ class Projectile {
         $input_axis_x = 1000;
         $input_axis_y = 0;
         $input_axis_z = 0;
-        $input_angle = $output_pitch;
+        $input_angle := $output_pitch / 10;
         Math.quaternion_from_axis();
         $input_quaternion_2_r = $output_quaternion_r;
         $input_quaternion_2_i = $output_quaternion_i;
@@ -603,7 +603,7 @@ class Projectile {
         $input_vector_x = 0;
         $input_vector_y = -1000;
         $input_vector_z = 0;
-        $input_angle = $output_yaw;
+        $input_angle := $output_yaw / 10;
         Math.quaternion_from_axis();
         $input_quaternion_1_r = $output_quaternion_r;
         $input_quaternion_1_i = $output_quaternion_i;
