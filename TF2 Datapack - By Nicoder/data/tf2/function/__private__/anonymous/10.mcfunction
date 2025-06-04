@@ -12,11 +12,9 @@ execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
 execute if score $unreflectable tf2.var matches 1.. run tag @s add tf2.unreflectable
 execute if score $animated tf2.var matches 1.. run tag @s add tf2.animated
 function tf2:projectile/get_pos
+execute store result score @s tf2.hitbox run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.hitbox 19.050
 scoreboard players operation @s tf2.mot_x = $mot.mot_x tf2.var
-execute store result score @s tf2.hitbox_x run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.hitbox 19.050
 scoreboard players operation @s tf2.mot_y = $mot.mot_y tf2.var
-execute store result score @s tf2.hitbox_y run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.hitbox 19.050
 scoreboard players operation @s tf2.mot_z = $mot.mot_z tf2.var
-execute store result score @s tf2.hitbox_z run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.hitbox 19.050
 execute if data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode:2} run function tf2:__private__/if_else/16
 tag @s remove tf2.new
