@@ -7,8 +7,8 @@ scoreboard players add @s tf2.timer.sec 19
 scoreboard players operation @s tf2.timer.sec /= 20 tf2.const
 scoreboard players operation @s tf2.timer.sec > 0 tf2.const
 scoreboard players operation @s tf2.timer.min = @s tf2.timer.sec
-scoreboard players operation @s tf2.timer.sec %= 60 tf2.const
 scoreboard players operation @s tf2.timer.min /= 60 tf2.const
+scoreboard players operation @s tf2.timer.sec %= 60 tf2.const
 execute if entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time] run function tf2:timer/display/singlestage with storage tf2:index
 execute if entity @s[tag=tf2.setup_time] run function tf2:timer/display/setup_time with storage tf2:index
 execute if entity @s[tag=tf2.overtime] run function tf2:timer/display/overtime with storage tf2:index

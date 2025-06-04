@@ -18,7 +18,7 @@ scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const
 execute unless entity @s[tag=tf2.origin,scores={tf2.class=4..5}] run return run scoreboard players get $_finalDamage_ tf2.var
 execute if score $playersHurt tf2.var matches 2.. run return run scoreboard players get $_finalDamage_ tf2.var
 scoreboard players operation $_finalDamage_ tf2.var *= 3 tf2.const
-scoreboard players set $_temp_ tf2.var 9
-scoreboard players operation $_temp_ tf2.var -= @s tf2.class
-scoreboard players operation $_finalDamage_ tf2.var /= $_temp_ tf2.var
+scoreboard players set __temp0__ tf2.var 9
+scoreboard players operation __temp0__ tf2.var -= @s tf2.class
+scoreboard players operation $_finalDamage_ tf2.var /= __temp0__ tf2.var
 return run scoreboard players get $_finalDamage_ tf2.var

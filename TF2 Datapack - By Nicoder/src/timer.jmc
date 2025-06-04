@@ -13,9 +13,8 @@ class Timer
         Timer.set_value() with index::;
         tf2.timer.sec:@s := (tf2.timer:@s + 19) / 20;
         tf2.timer.sec:@s > 0;
-        tf2.timer.min:@s = tf2.timer.sec:@s;
+        tf2.timer.min:@s := tf2.timer.sec:@s / 60;
         tf2.timer.sec:@s %= 60;
-        tf2.timer.min:@s /= 60;
 
         if (entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.singlestage() with index::;
         // if (entity @s[tag=tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.multistage() with index::;
@@ -250,17 +249,15 @@ class KOTH_Timer
             tf2.red_timer:@s --;
             $execute store result bossbar tf2:red_timer_$(i) value run tf2.red_timer:@s.get();
             tf2.red_timer.sec:@s := (tf2.red_timer:@s + 19) / 20;
-            tf2.red_timer.min:@s = tf2.red_timer.sec:@s;
+            tf2.red_timer.min:@s := tf2.red_timer.sec:@s / 60;
             tf2.red_timer.sec:@s %= 60;
-            tf2.red_timer.min:@s /= 60;
         }
         function blu() {
             tf2.blu_timer:@s --;
             $execute store result bossbar tf2:blu_timer_$(i) value run tf2.blu_timer:@s.get();
             tf2.blu_timer.sec:@s := (tf2.blu_timer:@s + 19) / 20;
-            tf2.blu_timer.min:@s = tf2.blu_timer.sec:@s;
+            tf2.blu_timer.min:@s := tf2.blu_timer.sec:@s / 60;
             tf2.blu_timer.sec:@s %= 60;
-            tf2.blu_timer.min:@s /= 60;
         }
     }
     function set_max() {

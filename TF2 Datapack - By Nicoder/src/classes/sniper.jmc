@@ -167,7 +167,7 @@ class Class.Sniper {
     @lazy
     function damage_scale() {
         $_multiplier_ = tf2.time_scoped:@a[tag=iris.executing, limit=1];
-        $_multiplier_ := ($_multiplier_ - 26) * 5 + 100;
+        $_multiplier_ := 5 * $_multiplier_ - 30;
         $_multiplier_ > 100;
         $_multiplier_ < 300;
 

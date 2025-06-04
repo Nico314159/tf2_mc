@@ -53,13 +53,11 @@ class Objectives
             execute positioned ~-3 ~-1 ~-3 as @e[type=#tf2:player_like,dx=5,dy=1,dz=5] run Player.determine_cap_rules();
             tag @a[gamemode=spectator] remove tf2.on_point;
 
-            $red_on_point = execute if entity @e[tag=tf2.on_point, tag=tf2.can_cap, scores={tf2.team=1}];
             $red_scouts = execute if entity @e[tag=tf2.on_point, tag=tf2.can_cap, scores={tf2.team=1,tf2.class=Class.SCOUT}];
-            $red_on_point += $red_scouts;
+            $red_on_point := {execute if entity @e[tag=tf2.on_point, tag=tf2.can_cap, scores={tf2.team=1}]} + $red_scouts;
 
-            $blu_on_point = execute if entity @e[tag=tf2.on_point, tag=tf2.can_cap, scores={tf2.team=2}];
             $blu_scouts = execute if entity @e[tag=tf2.on_point, tag=tf2.can_cap, scores={tf2.team=2,tf2.class=Class.SCOUT}];
-            $blu_on_point += $blu_scouts;
+            $blu_on_point := {execute if entity @e[tag=tf2.on_point, tag=tf2.can_cap, scores={tf2.team=2}]} + $blu_scouts;
 
             $red_defend = execute if entity @e[tag=tf2.on_point, tag=tf2.can_defend, scores={tf2.team=1}];
             $blu_defend = execute if entity @e[tag=tf2.on_point, tag=tf2.can_defend, scores={tf2.team=2}];
@@ -589,8 +587,7 @@ class Objectives
 
                         tf2.batch_number:$local = tf2.batch_number:@s;
                         Objectives.control_point.find_index.main();
-                        $frame = tf2.capture_threshold:@s[scores={tf2.team=2}];
-                        $frame := ($frame + tf2.red_progress:@s - tf2.blu_progress:@s) * 8;
+                        $frame := (tf2.capture_threshold:@s[scores={tf2.team=2}] + tf2.red_progress:@s - tf2.blu_progress:@s) * 8;
                         if (tf2.team:@s == 0) $frame *= 2;
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.red.wheel()`
                         $frame /= tf2.capture_threshold:@s;
@@ -710,8 +707,7 @@ class Objectives
 
                         tf2.batch_number:$local = tf2.batch_number:@s;
                         Objectives.control_point.find_index.main();
-                        $frame = tf2.capture_threshold:@s[scores={tf2.team=1}];
-                        $frame := ($frame + tf2.blu_progress:@s - tf2.red_progress:@s) * 8;
+                        $frame := (tf2.capture_threshold:@s[scores={tf2.team=1}] + tf2.blu_progress:@s - tf2.red_progress:@s) * 8;
                         if (tf2.team:@s == 0) $frame *= 2;
                         $wheel_frame = $frame; // finish calculating this value in `Objectives.control_point.visuals.capture_progress.blu.wheel()`
                         $frame /= tf2.capture_threshold:@s;

@@ -235,11 +235,8 @@ class Projectile {
         Math.Sway_Heave_Surge.apply();
     }
     function compensate_velocity() {
-        $mot.mot_x += tf2.now_x:@s;
-        $mot.mot_x -= tf2.last_x:@s;
-
-        $mot.mot_z += tf2.now_z:@s;
-        $mot.mot_z -= tf2.last_z:@s;
+        $mot.mot_x := $mot.mot_x + tf2.now_x:@s - tf2.last_x:@s;
+        $mot.mot_z := $mot.mot_z + tf2.now_z:@s - tf2.last_z:@s;
     }
     function apply_forces() {
         forces::{} += @s::item.components.minecraft:custom_data.projectile.forces;
@@ -454,9 +451,9 @@ class Projectile {
             $Zf = @s::Pos[2] * 100;
             kill;
         }
-        $deltaX = $Xf; $deltaX -= $X0; 
-        $deltaY = $Yf; $deltaY -= $Y0; 
-        $deltaZ = $Zf; $deltaZ -= $Z0; 
+        $deltaX := $Xf - $X0; 
+        $deltaY := $Yf - $Y0; 
+        $deltaZ := $Zf - $Z0; 
         summon::matrix = [
             0f, 0f, 0f, 0f,
             0f, 0f, 0f, 0f,
@@ -547,14 +544,12 @@ class Projectile {
             return run $_finalDamage_.get();
         }
 
-        // Less damage from your own explosions if nobody else is hurt
-        // Soldier: 3/5 as much, Demo: 3/4 as much
         if ($playersHurt > 1) {
             return run $_finalDamage_.get();
         }
-        $_finalDamage_ *= 3;
-        $_temp_ := 9 - tf2.class:@s;
-        $_finalDamage_ /= $_temp_;
+        // Less damage from your own explosions if nobody else is hurt
+        // Soldier: 3/5 as much, Demo: 3/4 as much
+        $_finalDamage_ := $_finalDamage_ * 3 / (9 - tf2.class:@s);
         return run $_finalDamage_.get();
     }
     function knockback() {
@@ -736,9 +731,7 @@ class Projectile {
             "[AXIS]",
             () => {
                 if ($surface_[AXIS] == 0) {$output_vector_[AXIS] += tf2.mot_[AXIS]:@s;}
-                $input_vector_1_[AXIS] := ($output_vector_[AXIS] * 1000) / tf2.hitbox_[AXIS]:@s;
-
-                $input_vector_1_[AXIS] *= 32;
+                $input_vector_1_[AXIS] := (($output_vector_[AXIS] * 1000) / tf2.hitbox_[AXIS]:@s) * 32;
             },
             ["x", "y", "z"]
         );
