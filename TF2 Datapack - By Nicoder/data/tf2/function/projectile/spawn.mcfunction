@@ -18,8 +18,8 @@ scoreboard players operation $mot.mot_y tf2.var /= 1000 tf2.const
 execute store result score $mot.mot_z tf2.var run data get storage tf2:summon projectile.speed 1000
 scoreboard players operation $mot.mot_z tf2.var *= $output_vector_z tf2.var
 scoreboard players operation $mot.mot_z tf2.var /= 1000 tf2.const
-execute store result storage tf2:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw tf2.var
-execute store result storage tf2:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch tf2.var
+execute if data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode:0} store result storage tf2:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw tf2.var
+execute if data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode:0} store result storage tf2:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch tf2.var
 data modify storage tf2:summon projectile.weapon set from storage tf2:lookup item
 execute store result score $relative_to_player tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.relative_to_player
 execute if score $relative_to_player tf2.var matches 1.. run function tf2:projectile/compensate_velocity
