@@ -620,6 +620,32 @@ class Projectile {
         Math.normalize_quaternion();
         this.save_output_rotation_to_entity();
     }
+    function test_linear_velocity() {   
+        tf2.mot_x:@s = 0;
+        tf2.mot_y:@s = 0;
+        tf2.mot_z:@s = 1000;
+        printf("Test 1: [x, y, z] = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
+        this.linear_velocity_to_quaternion();
+        printf("Test 1: [i, j, k, r] = [&<$input_quaternion_i>, &<$input_quaternion_j>, &<$input_quaternion_k>, &<$input_quaternion_r>]");
+        printf("Test 1: expected [0, 0, 0, 1000]\n");
+
+        tf2.mot_x:@s = 0;
+        tf2.mot_y:@s = 1000;
+        tf2.mot_z:@s = 1000;
+        printf("Test 2: [x, y, z] = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
+        this.linear_velocity_to_quaternion();
+        printf("Test 2: [i, j, k, r] = [&<$input_quaternion_i>, &<$input_quaternion_j>, &<$input_quaternion_k>, &<$input_quaternion_r>]");
+        printf("Test 2: expected [382, 0, 0, 923]\n");
+
+        tf2.mot_x:@s = 814;
+        tf2.mot_y:@s = 518;
+        tf2.mot_z:@s = 259;
+        printf("Test 3: [x, y, z] = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
+        this.linear_velocity_to_quaternion();
+        printf("Test 3: [i, j, k, r] = [&<$input_quaternion_i>, &<$input_quaternion_j>, &<$input_quaternion_k>, &<$input_quaternion_r>]");
+        printf("Test 3: expected [-192, 577, 192, 769]\n");
+
+    }
     function simulate_rotation() {
         // Apply friction to angular velocity
         Hardcode.repeatList(
