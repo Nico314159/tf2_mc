@@ -22,7 +22,7 @@ make_weapon(
         'hitbox': 4,
         'block_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.6},
         'entity_collision': {'mode': Collision.BOUNCE, 'impact_if_first': true, 'elasticity': 0.3},
-        'rotation': {'mode': Rotation.PHYSICAL, 'initial': 0.2},
+        'rotation': {'mode': Rotation.PHYSICAL, 'initial': 0.2, 'drag': 0.999, 'collision_friction': 0.800},
         'lifetime': 2.3, 'explode_after_lifetime': true
     },
 	team_specific=False
