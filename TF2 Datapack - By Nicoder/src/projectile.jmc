@@ -109,7 +109,7 @@ class Projectile {
                 Hardcode.repeatList(
                     "[AXIS]",
                     () => {
-                        tf2.ang_vel_[AXIS]:@s := ($output_vector_[AXIS] * GRENADE_ANGULAR_SPEED) / 1000;
+                        tf2.ang_vel_[AXIS]:@s := ($output_vector_[AXIS] * $angular_speed) / 1000;
                     },
                     ["x", "y", "z"]
                 );
@@ -638,16 +638,18 @@ class Projectile {
     }
     function simulate_rotation() {
         // Apply friction to angular velocity
+        $angular_drag = lookup::item.components.minecraft:custom_data.projectile.rotation.drag * 1000;
+        $angular_collision_friction = lookup::item.components.minecraft:custom_data.projectile.rotation.collision_friction * 1000;
         Hardcode.repeatList(
             "[AXIS]",
             () => {
                 $sign_[AXIS] = 1;
                 if (tf2.ang_vel_[AXIS]:@s < 0) {$sign_[AXIS] = -1;}
                 tf2.ang_vel_[AXIS]:@s *= $sign_[AXIS];
-                tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_FRICTION;
+                tf2.ang_vel_[AXIS]:@s *= $angular_drag;
                 tf2.ang_vel_[AXIS]:@s /= 1000;
                 if (tf2.collision:@s == 1) expand {
-                    tf2.ang_vel_[AXIS]:@s *= GRENADE_ANGULAR_COLLISION_FRICTION;
+                    tf2.ang_vel_[AXIS]:@s *= $angular_collision_friction;
                     tf2.ang_vel_[AXIS]:@s /= 1000;
                 }
                 tf2.ang_vel_[AXIS]:@s *= $sign_[AXIS];
