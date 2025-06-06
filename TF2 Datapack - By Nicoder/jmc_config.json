@@ -1,7 +1,7 @@
 {
     "namespace": "tf2",
     "description": "Team Fortress 2, recreated in Minecraft",
-    "pack_format": "71",
+    "pack_format": "80",
     "target": "main.jmc",
     "output": "."
 }

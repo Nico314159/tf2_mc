@@ -23,6 +23,8 @@ attribute @s minecraft:movement_speed base set 0.1
 attribute @s minecraft:movement_speed modifier remove tf2:slow_while_revving
 attribute @s minecraft:block_interaction_range base set 4.5
 attribute @s minecraft:step_height base set 1
+attribute @s minecraft:waypoint_receive_range base set 0
+attribute @s minecraft:waypoint_transmit_range base set 0
 team leave @s
 tag @s remove tf2.in_queue
 tag @s remove tf2.allowed_to_sprint
