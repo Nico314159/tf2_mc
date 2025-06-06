@@ -152,6 +152,12 @@ class Projectile {
         if (entity @s[tag=!tf2.stuck]) {
             Motion.move(); 
         }
+        if (tf2.collision_entity:@s == 0) {
+            tag @s add tf2.has_escaped_player;
+        }
+        if (tf2.collision_entity:@s[tag=tf2.has_escaped_player] == 1) {
+            this.handle_entity_collision();
+        }
         if (tf2.collision:@s) {
             this.handle_block_collision();
         }
@@ -161,19 +167,6 @@ class Projectile {
         if (entity @s[tag=!tf2.stuck] && 
             data entity @s item.components.minecraft:custom_data.projectile.forces) {
             this.apply_forces();
-        }
-
-        $width = tf2.hitbox_x:@s;
-        $margin = 500;
-        $width += $margin; // Optional
-        $width > 1000;
-        vars::offset = 0.0005 * (float) $width;
-        $width -= 1000;
-        vars::volume = 0.001 * (float) $width;
-        this.check_entity_collision() with vars::;
-        if ($hit_entity == 0) { tag @s add tf2.has_escaped_player; }
-        if ($hit_entity == 1 && entity @s[tag=tf2.has_escaped_player]) {
-            this.handle_entity_collision();
         }
 
         tf2.age:@s++;
@@ -311,34 +304,6 @@ class Projectile {
         tag @s add tf2.has_hit_wall;
     }
 
-    function check_entity_collision() {
-        // Narrow search space to only the current game
-        tf2.batch_number:$local = tf2.batch_number:@s;
-        tag @e remove tf2.search;
-        execute as @e[type=#tf2:player_like]
-                if score @s tf2.batch_number
-                   = $local tf2.batch_number
-                unless entity @s[gamemode=spectator]
-                run tag @s add tf2.batch;
-        tag @e[tag=tf2.batch] add tf2.search;
-
-        // Passes through teammates during first 0.25 seconds
-        tf2.team:$temp = tf2.team:@s;
-        execute as @e[type=#tf2:player_like,tag=tf2.search]
-                unless score @s tf2.team = $temp tf2.team
-                run tag @s add tf2.opponent;
-        if (tf2.age:@s < 5) {
-            tag @e[type=#tf2:player_like,tag=tf2.search,tag=!tf2.opponent] remove tf2.search;
-        }
-
-        // Detect hitting players and objects
-        tag @e remove tf2.hit_by_projectile;
-        $ execute positioned ~-$(offset) ~-$(offset) ~-$(offset) 
-                  as @n[type=#tf2:player_like,tag=tf2.search,dx=$(volume),dy=$(volume),dz=$(volume)] 
-                  run tag @s add tf2.hit_by_projectile;
-
-        $hit_entity ?= execute if entity @e[tag=tf2.hit_by_projectile];
-    }
     function handle_entity_collision() {
         $mode = @s::item.components.minecraft:custom_data.projectile.entity_collision.mode;
         
@@ -370,7 +335,8 @@ class Projectile {
             },
             ["x", "z"]
         );
-        tag @s add tf2.has_hit_object;
+        tag @e remove tf2.hit_by_projectile;
+        tag @s add tf2.has_hit_entity;
     }
 
     function impact() {
@@ -384,6 +350,21 @@ class Projectile {
         $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
 
         vars::weapon_name = lookup::item.components.minecraft:custom_name;
+
+        // Narrow search space to the current game
+        tf2.batch_number:$local = tf2.batch_number:@s;
+        tag @e remove tf2.search;
+        execute as @e[type=#tf2:player_like]
+                if score @s tf2.batch_number
+                   = $local tf2.batch_number
+                unless entity @s[gamemode=spectator]
+                run tag @s add tf2.batch;
+        tag @e[tag=tf2.batch] add tf2.search;
+        // Determine which players are opponents
+        tf2.team:$temp = tf2.team:@s;
+        execute as @e[type=#tf2:player_like,tag=tf2.search]
+                unless score @s tf2.team = $temp tf2.team
+                run tag @s add tf2.opponent;
 
         tag @s add tf2.delete;
         if (entity @s[tag=!tf2.explosion]) return run {
@@ -475,29 +456,35 @@ class Projectile {
             tag @s add tf2.origin;
             tag @s add tf2.opponent;
         }
-
+        tag @s add tf2.damage_source;
         $ execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
+        tag @s remove tf2.damage_source;
         tag @a remove tf2.origin;
     }
     function wall_check() {
         tag @s add tf2.player;
-        execute summon marker run {
+        execute at @n[tag=tf2.damage_source] summon marker run {
             @s::NoAI = 1b;
-            rotate @s facing entity @e[tag=tf2.player,limit=1] eyes;
+            rotate @s facing entity @e[tag=tf2.player,limit=1] feet;
             $input_pitch = @s::Rotation[1] * 10;
             $input_yaw = @s::Rotation[0] * 10;
             Math.gimbal_to_vector();
+            raycast::direction.X = 0.001 * (float) $output_vector_x;
+            raycast::direction.Y = 0.001 * (float) $output_vector_y;
+            raycast::direction.Z = 0.001 * (float) $output_vector_z;
             Raycast.informational();
             kill @s;
         }
+        tag @s add tf2.player;
+
         vars::distance = iris:output::Distance;
         tag @s remove tf2.player;
         if (entity @s[tag=tf2.hit_by_projectile]) expand {
             vars::distance = 0;
             this.splash_damage();
         }
-        vars::id = iris.id:@e[type=#tf2:player_like,tag=tf2.check,limit=1];
-        if (!entity @s[tag=tf2.hit_by_projectile] && data storage iris:output {TargetType: "ENTITY"} && Object.isEqual("iris:output", "TargetedEntity", "tf2:vars", "id")) {
+        $id = iris:output::TargetedEntity;
+        if (!entity @s[tag=tf2.hit_by_projectile] && $id == iris.id:@s) {
             this.splash_damage();
         } 
     }

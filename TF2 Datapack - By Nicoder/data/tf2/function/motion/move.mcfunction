@@ -1,6 +1,6 @@
 data modify storage tf2:motion pos set value {}
 scoreboard players set $mot.distance tf2.var 1000
-scoreboard players add @s tf2.consider_entities 0
+scoreboard players set @s tf2.consider_entities 1
 tag @s add tf2.executing_entity
 scoreboard players set @s tf2.collision_x 0
 scoreboard players set @s tf2.collision_entity_x 0

@@ -425,6 +425,7 @@ class Weapons {
             } 
         }
 
+        raycast::direction.del();
         for ($k = 0; $k < $centered_count; $k++) {
             execute at @s anchored eyes positioned ^ ^ ^ run Raycast.damaging();
         }

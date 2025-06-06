@@ -13,5 +13,6 @@ execute store result score $input_yaw tf2.var run data get entity @s Rotation[0]
 function tf2:math/gimbal_to_matrix
 scoreboard players set $i tf2.var 0
 execute if score $i tf2.var < $horizontal_count tf2.var run function tf2:__private__/for_loop/0
+data remove storage tf2:raycast direction
 scoreboard players set $k tf2.var 0
 execute if score $k tf2.var < $centered_count tf2.var run function tf2:__private__/for_loop/2

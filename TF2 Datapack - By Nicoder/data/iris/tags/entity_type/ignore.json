@@ -1,0 +1,11 @@
+{
+    "replace": false,
+    "values": [
+        "minecraft:block_display",
+        "minecraft:interaction",
+        "minecraft:item_display",
+        "minecraft:lightning_bolt",
+        "minecraft:marker",
+        "minecraft:text_display"
+    ]
+}

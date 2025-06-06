@@ -6,6 +6,7 @@ class Raycast {
             function iris:get_target;
         }
         this.contact() with raycast::direction;
+        tag @e remove iris.possible_target;
     }
     function informational() {
         tag @e remove iris.executing;
@@ -15,6 +16,7 @@ class Raycast {
             execute at @s anchored eyes positioned ^ ^ ^ run function iris:get_target;
         }
         this.contact() with raycast::direction;
+        tag @e remove iris.possible_target;
     }
     function contact() {
         $ execute facing ~$(X) ~$(Y) ~$(Z) run function iris:get_target;

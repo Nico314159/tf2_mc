@@ -478,6 +478,17 @@ new tags.entity_type(player_like) {
     "replace": false,
     "values": ["minecraft:player", "minecraft:villager", "minecraft:blaze"]
 }
+new tags.entity_type(iris.ignore) {
+    "replace": false,
+    "values": [
+        "minecraft:block_display",
+        "minecraft:interaction",
+        "minecraft:item_display",
+        "minecraft:lightning_bolt",
+        "minecraft:marker",
+        "minecraft:text_display"
+    ]
+}
 new tag.block(no_fall_dmg) {
     "values": [
         "minecraft:powder_snow",

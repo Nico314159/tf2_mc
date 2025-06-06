@@ -17,7 +17,7 @@ class Motion {
         // Prepare data
         motion::pos = {};
         $mot.distance = 1000;
-        tf2.consider_entities:@s += 0;
+        tf2.consider_entities:@s = true;
 
         Hardcode.repeatList(
             "[AXIS]", () => {
@@ -233,7 +233,16 @@ class Motion {
                     iris:$[[AXIS]] := $mot.voxel_[AXIS] / 1000;
                 }, ["x", "y", "z"]
             );
-            execute align xyz as @e[type=!#iris:ignore,dx=0,dy=0,dz=0,tag=!tf2.executing_entity] at @s run function iris:get_hitbox/entity;
+            tf2.team:$temp = -1;
+            // Passes through teammates during first 0.25 seconds
+            if (tf2.age:@s < 5) {
+                tf2.team:$temp = tf2.team:@s;
+            }
+            execute align xyz 
+                    as @e[type=!#iris:ignore,type=!axolotl,dx=0,dy=0,dz=0,tag=!tf2.executing_entity] 
+                    unless score @s tf2.team = $temp tf2.team 
+                    at @s 
+                    run function iris:get_hitbox/entity;
         }
 
         // Iterate through the geometry and find the nearest
@@ -302,6 +311,12 @@ class Motion {
                                 $mot.collision_distance_[AXIS] = $mot.distance_[AXIS];
                                 $mot.collision_edge_[AXIS] = $mot.on_edge;
                                 $mot.collision_entity_[AXIS] = $mot.is_entity;
+                                if ($mot.is_entity) expand {
+                                    $id = iris:data::Shape[-1].entity_id; 
+                                    execute as @e
+                                            if score @s iris.id = $id tf2.var
+                                            run tag @s add tf2.hit_by_projectile;
+                                }
                                 if ($mot.sign_[AXIS] == 1) {
                                     $mot.collision_surface_[AXIS] = $mot.geo_min_[AXIS];
                                 } else {
