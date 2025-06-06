@@ -1,2 +1,2 @@
-function tf2:motion/stop_motion
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players set $mot.distance_head_z tf2.var 2147483647
+scoreboard players set $mot.distance_tail_z tf2.var 2147483647

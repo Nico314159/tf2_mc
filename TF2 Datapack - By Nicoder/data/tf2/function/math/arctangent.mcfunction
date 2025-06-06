@@ -15,8 +15,8 @@ scoreboard players operation $math_trigonometry_0 tf2.var *= $math_trigonometry_
 scoreboard players operation $math_trigonometry_0 tf2.var /= 10000 tf2.const
 scoreboard players set $math_trigonometry_2 tf2.var 7765
 scoreboard players set $math_trigonometry_3 tf2.var -28743
-scoreboard players set $math_trigonometry_4 tf2.var 99518
-scoreboard players operation $math_trigonometry_4 tf2.var *= $math_trigonometry_1 tf2.var
+scoreboard players operation $math_trigonometry_4 tf2.var = $math_trigonometry_1 tf2.var
+scoreboard players operation $math_trigonometry_4 tf2.var *= 99518 tf2.const
 scoreboard players operation $math_trigonometry_1 tf2.var *= $math_trigonometry_0 tf2.var
 scoreboard players operation $math_trigonometry_1 tf2.var /= 10000 tf2.const
 scoreboard players operation $math_trigonometry_3 tf2.var *= $math_trigonometry_1 tf2.var

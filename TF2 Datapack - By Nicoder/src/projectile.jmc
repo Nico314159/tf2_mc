@@ -141,6 +141,7 @@ class Projectile {
     }
 
     function tick() {
+        // printf("velocity = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
         if (entity @s[tag=tf2.has_trail]) {
             execute at @s run Projectile.trail();
         }
@@ -152,21 +153,28 @@ class Projectile {
         if (entity @s[tag=!tf2.stuck]) {
             Motion.move(); 
         }
+        if (entity @s[tag=tf2.delayed_elasticity]) {
+            $elasticity = @s::item.components.minecraft:custom_data.projectile.entity_collision.elasticity * 1000;
+            tf2.mot_x:@s := (tf2.mot_x:@s * $elasticity) / 1000;
+            tf2.mot_z:@s := (tf2.mot_z:@s * $elasticity) / 1000;
+            tag @s remove tf2.delayed_elasticity;
+        }
+
         if (tf2.collision_entity:@s == 0) {
             tag @s add tf2.has_escaped_player;
-        }
-        if (tf2.collision_entity:@s[tag=tf2.has_escaped_player] == 1) {
-            this.handle_entity_collision();
-        }
-        if (tf2.collision:@s) {
-            this.handle_block_collision();
-        }
-        if (entity @s[tag=!tf2.stuck]) {
-            this.handle_rotation();
         }
         if (entity @s[tag=!tf2.stuck] && 
             data entity @s item.components.minecraft:custom_data.projectile.forces) {
             this.apply_forces();
+        }
+        if (tf2.collision_entity:@s[tag=tf2.has_escaped_player] == 1) {
+            this.handle_entity_collision();
+        }
+        if (tf2.collision:@s[scores={tf2.collision_entity=0}]) {
+            this.handle_block_collision();
+        }
+        if (entity @s[tag=!tf2.stuck]) {
+            this.handle_rotation();
         }
 
         tf2.age:@s++;
@@ -250,7 +258,9 @@ class Projectile {
             ["x", "y", "z"]
         );
 
-        tf2.mot_y:@s[scores={tf2.collision_y=-1}] = 0;
+        if (tf2.collision_y:@s == -1 && tf2.collision_entity:@s != 1) {
+            tf2.mot_y:@s = 0;
+        }
     }
 
     function handle_block_collision() {
@@ -321,20 +331,59 @@ class Projectile {
                 this.impact();
             } 
             else {
+                // printf("entity bounce");
                 this.entity_bounce();
             }
         }
     }
     function entity_bounce() {
-        $elasticity = @s::item.components.minecraft:custom_data.projectile.entity_collision.elasticity * -1000;
+        // printf("&<red> pre-collision velocity = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
+        $elasticity = @s::item.components.minecraft:custom_data.projectile.entity_collision.elasticity * 1000;
+        if (tf2.collision_x:@s != 0 || tf2.collision_z:@s != 0) {
+            // printf("XZ");
+            Hardcode.repeatList(
+                "[AXIS]",
+                () => {
+                    tf2.mot_[AXIS]:@s *= $elasticity;
+                    tf2.mot_[AXIS]:@s /= 1000;
+                },
+                ["x", "z"]
+            );
+        }
+
+        if (tf2.collision_entity_y:@s != 0) {
+            $x = random value 1..360;
+            // printf("  x = &<$x>");
+            $z := -($x ** 2) + EVAL(360 ** 2);
+            $z = Math.sqrt($z);
+            // printf("  z = &<$z>");
+
+
+            $temp := $tf2.mot_x:@s * $tf2.mot_x:@s / $tf2.mot_z:@s / $tf2.mot_z:@s;
+
+            if (tf2.mot_x:@s < 0) {tf2.mot_x:@s -= $x;}
+            if (tf2.mot_x:@s >= 0) {tf2.mot_x:@s += $x;}
+
+            if (tf2.mot_z:@s < 0) {tf2.mot_z:@s -= $z;}
+            if (tf2.mot_z:@s >= 0) {tf2.mot_z:@s += $z;}
+
+            if (predicate tf2:coin_flip) { tf2.mot_x:@s *= -1; }
+            else { tf2.mot_z:@s *= -1; }
+
+            tf2.mot_y:@s *= $elasticity;
+            tf2.mot_y:@s /= 1000; 
+
+            tag @s add tf2.delayed_elasticity;
+        }
+
+        // Apply bounces
         Hardcode.repeatList(
             "[AXIS]",
-            () => {
-                tf2.mot_[AXIS]:@s *= $elasticity;
-                tf2.mot_[AXIS]:@s /= 1000;
-            },
-            ["x", "z"]
+            () => { if (tf2.collision_entity_[AXIS]:@s != 0) tf2.mot_[AXIS]:@s *= -1; },
+            ["x", "y", "z"]
         );
+
+        // printf("&<aqua> post-collision velocity = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
         tag @e remove tf2.hit_by_projectile;
         tag @s add tf2.has_hit_entity;
     }

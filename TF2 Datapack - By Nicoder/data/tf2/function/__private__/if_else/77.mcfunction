@@ -1,2 +1,3 @@
-execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run function tf2:__private__/anonymous/34
-execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/35
+data modify storage tf2:lookup damages append value {instakill:true,cause:-2147483648,kill_verb:"fell into the void"}
+execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @s tf2.player.id
+tp @s ~ 5 ~

@@ -17,6 +17,8 @@ class Motion {
         // Prepare data
         motion::pos = {};
         $mot.distance = 1000;
+        tf2.collision:@s = 0;
+        tf2.collision_entity:@s = 0;
         tf2.consider_entities:@s = true;
 
         Hardcode.repeatList(

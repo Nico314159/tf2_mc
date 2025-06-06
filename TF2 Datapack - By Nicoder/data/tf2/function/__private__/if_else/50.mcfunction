@@ -1,8 +1,9 @@
-scoreboard players operation $mot.collision_distance_x tf2.var = $mot.distance_x tf2.var
-scoreboard players operation $mot.collision_edge_x tf2.var = $mot.on_edge tf2.var
-scoreboard players operation $mot.collision_entity_x tf2.var = $mot.is_entity tf2.var
-execute if score $mot.is_entity tf2.var matches 1.. store result score $id tf2.var run data get storage iris:data Shape[-1].entity_id
-execute if score $mot.is_entity tf2.var matches 1.. as @e if score @s iris.id = $id tf2.var run tag @s add tf2.hit_by_projectile
-scoreboard players set __if_else__ tf2.var 0
-execute if score $mot.sign_x tf2.var matches 1 run function tf2:__private__/if_else/49
-execute if score __if_else__ tf2.var matches 0 run scoreboard players operation $mot.collision_surface_x tf2.var = $mot.geo_max_x tf2.var
+scoreboard players operation $[x] iris = $mot.voxel_x tf2.var
+scoreboard players operation $[x] iris /= 1000 tf2.const
+scoreboard players operation $[y] iris = $mot.voxel_y tf2.var
+scoreboard players operation $[y] iris /= 1000 tf2.const
+scoreboard players operation $[z] iris = $mot.voxel_z tf2.var
+scoreboard players operation $[z] iris /= 1000 tf2.const
+scoreboard players set $temp tf2.team -1
+execute if score @s tf2.age matches ..4 run scoreboard players operation $temp tf2.team = @s tf2.team
+execute align xyz as @e[type=!#iris:ignore,type=!axolotl,dx=0,dy=0,dz=0,tag=!tf2.executing_entity] unless score @s tf2.team = $temp tf2.team at @s run function iris:get_hitbox/entity

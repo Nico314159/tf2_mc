@@ -5,7 +5,7 @@ gamemode adventure @s
 tag @s add tf2.dead
 tag @s remove tf2.said_death_msg
 tag @s remove tf2.on_fire
-execute if entity @s[tag=tf2.uber_patient] run function tf2:__private__/if_else/86
+execute if entity @s[tag=tf2.uber_patient] run function tf2:__private__/if_else/90
 execute store result score @s tf2.afterburn_ticks run scoreboard players set @s tf2.interpolate_rmb 0
 execute store result score @s tf2.time_surfaced run scoreboard players set @s tf2.drown_lost 0
 scoreboard players set @s tf2.airblast_delay 0

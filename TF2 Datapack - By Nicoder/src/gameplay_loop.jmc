@@ -203,6 +203,7 @@
             run kill @s;
 
     // Copy over the new session IDs all at once
+    index::i = tf2.batch_number:@s;
     execute as @e[type=!#tf2:player_like] 
             if score @s tf2.batch_number 
                = $local tf2.batch_number
