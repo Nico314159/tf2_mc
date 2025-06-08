@@ -229,6 +229,13 @@ class Math {
         if ($magnitude = 0) $output_quaternion_r = 1000;
     }
 
+    function quaternion_dot_product() {
+        Hardcode.repeatList("[AXIS]", () => {  
+            $math_quaternion_[AXIS] := $input_quaternion_1_[AXIS] * $input_quaternion_2_[AXIS];
+            // printf("math_quaternion_[AXIS] = &<green,$saved_[AXIS]>");
+        }, ['r', 'i', 'j', 'k']);
+        $dot_product := ($math_quaternion_r + $math_quaternion_i + $math_quaternion_j + $math_quaternion_k) / 1000;
+    }
 
     function facing_vector() {
         $input_pitch = @s::Rotation[1] * 10;

@@ -301,6 +301,10 @@ class Projectile {
             );
         }
 
+        if (tf2.collision_y:@s[tag=!tf2.has_hit_ground] != 0) {
+            this.reorient_as_cylinder();
+        }
+
         // Flag for wall hits
         tag @s[scores={tf2.collision=1}] add tf2.has_hit_wall;
 
@@ -312,6 +316,40 @@ class Projectile {
         );
 
         tag @s add tf2.has_hit_wall;
+    }
+    function reorient_as_cylinder() { 
+        vars::save_rotation = @s::transformation.right_rotation;
+        tf2.mot_z:@s *= -1;
+        tf2.mot_x:@s >< tf2.mot_z:@s;    
+        this.linear_velocity_to_quaternion();
+        Hardcode.repeatLists(
+            ["[AXIS]", "[INDEX]"],
+            () => {  
+                $input_quaternion_1_[AXIS] = vars::save_rotation[[INDEX]] * 1000;
+                $input_quaternion_2_[AXIS] = tf2.quaternion_[AXIS]:@s;
+                // printf("input_quaternion_1_[AXIS] = &<yellow,$input_quaternion_1_[AXIS]>");
+                // printf("input_quaternion_2_[AXIS] = &<yellow,$input_quaternion_2_[AXIS]>");
+            },
+            [
+                ["r", "i", "j", "k"],
+                ["3", "0", "1", "2"]
+            ]
+        );
+        Math.quaternion_dot_product();
+        // printf("dot_product = &<green,$dot_product>");
+        $dot_product *= $dot_product;
+        if ($dot_product < 500000) {
+            // printf("&<green,bold>flipping!");
+            tf2.mot_x:@s *= -1;
+            tf2.mot_z:@s *= -1;
+            this.linear_velocity_to_quaternion();
+            tf2.mot_x:@s *= -1;
+            tf2.mot_z:@s *= -1;
+        }
+        // tellraw @a {color:"aqua", nbt:"transformation.right_rotation", entity:'@s'};
+        tf2.mot_x:@s >< tf2.mot_z:@s;
+        tf2.mot_z:@s *= -1;
+        tag @s add tf2.has_hit_ground;
     }
 
     function handle_entity_collision() {
@@ -752,17 +790,8 @@ class Projectile {
         Hardcode.repeatList(
             "[AXIS]",
             () => {
-                $input_vector_1_[AXIS] := (tf2.ang_vel_[AXIS]:@s * tf2.hitbox_[AXIS]:@s) / 1000;
-                $input_vector_2_[AXIS] = $surface_[AXIS];
-            },
-            ["x", "y", "z"]
-        );
-        Math.cross_product();
-        Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                if ($surface_[AXIS] == 0) {$output_vector_[AXIS] += tf2.mot_[AXIS]:@s;}
-                $input_vector_1_[AXIS] := (($output_vector_[AXIS] * 1000) / tf2.hitbox_[AXIS]:@s) * 32;
+                $input_vector_1_[AXIS] := ((tf2.mot_[AXIS]:@s * 1000) / tf2.hitbox_[AXIS]:@s) * 32;
+                $input_vector_2_[AXIS] := $surface_[AXIS];
             },
             ["x", "y", "z"]
         );

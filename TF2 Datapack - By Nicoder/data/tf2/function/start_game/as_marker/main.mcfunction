@@ -35,11 +35,11 @@ execute store result storage tf2:index i int 1 run scoreboard players get @s tf2
 execute as @e[type=!#tf2:player_like] if score @s tf2.batch_number = $local tf2.batch_number run function tf2:session/sync with storage tf2:index
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
 scoreboard players set __if_else__ tf2.var 0
-execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/28
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/30
+execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/29
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/31
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type
-execute if score @s tf2.gamemode matches 1..2 run function tf2:__private__/if_else/31
-execute if score @s tf2.gamemode matches 3 run function tf2:__private__/if_else/32
+execute if score @s tf2.gamemode matches 1..2 run function tf2:__private__/if_else/32
+execute if score @s tf2.gamemode matches 3 run function tf2:__private__/if_else/33
 function tf2:start_game/as_marker/tell_info
 scoreboard players reset @e[tag=tf2.current] tf2.team
 scoreboard players set $team_temp tf2.var 0

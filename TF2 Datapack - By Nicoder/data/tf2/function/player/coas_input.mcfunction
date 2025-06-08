@@ -1,7 +1,7 @@
 scoreboard players set @s tf2.coas 0
 execute unless data entity @s SelectedItem.components{"minecraft:item_model":"tf2:misc/choose_class"} run return fail
 scoreboard players set __if_else__ tf2.var 0
-execute unless data entity @s SelectedItem.components.minecraft:custom_model_data run function tf2:__private__/if_else/88
+execute unless data entity @s SelectedItem.components.minecraft:custom_model_data run function tf2:__private__/if_else/89
 execute if score __if_else__ tf2.var matches 0 if score @s tf2.last_class matches 5 run function tf2:class/demoman/erase_all_stickybombs
 data modify storage tf2:vars class_name set from entity @s SelectedItem.components.minecraft:custom_model_data.strings[0]
 function tf2:class_select

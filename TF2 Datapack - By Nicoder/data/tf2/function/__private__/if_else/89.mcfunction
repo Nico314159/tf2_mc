@@ -1,4 +1,2 @@
-scoreboard players operation $impact_velocity tf2.var = $previous_dy tf2.var
-scoreboard players operation $impact_velocity tf2.var += $previous_dy tf2.var
-scoreboard players operation $impact_velocity tf2.var -= $2nd_previous_dy tf2.var
+return run function tf2:__private__/anonymous/36
 scoreboard players set __if_else__ tf2.var 1
