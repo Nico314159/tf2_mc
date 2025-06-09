@@ -12,7 +12,7 @@ make_weapon(
     Class.DEMOMAN, slot=0, 
     name='Grenade Launcher',
     display_name="Grenade Launcher (WIP)",
-    attributes={'damage': {'base': 100, 'uniform': true}, 'attackDelay': 0.6, 'reloadDelay': [1.24, 0.6], 'clip': 4, 'ammo': 16, 'isProjectile': true},
+    attributes={'damage': {'base': 100, 'uniform': true, 'indirect': 60}, 'attackDelay': 0.6, 'reloadDelay': [1.24, 0.6], 'clip': 4, 'ammo': 16, 'isProjectile': true},
     projectile={
         'model': 'grenade',
         'spawn': [0, 0, 0], 

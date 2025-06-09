@@ -429,6 +429,11 @@ class Projectile {
     function impact() {
         lookup::item = @s::item;
         $_damage_ = lookup::item.components.minecraft:custom_data.attributes.damage.base;
+        if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.indirect 
+            && !entity @s[tag=!tf2.has_hit_wall, tag=!tf2.has_hit_entity]) {
+            $_damage_ = lookup::item.components.minecraft:custom_data.attributes.damage.indirect;
+            // print($_damage_);
+        }
         $_selfDamage_ = lookup::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
         $_maxRamp_ = lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
         if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;

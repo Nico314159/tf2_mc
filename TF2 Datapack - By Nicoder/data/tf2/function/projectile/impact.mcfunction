@@ -1,5 +1,6 @@
 data modify storage tf2:lookup item set from entity @s item
 execute store result score $_damage_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.base
+execute if data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.indirect unless entity @s[tag=!tf2.has_hit_wall,tag=!tf2.has_hit_entity] store result score $_damage_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.indirect
 execute store result score $_selfDamage_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.explosion.selfDamage
 execute store result score $_maxRamp_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp 100
 execute unless data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
