@@ -5,8 +5,7 @@ execute store result score $_selfDamage_ tf2.var run data get storage tf2:lookup
 execute store result score $_maxRamp_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp 100
 execute unless data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
 execute store result score $_temporalFalloff_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.temporalFalloff
-execute store result score $_rangeDependent_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.uniform
-execute store success score $_rangeDependent_ tf2.var if score $_rangeDependent_ tf2.var matches 0
+execute store success score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
 data modify storage tf2:vars weapon_name set from storage tf2:lookup item.components.minecraft:custom_name
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 tag @e remove tf2.search

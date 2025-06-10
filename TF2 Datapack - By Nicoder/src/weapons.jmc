@@ -99,29 +99,55 @@ new predicate(hide_ammo) {
         }
     ]
 }
-new predicate(uniform_damage) {
-    "condition": "minecraft:any_of",
-    "terms": [
+new predicate(uniform_damage)  {
+	"condition": "minecraft:any_of",
+	"terms": [
         {
             "condition": "minecraft:reference",
             "name": "tf2:holding_melee"
         },
-        {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-                "equipment": {
-                    "mainhand": {
-                        "predicates": {
-                            "minecraft:custom_data": {
-                                "attributes": {"damage": {"uniform": true}}
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    ]
+		{
+			"condition": "minecraft:value_check",
+			"value": {
+				"type": "minecraft:storage",
+				"storage": "tf2:lookup",
+				"path": "item.components.minecraft:custom_data.attributes.damage.uniform"
+			},
+			"range": 1
+		},
+		{
+			"condition": "minecraft:all_of",
+			"terms": [
+				{
+					"condition": "minecraft:value_check",
+					"value": {
+						"type": "minecraft:storage",
+						"storage": "tf2.lookup",
+						"path": "item.components.minecraft:custom_data.attributes.damage.uniform.timer"
+					},
+					"range": {
+						"min": 0
+					}
+				},
+				{
+					"condition": "minecraft:value_check",
+					"value": {
+						"type": "minecraft:score",
+						"target": "this",
+						"score": "tf2.age",
+						"scale": 0.05
+					},
+					"range": {
+						"min": {
+							"type": "minecraft:storage",
+							"storage": "tf2.lookup",
+							"path": "item.components.minecraft:custom_data.attributes.damage.uniform.timer"
+						}
+					}
+				}
+			]
+		}
+	]
 }
 new predicate(has_main_fire) {
     "condition": "minecraft:entity_properties",

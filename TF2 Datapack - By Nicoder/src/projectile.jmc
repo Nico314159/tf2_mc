@@ -438,8 +438,7 @@ class Projectile {
         $_maxRamp_ = lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
         if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_temporalFalloff_ = lookup::item.components.minecraft:custom_data.attributes.damage.temporalFalloff;
-        $_rangeDependent_ = lookup::item.components.minecraft:custom_data.attributes.damage.uniform;
-        $_rangeDependent_ ?= execute if score $_rangeDependent_ tf2.var matches 0;
+        $_rangeDependent_ ?= execute unless predicate tf2:uniform_damage;
 
         vars::weapon_name = lookup::item.components.minecraft:custom_name;
 
