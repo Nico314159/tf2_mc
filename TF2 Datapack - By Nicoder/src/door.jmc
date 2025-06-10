@@ -55,6 +55,7 @@ class Door {
         if (tf2.door.id:$i == tf2.door.id:$i) {
             tf2.door.id:@s = tf2.door.id:$i;
         }
+        Session.sync() with index::;
     }
 
     function tick() {

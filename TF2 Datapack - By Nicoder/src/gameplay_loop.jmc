@@ -73,6 +73,7 @@
                     matches Gamemode.KOTH 
                     run tag @s add tf2.last;
             tag @s[scores={tf2.index=0,tf2.gamemode=Gamemode.CONTROL_PTS}] add tf2.last;
+            Session.sync() with index::;
         } with index::;
         summon::objectives[-1].del();
     }
@@ -109,6 +110,7 @@
             @s::{} += summon::entity;
             tf2.batch_number:@s = tf2.batch_number:$local;
             tag @s add tf2.spawn_door;
+            Session.sync() with index::;
         } with index::;
         summon::doors[-1].del();
         $i++;
@@ -150,6 +152,7 @@
             @s::Pos = summon::pickups[-1].Pos;
             tf2.batch_number:@s = tf2.batch_number:$local;
             tag @s remove tf2.new;
+            Session.sync() with index::;
         }
         execute as @e[type=item,tag=tf2.new] run {
             execute run { 
@@ -162,6 +165,7 @@
             tf2.batch_number:@s = tf2.batch_number:$local;
             tf2.respawn_timer:@s = 1;
             tag @s remove tf2.new;
+            Session.sync() with index::;
         }
         summon::pickups[-1].del();
     }
@@ -191,6 +195,7 @@
             @s::{} += summon::entity;
             tf2.batch_number:@s = tf2.batch_number:$local;
             tag @s add tf2.resupply;
+            Session.sync() with index::;
         }
         summon::resupply[-1].del();
         $i++;
@@ -201,13 +206,6 @@
     execute as @e[type=!#tf2:player_like,tag=!tf2.static_prop]
             unless score @s tf2.batch_number = @s tf2.batch_number
             run kill @s;
-
-    // Copy over the new session IDs all at once
-    index::i = tf2.batch_number:@s;
-    execute as @e[type=!#tf2:player_like] 
-            if score @s tf2.batch_number 
-               = $local tf2.batch_number
-            run Session.sync() with index::;
 }
 
 class start_game {
@@ -270,6 +268,8 @@ class start_game {
             execute as @e[type=!player,tag=tf2.current,sort=random] run team_assign();
 
             tag @s add tf2.in_use;
+            execute as @e[type=!#tf2:player_like]
+                    run Session.check_validity();
             tag @e remove tf2.current;
         } function tell_info() {
             // [WIP] Tells players which gamemode they will be playing, and some basic info about how that gamemode works.

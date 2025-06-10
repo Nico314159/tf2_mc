@@ -8,3 +8,4 @@ scoreboard players add @s tf2.team 1
 data modify entity @s {} merge from storage tf2:summon entity
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 tag @s add tf2.resupply
+function tf2:session/sync with storage tf2:index

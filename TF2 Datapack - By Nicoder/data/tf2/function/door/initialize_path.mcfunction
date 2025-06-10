@@ -39,3 +39,4 @@ scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 tag @s add tf2.door
 tag @s add tf2.anim_over
 execute if score $i tf2.door.id = $i tf2.door.id run scoreboard players operation @s tf2.door.id = $i tf2.door.id
+function tf2:session/sync with storage tf2:index

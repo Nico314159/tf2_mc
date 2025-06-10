@@ -10,3 +10,4 @@ execute store result storage tf2:summon entity.data.opp_team int 1 run scoreboar
 data modify entity @s {} merge from storage tf2:summon entity
 scoreboard players operation @s tf2.batch_number = $local tf2.batch_number
 tag @s add tf2.spawn_door
+function tf2:session/sync with storage tf2:index

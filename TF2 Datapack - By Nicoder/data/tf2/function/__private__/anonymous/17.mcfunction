@@ -16,3 +16,4 @@ scoreboard players operation @s[scores={tf2.team=1}] tf2.red_progress = @s tf2.c
 scoreboard players operation @s[scores={tf2.team=2}] tf2.blu_progress = @s tf2.capture_threshold
 execute if score @s tf2.index = $highest tf2.index unless score @s tf2.gamemode matches 3 run tag @s add tf2.last
 tag @s[scores={tf2.index=0,tf2.gamemode=2}] add tf2.last
+function tf2:session/sync with storage tf2:index

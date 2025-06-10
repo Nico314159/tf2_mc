@@ -31,8 +31,6 @@ scoreboard players set $i tf2.var 0
 execute if data storage tf2:summon resupply[] run function tf2:__private__/while_loop/4
 data remove storage tf2:summon entity
 execute as @e[type=!#tf2:player_like,tag=!tf2.static_prop] unless score @s tf2.batch_number = @s tf2.batch_number run kill @s
-execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
-execute as @e[type=!#tf2:player_like] if score @s tf2.batch_number = $local tf2.batch_number run function tf2:session/sync with storage tf2:index
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
 scoreboard players set __if_else__ tf2.var 0
 execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/29
@@ -49,4 +47,5 @@ execute as @a[tag=tf2.current,sort=random] run function tf2:team_assign
 execute if score $count tf2.var matches 1 if predicate tf2:coin_flip run scoreboard players set @r[tag=tf2.current,scores={tf2.team=1}] tf2.team 2
 execute as @e[type=!player,tag=tf2.current,sort=random] run function tf2:team_assign
 tag @s add tf2.in_use
+execute as @e[type=!#tf2:player_like] run function tf2:session/check_validity
 tag @e remove tf2.current
