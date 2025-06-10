@@ -1,8 +1,10 @@
 {
-    "replace": false,
+    "replace": true,
     "values": [
+        "minecraft:area_effect_cloud",
         "minecraft:block_display",
         "minecraft:interaction",
+        "minecraft:item",
         "minecraft:item_display",
         "minecraft:lightning_bolt",
         "minecraft:marker",
