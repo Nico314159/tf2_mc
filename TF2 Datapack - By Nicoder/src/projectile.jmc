@@ -97,22 +97,8 @@ class Projectile {
             }, ["x", "y", "z"]);
 
             if (data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.PHYSICAL}) {
-                $angular_speed = lookup::item.components.minecraft:custom_data.projectile.rotation.initial * 1000;
-                Math.random_quaternion();
-                Hardcode.repeatList(
-                    "[PARAM]",
-                    () => { tf2.quaternion_[PARAM]:@s = $output_quaternion_[PARAM]; },
-                    ["r", "i", "j", "k"]
-                );
-
-                Math.random_vector();
-                Hardcode.repeatList(
-                    "[AXIS]",
-                    () => {
-                        tf2.ang_vel_[AXIS]:@s := ($output_vector_[AXIS] * $angular_speed) / 1000;
-                    },
-                    ["x", "y", "z"]
-                );
+                $angular_speed = lookup::item.components.minecraft:custom_data.projectile.rotation.initial * EVAL(1000 * 0.01905 / 20);
+                this.initial_rotation();
             }
 
             tag @s remove tf2.new;
@@ -349,6 +335,13 @@ class Projectile {
         // tellraw @a {color:"aqua", nbt:"transformation.right_rotation", entity:'@s'};
         tf2.mot_x:@s >< tf2.mot_z:@s;
         tf2.mot_z:@s *= -1;
+
+        // Hardcode.repeatList(
+        //     "[AXIS]",
+        //     () => { tf2.ang_vel_[AXIS]:@s = 0; },
+        //     ["x", "y", "z"]
+        // );
+
         tag @s add tf2.has_hit_ground;
     }
 
@@ -650,6 +643,45 @@ class Projectile {
             this.simulate_rotation();
         }   
     }
+    function initial_rotation() {
+        this.linear_velocity_to_quaternion();
+
+        $input = $input_yaw;
+        Math.cosine();
+        tf2.ang_vel_x:@s := $output * $angular_speed / 1000;
+        tf2.ang_vel_y:@s = random value -10..10;
+        Math.sine();
+        tf2.ang_vel_z:@s := $output * $angular_speed / 1000;
+
+        Math.random_vector();
+        Hardcode.repeatList( "[AXIS]", () => {
+            tf2.ang_vel_[AXIS]:@s := (tf2.ang_vel_[AXIS]:@s * 2.5 + $output_vector_[AXIS]) / 2.5;
+        }, ["x", "y", "z"] );
+
+        // Initial rotation randomness
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { $input_ang_vel_[AXIS] := {random value -10..10} * tf2.ang_vel_[AXIS]:@s / 100; },
+            ["x", "y", "z"]
+        );
+        Math.angular_velocity_to_quaternion();
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => {
+                $input_quaternion_1_[PARAM] = $output_quaternion_[PARAM];
+                $input_quaternion_2_[PARAM] = tf2.quaternion_[PARAM]:@s;
+            },
+            ["r", "i", "j", "k"]
+        );
+        Math.multiply_quaternions();
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => { $input_quaternion_[PARAM] = $output_quaternion_[PARAM]; },
+            ["r", "i", "j", "k"]
+        );
+        Math.normalize_quaternion();
+        this.save_output_rotation_to_entity();
+    }
     function linear_velocity_to_quaternion() {
         // Convert vector to gimbals
         $input_vec3.X = tf2.mot_x:@s;
@@ -697,10 +729,6 @@ class Projectile {
         printf("Test 1: [i, j, k, r] = [&<$input_quaternion_i>, &<$input_quaternion_j>, &<$input_quaternion_k>, &<$input_quaternion_r>]");
         printf("Test 1: expected [0, 0, 0, 1000]\n");
 
-        tf2.mot_x:@s = 0;
-        tf2.mot_y:@s = 1000;
-        tf2.mot_z:@s = 1000;
-        printf("Test 2: [x, y, z] = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
         this.linear_velocity_to_quaternion();
         printf("Test 2: [i, j, k, r] = [&<$input_quaternion_i>, &<$input_quaternion_j>, &<$input_quaternion_k>, &<$input_quaternion_r>]");
         printf("Test 2: expected [382, 0, 0, 923]\n");
@@ -708,7 +736,9 @@ class Projectile {
         tf2.mot_x:@s = 814;
         tf2.mot_y:@s = 518;
         tf2.mot_z:@s = 259;
-        printf("Test 3: [x, y, z] = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
+        printf("&<red>Test 2: [x, y, z] = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
+        this.linear_velocity_to_quaternion();
+        printf("&<red>Test 2: [i, j, k, r] = [&<$input_quaternion_i>, &<$input_quaternion_j>, &<$input_quaternion_k>, &<$input_quaternion_r>]\n");
         this.linear_velocity_to_quaternion();
         printf("Test 3: [i, j, k, r] = [&<$input_quaternion_i>, &<$input_quaternion_j>, &<$input_quaternion_k>, &<$input_quaternion_r>]");
         printf("Test 3: expected [-192, 577, 192, 769]\n");
