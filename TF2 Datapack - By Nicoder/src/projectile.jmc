@@ -541,7 +541,9 @@ class Projectile {
             tag @s add tf2.opponent;
         }
         tag @s add tf2.damage_source;
+        tag @s add iris.ignore;
         $ execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
+        tag @s remove iris.ignore;
         tag @s remove tf2.damage_source;
         tag @a remove tf2.origin;
     }
