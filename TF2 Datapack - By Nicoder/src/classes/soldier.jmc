@@ -15,7 +15,7 @@ make_weapon(
         'model': 'rocket',
         'spawn': [-0.2236, -0.05715, -0.447675], 
         'explosion': {'radius': 146, 'selfDamage': 54}, 
-        'speed': 1100, 'hitbox': 0, 'has_trail': true,
+        'speed': 1100, 'hitbox': 0.315, 'has_trail': true,
         'block_collision': {'mode': Collision.IMPACT},
         'entity_collision': {'mode': Collision.IMPACT},
         'rotation': {'mode': Rotation.FIXED}
