@@ -195,7 +195,7 @@ function marker_tick() {
     // honetly
     execute if entity @s[tag=tf2.batch] run {
         index::i = tf2.batch_number:@s;
-        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run kill @s;} with index::;
+        execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run reset.as_marker();} with index::;
     }
 
     JMC.put("execute at @s[tag=tf2.spawn_door] run function tf2:spawn/protect with entity @s data");
