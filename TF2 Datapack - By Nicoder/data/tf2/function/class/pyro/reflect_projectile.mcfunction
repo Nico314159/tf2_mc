@@ -31,5 +31,4 @@ scoreboard players operation @s tf2.mot_y = $output_vector_y tf2.var
 scoreboard players operation $output_vector_z tf2.var *= $motion_length tf2.var
 scoreboard players operation $output_vector_z tf2.var /= $facing_length tf2.var
 scoreboard players operation @s tf2.mot_z = $output_vector_z tf2.var
-data modify entity @s Rotation[0] set from entity @p[tag=origin] Rotation[0]
-data modify entity @s Rotation[1] set from entity @p[tag=origin] Rotation[1]
+function tf2:projectile/linear_velocity_to_quaternion

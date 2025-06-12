@@ -314,7 +314,6 @@ class Class.Pyro {
 			tf2.mot_`axis`:@s = $output_vector_`axis`;
 		}, ["x", "y", "z"]);
 
-		@s::Rotation[0] = @p[tag=origin]::Rotation[0];
-		@s::Rotation[1] = @p[tag=origin]::Rotation[1];
+		Projectile.linear_velocity_to_quaternion();
 	}
 }

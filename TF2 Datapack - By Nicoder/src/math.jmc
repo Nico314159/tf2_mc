@@ -289,6 +289,37 @@ class Math {
         $output_matrix_ZZ := ($cos_Y * $cos_X) / 1000;
     }
 
+    function gimbal_to_quaternion() {
+        // Construct quaternions
+        $input_axis_x = 1000;
+        $input_axis_y = 0;
+        $input_axis_z = 0;
+        $input_angle := $input_pitch / 10;
+        Math.axis_to_quaternion();
+        $input_quaternion_2_r = $output_quaternion_r;
+        $input_quaternion_2_i = $output_quaternion_i;
+        $input_quaternion_2_j = $output_quaternion_j;
+        $input_quaternion_2_k = $output_quaternion_k;
+        
+        $input_axis_x = 0;
+        $input_axis_y = -1000;
+        $input_axis_z = 0;
+        $input_angle := $input_yaw / 10;
+        Math.axis_to_quaternion();
+        $input_quaternion_1_r = $output_quaternion_r;
+        $input_quaternion_1_i = $output_quaternion_i;
+        $input_quaternion_1_j = $output_quaternion_j;
+        $input_quaternion_1_k = $output_quaternion_k;
+
+        Math.multiply_quaternions();
+
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => { $input_quaternion_[PARAM] = $output_quaternion_[PARAM]; },
+            ["r", "i", "j", "k"]
+        );
+        Math.normalize_quaternion();
+    }
 
     function axis_to_quaternion() {
         $input := ($input_angle % 3600) / 2;
