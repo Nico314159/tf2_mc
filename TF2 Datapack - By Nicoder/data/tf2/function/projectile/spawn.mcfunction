@@ -32,5 +32,6 @@ execute store result score $explosion tf2.var run data get storage tf2:lookup it
 execute store result score $has_trail tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.has_trail
 execute store result score $unreflectable tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.unreflectable
 execute store result score $animated tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.animated
+execute store result score $can_destroy_stickybombs tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.can_destroy_stickybombs
 execute at @s anchored eyes run function tf2:projectile/spawn_internal with storage tf2:summon projectile
 execute as @n[type=item_display,tag=tf2.new,tag=tf2.projectile] run function tf2:__private__/anonymous/10

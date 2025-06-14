@@ -11,6 +11,7 @@ execute if score $explosion tf2.var matches 1.. run tag @s add tf2.explosion
 execute if score $has_trail tf2.var matches 1.. run tag @s add tf2.has_trail
 execute if score $unreflectable tf2.var matches 1.. run tag @s add tf2.unreflectable
 execute if score $animated tf2.var matches 1.. run tag @s add tf2.animated
+execute if score $can_destroy_stickybombs tf2.var matches 1.. run tag @s add tf2.can_destroy_stickybombs
 function tf2:projectile/get_pos
 execute store result score @s tf2.hitbox run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.hitbox 19.050
 scoreboard players operation @s tf2.mot_x = $mot.mot_x tf2.var

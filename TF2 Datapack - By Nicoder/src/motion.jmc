@@ -240,9 +240,21 @@ class Motion {
             if (tf2.age:@s < 5) {
                 tf2.team:$temp = tf2.team:@s;
             }
-            execute align xyz 
-                    as @e[type=!#iris:ignore,type=!axolotl,dx=0,dy=0,dz=0,tag=!tf2.executing_entity] 
+
+            execute if entity @s[tag=!tf2.projectile_can_destroy_stickybombs] 
+                    align xyz 
+                    as @e[type=!#iris:ignore,type=!axolotl,dx=0,dy=0,dz=0,tag=!tf2.executing_entity,tag=!tf2.projectile] 
                     unless score @s tf2.team = $temp tf2.team 
+                    at @s 
+                    run function iris:get_hitbox/entity;
+
+            tf2.team:$current = tf2.team:@s;
+            execute if entity @s[tag=tf2.projectile_can_destroy_stickybombs]
+                    align xyz
+                    as @e[type=!#iris:ignore,type=!axolotl,dx=0,dy=0,dz=0,tag=!tf2.executing_entity]
+                    unless entity @s[tag=tf2.projectile,tag=!tf2.stuck] 
+                    unless score @s tf2.team = $temp tf2.team 
+                    unless score @s[type=item_display] tf2.team = $current tf2.team
                     at @s 
                     run function iris:get_hitbox/entity;
         }

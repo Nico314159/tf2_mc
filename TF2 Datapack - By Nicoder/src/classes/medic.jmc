@@ -28,7 +28,8 @@ make_weapon(
 		'block_collision': {'mode': Collision.STICK},
 		'entity_collision': {'mode': Collision.IMPACT},
 		'rotation': {'mode': Rotation.CHASE},
-		'unreflectable': true
+		'unreflectable': true,
+		'can_destroy_stickybombs': true
 	},
 	controls={'reload': 3},
 	team_specific=True

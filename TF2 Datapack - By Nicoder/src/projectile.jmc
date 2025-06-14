@@ -418,6 +418,12 @@ class Projectile {
     }
 
     function impact() {
+        tag @s add tf2.delete;
+        tf2.team:$temp = tf2.team:@s;
+        execute as @n[type=item_display, tag=tf2.hit_by_projectile, tag=tf2.projectile, tag=tf2.stuck]
+                unless score @s tf2.team = $temp tf2.team
+                run return run Projectile.fizzle();
+        
         lookup::item = @s::item;
         $_damage_ = lookup::item.components.minecraft:custom_data.attributes.damage.base;
         if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.indirect 
@@ -443,12 +449,10 @@ class Projectile {
                 run tag @s add tf2.batch;
         tag @e[tag=tf2.batch] add tf2.search;
         // Determine which players are opponents
-        tf2.team:$temp = tf2.team:@s;
         execute as @e[type=#tf2:player_like,tag=tf2.search]
                 unless score @s tf2.team = $temp tf2.team
                 run tag @s add tf2.opponent;
 
-        tag @s add tf2.delete;
         if (entity @s[tag=!tf2.explosion]) return run {
             Projectile.simple_damage();
         }
