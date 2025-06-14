@@ -1,4 +1,3 @@
-scoreboard players operation @s tf2.mot_x *= -300 tf2.const
-scoreboard players operation @s tf2.mot_x /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_z *= -300 tf2.const
-scoreboard players operation @s tf2.mot_z /= 1000 tf2.const
+scoreboard players set @s tf2.mot_x 0
+scoreboard players set @s tf2.mot_y 0
+scoreboard players set @s tf2.mot_z 0

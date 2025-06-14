@@ -33,6 +33,7 @@ JMC.python(`
 make_weapon(
     Class.DEMOMAN, slot=1, 
     name='Stickybomb Launcher',
+    base_item="tf2:bow_base",
     display_name="Stickybomb Launcher (WIP)",
     attributes={'damage': {'base': 120, 'maxRamp': 1.2, 'uniform': {'timer': 2.0}}, 'attackDelay': 0.6, 'reloadDelay': [1.09, 0.67], 'clip': 8, 'ammo': 24, 'isProjectile': true},
     projectile={
@@ -115,6 +116,16 @@ class Class.Demoman {
             clear @s *[custom_data~{key: EVAL(Class.DEMOMAN * 10 + 2)}];
             loot replace entity @s hotbar.2 loot tf2:class/demoman/bottle;
         }
+
+        if (tf2.current_slot:@s[predicate=tf2:ammo_in_clip] == 1) {
+            item replace entity @s inventory.1 with arrow;
+            $_count_ = clear @s arrow 0;
+            if ($_count_ != 1) expand {
+                clear @s arrow;
+                item replace entity @s inventory.1 with arrow;
+            }
+        }
+
         loot replace entity @s armor.legs loot tf2:class/demoman/leg_model;
         $_count_ = clear @s iron_leggings 0;
         if ($_count_ != 1) expand {

@@ -541,6 +541,47 @@ new loot_table(crossbow_base) {
     ]
 }
 
+new loot_table(bow_base) {
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:alternatives",
+					"children": [
+						{
+							"type": "minecraft:item",
+							"name": "minecraft:bow",
+							"functions": [
+								{
+									"function": "minecraft:set_components",
+									"components": {"minecraft:unbreakable": {}}
+								}
+							],
+							"conditions": [
+								{
+									"condition": "minecraft:entity_scores",
+									"entity": "this",
+									"scores": {
+										"tf2.attack_delay": {"max": 1000}
+									}
+								},
+                                {
+                                    "condition": "minecraft:reference",
+                                    "name": "tf2:ammo_in_clip"
+                                }
+							]
+						},
+						{
+							"type": "minecraft:item",
+							"name": "minecraft:white_dye"
+						}
+					]
+				}
+			]
+		}
+	]
+}
 new loot_table(melee_base) {
     "pools": [
         {

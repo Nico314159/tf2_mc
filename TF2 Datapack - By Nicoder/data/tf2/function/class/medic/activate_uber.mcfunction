@@ -1,2 +1,2 @@
 execute store result score $full_bar tf2.var run data get entity @s Inventory[{Slot:1b}].components.minecraft:custom_data.attributes.uber.build 80
-execute if score @s tf2.ubercharge >= $full_bar tf2.var run function tf2:__private__/if_else/8
+execute if score @s tf2.ubercharge >= $full_bar tf2.var run function tf2:__private__/if_else/9

@@ -1,3 +1,5 @@
-scoreboard players operation $_clip_ tf2.var = @s tf2.secondary_clip
-scoreboard players operation $_maxClip_ tf2.var = @s tf2.secondary_maxClip
-scoreboard players operation $_ammo_ tf2.var = @s tf2.secondary_ammo
+execute if entity @s[tag=tf2.uber_source] run return fail
+tag @s add tf2.uber_source
+item replace entity @s armor.head with air
+item replace entity @s armor.chest with air
+item replace entity @s armor.legs with air
