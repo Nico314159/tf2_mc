@@ -1,2 +1,4 @@
-execute store result score $angular_speed tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation.initial 0.9525
-function tf2:projectile/initial_rotation
+execute store result score @s tf2.attack_delay run data get entity @s SelectedItem.components.minecraft:custom_data.attributes.deployTime 10000
+execute unless data entity @s SelectedItem.components.minecraft:custom_data.attributes.deployTime run scoreboard players set @s tf2.attack_delay 10000
+scoreboard players set @s tf2.consecutive_reload 0
+scoreboard players set @s tf2.time_idle 0

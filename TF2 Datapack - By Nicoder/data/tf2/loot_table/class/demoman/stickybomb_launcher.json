@@ -5,18 +5,12 @@
             "entries": [
                 {
                     "type": "minecraft:loot_table",
-                    "value": "tf2:crossbow_base",
+                    "value": "tf2:bow_base",
                     "functions": [
                         {
                             "function": "minecraft:set_components",
                             "components": {
-                                "minecraft:item_model": "tf2:weapon/demoman/secondary/stickybomb_launcher",
-                                "minecraft:unbreakable": {},
-                                "minecraft:tooltip_display": {
-                                    "hidden_components": [
-                                        "minecraft:unbreakable"
-                                    ]
-                                }
+                                "minecraft:item_model": "tf2:weapon/demoman/secondary/stickybomb_launcher"
                             }
                         },
                         {

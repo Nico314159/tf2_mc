@@ -133,9 +133,18 @@ class Player {
                 }
             }
         }
-        tag @s remove tf2.self;
+        
 
         Weapons.slot_check();
+        if (items entity @s weapon.mainhand bow) {
+            execute as @e[type=arrow,distance=..5] run {
+                if (Object.isEqual("tf2:check_match", "UUID", "@s", "Owner")) {
+                    Weapons.save_arrow_speed();
+                    execute as @e[tag=tf2.self] run Weapons.main_fire(); 
+                    kill @s;
+                }
+            }
+        }
         if (items entity @s weapon.mainhand crossbow[charged_projectiles=[], custom_data~{should_detect_click: true}]) {
             kill @e[type=arrow,tag=!tf2.projectile];
             if (predicate tf2:ammo_in_clip) {
@@ -145,6 +154,7 @@ class Player {
         else if (data entity @s[scores={tf2.interpolate_rmb=1..}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb) {
             Weapons.interpolate_rmb();
         }
+        tag @s remove tf2.self;
         execute as @s[tag=tf2.autoreload,
                       scores={tf2.time_idle=30.., tf2.reload_delay=..0}, 
                       predicate=!tf2:hide_ammo] run Weapons.attempt_autoreload();

@@ -1,3 +1,2 @@
-kill @e[type=arrow,tag=!tf2.projectile]
-execute if predicate tf2:ammo_in_clip run function tf2:weapons/main_fire
-scoreboard players set __if_else__ tf2.var 1
+execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run function tf2:__private__/anonymous/35
+execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/36

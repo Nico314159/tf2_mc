@@ -3,4 +3,4 @@ $scoreboard players set $mot.mot_x tf2.var $(mot_x)
 $scoreboard players set $mot.mot_y tf2.var $(mot_y)
 $scoreboard players set $mot.mot_z tf2.var $(mot_z)
 $scoreboard players set $gren.sticky tf2.var $(sticky)
-execute as @e[type=item_display,tag=tf2.grenade,tag=tf2.new,distance=..1] run function tf2:__private__/anonymous/27
+execute as @e[type=item_display,tag=tf2.grenade,tag=tf2.new,distance=..1] run function tf2:__private__/anonymous/28

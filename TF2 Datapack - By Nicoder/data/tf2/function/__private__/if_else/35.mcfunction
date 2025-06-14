@@ -1,3 +1,2 @@
-execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.timer
-function tf2:__private__/switch_case/15/select with storage tf2:__storage__
+tellraw @s {"text":"Victory.","bold":false,"italic":true,"type":"text"}
 scoreboard players set __if_else__ tf2.var 1

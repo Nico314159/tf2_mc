@@ -22,6 +22,7 @@ execute store result score $_maxRamp_ tf2.var run data get storage tf2:lookup it
 execute unless data storage tf2:lookup item.components.minecraft:custom_data.attributes.range run scoreboard players set $_range_ tf2.var 2147483647
 execute unless data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp run scoreboard players set $_maxRamp_ tf2.var 150
 execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
+execute if items entity @s weapon.mainhand bow run function tf2:weapons/repurpose_arrow_speed
 execute if predicate tf2:holding_projectile run function tf2:projectile/spawn
 execute unless predicate tf2:holding_projectile run function tf2:weapons/hitscan
 execute store result score $_delay_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.attackDelay 20000

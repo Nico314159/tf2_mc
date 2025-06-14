@@ -1,5 +1,5 @@
 tag @s add tf2.player
-execute at @n[tag=tf2.damage_source] summon marker run function tf2:__private__/anonymous/14
+execute at @n[tag=tf2.damage_source] summon marker run function tf2:__private__/anonymous/15
 tag @s add tf2.player
 data modify storage tf2:vars distance set from storage iris:output Distance
 tag @s remove tf2.player

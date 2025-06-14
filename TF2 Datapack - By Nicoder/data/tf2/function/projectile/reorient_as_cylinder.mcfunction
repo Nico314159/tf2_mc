@@ -12,7 +12,7 @@ execute store result score $input_quaternion_1_k tf2.var run data get storage tf
 scoreboard players operation $input_quaternion_2_k tf2.var = @s tf2.quaternion_k
 function tf2:math/quaternion_dot_product
 scoreboard players operation $dot_product tf2.var *= $dot_product tf2.var
-execute if score $dot_product tf2.var matches ..499999 run function tf2:__private__/if_else/21
+execute if score $dot_product tf2.var matches ..499999 run function tf2:__private__/if_else/22
 scoreboard players operation @s tf2.mot_x >< @s tf2.mot_z
 scoreboard players operation @s tf2.mot_z *= -1 tf2.const
 tag @s add tf2.has_hit_ground

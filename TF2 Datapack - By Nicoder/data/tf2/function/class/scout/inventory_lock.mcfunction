@@ -20,4 +20,4 @@ execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor
 execute store result score $_count_ tf2.var run clear @s white_dye[item_model="tf2:misc/head"] 0
 execute unless score $_count_ tf2.var matches 1 run clear @s white_dye[item_model="tf2:misc/head"]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:class/scout/head
-execute if score @s tf2.can_double_jump matches 1.. run function tf2:__private__/if_else/4
+execute if score @s tf2.can_double_jump matches 1.. run function tf2:__private__/if_else/5

@@ -3,7 +3,7 @@ execute if score $Settings.show_debug_messages tf2.var matches 2.. if score $pro
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
 execute store result storage tf2:index map_id int 1 run scoreboard players get @s tf2.map
-function tf2:__private__/anonymous/16 with storage tf2:index
+function tf2:__private__/anonymous/17 with storage tf2:index
 execute store result score @s tf2.gamemode run data get entity @s data.map.gamemode
 scoreboard players operation $temp tf2.gamemode = @s tf2.gamemode
 data modify storage tf2:summon objectives set from entity @s data.map.objectives
@@ -33,11 +33,11 @@ data remove storage tf2:summon entity
 execute as @e[type=!#tf2:player_like,tag=!tf2.static_prop] unless score @s tf2.batch_number = @s tf2.batch_number run kill @s
 execute if score @s tf2.gamemode matches 1..4 run function tf2:objectives/control_point/visuals/spacing
 scoreboard players set __if_else__ tf2.var 0
-execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/29
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/31
+execute if score $comp_queue_length tf2.var matches 12.. run function tf2:__private__/if_else/30
+execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/32
 scoreboard players operation @s tf2.queue_type = @e[type=#tf2:player_like,tag=tf2.current,limit=1] tf2.queue_type
-execute if score @s tf2.gamemode matches 1..2 run function tf2:__private__/if_else/32
-execute if score @s tf2.gamemode matches 3 run function tf2:__private__/if_else/33
+execute if score @s tf2.gamemode matches 1..2 run function tf2:__private__/if_else/33
+execute if score @s tf2.gamemode matches 3 run function tf2:__private__/if_else/34
 function tf2:start_game/as_marker/tell_info
 scoreboard players reset @e[tag=tf2.current] tf2.team
 scoreboard players set $team_temp tf2.var 0
