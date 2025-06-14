@@ -122,11 +122,11 @@ new predicate(uniform_damage)  {
 					"condition": "minecraft:value_check",
 					"value": {
 						"type": "minecraft:storage",
-						"storage": "tf2.lookup",
+						"storage": "tf2:lookup",
 						"path": "item.components.minecraft:custom_data.attributes.damage.uniform.timer"
 					},
 					"range": {
-						"min": 0
+						"min": 0.01
 					}
 				},
 				{
@@ -140,7 +140,7 @@ new predicate(uniform_damage)  {
 					"range": {
 						"min": {
 							"type": "minecraft:storage",
-							"storage": "tf2.lookup",
+							"storage": "tf2:lookup",
 							"path": "item.components.minecraft:custom_data.attributes.damage.uniform.timer"
 						}
 					}
