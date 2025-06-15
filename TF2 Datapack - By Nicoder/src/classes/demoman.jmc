@@ -182,4 +182,10 @@ class Class.Demoman {
 
         tag @e remove tf2.my_stickybomb;
     }
+    function unstick_stickybomb() {
+        tf2.mot_x:@s := $output_vector_x;
+        tf2.mot_y:@s := $output_vector_y;
+        tf2.mot_z:@s := $output_vector_z;
+        tag @s remove tf2.stuck;
+    }
 }
