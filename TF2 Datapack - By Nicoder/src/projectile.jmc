@@ -422,6 +422,7 @@ class Projectile {
         tf2.team:$temp = tf2.team:@s;
         execute as @n[type=item_display, tag=tf2.hit_by_projectile, tag=tf2.projectile, tag=tf2.stuck]
                 unless score @s tf2.team = $temp tf2.team
+                if data entity @s item.components.minecraft:custom_data.projectile{model: 'stickybomb'}
                 run return run Projectile.fizzle();
         
         lookup::item = @s::item;

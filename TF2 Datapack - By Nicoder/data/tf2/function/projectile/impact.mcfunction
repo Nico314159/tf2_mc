@@ -1,6 +1,6 @@
 tag @s add tf2.delete
 scoreboard players operation $temp tf2.team = @s tf2.team
-execute as @n[type=item_display,tag=tf2.hit_by_projectile,tag=tf2.projectile,tag=tf2.stuck] unless score @s tf2.team = $temp tf2.team run return run function tf2:projectile/fizzle
+execute as @n[type=item_display,tag=tf2.hit_by_projectile,tag=tf2.projectile,tag=tf2.stuck] unless score @s tf2.team = $temp tf2.team if data entity @s item.components.minecraft:custom_data.projectile{model:"stickybomb"} run return run function tf2:projectile/fizzle
 data modify storage tf2:lookup item set from entity @s item
 execute store result score $_damage_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.base
 execute if data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.indirect unless entity @s[tag=!tf2.has_hit_wall,tag=!tf2.has_hit_entity] store result score $_damage_ tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.indirect

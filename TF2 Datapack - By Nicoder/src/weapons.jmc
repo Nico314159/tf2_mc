@@ -553,6 +553,7 @@ class Weapons {
         execute as @e[type=#tf2:player_like, tag=iris.targeted_entity, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
         execute as @e[type=minecraft:item_display, tag=tf2.projectile, tag=tf2.stuck, tag=iris.targeted_entity] 
                 unless score @s tf2.team = @n[type=#tf2:player_like, tag=iris.executing] tf2.team
+                if data entity @s item.components.minecraft:custom_data.projectile{model: 'stickybomb'}
                 run Projectile.fizzle();
     }
     function get_endpoint() {
