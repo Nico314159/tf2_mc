@@ -23,7 +23,7 @@
                         },
                         {
                             "function": "minecraft:set_custom_data",
-                            "tag": "{raycast:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:5},attributes:{damage:{base:65},attackDelay:0.8,range:3.2,isMelee:true},controls:{main_fire:true,alt_fire:false,reload:0},key:52}"
+                            "tag": "{raycast:{HorizontalCount:1,VerticalCount:1,CenteredCount:0,EndpointEntity:false,TargetEntities:true,SpreadFactor:[0,0],MaxRecursionDepth:5},attributes:{damage:{base:65},attackDelay:0.8,range:3.2,isMelee:true},controls:{alt_fire:true,main_fire:true,reload:0},key:52}"
                         }
                     ]
                 }

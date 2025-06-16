@@ -382,9 +382,15 @@ class Weapons {
             case EVAL(Class.MEDIC * 10 + 1):
             Class.Medic.activate_uber();
 
+            case EVAL(Class.DEMOMAN * 10 + 0):
+            Class.Demoman.detonate_all_stickybombs();
+
             case EVAL(Class.DEMOMAN * 10 + 1):
             Class.Demoman.detonate_all_stickybombs();
                 
+            case EVAL(Class.DEMOMAN * 10 + 2):
+            Class.Demoman.detonate_all_stickybombs();
+
             default:
             return fail;
         }
