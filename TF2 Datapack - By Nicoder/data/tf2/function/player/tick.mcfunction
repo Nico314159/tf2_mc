@@ -18,7 +18,7 @@ data modify storage tf2:check_match UUID set from entity @s UUID
 tag @s add tf2.self
 execute if predicate tf2:empty_hand run function tf2:__private__/if_else/83
 function tf2:weapons/slot_check
-execute if items entity @s weapon.mainhand bow as @e[type=arrow,distance=..5] run function tf2:__private__/anonymous/37
+execute if items entity @s weapon.mainhand bow as @e[type=arrow,distance=..5] run function tf2:__private__/anonymous/38
 scoreboard players set __if_else__ tf2.var 0
 execute if items entity @s weapon.mainhand crossbow[charged_projectiles=[],custom_data~{should_detect_click:true}] run function tf2:__private__/if_else/85
 execute if score __if_else__ tf2.var matches 0 if data entity @s[scores={tf2.interpolate_rmb=1..}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb run function tf2:weapons/interpolate_rmb

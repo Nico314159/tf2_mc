@@ -1,0 +1,3 @@
+scoreboard players operation @s tf2.player.id = @p[tag=origin] tf2.player.id
+scoreboard players operation @s tf2.team = @p[tag=origin] tf2.team
+item modify entity @s contents [{"function":"minecraft:set_custom_model_data","strings":{"values":["blu"],"mode":"insert"},"conditions":[{"condition":"minecraft:entity_properties","entity":"this","predicate":{"slots":{"contents":{"components":{"minecraft:custom_model_data":{"strings":["red"]}}}}}}]},{"function":"minecraft:set_custom_model_data","strings":{"values":["red"],"mode":"insert"},"conditions":[{"condition":"minecraft:entity_properties","entity":"this","predicate":{"slots":{"contents":{"components":{"minecraft:custom_model_data":{"strings":["blu"]}}}}}}]}]

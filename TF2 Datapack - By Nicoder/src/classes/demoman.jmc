@@ -48,7 +48,6 @@ make_weapon(
         'entity_collision': {'mode': Collision.BOUNCE, 'elasticity': 0.1},
         'rotation': {'mode': Rotation.CHASE},
         'lifetime': 2147483647,
-        'unreflectable': true,
         'arm_time': 0.7,
         'explode_alt_fire': 8
     },
@@ -183,6 +182,15 @@ class Class.Demoman {
         tag @e remove tf2.my_stickybomb;
     }
     function unstick_stickybomb() {
+        tag @s add tf2.self;
+        execute summon marker run {
+            rotate @s facing entity @n[tag=tf2.self] feet;
+            $input_pitch = @s::Rotation[1] * 10;
+            $input_yaw = @s::Rotation[0] * 10;
+            Math.gimbal_to_vector();
+            kill @s;
+        }
+        tag @s remove tf2.self;
         tf2.mot_x:@s := $output_vector_x;
         tf2.mot_y:@s := $output_vector_y;
         tf2.mot_z:@s := $output_vector_z;

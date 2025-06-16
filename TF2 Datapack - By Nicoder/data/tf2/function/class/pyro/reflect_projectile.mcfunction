@@ -1,6 +1,6 @@
-scoreboard players operation @s tf2.player.id = @p[tag=origin] tf2.player.id
-scoreboard players operation @s tf2.team = @p[tag=origin] tf2.team
-item modify entity @s contents [{"function":"minecraft:set_custom_model_data","strings":{"values":["blu"],"mode":"insert"},"conditions":[{"condition":"minecraft:entity_properties","entity":"this","predicate":{"slots":{"contents":{"components":{"minecraft:custom_model_data":{"strings":["red"]}}}}}}]},{"function":"minecraft:set_custom_model_data","strings":{"values":["red"],"mode":"insert"},"conditions":[{"condition":"minecraft:entity_properties","entity":"this","predicate":{"slots":{"contents":{"components":{"minecraft:custom_model_data":{"strings":["blu"]}}}}}}]}]
+execute store success score $is_stickybomb tf2.var if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
+execute if score $is_stickybomb tf2.var matches 1.. if entity @s[tag=tf2.stuck] run return run function tf2:class/demoman/unstick_stickybomb
+execute unless score $is_stickybomb tf2.var matches 1.. run function tf2:class/pyro/change_projectile_team
 scoreboard players set $motion_length tf2.var 0
 scoreboard players operation $temp tf2.var = @s tf2.mot_x
 scoreboard players operation $temp tf2.var *= $temp tf2.var

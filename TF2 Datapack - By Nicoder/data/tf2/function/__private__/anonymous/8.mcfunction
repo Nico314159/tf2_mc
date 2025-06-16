@@ -1,4 +1,3 @@
-data modify storage tf2:summon line.X set from entity @s Pos[0]
-data modify storage tf2:summon line.Y set from entity @s Pos[1]
-data modify storage tf2:summon line.Z set from entity @s Pos[2]
-kill @s
+scoreboard players operation @s tf2.primary_clip = $_clip_ tf2.var
+scoreboard players operation @s tf2.primary_maxClip = $_maxClip_ tf2.var
+scoreboard players operation @s tf2.primary_ammo = $_ammo_ tf2.var

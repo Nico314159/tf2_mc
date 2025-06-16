@@ -1,4 +1,2 @@
-$execute if score $z tf2.var matches 0 if score $x tf2.var > $y tf2.var run data modify storage tf2:vars param set value '~1 ~$(fraction) ~'
-$execute if score $z tf2.var matches 0 if score $x tf2.var <= $y tf2.var run data modify storage tf2:vars param set value '~$(fraction) ~1 ~'
-$execute if score $x tf2.var matches 0 if score $z tf2.var > $y tf2.var run data modify storage tf2:vars param set value '~ ~$(fraction) ~1'
-$execute if score $x tf2.var matches 0 if score $z tf2.var <= $y tf2.var run data modify storage tf2:vars param set value '~ ~1 ~$(fraction)'
+$execute as @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz)] unless score @s tf2.team matches $(opp_team) run tag @s add tf2.in_spawn
+$tp @e[type=#tf2:player_like,dx=$(dx),dy=$(dy),dz=$(dz),scores={tf2.team=$(opp_team)}] $(direct_tp)

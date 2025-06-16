@@ -1,9 +1,5 @@
-$item modify entity @s hotbar.0 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
-$item modify entity @s hotbar.1 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
-$item modify entity @s hotbar.2 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
-$item modify entity @s hotbar.3 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
-$item modify entity @s hotbar.4 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
-$item modify entity @s hotbar.5 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
-$item modify entity @s hotbar.6 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
-$item modify entity @s hotbar.7 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
-$item modify entity @s hotbar.8 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+rotate @s facing entity @n[tag=tf2.self] feet
+execute store result score $input_pitch tf2.var run data get entity @s Rotation[1] 10
+execute store result score $input_yaw tf2.var run data get entity @s Rotation[0] 10
+function tf2:math/gimbal_to_vector
+kill @s

@@ -1,3 +1,9 @@
-$item modify entity @s armor.head {"function":"minecraft:set_custom_model_data","strings":{"values":[$(class),$(team)],"mode":"replace_section"},}
-$item modify entity @s armor.chest {"function":"minecraft:set_components","components":{"minecraft:trim":{"material":"tf2:$(team)","pattern":"tf2:$(class)"}}}
-$item modify entity @s armor.legs {"function":"minecraft:set_components","components":{"minecraft:trim":{"material":"tf2:$(team)","pattern":"tf2:$(class)"}}}
+$item modify entity @s hotbar.0 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.1 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.2 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.3 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.4 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.5 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.6 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.7 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}
+$item modify entity @s hotbar.8 {"function":"minecraft:set_custom_model_data","strings":{"values":["disguise_$(class)","disguise_$(team)"],"mode":"replace_section","offset":0,"size":2}}

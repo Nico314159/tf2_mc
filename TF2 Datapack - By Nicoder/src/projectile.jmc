@@ -422,7 +422,7 @@ class Projectile {
         tf2.team:$temp = tf2.team:@s;
         execute as @n[type=item_display, tag=tf2.hit_by_projectile, tag=tf2.projectile, tag=tf2.stuck]
                 unless score @s tf2.team = $temp tf2.team
-                if data entity @s item.components.minecraft:custom_data.projectile{model: 'stickybomb'}
+                if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
                 run return run Projectile.fizzle();
         
         lookup::item = @s::item;
@@ -548,14 +548,14 @@ class Projectile {
         $ execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
         $ execute at @s as @e[type=minecraft:item_display,tag=tf2.projectile,tag=tf2.stuck,distance=..$(radius)]
                         if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
-                        run this.wall_check();
+                        run Class.Demoman.unstick_stickybomb();
         tag @s remove iris.ignore;
         tag @s remove tf2.damage_source;
         tag @a remove tf2.origin;
     }
     function wall_check() {
         tag @s add tf2.player;
-        execute at @n[tag=tf2.damage_source] summon marker run {
+        execute summon marker run {
             @s::NoAI = 1b;
             rotate @s facing entity @e[tag=tf2.player,limit=1] feet;
             $input_pitch = @s::Rotation[1] * 10;
@@ -571,9 +571,6 @@ class Projectile {
 
         vars::distance = iris:output::Distance;
         tag @s remove tf2.player;
-        if (entity @s[tag=tf2.projectile]) return run {
-            Class.Demoman.unstick_stickybomb();
-        }
         if (entity @s[tag=tf2.hit_by_projectile]) expand {
             vars::distance = 0;
             this.splash_damage();
