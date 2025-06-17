@@ -545,32 +545,26 @@ class Projectile {
         }
         tag @s add tf2.damage_source;
         tag @s add iris.ignore;
-        $ execute at @s as @e[type=#tf2:player_like,tag=tf2.opponent,distance=..$(radius)] run this.wall_check();
-        $ execute at @s as @e[type=minecraft:item_display,tag=tf2.projectile,tag=tf2.stuck,distance=..$(radius)]
-                        if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
-                        run Class.Demoman.unstick_stickybomb();
+        $ execute at @s 
+                  as @e[distance=..$(radius)] 
+                  unless entity @s[type=!item_display,type=!#tf2:player_like] 
+                  run this.wall_check();
+                        
         tag @s remove iris.ignore;
         tag @s remove tf2.damage_source;
         tag @a remove tf2.origin;
     }
     function wall_check() {
-        tag @s add tf2.player;
-        execute summon marker run {
-            @s::NoAI = 1b;
-            rotate @s facing entity @e[tag=tf2.player,limit=1] feet;
-            $input_pitch = @s::Rotation[1] * 10;
-            $input_yaw = @s::Rotation[0] * 10;
-            Math.gimbal_to_vector();
-            raycast::direction.X = 0.001 * (float) $output_vector_x;
-            raycast::direction.Y = 0.001 * (float) $output_vector_y;
-            raycast::direction.Z = 0.001 * (float) $output_vector_z;
-            Raycast.informational();
-            kill @s;
-        }
-        tag @s add tf2.player;
-
+        tag @s add tf2.self;
+        execute summon marker run Raycast.to_self();
         vars::distance = iris:output::Distance;
-        tag @s remove tf2.player;
+        tag @s remove tf2.self;
+
+        if (data entity @s[type=item_display,tag=iris.targeted_entity,tag=tf2.projectile,tag=tf2.stuck] 
+                        item.components.minecraft:custom_data.projectile.explode_alt_fire) return run {
+            Class.Demoman.unstick_stickybomb();
+        }
+
         if (entity @s[tag=tf2.hit_by_projectile]) expand {
             vars::distance = 0;
             this.splash_damage();

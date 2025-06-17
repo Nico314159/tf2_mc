@@ -1,10 +1,5 @@
-data modify entity @s NoAI set value 1b
-rotate @s facing entity @e[tag=tf2.player,limit=1] feet
-execute store result score $input_pitch tf2.var run data get entity @s Rotation[1] 10
-execute store result score $input_yaw tf2.var run data get entity @s Rotation[0] 10
-function tf2:math/gimbal_to_vector
-execute store result storage tf2:raycast direction.X float 0.001 run scoreboard players get $output_vector_x tf2.var
-execute store result storage tf2:raycast direction.Y float 0.001 run scoreboard players get $output_vector_y tf2.var
-execute store result storage tf2:raycast direction.Z float 0.001 run scoreboard players get $output_vector_z tf2.var
-function tf2:raycast/informational
-kill @s
+scoreboard players set @s tf2.map 4
+scoreboard players operation @s tf2.batch_number > @e[type=marker,tag=tf2.batch] tf2.batch_number
+scoreboard players add @s tf2.batch_number 1
+execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:session/sync with storage tf2:index

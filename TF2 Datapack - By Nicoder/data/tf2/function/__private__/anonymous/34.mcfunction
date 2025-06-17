@@ -1,1 +1,2 @@
-$execute unless score @s tf2.session = $global_$(i) tf2.session run function tf2:reset/as_marker
+execute store result storage tf2:index i int 1 run scoreboard players get @s tf2.batch_number
+function tf2:__private__/anonymous/33 with storage tf2:index

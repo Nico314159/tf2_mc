@@ -193,31 +193,15 @@ class Class.Pyro {
 		        run tag @s add tf2.within_cone;
 		tag @e[distance=.. AIRBLAST_RANGE] add tf2.within_sphere;
 
+		execute at @s
+		        as @e[tag=tf2.within_cone,
+		              tag=tf2.within_sphere]
+				run this.airblast_target();
+
 		// particle effects
 		execute anchored eyes 
 				positioned ^ ^ ^-0.5 
 				run Particle.line("sweep_attack", EVAL(AIRBLAST_RANGE - 0.5), spread=40, speed=0);
-
-		execute as @e[type=#tf2:player_like, 
-		              tag=tf2.within_cone,
-					  tag=tf2.within_sphere,
-					  tag=tf2.on_fire]	
-				if score @s tf2.team = $current tf2.team	
-				run this.airblast_extinguish();
-
-		execute as @e[type=#tf2:player_like, 
-		              tag=tf2.within_cone,
-					  tag=tf2.within_sphere]
-				unless score @s tf2.team = $current tf2.team	
-				run this.airblast_knockback();
-
-		execute as @e[type=item_display,
-		              tag=tf2.projectile,
-		              tag=tf2.within_cone,
-		              tag=tf2.within_sphere,
-		              tag=!tf2.unreflectable]
-				unless score @s tf2.team = $current tf2.team
-		        run this.reflect_projectile();
 
 		if ($successful_extinguish) expand {
 			tf2.health:@s += 20;
@@ -225,16 +209,42 @@ class Class.Pyro {
 		}
 
 		tag @s remove origin;
-		tag @e remove tf2.teammate;
 		tag @e remove tf2.within_cone;
 		tag @e remove tf2.within_sphere;
 	}
-	function airblast_extinguish() {
+	function airblast_target() {
+		tag @s add tf2.self;
+		tag @p[tag=origin] add iris.ignore;
+        execute summon marker run Raycast.to_self();
+		tag @p[tag=origin] remove iris.ignore;
+        tag @s remove tf2.self;
+
+		if (entity @s[tag=!iris.targeted_entity]) {
+			return fail;
+		}
+
+		execute if entity @s[type=#tf2:player_like, 
+		                      tag=tf2.on_fire]	
+				if score @s tf2.team = $current tf2.team
+				run this.extinguish_teammate();
+
+		execute if entity @s[type=#tf2:player_like]
+				unless score @s tf2.team = $current tf2.team
+				run this.knockback_enemy();
+
+		execute if entity @s[type=item_display,
+		                      tag=tf2.projectile,
+		                      tag=!tf2.unreflectable]
+				unless score @s tf2.team = $current tf2.team
+		        run this.reflect_projectile();
+	}
+
+	function extinguish_teammate() {
 		playsound minecraft:block.fire.extinguish player @a[distance=..1];
 		tag @s remove tf2.on_fire;
 		$successful_extinguish = true;
 	}
-	function airblast_knockback() {
+	function knockback_enemy() {
 		player_motion.api.launch:$strength = 15000;
 
 		execute at @s
