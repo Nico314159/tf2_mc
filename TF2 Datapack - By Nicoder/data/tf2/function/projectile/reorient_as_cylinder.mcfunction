@@ -15,4 +15,7 @@ scoreboard players operation $dot_product tf2.var *= $dot_product tf2.var
 execute if score $dot_product tf2.var matches ..499999 run function tf2:__private__/if_else/22
 scoreboard players operation @s tf2.mot_x >< @s tf2.mot_z
 scoreboard players operation @s tf2.mot_z *= -1 tf2.const
+scoreboard players set @s tf2.ang_vel_x 0
+scoreboard players set @s tf2.ang_vel_y 0
+scoreboard players set @s tf2.ang_vel_z 0
 tag @s add tf2.has_hit_ground

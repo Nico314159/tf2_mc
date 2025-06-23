@@ -334,11 +334,11 @@ class Projectile {
         tf2.mot_x:@s >< tf2.mot_z:@s;
         tf2.mot_z:@s *= -1;
 
-        // Hardcode.repeatList(
-        //     "[AXIS]",
-        //     () => { tf2.ang_vel_[AXIS]:@s = 0; },
-        //     ["x", "y", "z"]
-        // );
+        Hardcode.repeatList(
+            "[AXIS]",
+            () => { tf2.ang_vel_[AXIS]:@s = 0; },
+            ["x", "y", "z"]
+        );
 
         tag @s add tf2.has_hit_ground;
     }
@@ -646,33 +646,39 @@ class Projectile {
         }   
     }
     function initial_rotation() {
-        this.linear_velocity_to_quaternion();
-
         $input = $input_yaw;
         Math.cosine();
         tf2.ang_vel_x:@s := $output * $angular_speed / 1000;
-        tf2.ang_vel_y:@s = random value -10..10;
+        tf2.ang_vel_y:@s = 0;
         Math.sine();
         tf2.ang_vel_z:@s := $output * $angular_speed / 1000;
 
         Math.random_vector();
         Hardcode.repeatList( "[AXIS]", () => {
-            tf2.ang_vel_[AXIS]:@s := (tf2.ang_vel_[AXIS]:@s * 2.5 + $output_vector_[AXIS]) / 2.5;
-        }, ["x", "y", "z"] );
+            tf2.ang_vel_[AXIS]:@s := (tf2.ang_vel_[AXIS]:@s * 10 + $output_vector_[AXIS]) / 10;
+        }, ["x", "z"]);
 
         // Initial rotation randomness
+        $input_yaw *= 10;
+        $input_pitch *= 10;
+        Math.gimbal_to_quaternion();
+        Hardcode.repeatList(
+            "[PARAM]",
+            () => { $input_quaternion_2_[PARAM] = $output_quaternion_[PARAM]; },
+            ["r", "i", "j", "k"]
+        );
+        $r = random value -50..50;
         Hardcode.repeatList(
             "[AXIS]",
-            () => { $input_ang_vel_[AXIS] := {random value -10..10} * tf2.ang_vel_[AXIS]:@s / 100; },
-            ["x", "y", "z"]
+            () => {
+                $input_ang_vel_[AXIS] := tf2.ang_vel_[AXIS]:@s * $r / 100;
+            },
+            ['x', 'y', 'z']
         );
         Math.angular_velocity_to_quaternion();
         Hardcode.repeatList(
             "[PARAM]",
-            () => {
-                $input_quaternion_1_[PARAM] = $output_quaternion_[PARAM];
-                $input_quaternion_2_[PARAM] = tf2.quaternion_[PARAM]:@s;
-            },
+            () => { $input_quaternion_1_[PARAM] = $output_quaternion_[PARAM]; },
             ["r", "i", "j", "k"]
         );
         Math.multiply_quaternions();
