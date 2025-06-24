@@ -564,6 +564,9 @@ class Projectile {
                         item.components.minecraft:custom_data.projectile.explode_alt_fire) return run {
             Class.Demoman.unstick_stickybomb();
         }
+        if (entity @s[type=!player]) {
+            return fail;
+        }
 
         if (entity @s[tag=tf2.hit_by_projectile]) expand {
             vars::distance = 0;
