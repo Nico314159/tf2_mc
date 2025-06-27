@@ -251,7 +251,7 @@ class start_game {
                 if (data entity @s data.map.setup_time) Timer.begin_setup() with index::;
             }
             if (tf2.gamemode:@s == Gamemode.KOTH) {
-                tf2.team:@s = 0;
+                scoreboard players reset @s tf2.team;
                 scoreboard players reset @s tf2.timer; // failsafe, shouldn't actually be necessary ever
                 KOTH_Timer.set_max() with index::;
                 KOTH_Timer.show() with index::;
