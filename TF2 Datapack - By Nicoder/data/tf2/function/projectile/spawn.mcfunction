@@ -3,6 +3,8 @@ scoreboard players operation $temp tf2.player.id = @s tf2.player.id
 scoreboard players operation $local tf2.batch_number = @s tf2.batch_number
 function tf2:math/facing_vector
 data modify storage tf2:summon projectile set value {X:0.0,Y:0.0,Z:0.0,yaw:0.0,pitch:0.0,spawnX:0.0,spawnY:0.0,spawnZ:0.0}
+execute store result storage tf2:summon projectile.yaw double 0.1 run scoreboard players get $input_yaw tf2.var
+execute store result storage tf2:summon projectile.pitch double 0.1 run scoreboard players get $input_pitch tf2.var
 execute store result storage tf2:summon projectile.speed double 0.01905 run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.speed
 data modify storage tf2:summon projectile.speed_range set from storage tf2:lookup item.components.minecraft:custom_data.projectile.speed_range
 execute if data storage tf2:summon projectile.speed_range store result storage tf2:summon projectile.speed double 0.01905 run function tf2:math/macro_random with storage tf2:summon projectile.speed_range

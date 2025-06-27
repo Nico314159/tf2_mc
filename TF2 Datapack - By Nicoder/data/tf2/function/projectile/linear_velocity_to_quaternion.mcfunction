@@ -6,3 +6,4 @@ scoreboard players operation $input_pitch tf2.var = $output_pitch tf2.var
 scoreboard players operation $input_yaw tf2.var = $output_yaw tf2.var
 function tf2:math/gimbal_to_quaternion
 function tf2:projectile/save_output_rotation_to_entity
+function tf2:projectile/rotate_passenger

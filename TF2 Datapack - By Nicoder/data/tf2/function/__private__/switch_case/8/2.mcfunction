@@ -1,1 +1,2 @@
 function tf2:projectile/simulate_rotation
+function tf2:projectile/rotate_passenger

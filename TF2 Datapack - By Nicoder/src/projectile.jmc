@@ -22,6 +22,8 @@ class Projectile {
         tf2.batch_number:$local = tf2.batch_number:@s;
         Math.facing_vector();
         summon::projectile = {X: 0.0, Y: 0.0, Z: 0.0, yaw: 0.0, pitch: 0.0, spawnX: 0.0, spawnY: 0.0, spawnZ: 0.0};
+        summon::projectile.yaw = 0.1 * (double) $input_yaw;
+        summon::projectile.pitch = 0.1 * (double) $input_pitch;
 
         // Convert HU/sec -> blocks/sec
         summon::projectile.speed = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.speed;
@@ -106,7 +108,7 @@ class Projectile {
     }
     function spawn_internal() {
         $ summon item_display ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
-            Rotation: [$(yaw)f, $(pitch)f],
+            Rotation: [0.0f, 0.0f],
             Tags: ["tf2.projectile", "tf2.new"],
             item: {id: "minecraft:white_dye", components:{
                 "minecraft:item_model": "tf2:projectile/$(model)",
@@ -122,15 +124,21 @@ class Projectile {
                 translation: [0.0f, 0.0f, 0.0f]
             },
             interpolation_duration: 1,
-            teleport_duration: 1
+            teleport_duration: 1,
+            Passengers: [{
+                Rotation: [$(yaw)f, $(pitch)f],
+                id: "minecraft:item_display"
+            }]
         };
     }
 
     function tick() {
         // printf("velocity = [&<tf2.mot_x:@s>, &<tf2.mot_y:@s>, &<tf2.mot_z:@s>]");
-        if (entity @s[tag=tf2.has_trail]) {
-            execute at @s run Projectile.trail();
-        }
+        execute if entity @s[tag=tf2.has_trail]
+                on passengers 
+                rotated as @s 
+                run this.trail();
+
         if (entity @s[tag=tf2.animated]) {
             Projectile.animate();
         }
@@ -168,12 +176,17 @@ class Projectile {
             this.end_of_life();
         }
        
-        kill @s[tag=tf2.delete];
-
         execute as @e[type=#tf2:player_like,tag=tf2.batch] run Projectile.remove_tags();
+
+        if (entity @s[tag=tf2.delete]) {
+            execute on passengers run kill @s;
+            kill @s;
+        }
     }
     function trail() {
-        particle minecraft:smoke ^ ^-0.2 ^ 0 0 0 0 10;
+        Hardcode.repeat("|z|", () => {
+            particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc(|z| / -3) 0 0 0 0 10;
+        }, start=1, stop=4);
     }
     function animate() {
         tf2.model_number:@s++;
@@ -646,7 +659,19 @@ class Projectile {
 
             case Rotation.PHYSICAL:
             this.simulate_rotation();
+            this.rotate_passenger();
         }   
+    }
+    function rotate_passenger() {
+        $input_vec3.X = tf2.mot_x:@s;
+        $input_vec3.Y = tf2.mot_y:@s;
+        $input_vec3.Z = tf2.mot_z:@s;
+        Math.vec_to_gimbal();
+
+        execute on passengers expand {
+            @s::Rotation[0] = 0.01 * (float) $output_yaw;
+            @s::Rotation[1] = 0.01 * (float) $output_pitch;
+        }
     }
     function initial_rotation() {
         $input = $input_yaw;
@@ -704,6 +729,7 @@ class Projectile {
         $input_yaw = $output_yaw;
         Math.gimbal_to_quaternion();
         this.save_output_rotation_to_entity();
+        this.rotate_passenger();
     }
     function test_linear_velocity() {   
         tf2.mot_x:@s = 0;
@@ -787,6 +813,7 @@ class Projectile {
         );
         Math.normalize_quaternion();
         this.save_output_rotation_to_entity();
+        this.rotate_passenger();
     }
     function save_output_rotation_to_entity() {
         Hardcode.repeatList(

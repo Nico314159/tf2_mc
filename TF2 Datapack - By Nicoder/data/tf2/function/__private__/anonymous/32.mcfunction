@@ -3,25 +3,25 @@ execute if score @s tf2.ang_vel_x matches ..-1 run scoreboard players set $sign_
 scoreboard players operation @s tf2.ang_vel_x *= $sign_x tf2.var
 scoreboard players operation @s tf2.ang_vel_x *= 999 tf2.const
 scoreboard players operation @s tf2.ang_vel_x /= 1000 tf2.const
-execute if score @s tf2.collision matches 1 run function tf2:__private__/if_else/73
+execute if score @s tf2.collision matches 1 run function tf2:__private__/if_else/74
 scoreboard players operation @s tf2.ang_vel_x *= $sign_x tf2.var
 scoreboard players set $sign_y tf2.var 1
 execute if score @s tf2.ang_vel_y matches ..-1 run scoreboard players set $sign_y tf2.var -1
 scoreboard players operation @s tf2.ang_vel_y *= $sign_y tf2.var
 scoreboard players operation @s tf2.ang_vel_y *= 999 tf2.const
 scoreboard players operation @s tf2.ang_vel_y /= 1000 tf2.const
-execute if score @s tf2.collision matches 1 run function tf2:__private__/if_else/74
+execute if score @s tf2.collision matches 1 run function tf2:__private__/if_else/75
 scoreboard players operation @s tf2.ang_vel_y *= $sign_y tf2.var
 scoreboard players set $sign_z tf2.var 1
 execute if score @s tf2.ang_vel_z matches ..-1 run scoreboard players set $sign_z tf2.var -1
 scoreboard players operation @s tf2.ang_vel_z *= $sign_z tf2.var
 scoreboard players operation @s tf2.ang_vel_z *= 999 tf2.const
 scoreboard players operation @s tf2.ang_vel_z /= 1000 tf2.const
-execute if score @s tf2.collision matches 1 run function tf2:__private__/if_else/75
+execute if score @s tf2.collision matches 1 run function tf2:__private__/if_else/76
 scoreboard players operation @s tf2.ang_vel_z *= $sign_z tf2.var
-execute unless score @s tf2.collision_x matches 0 run function tf2:__private__/if_else/76
-execute unless score @s tf2.collision_y matches 0 run function tf2:__private__/if_else/77
-execute unless score @s tf2.collision_z matches 0 run function tf2:__private__/if_else/78
+execute unless score @s tf2.collision_x matches 0 run function tf2:__private__/if_else/77
+execute unless score @s tf2.collision_y matches 0 run function tf2:__private__/if_else/78
+execute unless score @s tf2.collision_z matches 0 run function tf2:__private__/if_else/79
 scoreboard players operation $input_ang_vel_x tf2.var = @s tf2.ang_vel_x
 scoreboard players operation $input_ang_vel_y tf2.var = @s tf2.ang_vel_y
 scoreboard players operation $input_ang_vel_z tf2.var = @s tf2.ang_vel_z

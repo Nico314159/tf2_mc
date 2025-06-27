@@ -24,9 +24,9 @@ scoreboard players operation @s tf2.ang_vel_z /= 1000 tf2.const
 execute if score @s tf2.collision matches 1 run scoreboard players operation @s tf2.ang_vel_z *= $angular_collision_friction tf2.var
 execute if score @s tf2.collision matches 1 run scoreboard players operation @s tf2.ang_vel_z /= 1000 tf2.const
 scoreboard players operation @s tf2.ang_vel_z *= $sign_z tf2.var
-execute unless score @s tf2.collision_x matches 0 run function tf2:__private__/if_else/27
-execute unless score @s tf2.collision_y matches 0 run function tf2:__private__/if_else/28
-execute unless score @s tf2.collision_z matches 0 run function tf2:__private__/if_else/29
+execute unless score @s tf2.collision_x matches 0 run function tf2:__private__/if_else/28
+execute unless score @s tf2.collision_y matches 0 run function tf2:__private__/if_else/29
+execute unless score @s tf2.collision_z matches 0 run function tf2:__private__/if_else/30
 scoreboard players operation $input_ang_vel_x tf2.var = @s tf2.ang_vel_x
 scoreboard players operation $input_ang_vel_y tf2.var = @s tf2.ang_vel_y
 scoreboard players operation $input_ang_vel_z tf2.var = @s tf2.ang_vel_z
@@ -46,3 +46,4 @@ scoreboard players operation $input_quaternion_j tf2.var = $output_quaternion_j 
 scoreboard players operation $input_quaternion_k tf2.var = $output_quaternion_k tf2.var
 function tf2:math/normalize_quaternion
 function tf2:projectile/save_output_rotation_to_entity
+function tf2:projectile/rotate_passenger
