@@ -56,7 +56,9 @@ function iris.get_hitbox.entity.tree.4() {
     execute if entity @s[type=minecraft:item_display] run function iris:get_hitbox/entity/shape_groups/item_display;
 }
 function iris.get_hitbox.entity.shape_groups.item_display() {
-    if (entity @s[tag=!tf2.projectile]) {return fail;}
+    if (entity @s[tag=!tf2.projectile]) {
+        return run iris:$entity_height = iris:$entity_width = 0;
+    }
     iris:$entity_height := tf2.hitbox:@s * 1000;
     iris:$entity_width := tf2.hitbox:@s * 1000;
 }
