@@ -559,8 +559,8 @@ class Projectile {
         tag @s add tf2.damage_source;
         tag @s add iris.ignore;
         $ execute at @s 
-                  as @e[distance=..$(radius)] 
-                  unless entity @s[type=!item_display,type=!#tf2:player_like] 
+                  as @e[distance=..$(radius)]
+                  unless entity @s[type=!#tf2:player_like,type=!minecraft:item_display] 
                   run this.wall_check();
                         
         tag @s remove iris.ignore;
@@ -569,7 +569,11 @@ class Projectile {
     }
     function wall_check() {
         tag @s add tf2.self;
-        execute summon marker run Raycast.to_self();
+        execute summon marker 
+                run Raycast.to_self();
+        execute positioned as @s 
+                as @n[tag=tf2.damage_source] 
+                run Raycast.informational();
         vars::distance = iris:output::Distance;
         tag @s remove tf2.self;
 
@@ -585,7 +589,7 @@ class Projectile {
             vars::distance = 0;
             this.splash_damage();
         }
-        $id = iris:output::TargetedEntity;
+        $id = iris:output::TargetedFace.entity_id;
         if (!entity @s[tag=tf2.hit_by_projectile] && $id == iris.id:@s) {
             this.splash_damage();
         } 

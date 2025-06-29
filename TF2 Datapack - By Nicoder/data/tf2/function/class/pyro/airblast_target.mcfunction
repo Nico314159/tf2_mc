@@ -1,6 +1,7 @@
 tag @s add tf2.self
 tag @p[tag=origin] add iris.ignore
 execute summon marker run function tf2:raycast/to_self
+execute positioned as @s as @p[tag=origin] run function tf2:raycast/informational
 tag @p[tag=origin] remove iris.ignore
 tag @s remove tf2.self
 execute if entity @s[tag=!iris.targeted_entity] run return fail

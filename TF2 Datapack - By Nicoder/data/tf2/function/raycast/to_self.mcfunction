@@ -6,5 +6,4 @@ function tf2:math/gimbal_to_vector
 execute store result storage tf2:raycast direction.X float 0.001 run scoreboard players get $output_vector_x tf2.var
 execute store result storage tf2:raycast direction.Y float 0.001 run scoreboard players get $output_vector_y tf2.var
 execute store result storage tf2:raycast direction.Z float 0.001 run scoreboard players get $output_vector_z tf2.var
-function tf2:raycast/informational
 kill @s

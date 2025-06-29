@@ -760,4 +760,8 @@ forceload add 1168 -960;
 import "static_props";
 load_static_props();
 
+tag @e remove smithed.enity;
+tag @e remove smithed.strict;
+tag @e remove smithed.block;
+
 return 1;

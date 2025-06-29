@@ -244,4 +244,7 @@ forceload add 1136 -960
 forceload add 1152 -960
 forceload add 1168 -960
 function tf2:load_static_props
+tag @e remove smithed.enity
+tag @e remove smithed.strict
+tag @e remove smithed.block
 return 1
