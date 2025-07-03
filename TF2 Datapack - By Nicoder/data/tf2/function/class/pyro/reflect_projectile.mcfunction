@@ -1,5 +1,5 @@
 execute store success score $is_stickybomb tf2.var if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
-execute if score $is_stickybomb tf2.var matches 1.. if entity @s[tag=tf2.stuck] run return run function tf2:class/demoman/unstick_stickybomb
+execute if score $is_stickybomb tf2.var matches 1.. if entity @s[tag=tf2.stuck] run return run execute positioned as @n[tag=origin] run function tf2:class/demoman/unstick_stickybomb
 execute unless score $is_stickybomb tf2.var matches 1.. run function tf2:class/pyro/change_projectile_team
 scoreboard players set $motion_length tf2.var 0
 scoreboard players operation $temp tf2.var = @s tf2.mot_x

@@ -311,7 +311,8 @@ class Class.Pyro {
 	function reflect_projectile() {
 		$is_stickybomb ?= execute if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire;
 		if ($is_stickybomb && entity @s[tag=tf2.stuck]) return run {
-			Class.Demoman.unstick_stickybomb();
+			execute positioned as @n[tag=origin] 
+			        run Class.Demoman.unstick_stickybomb();
 		}
 
 		if (!$is_stickybomb) { this.change_projectile_team(); }

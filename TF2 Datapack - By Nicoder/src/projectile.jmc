@@ -127,6 +127,7 @@ class Projectile {
             teleport_duration: 1,
             Passengers: [{
                 Rotation: [$(yaw)f, $(pitch)f],
+                Tags: ['iris.ignore'],
                 id: "minecraft:item_display"
             }]
         };
@@ -559,8 +560,9 @@ class Projectile {
         tag @s add tf2.damage_source;
         tag @s add iris.ignore;
         $ execute at @s 
-                  as @e[distance=..$(radius)]
+                  as @e[distance=..$(radius), tag=!tf2.damage_source]
                   unless entity @s[type=!#tf2:player_like,type=!minecraft:item_display] 
+                  unless entity @s[type=item_display,tag=!tf2.projectile]
                   run this.wall_check();
                         
         tag @s remove iris.ignore;
@@ -568,29 +570,29 @@ class Projectile {
         tag @a remove tf2.origin;
     }
     function wall_check() {
+        execute at @s run tp ~ ~0.1 ~;
         tag @s add tf2.self;
-        execute summon marker 
-                run Raycast.to_self();
-        execute positioned as @s 
-                as @n[tag=tf2.damage_source] 
-                run Raycast.informational();
+        execute summon marker run Raycast.to_self();
         vars::distance = iris:output::Distance;
         tag @s remove tf2.self;
+        execute at @s run tp ~ ~-0.1 ~;
+
+        // tellraw @a [{"color": "aqua", "text":"My tags are: "}, {'nbt':'Tags', 'entity':'@s'}];
+        //  tellraw @a [{"color": "dark_aqua", "text":"My data is: "}, {'nbt':'item.components.minecraft:custom_data.projectile', 'entity':'@s'}];
 
         if (data entity @s[type=item_display,tag=iris.targeted_entity,tag=tf2.projectile,tag=tf2.stuck] 
                         item.components.minecraft:custom_data.projectile.explode_alt_fire) return run {
-            Class.Demoman.unstick_stickybomb();
+            execute positioned as @n[tag=tf2.origin] run Class.Demoman.unstick_stickybomb();
         }
         if (entity @s[type=!player]) {
             return fail;
         }
 
-        if (entity @s[tag=tf2.hit_by_projectile]) expand {
+        if (entity @s[type=player,tag=tf2.hit_by_projectile]) expand {
             vars::distance = 0;
             this.splash_damage();
         }
-        $id = iris:output::TargetedFace.entity_id;
-        if (!entity @s[tag=tf2.hit_by_projectile] && $id == iris.id:@s) {
+        if (entity @s[type=player,tag=!tf2.hit_by_projectile,tag=iris.targeted_entity]) {
             this.splash_damage();
         } 
     }

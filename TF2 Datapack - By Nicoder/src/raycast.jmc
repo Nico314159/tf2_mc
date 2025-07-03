@@ -23,13 +23,19 @@ class Raycast {
     }
     function to_self() {
         @s::NoAI = 1b;
-        rotate @s facing entity @e[tag=tf2.self,limit=1] feet;
+        // execute at @n[tag=tf2.self] positioned ~ ~0.05 ~ summon marker run tag @s add tf2.stilt;
+        rotate @s facing entity @n[tag=tf2.self] feet;
+
+        tag @e remove iris.executing;
+        iris:settings::Callback.del();
+        execute at @s positioned ^ ^ ^ facing entity @n[tag=tf2.self] feet run function iris:get_target;
+        // tag @e remove iris.possible_target;
+
         $input_pitch = @s::Rotation[1] * 10;
         $input_yaw = @s::Rotation[0] * 10;
         Math.gimbal_to_vector();
-        raycast::direction.X = 0.001 * (float) $output_vector_x;
-        raycast::direction.Y = 0.001 * (float) $output_vector_y;
-        raycast::direction.Z = 0.001 * (float) $output_vector_z;
+
+        // kill @n[tag=tf2.stilt];
         kill @s;
     }
 }
@@ -43,13 +49,16 @@ function iris.raycast.test_for_entity() {
     //   Success: 1 if an entity was hit, 0 otherwise
 
     if (!data storage iris:settings {TargetEntities: true}) {return fail;}
-    execute align xyz expand {
-        if(!entity @e[type=!#iris:ignore, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=!iris.executing]) {return fail;}
-        execute as @e[type=!#iris:ignore, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=!iris.executing] 
-                run iris.get_hitbox.entity();
-        execute as @e[type=item_display, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=tf2.projectile, tag=!iris.executing] 
-                run iris.get_hitbox.item_display();
-    }
+    execute align xyz
+            unless entity @e[type=!#iris:ignore, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=!iris.executing] 
+            unless entity @e[type=item_display, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=tf2.projectile, tag=!iris.executing] 
+            run return fail;
+    execute align xyz
+            as @e[type=!#iris:ignore, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=!iris.executing] 
+            run iris.get_hitbox.entity();
+    execute align xyz
+            as @e[type=item_display, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=tf2.projectile, tag=!iris.executing] 
+            run iris.get_hitbox.item_display();
     return run iris.raycast.check_intersection.loop();
 }
 
