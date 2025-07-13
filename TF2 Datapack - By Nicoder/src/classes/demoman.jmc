@@ -193,10 +193,10 @@ class Class.Demoman {
             kill @s;
         }
         tag @s remove tf2.self;
-        printf("output vector = &<$output_vector_x>, &<$output_vector_y>, &<$output_vector_z>");
-        tf2.mot_x:@s := $output_vector_x;
-        tf2.mot_y:@s := 1000 - $output_vector_y;
-        tf2.mot_z:@s := $output_vector_z;
+        // printf("output vector = &<$output_vector_x>, &<$output_vector_y>, &<$output_vector_z>");
+        tf2.mot_x:@s := $output_vector_x + -100 * tf2.collision_x:@s;
+        tf2.mot_y:@s := $output_vector_y + -100 * tf2.collision_y:@s;
+        tf2.mot_z:@s := $output_vector_z + -100 * tf2.collision_z:@s;
         tag @s remove tf2.stuck;
     }
 }

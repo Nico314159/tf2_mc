@@ -5,7 +5,7 @@ execute as @a if score @s tf2.player.id = $temp tf2.player.id run tag @s add tf2
 execute as @a if score @s tf2.player.id = $temp tf2.player.id run tag @s add tf2.opponent
 tag @s add tf2.damage_source
 tag @s add iris.ignore
-$execute at @s as @e[distance=..$(radius),tag=!tf2.damage_source] unless entity @s[type=!#tf2:player_like,type=!minecraft:item_display] unless entity @s[type=item_display,tag=!tf2.projectile] run function tf2:projectile/wall_check
+$execute at @s as @e[distance=..$(radius),tag=!tf2.damage_source,tag=tf2.opponent] unless entity @s[type=!#tf2:player_like,type=!minecraft:item_display] unless entity @s[type=item_display,tag=!tf2.projectile] run function tf2:projectile/wall_check
 tag @s remove iris.ignore
 tag @s remove tf2.damage_source
 tag @a remove tf2.origin
