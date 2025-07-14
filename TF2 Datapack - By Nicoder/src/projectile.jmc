@@ -94,7 +94,8 @@ class Projectile {
                 tf2.mot_[AXIS]:@s = $mot.mot_[AXIS];
             }, ["x", "y", "z"]);
 
-            if (data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.FIXED}) expand {
+            if (data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.FIXED}
+            && !data storage tf2:lookup item.components.minecraft:custom_data.projectile.billboard) expand {
                 this.linear_velocity_to_quaternion();
             }
 
