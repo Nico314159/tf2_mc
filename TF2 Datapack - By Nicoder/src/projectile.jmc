@@ -361,9 +361,17 @@ class Projectile {
     function handle_entity_collision() {
         $mode = @s::item.components.minecraft:custom_data.projectile.entity_collision.mode;
         
+        function verify_no_previous_hit() {
+            $ execute unless data entity @s item.components.minecraft:custom_data.projectile.list[$(id)] run this.impact();
+        }
+
         switch ($mode) {
             case Collision.CONTINUE:
-            this.impact();
+            vars::id = {};
+            vars::id.id = tf2.player.id:@n[tag=tf2.hit_by_projectile];
+    
+            this.verify_no_previous_hit() with vars::;
+            @s::item.components.minecraft:custom_data.projectile.list << vars::id;
             tag @s remove tf2.delete;
 
             case Collision.IMPACT:

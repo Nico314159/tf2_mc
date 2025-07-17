@@ -1,0 +1,1 @@
+$execute unless data entity @s item.components.minecraft:custom_data.projectile.list[$(id)] run function tf2:projectile/impact
