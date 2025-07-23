@@ -369,7 +369,7 @@ class Motion {
             "[AXIS]",
             () => {
                 // Update position
-                if (tf2.halt:@s == 0 || tf2.collision:@s == 0) tf2.[AXIS]:@s += $mot.motion_[AXIS];
+                if (tf2.halt:@s == 0 || tf2.collision_[AXIS]:@s == 0) tf2.[AXIS]:@s += $mot.motion_[AXIS];
                 motion::pos.[AXIS] = 0.001 * (double) tf2.[AXIS]:@s;
 
                 // Restore motion signs to normal
