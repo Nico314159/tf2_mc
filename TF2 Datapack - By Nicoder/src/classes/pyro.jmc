@@ -143,7 +143,7 @@ class Class.Pyro {
 		}
 
 		tag @s add self;
-		particle minecraft:flame ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 50 force @a[tag=!self];
+		// particle minecraft:flame ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 50 force @a[tag=!self];
 		tag @s remove self;
 
 		tf2.afterburn_ticks:@s++;
@@ -152,7 +152,7 @@ class Class.Pyro {
 		}
 	}
 	function afterburn_damage() {
-		particle minecraft:lava ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 1 force @a[tag=!self];
+		particle minecraft:lava ~-0.05 ~0.7 ~-0.05 0.075 0.1 0.075 0 3 force @a[tag=!self];
 
 		lookup::damages << {cause: _MIN_INT_, amount: 4};
 		lookup::damages[-1].target = tf2.player.id:@s;

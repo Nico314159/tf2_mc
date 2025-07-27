@@ -4,7 +4,6 @@ execute if score $damage_modulo tf2.var matches 0 run function tf2:class/pyro/af
 scoreboard players operation $sound_modulo tf2.var %= 36 tf2.const
 execute if score $sound_modulo tf2.var matches 0 run playsound minecraft:block.fire.ambient master @s ~ ~ ~
 tag @s add self
-particle minecraft:flame ~-0.05 ~1 ~-0.05 0.15 0.3 0.1 0 50 force @a[tag=!self]
 tag @s remove self
 scoreboard players add @s tf2.afterburn_ticks 1
 execute if score @s tf2.afterburn_ticks >= @s tf2.afterburn_length run tag @s remove tf2.on_fire
