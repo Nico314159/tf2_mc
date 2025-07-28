@@ -380,6 +380,92 @@ maps:: += {
         ],
         gamemode: 3b,
         timer: 180.0f
+    },
+    5: {
+        name: "cp_granary",
+        origin: [2046.0, 3.0, 2125.0],
+        spawn_point: {
+            red: [[2047.5, 6.0, 2242.5], [2047.5, 6.0, 2242.5], [2035.0, 6.0, 2187.5], [2060.5, 3.0, 2144.0]],
+            blu: [[2046.0, 6.0, 2007.5], [2046.0, 6.0, 2007.5], [2058.5, 5.0, 2063.5], [2032.5, 3.0, 2106.0]]
+        },
+        spawn_time: {
+            red: [10.0, 10.0, 7.0],
+            blu: [10.0, 10.0, 7.0]
+        },
+        spawn_doors: {
+            red: [
+                // spawn 1
+                {Pos: [2037.0, 3.0, 2225.0], Rotation: [180.0f, 0.0f], data: {dx:2, dy:2, dz:0, direct_tp: ""}},
+                {Pos: [2034.0, 3.0, 2228.0], Rotation: [180.0f, 0.0f], data: {dx:14, dy:5, dz:20, direct_tp: "2038.5 3 2224.0"}},
+                {Pos: [2055.0, 3.0, 2225.0], Rotation: [180.0f, 0.0f], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
+                {Pos: [2048.0, 3.0, 2228.0], Rotation: [180.0f, 0.0f], data: {dx:14, dy:5, dz:20, direct_tp: "2057.0 3 2224.0"}},
+
+                // spawn 2
+                {Pos: [2034.0, 6.0, 2182.0], Rotation: [180.0f, 0.0f], data: {dx:1, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [2033.0, 5.0, 2183.0], Rotation: [180.0f, 0.0f], data: {dx:3, dy:3, dz:6, direct_tp: "2035.0 6.1875 2181.0"}},
+
+                // spawn 3
+                {Pos: [2059.0, 6.0, 2147.0], Rotation: [0.0f, 0.0f], data: {dx:2, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [2058.0, 2.0, 2141.0], Rotation: [0.0f, 0.0f], data: {dx:6, dy:8, dz:5, direct_tp: "2060.5 3 2149.5"}}
+            ],
+            blu: [
+                // spawn 1
+                {Pos: [2032.0, 2.0, 2004.0], Rotation: [0.0f, 0.0f], data: {dx:13, dy:16, dz:18, direct_tp: "2036.5 3 2027.0"}},
+                {Pos: [2035.0, 3.0, 2024.0], Rotation: [0.0f, 0.0f], data: {dx:2, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [2046.0, 2.0, 2004.0], Rotation: [0.0f, 0.0f], data: {dx:13, dy:16, dz:18, direct_tp: "2057.0 3 2027.0"}},
+                {Pos: [2055.0, 3.0, 2024.0], Rotation: [0.0f, 0.0f], data: {dx:3, dy:2, dz:0, direct_tp: ""}},
+
+                // spawn 2
+                {Pos: [2057.0, 5.0, 2067.0], Rotation: [0.0f, 0.0f], data: {dx:2, dy:2, dz:0, direct_tp: ""}},
+                {Pos: [2056.0, 4.0, 2061.0], Rotation: [0.0f, 0.0f], data: {dx:4, dy:6, dz:5, direct_tp: "2058.5 3 2069.0"}},
+
+                // spawn 3
+                {Pos: [2031.0, 3.0, 2102.0], Rotation: [-180.0f, 0.0f], data: {dx:2, dy:1, dz:0, direct_tp: ""}},
+                {Pos: [2028.0, 2.0, 2103.0], Rotation: [-180.0f, 0.0f], data: {dx:6, dy:8, dz:5, direct_tp: "2032.5 3 2100.5"}}
+            ]
+        },
+        resupply_cabinets: {
+            red: [{Pos: [2058.0, 4.52, 2244.5], Rotation: [-180.0f, 0.0f]}, 
+                  {Pos: [2038.0, 4.52, 2244.5], Rotation: [-180.0f, 0.0f]}],
+            blu: [{Pos: [2057.0, 4.52, 2005.5], Rotation: [0.0f, 0.0f]},
+                  {Pos: [2036.0, 4.52, 2005.5], Rotation: [0.0f, 0.0f]}]
+        },
+        automatic_doors: [
+            // Red spawn 1
+            {Pos: [2037.0, 3.0, 2225.25], size: [3.0, 3.0, 0.5], wait: 20, path: "up", path_length: 2.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
+            {Pos: [2055.0, 3.0, 2225.25], size: [4.0, 3.0, 0.5], wait: 20, path: "up", path_length: 2.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
+            // Red spawn 2
+            {Pos: [2034.0, 6.0, 2182.25], size: [2.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
+            // Red spawn 3
+            {Pos: [2059.0, 6.0, 2147.25], size: [3.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
+
+            // Blu spawn 1
+            {Pos: [2035.0, 3.0, 2024.25], size: [3.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
+            {Pos: [2055.0, 3.0, 2024.25], size: [4.0, 3.0, 0.5], wait: 20, path: "up", path_length: 2.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
+            // Blu spawn 2
+            {Pos: [2057.0, 5.0, 2067.25], size: [3.0, 3.0, 0.5], wait: 20, path: "up", path_length: 2.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
+            // Blu spawn 3
+            {Pos: [2031.0, 3.0, 2102.25], size: [3.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
+        ],
+        objectives: [
+            {Pos: [2045.5d, 3d, 2033.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {
+                capture_threshold: 4.0f, team: 2b, increment: 600.0f
+            }},
+            {Pos: [2046.0d, 3d, 2071.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {
+                capture_threshold: 12.0f, team: 2b, increment: 600.0f
+            }},
+            {Pos: [2046.5d, 4d, 2125.5d], Tags: ["tf2.control_point"], data: {
+                capture_threshold: 24.0f, team: 0b, increment: 600.0f
+            }},
+            {Pos: [2046.5d, 3d, 2178.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {
+                capture_threshold: 12.0f, team: 1b, increment: 600.0f
+            }},
+            {Pos: [2048.5d, 3d, 2218.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {
+                capture_threshold: 4.0f, team: 1b, increment: 600.0f
+            }}
+        ],
+        gamemode: 2b,
+        timer: 600.0f
     }
 };
 
