@@ -8,6 +8,7 @@ class Session {
         $scoreboard players add $global_$(i) tf2.session 1;
     }
     function sync() {
+        tag @s add tf2.session_based;
         $scoreboard players operation @s tf2.session = $global_$(i) tf2.session;
     }
     function check_validity() {
@@ -15,7 +16,7 @@ class Session {
         this.despawn() with index::;
     }
     function despawn() {
-        $execute if score @s tf2.session = @s tf2.session 
+        $execute if entity @s[tag=tf2.session_based]
                  unless score @s tf2.session = $global_$(i) tf2.session 
                  run kill @s;
     }
