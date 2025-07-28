@@ -6,7 +6,7 @@
 
 #define Door.ANIM_LENGTH 15
 
-#define DEFAULT_MAP 4
+#define DEFAULT_MAP 5
 
 // Gamemode IDs
 #define Gamemode.ATK_DEF 1
