@@ -178,7 +178,7 @@ class Projectile {
             this.end_of_life();
         }
        
-        execute as @e[type=#tf2:player_like,tag=tf2.batch] run Projectile.remove_tags();
+        execute as @e[type=#tf2:player_like,tag=tf2.same_batch] run Projectile.remove_tags();
 
         if (entity @s[tag=tf2.delete]) {
             execute on passengers run kill @s;
@@ -469,9 +469,9 @@ class Projectile {
                 if score @s tf2.batch_number
                    = $local tf2.batch_number
                 unless entity @s[gamemode=spectator]
-                run tag @s add tf2.batch;
+                run tag @s add tf2.same_batch;
         // Determine which players are opponents
-        execute as @e[tag=tf2.batch]
+        execute as @e[tag=tf2.same_batch]
                 if score @s tf2.team = @s tf2.team
                 unless score @s tf2.team = $temp tf2.team
                 run tag @s add tf2.opponent;
@@ -866,7 +866,7 @@ class Projectile {
     }
 
     function remove_tags() {
-        tag @s remove tf2.batch;
+        tag @s remove tf2.same_batch;
         tag @s remove tf2.opponent;
         tag @s remove tf2.in_voxel;
         tag @s remove tf2.hit_by_projectile;
