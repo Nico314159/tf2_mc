@@ -13,6 +13,7 @@ execute as @e[type=marker] if score @s tf2.batch_number = $local tf2.batch_numbe
 tag @e[type=item_display,tag=tf2.current] remove tf2.current
 execute as @e[type=item_display] if score @s tf2.batch_number = $local tf2.batch_number run tag @s add tf2.current
 execute if score $last tf2.team = @s tf2.team run return 0
+data modify storage tf2:index team set value 'red'
 function tf2:objectives/control_point/map_events/handle with storage tf2:index
 execute if entity @s[tag=tf2.overtime] run function tf2:objectives/control_point/cancel_overtime
 execute if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run function tf2:objectives/control_point/on_capture/red/symmetric

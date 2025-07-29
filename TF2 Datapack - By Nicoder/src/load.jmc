@@ -258,7 +258,7 @@ maps:: += {
         objectives: [
             {Pos: [1149.5, 121.0, -881.5], Tags: ["tf2.control_point"], data: {
                 capture_threshold: 60.0f, team: 1b, increment: 480.0f,
-                events: {
+                blu_events: {
                     spawn_point: {blu:2}, spawn_time: {blu:2}, 
                     doors: [{id:2, state:Door.BLU_PROXIMITY}, {id:4, state:Door.OPEN}, {id:5, state:Door.OPEN}, {id:6, state:Door.OPEN}]
                 }

@@ -244,7 +244,6 @@ class Objectives
 							if score @s tf2.index = $temp tf2.index
 							at @s run Objectives.control_point.lock();
 
-                    // TODO: add support for map events (like doors opening)
                 }
                 function koth() {
                     tf2.team:@e[type=marker,tag=tf2.current,tag=tf2.batch] = 1;
@@ -264,7 +263,6 @@ class Objectives
 							if score @s tf2.index = $temp tf2.index
 							at @s run Objectives.control_point.unlock();
 
-                    // TODO: add support for map events (like doors opening)
                 }
 				function symmetric() {
                     tf2.index:$temp := tf2.index:@s + 10;
@@ -279,7 +277,6 @@ class Objectives
 							if score @s tf2.index = $temp tf2.index
 							at @s run Objectives.control_point.lock();
 
-                    // TODO: add support for map events (like doors opening)
                 }
                 function koth() {
                     tf2.team:@e[type=marker,tag=tf2.current,tag=tf2.batch] = 2;
@@ -311,7 +308,7 @@ class Objectives
                 index::i = tf2.batch_number:$local;
                 index::j = 0.1 * (int) tf2.index:@s;
                 execute run {
-                    $ lookup::events = running_games::$(i).objectives[$(j)].data.events;
+                    $ lookup::events = running_games::$(i).objectives[$(j)].data.$(team)_events;
                 } with index::;
 
                 Hardcode.repeatList("`prop`", () => {
@@ -377,6 +374,7 @@ class Objectives
 
                 if (tf2.team:$last == tf2.team:@s) return 0;
 
+                index::team = "red";
                 Objectives.control_point.map_events.handle() with index::;
 
                 if (entity @s[tag=tf2.overtime]) {
@@ -426,6 +424,7 @@ class Objectives
                 
                 if (tf2.team:$last == tf2.team:@s) return 0;
                 
+                index::team = "blu";
                 Objectives.control_point.map_events.handle() with index::;
 
                 if (entity @s[tag=tf2.overtime]) {
