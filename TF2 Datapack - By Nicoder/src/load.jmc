@@ -452,13 +452,31 @@ maps:: += {
                 capture_threshold: 4.0f, team: 2b, increment: 600.0f
             }},
             {Pos: [2046.0d, 3d, 2071.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {
-                capture_threshold: 12.0f, team: 2b, increment: 600.0f
+                capture_threshold: 12.0f, team: 2b, increment: 600.0f,
+                red_events: {
+                    spawn_point: {red:3}, spawn_time: {red:2}, 
+                },
+                blu_events: {
+                    spawn_point: {red:2}, spawn_time: {red:1}
+                }
             }},
             {Pos: [2046.5d, 4d, 2125.5d], Tags: ["tf2.control_point"], data: {
-                capture_threshold: 24.0f, team: 0b, increment: 600.0f
+                capture_threshold: 24.0f, team: 0b, increment: 600.0f,
+                red_events: {
+                    spawn_point: {red:2, blu:1}, 
+                },
+                blu_events: {
+                    spawn_point: {red:1, blu:2}
+                }
             }},
             {Pos: [2046.5d, 3d, 2178.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {
-                capture_threshold: 12.0f, team: 1b, increment: 600.0f
+                capture_threshold: 12.0f, team: 1b, increment: 600.0f,
+                red_events: {
+                    spawn_point: {blu:2}, spawn_time: {blu:1}, 
+                },
+                blu_events: {
+                    spawn_point: {blu:3}, spawn_time: {blu:2}
+                }
             }},
             {Pos: [2048.5d, 3d, 2218.5d], Tags: ["tf2.control_point", "tf2.locked"], data: {
                 capture_threshold: 4.0f, team: 1b, increment: 600.0f
