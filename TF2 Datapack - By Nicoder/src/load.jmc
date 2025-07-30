@@ -437,7 +437,7 @@ maps:: += {
             // Red spawn 2
             {Pos: [2034.0, 6.0, 2182.25], size: [2.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
             // Red spawn 3
-            {Pos: [2059.0, 6.0, 2147.25], size: [3.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
+            {Pos: [2059.0, 3.0, 2147.25], size: [3.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
 
             // Blu spawn 1
             {Pos: [2035.0, 3.0, 2024.25], size: [3.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
