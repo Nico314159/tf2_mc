@@ -482,6 +482,55 @@ maps:: += {
                 capture_threshold: 4.0f, team: 1b, increment: 600.0f
             }}
         ],
+        pickups: [
+            // RED between pipes
+            {Pos: [2048.5, 3.0, 2200.5], kind: "ammo", size: 2b},
+            // RED last house
+            {Pos: [2056.5, 7.0, 2192.5], kind: "health", size: 1b},
+
+            // RED chute hallway
+            {Pos: [2064.5, 5.0625, 2180.2], kind: "health", size: 2b},
+            {Pos: [2064.5, 5.0625, 2181.8], kind: "ammo",   size: 2b},
+            // RED Z-connector
+            {Pos: [2048.5, 3.0, 2174.0], kind: "health", size: 2b},
+            {Pos: [2048.5, 3.0, 2175.5], kind: "ammo",   size: 2b},
+            // RED under bridge
+            {Pos: [2053.5, 3.0, 2158.5], kind: "ammo",   size: 2b},
+            // RED yard fuel tank
+            {Pos: [2035.5, 2.8, 2165.5], kind: "ammo",   size: 1b},
+
+            
+            // RED garage
+            {Pos: [2052.5, 3.0, 2148.5], kind: "health", size: 1b},
+            // RED underneath catwalk
+            {Pos: [2037.5, 3.0, 2137.5], kind: "health", size: 2b},
+            // RED shipping containers on mid
+            {Pos: [2037.5, 9.0, 2128.0], kind: "health", size: 1b},
+            {Pos: [2031.5, 3.0, 2124.5], kind: "ammo",   size: 2b},
+            // BLU shipping containers on mid
+            {Pos: [2061.5, 3.0, 2126.5], kind: "ammo",   size: 2b},
+            {Pos: [2055.5, 9.0, 2123.0], kind: "health", size: 1b},
+            // BLU underneath catwalk
+            {Pos: [2055.5, 3.0, 2112.5], kind: "health", size: 2b},
+            // BLU garage
+            {Pos: [2040.5, 3.0, 2101.5], kind: "health", size: 1b},
+            
+            // BLU yard fuel tank
+            {Pos: [2057.5, 2.8, 2084.5], kind: "ammo",   size: 1b},
+            // BLU under bridge
+            {Pos: [2040.5, 3.0, 2091.5], kind: "ammo",   size: 2b},
+            // BLU Z-connector
+            {Pos: [2044.5, 3.0, 2076.0], kind: "health", size: 2b},
+            {Pos: [2044.5, 3.0, 2074.5], kind: "ammo",   size: 2b},
+            // BLU chute hallway
+            {Pos: [2029.5, 5.0625, 2069.8], kind: "health", size: 2b},
+            {Pos: [2029.5, 5.0625, 2068.2], kind: "ammo",   size: 2b},
+
+            // BLU last house
+            {Pos: [2036.5, 7.0, 2057.5], kind: "health", size: 1b},
+            // BLU between pipes
+            {Pos: [2045.5, 3.0, 2049.5], kind: "ammo", size: 2b}
+        ],
         gamemode: 2b,
         timer: 600.0f
     }
