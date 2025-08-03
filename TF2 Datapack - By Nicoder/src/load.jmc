@@ -439,6 +439,14 @@ maps:: += {
             // Red spawn 3
             {Pos: [2059.0, 3.0, 2147.25], size: [3.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.RED_PROXIMITY, block: "oak_fence"},
 
+            // Red control point building
+            {Pos: [2061.1875, 3.0, 2173.25], size: [4.625, 2.0, 0.5], wait: 20, path: "up", path_length: 1.95, state: Door.ALL_PROXIMITY, block: "oak_fence"},
+            {Pos: [2038.25, 3.0, 2173.0], size: [0.5, 3.0, 4.0], wait: 20, path: "up", path_length: 2.95, state: Door.ALL_PROXIMITY, block: "oak_fence"},
+
+            // Blu control point building
+            {Pos: [2028.0, 3.0, 2076.25], size: [5.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.95, state: Door.ALL_PROXIMITY, block: "oak_fence"},
+            {Pos: [2054.25, 3.0, 2073.0], size: [0.5, 3.0, 4.0], wait: 20, path: "up", path_length: 2.95, state: Door.ALL_PROXIMITY, block: "oak_fence"},
+
             // Blu spawn 1
             {Pos: [2035.0, 3.0, 2024.25], size: [3.0, 2.0, 0.5], wait: 20, path: "up", path_length: 1.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
             {Pos: [2055.0, 3.0, 2024.25], size: [4.0, 3.0, 0.5], wait: 20, path: "up", path_length: 2.9, state: Door.BLU_PROXIMITY, block: "oak_fence"},
