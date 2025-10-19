@@ -61,31 +61,62 @@ class Class.Scout {
         HUD.actionbar();
         Weapons.set_ammo();
 
-        tf2.can_double_jump:@s[predicate=tf2:grounded] = true;
-        if (tf2.elytra_detect:@s >= 1) {
+        Hardcode.repeatList('|key|', () => {
+            new predicate(input.|key|) {
+                "condition": "minecraft:entity_properties",
+                "entity": "this",
+                "predicate": {
+                    "type_specific": {
+                        "type": "minecraft:player",
+                        "input": {"|key|": true}
+                    }
+                }
+            }
+        }, ['jump', 'left', 'right', 'forward', 'backward']);
+
+        tf2.can_double_jump:@s[predicate=tf2:grounded] = 1;
+        if (tf2.can_double_jump:@s == 1 && !predicate tf2:input/jump && !predicate tf2:grounded) {
+            tf2.can_double_jump:@s = 2;
+        }
+        if (tf2.can_double_jump:@s == 2 && predicate tf2:input/jump) {
             this.double_jump();
         }
 
         Class.Scout.inventory_lock();
     }
     function double_jump() {
-		player_motion.api.launch:$x := (tf2.now_x:@s - tf2.last_x:@s) * 4;
-        player_motion.api.launch:$x < 2000;
-        player_motion.api.launch:$x > -2000;
-		// printf("X: &<player_motion.api.launch:$x>");
-		player_motion.api.launch:$y = 5500;
-		// printf("y: &<player_motion.api.launch:$y>");
-		player_motion.api.launch:$z := (tf2.now_z:@s - tf2.last_z:@s) * 4;
-        player_motion.api.launch:$z < 2000;
-        player_motion.api.launch:$z > -2000;
+		player_motion.api.launch:$x = player_motion.api.launch:$z = 0;
+        player_motion.api.launch:$y = 5500;
+
+        $input = @s::Rotation[0] * 10;
+        Math.sine();
+        $sine := ($output * 3) / 2;
+        Math.cosine();
+        $cosine := ($output * 3) / 2;
+
+		if (predicate tf2:input/left) expand {
+            player_motion.api.launch:$x += $cosine;
+            player_motion.api.launch:$z += $sine;
+        }
+        if (predicate tf2:input/right) expand {
+            player_motion.api.launch:$x -= $cosine;
+            player_motion.api.launch:$z -= $sine;
+        }
+		if (predicate tf2:input/forward) expand {
+            player_motion.api.launch:$x -= $sine;
+            player_motion.api.launch:$z += $cosine;
+        }
+        if (predicate tf2:input/backward) expand {
+            player_motion.api.launch:$x += $sine;
+            player_motion.api.launch:$z -= $cosine;
+        }
+
+        // printf("X: &<player_motion.api.launch:$x>");
+        // printf("Y: &<player_motion.api.launch:$y>");
 		// printf("Z: &<player_motion.api.launch:$z>");
+        // printf("");
 		function player_motion:api/launch_xyz;
 
-		item modify entity @s armor.chest {
-		    "function": "minecraft:set_components",
-		    "components": { "!minecraft:glider": {} }
-		};
-		tf2.elytra_detect:@s = 0;
 		tf2.permanent.double_jumps:@s++;
 		tf2.can_double_jump:@s = false;
     }
@@ -115,15 +146,9 @@ class Class.Scout {
         if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/scout/chest_model;
 
         $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
-        if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
-        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/scout/head;
-
-        if (tf2.can_double_jump:@s) {
-            item modify entity @s armor.chest {
-                "function": "minecraft:set_components",
-                "components": { "minecraft:glider": {} }
-            };
-            $_count_ = clear @s iron_chestplate 0;
+        if ($_count_ != 1) {
+            clear @s white_dye[item_model="tf2:misc/head"];
+            loot replace entity @s armor.head loot tf2:class/scout/head;
         }
     }
 }
