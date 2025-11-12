@@ -18,5 +18,5 @@ scoreboard players operation @s tf2.mot_x = $mot.mot_x tf2.var
 scoreboard players operation @s tf2.mot_y = $mot.mot_y tf2.var
 scoreboard players operation @s tf2.mot_z = $mot.mot_z tf2.var
 execute if data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode:0} unless data storage tf2:lookup item.components.minecraft:custom_data.projectile.billboard run function tf2:projectile/linear_velocity_to_quaternion
-execute if data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode:2} run function tf2:__private__/if_else/17
+execute if data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode:2} run function tf2:__private__/if_else/21
 tag @s remove tf2.new

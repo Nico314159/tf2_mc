@@ -1,6 +1,7 @@
-execute store result score $elasticity tf2.var run data get entity @s item.components.minecraft:custom_data.projectile.entity_collision.elasticity 1000
-scoreboard players operation @s tf2.mot_x *= $elasticity tf2.var
-scoreboard players operation @s tf2.mot_x /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_z *= $elasticity tf2.var
-scoreboard players operation @s tf2.mot_z /= 1000 tf2.const
-tag @s remove tf2.delayed_elasticity
+scoreboard players operation $_multiplier_ tf2.var = @a[tag=iris.executing,limit=1] tf2.time_scoped
+scoreboard players operation $_multiplier_ tf2.var *= 5 tf2.const
+scoreboard players remove $_multiplier_ tf2.var 30
+scoreboard players operation $_multiplier_ tf2.var > 100 tf2.const
+scoreboard players operation $_multiplier_ tf2.var < 300 tf2.const
+execute if score $_hitHead_ tf2.var matches 1.. run scoreboard players operation $_multiplier_ tf2.var *= 3 tf2.const
+scoreboard players set __if_else__ tf2.var 1

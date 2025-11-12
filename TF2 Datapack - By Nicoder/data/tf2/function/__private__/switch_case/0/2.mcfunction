@@ -1,0 +1,1 @@
+data modify storage tf2:disguise class set value 'sniper'

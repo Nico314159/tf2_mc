@@ -1,3 +1,5 @@
-scoreboard players operation $_temp3_ tf2.var = $_maxRamp_ tf2.var
-scoreboard players remove $_temp3_ tf2.var 100
-scoreboard players operation $_temp3_ tf2.var *= 2 tf2.const
+execute if entity @s[tag=tf2.uber_patient] run return fail
+tag @s add tf2.uber_patient
+item replace entity @s armor.head with air
+item replace entity @s armor.chest with air
+item replace entity @s armor.legs with air

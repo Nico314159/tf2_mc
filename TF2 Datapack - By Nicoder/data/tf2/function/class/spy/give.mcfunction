@@ -18,5 +18,3 @@ execute store result score @s tf2.cloak run data get storage tf2:lookup equipmen
 execute store result score @s tf2.is_invisible run scoreboard players set @s tf2.menu_ticks 0
 tag @s remove tf2.disguised
 tag @s remove tf2.in_disguise_menu
-scoreboard players operation @s tf2.disguise.team = @s tf2.team
-function tf2:class/spy/disguise_menu/toggle_team

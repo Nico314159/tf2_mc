@@ -1,2 +1,6 @@
-scoreboard players operation @s tf2.mot_x *= -1 tf2.const
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players operation @s tf2.mot_x *= $elasticity tf2.var
+scoreboard players operation @s tf2.mot_x /= 1000 tf2.const
+scoreboard players operation @s tf2.mot_y *= $elasticity tf2.var
+scoreboard players operation @s tf2.mot_y /= 1000 tf2.const
+scoreboard players operation @s tf2.mot_z *= $elasticity tf2.var
+scoreboard players operation @s tf2.mot_z /= 1000 tf2.const

@@ -26,7 +26,7 @@ Hardcode.repeatList(
         "fall_y", "fall_y1", "fall_y2", "fall_y3",
         "last_x", "now_x", "last_z", "now_z",
         "drown_lost", "time_surfaced", "current_air", "last_air",
-        "is_invisible", "cloak", "disguise.class", "disguise.team", "disguise.primary_CMD",
+        "is_invisible", "cloak",
         "door.wait", "door.time_open", "door.state", "door.id",
         "door.length", "door.pos", "door.vel", "door.accel", 
         "hits_taken", "ticks_since_hurt", "interpolate_rmb", "menu_ticks",
@@ -53,6 +53,7 @@ Hardcode.repeatList(
 Scoreboard.add(tf2.health, dummy, "❤");
 scoreboard objectives setdisplay below_name tf2.health;
 Scoreboard.add(tf2.queue_type, trigger);
+Scoreboard.add(tf2.disguise, trigger);
 Scoreboard.add(tf2.coas, used:carrot_on_a_stick);
 Scoreboard.add(tf2.elytra_detect, custom:aviate_one_cm);
 Scoreboard.add(tf2.can_double_jump, dummy);

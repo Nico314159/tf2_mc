@@ -119,9 +119,6 @@ scoreboard objectives add tf2.current_air dummy
 scoreboard objectives add tf2.last_air dummy
 scoreboard objectives add tf2.is_invisible dummy
 scoreboard objectives add tf2.cloak dummy
-scoreboard objectives add tf2.disguise.class dummy
-scoreboard objectives add tf2.disguise.team dummy
-scoreboard objectives add tf2.disguise.primary_CMD dummy
 scoreboard objectives add tf2.door.wait dummy
 scoreboard objectives add tf2.door.time_open dummy
 scoreboard objectives add tf2.door.state dummy
@@ -176,6 +173,7 @@ scoreboard objectives add tf2.ang_vel_z dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
+scoreboard objectives add tf2.disguise trigger
 scoreboard objectives add tf2.coas used:carrot_on_a_stick
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.can_double_jump dummy

@@ -16,7 +16,7 @@ execute store result score $_count_ tf2.var run clear @s white_dye[item_model="t
 execute unless score $_count_ tf2.var matches 1 run clear @s white_dye[item_model="tf2:misc/head"]
 execute unless score $_count_ tf2.var matches 1 run loot replace entity @s armor.head loot tf2:class/heavy/head
 scoreboard players set __if_else__ tf2.var 0
-execute if score @s tf2.current_slot matches 2 run function tf2:__private__/if_else/4
+execute if score @s tf2.current_slot matches 2 run function tf2:__private__/if_else/8
 execute if score __if_else__ tf2.var matches 0 run clear @s white_dye[item_model="tf2:misc/head"]
 execute if predicate tf2:class/heavy/is_revving if score @s tf2.current_slot matches 0 run return run function tf2:__private__/anonymous/3
 loot replace entity @s hotbar.0 loot tf2:class/heavy/minigun_decoy

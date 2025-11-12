@@ -1,3 +1,2 @@
-scoreboard players add @s tf2.drown_lost 5
-data modify storage tf2:lookup damages append value {amount:5,cause:-2147483648,kill_verb:"drowned"}
-execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @s tf2.player.id
+execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run function tf2:__private__/anonymous/35
+execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/36

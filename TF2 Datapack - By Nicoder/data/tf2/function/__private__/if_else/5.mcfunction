@@ -1,2 +1,3 @@
-clear @s white_dye[item_model="tf2:misc/head"]
-loot replace entity @s armor.head loot tf2:class/scout/head
+function tf2:class/spy/inventory_lock/hotbar
+function tf2:class/spy/inventory_lock/disguise_models
+scoreboard players set __if_else__ tf2.var 1

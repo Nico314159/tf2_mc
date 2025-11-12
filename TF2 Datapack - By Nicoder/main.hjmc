@@ -3,6 +3,7 @@
 #include "header/items_temp.hjmc"
 
 #command rotate
+#command dialog
 #override minecraft
 #override iris
 #override player_motion

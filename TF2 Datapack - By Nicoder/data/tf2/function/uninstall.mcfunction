@@ -70,9 +70,6 @@ scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
 scoreboard objectives remove tf2.is_invisible
 scoreboard objectives remove tf2.cloak
-scoreboard objectives remove tf2.disguise.class
-scoreboard objectives remove tf2.disguise.team
-scoreboard objectives remove tf2.disguise.primary_CMD
 scoreboard objectives remove tf2.door.wait
 scoreboard objectives remove tf2.door.time_open
 scoreboard objectives remove tf2.door.state
@@ -126,6 +123,7 @@ scoreboard objectives remove tf2.ang_vel_y
 scoreboard objectives remove tf2.ang_vel_z
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
+scoreboard objectives remove tf2.disguise
 scoreboard objectives remove tf2.coas
 scoreboard objectives remove tf2.elytra_detect
 scoreboard objectives remove tf2.can_double_jump

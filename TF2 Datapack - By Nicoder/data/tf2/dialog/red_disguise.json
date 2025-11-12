@@ -1,0 +1,108 @@
+{
+    "type": "minecraft:multi_action",
+    "title": "Disguise Kit",
+    "can_close_with_escape": false,
+    "columns": 9,
+    "actions": [
+        {
+            "label": {
+                "text": "Scout"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 13"
+            }
+        },
+        {
+            "label": {
+                "text": "Soldier"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 14"
+            }
+        },
+        {
+            "label": {
+                "text": "Pyro"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 17"
+            }
+        },
+        {
+            "label": {
+                "text": "Demoman"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 15"
+            }
+        },
+        {
+            "label": {
+                "text": "Heavy"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 16"
+            }
+        },
+        {
+            "label": {
+                "text": "Engineer"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 18"
+            }
+        },
+        {
+            "label": {
+                "text": "Medic"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 19"
+            }
+        },
+        {
+            "label": {
+                "text": "Sniper"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 12"
+            }
+        },
+        {
+            "label": {
+                "text": "Spy"
+            },
+            "width": 40,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.disguise set 11"
+            }
+        },
+        {
+            "label": {
+                "text": "Disguise as BLU"
+            },
+            "width": 200,
+            "action": {
+                "type": "minecraft:show_dialog",
+                "dialog": "tf2:blu_disguise"
+            }
+        }
+    ]
+}

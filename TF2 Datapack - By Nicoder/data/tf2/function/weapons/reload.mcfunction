@@ -1,4 +1,3 @@
-execute if entity @s[scores={tf2.class=1},tag=tf2.in_disguise_menu] run return run function tf2:class/spy/disguise_menu/toggle_team
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/4/select with storage tf2:__storage__
 execute if predicate tf2:hide_ammo run return 0

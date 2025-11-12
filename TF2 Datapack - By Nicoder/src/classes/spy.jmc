@@ -7,77 +7,35 @@ new trim_pattern(spy) {
 }
 generate_body_model(spy);
 
-
 JMC.python(
     `
     import json
-    classes = ('Sniper', 'Scout', 'Heavy', 'Soldier', 'Spy', 'Pyro')
-    ids = (2, 3, 6, 4, 1, 7)
+    from collections import OrderedDict
+    classes = OrderedDict({'Scout': 3, 'Soldier': 4, 'Pyro': 7, "Demoman": 5, 'Heavy': 6, "Engineer": 8, "Medic": 9, 'Sniper': 2, 'Spy': 1})
+    teams = OrderedDict({'red': 1, 'blu': 2})
 
-    
-    for (class_name, id) in zip(classes, ids):
-
-        name = {
-            "function": "set_name",
-            "name": [
+    for (team, n) in teams.items():
+        other = tuple(set(teams.keys() - {team}))[0]
+        disguise = {
+            "type": "minecraft:multi_action",
+            "title": "Disguise Kit",
+            "can_close_with_escape": false,
+            "columns": 9,
+            "actions": [
+                *[{
+                    "label": {"text": class_name},
+                    "width": 40,
+                    "action": {"type": "minecraft:run_command", "command": f"trigger tf2.disguise set {id + n*10}"}
+                } for (class_name, id) in classes.items()],
                 {
-                    "text": f"Disguise as {class_name} ", 
-                    "italic": False,
-                    "font": "minecraft:default"
-                },
-                {
-                    "text": str(6543 if class_name == 'Spy' else 71),
-                    "font": "tf2:square"
-                },
-                {
-                    "translate": "tf2.menu_head",
-                    "fallback": "('%s' = ᴛᴏɢɢʟᴇ ᴛᴇᴀᴍ, '%s' = ᴄᴀɴᴄᴇʟ)",
-                    "with": [{"keybind": "key.drop"}, {"keybind": "key.swapOffhand"}],
-                    "color": "gray", 
-                    "font": "tf2:line2",
-                    "italic": True
-                },
-                {
-                    "text": str(54 if class_name == 'Spy' else 531),
-                    "font": "tf2:square"
-                },
+                    "label": {"text": f"Disguise as {other.upper()}"},
+                    "width": 200,
+                    "action": {"type": "minecraft:show_dialog", "dialog": f"tf2:{other}_disguise"}
+                }
             ]
         }
-
-        model = [{
-            "function": "minecraft:set_components",
-            "components": {
-                "minecraft:item_model": "tf2:misc/head"
-            }
-        }] + [{
-            "function": "minecraft:set_custom_model_data",
-            "strings": {
-                "values": [class_name.lower(), ('', 'red', 'blu')[n]],
-                "mode": "insert",
-                "offset": 0
-            },
-            "conditions": [{
-                "condition": "entity_scores",
-                "entity": "this", "scores": {"tf2.disguise.team": n}
-            }]
-        } for n in {1, 2}]
-
-        special_tag = { "function": "set_custom_data", "tag": "{disguise: true}" }
-
-        loot = {
-            "pools": [{
-                "rolls": 1,
-                "entries": [
-                    {
-                        "type": "item",
-                        "name": "white_dye",
-                        "functions": [name, *model, special_tag]
-                    }
-                ]
-            }]
-        }
-
-        emit(f'new loot_table(class.spy.disguise.{class_name.lower()}) {json.dumps(loot)}')
+        
+        emit(f'new dialog({team}_disguise) {json.dumps(disguise)}')
     `,
     jmc=true
 );
@@ -196,8 +154,6 @@ class Class.Spy {
         tf2.is_invisible:@s = tf2.menu_ticks:@s = 0;
         tag @s remove tf2.disguised;
         tag @s remove tf2.in_disguise_menu;
-        tf2.disguise.team:@s = tf2.team:@s;
-        this.disguise_menu.toggle_team();
     }
 
     function cloak() {
@@ -236,75 +192,79 @@ class Class.Spy {
             this.uncloak();
         }
 
-        if (items entity @s weapon.offhand crossbow[charged_projectiles=[], custom_data~{should_detect_click: true}]) {
-            this.disguise_menu.detect_input();
-        }
-
-        this.disguise_menu.count_ticks();
-
-        if (entity @s[tag=tf2.in_disguise_menu]) {
-            return run this.disguise_menu.run();
-        }
+        attribute @s[tag=!tf2.disguised] minecraft:movement_speed modifier remove tf2:match_disguise_speed;
         this.inventory_lock();
+        if (tf2.disguise:@s) expand {
+            this.apply_disguise();
+            scoreboard players reset @s tf2.disguise;
+        }
     }
 
     function inventory_lock() {
-        if (tf2.is_invisible:@s) {
-            return run this.disable_attacking();
+        if (tf2.cloak:@s[scores={tf2.is_invisible=1}]) {
+            this.inventory_lock.invisible();
         }
-
-        attribute @s[tag=!tf2.disguised] minecraft:movement_speed modifier remove tf2:match_disguise_speed;
-
+        else if (entity @s[tag=tf2.disguised]) {
+            this.inventory_lock.hotbar();
+            this.inventory_lock.disguise_models();
+        }
+        else {
+            this.inventory_lock.hotbar();
+            this.inventory_lock.body_models();
+        }  
+    }
+    function inventory_lock.hotbar() {
         item replace entity @s armor.chest with air;
 
         loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
         $_count_ = clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 0)}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 0)}];
-        if ($_count_ != 1) loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 0)}];
+            loot replace entity @s hotbar.0 loot tf2:class/spy/revolver;
+        }
 
         loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
         $_count_ = clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 1)}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 1)}];
-        if ($_count_ != 1) loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 1)}];
+            loot replace entity @s hotbar.1 loot tf2:class/spy/sapper;
+        }
 
         loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
         $_count_ = clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 2)}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 2)}];
-        if ($_count_ != 1) loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
-        
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 2)}];
+            loot replace entity @s hotbar.2 loot tf2:class/spy/butterfly_knife;
+        }
+
         if (tf2.current_slot:@s == 2) {
             this.determine_backstab();
         }
 
+        if (tf2.current_slot:@s[tag=!tf2.in_disguise_menu,tag=!tf2.need_to_switch_away] == 3) {
+            this.disguise_menu();
+        }
+        if (tf2.current_slot:@s != 3) {
+            tag @s remove tf2.need_to_switch_away;
+        }
+
         loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
         $_count_ = clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 3)}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 3)}];
-        if ($_count_ != 1) loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 3)}];
+            loot replace entity @s hotbar.3 loot tf2:class/spy/disguise_kit;
+        }
 
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
         $_count_ = clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 4)}] 0;
-        if ($_count_ != 1) clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 4)}];
-        if ($_count_ != 1) loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
-
-        clear @s *[minecraft:custom_data~{cloak: 'uncloak'}];
-
-        if (entity @s[tag=tf2.disguised, scores={tf2.is_invisible=0}]) {
-            return run this.fake_inventory_lock();
+        if ($_count_ != 1) expand {
+            clear @s *[custom_data~{key: EVAL(Class.SPY * 10 + 4)}];
+            loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch;
         }
 
-        $_count_ = clear @s iron_leggings 0;
-        if ($_count_ != 1) clear @s iron_leggings;
-        if ($_count_ != 1) loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
-
-        $_count_ = clear @s iron_chestplate 0;
-        if ($_count_ != 1) clear @s iron_chestplate;
-        if ($_count_ != 1) loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
-
-        $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
-        if ($_count_ != 1) clear @s white_dye[item_model="tf2:misc/head"];
-        if ($_count_ != 1) loot replace entity @s armor.head loot tf2:class/spy/head;
+        clear @s *[minecraft:custom_data~{cloak: 'uncloak'}];
     }
-    function disable_attacking() {
+    function inventory_lock.invisible() {
         clear @s *[!custom_data~{cloak: 'uncloak'}];
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch_gui_only;
         $_count_ = clear @s *[custom_data~{cloak: 'uncloak'}] 0;
@@ -313,8 +273,7 @@ class Class.Spy {
             loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch_gui_only;
         }
     }
-    function fake_inventory_lock() {
-        
+    function inventory_lock.disguise_models() {
         lookup::equipment = @s::equipment;
         disguise::class = lookup::equipment.head.components.minecraft:custom_model_data.strings[0];
         disguise::team = lookup::equipment.head.components.minecraft:custom_model_data.strings[1];
@@ -333,6 +292,23 @@ class Class.Spy {
         } with disguise::;
 
         this.true_team_trail();
+    }
+    function inventory_lock.body_models() {
+        $_count_ = clear @s iron_leggings 0;
+        if ($_count_ != 1) expand {
+            clear @s iron_leggings;
+            loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
+        }
+        $_count_ = clear @s iron_chestplate 0;
+        if ($_count_ != 1) expand {
+            clear @s iron_chestplate;
+            loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
+        }
+        $_count_ = clear @s white_dye[item_model="tf2:misc/head"] 0;
+        if ($_count_ != 1) expand {
+            clear @s white_dye[item_model="tf2:misc/head"];
+            loot replace entity @s armor.head loot tf2:class/spy/head;
+        }
     }
 
     class nametag {
@@ -493,106 +469,54 @@ class Class.Spy {
         title @s times 5t 8t 5t;
     }
 
-    class disguise_menu {
-        function run() {
-            item replace entity @s armor.chest with air;
-
-            loot replace entity @s weapon.offhand loot tf2:class/spy/disguise_kit;
-            $_count_ = clear @s crossbow[custom_data~{disguise: true}] 0;
-            if ($_count_ != 1) expand {
-                clear @s crossbow[custom_data~{disguise: true}];
-                loot replace entity @s weapon.offhand loot tf2:class/spy/disguise_kit;
-            }
-            item modify entity @s weapon.offhand tf2:load_crossbow;
-
-            // item modify entity @s weapon.offhand {
-            //     "function": "minecraft:set_custom_model_data",
-            //     "value": {
-            //         "type": "minecraft:score",
-            //         "target": "this",
-            //         "score": "tf2.disguise.primary_CMD"
-            //     }
-            // };
-
-            this.give_heads();
-        }
-        function give_heads() {
-            JMC.python(`
-                for (slot, class_name) in enumerate(classes):
-                    emit(f"loot replace entity @s hotbar.{slot} loot tf2:class/spy/disguise/{class_name.lower()}");
-            `, jmc=false);
-            $_count_ = clear @s white_dye[custom_data~{disguise: true}] 0;
-
-            JMC.python("emit(f'if ($_count_ == {len(classes)}) return true;')", jmc=true);
-
-            clear @s white_dye[custom_data~{disguise: true}];
-            this.give_heads();
-        }
-        function toggle_team() {
-            // @within Weapons.reload
-            tf2.disguise.team:@s := (tf2.disguise.team:@s % 2) + 1;
-        }
-        function count_ticks() {
-            if (entity @s[tag=tf2.in_disguise_menu]) return run {
-                if (items entity @s weapon.mainhand crossbow[custom_data~{disguise: true}]) {
-                    tag @s remove tf2.in_disguise_menu;
-                } 
-            }
-
-            if (!items entity @s weapon.mainhand crossbow[custom_data~{disguise: true}]) {
-                return run tf2.menu_ticks:@s = 0;
-            }
-            
-            tf2.menu_ticks:@s++;
-            if (tf2.menu_ticks:@s < 10) {
-                return 0;
-            }
-            tag @s add tf2.in_disguise_menu;
-            tf2.menu_ticks:@s = -10;
-        }
-        function detect_input() {
-            kill @e[type=arrow,tag=!tf2.projectile];
-
-            if (items entity @s weapon.offhand crossbow[custom_data~{disguise: true, key: EVAL(Class.SPY * 10 + 3)}]) {
-                Class.Spy.apply_disguise();
-            }
-        }
+    function disguise_menu() {
+        scoreboard players enable @s tf2.disguise;
+        dialog show @s[scores={tf2.team=1}] tf2:red_disguise;
+        dialog show @s[scores={tf2.team=2}] tf2:blu_disguise;
+        tag @s add tf2.in_disguise_menu;
     }
-
     function apply_disguise() {
         tag @s remove tf2.in_disguise_menu;
-        $error = false;
+        tag @s add tf2.need_to_switch_away;
+        $remove_disguise = false;
         if (tf2.class:@s != Class.SPY) {
-            $error = Text.tellraw(@s, "&<yellow, italic>ERROR: You can't use disguises if you're not playing as the Spy.");
+            $remove_disguise = Text.tellraw(@s, "&<yellow, italic>ERROR: You can't use disguises if you're not playing as the Spy.");
         }
 
-        disguise::class = @s::SelectedItem.components.minecraft:custom_model_data.strings[0];
-        disguise::team = @s::SelectedItem.components.minecraft:custom_model_data.strings[1];
+        $class := tf2.disguise:@s % 10;
+        $team := tf2.disguise:@s / 10;
+        if ($team == 1) { disguise::team = "red"; }
+        if ($team == 2) { disguise::team = "blu"; }
+        if (! $team matches 1..2) { 
+            $remove_disguise = Text.tellraw(@s, "&<yellow, italic>ERROR: Invalid number. Server restart may be necessary.");
+        }
 
-        if (data storage tf2:disguise {team: "red"}) {
-            tf2.disguise.team:@s = 1;
-        }
-        if (data storage tf2:disguise {team: "blu"}) {
-            tf2.disguise.team:@s = 2;
-        }
-        if (data storage tf2:disguise {class: "spy"} && tf2.disguise.team:@s == tf2.team:@s) {
+        if ($class == Class.SPY && $team == tf2.team:@s) {
             // Disguising as a friendly Spy simply removes your disguise without an error message;
-            $error = true;
+            $remove_disguise = true;
         }
 
         attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed;
-        if ($error) {
+        JMC.put("scoreboard players reset $team tf2.var");
+        if ($remove_disguise) {
             return run tag @s remove tf2.disguised;
         }
 
-        switch (tf2.disguise.class:@s) { 
-            case Class.SOLDIER:
-                attribute @s minecraft:movement_speed modifier add tf2:match_disguise_speed -0.15 add_multiplied_base;     
-            case Class.DEMOMAN:
-                attribute @s minecraft:movement_speed modifier add tf2:match_disguise_speed -0.07 add_multiplied_base;
-            case Class.HEAVY:
-                attribute @s minecraft:movement_speed modifier add tf2:match_disguise_speed -0.30 add_multiplied_base;
+        switch ($class) { 
+            case Class.SPY: disguise::class = 'spy';
+            case Class.SNIPER: disguise::class = 'sniper';
+            case Class.SCOUT: disguise::class = 'scout';
+            case Class.SOLDIER: disguise::class = 'soldier';
+                attribute @s minecraft:movement_speed modifier add tf2:match_disguise_speed EVAL(0.85 - 1) add_multiplied_base;   
+            case Class.DEMOMAN: disguise::class = 'demoman';
+                attribute @s minecraft:movement_speed modifier add tf2:match_disguise_speed EVAL(0.93 - 1) add_multiplied_base;
+            case Class.HEAVY: disguise::class = 'heavy';
+                attribute @s minecraft:movement_speed modifier add tf2:match_disguise_speed EVAL(0.70 - 1) add_multiplied_base;
+            case Class.ENGINEER: disguise::class = 'engineer';
+            case Class.MEDIC: disguise::class = 'medic';
+            case Class.PYRO: disguise::class = 'pyro';
         }
+        JMC.put("scoreboard players reset $class tf2.var");
 
         // cool visuals
         tag @s add self;
@@ -635,7 +559,9 @@ class Class.Spy {
                 }
             };
         } with disguise::;
+        item replace entity @s hotbar.3 with air;
 
         tag @s add tf2.disguised;
+        return 100;
     }
 }
