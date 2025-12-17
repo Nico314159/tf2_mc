@@ -24,11 +24,11 @@ JMC.python(
             "actions": [
                 *[{
                     "label": {"text": class_name},
-                    "width": 40,
+                    "width": 50,
                     "action": {"type": "minecraft:run_command", "command": f"trigger tf2.disguise set {id + n*10}"}
                 } for (class_name, id) in classes.items()],
                 {
-                    "label": {"text": f"Disguise as {other.upper()}"},
+                    "label": [{"text": "Disguise as "}, {"text": other.upper(), "color": 'blue' if other == 'blu' else 'red'}],
                     "width": 200,
                     "action": {"type": "minecraft:show_dialog", "dialog": f"tf2:{other}_disguise"}
                 }
@@ -559,7 +559,7 @@ class Class.Spy {
                 }
             };
         } with disguise::;
-        item replace entity @s hotbar.3 with air;
+        // item replace entity @s hotbar.3 with air;
 
         tag @s add tf2.disguised;
         return 100;

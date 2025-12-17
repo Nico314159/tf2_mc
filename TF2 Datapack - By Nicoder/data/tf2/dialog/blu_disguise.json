@@ -8,7 +8,7 @@
             "label": {
                 "text": "Scout"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 23"
@@ -18,7 +18,7 @@
             "label": {
                 "text": "Soldier"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 24"
@@ -28,7 +28,7 @@
             "label": {
                 "text": "Pyro"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 27"
@@ -38,7 +38,7 @@
             "label": {
                 "text": "Demoman"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 25"
@@ -48,7 +48,7 @@
             "label": {
                 "text": "Heavy"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 26"
@@ -58,7 +58,7 @@
             "label": {
                 "text": "Engineer"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 28"
@@ -68,7 +68,7 @@
             "label": {
                 "text": "Medic"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 29"
@@ -78,7 +78,7 @@
             "label": {
                 "text": "Sniper"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 22"
@@ -88,16 +88,22 @@
             "label": {
                 "text": "Spy"
             },
-            "width": 40,
+            "width": 50,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 21"
             }
         },
         {
-            "label": {
-                "text": "Disguise as RED"
-            },
+            "label": [
+                {
+                    "text": "Disguise as "
+                },
+                {
+                    "text": "RED",
+                    "color": "red"
+                }
+            ],
             "width": 200,
             "action": {
                 "type": "minecraft:show_dialog",

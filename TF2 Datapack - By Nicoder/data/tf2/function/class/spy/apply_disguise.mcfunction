@@ -23,6 +23,5 @@ function tf2:class/spy/title_image
 execute unless score @s tf2.team = @s tf2.disguise.team at @s anchored eyes run function tf2:class/spy/nametag/create
 tag @s remove self
 function tf2:__private__/anonymous/2 with storage tf2:disguise
-item replace entity @s hotbar.3 with air
 tag @s add tf2.disguised
 return 100
