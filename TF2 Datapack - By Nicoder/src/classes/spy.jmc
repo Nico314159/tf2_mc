@@ -465,7 +465,7 @@ class Class.Spy {
         }
     }
     function title_image() {
-        Text.title(@s, "&<font(disguise)>S");
+        Text.title(@s[scores={tf2.class=Class.SPY}], "&<font(disguise)>S");
         title @s times 5t 8t 5t;
     }
 
@@ -499,7 +499,7 @@ class Class.Spy {
         attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed;
         JMC.put("scoreboard players reset $team tf2.var");
         if ($remove_disguise) {
-            return run tag @s remove tf2.disguised;
+            return run this.undisguise();
         }
 
         switch ($class) { 
@@ -563,5 +563,12 @@ class Class.Spy {
 
         tag @s add tf2.disguised;
         return 100;
+    }
+    function undisguise() {
+        this.title_image();
+        tag @s remove tf2.disguised;
+        loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
+        loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
+        loot replace entity @s armor.head loot tf2:class/spy/head;
     }
 }

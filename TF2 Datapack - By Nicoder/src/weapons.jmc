@@ -308,9 +308,8 @@ class Weapons {
         this.get_ammo();
         if ($_clip_ <= 0 && !predicate tf2:holding_melee) return 0;
         if (entity @s[tag=tf2.disguised]) {
-            Class.Spy.title_image();
+            Class.Spy.undisguise();
         }
-        tag @s remove tf2.disguised;
 
         if (!predicate tf2:holding_melee) {
             playsound tf2:item.gun.shoot player @s ~ ~ ~ 1.35 1 0.1;

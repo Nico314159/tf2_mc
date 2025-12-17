@@ -12,7 +12,7 @@ execute unless score $team tf2.var matches 1..2 store result score $remove_disgu
 execute if score $class tf2.var matches 1 if score $team tf2.var = @s tf2.team run scoreboard players set $remove_disguise tf2.var 1
 attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed
 scoreboard players reset $team tf2.var
-execute if score $remove_disguise tf2.var matches 1.. run return run tag @s remove tf2.disguised
+execute if score $remove_disguise tf2.var matches 1.. run return run function tf2:class/spy/undisguise
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get $class tf2.var
 function tf2:__private__/switch_case/0/select with storage tf2:__storage__
 scoreboard players reset $class tf2.var
