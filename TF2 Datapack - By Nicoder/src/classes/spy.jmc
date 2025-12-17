@@ -265,7 +265,7 @@ class Class.Spy {
         clear @s *[minecraft:custom_data~{cloak: 'uncloak'}];
     }
     function inventory_lock.invisible() {
-        clear @s *[!custom_data~{cloak: 'uncloak'}];
+        clear @s *[!custom_data~{cloak: 'uncloak'}, !custom_name='Change Class'];
         loot replace entity @s weapon.offhand loot tf2:class/spy/invis_watch_gui_only;
         $_count_ = clear @s *[custom_data~{cloak: 'uncloak'}] 0;
         if ($_count_ != 1) expand {
