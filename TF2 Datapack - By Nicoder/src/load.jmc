@@ -100,15 +100,15 @@ if (!$found_dependency) return run Text.tellraw(@a, "&<dark_red>[ERROR] &<red>De
 
 $profiler_installed ?= execute run function timekeeper:__load__;
 
-gamerule doImmediateRespawn true;
-gamerule doMobSpawning false;
-gamerule fallDamage false;
-gamerule drowningDamage true;
-gamerule keepInventory true;
-gamerule mobGriefing false;
-gamerule naturalRegeneration false;
-gamerule showDeathMessages false;
-gamerule disablePlayerMovementCheck true;
+gamerule immediate_respawn true;
+gamerule spawn_mobs false;
+gamerule fall_damage false;
+gamerule drowning_damage true;
+gamerule keep_inventory true;
+gamerule mob_griefing false;
+gamerule natural_health_regeneration false;
+gamerule show_death_messages false;
+gamerule elytra_movement_check false;
 
 // testing purposes only
 $Settings.show_debug_messages = true;
