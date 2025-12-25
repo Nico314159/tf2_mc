@@ -205,7 +205,7 @@
     // Clear out invalid entities
     execute as @e[type=!#tf2:player_like,tag=!tf2.static_prop]
             unless score @s tf2.batch_number = @s tf2.batch_number
-            run kill @s;
+            run kill @s[tag=!smithed.strict];
 }
 
 class start_game {
