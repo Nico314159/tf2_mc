@@ -6,7 +6,8 @@
     "actions": [
         {
             "label": {
-                "text": "Scout"
+                "text": "Scout",
+                "color": "red"
             },
             "width": 50,
             "action": {
@@ -16,7 +17,8 @@
         },
         {
             "label": {
-                "text": "Soldier"
+                "text": "Soldier",
+                "color": "red"
             },
             "width": 50,
             "action": {
@@ -26,7 +28,8 @@
         },
         {
             "label": {
-                "text": "Pyro"
+                "text": "Pyro",
+                "color": "red"
             },
             "width": 50,
             "action": {
@@ -36,7 +39,8 @@
         },
         {
             "label": {
-                "text": "Demoman"
+                "text": "Demoman",
+                "color": "red"
             },
             "width": 50,
             "action": {
@@ -46,7 +50,8 @@
         },
         {
             "label": {
-                "text": "Heavy"
+                "text": "Heavy",
+                "color": "red"
             },
             "width": 50,
             "action": {
@@ -56,7 +61,8 @@
         },
         {
             "label": {
-                "text": "Engineer"
+                "text": "Engineer",
+                "color": "red"
             },
             "width": 50,
             "action": {
@@ -66,7 +72,8 @@
         },
         {
             "label": {
-                "text": "Medic"
+                "text": "Medic",
+                "color": "red"
             },
             "width": 50,
             "action": {
@@ -76,7 +83,8 @@
         },
         {
             "label": {
-                "text": "Sniper"
+                "text": "Sniper",
+                "color": "red"
             },
             "width": 50,
             "action": {
@@ -86,7 +94,8 @@
         },
         {
             "label": {
-                "text": "Spy"
+                "text": "Spy",
+                "color": "red"
             },
             "width": 50,
             "action": {

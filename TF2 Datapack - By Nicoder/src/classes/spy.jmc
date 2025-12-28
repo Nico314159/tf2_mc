@@ -23,7 +23,7 @@ JMC.python(
             "columns": 9,
             "actions": [
                 *[{
-                    "label": {"text": class_name},
+                    "label": {"text": class_name, "color": 'blue' if team == 'blu' else 'red'},
                     "width": 50,
                     "action": {"type": "minecraft:run_command", "command": f"trigger tf2.disguise set {id + n*10}"}
                 } for (class_name, id) in classes.items()],
