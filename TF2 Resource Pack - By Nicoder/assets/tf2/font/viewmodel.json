@@ -1,0 +1,123 @@
+{
+    "providers": [
+        {   "type": "space",
+            "advances": {"_": 5.5, "‌": 0}
+        },
+        
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/spy.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue211"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/spy.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue221"]
+        },
+
+
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/sniper.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue212"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/sniper.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue222"]
+        },
+
+
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/scout.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue213"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/scout.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue223"]
+        },
+
+
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/soldier.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue214"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/soldier.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue224"]
+        },
+
+
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/demoman.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue215"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/demoman.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue225"]
+        },
+
+
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/heavy.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue216"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/heavy.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue226"]
+        },
+
+
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/pyro.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue217"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/pyro.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue227"]
+        },
+
+
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/engineer.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue218"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/engineer.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue228"]
+        },
+
+
+        {   "type": "bitmap",
+            "file": "tf2:font/viewmodel/red/medic.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue219"]
+        }, {"type": "bitmap",
+            "file": "tf2:font/viewmodel/blu/medic.png",
+            "ascent": 0,
+            "height": 93,
+            "chars": ["\ue229"]
+        }
+    ]
+}

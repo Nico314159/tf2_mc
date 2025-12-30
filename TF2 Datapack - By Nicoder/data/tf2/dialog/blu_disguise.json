@@ -3,13 +3,23 @@
     "title": "Disguise Kit",
     "can_close_with_escape": false,
     "columns": 9,
+    "body": [
+        {
+            "type": "minecraft:plain_message",
+            "contents": {
+                "text": "\ue223_\ue224_\ue227_\ue225_\ue226_\ue228_\ue229_\ue222_\ue221_\n\n\n\n\n\n\n\n\n",
+                "font": "tf2:viewmodel"
+            },
+            "width": 550
+        }
+    ],
     "actions": [
         {
             "label": {
                 "text": "Scout",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 23"
@@ -20,7 +30,7 @@
                 "text": "Soldier",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 24"
@@ -31,7 +41,7 @@
                 "text": "Pyro",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 27"
@@ -42,7 +52,7 @@
                 "text": "Demoman",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 25"
@@ -53,7 +63,7 @@
                 "text": "Heavy",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 26"
@@ -64,7 +74,7 @@
                 "text": "Engineer",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 28"
@@ -75,7 +85,7 @@
                 "text": "Medic",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 29"
@@ -86,7 +96,7 @@
                 "text": "Sniper",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 22"
@@ -97,7 +107,7 @@
                 "text": "Spy",
                 "color": "blue"
             },
-            "width": 50,
+            "width": 55,
             "action": {
                 "type": "minecraft:run_command",
                 "command": "trigger tf2.disguise set 21"
@@ -113,7 +123,6 @@
                     "color": "red"
                 }
             ],
-            "width": 200,
             "action": {
                 "type": "minecraft:show_dialog",
                 "dialog": "tf2:red_disguise"

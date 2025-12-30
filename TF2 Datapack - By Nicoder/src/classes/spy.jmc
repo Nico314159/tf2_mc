@@ -11,6 +11,7 @@ JMC.python(
     `
     import json
     from collections import OrderedDict
+    from functools import reduce
     classes = OrderedDict({'Scout': 3, 'Soldier': 4, 'Pyro': 7, "Demoman": 5, 'Heavy': 6, "Engineer": 8, "Medic": 9, 'Sniper': 2, 'Spy': 1})
     teams = OrderedDict({'red': 1, 'blu': 2})
 
@@ -21,21 +22,32 @@ JMC.python(
             "title": "Disguise Kit",
             "can_close_with_escape": false,
             "columns": 9,
+            "body": [
+                {
+                    "type": "minecraft:plain_message",
+                    "contents": {
+                        "text": "".join(r'\\uE2' + f'{n}{classes[c]}_' for c in classes)+(r'\\n'*9),
+                        "font": "tf2:viewmodel",
+                    },
+                    "width": 550
+                }
+            ],
             "actions": [
                 *[{
                     "label": {"text": class_name, "color": 'blue' if team == 'blu' else 'red'},
-                    "width": 50,
+                    "width": 55,
                     "action": {"type": "minecraft:run_command", "command": f"trigger tf2.disguise set {id + n*10}"}
                 } for (class_name, id) in classes.items()],
                 {
                     "label": [{"text": "Disguise as "}, {"text": other.upper(), "color": 'blue' if other == 'blu' else 'red'}],
-                    "width": 200,
                     "action": {"type": "minecraft:show_dialog", "dialog": f"tf2:{other}_disguise"}
                 }
             ]
         }
-        
-        emit(f'new dialog({team}_disguise) {json.dumps(disguise)}')
+
+
+        json_file = json.dumps(disguise).replace(chr(92) + chr(92), chr(92))
+        emit(f'new dialog({team}_disguise) {json_file}')
     `,
     jmc=true
 );
