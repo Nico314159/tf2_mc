@@ -227,6 +227,8 @@ class Player {
             if (tf2.class:@s == Class.DEMOMAN) {
                 Class.Demoman.erase_all_stickybombs();
             }
+            attribute @s[scores={tf2.class=Class.SPY}] minecraft:movement_speed modifier remove tf2:match_disguise_speed;
+            attribute @s[scores={tf2.class=Class.HEAVY}] minecraft:movement_speed modifier remove tf2:slow_while_revving;
 
             // Kill player if they change class outside of spawn
             if (tf2.class:@s matches 1..9 && tf2.class:@s != tf2.new_class:@s && entity @s[tag=!tf2.in_spawn]) {
