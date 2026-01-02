@@ -156,12 +156,13 @@ class Timer
                 if score @s tf2.blu_progress < @s tf2.capture_threshold
                 if score @s tf2.red_progress < @s tf2.capture_threshold
                 run  tag @s add tf2.overtime;
+        index::i = tf2.batch_number:@s;
         execute unless entity @s[tag=tf2.overtime]
-                if entity @e[type=marker,tag=tf2.current,tag=tf2.overtime]
+                if entity @e[type=item_display,tag=tf2.current,tag=tf2.overtime]
                 run Timer.overtime() with index::;
 
         // Otherwise, end the game.
-        tag @e[type=marker] remove tf2.current;
+        tag @e[type=item_display] remove tf2.current;
         if (tf2.timer:@s == 0) {Timer.end_game();}
     }
     function overtime() {
