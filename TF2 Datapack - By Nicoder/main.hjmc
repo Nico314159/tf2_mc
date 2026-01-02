@@ -1,6 +1,5 @@
 #include "header/locations.hjmc"
 #include "header/values.hjmc"
-#include "header/items_temp.hjmc"
 
 #command rotate
 #command dialog
