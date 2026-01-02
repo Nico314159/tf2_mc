@@ -81,7 +81,6 @@ scoreboard objectives add tf2.size dummy
 scoreboard objectives add tf2.model_number dummy
 scoreboard objectives add tf2.age dummy
 scoreboard objectives add tf2.class dummy
-scoreboard objectives add tf2.last_class dummy
 scoreboard objectives add tf2.team dummy
 scoreboard objectives add tf2.max_health dummy
 scoreboard objectives add tf2.last_slot dummy
@@ -174,6 +173,7 @@ scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.disguise trigger
+scoreboard objectives add tf2.new_class trigger
 scoreboard objectives add tf2.coas used:carrot_on_a_stick
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm
 scoreboard objectives add tf2.can_double_jump dummy

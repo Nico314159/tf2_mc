@@ -1,0 +1,1 @@
+data modify storage tf2:vars class_name set value 'spy'

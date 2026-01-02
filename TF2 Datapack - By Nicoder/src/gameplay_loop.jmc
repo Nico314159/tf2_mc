@@ -309,8 +309,6 @@ class start_game {
             tf2.respawn_timer:@s = 0;
             tf2.reload_delay:@s = 0;
 
-            test_items();
-
             // apply gametype-specific settings
             if (tf2.queue_type:@s = 1) start_game.as_players.competitive();
             if (tf2.queue_type:@s = 2) start_game.as_players.casual();
@@ -408,28 +406,6 @@ class reset {
         xrroou1m8_p_join:@s --;
         kill @s[type=villager]; // debug only
     }
-}
-
-function test_items() {
-    Hardcode.repeat("|i|", () => {
-        item replace entity @s hotbar.|i| with air;
-    }, start=0, stop=9);
-    item replace entity @s weapon.offhand with air;
-
-    give @s Select.SNIPER;
-    give @s Select.SCOUT;
-    give @s Select.HEAVY;
-    give @s Select.SOLDIER;
-    give @s Select.PYRO;
-    give @s Select.SPY;
-    give @s Select.MEDIC;
-    give @s Select.DEMOMAN;
-    // give @s Select.ENGINEER;
-
-    attribute @s minecraft:movement_speed modifier add tf2:no_move -1 add_multiplied_total;
-    attribute @s minecraft:jump_strength modifier add tf2:no_jump -1 add_multiplied_total;
-    attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed;
-    scoreboard players reset @s tf2.class;
 }
 
 function quick_start() {

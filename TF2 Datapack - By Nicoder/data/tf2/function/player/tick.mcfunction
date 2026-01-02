@@ -29,28 +29,25 @@ execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run scor
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/17/select with storage tf2:__storage__
 execute unless score @s tf2.class matches 1 run tag @s remove tf2.in_disguise_menu
-item replace entity @s[scores={tf2.class=1..9},tag=!tf2.in_disguise_menu] hotbar.8 with carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name="Change Class"]
-execute store result score $_count_ tf2.var run clear @s carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name="Change Class"] 0
-execute unless score $_count_ tf2.var matches 1 if entity @s[tag=!tf2.in_disguise_menu] run clear @s carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name="Change Class"]
-execute unless score $_count_ tf2.var matches 1 if entity @s[tag=!tf2.in_disguise_menu] run item replace entity @s[scores={tf2.class=1..9}] hotbar.8 with carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name="Change Class"]
-clear @s[tag=tf2.in_disguise_menu] carrot_on_a_stick[item_model="tf2:misc/choose_class",custom_name="Change Class"]
+execute if score @s[tag=!tf2.in_class_menu,tag=!tf2.already_seen_class_menu] tf2.current_slot matches 8 run function tf2:__private__/if_else/92
+execute unless score @s tf2.current_slot matches 8 run tag @s remove tf2.already_seen_class_menu
+execute if score @s tf2.new_class matches 1.. run function tf2:__private__/if_else/93
 execute if entity @s[tag=tf2.on_fire] run function tf2:class/pyro/afterburn
 scoreboard players operation @s tf2.fall_y3 = @s tf2.fall_y2
 scoreboard players operation @s tf2.fall_y2 = @s tf2.fall_y1
 scoreboard players operation @s tf2.fall_y1 = @s tf2.fall_y
 execute store result score @s tf2.fall_y run data get entity @s Pos[1] 100
 execute if predicate tf2:grounded if score @s tf2.fall matches 1.. run function tf2:player/fall_damage
-execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/92
+execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/94
 scoreboard players add @s[predicate=!tf2:submerged] tf2.time_surfaced 1
-execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/93
+execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/95
 scoreboard players set @s[predicate=tf2:submerged] tf2.time_surfaced 0
 scoreboard players operation $id tf2.var = @s tf2.player.id
 execute as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var run tag @s add tf2.search
 execute if entity @s[tag=tf2.overheal] unless entity @a[tag=tf2.search] run function tf2:player/overheal_decay
-execute unless entity @a[tag=tf2.search,tag=tf2.uber_source] run function tf2:__private__/if_else/94
+execute unless entity @a[tag=tf2.search,tag=tf2.uber_source] run function tf2:__private__/if_else/96
 tag @e remove tf2.search
 scoreboard players operation $tick_cycle tf2.var = $__global__ xrroou1m8_p_join
 scoreboard players operation $tick_cycle tf2.var %= 40 tf2.const
-execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/95
+execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/97
 tag @a remove tf2.current
-execute if score @s tf2.coas matches 1.. run function tf2:player/coas_input

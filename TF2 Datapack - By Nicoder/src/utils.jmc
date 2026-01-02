@@ -30,6 +30,14 @@ function join_queue() {
     tf2.batch_number:@s ??= 0;
 }
 
+@lazy
+function class_menu() {
+    scoreboard players enable @s tf2.new_class;
+    dialog show @s[scores={tf2.team=1}] tf2:red_class_menu;
+    dialog show @s[scores={tf2.team=2}] tf2:blu_class_menu;
+    tag @s add tf2.in_class_menu;
+}
+
 function team_assign() {
     // Assigns players to RED/BLU team evenly (without using randomization).
     // @within start_game.as_marker.main()
@@ -38,6 +46,7 @@ function team_assign() {
     team join RED @s[scores={tf2.team=1}];
     team join BLU @s[scores={tf2.team=2}];
     $team_temp ?= execute if score $team_temp tf2.var matches 0;
+    class_menu();
     Spawn.init();
 }
 
@@ -56,6 +65,7 @@ function class_select() {
     if (data storage tf2:vars class_name) {
         give.internal() with vars::;
     }
+    item replace entity @s hotbar.8 with paper[item_model='tf2:misc/choose_class',custom_name='Change Class'];
 
     replenish_ammo_and_health();
 
@@ -112,7 +122,7 @@ function insert_into_batch() {
     team join RED @s[scores={tf2.team=1}];
     team join BLU @s[scores={tf2.team=2}];
     clear @s;
-    test_items();
+    class_menu();
     Spawn.init();
     tag @s add tf2.is_playing;
 

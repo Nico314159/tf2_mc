@@ -1,0 +1,117 @@
+{
+    "type": "minecraft:multi_action",
+    "title": "Choose Class",
+    "can_close_with_escape": false,
+    "columns": 9,
+    "body": [
+        {
+            "type": "minecraft:plain_message",
+            "contents": {
+                "text": "\ue213_\ue214_\ue217_\ue215_\ue216_\ue218_\ue219_\ue212_\ue211_\n\n\n\n\n\n\n\n\n",
+                "font": "tf2:viewmodel"
+            },
+            "width": 550
+        }
+    ],
+    "actions": [
+        {
+            "label": {
+                "text": "Scout",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 3"
+            }
+        },
+        {
+            "label": {
+                "text": "Soldier",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 4"
+            }
+        },
+        {
+            "label": {
+                "text": "Pyro",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 7"
+            }
+        },
+        {
+            "label": {
+                "text": "Demoman",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 5"
+            }
+        },
+        {
+            "label": {
+                "text": "Heavy",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 6"
+            }
+        },
+        {
+            "label": {
+                "text": "Engineer",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 8"
+            }
+        },
+        {
+            "label": {
+                "text": "Medic",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 9"
+            }
+        },
+        {
+            "label": {
+                "text": "Sniper",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 2"
+            }
+        },
+        {
+            "label": {
+                "text": "Spy",
+                "color": "red"
+            },
+            "width": 55,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.new_class set 1"
+            }
+        }
+    ]
+}

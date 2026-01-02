@@ -180,13 +180,73 @@ class Player {
         if (tf2.class:@s != Class.SPY) {
             tag @s remove tf2.in_disguise_menu;
         }
-        item replace entity @s[scores={tf2.class=1..9}, tag=!tf2.in_disguise_menu] hotbar.8 with Item.CHANGE_CLASS;
-        $_count_ = clear @s Item.CHANGE_CLASS 0;
-        if ($_count_ != 1 && entity @s[tag=!tf2.in_disguise_menu]) expand {
-            clear @s Item.CHANGE_CLASS;
-            item replace entity @s[scores={tf2.class=1..9}] hotbar.8 with Item.CHANGE_CLASS;
+
+        JMC.python(`
+        import json
+
+        for (team, n) in teams.items():
+            json_file = json.dumps({
+                "type": "minecraft:multi_action",
+                "title": "Choose Class",
+                "can_close_with_escape": false,
+                "columns": 9,
+                "body": [{
+                    "type": "minecraft:plain_message",
+                    "contents": {
+                        "text": "".join(r'\\uE2' + f'{n}{classes[c]}_' for c in classes)+(r'\\n'*9),
+                        "font": "tf2:viewmodel",
+                    },
+                    "width": 550
+                }],
+                "actions": [
+                    *[{
+                        "label": {"text": class_name, "color": 'blue' if team == 'blu' else 'red'},
+                        "width": 55,
+                        "action": {"type": "minecraft:run_command", "command": f"trigger tf2.new_class set {id}"}
+                    } for (class_name, id) in classes.items()]
+                ]
+            }).replace(chr(92) * 2, chr(92));
+
+            emit(f'new dialog({team}_class_menu) {json_file}')
+        `, jmc=true);
+
+        if (tf2.current_slot:@s[tag=!tf2.in_class_menu,tag=!tf2.already_seen_class_menu] == 8) {
+            class_menu();
         }
-        clear @s[tag=tf2.in_disguise_menu] Item.CHANGE_CLASS;
+        if (tf2.current_slot:@s != 8) {
+            tag @s remove tf2.already_seen_class_menu;
+        }
+        if (tf2.new_class:@s) {
+            tag @s remove tf2.in_class_menu;
+            tag @s add tf2.already_seen_class_menu;
+
+            if (tf2.class:@s == tf2.new_class:@s) return run {
+                scoreboard players reset @s tf2.new_class;
+            }
+
+            if (tf2.class:@s == Class.DEMOMAN) {
+                Class.Demoman.erase_all_stickybombs();
+            }
+
+            // Kill player if they change class outside of spawn
+            if (tf2.class:@s matches 1..9 && tf2.class:@s != tf2.new_class:@s && entity @s[tag=!tf2.in_spawn]) {
+                this.death();
+            }
+
+            switch (tf2.new_class:@s) { 
+                case Class.SPY: vars::class_name = 'spy';
+                case Class.SNIPER: vars::class_name = 'sniper';
+                case Class.SCOUT: vars::class_name = 'scout';
+                case Class.SOLDIER: vars::class_name = 'soldier'; 
+                case Class.DEMOMAN: vars::class_name = 'demoman';
+                case Class.HEAVY: vars::class_name = 'heavy';
+                case Class.ENGINEER: vars::class_name = 'engineer';
+                case Class.MEDIC: vars::class_name = 'medic';
+                case Class.PYRO: vars::class_name = 'pyro';
+            }
+            class_select();
+            scoreboard players reset @s tf2.new_class;
+        }
 
         if (entity @s[tag=tf2.on_fire]) {
             Class.Pyro.afterburn();
@@ -257,34 +317,6 @@ class Player {
             clear @s; 
         } 
         tag @a remove tf2.current;
-
-        function coas_input() {
-            tf2.coas:@s = 0;
-            if (!data entity @s SelectedItem.components{"minecraft:item_model": "tf2:misc/choose_class"}) {
-                return fail;
-            }
-            if (!data entity @s SelectedItem.components.minecraft:custom_model_data) return run {
-                tf2.last_class:@s = tf2.class:@s; 
-                test_items();
-            }
-            else if (tf2.last_class:@s == Class.DEMOMAN) {
-                Class.Demoman.erase_all_stickybombs();
-            }
-
-            vars::class_name = @s::SelectedItem.components.minecraft:custom_model_data.strings[0];
-            class_select();
-
-            attribute @s minecraft:jump_strength modifier remove tf2:no_jump;
-            attribute @s minecraft:movement_speed modifier remove tf2:no_move;
-
-            // Kill player if they change class outside of spawn
-            if (tf2.class:@s matches 1..9 && tf2.last_class:@s != tf2.class:@s && entity @s[tag=!tf2.in_spawn]) {
-                this.death();
-            }
-        }
-        if (tf2.coas:@s) {
-            this.coas_input();
-        }
     }
     function fall_damage() {
         $2nd_previous_dy := tf2.fall_y3:@s - tf2.fall_y2:@s;

@@ -32,7 +32,6 @@ scoreboard objectives remove tf2.size
 scoreboard objectives remove tf2.model_number
 scoreboard objectives remove tf2.age
 scoreboard objectives remove tf2.class
-scoreboard objectives remove tf2.last_class
 scoreboard objectives remove tf2.team
 scoreboard objectives remove tf2.max_health
 scoreboard objectives remove tf2.last_slot
@@ -124,6 +123,7 @@ scoreboard objectives remove tf2.ang_vel_z
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.disguise
+scoreboard objectives remove tf2.new_class
 scoreboard objectives remove tf2.coas
 scoreboard objectives remove tf2.elytra_detect
 scoreboard objectives remove tf2.can_double_jump
