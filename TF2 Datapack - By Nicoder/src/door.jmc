@@ -99,7 +99,11 @@ class Door {
 
     @lazy function calculate_accel() {
         // Result of inputting D=3, T=15, F=0.1 to the following graph: https://www.desmos.com/calculator/q9vlt1hdsb
-        tf2.door.accel:@s = 414;
+        tf2.door.accel:@s = EVAL(
+             ( Math.D  *  Math.F**2  *  10_000 ) 
+                              \
+        ( 2.718**(-Math.T*Math.F) + Math.T*Math.F - 1 )
+        );
     }
 
     function open() {

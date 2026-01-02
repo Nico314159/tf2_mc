@@ -31,6 +31,9 @@
 #enum Reload NONE SINGLE LOSSY LOSSLESS
 
 #enum Door OPEN CLOSED RED_PROXIMITY BLU_PROXIMITY ALL_PROXIMITY
+#define Math.T 15
+#define Math.D 3
+#define Math.F 0.1
 
 #define Projectile.SPECIAL_PROPERTIES ["explosion", "has_trail", "unreflectable", "animated", "can_destroy_stickybombs"]
 #define Projectile.DEFAULT_LIFETIME EVAL(10 * 20) 
