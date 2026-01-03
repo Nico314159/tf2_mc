@@ -321,7 +321,7 @@ class Weapons {
         iris:settings::MaxRecursionDepth = lookup::item.components.minecraft:custom_data.raycast.MaxRecursionDepth;
         iris:settings::TargetEntities = true;
         
-        if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.spreadRecovery) expand {
+        if (lookup::item.components.minecraft:custom_data.attributes.spreadRecovery) expand {
             $_sr_ = lookup::item.components.minecraft:custom_data.attributes.spreadRecovery;
             if (tf2.time_idle:@s > $_sr_) {
                 multicast::SpreadFactor = [0, 0];
@@ -330,8 +330,8 @@ class Weapons {
         $_damage_  = lookup::item.components.minecraft:custom_data.attributes.damage.base;
         $_range_   = lookup::item.components.minecraft:custom_data.attributes.range * 1000;
         $_maxRamp_ = lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
-        if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.range) $_range_ = 2147483647;
-        if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+        if (!lookup::item.components.minecraft:custom_data.attributes.range) $_range_ = 2147483647;
+        if (!lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
 
         if (items entity @s weapon.mainhand bow) {
@@ -350,7 +350,7 @@ class Weapons {
         // Melee sound effects
         if (predicate tf2:holding_melee) return run {
             execute at @s anchored eyes run particle minecraft:sweep_attack ^ ^ ^1;
-            if (!data storage iris:output {TargetType: "ENTITY"}) {
+            if (!iris:output::{TargetType: "ENTITY"}) {
                 return run playsound tf2:item.melee.miss player @s ~ ~ ~ 0.35 0.35 0.1;
             }
             playsound tf2:item.melee.hit player @s ~ ~ ~ 1.5 0.9 0.1;
@@ -689,8 +689,8 @@ class Weapons {
         //     tellraw @a ['before multiplication =', {color:green, nbt:'item.components.minecraft:custom_data.projectile.speed', storage:'tf2:lookup'}];
         // }
         execute run {
-            $ execute store result storage tf2:lookup item.components.minecraft:custom_data.projectile.speed double 0.001  
-                      run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.speed $(magnitude);
+            $ lookup::item.components.minecraft:custom_data.projectile.speed = 0.001 * (double)
+              lookup::item.components.minecraft:custom_data.projectile.speed * $(magnitude);
         } with vars::;
         // if ($Settings.show_debug_messages) {
         //     tellraw @a ['after multiplication =', {color:aqua, nbt:'item.components.minecraft:custom_data.projectile.speed', storage:'tf2:lookup'}];

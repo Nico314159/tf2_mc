@@ -43,7 +43,7 @@ class Door {
         @s::item += summon::entity.item;
         // temporary
         tf2.door.state:@s = Door.ALL_PROXIMITY;
-        if (data storage tf2:summon doors[-1].state) {
+        if (summon::doors[-1].state) {
             tf2.door.state:@s = summon::doors[-1].state;
         }
         

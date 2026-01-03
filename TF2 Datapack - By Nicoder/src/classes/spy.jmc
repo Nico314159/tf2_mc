@@ -388,7 +388,7 @@ class Class.Spy {
     function determine_backstab() {
         raycast::direction.del();
         Raycast.informational();
-        if (!data storage iris:output {TargetType: "ENTITY"}) {
+        if (!iris:output::{TargetType: "ENTITY"}) {
             return fail;
         }
         if (entity @a[tag=iris.targeted_entity,gamemode=spectator]) {

@@ -62,7 +62,7 @@ function class_select() {
     clear @s[scores={tf2.class=1..9}];
     remove_gameplay_effects();
 
-    if (data storage tf2:vars class_name) {
+    if (vars::class_name) {
         give.internal() with vars::;
     }
     item replace entity @s hotbar.8 with paper[item_model='tf2:misc/choose_class',custom_name='Change Class'];
@@ -75,7 +75,7 @@ function class_select() {
 function give.internal() {
     // @needs_macro
     JMC.put("$function tf2:class/$(class_name)/give");
-    data remove storage tf2:vars class_name;
+    vars::class_name.del();
 }
 
 function replenish_ammo_and_health() {

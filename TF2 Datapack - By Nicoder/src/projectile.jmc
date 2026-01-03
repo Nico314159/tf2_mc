@@ -28,7 +28,7 @@ class Projectile {
         // Convert HU/sec -> blocks/sec
         summon::projectile.speed = 0.01905 * (double) lookup::item.components.minecraft:custom_data.projectile.speed;
         summon::projectile.speed_range = lookup::item.components.minecraft:custom_data.projectile.speed_range;
-        if (data storage tf2:summon projectile.speed_range) {
+        if (summon::projectile.speed_range) {
             summon::projectile.speed = 0.01905 * (double) Math.macro_random() 
                                        with summon::projectile.speed_range;
         }
@@ -36,7 +36,7 @@ class Projectile {
         summon::projectile.speed = EVAL(1  / 20_000) * (double) summon::projectile.speed * 1000;
 
         summon::projectile.deviation = lookup::item.components.minecraft:custom_data.projectile.deviation;
-        if (data storage tf2:summon projectile.deviation) {
+        if (summon::projectile.deviation) {
             Projectile.deviation();
         }
         Hardcode.repeatList(
@@ -94,12 +94,12 @@ class Projectile {
                 tf2.mot_[AXIS]:@s = $mot.mot_[AXIS];
             }, ["x", "y", "z"]);
 
-            if (data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.FIXED}
-            && !data storage tf2:lookup item.components.minecraft:custom_data.projectile.billboard) expand {
+            if (lookup::item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.FIXED}
+            && !lookup::item.components.minecraft:custom_data.projectile.billboard) expand {
                 this.linear_velocity_to_quaternion();
             }
 
-            if (data storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.PHYSICAL}) {
+            if (lookup::item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.PHYSICAL}) {
                 $angular_speed = lookup::item.components.minecraft:custom_data.projectile.rotation.initial * EVAL(1000 * 0.01905 / 20);
                 this.initial_rotation();
             }
@@ -202,11 +202,11 @@ class Projectile {
         };
     }
     function calc_lifetime() {
-        if (data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime) {
+        if (summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime) {
             return run summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime * 20;
         }
         
-        if (data storage tf2:summon projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range) expand {
+        if (summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range) expand {
             vars::min = (int) summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range.min * 20;
             vars::max = (int) summon::projectile.weapon.components.minecraft:custom_data.projectile.lifetime_range.max * 20;
             return run Math.macro_random() 
@@ -239,10 +239,10 @@ class Projectile {
 
 
         $friction = 1000;
-        if (data storage tf2:forces drag) {
+        if (forces::drag) {
             $friction = forces::drag * 1000;
         }
-        if (tf2.collision:@s && data storage tf2:forces collision_friction) {
+        if (tf2.collision:@s && forces::collision_friction) {
             $mu = forces::collision_friction * 1000;
             $friction *= $mu;
             $friction /= 1000;
@@ -450,14 +450,14 @@ class Projectile {
         
         lookup::item = @s::item;
         $_damage_ = lookup::item.components.minecraft:custom_data.attributes.damage.base;
-        if (data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.indirect 
+        if (lookup::item.components.minecraft:custom_data.attributes.damage.indirect 
             && !entity @s[tag=!tf2.has_hit_wall, tag=!tf2.has_hit_entity]) {
             $_damage_ = lookup::item.components.minecraft:custom_data.attributes.damage.indirect;
             // print($_damage_);
         }
         $_selfDamage_ = lookup::item.components.minecraft:custom_data.projectile.explosion.selfDamage;
         $_maxRamp_ = lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp * 100;
-        if (!data storage tf2:lookup item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
+        if (!lookup::item.components.minecraft:custom_data.attributes.damage.maxRamp) $_maxRamp_ = 150;
         $_temporalFalloff_ = lookup::item.components.minecraft:custom_data.attributes.damage.temporalFalloff;
         $_rangeDependent_ ?= execute unless predicate tf2:uniform_damage;
 
@@ -507,7 +507,7 @@ class Projectile {
 
         vars::callbacks = @s::item.components.minecraft:custom_data.attributes.on_hit;
         vars::callback = vars::callbacks[0];
-        if (data storage tf2:vars callbacks[]) {
+        if (vars::callbacks[]) {
             this.callbacks() with vars::;
         }
 
@@ -517,7 +517,7 @@ class Projectile {
         vars::callback = vars::callbacks[0];
         $ $(callback);
         vars::callbacks[0].del();
-        if (data storage tf2:vars callbacks[]) {
+        if (vars::callbacks[]) {
             this.callbacks() with vars::;
         }
     }

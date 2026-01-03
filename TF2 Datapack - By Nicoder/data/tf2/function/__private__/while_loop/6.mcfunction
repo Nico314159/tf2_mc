@@ -11,7 +11,7 @@ execute store result score $mot.geo_min_z tf2.var run data get storage tf2:motio
 scoreboard players operation $mot.geo_min_z tf2.var += $mot.voxel_z tf2.var
 execute store result score $mot.geo_max_z tf2.var run data get storage tf2:motion geo.max[2] 1000
 scoreboard players operation $mot.geo_max_z tf2.var += $mot.voxel_z tf2.var
-execute store result score $mot.is_entity tf2.var if data storage tf2:motion geo{type:"ENTITY"}
+execute store success score $mot.is_entity tf2.var run data get storage tf2:motion geo{type:"ENTITY"}
 scoreboard players set __if_else__ tf2.var 0
 execute if score $mot.sign_x tf2.var matches 1 run function tf2:__private__/if_else/58
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/59

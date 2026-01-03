@@ -4,7 +4,7 @@
 #command rotate
 #command dialog
 #override minecraft
-#override iris
+#link iris
 #override player_motion
 #nometa
 #uninstall

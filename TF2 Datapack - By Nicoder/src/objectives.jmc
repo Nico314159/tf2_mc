@@ -323,10 +323,10 @@ class Objectives
                             $ running_games::$(i).spawn_`prop`.blu[0] = running_games::$(i).spawn_`prop`.blu[$(blu)];
                         } with index::;
                     }
-                    if (data storage tf2:lookup {events:{spawn_`prop`:{}}}) {this.spawn_`prop`();}
+                    if (lookup::{events:{spawn_`prop`:{}}}) {this.spawn_`prop`();}
                 }, strings=["point", "time"]);
 
-                while (data storage tf2:lookup events.doors[]) {
+                while (lookup::events.doors[]) {
                     tf2.door.id:$i = lookup::events.doors[-1].id;
                     // printf("&<yellow>Checking for door #&<tf2.door.id:$i>...");
                     execute as @e[type=item_display, tag=tf2.door]

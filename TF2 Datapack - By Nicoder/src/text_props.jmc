@@ -15,54 +15,40 @@ TextProp.hoverText(
 TextProps.nbt(
     propertyName = "space",
     indexString  = "_part_",
-    type         = storage,
-    source       = "tf2:control_points",
-    path         = info[$(i)][7]._part_,
+    nbt          = control_points::info[$(i)][7]._part_,
     interpret    = true
 );
 TextProps.nbt(
     propertyName = "point",
     indexString  = "_j_",
-    type         = storage,
-    source       = "tf2:control_points",
-    path         = info[$(i)][_j_].main,
+    nbt          = control_points::info[$(i)][_j_].main,
     interpret    = true
 );
 TextProps.nbt(
     propertyName = "gui_wheel",
     indexString  = "_path_",
-    type         = storage,
-    source       = "tf2:lookup",
-    path         = points[0].wheel._path_,
+    nbt          = lookup::points[0].wheel._path_,
     interpret    = true
 );
 TextProps.nbt(
     propertyName = "item_of",
     indexString  = "_selector_",
-    type         = entity,
-    source       = "_selector_",
-    path         = SelectedItem.components.minecraft:custom_name,
+    nbt          = _selector_::SelectedItem.components.minecraft:custom_name,
     interpret    = true
 );
 TextProps.nbt(
     propertyName = "HUD",
     indexString  = "key",
-    type         = storage,
-    source       = "tf2:actionbar",
-    path         = key,
+    nbt          = actionbar::key,
     interpret    = true
 );
 TextProp.nbt(
     propertyName = "kill_verb",
-    type         = storage,
-    source       = "tf2:lookup",
-    path         = damages[-1].kill_verb
+    nbt          = lookup::damages[-1].kill_verb
 );
 TextProp.nbt(
     propertyName = "weapon_name",
-    type         = storage,
-    source       = "tf2:lookup",
-    path         = damages[-1].weapon,
+    nbt          = lookup::damages[-1].weapon,
     interpret    = true
 );
 TextProp.keybind("main_fire", "key.use");

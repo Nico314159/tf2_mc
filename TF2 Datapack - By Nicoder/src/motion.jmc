@@ -260,7 +260,7 @@ class Motion {
         }
 
         // Iterate through the geometry and find the nearest
-        while (data storage iris:data Shape[]) {
+        while (iris:data::Shape[]) {
             // Get bounding box parameters
             motion::geo = iris:data::Shape[-1];
             Hardcode.repeatLists(
@@ -274,7 +274,7 @@ class Motion {
                     ["0", "1", "2"]
                 ]
             );
-            $mot.is_entity = execute if data storage tf2:motion geo{type:"ENTITY"};
+            $mot.is_entity ?= motion::geo{type:"ENTITY"};
 
             Hardcode.repeatLists(
                 ["[AXIS]", "[SECOND_AXIS]", "[THIRD_AXIS]"],

@@ -2,7 +2,7 @@ class Raycast {
     function damaging() {
         tag @e remove iris.executing;
         iris:settings::Callback = "tf2:weapons/on_hit";
-        if (!data storage tf2:raycast direction) return run {
+        if (!raycast::direction) return run {
             function iris:get_target;
         }
         this.contact() with raycast::direction;
@@ -12,7 +12,7 @@ class Raycast {
         tag @e remove iris.executing;
         iris:settings::Callback.del();
         iris:settings:: += {MaxRecursionDepth: 127, TargetEntities: true};
-        if (!data storage tf2:raycast direction) return run {
+        if (!raycast::direction) return run {
             execute at @s anchored eyes positioned ^ ^ ^ run function iris:get_target;
         }
         this.contact() with raycast::direction;
@@ -48,7 +48,7 @@ function iris.raycast.test_for_entity() {
     //   Result: 0
     //   Success: 1 if an entity was hit, 0 otherwise
 
-    if (!data storage iris:settings {TargetEntities: true}) {return fail;}
+    if (!iris:settings::{TargetEntities: true}) {return fail;}
     execute align xyz
             unless entity @e[type=!#iris:ignore, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=!iris.executing] 
             unless entity @e[type=item_display, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=tf2.projectile, tag=!iris.executing] 

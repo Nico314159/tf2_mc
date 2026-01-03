@@ -33,7 +33,7 @@
     // Objectives
     summon::objectives = @s::data.map.objectives;
     tf2.index:$temp := {tf2:summon::objectives} * 10;
-    while (data storage tf2:summon objectives[]) {
+    while (summon::objectives[]) {
         tf2.index:$temp -= 10;
         execute summon item_display run {
             // Storage format of `summon::objectives[-1]`
@@ -84,7 +84,7 @@
     summon::doors << @s::data.map.spawn_doors.blu[];
     $blu_length = @s::data.map.spawn_doors.blu;
     $i = 0;
-    while (data storage tf2:summon doors[]) {
+    while (summon::doors[]) {
         execute summon marker run {
             // Storage format of `summon::doors[-1]`
             //      Pos: double[3]
@@ -129,7 +129,7 @@
 
     // Pickups (health & ammo)
     summon::pickups = @s::data.map.pickups;
-    while (data storage tf2:summon pickups[]) {
+    while (summon::pickups[]) {
         summon area_effect_cloud ~ ~-1.5 ~ {
             Duration: -1,
             Age: -2147483648,
@@ -176,7 +176,7 @@
     summon::resupply << @s::data.map.resupply_cabinets.blu[];
     $blu_length = @s::data.map.resupply_cabinets.blu;
     $i = 0;
-    while (data storage tf2:summon resupply[]) {
+    while (summon::resupply[]) {
         execute summon item_display run {
             // Storage format of `summon::resupply[-1]`
             //      Pos: double[3]
