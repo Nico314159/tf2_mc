@@ -171,6 +171,7 @@ class Timer
         // @within Timer.zero()
         tag @s add tf2.overtime;
         tf2.timer:@s = 1;
+        $tellraw @a[scores={tf2.batch_number=$(i)}] "Overtime.";
         $bossbar set tf2:timer_$(i) color red;
         Timer.set_max() with index::;
     }
