@@ -224,6 +224,9 @@ class Objectives
                 tf2.blu_progress:@s[scores={tf2.team=0,tf2.blu_progress=1..}] -= $sum;
                 tf2.red_progress:@s > 0;
                 tf2.blu_progress:@s > 0;
+                if (entity @s[tag=tf2.overtime,scores={tf2.team=0,tf2.red_progress=0,tf2.blu_progress=0}]) {
+                    Objectives.control_point.cancel_overtime();
+                }
 
                 tag @s[scores={tf2.team=0,tf2.red_progress=0,tf2.blu_progress=0}] remove tf2.said_dialogue;
                 tag @e remove tf2.current;

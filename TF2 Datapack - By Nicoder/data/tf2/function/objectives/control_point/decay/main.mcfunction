@@ -12,5 +12,6 @@ scoreboard players operation @s[scores={tf2.team=0,tf2.red_progress=1..}] tf2.re
 scoreboard players operation @s[scores={tf2.team=0,tf2.blu_progress=1..}] tf2.blu_progress -= $sum tf2.var
 scoreboard players operation @s tf2.red_progress > 0 tf2.const
 scoreboard players operation @s tf2.blu_progress > 0 tf2.const
+execute if entity @s[tag=tf2.overtime,scores={tf2.team=0,tf2.red_progress=0,tf2.blu_progress=0}] run function tf2:objectives/control_point/cancel_overtime
 tag @s[scores={tf2.team=0,tf2.red_progress=0,tf2.blu_progress=0}] remove tf2.said_dialogue
 tag @e remove tf2.current
