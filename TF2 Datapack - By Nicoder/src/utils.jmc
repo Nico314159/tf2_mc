@@ -7,7 +7,7 @@ function setup_markers() {
     if ($batch_markers > $Settings.max_batches) {kill @e[type=marker,tag=tf2.batch,sort=random,limit=1];}
 
     $batch_markers = execute if entity @e[type=marker,tag=tf2.batch];
-    scoreboard players reset $index tf2.batch_number;
+    tf2.batch_number:$index.reset();
     execute as @e[type=marker,tag=tf2.batch] unless score @s tf2.batch_number = @s tf2.batch_number run {
         tf2.map:@s = DEFAULT_MAP;
         tf2.batch_number:@s > tf2.batch_number:@e[type=marker,tag=tf2.batch];
@@ -74,7 +74,7 @@ function class_select() {
 
 function give.internal() {
     // @needs_macro
-    JMC.put("$function tf2:class/$(class_name)/give");
+    $function tf2:class/$(class_name)/give;
     vars::class_name.del();
 }
 

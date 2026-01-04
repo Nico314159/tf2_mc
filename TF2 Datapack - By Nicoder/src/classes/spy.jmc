@@ -509,7 +509,7 @@ class Class.Spy {
         }
 
         attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed;
-        JMC.put("scoreboard players reset $team tf2.var");
+        $team.reset();
         if ($remove_disguise) {
             return run this.undisguise();
         }
@@ -528,7 +528,7 @@ class Class.Spy {
             case Class.MEDIC: disguise::class = 'medic';
             case Class.PYRO: disguise::class = 'pyro';
         }
-        JMC.put("scoreboard players reset $class tf2.var");
+        $class.reset();
 
         // cool visuals
         tag @s add self;

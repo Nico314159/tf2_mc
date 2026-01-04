@@ -112,7 +112,7 @@ class Objectives
             // printf("index = &<tf2.index:@s>");
             // no need to count total number of control points, as that is already given by `tf2.index` [see `Objectives.control_point.visuals.spacing()` for more info]
 
-            scoreboard players reset $winner tf2.var;
+            $winner.reset();
             if ($red_cp_count == tf2.index:@s[tag=!tf2.multistage,scores={tf2.gamemode=Gamemode.CONTROL_PTS}]) {
                 $winner = 1;
             }

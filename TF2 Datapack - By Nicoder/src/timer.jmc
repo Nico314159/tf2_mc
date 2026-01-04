@@ -188,7 +188,7 @@ class Timer
         // @within
         //  Timer.zero()
         //  Objectives.control_point.decay.main()
-        scoreboard players reset $winner tf2.var;
+        $winner.reset();
         tag @s remove tf2.overtime;
         $temp := tf2.gamemode:@s % 4; // determines whether gamemode is symmetric or not (see gamemode key).
         if ($temp == 1) $winner = 1; // RED wins in asymmetric gamemodes (like A/D or Payload)

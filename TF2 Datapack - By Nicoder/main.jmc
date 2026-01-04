@@ -198,7 +198,9 @@ function marker_tick() {
         execute run {$execute unless score @s tf2.session = $global_$(i) tf2.session run reset.as_marker();} with index::;
     }
 
-    JMC.put("execute at @s[tag=tf2.spawn_door] run function tf2:spawn/protect with entity @s data");
+    execute at @s[tag=tf2.spawn_door] 
+            run Spawn.protect()
+            with @s::data;
 }
 
 import "src/player";

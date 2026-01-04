@@ -162,7 +162,7 @@ class Class.Sniper {
         }
         tag @s remove tf2.self;
         kill @e[type=marker, tag=tf2.temp];
-        JMC.put("advancement revoke @s only tf2:class/sniper/scope");
+        advancement revoke @s only tf2:class/sniper/scope;
     }
     @lazy
     function damage_scale() {

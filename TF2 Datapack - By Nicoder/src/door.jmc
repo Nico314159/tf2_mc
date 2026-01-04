@@ -151,7 +151,7 @@ class Door {
         //         with @s::item.components.minecraft:custom_data.fill;
     }
     function projection() {
-        JMC.put("$function tf2:door/projection_$(path)");
+        $ function tf2:door/projection_$(path);
     }
     function projection_east() {
         @s::transformation.translation[0] =  0.0001 * (float) tf2.door.pos:@s;
