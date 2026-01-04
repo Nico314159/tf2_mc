@@ -337,7 +337,7 @@ class start_game {
 
 TextProp.hoverText(
     "stalemate_text",
-    "You're &<bold>all losers!"
+    "You're &<bold>all&<!bold> losers!"
 );
 class reset {
     function announce_winner() {
