@@ -34,12 +34,12 @@ JMC.python(
             ],
             "actions": [
                 *[{
-                    "label": {"text": class_name, "color": 'blue' if team == 'blu' else 'red'},
+                    "label": {"text": class_name, "color": 'blue' if team == 'blu' else '#D95A58'},
                     "width": 55,
                     "action": {"type": "minecraft:run_command", "command": f"trigger tf2.disguise set {id + n*10}"}
                 } for (class_name, id) in classes.items()],
                 {
-                    "label": [{"text": "Disguise as "}, {"text": other.upper(), "color": 'blue' if other == 'blu' else 'red'}],
+                    "label": [{"text": "Disguise as "}, {"text": other.upper(), "color": 'blue' if other == 'blu' else '#D95A58'}],
                     "action": {"type": "minecraft:show_dialog", "dialog": f"tf2:{other}_disguise"}
                 }
             ]

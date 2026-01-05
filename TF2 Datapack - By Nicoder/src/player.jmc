@@ -200,7 +200,7 @@ class Player {
                 }],
                 "actions": [
                     *[{
-                        "label": {"text": class_name, "color": 'blue' if team == 'blu' else 'red'},
+                        "label": {"text": class_name, "color": 'blue' if team == 'blu' else '#D95A58'},
                         "width": 55,
                         "action": {"type": "minecraft:run_command", "command": f"trigger tf2.new_class set {id}"}
                     } for (class_name, id) in classes.items()]

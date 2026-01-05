@@ -17,7 +17,7 @@
         {
             "label": {
                 "text": "Scout",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
@@ -28,7 +28,7 @@
         {
             "label": {
                 "text": "Soldier",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
@@ -39,7 +39,7 @@
         {
             "label": {
                 "text": "Pyro",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
@@ -50,7 +50,7 @@
         {
             "label": {
                 "text": "Demoman",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
@@ -61,7 +61,7 @@
         {
             "label": {
                 "text": "Heavy",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
@@ -72,7 +72,7 @@
         {
             "label": {
                 "text": "Engineer",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
@@ -83,7 +83,7 @@
         {
             "label": {
                 "text": "Medic",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
@@ -94,7 +94,7 @@
         {
             "label": {
                 "text": "Sniper",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
@@ -105,7 +105,7 @@
         {
             "label": {
                 "text": "Spy",
-                "color": "red"
+                "color": "#D95A58"
             },
             "width": 55,
             "action": {
