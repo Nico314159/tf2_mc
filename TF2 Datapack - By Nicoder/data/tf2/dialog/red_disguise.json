@@ -7,8 +7,8 @@
         {
             "type": "minecraft:plain_message",
             "contents": {
-                "text": "\ue213_\ue214_\ue217_\ue215_\ue216_\ue218_\ue219_\ue212_\ue211_\n\n\n\n\n\n\n\n\n",
-                "font": "tf2:viewmodel"
+                "text": "\ue213_\ue214_\ue217_\ue215_\ue216_\ue218_\ue219_\ue212_\ue211_\n\n\n",
+                "font": "tf2:head_viewmodel"
             },
             "width": 550
         }

@@ -26,8 +26,8 @@ JMC.python(
                 {
                     "type": "minecraft:plain_message",
                     "contents": {
-                        "text": "".join(r'\\uE2' + f'{n}{classes[c]}_' for c in classes)+(r'\\n'*9),
-                        "font": "tf2:viewmodel",
+                        "text": "".join(r'\\uE2' + f'{n}{classes[c]}_' for c in classes)+(r'\\n'*3),
+                        "font": "tf2:head_viewmodel",
                     },
                     "width": 550
                 }
