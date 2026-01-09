@@ -11,6 +11,8 @@ execute unless score @s tf2.uuid.3 = @s tf2.uuid.3 store result score @s tf2.uui
 scoreboard players enable @s tf2.queue_type
 scoreboard players enable @s controls
 scoreboard players enable @s autoreload
+scoreboard players reset @s tf2.disguise
+scoreboard players reset @s tf2.new_class
 execute store result score @s tf2.batch_number store result score @s tf2.queue_type store result score @s controls run scoreboard players set @s autoreload 0
 scoreboard players add $global tf2.player.id 1
 execute unless score @s tf2.player.id = @s tf2.player.id run scoreboard players operation @s tf2.player.id = $global tf2.player.id

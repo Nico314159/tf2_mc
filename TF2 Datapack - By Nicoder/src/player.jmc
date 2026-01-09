@@ -36,6 +36,8 @@ Player.join(() => {
     scoreboard players enable @s tf2.queue_type;
     scoreboard players enable @s controls;
     scoreboard players enable @s autoreload;
+    scoreboard players reset @s tf2.disguise;
+    scoreboard players reset @s tf2.new_class;
     tf2.batch_number:@s = tf2.queue_type:@s = controls:@s = autoreload:@s = 0;
 
     tf2.player.id:$global++;
