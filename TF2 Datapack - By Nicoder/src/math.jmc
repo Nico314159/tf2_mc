@@ -110,11 +110,11 @@ class Math {
     }
    
     function feed_left() {
-        Hardcode.repeatList("[axis]", () => {$input_vector_1_[axis] = $output_vector_[axis];}, ["x", "y", "z"]);
+        Hardcode.repeatList((_, axis) => {$input_vector_1_$axis = $output_vector_$axis;}, ["x", "y", "z"]);
     }
 
     function feed_right() {
-        Hardcode.repeatList("[axis]", () => {$input_vector_2_[axis] = $output_vector_[axis];}, ["x", "y", "z"]);
+        Hardcode.repeatList((_, axis) => {$input_vector_2_$axis = $output_vector_$axis;}, ["x", "y", "z"]);
     }
 
 
@@ -199,19 +199,17 @@ class Math {
     function normalize_quaternion() {
         $magnitude = 0;
         Hardcode.repeatList(
-            "[PARAM]",
-            () => {
-                $math_quaternion_[PARAM] := $input_quaternion_[PARAM] ** 2;
-                $magnitude += $math_quaternion_[PARAM];
+            (_, PARAM) => {
+                $math_quaternion_$PARAM := $input_quaternion_$PARAM ** 2;
+                $magnitude += $math_quaternion_$PARAM;
             },
             ["r", "i", "j", "k"]
         );
         $magnitude = Math.sqrt($magnitude);
 
         Hardcode.repeatList(
-            "[PARAM]",
-            () => {
-                $output_quaternion_[PARAM] := ($input_quaternion_[PARAM] * 1000) / $magnitude;
+            (_, PARAM) => {
+                $output_quaternion_$PARAM := ($input_quaternion_$PARAM * 1000) / $magnitude;
             },
             ["r", "i", "j", "k"]
         );
@@ -220,9 +218,9 @@ class Math {
     }
 
     function quaternion_dot_product() {
-        Hardcode.repeatList("[AXIS]", () => {  
-            $math_quaternion_[AXIS] := $input_quaternion_1_[AXIS] * $input_quaternion_2_[AXIS];
-            // printf("math_quaternion_[AXIS] = &<green,$saved_[AXIS]>");
+        Hardcode.repeatList((_, AXIS) => {  
+            $math_quaternion_$AXIS := $input_quaternion_1_$AXIS * $input_quaternion_2_$AXIS;
+            // printf("math_quaternion_$AXIS = &<green,$saved_$AXIS>");
         }, ['r', 'i', 'j', 'k']);
         $dot_product := ($math_quaternion_r + $math_quaternion_i + $math_quaternion_j + $math_quaternion_k) / 1000;
     }
@@ -304,8 +302,7 @@ class Math {
         Math.multiply_quaternions();
 
         Hardcode.repeatList(
-            "[PARAM]",
-            () => { $input_quaternion_[PARAM] = $output_quaternion_[PARAM]; },
+            (_, PARAM) => { $input_quaternion_$PARAM = $output_quaternion_$PARAM; },
             ["r", "i", "j", "k"]
         );
         Math.normalize_quaternion();
@@ -319,9 +316,8 @@ class Math {
 
         this.sine();
         Hardcode.repeatLists(
-            ["[AXIS]", "[PARAM]"],
-            () => {
-                $output_quaternion_[PARAM] := ($input_axis_[AXIS] * $output) / 1000;
+            (_, AXIS, PARAM) => {
+                $output_quaternion_$PARAM := ($input_axis_$AXIS * $output) / 1000;
             },
             [["x", "y", "z"],
              ["i", "j", "k"]]
@@ -332,19 +328,17 @@ class Math {
     function angular_velocity_to_quaternion() {
         $magnitude = 0;
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                $math_[AXIS] := $input_ang_vel_[AXIS] ** 2;
-                $magnitude += $math_[AXIS];
+            (_, AXIS) => {
+                $math_$AXIS := $input_ang_vel_$AXIS ** 2;
+                $magnitude += $math_$AXIS;
             },
             ["x", "y", "z"]
         );
         $magnitude = Math.sqrt($magnitude);
 
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                $input_axis_[AXIS] := ($input_ang_vel_[AXIS] * 1000) / $magnitude;
+            (_, AXIS) => {
+                $input_axis_$AXIS := ($input_ang_vel_$AXIS * 1000) / $magnitude;
             },
             ["x", "y", "z"]
         );
@@ -400,9 +394,9 @@ class Math {
 
 
     function test_sine_and_cosine() {
-        Hardcode.repeat("[VALUE]",
-            () => {
-                $input = [VALUE];
+        Hardcode.repeat(
+            (VALUE) => {
+                $input = $VALUE;
                 this.cosine();
                 $cosine = $output;
                 this.sine();
@@ -439,13 +433,13 @@ class Math {
         }
         function apply() {
             $length = 0;
-            Hardcode.repeatList("[axis]", () => {$temp := $input_vector_[axis] ** 2; $length += $temp;}, ["x", "y", "z"]);
+            Hardcode.repeatList((_, axis) => {$temp := $input_vector_$axis ** 2; $length += $temp;}, ["x", "y", "z"]);
             $length = Math.sqrt($length);
 
-            Hardcode.repeatList("[pair]", () => {$input_matrix_[pair] = $output_matrix_[pair];}, ["XX", "XY", "XZ", "YX", "YY", "YZ", "ZX", "ZY", "ZZ"]);
+            Hardcode.repeatList((_, pair) => {$input_matrix_$pair = $output_matrix_$pair;}, ["XX", "XY", "XZ", "YX", "YY", "YZ", "ZX", "ZY", "ZZ"]);
             Math.matrix_transform();
 
-            Hardcode.repeatList("[axis]", () => {$output_vector_[axis] *= 1000; $output_vector_[axis] /= $length;}, ["x", "y", "z"]);
+            Hardcode.repeatList((_, axis) => {$output_vector_$axis *= 1000; $output_vector_$axis /= $length;}, ["x", "y", "z"]);
             if ($debug_messages) Text.tellraw(@a, "Angled Vector: &<gold, italic>[&<$output_vector_x, italic>, &<$output_vector_y, italic>, &<$output_vector_z, italic>]");
         }
     }

@@ -61,14 +61,14 @@ class Class.Scout {
         HUD.actionbar();
         Weapons.set_ammo();
 
-        Hardcode.repeatList('|key|', () => {
-            new predicate(input.|key|) {
+        Hardcode.repeatList((_, key) => {
+            new predicate(input.$key) {
                 "condition": "minecraft:entity_properties",
                 "entity": "this",
                 "predicate": {
                     "type_specific": {
                         "type": "minecraft:player",
-                        "input": {"|key|": true}
+                        "input": {"$key": true}
                     }
                 }
             }

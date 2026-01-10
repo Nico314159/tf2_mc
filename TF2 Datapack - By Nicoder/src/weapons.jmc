@@ -579,9 +579,9 @@ class Weapons {
         execute summon marker run this.get_endpoint();
 
         $length = 0;
-        Hardcode.repeatList("[AXIS]", () => {
-            $component = summon::line.end[AXIS] * 1000;
-            $start = summon::line.[AXIS] * 1000;
+        Hardcode.repeatList((_, AXIS) => {
+            $component = summon::line.end$AXIS * 1000;
+            $start = summon::line.$AXIS * 1000;
             $component -= $start;
             $component *= $component;
             $length += $component;
@@ -675,8 +675,8 @@ class Weapons {
     function save_arrow_speed() {
         vars::Motion = @s::Motion;
         $magnitude = 0;
-        Hardcode.repeatList("|i|", () => {
-            $magnitude := $magnitude + ({vars::Motion[|i|] * 1000} ** 2);
+        Hardcode.repeatList((_, i) => {
+            $magnitude := $magnitude + ({vars::Motion[$i] * 1000} ** 2);
         }, ['0', '1', '2']);
         $magnitude = Math.sqrt($magnitude);
         // if ($Settings.show_debug_messages) {

@@ -1,7 +1,7 @@
 class Session {
     function increment_all_globals() {
-        Hardcode.repeat("[i]", () => {
-            tf2.session:$global_[i]++;
+        Hardcode.repeat((i) => {
+            tf2.session:$global_$i++;
         }, start=1, stop=_INSTANCES_CAP_);
     }
     function increment_global() {

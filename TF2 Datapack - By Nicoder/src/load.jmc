@@ -7,9 +7,8 @@ Scoreboard.add(tf2.gamemode, dummy);
 Scoreboard.add(tf2.map, dummy);
 
 Hardcode.repeatList(
-    "objectiveName",
-    () => {
-        Scoreboard.add(tf2.objectiveName);
+    (_, objectiveName) => {
+        Scoreboard.add(tf2.$objectiveName);
     },
     [
         "index", "red_progress", "blu_progress", "capture_threshold",
@@ -66,12 +65,12 @@ Scoreboard.add(tf2.food, food);
 Team.add(RED, "RED", {color: red,  prefix: "\"[RED] \"", friendlyFire: false, nametagVisibility: hideForOtherTeams});
 Team.add(BLU, "BLU", {color: blue, prefix: "\"[BLU] \"", friendlyFire: false, nametagVisibility: hideForOtherTeams});
 
-Hardcode.repeat("_i_", () => {
-    Bossbar.add(tf2:timer__i_, "");
-    Bossbar.add(tf2:red_timer__i_, "");
-    bossbar set tf2:red_timer__i_ color red;
-    Bossbar.add(tf2:blu_timer__i_, "");
-    bossbar set tf2:blu_timer__i_ color blue;
+Hardcode.repeat((i) => {
+    Bossbar.add(tf2:timer_$i, "");
+    Bossbar.add(tf2:red_timer_$i, "");
+    bossbar set tf2:red_timer_$i color red;
+    Bossbar.add(tf2:blu_timer_$i, "");
+    bossbar set tf2:blu_timer_$i color blue;
 }, 1, _INSTANCES_CAP_);
 
 function minecraft.success() {
@@ -892,14 +891,14 @@ if (!$initialization_complete) {
     ]};
 
     // this could *technically* be part of the previous command, but then it would be so long that it's a total PITA.
-    Hardcode.repeat("_i_", () => {
-        Hardcode.repeat("_j_", () => {
-            control_points::info[_i_][_j_].main = [{"nbt":"info[_i_][_j_].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square","shadow_color":0},{"nbt":"info[_i_][_j_].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[_i_][_j_].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
+    Hardcode.repeat((i) => {
+        Hardcode.repeat((j) => {
+            control_points::info[$i][$j].main = [{"nbt":"info[$i][$j].owner","storage":"tf2:control_points","interpret":true,"font":"tf2:square","shadow_color":0},{"nbt":"info[$i][$j].progress","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[$i][$j].symbol","storage":"tf2:control_points","interpret":true,"font":"tf2:square"},{"nbt":"info[$i][$j].extra","storage":"tf2:control_points","interpret":true,"font":"tf2:square"}];
         }, start=0, stop=7);
     }, start=1, stop=_INSTANCES_CAP_);
 
-    Hardcode.repeat("_i_", () => {
-        running_games::_i_ = {};
+    Hardcode.repeat((i) => {
+        running_games::$i = {};
     }, start=1, stop=_INSTANCES_CAP_);
     $initialization_complete = true;
 }

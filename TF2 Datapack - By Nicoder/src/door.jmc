@@ -13,14 +13,14 @@ class Door {
     }
 
     @lazy function determine_fill_coords() {
-        Hardcode.repeatLists(["|axis|", "|#|"], () => {
-            $|axis|_from = summon::entity.Pos[|#|];
-            $|axis|_to := {summon::entity.item.components.minecraft:custom_data.size_|axis|} + $|axis|_from - 1;
-            $|axis|_to > $|axis|_from;
+        Hardcode.repeatList((num, axis) => {
+            $$axis_from = summon::entity.Pos[$num];
+            $$axis_to := {summon::entity.item.components.minecraft:custom_data.size_$axis} + $$axis_from - 1;
+            $$axis_to > $$axis_from;
 
-            summon::entity.item.components.minecraft:custom_data.fill.|axis|_from = $|axis|_from;
-            summon::entity.item.components.minecraft:custom_data.fill.|axis|_to   = $|axis|_to;
-        }, [["x", "y", "z"], ["0", "1", "2"]]);
+            summon::entity.item.components.minecraft:custom_data.fill.$axis_from = $$axis_from;
+            summon::entity.item.components.minecraft:custom_data.fill.$axis_to   = $$axis_to;
+        }, ["x", "y", "z"]);
         summon::entity.item.components.minecraft:custom_data.fill.block = summon::doors[-1].block;
     }
 

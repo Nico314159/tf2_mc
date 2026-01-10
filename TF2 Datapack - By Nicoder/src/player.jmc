@@ -29,8 +29,8 @@ Player.join(() => {
 		}
 	];
 
-    Hardcode.repeat("|n|", () => {
-        tf2.uuid.|n|:@s ??= @s::UUID[|n|];
+    Hardcode.repeat((n) => {
+        tf2.uuid.$n:@s ??= @s::UUID[$n];
     }, 0, 4);
         
     scoreboard players enable @s tf2.queue_type;
@@ -60,16 +60,14 @@ Player.join(() => {
     // removes all gameplay-specific variables
     team leave @s;
     Hardcode.repeatList(
-        "tagName",
-        () => {
-            tag @s remove tf2.tagName;
+        (_, tagName) => {
+            tag @s remove tf2.$tagName;
         },
         ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "can_cap", "can_defend", "dead", "disguised"]
     );
     Hardcode.repeatList(
-        "objectiveName",
-        () => {
-            scoreboard players reset @s tf2.objectiveName;
+        (_, objectiveName) => {
+            scoreboard players reset @s tf2.$objectiveName;
         },
         ["class", "health", "max_health", "team", "respawn_timer", "time_idle",
         "attack_delay", "reload_delay", "consecutive_reload", "current_slot", "last_slot",

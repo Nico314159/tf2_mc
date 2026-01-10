@@ -291,8 +291,8 @@ class Class.Spy {
         disguise::team = lookup::equipment.head.components.minecraft:custom_model_data.strings[1];
 
         execute run { 
-            Hardcode.repeat("|i|", () => {
-                $ item modify entity @s hotbar.|i| {
+            Hardcode.repeat((i) => {
+                $ item modify entity @s hotbar.$i {
                     "function": "minecraft:set_custom_model_data",
                     "strings": {
                         "values": ["disguise_$(class)", "disguise_$(team)"],
@@ -340,8 +340,8 @@ class Class.Spy {
             };
 
             $disguise_team = tf2.disguise.team:@s;
-            Hardcode.repeat("_i_", () => {
-                $uuid._i_ = tf2.uuid._i_:@s;
+            Hardcode.repeat((i) => {
+                $uuid.$i = tf2.uuid.$i:@s;
             }, 0, 4);
             execute summon turtle run this.set_data();
 
@@ -357,16 +357,16 @@ class Class.Spy {
             if ($disguise_team == 1) { team join RED @s; }
             if ($disguise_team == 2) { team join BLU @s; }
 
-            Hardcode.repeat("_i_", () => {
-                tf2.uuid._i_:@s = $uuid._i_;
+            Hardcode.repeat((i) => {
+                tf2.uuid.$i:@s = $uuid.$i;
             }, 0, 4);
 
             tag @s add iris.ignore;
         }
         @lazy 
         function linked_tp(x, y, z) {
-            Hardcode.repeat("_i_", () => {
-                $uuid._i_ = tf2.uuid._i_:@s;
+            Hardcode.repeat((i) => {
+                $uuid.$i = tf2.uuid.$i:@s;
             }, 0, 4);
 
             execute positioned as @s 

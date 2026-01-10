@@ -22,54 +22,54 @@ class Motion {
         tf2.consider_entities:@s = true;
 
         Hardcode.repeatList(
-            "[AXIS]", () => {
+            (_, AXIS) => {
             // Prepare data
             tag @s add tf2.executing_entity;
-            tf2.collision_[AXIS]:@s = 0;
-            tf2.collision_entity_[AXIS]:@s = 0;
-            tf2.hitbox_[AXIS]:@s = tf2.hitbox:@s;
+            tf2.collision_$AXIS:@s = 0;
+            tf2.collision_entity_$AXIS:@s = 0;
+            tf2.hitbox_$AXIS:@s = tf2.hitbox:@s;
 
             // Compute signs of motion vector so the math works in one direction
-            $mot.motion_[AXIS] = tf2.mot_[AXIS]:@s;
-            if (tf2.mot_[AXIS]:@s >= 0) $mot.sign_[AXIS] = 1;
-            if (tf2.mot_[AXIS]:@s < 0) $mot.sign_[AXIS] = -1;
-            tf2.mot_[AXIS]:@s *= $mot.sign_[AXIS];
+            $mot.motion_$AXIS = tf2.mot_$AXIS:@s;
+            if (tf2.mot_$AXIS:@s >= 0) $mot.sign_$AXIS = 1;
+            if (tf2.mot_$AXIS:@s < 0) $mot.sign_$AXIS = -1;
+            tf2.mot_$AXIS:@s *= $mot.sign_$AXIS;
 
             // Compute min and max points
-            $mot.min_[AXIS] := tf2.[AXIS]:@s - tf2.hitbox_[AXIS]:@s;
-            $mot.max_[AXIS] := tf2.[AXIS]:@s + tf2.hitbox_[AXIS]:@s;
-            $mot.base_[AXIS] := ($mot.min_[AXIS] / 1000) * 1000;
+            $mot.min_$AXIS := tf2.$AXIS:@s - tf2.hitbox_$AXIS:@s;
+            $mot.max_$AXIS := tf2.$AXIS:@s + tf2.hitbox_$AXIS:@s;
+            $mot.base_$AXIS := ($mot.min_$AXIS / 1000) * 1000;
 
             // Push min position to storage to begin traversal at min position
-            motion::pos.[AXIS] = 0.001 * (int) $mot.base_[AXIS];
+            motion::pos.$AXIS = 0.001 * (int) $mot.base_$AXIS;
 
             // Compute head and tail points
-            $mot.hitbox_[AXIS] := tf2.hitbox_[AXIS]:@s * $mot.sign_[AXIS];
-            $mot.head_[AXIS] := tf2.[AXIS]:@s + $mot.hitbox_[AXIS];
-            $mot.tail_[AXIS] := tf2.[AXIS]:@s - $mot.hitbox_[AXIS];
+            $mot.hitbox_$AXIS := tf2.hitbox_$AXIS:@s * $mot.sign_$AXIS;
+            $mot.head_$AXIS := tf2.$AXIS:@s + $mot.hitbox_$AXIS;
+            $mot.tail_$AXIS := tf2.$AXIS:@s - $mot.hitbox_$AXIS;
 
             // Compute size of hitbox
-            $mot.hitbox_[AXIS] := $mot.head_[AXIS] / 1000;
-            $mot.temp := $mot.tail_[AXIS] / 1000;
-            $mot.hitbox_[AXIS] -= $mot.temp;
-            if ($mot.hitbox_[AXIS] < 0) $mot.hitbox_[AXIS] *= -1;
+            $mot.hitbox_$AXIS := $mot.head_$AXIS / 1000;
+            $mot.temp := $mot.tail_$AXIS / 1000;
+            $mot.hitbox_$AXIS -= $mot.temp;
+            if ($mot.hitbox_$AXIS < 0) $mot.hitbox_$AXIS *= -1;
 
             // Compute deltas for voxel traversal
-            $mot.delta_[AXIS] := 1000000 / tf2.mot_[AXIS]:@s;
-            if (tf2.mot_[AXIS]:@s == 0) $mot.delta_[AXIS] = _MAX_INT_;
+            $mot.delta_$AXIS := 1000000 / tf2.mot_$AXIS:@s;
+            if (tf2.mot_$AXIS:@s == 0) $mot.delta_$AXIS = _MAX_INT_;
 
             // Compute distances along ray to voxel borders
-            $mot.distance_head_[AXIS] := $mot.head_[AXIS] % 1000;
-            $mot.distance_tail_[AXIS] := $mot.tail_[AXIS] % 1000;
-            if ($mot.sign_[AXIS] == 1) {
-                $mot.distance_head_[AXIS] := 1000 + -$mot.distance_head_[AXIS];
-                $mot.distance_tail_[AXIS] := 1000 + -$mot.distance_tail_[AXIS];
+            $mot.distance_head_$AXIS := $mot.head_$AXIS % 1000;
+            $mot.distance_tail_$AXIS := $mot.tail_$AXIS % 1000;
+            if ($mot.sign_$AXIS == 1) {
+                $mot.distance_head_$AXIS := 1000 + -$mot.distance_head_$AXIS;
+                $mot.distance_tail_$AXIS := 1000 + -$mot.distance_tail_$AXIS;
             }
-            $mot.distance_head_[AXIS] := ($mot.distance_head_[AXIS] * $mot.delta_[AXIS]) / 1000;
-            $mot.distance_tail_[AXIS] := ($mot.distance_tail_[AXIS] * $mot.delta_[AXIS]) / 1000;
-            if (tf2.mot_[AXIS]:@s == 0) {
-                $mot.distance_head_[AXIS] = _MAX_INT_;
-                $mot.distance_tail_[AXIS] = _MAX_INT_;
+            $mot.distance_head_$AXIS := ($mot.distance_head_$AXIS * $mot.delta_$AXIS) / 1000;
+            $mot.distance_tail_$AXIS := ($mot.distance_tail_$AXIS * $mot.delta_$AXIS) / 1000;
+            if (tf2.mot_$AXIS:@s == 0) {
+                $mot.distance_head_$AXIS = _MAX_INT_;
+                $mot.distance_tail_$AXIS = _MAX_INT_;
             }
             
             }, ["x", "y", "z"]
@@ -87,12 +87,12 @@ class Motion {
     // Checks the initial state of the hitbox to find any geometry within the same space
     function initial_hitbox_check() {
         Hardcode.repeatList(
-            "[AXIS]", () => {
-                $mot.voxel_[AXIS] = $mot.base_[AXIS];
-                $mot.collision_distance_[AXIS] = _MAX_INT_;
-                $mot.collision_surface_[AXIS] = 0;
-                $mot.collision_edge_[AXIS] = 0;
-                $mot.collision_entity_[AXIS] = 0;
+            (_, AXIS) => {
+                $mot.voxel_$AXIS = $mot.base_$AXIS;
+                $mot.collision_distance_$AXIS = _MAX_INT_;
+                $mot.collision_surface_$AXIS = 0;
+                $mot.collision_edge_$AXIS = 0;
+                $mot.collision_entity_$AXIS = 0;
             }, ["x", "y", "z"]
         );
 
@@ -107,13 +107,13 @@ class Motion {
         // Find shortest distance
         $mot.shortest_distance = _MAX_INT_;
         Hardcode.repeatList(
-            "[AXIS]", () => {
+            (_, AXIS) => {
                 Hardcode.repeatList(
-                    "[SIDE]", () => {
-                        $mot.shortest_distance < $mot.distance_[SIDE]_[AXIS];
+                    (_, SIDE) => {
+                        $mot.shortest_distance < $mot.distance_$SIDE_$AXIS;
                     }, ["head", "tail"]
                 );
-                $mot.shortest_distance < $mot.collision_distance_[AXIS];
+                $mot.shortest_distance < $mot.collision_distance_$AXIS;
             }, ["x", "y", "z"]
         );
 
@@ -122,11 +122,11 @@ class Motion {
 
         // Process data based on nearest axis
         Hardcode.repeatList(
-            "[AXIS]", () => {
-                if ($mot.shortest_distance = $mot.collision_distance_[AXIS]) return run this.collision_[AXIS]();
+            (_, AXIS) => {
+                if ($mot.shortest_distance = $mot.collision_distance_$AXIS) return run this.collision_$AXIS();
                 Hardcode.repeatList(
-                    "[SIDE]", () => {
-                        if ($mot.shortest_distance = $mot.distance_[SIDE]_[AXIS]) return run this.[SIDE]_[AXIS]();
+                    (_, SIDE) => {
+                        if ($mot.shortest_distance = $mot.distance_$SIDE_$AXIS) return run this.$SIDE_$AXIS();
                     }, ["head", "tail"]
                 );
             }, ["x", "y", "z"]
@@ -137,36 +137,35 @@ class Motion {
 
         // Generate collision functions
         Hardcode.repeatList(
-            "[AXIS]", () => {
+            (_, AXIS) => {
 
-            function collision_[AXIS]() {
+            function collision_$AXIS() {
                 // Adjust shortest distance if it hit an edge
-                if ($mot.collision_edge_[AXIS] == 1) $mot.shortest_distance -= 50;
-
+                if ($mot.collision_edge_$AXIS == 1) $mot.shortest_distance -= 50;
                 Hardcode.repeatList(
-                    "[SECOND_AXIS]", () => {
+                    (_, SECOND_AXIS) => {
                         // Update position
-                        $mot.step_[SECOND_AXIS] := ($mot.motion_[SECOND_AXIS] * $mot.shortest_distance) / $mot.distance;
-                        tf2.[SECOND_AXIS]:@s += $mot.step_[SECOND_AXIS];
-                        $mot.motion_[SECOND_AXIS] -= $mot.step_[SECOND_AXIS];
+                        $mot.step_$SECOND_AXIS := ($mot.motion_$SECOND_AXIS * $mot.shortest_distance) / $mot.distance;
+                        tf2.$SECOND_AXIS:@s += $mot.step_$SECOND_AXIS;
+                        $mot.motion_$SECOND_AXIS -= $mot.step_$SECOND_AXIS;
 
                         // Update distances
-                        $mot.distance_head_[SECOND_AXIS] -= $mot.shortest_distance;
-                        $mot.distance_tail_[SECOND_AXIS] -= $mot.shortest_distance;
+                        $mot.distance_head_$SECOND_AXIS -= $mot.shortest_distance;
+                        $mot.distance_tail_$SECOND_AXIS -= $mot.shortest_distance;
                     }, ["x", "y", "z"]
                 );
-                tf2.[AXIS]:@s = $mot.collision_surface_[AXIS];
-                if ($mot.sign_[AXIS] == 1) {
-                    tf2.[AXIS]:@s -= tf2.hitbox_[AXIS]:@s;
+                tf2.$AXIS:@s = $mot.collision_surface_$AXIS;
+                if ($mot.sign_$AXIS == 1) {
+                    tf2.$AXIS:@s -= tf2.hitbox_$AXIS:@s;
                 } else {
-                    tf2.[AXIS]:@s += tf2.hitbox_[AXIS]:@s;
+                    tf2.$AXIS:@s += tf2.hitbox_$AXIS:@s;
                 }
-                tf2.[AXIS]:@s -= $mot.sign_[AXIS];
+                tf2.$AXIS:@s -= $mot.sign_$AXIS;
                 Hardcode.repeatList(
-                    "[SECOND_AXIS]", () => {
+                    (_, SECOND_AXIS) => {
                         // Recompute min and max positions
-                        $mot.min_[SECOND_AXIS] := tf2.[SECOND_AXIS]:@s - tf2.hitbox_[SECOND_AXIS]:@s;
-                        $mot.max_[SECOND_AXIS] := tf2.[SECOND_AXIS]:@s + tf2.hitbox_[SECOND_AXIS]:@s;
+                        $mot.min_$SECOND_AXIS := tf2.$SECOND_AXIS:@s - tf2.hitbox_$SECOND_AXIS:@s;
+                        $mot.max_$SECOND_AXIS := tf2.$SECOND_AXIS:@s + tf2.hitbox_$SECOND_AXIS:@s;
                     }, ["x", "y", "z"]
                 );
 
@@ -174,13 +173,13 @@ class Motion {
                 $mot.distance -= $mot.shortest_distance;
 
                 // Set collision axis
-                tf2.collision_[AXIS]:@s = $mot.sign_[AXIS];
-                tf2.collision_entity_[AXIS]:@s = $mot.collision_entity_[AXIS];
+                tf2.collision_$AXIS:@s = $mot.sign_$AXIS;
+                tf2.collision_entity_$AXIS:@s = $mot.collision_entity_$AXIS;
 
                 // Cap distance to prevent motion along that axis
-                $mot.distance_head_[AXIS] = _MAX_INT_;
-                $mot.distance_tail_[AXIS] = _MAX_INT_;
-                $mot.motion_[AXIS] = 0;
+                $mot.distance_head_$AXIS = _MAX_INT_;
+                $mot.distance_tail_$AXIS = _MAX_INT_;
+                $mot.motion_$AXIS = 0;
 
                 // End if the conditions fit
                 if (tf2.halt:@s == 1 || $mot.distance == 0) {
@@ -197,19 +196,17 @@ class Motion {
     function update_collision_distance() {
 
         Hardcode.repeatList(
-            "[AXIS]", () => {
-                $mot.voxel_[AXIS] = $mot.base_[AXIS];
+            (_, AXIS) => {
+                $mot.voxel_$AXIS = $mot.base_$AXIS;
             }, ["x", "y", "z"]
         );
 
         Hardcode.repeatLists(
-            ["[STEP]", "[FIRST_AXIS]", "[SECOND_AXIS]"],
-            () => {
-                if ($mot.step = [STEP] && $mot.sign_[FIRST_AXIS] = -1) this.hitbox_[FIRST_AXIS]_[SECOND_AXIS]();
-                if ($mot.step = [STEP] && $mot.sign_[FIRST_AXIS] =  1) this.hitbox_[FIRST_AXIS]_[FIRST_AXIS]();
+            (STEP, FIRST_AXIS, SECOND_AXIS) => {
+                if ($mot.step = $STEP && $mot.sign_$FIRST_AXIS = -1) this.hitbox_$FIRST_AXIS_$SECOND_AXIS();
+                if ($mot.step = $STEP && $mot.sign_$FIRST_AXIS =  1) this.hitbox_$FIRST_AXIS_$FIRST_AXIS();
             },
             [
-                ["0", "1", "2"],
                 ["x", "y", "z"],
                 ["y", "z", "x"]
             ]
@@ -231,8 +228,8 @@ class Motion {
         // Get the geometry data of entities
         if (tf2.consider_entities:@s) {
             Hardcode.repeatList(
-                "[AXIS]", () => {
-                    iris:$[[AXIS]] := $mot.voxel_[AXIS] / 1000;
+                (_, AXIS) => {
+                    iris:$[$AXIS] := $mot.voxel_$AXIS / 1000;
                 }, ["x", "y", "z"]
             );
             tf2.team:$temp = -1;
@@ -263,78 +260,73 @@ class Motion {
         while (iris:data::Shape[]) {
             // Get bounding box parameters
             motion::geo = iris:data::Shape[-1];
-            Hardcode.repeatLists(
-                ["[AXIS]", "[INDEX]"],
-                () => {
-                    $mot.geo_min_[AXIS] := {motion::geo.min[[INDEX]] * 1000} + $mot.voxel_[AXIS];
-                    $mot.geo_max_[AXIS] := {motion::geo.max[[INDEX]] * 1000} + $mot.voxel_[AXIS];
+            Hardcode.repeatList(
+                (INDEX, AXIS) => {
+                    $mot.geo_min_$AXIS := {motion::geo.min[$INDEX] * 1000} + $mot.voxel_$AXIS;
+                    $mot.geo_max_$AXIS := {motion::geo.max[$INDEX] * 1000} + $mot.voxel_$AXIS;
                 },
-                [
-                    ["x", "y", "z"],
-                    ["0", "1", "2"]
-                ]
+                ["x", "y", "z"]
             );
             $mot.is_entity ?= motion::geo{type:"ENTITY"};
 
             Hardcode.repeatLists(
-                ["[AXIS]", "[SECOND_AXIS]", "[THIRD_AXIS]"],
-                () => {
+                (_, AXIS, SECOND_AXIS, THIRD_AXIS) => {
                     // Compute distance along ray to geometry under a certain axis
-                    if ($mot.sign_[AXIS] == 1) {
-                        $mot.distance_[AXIS] := $mot.geo_min_[AXIS] - $mot.max_[AXIS];
+                    if ($mot.sign_$AXIS == 1) {
+                        $mot.distance_$AXIS := $mot.geo_min_$AXIS - $mot.max_$AXIS;
                     } else {
-                        $mot.distance_[AXIS] := $mot.geo_max_[AXIS] - $mot.min_[AXIS];
+                        $mot.distance_$AXIS := $mot.geo_max_$AXIS - $mot.min_$AXIS;
                     }
                     
-                    $mot.distance_[AXIS] *= $mot.distance;
-                    $mot.distance_[AXIS] /= $mot.motion_[AXIS];
+                    $mot.distance_$AXIS *= $mot.distance;
+                    $mot.distance_$AXIS /= $mot.motion_$AXIS;
 
                     // Check if collision is valid
-                    if ($mot.motion_[AXIS] != 0 && $mot.distance_[AXIS] >= 0 && $mot.distance_[AXIS] <= $mot.distance) {
-                        $mot.temp_distance_[SECOND_AXIS] := $mot.motion_[SECOND_AXIS] * $mot.distance_[AXIS] / 1000;
-                        $mot.temp_min_[SECOND_AXIS] := $mot.min_[SECOND_AXIS] + $mot.temp_distance_[SECOND_AXIS];
-                        $mot.temp_max_[SECOND_AXIS] := $mot.max_[SECOND_AXIS] + $mot.temp_distance_[SECOND_AXIS];
+                    if ($mot.motion_$AXIS != 0 && $mot.distance_$AXIS >= 0 && $mot.distance_$AXIS <= $mot.distance) {
+                        $mot.temp_distance_$SECOND_AXIS := $mot.motion_$SECOND_AXIS * $mot.distance_$AXIS / 1000;
+                        $mot.temp_min_$SECOND_AXIS := $mot.min_$SECOND_AXIS + $mot.temp_distance_$SECOND_AXIS;
+                        $mot.temp_max_$SECOND_AXIS := $mot.max_$SECOND_AXIS + $mot.temp_distance_$SECOND_AXIS;
 
-                        $mot.temp_distance_[THIRD_AXIS] := $mot.motion_[THIRD_AXIS] * $mot.distance_[AXIS] / 1000;
-                        $mot.temp_min_[THIRD_AXIS] := $mot.min_[THIRD_AXIS] + $mot.temp_distance_[THIRD_AXIS];
-                        $mot.temp_max_[THIRD_AXIS] := $mot.max_[THIRD_AXIS] + $mot.temp_distance_[THIRD_AXIS];
+                        $mot.temp_distance_$THIRD_AXIS := $mot.motion_$THIRD_AXIS * $mot.distance_$AXIS / 1000;
+                        $mot.temp_min_$THIRD_AXIS := $mot.min_$THIRD_AXIS + $mot.temp_distance_$THIRD_AXIS;
+                        $mot.temp_max_$THIRD_AXIS := $mot.max_$THIRD_AXIS + $mot.temp_distance_$THIRD_AXIS;
 
                         if (
-                            $mot.temp_max_[SECOND_AXIS] >= $mot.geo_min_[SECOND_AXIS] &&
-                            $mot.temp_min_[SECOND_AXIS] <= $mot.geo_max_[SECOND_AXIS] &&
-                            $mot.temp_max_[THIRD_AXIS] >= $mot.geo_min_[THIRD_AXIS] &&
-                            $mot.temp_min_[THIRD_AXIS] <= $mot.geo_max_[THIRD_AXIS]
+                            $mot.temp_max_$SECOND_AXIS >= $mot.geo_min_$SECOND_AXIS &&
+                            $mot.temp_min_$SECOND_AXIS <= $mot.geo_max_$SECOND_AXIS &&
+                            $mot.temp_max_$THIRD_AXIS >= $mot.geo_min_$THIRD_AXIS &&
+                            $mot.temp_min_$THIRD_AXIS <= $mot.geo_max_$THIRD_AXIS
                         ) {
                             // Reduce distance by 1 of interior collisions to break ties with edge collisions
                             $mot.on_edge = 1;
-                            $mot.temp_max_[SECOND_AXIS] -= 3;
-                            $mot.temp_min_[SECOND_AXIS] += 3;
-                            $mot.temp_max_[THIRD_AXIS] -= 3;
-                            $mot.temp_min_[THIRD_AXIS] += 3;
+                            $mot.temp_max_$SECOND_AXIS -= 3;
+                            $mot.temp_min_$SECOND_AXIS += 3;
+                            $mot.temp_max_$THIRD_AXIS -= 3;
+                            $mot.temp_min_$THIRD_AXIS += 3;
                             if (
-                                $mot.temp_max_[SECOND_AXIS] > $mot.geo_min_[SECOND_AXIS] &&
-                                $mot.temp_min_[SECOND_AXIS] < $mot.geo_max_[SECOND_AXIS] &&
-                                $mot.temp_max_[THIRD_AXIS] > $mot.geo_min_[THIRD_AXIS] &&
-                                $mot.temp_min_[THIRD_AXIS] < $mot.geo_max_[THIRD_AXIS]
+                                $mot.temp_max_$SECOND_AXIS > $mot.geo_min_$SECOND_AXIS &&
+                                $mot.temp_min_$SECOND_AXIS < $mot.geo_max_$SECOND_AXIS &&
+                                $mot.temp_max_$THIRD_AXIS > $mot.geo_min_$THIRD_AXIS &&
+                                $mot.temp_min_$THIRD_AXIS < $mot.geo_max_$THIRD_AXIS
                             ) {
                                 $mot.on_edge = 0;
                             }
-                            if ($mot.on_edge == 1) $mot.distance_[AXIS] += 50;
+                            if ($mot.on_edge == 1) $mot.distance_$AXIS += 50;
 
-                            if ($mot.distance_[AXIS] < $mot.collision_distance_[AXIS]) {
-                                $mot.collision_distance_[AXIS] = $mot.distance_[AXIS];
-                                $mot.collision_edge_[AXIS] = $mot.on_edge;
-                                $mot.collision_entity_[AXIS] = $mot.is_entity;
+                            if ($mot.distance_$AXIS < $mot.collision_distance_$AXIS) {
+                                $mot.collision_distance_$AXIS = $mot.distance_$AXIS;
+                                $mot.collision_edge_$AXIS = $mot.on_edge;
+                                $mot.collision_entity_$AXIS = $mot.is_entity;
                                 if ($mot.is_entity) expand {
                                     $id = iris:data::Shape[-1].entity_id; 
                                     execute as @e
                                             if score @s iris.id = $id tf2.var
                                             run tag @s add tf2.hit_by_projectile;
                                 }
-                                if ($mot.sign_[AXIS] == 1) {
-                                    $mot.collision_surface_[AXIS] = $mot.geo_min_[AXIS];
+                                if ($mot.sign_$AXIS == 1) {
+                                    $mot.collision_surface_$AXIS = $mot.geo_min_$AXIS;
                                 } else {
-                                    $mot.collision_surface_[AXIS] = $mot.geo_max_[AXIS];
+                                    $mot.collision_surface_$AXIS = $mot.geo_max_$AXIS;
                                 }
                             }
                         }
@@ -356,24 +348,22 @@ class Motion {
         tf2.collision:@s = 0;
         tf2.collision_entity:@s = 0;
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
+            (_, AXIS) => {
                 // Set collision flag
-                if (tf2.collision_[AXIS]:@s != 0) tf2.collision:@s = true;
-                if (tf2.collision_entity_[AXIS]:@s != 0) tf2.collision_entity:@s = true;
+                if (tf2.collision_$AXIS:@s != 0) tf2.collision:@s = true;
+                if (tf2.collision_entity_$AXIS:@s != 0) tf2.collision_entity:@s = true;
             },
             ["x", "y", "z"]
         );
 
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
+            (_, AXIS) => {
                 // Update position
-                if (tf2.halt:@s == 0 || tf2.collision_[AXIS]:@s == 0) tf2.[AXIS]:@s += $mot.motion_[AXIS];
-                motion::pos.[AXIS] = 0.001 * (double) tf2.[AXIS]:@s;
+                if (tf2.halt:@s == 0 || tf2.collision_$AXIS:@s == 0) tf2.$AXIS:@s += $mot.motion_$AXIS;
+                motion::pos.$AXIS = 0.001 * (double) tf2.$AXIS:@s;
 
                 // Restore motion signs to normal
-                tf2.mot_[AXIS]:@s *= $mot.sign_[AXIS];
+                tf2.mot_$AXIS:@s *= $mot.sign_$AXIS;
             },
             ["x", "y", "z"]
         );

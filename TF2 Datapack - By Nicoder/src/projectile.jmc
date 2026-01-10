@@ -3,15 +3,11 @@ class Projectile {
     // Gets the position of the executing entity and puts it into tf2.[x,y,z]
     function get_pos() {
         lookup::pos = @s::Pos;
-        Hardcode.repeatLists(
-            ["[AXIS]", "[INDEX]"],
-            () => {
-                tf2.[AXIS]:@s = lookup::pos[[INDEX]] * 1000;
+        Hardcode.repeatList(
+            (i, axis) => {
+                tf2.$axis:@s = lookup::pos[$i] * 1000;
             },
-            [
-                ["x", "y", "z"],
-                ["0", "1", "2"]
-            ]
+            ["x", "y", "z"]
         );
     }
 
@@ -40,9 +36,8 @@ class Projectile {
             Projectile.deviation();
         }
         Hardcode.repeatList(
-            "[AXIS]",
-            () => { 
-                $mot.mot_[AXIS] := ({summon::projectile.speed * 1000} * $output_vector_[AXIS]) / 1000;
+            (_, AXIS) => { 
+                $mot.mot_$AXIS := ({summon::projectile.speed * 1000} * $output_vector_$AXIS) / 1000;
             },
             ["x", "y", "z"]
         );
@@ -59,8 +54,8 @@ class Projectile {
         summon::projectile.model = lookup::item.components.minecraft:custom_data.projectile.model;
         if (tf2.team:@s == 1) { summon::projectile.team = "red"; }
         if (tf2.team:@s == 2) { summon::projectile.team = "blu"; }
-        Hardcode.repeatList("|property|", () => {
-            $|property| = lookup::item.components.minecraft:custom_data.projectile.|property|;
+        Hardcode.repeatList((_, property) => {
+            $$property = lookup::item.components.minecraft:custom_data.projectile.$property;
         }, Projectile.SPECIAL_PROPERTIES);
 
         execute at @s anchored eyes 
@@ -82,16 +77,16 @@ class Projectile {
 
             @s::item.components.minecraft:custom_name = summon::projectile.weapon_name; 
 
-            Hardcode.repeatList("|property|", () => {
-                if ($|property|) {
-                    tag @s add tf2.|property|;
+            Hardcode.repeatList((_, property) => {
+                if ($$property) {
+                    tag @s add tf2.$property;
                 }
             }, Projectile.SPECIAL_PROPERTIES);
 
             this.get_pos();
             tf2.hitbox:@s = lookup::item.components.minecraft:custom_data.projectile.hitbox * EVAL(1000 * 0.01905);
-            Hardcode.repeatList("[AXIS]", () => {
-                tf2.mot_[AXIS]:@s = $mot.mot_[AXIS];
+            Hardcode.repeatList((_, AXIS) => {
+                tf2.mot_$AXIS:@s = $mot.mot_$AXIS;
             }, ["x", "y", "z"]);
 
             if (lookup::item.components.minecraft:custom_data.projectile.rotation{mode: Rotation.FIXED}
@@ -186,8 +181,8 @@ class Projectile {
         }
     }
     function trail() {
-        Hardcode.repeat("|z|", () => {
-            particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc(|z| / -3) 0 0 0 0 10;
+        Hardcode.repeat((z) => {
+            particle minecraft:smoke ^ ^-0.2 ^Hardcode.calc($z / -3) 0 0 0 0 10;
         }, start=1, stop=4);
     }
     function animate() {
@@ -249,10 +244,9 @@ class Projectile {
         }
     
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                tf2.mot_[AXIS]:@s *= $friction;
-                tf2.mot_[AXIS]:@s /= 1000;
+            (_, AXIS) => {
+                tf2.mot_$AXIS:@s *= $friction;
+                tf2.mot_$AXIS:@s /= 1000;
             },
             ["x", "y", "z"]
         );
@@ -291,10 +285,9 @@ class Projectile {
         // Reduce speed when it hits a wall
         if (tf2.collision_x:@s != 0 || tf2.collision_z:@s != 0) {
             Hardcode.repeatList(
-                "[AXIS]",
-                () => {
-                    tf2.mot_[AXIS]:@s *= $elasticity;
-                    tf2.mot_[AXIS]:@s /= 1000;
+                (_, AXIS) => {
+                    tf2.mot_$AXIS:@s *= $elasticity;
+                    tf2.mot_$AXIS:@s /= 1000;
                 },
                 ["x", "y", "z"]
             );
@@ -309,8 +302,7 @@ class Projectile {
 
         // Apply bounces
         Hardcode.repeatList(
-            "[AXIS]",
-            () => { if (tf2.collision_[AXIS]:@s != 0) tf2.mot_[AXIS]:@s *= -1; },
+            (_, AXIS) => { if (tf2.collision_$AXIS:@s != 0) tf2.mot_$AXIS:@s *= -1; },
             ["x", "y", "z"]
         );
 
@@ -322,12 +314,11 @@ class Projectile {
         tf2.mot_x:@s >< tf2.mot_z:@s;    
         this.linear_velocity_to_quaternion();
         Hardcode.repeatLists(
-            ["[AXIS]", "[INDEX]"],
-            () => {  
-                $input_quaternion_1_[AXIS] = vars::save_rotation[[INDEX]] * 1000;
-                $input_quaternion_2_[AXIS] = tf2.quaternion_[AXIS]:@s;
-                // printf("input_quaternion_1_[AXIS] = &<yellow,$input_quaternion_1_[AXIS]>");
-                // printf("input_quaternion_2_[AXIS] = &<yellow,$input_quaternion_2_[AXIS]>");
+            (_, AXIS, INDEX) => {  
+                $input_quaternion_1_$AXIS = vars::save_rotation[$INDEX] * 1000;
+                $input_quaternion_2_$AXIS = tf2.quaternion_$AXIS:@s;
+                // printf("input_quaternion_1_$AXIS = &<yellow,$input_quaternion_1_$AXIS>");
+                // printf("input_quaternion_2_$AXIS = &<yellow,$input_quaternion_2_$AXIS>");
             },
             [
                 ["r", "i", "j", "k"],
@@ -350,8 +341,7 @@ class Projectile {
         tf2.mot_z:@s *= -1;
 
         Hardcode.repeatList(
-            "[AXIS]",
-            () => { tf2.ang_vel_[AXIS]:@s = 0; },
+            (_, AXIS) => { tf2.ang_vel_$AXIS:@s = 0; },
             ["x", "y", "z"]
         );
 
@@ -394,10 +384,9 @@ class Projectile {
         if (tf2.collision_x:@s != 0 || tf2.collision_z:@s != 0) {
             // printf("XZ");
             Hardcode.repeatList(
-                "[AXIS]",
-                () => {
-                    tf2.mot_[AXIS]:@s *= $elasticity;
-                    tf2.mot_[AXIS]:@s /= 1000;
+                (_, AXIS) => {
+                    tf2.mot_$AXIS:@s *= $elasticity;
+                    tf2.mot_$AXIS:@s /= 1000;
                 },
                 ["x", "z"]
             );
@@ -430,8 +419,7 @@ class Projectile {
 
         // Apply bounces
         Hardcode.repeatList(
-            "[AXIS]",
-            () => { if (tf2.collision_entity_[AXIS]:@s != 0) tf2.mot_[AXIS]:@s *= -1; },
+            (_, AXIS) => { if (tf2.collision_entity_$AXIS:@s != 0) tf2.mot_$AXIS:@s *= -1; },
             ["x", "y", "z"]
         );
 
@@ -696,8 +684,8 @@ class Projectile {
         tf2.ang_vel_z:@s := $output * $angular_speed / 1000;
 
         Math.random_vector();
-        Hardcode.repeatList( "[AXIS]", () => {
-            tf2.ang_vel_[AXIS]:@s := (tf2.ang_vel_[AXIS]:@s * 10 + $output_vector_[AXIS]) / 10;
+        Hardcode.repeatList( (_, AXIS) => {
+            tf2.ang_vel_$AXIS:@s := (tf2.ang_vel_$AXIS:@s * 10 + $output_vector_$AXIS) / 10;
         }, ["x", "z"]);
 
         // Initial rotation randomness
@@ -705,28 +693,24 @@ class Projectile {
         $input_pitch *= 10;
         Math.gimbal_to_quaternion();
         Hardcode.repeatList(
-            "[PARAM]",
-            () => { $input_quaternion_2_[PARAM] = $output_quaternion_[PARAM]; },
+            (_, PARAM) => { $input_quaternion_2_$PARAM = $output_quaternion_$PARAM; },
             ["r", "i", "j", "k"]
         );
         $r = random value -50..50;
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                $input_ang_vel_[AXIS] := tf2.ang_vel_[AXIS]:@s * $r / 100;
+            (_, AXIS) => {
+                $input_ang_vel_$AXIS := tf2.ang_vel_$AXIS:@s * $r / 100;
             },
             ['x', 'y', 'z']
         );
         Math.angular_velocity_to_quaternion();
         Hardcode.repeatList(
-            "[PARAM]",
-            () => { $input_quaternion_1_[PARAM] = $output_quaternion_[PARAM]; },
+            (_, PARAM) => { $input_quaternion_1_$PARAM = $output_quaternion_$PARAM; },
             ["r", "i", "j", "k"]
         );
         Math.multiply_quaternions();
         Hardcode.repeatList(
-            "[PARAM]",
-            () => { $input_quaternion_[PARAM] = $output_quaternion_[PARAM]; },
+            (_, PARAM) => { $input_quaternion_$PARAM = $output_quaternion_$PARAM; },
             ["r", "i", "j", "k"]
         );
         Math.normalize_quaternion();
@@ -774,18 +758,17 @@ class Projectile {
         $angular_drag = lookup::item.components.minecraft:custom_data.projectile.rotation.drag * 1000;
         $angular_collision_friction = lookup::item.components.minecraft:custom_data.projectile.rotation.collision_friction * 1000;
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                $sign_[AXIS] = 1;
-                if (tf2.ang_vel_[AXIS]:@s < 0) {$sign_[AXIS] = -1;}
-                tf2.ang_vel_[AXIS]:@s *= $sign_[AXIS];
-                tf2.ang_vel_[AXIS]:@s *= $angular_drag;
-                tf2.ang_vel_[AXIS]:@s /= 1000;
+            (_, AXIS) => {
+                $sign_$AXIS = 1;
+                if (tf2.ang_vel_$AXIS:@s < 0) {$sign_$AXIS = -1;}
+                tf2.ang_vel_$AXIS:@s *= $sign_$AXIS;
+                tf2.ang_vel_$AXIS:@s *= $angular_drag;
+                tf2.ang_vel_$AXIS:@s /= 1000;
                 if (tf2.collision:@s == 1) expand {
-                    tf2.ang_vel_[AXIS]:@s *= $angular_collision_friction;
-                    tf2.ang_vel_[AXIS]:@s /= 1000;
+                    tf2.ang_vel_$AXIS:@s *= $angular_collision_friction;
+                    tf2.ang_vel_$AXIS:@s /= 1000;
                 }
-                tf2.ang_vel_[AXIS]:@s *= $sign_[AXIS];
+                tf2.ang_vel_$AXIS:@s *= $sign_$AXIS;
             },
             ["x", "y", "z"]
         );
@@ -806,23 +789,20 @@ class Projectile {
 
         // Apply rotation
         Hardcode.repeatList(
-            "[AXIS]",
-            () => { $input_ang_vel_[AXIS] = tf2.ang_vel_[AXIS]:@s; },
+            (_, AXIS) => { $input_ang_vel_$AXIS = tf2.ang_vel_$AXIS:@s; },
             ["x", "y", "z"]
         );
         Math.angular_velocity_to_quaternion();
         Hardcode.repeatList(
-            "[PARAM]",
-            () => {
-                $input_quaternion_1_[PARAM] = $output_quaternion_[PARAM];
-                $input_quaternion_2_[PARAM] = tf2.quaternion_[PARAM]:@s;
+            (_, PARAM) => {
+                $input_quaternion_1_$PARAM = $output_quaternion_$PARAM;
+                $input_quaternion_2_$PARAM = tf2.quaternion_$PARAM:@s;
             },
             ["r", "i", "j", "k"]
         );
         Math.multiply_quaternions();
         Hardcode.repeatList(
-            "[PARAM]",
-            () => { $input_quaternion_[PARAM] = $output_quaternion_[PARAM]; },
+            (_, PARAM) => { $input_quaternion_$PARAM = $output_quaternion_$PARAM; },
             ["r", "i", "j", "k"]
         );
         Math.normalize_quaternion();
@@ -831,14 +811,12 @@ class Projectile {
     }
     function save_output_rotation_to_entity() {
         Hardcode.repeatList(
-            "[PARAM]",
-            () => { tf2.quaternion_[PARAM]:@s = $output_quaternion_[PARAM]; },
+            (_, PARAM) => { tf2.quaternion_$PARAM:@s = $output_quaternion_$PARAM; },
             ["r", "i", "j", "k"]
         );
         gren::rotation = [0.0f,0.0f,0.0f,1.0f];
         Hardcode.repeatLists(
-            ["[PARAM]", "[INDEX]"],
-            () => { gren::rotation[[INDEX]] = 0.001 * (float) tf2.quaternion_[PARAM]:@s; },
+            (_, PARAM, INDEX) => { gren::rotation[$INDEX] = 0.001 * (float) tf2.quaternion_$PARAM:@s; },
             [
                 ["r", "i", "j", "k"],
                 ["3", "0", "1", "2"]
@@ -848,18 +826,16 @@ class Projectile {
     }
     function roll() {
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                $input_vector_1_[AXIS] := ((tf2.mot_[AXIS]:@s * 1000) / tf2.hitbox_[AXIS]:@s) * 32;
-                $input_vector_2_[AXIS] := $surface_[AXIS];
+            (_, AXIS) => {
+                $input_vector_1_$AXIS := ((tf2.mot_$AXIS:@s * 1000) / tf2.hitbox_$AXIS:@s) * 32;
+                $input_vector_2_$AXIS := $surface_$AXIS;
             },
             ["x", "y", "z"]
         );
         Math.cross_product();
         Hardcode.repeatList(
-            "[AXIS]",
-            () => {
-                tf2.ang_vel_[AXIS]:@s += $output_vector_[AXIS];
+            (_, AXIS) => {
+                tf2.ang_vel_$AXIS:@s += $output_vector_$AXIS;
             },
             ["x", "y", "z"]
         );

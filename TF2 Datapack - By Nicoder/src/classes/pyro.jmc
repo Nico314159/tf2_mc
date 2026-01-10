@@ -316,23 +316,23 @@ class Class.Pyro {
 
 		// Get existing motion vector & its length
 		$motion_length = 0;
-		Hardcode.repeatList("`axis`", () => {
-			$temp := tf2.mot_`axis`:@s ** 2;
+		Hardcode.repeatList((_, axis) => {
+			$temp := tf2.mot_$axis:@s ** 2;
 			$motion_length += $temp;
 		}, ["x", "y", "z"]);
 
 		// Get the Pyro's facing vector & its length
 		execute as @p[tag=origin] run Math.facing_vector();
 		$facing_length = 0;
-		Hardcode.repeatList("`axis`", () => {
-			$temp := $output_vector_`axis` ** 2;
+		Hardcode.repeatList((_, axis) => {
+			$temp := $output_vector_$axis ** 2;
 			$facing_length += $temp;
 		}, ["x", "y", "z"]);
 
 		// Renormalize facing vector to preserve original magnitude
-		Hardcode.repeatList("`axis`", () => {
-			$output_vector_`axis` := ($output_vector_`axis` * $motion_length) / $facing_length;
-			tf2.mot_`axis`:@s = $output_vector_`axis`;
+		Hardcode.repeatList((_, axis) => {
+			$output_vector_$axis := ($output_vector_$axis * $motion_length) / $facing_length;
+			tf2.mot_$axis:@s = $output_vector_$axis;
 		}, ["x", "y", "z"]);
 
 		Projectile.linear_velocity_to_quaternion();

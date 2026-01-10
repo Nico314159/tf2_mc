@@ -314,19 +314,19 @@ class Objectives
                     $ lookup::events = running_games::$(i).objectives[$(j)].data.$(team)_events;
                 } with index::;
 
-                Hardcode.repeatList("`prop`", () => {
-                    function spawn_`prop`() {
+                Hardcode.repeatList((_, prop) => {
+                    function spawn_$prop() {
                         // default value of 0 means it will do nothing if unspecified
                         index::red = 0;
-                        index::red = lookup::events.spawn_`prop`.red;
+                        index::red = lookup::events.spawn_$prop.red;
                         index::blu = 0;
-                        index::blu = lookup::events.spawn_`prop`.blu;
+                        index::blu = lookup::events.spawn_$prop.blu;
                         execute run {
-                            $ running_games::$(i).spawn_`prop`.red[0] = running_games::$(i).spawn_`prop`.red[$(red)];
-                            $ running_games::$(i).spawn_`prop`.blu[0] = running_games::$(i).spawn_`prop`.blu[$(blu)];
+                            $ running_games::$(i).spawn_$prop.red[0] = running_games::$(i).spawn_$prop.red[$(red)];
+                            $ running_games::$(i).spawn_$prop.blu[0] = running_games::$(i).spawn_$prop.blu[$(blu)];
                         } with index::;
                     }
-                    if (lookup::{events:{spawn_`prop`:{}}}) {this.spawn_`prop`();}
+                    if (lookup::{events:{spawn_$prop:{}}}) {this.spawn_$prop();}
                 }, strings=["point", "time"]);
 
                 while (lookup::events.doors[]) {
@@ -368,9 +368,9 @@ class Objectives
 
                 
                 tf2.batch_number:$local = tf2.batch_number:@s;
-                Hardcode.repeatList("`type`", () => {
-                    tag @e[type=`type`,tag=tf2.current] remove tf2.current;
-                    execute as @e[type=`type`] 
+                Hardcode.repeatList((_, type) => {
+                    tag @e[type=$type,tag=tf2.current] remove tf2.current;
+                    execute as @e[type=$type] 
                             if score @s tf2.batch_number = $local tf2.batch_number 
                             run tag @s add tf2.current;
                 }, strings=["marker", "item_display"]);
@@ -418,9 +418,9 @@ class Objectives
 
 
                 tf2.batch_number:$local = tf2.batch_number:@s;
-                Hardcode.repeatList("`type`", () => {
-                    tag @e[type=`type`,tag=tf2.current] remove tf2.current;
-                    execute as @e[type=`type`] 
+                Hardcode.repeatList((_, type) => {
+                    tag @e[type=$type,tag=tf2.current] remove tf2.current;
+                    execute as @e[type=$type] 
                             if score @s tf2.batch_number = $local tf2.batch_number 
                             run tag @s add tf2.current;
                 }, strings=["marker", "item_display"]);
@@ -460,13 +460,12 @@ class Objectives
 
                 // Set background color in HUD.
                 Hardcode.repeatLists(
-                    ["_num_", "_color_", "_hex_"],
-                    () => {
-                        if (tf2.team:@s == _num_) {
-                            lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#_hex_"}];
+                    (num, color, hex) => {
+                        if (tf2.team:@s == $num) {
+                            lookup::points[0].owner = [{"text":"[","color":"#F5EACB"},{"text":"3210=","color":"#$hex"}];
                         }
                     },
-                    [["0", "1", "2"], ["white", "red", "blue"], ["A1A1A1", "D95A58", "517AB8"]]
+                    [["white", "red", "blue"], ["A1A1A1", "D95A58", "517AB8"]]
                 );
                 lookup::points[0].progress = [{"text":"321))))))))))))))","color":"gray"}];
 
@@ -492,9 +491,8 @@ class Objectives
 
                 // Puts a letter in the corner of the HUD icon, if the `tf2.letter` tag is present.
                 Hardcode.repeatLists(
-                    ["_num_", "_letter_"],
-                    () => {
-                        if (tf2.index:@s[tag=tf2.letter] == _num_) lookup::points[0].extra = [{"text":"3210|]","color":"gray"},{"text":"|21_letter_$#","color":"black"}];
+                    (_, num, letter) => {
+                        if (tf2.index:@s[tag=tf2.letter] == $num) lookup::points[0].extra = [{"text":"3210|]","color":"gray"},{"text":"|21$letter$#","color":"black"}];
                     },
                     [["0", "10", "20", "30", "40"], ["A", "B", "C", "D", "E"]]
                 );
