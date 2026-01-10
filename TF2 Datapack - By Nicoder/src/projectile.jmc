@@ -637,10 +637,10 @@ class Projectile {
         return run $_finalDamage_.get();
     }
     function knockback() {
-        player_motion.api.launch:$x := $output_vector_x * 12;
-        player_motion.api.launch:$y := $output_vector_y * 12;
-        player_motion.api.launch:$z := $output_vector_z * 12;
-        function player_motion:api/launch_xyz;
+        player_motion.api.launch:$x := $output_vector_x * 10;
+        player_motion.api.launch:$y := $output_vector_y * 10;
+        player_motion.api.launch:$z := $output_vector_z * 10;
+        execute at @s run function player_motion:api/launch_global_xyz;
     }
     function detonate_if_armed() {
         $arm_time = @s::item.components.minecraft:custom_data.projectile.arm_time * 20;
