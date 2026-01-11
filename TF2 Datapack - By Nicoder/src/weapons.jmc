@@ -675,9 +675,9 @@ class Weapons {
     function save_arrow_speed() {
         vars::Motion = @s::Motion;
         $magnitude = 0;
-        Hardcode.repeatList((_, i) => {
+        Hardcode.repeat((i) => {
             $magnitude := $magnitude + ({vars::Motion[$i] * 1000} ** 2);
-        }, ['0', '1', '2']);
+        }, start=0, stop=3);
         $magnitude = Math.sqrt($magnitude);
         // if ($Settings.show_debug_messages) {
         //     printf("arrow speed = &<yellow,$magnitude>");

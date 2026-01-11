@@ -490,12 +490,11 @@ class Objectives
 				}
 
                 // Puts a letter in the corner of the HUD icon, if the `tf2.letter` tag is present.
-                Hardcode.repeatLists(
-                    (_, num, letter) => {
-                        if (tf2.index:@s[tag=tf2.letter] == $num) lookup::points[0].extra = [{"text":"3210|]","color":"gray"},{"text":"|21$letter$#","color":"black"}];
-                    },
-                    [["0", "10", "20", "30", "40"], ["A", "B", "C", "D", "E"]]
-                );
+                Hardcode.repeatList((n, letter) => {
+                    if (tf2.index:@s[tag=tf2.letter] == Hardcode.calc($n * 10)) {
+                        lookup::points[0].extra = [{"text":"3210|]","color":"gray"},{"text":"|21$letter$#","color":"black"}];
+                    }
+                }, ["A", "B", "C", "D", "E"]);
                 Objectives.control_point.find_index.reinsert();
                 tag @s add tf2.init;
             }
