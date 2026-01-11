@@ -48,7 +48,7 @@ make_weapon(
 
 class Class.Engineer {
     function give() {
-        tf2.class:@s = Class.PYRO;
+        tf2.class:@s = Class.ENGINEER;
 		tf2.max_health:@s = tf2.health:@s = 125;
 		attribute @s minecraft:movement_speed base set BASE_SPEED;
 

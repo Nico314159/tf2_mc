@@ -1,4 +1,4 @@
-scoreboard players set @s tf2.class 7
+scoreboard players set @s tf2.class 8
 execute store result score @s tf2.max_health run scoreboard players set @s tf2.health 125
 attribute @s minecraft:movement_speed base set 0.132
 clear @s
