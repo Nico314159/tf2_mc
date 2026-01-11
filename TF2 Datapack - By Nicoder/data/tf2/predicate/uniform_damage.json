@@ -22,10 +22,11 @@
                     "value": {
                         "type": "minecraft:storage",
                         "storage": "tf2:lookup",
-                        "path": "item.components.minecraft:custom_data.attributes.damage.uniform.timer"
+                        "path": "item.components.minecraft:custom_data.attributes.damage.uniform.timer",
+                        "scale": 100
                     },
                     "range": {
-                        "min": 0.01
+                        "min": 1
                     }
                 },
                 {
@@ -33,14 +34,14 @@
                     "value": {
                         "type": "minecraft:score",
                         "target": "this",
-                        "score": "tf2.age",
-                        "scale": 0.05
+                        "score": "tf2.age"
                     },
                     "range": {
                         "min": {
                             "type": "minecraft:storage",
                             "storage": "tf2:lookup",
-                            "path": "item.components.minecraft:custom_data.attributes.damage.uniform.timer"
+                            "path": "item.components.minecraft:custom_data.attributes.damage.uniform.timer",
+                            "scale": 20
                         }
                     }
                 }
