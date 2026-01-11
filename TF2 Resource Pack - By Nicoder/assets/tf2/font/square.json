@@ -127,7 +127,7 @@
         {
             "type": "bitmap",
             "file": "tf2:font/letters/a.png",
-            "ascent": -9.5,
+            "ascent": -9,
             "height": 6,
             "chars": [
                 "A"
