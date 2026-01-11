@@ -1,8 +1,8 @@
 {
     "pack": {
-        "min_format": 92.0,
-        "pack_format": 94.1,
-        "max_format": 99.9,
+        "min_format": [92, 0],
+        "pack_format": 94,
+        "max_format": [99, 9],
         "description": "Team Fortress 2, recreated in Minecraft"
     },
     "filter": {
