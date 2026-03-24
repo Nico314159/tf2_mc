@@ -1,8 +1,7 @@
 {
 	"pack": {
-		"pack_format": 75,
-		"max_format": [79, 0],
-		"min_format": [75, 0],
+		"max_format": [99, 0],
+		"min_format": [84, 0],
 		"description": "§6§lTF2 Control Point Font\n§7By §bNicoder §8- §b0.33"
 	}
 }
