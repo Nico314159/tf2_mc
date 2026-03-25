@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 from typing import Final
 import json
 
@@ -182,8 +183,43 @@ def write_models_to_files(all_models_dict: AdHoc) -> None:
             with open(output_path, 'w') as output_file:
                 output_file.write(json.dumps(m1, indent=indent))
 
+def safe_overwrite_dir(target: Path) -> Path:
+    validate = Path(Path(__file__).parents[1]).resolve()
+    target = Path(target)
+
+    if not (validate / ".git").exists():
+        raise RuntimeError(f"Refusing: repository has no .git folder: {validate}")
+
+    # Resolve safely to avoid ".." surprises
+    target_resolved = (target.parent.resolve() / target.name).resolve()
+
+    # Belt #2: target must be inside repo root
+    try:
+        target_resolved.relative_to(validate)
+    except ValueError:
+        raise RuntimeError(
+            "Refusing to delete outside repo.\n"
+            f"repository={validate}\n"
+            f"target={target_resolved}"
+        )
+
+    # Refuse to delete symlinks (prevents deleting elsewhere via link tricks)
+    if target.exists() and target.is_symlink():
+        raise RuntimeError(f"Refusing: target is a symlink: {target_resolved}")
+
+    # Print exactly what will be deleted/created
+    print(f"[SAFE OVERWRITE] repository = {validate}")
+    print(f"[SAFE OVERWRITE] target     = {target_resolved}")
+
+    if target_resolved.is_dir():
+        shutil.rmtree(target_resolved)
+    else:
+        target_resolved.unlink()
+
+    return target_resolved
 
 def main():
+    safe_overwrite_dir(RP_ROOT / "assets" / "tf2" / "items" / "weapon").mkdir(parents=True, exist_ok=True)
     write_models_to_files(all_models_dict)
 
 

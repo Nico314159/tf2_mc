@@ -3,7 +3,7 @@ import json
 
 def main():
 
-    def bitmap(c, a=0, h=100):
+    def bitmap(c, a=5.5, h=93):
         i = classes.index(c)+1
         return fr"""
         {{   "type": "bitmap",

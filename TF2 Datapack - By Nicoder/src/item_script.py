@@ -143,8 +143,10 @@ def make_weapon(
         custom_data["projectile"] = projectile
     custom_data["controls"] = controls
 
-    loot_path = str(class_id).lower() + "." + name.lower().replace(" ", "_")
-    model_path = str(class_id).lower().replace('class.', '') + '/' + ["primary", "secondary", "melee", "disguise_kit", "watch"][slot] + '/' + name.lower().replace(" ", "_")
+    cl = str(class_id).lower().replace('class.', '')
+    loot_path = f"class.{cl}." + name.lower().replace(" ", "_")
+    slots = ["primary", "secondary", "melee"] + (['pda']*2 if cl != 'spy' else ["disguise_kit", "watch"])
+    model_path = cl + '/' + slots[slot] + '/' + name.lower().replace(" ", "_")
     
     
     loot_path.replace('class.', '').replace('.', '/')
