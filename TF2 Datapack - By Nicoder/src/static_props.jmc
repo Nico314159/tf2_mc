@@ -1,5 +1,5 @@
 function load_static_props() {
-    kill @e[tag=tf2.static_prop];
+    execute as @e[tag=tf2.static_prop] run kill @s;
 
     @lazy function gorge_lighting() {
         summon block_display 1157.0 120.0 -967.0 {
