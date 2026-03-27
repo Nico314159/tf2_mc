@@ -1,0 +1,62 @@
+{
+    "type": "minecraft:multi_action",
+    "title": "Construction PDA",
+    "can_close_with_escape": false,
+    "columns": 9,
+    "body": [
+        {
+            "type": "minecraft:plain_message",
+            "contents": {
+                "text": "\ue210_\ue211_\ue212_\ue213_\n\n\n",
+                "font": "tf2:building_viewmodel"
+            },
+            "width": 550
+        }
+    ],
+    "actions": [
+        {
+            "label": {
+                "text": "Sentry",
+                "color": "#D95A58"
+            },
+            "width": 120,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.construction set 10"
+            }
+        },
+        {
+            "label": {
+                "text": "Dispenser",
+                "color": "#D95A58"
+            },
+            "width": 120,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.construction set 11"
+            }
+        },
+        {
+            "label": {
+                "text": "Teleporter Entrance",
+                "color": "#D95A58"
+            },
+            "width": 120,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.construction set 12"
+            }
+        },
+        {
+            "label": {
+                "text": "Teleporter Exit",
+                "color": "#D95A58"
+            },
+            "width": 120,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.construction set 13"
+            }
+        }
+    ]
+}

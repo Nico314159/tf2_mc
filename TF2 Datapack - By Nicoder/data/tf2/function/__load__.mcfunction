@@ -172,6 +172,8 @@ scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger
 scoreboard objectives add tf2.disguise trigger
+scoreboard objectives add tf2.construction trigger
+scoreboard objectives add tf2.destruction trigger
 scoreboard objectives add tf2.new_class trigger
 scoreboard objectives add tf2.coas used:carrot_on_a_stick
 scoreboard objectives add tf2.elytra_detect custom:aviate_one_cm

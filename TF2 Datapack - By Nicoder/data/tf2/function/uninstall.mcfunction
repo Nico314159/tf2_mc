@@ -123,6 +123,8 @@ scoreboard objectives remove tf2.ang_vel_z
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.disguise
+scoreboard objectives remove tf2.construction
+scoreboard objectives remove tf2.destruction
 scoreboard objectives remove tf2.new_class
 scoreboard objectives remove tf2.coas
 scoreboard objectives remove tf2.elytra_detect

@@ -1,0 +1,62 @@
+{
+    "type": "minecraft:multi_action",
+    "title": "Destruction PDA",
+    "can_close_with_escape": false,
+    "columns": 9,
+    "body": [
+        {
+            "type": "minecraft:plain_message",
+            "contents": {
+                "text": "\ue220_\ue221_\ue222_\ue223_\n\n\n",
+                "font": "tf2:building_viewmodel"
+            },
+            "width": 550
+        }
+    ],
+    "actions": [
+        {
+            "label": {
+                "text": "Sentry",
+                "color": "blue"
+            },
+            "width": 120,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.destruction set 20"
+            }
+        },
+        {
+            "label": {
+                "text": "Dispenser",
+                "color": "blue"
+            },
+            "width": 120,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.destruction set 21"
+            }
+        },
+        {
+            "label": {
+                "text": "Teleporter Entrance",
+                "color": "blue"
+            },
+            "width": 120,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.destruction set 22"
+            }
+        },
+        {
+            "label": {
+                "text": "Teleporter Exit",
+                "color": "blue"
+            },
+            "width": 120,
+            "action": {
+                "type": "minecraft:run_command",
+                "command": "trigger tf2.destruction set 23"
+            }
+        }
+    ]
+}
