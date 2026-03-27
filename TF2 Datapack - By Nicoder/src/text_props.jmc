@@ -44,7 +44,8 @@ TextProps.nbt(
 );
 TextProp.nbt(
     propertyName = "kill_verb",
-    nbt          = lookup::damages[-1].kill_verb
+    nbt          = lookup::damages[-1].kill_verb,
+    interpret    = true
 );
 TextProp.nbt(
     propertyName = "weapon_name",
