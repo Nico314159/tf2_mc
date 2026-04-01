@@ -233,3 +233,5 @@ class Class.Engineer {
         return 100;
     }
 }
+
+import "src/buildings/*";

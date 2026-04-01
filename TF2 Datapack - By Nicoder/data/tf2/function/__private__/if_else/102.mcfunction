@@ -1,11 +1,10 @@
-scoreboard players set __if_else__ tf2.var 0
-execute if score $horizontal tf2.var > $y tf2.var run function tf2:__private__/if_else/100
-execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/101
-scoreboard players operation $num tf2.var *= 1000 tf2.const
-scoreboard players operation $num tf2.var /= $denom tf2.var
-execute store result storage tf2:vars fraction double 0.001 run scoreboard players get $num tf2.var
-scoreboard players set $i tf2.var 0
-scoreboard players operation $longest tf2.var = $y tf2.var
-scoreboard players operation $longest tf2.var > $horizontal tf2.var
-function tf2:__private__/anonymous/40 with storage tf2:vars
-function tf2:noentrysign/diagonal with storage tf2:vars
+scoreboard players set $do_effects tf2.var 0
+execute if score @s tf2.health < @s tf2.max_health run scoreboard players set $do_effects tf2.var 1
+execute if score @s tf2.primary_clip < @s tf2.primary_maxClip run scoreboard players set $do_effects tf2.var 1
+execute if score @s tf2.primary_ammo < @s tf2.primary_maxAmmo run scoreboard players set $do_effects tf2.var 1
+execute if score @s tf2.secondary_clip < @s tf2.secondary_maxClip run scoreboard players set $do_effects tf2.var 1
+execute if score @s tf2.secondary_ammo < @s tf2.secondary_maxAmmo run scoreboard players set $do_effects tf2.var 1
+function tf2:replenish_ammo_and_health
+execute unless score $do_effects tf2.var matches 1.. run return 1
+playsound tf2:pickup.resupply player @s ~ ~ ~ 1.5 0.8 0.2
+clear @s

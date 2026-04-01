@@ -1,4 +1,4 @@
-scoreboard players reset @s tf2.team
-scoreboard players reset @s tf2.timer
-function tf2:koth_timer/set_max with storage tf2:index
-function tf2:koth_timer/show with storage tf2:index
+scoreboard players set $surface_x tf2.var 0
+scoreboard players set $surface_y tf2.var 0
+scoreboard players operation $surface_z tf2.var = @s tf2.collision_z
+function tf2:projectile/roll

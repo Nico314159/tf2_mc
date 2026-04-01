@@ -1,2 +1,4 @@
-execute as @e[type=item,tag=!tf2.static_prop,tag=!tf2.pickup,distance=..2] run function tf2:__private__/anonymous/35
-execute as @e[type=snowball,distance=..5] run function tf2:__private__/anonymous/36
+scoreboard players set $surface_x tf2.var 0
+scoreboard players set $surface_y tf2.var 0
+scoreboard players operation $surface_z tf2.var = @s tf2.collision_z
+function tf2:grenade/roll

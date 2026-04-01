@@ -4,8 +4,8 @@ scoreboard players operation @s[type=player] tf2.last_x = @s tf2.now_x
 execute store result score @s[type=player] tf2.now_x run data get entity @s Pos[0] 1000
 scoreboard players operation @s[type=player] tf2.last_z = @s tf2.now_z
 execute store result score @s[type=player] tf2.now_z run data get entity @s Pos[2] 1000
-execute if entity @s[tag=!tf2.dead,y=-45,dy=5] run function tf2:__private__/if_else/84
-execute if entity @s[tag=tf2.dead] run function tf2:__private__/if_else/85
+execute if entity @s[tag=!tf2.dead,y=-45,dy=5] run function tf2:__private__/if_else/89
+execute if entity @s[tag=tf2.dead] run function tf2:__private__/if_else/90
 execute if entity @s[tag=tf2.dead,scores={tf2.respawn_timer=..0}] run function tf2:spawn/init
 execute unless entity @s[scores={tf2.class=1},tag=tf2.disguised,gamemode=!spectator] run function tf2:class/spy/nametag/delete
 execute if entity @s[gamemode=spectator] run return run tag @a remove tf2.current
@@ -16,11 +16,11 @@ scoreboard players add @s tf2.ticks_since_hurt 1
 clear @s arrow
 data modify storage tf2:check_match UUID set from entity @s UUID
 tag @s add tf2.self
-execute if predicate tf2:empty_hand run function tf2:__private__/if_else/88
+execute if predicate tf2:empty_hand run function tf2:__private__/if_else/93
 function tf2:weapons/slot_check
 execute if items entity @s weapon.mainhand bow as @e[type=arrow,distance=..5] run function tf2:__private__/anonymous/37
 scoreboard players set __if_else__ tf2.var 0
-execute if items entity @s weapon.mainhand crossbow[charged_projectiles=[],custom_data~{should_detect_click:true}] run function tf2:__private__/if_else/90
+execute if items entity @s weapon.mainhand crossbow[charged_projectiles=[],custom_data~{should_detect_click:true}] run function tf2:__private__/if_else/95
 execute if score __if_else__ tf2.var matches 0 if data entity @s[scores={tf2.interpolate_rmb=1..}] SelectedItem.components.minecraft:custom_data.attributes.interpolate_rmb run function tf2:weapons/interpolate_rmb
 tag @s remove tf2.self
 execute if entity @s[tag=tf2.autoreload,scores={tf2.time_idle=30..,tf2.reload_delay=..0},predicate=!tf2:hide_ammo] run function tf2:weapons/attempt_autoreload
@@ -29,25 +29,25 @@ execute if entity @s[scores={tf2.class=0},predicate=tf2:active_offhand] run scor
 execute store result storage tf2:__storage__ switch_key int 1 run scoreboard players get @s tf2.class
 function tf2:__private__/switch_case/17/select with storage tf2:__storage__
 execute unless score @s tf2.class matches 1 run tag @s remove tf2.in_disguise_menu
-execute if score @s[tag=!tf2.in_class_menu,tag=!tf2.already_seen_class_menu] tf2.current_slot matches 8 run function tf2:__private__/if_else/92
+execute if score @s[tag=!tf2.in_class_menu,tag=!tf2.already_seen_class_menu] tf2.current_slot matches 8 run function tf2:__private__/if_else/97
 execute unless score @s tf2.current_slot matches 8 run tag @s remove tf2.already_seen_class_menu
-execute if score @s tf2.new_class matches 1.. run function tf2:__private__/if_else/93
+execute if score @s tf2.new_class matches 1.. run function tf2:__private__/if_else/98
 execute if entity @s[tag=tf2.on_fire] run function tf2:class/pyro/afterburn
 scoreboard players operation @s tf2.fall_y3 = @s tf2.fall_y2
 scoreboard players operation @s tf2.fall_y2 = @s tf2.fall_y1
 scoreboard players operation @s tf2.fall_y1 = @s tf2.fall_y
 execute store result score @s tf2.fall_y run data get entity @s Pos[1] 100
 execute if predicate tf2:grounded if score @s tf2.fall matches 1.. run function tf2:player/fall_damage
-execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/94
+execute if score @s tf2.air matches -19 run function tf2:__private__/if_else/99
 scoreboard players add @s[predicate=!tf2:submerged] tf2.time_surfaced 1
-execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/95
+execute if score @s tf2.time_surfaced matches 40 run function tf2:__private__/if_else/100
 scoreboard players set @s[predicate=tf2:submerged] tf2.time_surfaced 0
 scoreboard players operation $id tf2.var = @s tf2.player.id
 execute as @e[type=#tf2:player_like] if score @s tf2.heal_target = $id tf2.var run tag @s add tf2.search
 execute if entity @s[tag=tf2.overheal] unless entity @a[tag=tf2.search] run function tf2:player/overheal_decay
-execute unless entity @a[tag=tf2.search,tag=tf2.uber_source] run function tf2:__private__/if_else/96
+execute unless entity @a[tag=tf2.search,tag=tf2.uber_source] run function tf2:__private__/if_else/101
 tag @e remove tf2.search
 scoreboard players operation $tick_cycle tf2.var = $__global__ xrroou1m8_p_join
 scoreboard players operation $tick_cycle tf2.var %= 40 tf2.const
-execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/97
+execute if score @s tf2.team = @e[type=item_display,tag=tf2.resupply,distance=..1.5,limit=1] tf2.team if score $tick_cycle tf2.var matches 0 run function tf2:__private__/if_else/102
 tag @a remove tf2.current

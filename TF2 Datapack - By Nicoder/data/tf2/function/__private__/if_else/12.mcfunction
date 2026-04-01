@@ -1,5 +1,3 @@
-execute if entity @s[tag=tf2.uber_patient] run return fail
-tag @s add tf2.uber_patient
-item replace entity @s armor.head with air
-item replace entity @s armor.chest with air
-item replace entity @s armor.legs with air
+execute store result entity @s Rotation[1] float 0.01 run scoreboard players get $output_pitch tf2.var
+scoreboard players set $correct_pitch tf2.var 1
+scoreboard players set __if_else__ tf2.var 1

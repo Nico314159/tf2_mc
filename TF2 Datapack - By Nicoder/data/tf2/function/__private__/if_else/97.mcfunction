@@ -1,10 +1,4 @@
-scoreboard players set $do_effects tf2.var 0
-execute if score @s tf2.health < @s tf2.max_health run scoreboard players set $do_effects tf2.var 1
-execute if score @s tf2.primary_clip < @s tf2.primary_maxClip run scoreboard players set $do_effects tf2.var 1
-execute if score @s tf2.primary_ammo < @s tf2.primary_maxAmmo run scoreboard players set $do_effects tf2.var 1
-execute if score @s tf2.secondary_clip < @s tf2.secondary_maxClip run scoreboard players set $do_effects tf2.var 1
-execute if score @s tf2.secondary_ammo < @s tf2.secondary_maxAmmo run scoreboard players set $do_effects tf2.var 1
-function tf2:replenish_ammo_and_health
-execute unless score $do_effects tf2.var matches 1.. run return 1
-playsound tf2:pickup.resupply player @s ~ ~ ~ 1.5 0.8 0.2
-clear @s
+scoreboard players enable @s tf2.new_class
+dialog show @s[scores={tf2.team=1}] tf2:red_class_menu
+dialog show @s[scores={tf2.team=2}] tf2:blu_class_menu
+tag @s add tf2.in_class_menu

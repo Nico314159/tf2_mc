@@ -1,2 +1,2 @@
-scoreboard players operation @s tf2.y -= @s tf2.hitbox_y
-scoreboard players set __if_else__ tf2.var 1
+scoreboard players set $mot.distance_head_y tf2.var 2147483647
+scoreboard players set $mot.distance_tail_y tf2.var 2147483647

@@ -45,7 +45,8 @@ Hardcode.repeatList(
         "friction", "collision_friction",
         "halt",
         "quaternion_r", "quaternion_i", "quaternion_j", "quaternion_k",
-        "ang_vel_x", "ang_vel_y", "ang_vel_z"
+        "ang_vel_x", "ang_vel_y", "ang_vel_z",
+        "sentry.target", "sentry.x", "sentry.y", "sentry.z", "sentry.level"
     ]
 );
 

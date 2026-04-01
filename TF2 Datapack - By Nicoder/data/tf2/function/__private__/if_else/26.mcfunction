@@ -1,6 +1,2 @@
-scoreboard players operation @s tf2.mot_x *= $elasticity tf2.var
-scoreboard players operation @s tf2.mot_x /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_y *= $elasticity tf2.var
-scoreboard players operation @s tf2.mot_y /= 1000 tf2.const
-scoreboard players operation @s tf2.mot_z *= $elasticity tf2.var
-scoreboard players operation @s tf2.mot_z /= 1000 tf2.const
+execute store result score $angular_speed tf2.var run data get storage tf2:lookup item.components.minecraft:custom_data.projectile.rotation.initial 0.9525
+function tf2:projectile/initial_rotation

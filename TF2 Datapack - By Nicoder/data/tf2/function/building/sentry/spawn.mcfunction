@@ -1,0 +1,4 @@
+summon item_display ~ ~ ~ {Rotation:[0.0f,0.0f],Tags:["tf2.sentry","tf2.new"],item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:building/sentry_gun","minecraft:custom_model_data":{floats:[1,1]},}}}
+execute as @n[tag=tf2.new] store result entity @s item.components.minecraft:custom_model_data.floats[0] int 1 run execute store result score @s tf2.team run data get storage tf2:summon sentry.team
+execute as @n[tag=tf2.new] store result entity @s item.components.minecraft:custom_model_data.floats[1] int 1 run execute store result score @s tf2.sentry.level run data get storage tf2:summon sentry.level
+execute as @n[tag=tf2.new] run tag @s remove tf2.new

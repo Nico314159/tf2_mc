@@ -27,6 +27,7 @@ scoreboard players set 32 tf2.const 32
 scoreboard players set 100000 tf2.const 100000
 scoreboard players set 800 tf2.const 800
 scoreboard players set 36 tf2.const 36
+scoreboard players set -1500 tf2.const -1500
 scoreboard players set 9000 tf2.const 9000
 scoreboard players set 40 tf2.const 40
 scoreboard players set 300 tf2.const 300
@@ -42,6 +43,7 @@ scoreboard players set -50 tf2.const -50
 scoreboard players set -300 tf2.const -300
 scoreboard players set 600 tf2.const 600
 scoreboard players set 15707 tf2.const 15707
+scoreboard players set 1500 tf2.const 1500
 scoreboard players set 2400 tf2.const 2400
 scoreboard players set 100 tf2.const 100
 scoreboard players set 999 tf2.const 999
@@ -168,6 +170,11 @@ scoreboard objectives add tf2.quaternion_k dummy
 scoreboard objectives add tf2.ang_vel_x dummy
 scoreboard objectives add tf2.ang_vel_y dummy
 scoreboard objectives add tf2.ang_vel_z dummy
+scoreboard objectives add tf2.sentry.target dummy
+scoreboard objectives add tf2.sentry.x dummy
+scoreboard objectives add tf2.sentry.y dummy
+scoreboard objectives add tf2.sentry.z dummy
+scoreboard objectives add tf2.sentry.level dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger

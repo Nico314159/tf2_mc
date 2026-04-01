@@ -1,0 +1,126 @@
+class building.sentry {
+    function spawn_from_chat() {
+        $ summon::sentry.team = $(team);
+        $ summon::sentry.level = $(level);
+        this.spawn();
+    }
+
+    function spawn() {
+        summon item_display ~ ~ ~ {
+            Rotation: [0.0f, 0.0f],
+            Tags: ["tf2.sentry", 'tf2.new'],
+            item: {id: "minecraft:white_dye", components:{
+                "minecraft:item_model": "tf2:building/sentry_gun",
+                "minecraft:custom_model_data": {floats:[1, 1]},
+            }}
+        };
+        execute as @n[tag=tf2.new] expand {
+            @s::item.components."minecraft:custom_model_data".floats[0] = tf2.team:@s = summon::sentry.team;
+            @s::item.components."minecraft:custom_model_data".floats[1] = tf2.sentry.level:@s = summon::sentry.level;
+            tag @s remove tf2.new;
+        }
+    }
+
+    function tick() {
+        tag @s remove tf2.new;
+
+        if (tf2.sentry.target:@s != tf2.sentry.target:@s) {
+            execute at @s run this.find_target();
+        }
+        else {
+            execute at @s run this.track_target();
+        }
+
+        tf2.attack_delay:@s[scores={tf2.attack_delay=1..}] -= 1000;
+    }
+
+    function find_target() {
+        tf2.team:$temp = tf2.team:@s;
+        execute as @e[type=#tf2:player_like, distance=.. SENTRY_RANGE , tag=!tf2.dead]
+                unless entity @s[gamemode=spectator]
+                unless score @s tf2.team = $temp tf2.team
+                run tag @s add tf2.enemy_in_range;
+        if (!entity @e[tag=tf2.enemy_in_range]) {
+            return fail;
+        }
+        
+        tf2.sentry.target:@s = tf2.player.id:@n[tag=tf2.enemy_in_range];
+        tag @e[type=#tf2:player_like] remove tf2.enemy_in_range;
+    }
+
+    function track_target() {
+        tf2.sentry.target:$temp = tf2.sentry.target:@s;
+        execute as @e[type=#tf2:player_like]
+                if score @s tf2.player.id = $temp tf2.sentry.target
+                run tag @s add tf2.sentry_target;
+        if (entity @e[tag=tf2.sentry_target, distance= SENTRY_RANGE ..]) {
+            return run this.clear_target();
+        }
+        if (entity @e[tag=tf2.sentry_target, tag=tf2.dead]) {
+            return run this.clear_target();
+        }
+
+        $x = @s::Pos[0] * 100;
+        $y = @s::Pos[1] * 100;
+        $z = @s::Pos[2] * 100;
+        $input_vec3.X := {@n[tag=tf2.sentry_target]::Pos[0] * 100} - $x;
+        $input_vec3.Y := {@n[tag=tf2.sentry_target]::Pos[1] * 100} - $y;
+        $input_vec3.Z := {@n[tag=tf2.sentry_target]::Pos[2] * 100} - $z;
+        Math.vec_to_gimbal();
+        $d_pitch := ($output_pitch - {@s::Rotation[1] * 100});
+        $d_yaw := ($output_yaw - {@s::Rotation[0] * 100});
+        $correct_pitch = $correct_yaw = false;
+        Hardcode.repeatList((i, gimbal) => {
+            if ($d_$gimbal matches -1500..1500) {
+                @s::Rotation[$i] = 0.01 * (float) $output_$gimbal;
+                $correct_$gimbal = true;
+            }
+            else {
+                $d_$gimbal > -1500;
+                $d_$gimbal < 1500;
+                $new_$gimbal := {@s::Rotation[$i] * 100} + $d_$gimbal;
+                @s::Rotation[$i] = 0.01 * (float) $new_$gimbal;
+            }
+        }, ["yaw", "pitch"]);
+        
+        if ($correct_pitch && $correct_yaw && !tf2.attack_delay:@s) {
+            this.shoot();
+        }
+        tag @e remove tf2.sentry_target;
+    }
+
+    function clear_target() {
+        tf2.sentry.target:@s.reset();
+        tf2.sentry.target:$temp.reset();
+        tag @e remove tf2.sentry_target;
+    }
+
+    function shoot() {
+        if (tf2.attack_delay:@s > 0) {
+            return fail;
+        }
+        execute at @s positioned ~ ~1 ~ anchored eyes
+                facing entity @n[tag=tf2.sentry_target] feet 
+                run Raycast.informational();
+        if (!entity @n[tag=tf2.sentry_target, tag=iris.targeted_entity]) {return fail;}
+
+        vars::distance = iris:output::Distance;
+        $_rangeDependent_ = true;
+        $_damage_ = 16;
+        $_maxRamp_ = 120;
+        Weapons.calculate_falloff();
+        execute at @s positioned ~ ~1 ~ facing entity @n[tag=tf2.sentry_target] feet  run Weapons.draw_line();
+        $_finalDamage_ := ($_damage_ * $_multiplier_ + 99) / 100;
+
+        lookup::damages << {};
+        lookup::damages[-1].cause = tf2.player.id:@s;
+        lookup::damages[-1].target = tf2.player.id:@n[tag=tf2.sentry_target];
+        lookup::damages[-1].amount = $_finalDamage_;
+        lookup::damages[-1].kill_verb = "shot";
+
+        tf2.attack_delay:@s[scores={tf2.sentry.level=1}] += 5000;
+        tf2.attack_delay:@s[scores={tf2.sentry.level=2..3}] += 2500;
+
+        return true;
+    }
+}

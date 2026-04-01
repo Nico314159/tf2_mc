@@ -120,6 +120,11 @@ scoreboard objectives remove tf2.quaternion_k
 scoreboard objectives remove tf2.ang_vel_x
 scoreboard objectives remove tf2.ang_vel_y
 scoreboard objectives remove tf2.ang_vel_z
+scoreboard objectives remove tf2.sentry.target
+scoreboard objectives remove tf2.sentry.x
+scoreboard objectives remove tf2.sentry.y
+scoreboard objectives remove tf2.sentry.z
+scoreboard objectives remove tf2.sentry.level
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.disguise

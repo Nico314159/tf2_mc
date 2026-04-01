@@ -1,6 +1,5 @@
-particle dust{color:[0.0,0.4,1.0],scale:0.9} ^ ^ ^ 0 0 0 0 2 force @a[tag=!tf2.self,tag=!iris.targeted_entity]
-execute if entity @s[distance=..02] run particle dust{color:[0.0,0.4,1.0],scale:0.10} ^ ^ ^ 0 0 0 0 2 force @s
-execute if entity @s[distance=02..05] run particle dust{color:[0.0,0.4,1.0],scale:0.25} ^ ^ ^ 0 0 0 0 2 force @s
-execute if entity @s[distance=05..50] run particle dust{color:[0.0,0.4,1.0],scale:0.55} ^ ^ ^ 0 0 0 0 2 force @s
-execute if entity @s[distance=50..] run particle dust{color:[0.0,0.4,1.0],scale:0.90} ^ ^ ^ 0 0 0 0 2 force @s
-particle dust{color:[0.0,0.4,1.0],scale:0.3} ^ ^ ^ 0 0 0 0 2 force @a[tag=iris.targeted_entity]
+scoreboard players operation $d_yaw tf2.var > -1500 tf2.const
+scoreboard players operation $d_yaw tf2.var < 1500 tf2.const
+execute store result score $new_yaw tf2.var run data get entity @s Rotation[0] 100
+scoreboard players operation $new_yaw tf2.var += $d_yaw tf2.var
+execute store result entity @s Rotation[0] float 0.01 run scoreboard players get $new_yaw tf2.var

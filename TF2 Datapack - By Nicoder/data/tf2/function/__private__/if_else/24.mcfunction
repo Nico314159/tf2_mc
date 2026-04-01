@@ -1,3 +1,2 @@
-execute store result score $mu tf2.var run data get storage tf2:forces collision_friction 1000
-scoreboard players operation $friction tf2.var *= $mu tf2.var
-scoreboard players operation $friction tf2.var /= 1000 tf2.const
+execute if entity @a[tag=iris.executing,scores={tf2.class=2,tf2.time_scoped=4..}] run function tf2:__private__/if_else/23
+execute if score __if_else__ tf2.var matches 0 run scoreboard players set $_multiplier_ tf2.var 100

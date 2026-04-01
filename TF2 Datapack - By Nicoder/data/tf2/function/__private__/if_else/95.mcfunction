@@ -1,6 +1,3 @@
-scoreboard players operation $temp tf2.var = @s tf2.drown_lost
-scoreboard players operation $temp tf2.var < 10 tf2.const
-scoreboard players operation @s tf2.health += $temp tf2.var
-function tf2:player/clamp_health
-scoreboard players operation @s tf2.drown_lost -= $temp tf2.var
-scoreboard players set @s tf2.time_surfaced 0
+kill @e[type=arrow,tag=!tf2.projectile]
+execute if predicate tf2:ammo_in_clip run function tf2:weapons/main_fire
+scoreboard players set __if_else__ tf2.var 1

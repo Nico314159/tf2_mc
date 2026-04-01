@@ -52,6 +52,7 @@ function __tick__() {
     execute as @e[type=item,tag=tf2.pickup] at @s run Pickup.tick();
     execute as @e[type=item_display,tag=tf2.projectile] at @s run Projectile.tick();
     execute as @e[type=item_display,tag=tf2.door] at @s run Door.tick();
+    execute as @e[tag=tf2.sentry] at @s run Building.Sentry.tick();
 
     $flicker = $trigger_reminder = xrroou1m8_p_join:$__global__;
     $flicker %= 20; $trigger_reminder %= 2400;

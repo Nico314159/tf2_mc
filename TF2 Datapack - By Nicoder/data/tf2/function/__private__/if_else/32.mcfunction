@@ -1,4 +1,5 @@
-scoreboard players operation $surface_x tf2.var = @s tf2.collision_x
-scoreboard players set $surface_y tf2.var 0
-scoreboard players set $surface_z tf2.var 0
-function tf2:projectile/roll
+scoreboard players operation @s tf2.mot_x *= -1 tf2.const
+scoreboard players operation @s tf2.mot_z *= -1 tf2.const
+function tf2:projectile/linear_velocity_to_quaternion
+scoreboard players operation @s tf2.mot_x *= -1 tf2.const
+scoreboard players operation @s tf2.mot_z *= -1 tf2.const
