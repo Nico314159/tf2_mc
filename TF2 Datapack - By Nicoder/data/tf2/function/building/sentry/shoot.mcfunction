@@ -1,5 +1,5 @@
 execute if score @s tf2.attack_delay matches 1.. run return fail
-execute at @s anchored eyes facing entity @n[tag=tf2.sentry_target] feet run function tf2:raycast/informational
+execute at @s positioned ~ ~1 ~ anchored eyes facing entity @n[tag=tf2.sentry_target] feet run function tf2:raycast/informational
 execute unless entity @n[tag=tf2.sentry_target,tag=iris.targeted_entity] run return fail
 data modify storage tf2:vars distance set from storage iris:output Distance
 scoreboard players set $_rangeDependent_ tf2.var 1
@@ -18,4 +18,5 @@ execute store result storage tf2:lookup damages[-1].amount int 1 run scoreboard 
 data modify storage tf2:lookup damages[-1].kill_verb set value 'shot'
 scoreboard players add @s[scores={tf2.sentry.level=1}] tf2.attack_delay 5000
 scoreboard players add @s[scores={tf2.sentry.level=2..3}] tf2.attack_delay 2500
+scoreboard players remove @s tf2.primary_ammo 1
 return 1

@@ -25,5 +25,5 @@ execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_e
 scoreboard players set __if_else__ tf2.var 0
 execute if score $d_pitch tf2.var matches -1500..1500 run function tf2:__private__/if_else/12
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/13
-execute if score $correct_pitch tf2.var matches 1.. if score $correct_yaw tf2.var matches 1.. unless score @s tf2.attack_delay matches 1.. run function tf2:building/sentry/shoot
+execute if score $correct_pitch tf2.var matches 1.. if score $correct_yaw tf2.var matches 1.. unless score @s tf2.attack_delay matches 1.. if score @ tf2.primary_ammo matches 1.. run function tf2:building/sentry/shoot
 tag @e remove tf2.sentry_target

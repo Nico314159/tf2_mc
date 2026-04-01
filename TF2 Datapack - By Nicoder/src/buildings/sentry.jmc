@@ -17,6 +17,8 @@ class building.sentry {
         execute as @n[tag=tf2.new] expand {
             @s::item.components."minecraft:custom_model_data".floats[0] = tf2.team:@s = summon::sentry.team;
             @s::item.components."minecraft:custom_model_data".floats[1] = tf2.sentry.level:@s = summon::sentry.level;
+            tf2.primary_ammo:@s = 200;
+            tf2.attack_delay:@s = 0;
             tag @s remove tf2.new;
         }
     }
@@ -83,7 +85,7 @@ class building.sentry {
             }
         }, ["yaw", "pitch"]);
         
-        if ($correct_pitch && $correct_yaw && !tf2.attack_delay:@s) {
+        if ($correct_pitch && $correct_yaw && !tf2.attack_delay:@s && tf2.primary_ammo:@ > 0) {
             this.shoot();
         }
         tag @e remove tf2.sentry_target;
@@ -120,6 +122,7 @@ class building.sentry {
 
         tf2.attack_delay:@s[scores={tf2.sentry.level=1}] += 5000;
         tf2.attack_delay:@s[scores={tf2.sentry.level=2..3}] += 2500;
+        tf2.primary_ammo:@s--;
 
         return true;
     }
