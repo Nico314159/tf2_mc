@@ -19,11 +19,13 @@ execute store result score __temp0__ tf2.var run data get entity @s Rotation[0] 
 scoreboard players operation $d_yaw tf2.var = $output_yaw tf2.var
 scoreboard players operation $d_yaw tf2.var -= __temp0__ tf2.var
 execute store result score $correct_pitch tf2.var run scoreboard players set $correct_yaw tf2.var 0
+execute if score $d_yaw tf2.var matches 18000.. run scoreboard players operation $d_yaw tf2.var *= -1 tf2.const
+execute if score $d_yaw tf2.var matches ..-18000 run scoreboard players add $d_yaw tf2.var 36000
 scoreboard players set __if_else__ tf2.var 0
 execute if score $d_yaw tf2.var matches -1500..1500 run function tf2:__private__/if_else/10
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/11
 scoreboard players set __if_else__ tf2.var 0
 execute if score $d_pitch tf2.var matches -1500..1500 run function tf2:__private__/if_else/12
 execute if score __if_else__ tf2.var matches 0 run function tf2:__private__/if_else/13
-execute if score $correct_pitch tf2.var matches 1.. if score $correct_yaw tf2.var matches 1.. unless score @s tf2.attack_delay matches 1.. if score @ tf2.primary_ammo matches 1.. run function tf2:building/sentry/shoot
+execute if score $correct_pitch tf2.var matches 1.. if score $correct_yaw tf2.var matches 1.. unless score @s tf2.attack_delay matches 1.. if score @s tf2.primary_ammo matches 1.. run function tf2:building/sentry/shoot
 tag @e remove tf2.sentry_target

@@ -72,6 +72,12 @@ class building.sentry {
         $d_pitch := ($output_pitch - {@s::Rotation[1] * 100});
         $d_yaw := ($output_yaw - {@s::Rotation[0] * 100});
         $correct_pitch = $correct_yaw = false;
+        if ($d_yaw >= EVAL(180 * 100)) {
+            $d_yaw *= -1;
+        }
+        if ($d_yaw <= EVAL(-180 * 100)) {
+            $d_yaw += 36000;
+        }
         Hardcode.repeatList((i, gimbal) => {
             if ($d_$gimbal matches -1500..1500) {
                 @s::Rotation[$i] = 0.01 * (float) $output_$gimbal;
@@ -85,7 +91,7 @@ class building.sentry {
             }
         }, ["yaw", "pitch"]);
         
-        if ($correct_pitch && $correct_yaw && !tf2.attack_delay:@s && tf2.primary_ammo:@ > 0) {
+        if ($correct_pitch && $correct_yaw && !tf2.attack_delay:@s && tf2.primary_ammo:@s > 0) {
             this.shoot();
         }
         tag @e remove tf2.sentry_target;
