@@ -46,7 +46,7 @@ Hardcode.repeatList(
         "halt",
         "quaternion_r", "quaternion_i", "quaternion_j", "quaternion_k",
         "ang_vel_x", "ang_vel_y", "ang_vel_z",
-        "sentry.target", "sentry.x", "sentry.y", "sentry.z", "sentry.level"
+        "sentry.target", "sentry.x", "sentry.y", "sentry.z", "sentry.level", "sentry.ticks_idle", "sentry.last_yaw"
     ]
 );
 

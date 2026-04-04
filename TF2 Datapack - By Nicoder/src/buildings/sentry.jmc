@@ -43,11 +43,13 @@ class building.sentry {
                 unless score @s tf2.team = $temp tf2.team
                 run tag @s add tf2.enemy_in_range;
         if (!entity @e[tag=tf2.enemy_in_range]) {
-            return fail;
+            return run this.swivel();
         }
         
+        tf2.sentry.ticks_idle:@s = 0;
         tf2.sentry.target:@s = tf2.player.id:@n[tag=tf2.enemy_in_range];
         tag @e[type=#tf2:player_like] remove tf2.enemy_in_range;
+        return true;
     }
 
     function track_target() {
@@ -100,6 +102,8 @@ class building.sentry {
     function clear_target() {
         tf2.sentry.target:@s.reset();
         tf2.sentry.target:$temp.reset();
+        tf2.sentry.last_yaw:@s = @s::Rotation[0] * 100;
+        tf2.sentry.ticks_idle:@s = 0;
         tag @e remove tf2.sentry_target;
     }
 
@@ -117,7 +121,9 @@ class building.sentry {
         $_damage_ = 16;
         $_maxRamp_ = 120;
         Weapons.calculate_falloff();
-        execute at @s positioned ~ ~1 ~ facing entity @n[tag=tf2.sentry_target] feet  run Weapons.draw_line();
+        execute at @s positioned ~ ~1 ~ 
+                facing entity @n[tag=tf2.sentry_target] feet 
+                run Weapons.draw_line();
         $_finalDamage_ := ($_damage_ * $_multiplier_ + 99) / 100;
 
         lookup::damages << {};
@@ -131,5 +137,27 @@ class building.sentry {
         tf2.primary_ammo:@s--;
 
         return true;
+    }
+
+    function swivel() {
+        $w := (tf2.sentry.ticks_idle:@s + 10) % 40;
+        // --- triangle wave -> W in [0,20]
+        $p = $w;
+        $w := -$w + 40;
+        $p < $w;
+        // --- cubic shaping
+        $w = $p;
+        $p *= $w;
+
+        $yaw := ($p * 135) / 2;
+        $p *= $w;
+        $p *= 9;
+        $p /= 4;
+
+        $yaw := $yaw - $p - 4500 + tf2.sentry.last_yaw:@s;
+        @s::Rotation[0] = 0.01 * (double) $yaw;
+
+        tf2.sentry.ticks_idle:@s++;
+        return false;
     }
 }
