@@ -98,7 +98,13 @@ class building.sentry {
         }
         tag @e remove tf2.sentry_target;
     }
-
+    function target_has_cover() {
+        tf2.sentry.ticks_idle:@s++;
+        if (tf2.sentry.ticks_idle:@s >= 5) {
+            this.clear_target();
+        }
+        return fail;
+    }
     function clear_target() {
         tf2.sentry.target:@s.reset();
         tf2.sentry.target:$temp.reset();
@@ -114,23 +120,25 @@ class building.sentry {
         execute at @s positioned ~ ~1 ~ anchored eyes
                 facing entity @n[tag=tf2.sentry_target] feet 
                 run Raycast.informational();
-        if (!entity @n[tag=tf2.sentry_target, tag=iris.targeted_entity]) {return fail;}
+        if (!entity @n[tag=tf2.sentry_target, tag=iris.targeted_entity]) {
+            return run this.target_has_cover();
+        }
 
-        vars::distance = iris:output::Distance;
+        tf2.team:$current = tf2.team:@s;
+        printf("self &<tf2.team:@s>");
+        printf("current &<tf2.team:$current>");
         $_rangeDependent_ = true;
         $_damage_ = 16;
+        $_range_ = EVAL(SENTRY_RANGE * 1000);
         $_maxRamp_ = 120;
-        Weapons.calculate_falloff();
-        execute at @s positioned ~ ~1 ~ 
+        $_rangeDependent_ = execute unless predicate tf2:uniform_damage;
+        raycast::direction.del();
+        execute at @s positioned ~ ~1 ~
                 facing entity @n[tag=tf2.sentry_target] feet 
-                run Weapons.draw_line();
-        $_finalDamage_ := ($_damage_ * $_multiplier_ + 99) / 100;
-
-        lookup::damages << {};
-        lookup::damages[-1].cause = tf2.player.id:@s;
-        lookup::damages[-1].target = tf2.player.id:@n[tag=tf2.sentry_target];
-        lookup::damages[-1].amount = $_finalDamage_;
-        lookup::damages[-1].kill_verb = "shot";
+                run Raycast.damaging();
+        // execute at @s positioned ~ ~1 ~
+        //         facing entity @n[tag=tf2.sentry_target] feet 
+        //         run Weapons.draw_line();
 
         tf2.attack_delay:@s[scores={tf2.sentry.level=1}] += 5000;
         tf2.attack_delay:@s[scores={tf2.sentry.level=2..3}] += 2500;
@@ -138,7 +146,6 @@ class building.sentry {
 
         return true;
     }
-
     function swivel() {
         $w := (tf2.sentry.ticks_idle:@s + 10) % 40;
         // --- triangle wave -> W in [0,20]

@@ -1,21 +1,16 @@
 execute if score @s tf2.attack_delay matches 1.. run return fail
 execute at @s positioned ~ ~1 ~ anchored eyes facing entity @n[tag=tf2.sentry_target] feet run function tf2:raycast/informational
-execute unless entity @n[tag=tf2.sentry_target,tag=iris.targeted_entity] run return fail
-data modify storage tf2:vars distance set from storage iris:output Distance
+execute unless entity @n[tag=tf2.sentry_target,tag=iris.targeted_entity] run return run function tf2:building/sentry/target_has_cover
+scoreboard players operation $current tf2.team = @s tf2.team
+tellraw @a ["",{"text":"self "},{"score":{"name":"@s","objective":"tf2.team"},"type":"score"}]
+tellraw @a ["",{"text":"current "},{"score":{"name":"$current","objective":"tf2.team"},"type":"score"}]
 scoreboard players set $_rangeDependent_ tf2.var 1
 scoreboard players set $_damage_ tf2.var 16
+scoreboard players set $_range_ tf2.var 20955
 scoreboard players set $_maxRamp_ tf2.var 120
-function tf2:weapons/calculate_falloff
-execute at @s positioned ~ ~1 ~ facing entity @n[tag=tf2.sentry_target] feet run function tf2:weapons/draw_line
-scoreboard players operation $_finalDamage_ tf2.var = $_damage_ tf2.var
-scoreboard players operation $_finalDamage_ tf2.var *= $_multiplier_ tf2.var
-scoreboard players add $_finalDamage_ tf2.var 99
-scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const
-data modify storage tf2:lookup damages append value {}
-execute store result storage tf2:lookup damages[-1].cause int 1 run scoreboard players get @s tf2.player.id
-execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @n[tag=tf2.sentry_target] tf2.player.id
-execute store result storage tf2:lookup damages[-1].amount int 1 run scoreboard players get $_finalDamage_ tf2.var
-data modify storage tf2:lookup damages[-1].kill_verb set value 'shot'
+execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
+data remove storage tf2:raycast direction
+execute at @s positioned ~ ~1 ~ facing entity @n[tag=tf2.sentry_target] feet run function tf2:raycast/damaging
 scoreboard players add @s[scores={tf2.sentry.level=1}] tf2.attack_delay 5000
 scoreboard players add @s[scores={tf2.sentry.level=2..3}] tf2.attack_delay 2500
 scoreboard players remove @s tf2.primary_ammo 1
