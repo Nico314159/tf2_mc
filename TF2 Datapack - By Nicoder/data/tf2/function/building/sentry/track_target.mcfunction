@@ -12,6 +12,7 @@ scoreboard players operation $input_vec3.Y tf2.var -= $y tf2.var
 execute store result score $input_vec3.Z tf2.var run data get entity @n[tag=tf2.sentry_target] Pos[2] 100
 scoreboard players operation $input_vec3.Z tf2.var -= $z tf2.var
 function tf2:math/vec_to_gimbal
+execute unless score $output_pitch tf2.var matches -3000..3000 run return run function tf2:building/sentry/clear_target
 execute store result score __temp0__ tf2.var run data get entity @s Rotation[1] 100
 scoreboard players operation $d_pitch tf2.var = $output_pitch tf2.var
 scoreboard players operation $d_pitch tf2.var -= __temp0__ tf2.var

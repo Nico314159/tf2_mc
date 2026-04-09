@@ -71,6 +71,9 @@ class building.sentry {
         $input_vec3.Y := {@n[tag=tf2.sentry_target]::Pos[1] * 100} - $y;
         $input_vec3.Z := {@n[tag=tf2.sentry_target]::Pos[2] * 100} - $z;
         Math.vec_to_gimbal();
+        if (!$output_pitch matches -3000..3000) {
+            return run this.clear_target();
+        }
         $d_pitch := ($output_pitch - {@s::Rotation[1] * 100});
         $d_yaw := ($output_yaw - {@s::Rotation[0] * 100});
         $correct_pitch = $correct_yaw = false;
