@@ -20,8 +20,11 @@ execute store result score __temp0__ tf2.var run data get entity @s Rotation[0] 
 scoreboard players operation $d_yaw tf2.var = $output_yaw tf2.var
 scoreboard players operation $d_yaw tf2.var -= __temp0__ tf2.var
 execute store result score $correct_pitch tf2.var run scoreboard players set $correct_yaw tf2.var 0
-execute if score $d_yaw tf2.var matches 18000.. run scoreboard players operation $d_yaw tf2.var *= -1 tf2.const
-execute if score $d_yaw tf2.var matches ..-18000 run scoreboard players add $d_yaw tf2.var 36000
+scoreboard players add $d_yaw tf2.var 18000
+scoreboard players operation $d_yaw tf2.var %= 36000 tf2.const
+scoreboard players add $d_yaw tf2.var 36000
+scoreboard players operation $d_yaw tf2.var %= 36000 tf2.const
+scoreboard players remove $d_yaw tf2.var 18000
 scoreboard players operation $turn_speed tf2.var = @s tf2.sentry.level
 scoreboard players add $turn_speed tf2.var 2
 scoreboard players operation $turn_speed tf2.var *= 300 tf2.const

@@ -77,12 +77,8 @@ class building.sentry {
         $d_pitch := ($output_pitch - {@s::Rotation[1] * 100});
         $d_yaw := ($output_yaw - {@s::Rotation[0] * 100});
         $correct_pitch = $correct_yaw = false;
-        if ($d_yaw >= EVAL(180 * 100)) {
-            $d_yaw *= -1;
-        }
-        if ($d_yaw <= EVAL(-180 * 100)) {
-            $d_yaw += 36000;
-        }
+        // force angle into -180..180 range.
+        $d_yaw := ((($d_yaw + 18000) % 36000) + 36000) % 36000 - 18000;
         $turn_speed := (tf2.sentry.level:@s + 2) * 300;
         $minus_turn_speed := -$turn_speed;
         Hardcode.repeatList((i, gimbal) => {

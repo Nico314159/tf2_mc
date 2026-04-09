@@ -24,6 +24,7 @@ scoreboard players set 20 tf2.const 20
 scoreboard players set 1050 tf2.const 1050
 scoreboard players set -100 tf2.const -100
 scoreboard players set 30 tf2.const 30
+scoreboard players set 36000 tf2.const 36000
 scoreboard players set 32 tf2.const 32
 scoreboard players set 100000 tf2.const 100000
 scoreboard players set 800 tf2.const 800
