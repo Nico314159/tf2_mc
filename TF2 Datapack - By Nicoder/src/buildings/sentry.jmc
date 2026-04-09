@@ -83,14 +83,16 @@ class building.sentry {
         if ($d_yaw <= EVAL(-180 * 100)) {
             $d_yaw += 36000;
         }
+        $turn_speed := (tf2.sentry.level:@s + 2) * 300;
+        $minus_turn_speed := -$turn_speed;
         Hardcode.repeatList((i, gimbal) => {
-            if ($d_$gimbal matches -1500..1500) {
+            if ($d_$gimbal < $turn_speed && $d_$gimbal > $minus_turn_speed) {
                 @s::Rotation[$i] = 0.01 * (float) $output_$gimbal;
                 $correct_$gimbal = true;
             }
             else {
-                $d_$gimbal > -1500;
-                $d_$gimbal < 1500;
+                $d_$gimbal > $minus_turn_speed;
+                $d_$gimbal < $turn_speed;
                 $new_$gimbal := {@s::Rotation[$i] * 100} + $d_$gimbal;
                 @s::Rotation[$i] = 0.01 * (float) $new_$gimbal;
             }
