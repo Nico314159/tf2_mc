@@ -105,7 +105,7 @@ class Projectile {
     function spawn_internal() {
         $ summon item_display ^$(spawnX) ^$(spawnY) ^$(spawnZ) {
             Rotation: [0.0f, 0.0f],
-            Tags: ["tf2.projectile", "tf2.new"],
+            Tags: ["tf2.projectile", "tf2.can_be_shot", "tf2.new"],
             item: {id: "minecraft:white_dye", components:{
                 "minecraft:item_model": "tf2:projectile/$(model)",
                 "minecraft:custom_model_data": {strings: [$(team)]},
@@ -558,7 +558,7 @@ class Projectile {
         $ execute at @s 
                   as @e[distance=..$(radius), tag=!tf2.damage_source, tag=tf2.opponent]
                   unless entity @s[type=!#tf2:player_like,type=!minecraft:item_display] 
-                  unless entity @s[type=item_display,tag=!tf2.projectile]
+                  unless entity @s[type=item_display,tag=!tf2.can_be_shot]
                   run this.wall_check();
                         
         tag @s remove iris.ignore;
@@ -591,6 +591,10 @@ class Projectile {
         if (entity @s[type=player,tag=!tf2.hit_by_projectile,tag=iris.targeted_entity]) {
             this.splash_damage();
         } 
+        if (entity @s[type=item_display,tag=tf2.can_be_shot,tag=iris.targeted_entity]
+        && !entity @s[tag=!tf2.sentry, tag=!tf2.dispenser, tag=!tf2.teleporter]) {
+            this.splash_damage();
+        } 
     }
     function splash_damage() {
         $_finalDamage_ = this.calculate_splash();
@@ -609,6 +613,11 @@ class Projectile {
         this.knockback();
     }
     function calculate_splash() {
+        if (entity @s[type=item_display,tag=tf2.can_be_shot,tag=iris.targeted_entity]
+        && !entity @s[tag=!tf2.sentry, tag=!tf2.dispenser, tag=!tf2.teleporter]) {
+            return run $_damage_.get();
+        }
+
         $_centerDist_ = vars::distance * EVAL (1 / 0.01905);
         $_splashEdge_ = vars::radius * EVAL (1 / 0.01905);
         this.pythagorean_3D();

@@ -554,6 +554,9 @@ class Weapons {
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
         execute as @e[type=#tf2:player_like, tag=iris.targeted_entity, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
+        execute as @e[tag=iris.targeted_entity, tag=!tf2.dead, gamemode=!spectator] 
+                unless entity @s[tag=!tf2.sentry, tag=!tf2.dispenser, tag=!tf2.teleporter]
+                run this.apply_damage_to_building();
         execute as @e[type=minecraft:item_display, tag=tf2.projectile, tag=tf2.stuck, tag=iris.targeted_entity] 
                 unless score @s tf2.team = @n[type=#tf2:player_like, tag=iris.executing] tf2.team
                 if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
@@ -649,6 +652,27 @@ class Weapons {
         lookup::damages[-1].cause  = $cause;
         lookup::damages[-1].target = $target;
         lookup::damages[-1].amount = $_finalDamage_;
+        lookup::damages[-1].kill_verb = vars::kill_verb;
+        lookup::damages[-1].weapon = @a[tag=iris.executing, limit=1]::SelectedItem.components.minecraft:custom_name;
+        return true;
+    }
+    function apply_damage_to_building() {
+        tellraw @a "hi";
+        // @within this.damage()
+        if (score @s tf2.team = $current tf2.team) return 0;
+        vars::kill_verb.del();
+
+        $cause = tf2.player.id:@a[tag=iris.executing, limit=1];
+        $target = tf2.player.id:@s;
+        
+        if (Damage.try_merge_into_last()) {
+            return true;
+        }
+
+        lookup::damages << {};
+        lookup::damages[-1].cause  = $cause;
+        lookup::damages[-1].target = $target;
+        lookup::damages[-1].amount = $_damage_;
         lookup::damages[-1].kill_verb = vars::kill_verb;
         lookup::damages[-1].weapon = @a[tag=iris.executing, limit=1]::SelectedItem.components.minecraft:custom_name;
         return true;

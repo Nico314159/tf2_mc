@@ -51,13 +51,13 @@ function iris.raycast.test_for_entity() {
     if (!iris:settings::{TargetEntities: true}) {return fail;}
     execute align xyz
             unless entity @e[type=!#iris:ignore, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=!iris.executing] 
-            unless entity @e[type=item_display, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=tf2.projectile, tag=!iris.executing] 
+            unless entity @e[type=item_display, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=tf2.can_be_shot, tag=!iris.executing] 
             run return fail;
     execute align xyz
             as @e[type=!#iris:ignore, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=!iris.executing] 
             run iris.get_hitbox.entity();
     execute align xyz
-            as @e[type=item_display, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=tf2.projectile, tag=!iris.executing] 
+            as @e[type=item_display, tag=!iris.ignore, dx=0, dy=0, dz=0, tag=tf2.can_be_shot, tag=!iris.executing] 
             run iris.get_hitbox.item_display();
     return run iris.raycast.check_intersection.loop();
 }

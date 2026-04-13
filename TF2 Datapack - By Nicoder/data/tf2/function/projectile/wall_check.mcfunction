@@ -9,3 +9,4 @@ execute if entity @s[type=!player] run return fail
 execute if entity @s[type=player,tag=tf2.hit_by_projectile] run data modify storage tf2:vars distance set value 0
 execute if entity @s[type=player,tag=tf2.hit_by_projectile] run function tf2:projectile/splash_damage
 execute if entity @s[type=player,tag=!tf2.hit_by_projectile,tag=iris.targeted_entity] run function tf2:projectile/splash_damage
+execute if entity @s[type=item_display,tag=tf2.can_be_shot,tag=iris.targeted_entity] unless entity @s[tag=!tf2.sentry,tag=!tf2.dispenser,tag=!tf2.teleporter] run function tf2:projectile/splash_damage

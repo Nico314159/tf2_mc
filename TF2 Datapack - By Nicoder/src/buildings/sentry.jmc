@@ -8,7 +8,7 @@ class building.sentry {
     function spawn() {
         summon item_display ~ ~ ~ {
             Rotation: [0.0f, 0.0f],
-            Tags: ["tf2.sentry", 'tf2.new'],
+            Tags: ["tf2.sentry", 'tf2.can_be_shot', 'tf2.new'],
             item: {id: "minecraft:white_dye", components:{
                 "minecraft:item_model": "tf2:building/sentry_gun",
                 "minecraft:custom_model_data": {floats:[1, 1]},
@@ -19,6 +19,9 @@ class building.sentry {
             @s::item.components."minecraft:custom_model_data".floats[1] = tf2.sentry.level:@s = summon::sentry.level;
             tf2.primary_ammo:@s = 200;
             tf2.attack_delay:@s = 0;
+            tf2.player.id:@s > tf2.player.id:@e;
+            tf2.player.id:@s++;
+            tf2.hitbox:@s = 1500;
             tag @s remove tf2.new;
         }
     }
@@ -42,6 +45,9 @@ class building.sentry {
                 unless entity @s[gamemode=spectator]
                 unless score @s tf2.team = $temp tf2.team
                 run tag @s add tf2.enemy_in_range;
+
+        this.prune_occluded_targets();
+
         if (!entity @e[tag=tf2.enemy_in_range]) {
             return run this.swivel();
         }
@@ -51,7 +57,28 @@ class building.sentry {
         tag @e[type=#tf2:player_like] remove tf2.enemy_in_range;
         return true;
     }
-
+    function prune_occluded_targets() {
+        $in_range_before = execute if entity @e[tag=tf2.enemy_in_range];
+        execute at @s as @n[tag=tf2.enemy_in_range] run {
+            execute at @s run tp ~ ~0.1 ~;
+            tag @s add tf2.self;
+            execute summon marker run Raycast.to_self();
+            vars::distance = iris:output::Distance;
+            tag @s remove tf2.self;
+            execute at @s run tp ~ ~-0.1 ~;
+        }
+        execute as @n[tag=tf2.enemy_in_range] 
+                run tag @s[tag=!iris.targeted_entity] remove tf2.enemy_in_range;
+        $in_range_after = execute if entity @e[tag=tf2.enemy_in_range];
+        
+        if ($in_range_after == $in_range_before) {
+            return 1;
+        }
+        if ($in_range_after == 0) {
+            return 0;
+        }
+        return run this.prune_occluded_targets();
+    }
     function track_target() {
         tf2.sentry.target:$temp = tf2.sentry.target:@s;
         execute as @e[type=#tf2:player_like]
@@ -101,7 +128,7 @@ class building.sentry {
     }
     function target_has_cover() {
         tf2.sentry.ticks_idle:@s++;
-        if (tf2.sentry.ticks_idle:@s >= 5) {
+        if (tf2.sentry.ticks_idle:@s >= 6) {
             this.clear_target();
         }
         return fail;
