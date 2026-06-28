@@ -1,4 +1,4 @@
-execute anchored eyes positioned ^-0.25 ^-0.25 ^ positioned ~ ~ ~ summon minecraft:marker run function tf2:__private__/anonymous/10
+execute positioned ^-0.25 ^-0.25 ^ positioned ~ ~ ~ summon minecraft:marker run function tf2:__private__/anonymous/10
 execute summon marker run function tf2:weapons/get_endpoint
 scoreboard players set $length tf2.var 0
 execute store result score $component tf2.var run data get storage tf2:summon line.endX 1000

@@ -550,7 +550,15 @@ class Weapons {
     }
     function on_hit() {
         vars::distance = iris:output::Distance;
-        execute unless predicate tf2:hide_ammo at @s run Weapons.draw_line();
+        execute unless predicate tf2:hide_ammo 
+                at @s 
+                anchored eyes 
+                run Weapons.draw_line();
+
+        execute at @s[tag=tf2.sentry]
+                positioned ~ ~0.875 ~ 
+                positioned ^0.375 ^ ^0.625 
+                run Weapons.draw_line();
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
         execute as @e[type=#tf2:player_like, tag=iris.targeted_entity, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
@@ -572,7 +580,7 @@ class Weapons {
     }
     function draw_line() {
         // Get weapon position
-        execute anchored eyes positioned ^-0.25 ^-0.25 ^ positioned ~ ~ ~ summon minecraft:marker run {
+        execute positioned ^-0.25 ^-0.25 ^ positioned ~ ~ ~ summon minecraft:marker run {
             summon::line.X = @s::Pos[0];
             summon::line.Y = @s::Pos[1];
             summon::line.Z = @s::Pos[2];

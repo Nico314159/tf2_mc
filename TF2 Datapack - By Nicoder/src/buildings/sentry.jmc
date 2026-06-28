@@ -153,8 +153,6 @@ class building.sentry {
         }
 
         tf2.team:$current = tf2.team:@s;
-        printf("self &<tf2.team:@s>");
-        printf("current &<tf2.team:$current>");
         $_rangeDependent_ = true;
         $_damage_ = 16;
         $_range_ = EVAL(SENTRY_RANGE * 1000);
@@ -164,9 +162,6 @@ class building.sentry {
         execute at @s positioned ~ ~1 ~
                 facing entity @n[tag=tf2.sentry_target] feet 
                 run Raycast.damaging();
-        // execute at @s positioned ~ ~1 ~
-        //         facing entity @n[tag=tf2.sentry_target] feet 
-        //         run Weapons.draw_line();
 
         tf2.attack_delay:@s[scores={tf2.sentry.level=1}] += 5000;
         tf2.attack_delay:@s[scores={tf2.sentry.level=2..3}] += 2500;
