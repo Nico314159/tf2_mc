@@ -166,6 +166,9 @@ class building.sentry {
         tf2.attack_delay:@s[scores={tf2.sentry.level=1}] += 5000;
         tf2.attack_delay:@s[scores={tf2.sentry.level=2..3}] += 2500;
         tf2.primary_ammo:@s--;
+        execute if score @s tf2.sentry.level matches 2..
+                store success score $side tf2.var
+                if score $side tf2.var matches 0;
 
         return true;
     }

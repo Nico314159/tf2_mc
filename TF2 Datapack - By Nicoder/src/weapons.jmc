@@ -555,9 +555,21 @@ class Weapons {
                 anchored eyes 
                 run Weapons.draw_line();
 
-        execute at @s[tag=tf2.sentry]
+        execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=1}]
                 positioned ~ ~0.875 ~ 
-                positioned ^0.375 ^ ^0.625 
+                positioned ^0.375 ^ ^0.25 
+                run Weapons.draw_line();
+
+        execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=2..3}]
+                if score $side tf2.var matches 0
+                positioned ~ ~1 ~ 
+                positioned ^-0.2 ^ ^0.75 
+                run Weapons.draw_line();
+
+        execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=2..3}]
+                if score $side tf2.var matches 1
+                positioned ~ ~1 ~ 
+                positioned ^0.7 ^ ^0.75 
                 run Weapons.draw_line();
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
