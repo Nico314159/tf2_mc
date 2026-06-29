@@ -60,12 +60,12 @@ class building.sentry {
     function prune_occluded_targets() {
         $in_range_before = execute if entity @e[tag=tf2.enemy_in_range];
         execute at @s as @n[tag=tf2.enemy_in_range] run {
-            execute at @s run tp ~ ~0.1 ~;
+            // execute at @s run tp ~ ~0.1 ~;
             tag @s add tf2.self;
             execute summon marker run Raycast.to_self();
             vars::distance = iris:output::Distance;
             tag @s remove tf2.self;
-            execute at @s run tp ~ ~-0.1 ~;
+            // execute at @s run tp ~ ~-0.1 ~;
         }
         execute as @n[tag=tf2.enemy_in_range] 
                 run tag @s[tag=!iris.targeted_entity] remove tf2.enemy_in_range;
