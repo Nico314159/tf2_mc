@@ -1,5 +1,5 @@
 data remove storage tf2:raycast direction
-function tf2:raycast/informational
+execute at @s anchored eyes positioned ^ ^ ^ run function tf2:raycast/informational
 execute unless data storage iris:output {TargetType:"ENTITY"} run return fail
 execute if entity @a[tag=iris.targeted_entity,gamemode=spectator] run return fail
 scoreboard players operation $current tf2.team = @s tf2.team

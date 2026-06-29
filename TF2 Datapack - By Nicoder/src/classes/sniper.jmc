@@ -136,7 +136,7 @@ class Class.Sniper {
         tf2.grace_period:@s = 0;
         tag @s add tf2.scoped;
         raycast::direction.del();
-        Raycast.informational();
+        execute at @s anchored eyes positioned ^ ^ ^ run Raycast.informational();
         execute summon marker run {
             function iris:set_coordinates/main;
             tag @s add tf2.temp;

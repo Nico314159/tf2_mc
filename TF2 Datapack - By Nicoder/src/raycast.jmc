@@ -13,7 +13,7 @@ class Raycast {
         iris:settings::Callback.del();
         iris:settings:: += {MaxRecursionDepth: 127, TargetEntities: true};
         if (!raycast::direction) return run {
-            execute at @s anchored eyes positioned ^ ^ ^ run function iris:get_target;
+            function iris:get_target;
         }
         this.contact() with raycast::direction;
         tag @e remove iris.possible_target;

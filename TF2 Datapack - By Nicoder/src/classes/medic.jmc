@@ -230,7 +230,7 @@ class Class.Medic {
 		tag @s remove self;
 
 		raycast::direction.del();
-		Raycast.informational();
+		execute at @s anchored eyes positioned ^ ^ ^ run Raycast.informational();
 
 		scoreboard players reset @s tf2.heal_target;
 		tf2.heal_target:@s = tf2.player.id:@e[type=#tf2:player_like, tag=tf2.valid_heal_target, tag=iris.targeted_entity];

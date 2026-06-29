@@ -553,23 +553,21 @@ class Weapons {
         execute unless predicate tf2:hide_ammo 
                 at @s 
                 anchored eyes 
+                positioned ^-0.25 ^-0.25 ^
                 run Weapons.draw_line();
 
         execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=1}]
-                positioned ~ ~0.875 ~ 
-                positioned ^0.375 ^ ^0.25 
+                positioned ^0.15 ^0.325 ^0.25 
                 run Weapons.draw_line();
 
         execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=2..3}]
                 if score $side tf2.var matches 0
-                positioned ~ ~1 ~ 
-                positioned ^-0.2 ^ ^0.75 
+                positioned ^-0.45 ^0.4 ^0.8 
                 run Weapons.draw_line();
 
         execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=2..3}]
                 if score $side tf2.var matches 1
-                positioned ~ ~1 ~ 
-                positioned ^0.7 ^ ^0.75 
+                positioned ^0.45 ^0.4 ^0.8
                 run Weapons.draw_line();
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
@@ -592,7 +590,7 @@ class Weapons {
     }
     function draw_line() {
         // Get weapon position
-        execute positioned ^-0.25 ^-0.25 ^ positioned ~ ~ ~ summon minecraft:marker run {
+        execute positioned ~ ~ ~ summon minecraft:marker run {
             summon::line.X = @s::Pos[0];
             summon::line.Y = @s::Pos[1];
             summon::line.Z = @s::Pos[2];
@@ -611,7 +609,7 @@ class Weapons {
             $length += $component;
         }, ["X", "Y", "Z"]);
         $length = Math.sqrt($length);
-        summon::line.scale = 0.002 * (float) $length;
+        summon::line.scale = EVAL(2.01 / 1000) * (float) $length;
 
         execute run {
             $ summon item_display $(X) $(Y) $(Z) {

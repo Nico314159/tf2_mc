@@ -2,7 +2,7 @@ scoreboard players add @s tf2.time_scoped 1
 scoreboard players set @s tf2.grace_period 0
 tag @s add tf2.scoped
 data remove storage tf2:raycast direction
-function tf2:raycast/informational
+execute at @s anchored eyes positioned ^ ^ ^ run function tf2:raycast/informational
 execute summon marker run function tf2:__private__/anonymous/5
 tag @s add tf2.self
 execute at @e[type=marker,tag=tf2.temp] run function tf2:__private__/anonymous/6

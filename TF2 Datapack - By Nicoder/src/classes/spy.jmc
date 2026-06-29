@@ -387,7 +387,7 @@ class Class.Spy {
 
     function determine_backstab() {
         raycast::direction.del();
-        Raycast.informational();
+        execute at @s anchored eyes positioned ^ ^ ^ run Raycast.informational();
         if (!iris:output::{TargetType: "ENTITY"}) {
             return fail;
         }

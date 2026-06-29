@@ -1,6 +1,7 @@
-summon item_display ~ ~ ~ {Rotation:[0.0f,0.0f],Tags:["tf2.sentry","tf2.can_be_shot","tf2.new"],item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:building/sentry_gun","minecraft:custom_model_data":{floats:[1,1]},}}}
+summon item_display ~ ~ ~ {Tags:["tf2.base","iris.ignore"],item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:building/sentry_gun_base","minecraft:custom_model_data":{floats:[1]},}},Passengers:[{id:"minecraft:item_display",Rotation:[0.0f,0.0f],Tags:["tf2.sentry","tf2.can_be_shot","tf2.new"],item:{id:"minecraft:white_dye",components:{"minecraft:item_model":"tf2:building/sentry_gun","minecraft:custom_model_data":{floats:[1,1]},}}}]}
 execute as @n[tag=tf2.new] store result entity @s item.components.minecraft:custom_model_data.floats[0] int 1 run execute store result score @s tf2.team run data get storage tf2:summon sentry.team
 execute as @n[tag=tf2.new] store result entity @s item.components.minecraft:custom_model_data.floats[1] int 1 run execute store result score @s tf2.sentry.level run data get storage tf2:summon sentry.level
+execute as @n[tag=tf2.new] on vehicle run data modify entity @s item.components.minecraft:custom_model_data.floats[0] set from storage tf2:summon sentry.level
 execute as @n[tag=tf2.new] run scoreboard players set @s tf2.primary_ammo 200
 execute as @n[tag=tf2.new] run scoreboard players set @s tf2.attack_delay 0
 execute as @n[tag=tf2.new] run scoreboard players operation @s tf2.player.id > @e tf2.player.id
