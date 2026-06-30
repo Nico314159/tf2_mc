@@ -18,6 +18,7 @@ function __tick__() {
     // @context root
 
     if (!$found_dependency) return fail;
+    // execute as @e[type=item_display, tag=tf2.can_be_shot] run tellraw @a {"nbt":"Tags", "entity":"@s", "color": "red"};
 
     tag @e[type=#tf2:player_like] remove tf2.in_spawn;
 	tf2.lifetime:@e[tag=tf2.visual]--;
@@ -39,6 +40,7 @@ function __tick__() {
     if ($enough_in_queue) {
         execute as @e[type=marker,tag=tf2.batch,tag=!tf2.in_use,sort=random,limit=1] run start_game.as_marker.main();
     }
+    // execute as @e[type=item_display, tag=tf2.can_be_shot] run tellraw @a {"nbt":"Tags", "entity":"@s", "color": "dark_red"};
 
     execute as @e[type=marker] run marker_tick();
 
@@ -53,6 +55,7 @@ function __tick__() {
     execute as @e[type=item_display,tag=tf2.projectile] at @s run Projectile.tick();
     execute as @e[type=item_display,tag=tf2.door] at @s run Door.tick();
     execute as @e[tag=tf2.sentry] at @s run Building.Sentry.tick();
+    // execute as @e[type=item_display, tag=tf2.can_be_shot] run tellraw @a {"nbt":"Tags", "entity":"@s", "color": "green"};
 
     $flicker = $trigger_reminder = xrroou1m8_p_join:$__global__;
     $flicker %= 20; $trigger_reminder %= 2400;
@@ -68,6 +71,8 @@ function __tick__() {
     while (lookup::damages[]) {
         Damage.iterate();
     }
+    tag @e remove iris.executing;
+    // execute as @e[type=item_display, tag=tf2.can_be_shot] run tellraw @a {"nbt":"Tags", "entity":"@s", "color": "dark_green"};
 }
 
 class Damage {
@@ -80,6 +85,11 @@ class Damage {
         execute as @a[tag=tf2.is_playing]
                 if score @s tf2.player.id
                 = $target tf2.var
+                run this.apply();
+
+        execute as @e[type=item_display]
+                unless entity @s[tag=!tf2.sentry, tag=!tf2.dispenser, tag=!tf2.teleporter]
+                if score @s tf2.player.id = $target tf2.var
                 run this.apply();
 
         tag @a remove tf2.cause;

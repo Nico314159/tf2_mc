@@ -3,5 +3,6 @@ execute store result score $target tf2.var run data get storage tf2:lookup damag
 execute store result score $amount tf2.var run data get storage tf2:lookup damages[-1].amount
 execute store result score $instakill tf2.var run data get storage tf2:lookup damage[-1].instakill
 execute as @a[tag=tf2.is_playing] if score @s tf2.player.id = $target tf2.var run function tf2:damage/apply
+execute as @e[type=item_display] unless entity @s[tag=!tf2.sentry,tag=!tf2.dispenser,tag=!tf2.teleporter] if score @s tf2.player.id = $target tf2.var run function tf2:damage/apply
 tag @a remove tf2.cause
 data remove storage tf2:lookup damages[-1]

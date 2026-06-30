@@ -557,24 +557,24 @@ class Weapons {
                 run Weapons.draw_line();
 
         execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=1}]
-                positioned ^0.15 ^0.325 ^0.25 
+                positioned ^0.15 ^0.325 ^0.35 
                 run Weapons.draw_line();
 
         execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=2..3}]
                 if score $side tf2.var matches 0
-                positioned ^-0.45 ^0.4 ^0.8 
+                positioned ^-0.45 ^0.425 ^0.8 
                 run Weapons.draw_line();
 
         execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=2..3}]
                 if score $side tf2.var matches 1
-                positioned ^0.45 ^0.4 ^0.8
+                positioned ^0.45 ^0.425 ^0.8
                 run Weapons.draw_line();
 
         $backstab ?= execute if items entity @s weapon.mainhand minecraft:snowball[minecraft:custom_data~{attributes:{canBackstab: true}}];
-        execute as @e[type=#tf2:player_like, tag=iris.targeted_entity, tag=!tf2.dead, gamemode=!spectator] run this.apply_damage();
-        execute as @e[tag=iris.targeted_entity, tag=!tf2.dead, gamemode=!spectator] 
+        execute as @e[type=#tf2:player_like, tag=iris.targeted_entity, tag=!tf2.dead, gamemode=!spectator] run this.damage_player();
+        execute as @e[tag=iris.targeted_entity, tag=!tf2.dead] 
                 unless entity @s[tag=!tf2.sentry, tag=!tf2.dispenser, tag=!tf2.teleporter]
-                run this.apply_damage_to_building();
+                run this.damage_building();
         execute as @e[type=minecraft:item_display, tag=tf2.projectile, tag=tf2.stuck, tag=iris.targeted_entity] 
                 unless score @s tf2.team = @n[type=#tf2:player_like, tag=iris.executing] tf2.team
                 if data entity @s item.components.minecraft:custom_data.projectile.explode_alt_fire
@@ -635,7 +635,7 @@ class Weapons {
         } with summon::line;
         // summon::line.del();
     }
-    function apply_damage() {
+    function damage_player() {
         // @within this.damage()
         if (score @s tf2.team = $current tf2.team) return 0;
         vars::kill_verb.del();
@@ -674,8 +674,12 @@ class Weapons {
         lookup::damages[-1].weapon = @a[tag=iris.executing, limit=1]::SelectedItem.components.minecraft:custom_name;
         return true;
     }
-    function apply_damage_to_building() {
+    function damage_building() {
         tellraw @a "hi";
+        execute if entity @s[tag=tf2.base]
+                on passengers run 
+                return run this.damage_building();
+
         // @within this.damage()
         if (score @s tf2.team = $current tf2.team) return 0;
         vars::kill_verb.del();
