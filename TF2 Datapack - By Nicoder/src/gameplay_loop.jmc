@@ -360,6 +360,7 @@ class reset {
             else if ($winner matches 1..2) Text.tellraw(@s, "&<!bold,italic>You've failed!");
         }
         tf2.timer:@s = -1;
+        tag @s remove tf2.overtime;
         tag @a remove tf2.current;
     } function as_marker() {
         // Resets gameplay-specific information once a match ends.

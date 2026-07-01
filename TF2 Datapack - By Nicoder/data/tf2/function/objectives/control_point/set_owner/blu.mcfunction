@@ -15,7 +15,6 @@ execute as @e[type=item_display] if score @s tf2.batch_number = $local tf2.batch
 execute if score $last tf2.team = @s tf2.team run return 0
 data modify storage tf2:index team set value 'blu'
 function tf2:objectives/control_point/map_events/handle with storage tf2:index
-execute if entity @s[tag=tf2.overtime] run function tf2:objectives/control_point/cancel_overtime
 execute if score @s tf2.gamemode matches 1 run function tf2:objectives/control_point/on_capture/blu/atk_def
 execute if score @s[tag=!tf2.multistage] tf2.gamemode matches 2 run function tf2:objectives/control_point/on_capture/blu/symmetric
 execute if score @s tf2.gamemode matches 3 run function tf2:objectives/control_point/on_capture/blu/koth

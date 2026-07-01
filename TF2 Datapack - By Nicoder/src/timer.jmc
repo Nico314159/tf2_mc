@@ -18,7 +18,7 @@ class Timer
 
         if (entity @s[tag=!tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.singlestage() with index::;
         // if (entity @s[tag=tf2.multistage,tag=!tf2.overtime,tag=!tf2.setup_time]) Timer.display.multistage() with index::;
-        if (entity @s[tag=tf2.setup_time]) Timer.display.setup_time() with index::;
+        if (entity @s[tag=tf2.setup_time,scores={tf2.timer=0..}]) Timer.display.setup_time() with index::;
         if (entity @s[tag=tf2.overtime]) Timer.display.overtime() with index::;
 
         if (tf2.timer:@s <= 1200) Timer.chat();
@@ -178,8 +178,10 @@ class Timer
     function cancel_overtime() {
         // @needs_macro
         tag @s remove tf2.overtime;
+        tf2.timer:@s++;
         $ bossbar set tf2:timer_$(i) color white;
         $ tf2.max_timer:@s = running_games::$(i).timer * 20;
+        $ tag @e[type=item_display,tag=tf2.control_point,scores={tf2.batch_number=$(i)}] remove tf2.overtime;
         this.set_max() with index::;
         this.set_value() with index::;
     }
@@ -288,6 +290,7 @@ class KOTH_Timer
             execute as @e[type=item_display,tag=tf2.control_point]
                     if score @s tf2.batch_number = $local tf2.batch_number
                     run  tag @s add tf2.current;
+            tag @e[tag=tf2.current,tag=tf2.objective] remove tf2.overtime;
             tf2.red_overtime:@s ?= execute 
                                 as @e[type=item_display,tag=tf2.current,tag=tf2.objective] 
                                 if score @s tf2.red_progress < @s tf2.capture_threshold;
