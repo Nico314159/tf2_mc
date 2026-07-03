@@ -1,5 +1,6 @@
+$execute if entity @s[tag=!tf2.overtime] run tellraw @a[scores={tf2.batch_number=$(i)}] "Overtime."
 tag @s add tf2.overtime
-scoreboard players set @s tf2.timer 1
-$tellraw @a[scores={tf2.batch_number=$(i)}] "Overtime."
 $bossbar set tf2:timer_$(i) color red
-function tf2:timer/set_max with storage tf2:index
+$bossbar set tf2:timer_$(i) max 100
+$bossbar set tf2:timer_$(i) value 0
+tag @e[type=item_display] remove tf2.current

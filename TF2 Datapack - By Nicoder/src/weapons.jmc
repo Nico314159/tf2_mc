@@ -394,19 +394,6 @@ class Weapons {
             default:
             return fail;
         }
-
-        // switch (tf2.class:@s) {
-        //     case Class.SPY: Class.Spy.inventory_lock();
-        //     case Class.SNIPER: Class.Sniper.inventory_lock();
-        //     case Class.SCOUT: Class.Scout.inventory_lock();
-        //     case Class.SOLDIER: Class.Soldier.inventory_lock();
-        //     // case Class.DEMOMAN: Class.Demoman.inventory_lock();
-        //     case Class.HEAVY: Class.Heavy.inventory_lock();
-        //     case Class.PYRO: Class.Pyro.inventory_lock();
-        //     // case Class.ENGINEER: Class.Engineer.inventory_lock();
-        //     // case Class.MEDIC: Class.Medic.inventory_lock();
-        // }
-
     }
     function interpolate_rmb() {
         $the_interpolation = true;
@@ -675,7 +662,6 @@ class Weapons {
         return true;
     }
     function damage_building() {
-        tellraw @a "hi";
         execute if entity @s[tag=tf2.base]
                 on passengers run 
                 return run this.damage_building();

@@ -63,7 +63,7 @@ Player.join(() => {
         (_, tagName) => {
             tag @s remove tf2.$tagName;
         },
-        ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "can_cap", "can_defend", "dead", "disguised"]
+        ["in_queue", "allowed_to_sprint", "is_playing", "random_spread", "random_crits", "free_vote", "can_be_autobalanced", "scoped", "on_point", "can_cap", "can_defend", "dead", "disguised", "humiliation"]
     );
     Hardcode.repeatList(
         (_, objectiveName) => {
@@ -180,6 +180,11 @@ class Player {
         }
         if (tf2.class:@s != Class.SPY) {
             tag @s remove tf2.in_disguise_menu;
+        }
+        if (entity @s[tag=tf2.humiliation]) return run {
+            Text.actionbar(@s, "&<red>❤ Health: &<tf2.health:@s> / &<tf2.max_health:@s>");
+            Hardcode.repeat((I) => {item replace entity @s hotbar.$I with air;}, start=0, stop=9);
+            tag @a remove tf2.current;
         }
 
         JMC.python(`

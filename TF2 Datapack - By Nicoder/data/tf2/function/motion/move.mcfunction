@@ -38,12 +38,12 @@ scoreboard players operation $mot.distance_head_x tf2.var = $mot.head_x tf2.var
 scoreboard players operation $mot.distance_head_x tf2.var %= 1000 tf2.const
 scoreboard players operation $mot.distance_tail_x tf2.var = $mot.tail_x tf2.var
 scoreboard players operation $mot.distance_tail_x tf2.var %= 1000 tf2.const
-execute if score $mot.sign_x tf2.var matches 1 run function tf2:__private__/if_else/50
+execute if score $mot.sign_x tf2.var matches 1 run function tf2:__private__/if_else/49
 scoreboard players operation $mot.distance_head_x tf2.var *= $mot.delta_x tf2.var
 scoreboard players operation $mot.distance_head_x tf2.var /= 1000 tf2.const
 scoreboard players operation $mot.distance_tail_x tf2.var *= $mot.delta_x tf2.var
 scoreboard players operation $mot.distance_tail_x tf2.var /= 1000 tf2.const
-execute if score @s tf2.mot_x matches 0 run function tf2:__private__/if_else/51
+execute if score @s tf2.mot_x matches 0 run function tf2:__private__/if_else/50
 tag @s add tf2.executing_entity
 scoreboard players set @s tf2.collision_y 0
 scoreboard players set @s tf2.collision_entity_y 0
@@ -79,12 +79,12 @@ scoreboard players operation $mot.distance_head_y tf2.var = $mot.head_y tf2.var
 scoreboard players operation $mot.distance_head_y tf2.var %= 1000 tf2.const
 scoreboard players operation $mot.distance_tail_y tf2.var = $mot.tail_y tf2.var
 scoreboard players operation $mot.distance_tail_y tf2.var %= 1000 tf2.const
-execute if score $mot.sign_y tf2.var matches 1 run function tf2:__private__/if_else/52
+execute if score $mot.sign_y tf2.var matches 1 run function tf2:__private__/if_else/51
 scoreboard players operation $mot.distance_head_y tf2.var *= $mot.delta_y tf2.var
 scoreboard players operation $mot.distance_head_y tf2.var /= 1000 tf2.const
 scoreboard players operation $mot.distance_tail_y tf2.var *= $mot.delta_y tf2.var
 scoreboard players operation $mot.distance_tail_y tf2.var /= 1000 tf2.const
-execute if score @s tf2.mot_y matches 0 run function tf2:__private__/if_else/53
+execute if score @s tf2.mot_y matches 0 run function tf2:__private__/if_else/52
 tag @s add tf2.executing_entity
 scoreboard players set @s tf2.collision_z 0
 scoreboard players set @s tf2.collision_entity_z 0
@@ -120,11 +120,11 @@ scoreboard players operation $mot.distance_head_z tf2.var = $mot.head_z tf2.var
 scoreboard players operation $mot.distance_head_z tf2.var %= 1000 tf2.const
 scoreboard players operation $mot.distance_tail_z tf2.var = $mot.tail_z tf2.var
 scoreboard players operation $mot.distance_tail_z tf2.var %= 1000 tf2.const
-execute if score $mot.sign_z tf2.var matches 1 run function tf2:__private__/if_else/54
+execute if score $mot.sign_z tf2.var matches 1 run function tf2:__private__/if_else/53
 scoreboard players operation $mot.distance_head_z tf2.var *= $mot.delta_z tf2.var
 scoreboard players operation $mot.distance_head_z tf2.var /= 1000 tf2.const
 scoreboard players operation $mot.distance_tail_z tf2.var *= $mot.delta_z tf2.var
 scoreboard players operation $mot.distance_tail_z tf2.var /= 1000 tf2.const
-execute if score @s tf2.mot_z matches 0 run function tf2:__private__/if_else/55
+execute if score @s tf2.mot_z matches 0 run function tf2:__private__/if_else/54
 function tf2:motion/initial_position with storage tf2:motion pos
 tag @s remove tf2.executing_entity

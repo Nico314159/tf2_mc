@@ -1,4 +1,5 @@
-scoreboard players operation $impact_velocity tf2.var = $previous_dy tf2.var
-scoreboard players operation $impact_velocity tf2.var += $previous_dy tf2.var
-scoreboard players operation $impact_velocity tf2.var -= $2nd_previous_dy tf2.var
-scoreboard players set __if_else__ tf2.var 1
+execute if entity @s[tag=!tf2.uber_patient] run return fail
+tag @s remove tf2.uber_patient
+item replace entity @s armor.head with air
+item replace entity @s armor.chest with air
+item replace entity @s armor.legs with air

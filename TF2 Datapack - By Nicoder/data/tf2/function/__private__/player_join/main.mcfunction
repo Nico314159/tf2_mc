@@ -41,6 +41,7 @@ tag @s remove tf2.can_cap
 tag @s remove tf2.can_defend
 tag @s remove tf2.dead
 tag @s remove tf2.disguised
+tag @s remove tf2.humiliation
 scoreboard players reset @s tf2.class
 scoreboard players reset @s tf2.health
 scoreboard players reset @s tf2.max_health

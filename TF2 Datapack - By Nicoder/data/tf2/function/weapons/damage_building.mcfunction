@@ -1,4 +1,3 @@
-tellraw @a "hi"
 execute if entity @s[tag=tf2.base] on passengers run return run function tf2:weapons/damage_building
 execute if score @s tf2.team = $current tf2.team run return 0
 data remove storage tf2:vars kill_verb

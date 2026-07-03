@@ -356,8 +356,9 @@ class reset {
         if ($winner == -1) Text.tellraw(@a[tag=tf2.current], "&<gray,italic,stalemate_text>Stalemate....");
 
         execute as @a[tag=tf2.current] run {
-            if (tf2.team:@s == $winner) Text.tellraw(@s, "&<!bold,italic>Victory.");
-            else if ($winner matches 1..2) Text.tellraw(@s, "&<!bold,italic>You've failed!");
+            if (tf2.team:@s == $winner) return run Text.tellraw(@s, "&<!bold,italic>Victory.");
+            if ($winner matches 1..2) Text.tellraw(@s, "&<!bold,italic>You've failed!");
+            tag @s add tf2.humiliation;
         }
         tf2.timer:@s = -1;
         tag @s remove tf2.overtime;
