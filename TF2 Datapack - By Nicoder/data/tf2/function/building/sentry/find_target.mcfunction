@@ -1,5 +1,5 @@
 scoreboard players operation $temp tf2.team = @s tf2.team
-execute as @e[type=#tf2:player_like,distance=..20.955,tag=!tf2.dead] unless entity @s[gamemode=spectator] unless score @s tf2.team = $temp tf2.team run tag @s add tf2.enemy_in_range
+execute as @e[type=#tf2:player_like,distance=..20.955,tag=!tf2.dead] unless entity @s[gamemode=spectator] unless score @s tf2.team = $temp tf2.team unless score @s tf2.disguise.team = $temp tf2.team run tag @s add tf2.enemy_in_range
 function tf2:building/sentry/prune_occluded_targets
 execute unless entity @e[tag=tf2.enemy_in_range] run return run function tf2:building/sentry/swivel
 scoreboard players set @s tf2.sentry.ticks_idle 0

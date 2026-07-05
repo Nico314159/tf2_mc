@@ -496,20 +496,19 @@ class Class.Spy {
         }
 
         $class := tf2.disguise:@s % 10;
-        tf2.disguise.team:@s = $team := tf2.disguise:@s / 10;
-        if ($team == 1) { disguise::team = "red"; }
-        if ($team == 2) { disguise::team = "blu"; }
-        if (! $team matches 1..2) { 
+        tf2.disguise.team:@s := tf2.disguise:@s / 10;
+        if (tf2.disguise.team:@s == 1) { disguise::team = "red"; }
+        if (tf2.disguise.team:@s == 2) { disguise::team = "blu"; }
+        if (! tf2.disguise.team:@s matches 1..2) { 
             $remove_disguise = Text.tellraw(@s, "&<yellow, italic>ERROR: Invalid number. Server restart may be necessary.");
         }
 
-        if ($class == Class.SPY && $team == tf2.team:@s) {
+        if ($class == Class.SPY && tf2.disguise.team:@s == tf2.team:@s) {
             // Disguising as a friendly Spy simply removes your disguise without an error message;
             $remove_disguise = true;
         }
 
         attribute @s minecraft:movement_speed modifier remove tf2:match_disguise_speed;
-        $team.reset();
         if ($remove_disguise) {
             return run this.undisguise();
         }
@@ -579,6 +578,7 @@ class Class.Spy {
     function undisguise() {
         this.title_image();
         tag @s remove tf2.disguised;
+        tf2.disguise.team:@s.reset();
         loot replace entity @s armor.legs loot tf2:class/spy/leg_model;
         loot replace entity @s armor.chest loot tf2:class/spy/chest_model;
         loot replace entity @s armor.head loot tf2:class/spy/head;

@@ -540,7 +540,7 @@ class Projectile {
         }
     }
     function temporal_falloff() {
-        $_multiplier_ := 100 + (-tf2.age:@s * 100 / tf2.lifetime:@s); 
+        $_multiplier_ := 100 + (tf2.age:@s * -100 / tf2.lifetime:@s); 
         $_multiplier_ > 50;
         $_multiplier_ < 100;
     }

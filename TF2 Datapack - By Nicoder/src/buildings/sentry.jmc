@@ -72,6 +72,7 @@ class building.sentry {
         execute as @e[type=#tf2:player_like, distance=.. SENTRY_RANGE , tag=!tf2.dead]
                 unless entity @s[gamemode=spectator]
                 unless score @s tf2.team = $temp tf2.team
+                unless score @s tf2.disguise.team = $temp tf2.team
                 run tag @s add tf2.enemy_in_range;
 
         this.prune_occluded_targets();
