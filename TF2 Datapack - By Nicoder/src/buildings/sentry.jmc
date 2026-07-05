@@ -31,6 +31,7 @@ class building.sentry {
             }]
         };
         $id = tf2.player.id:@s;
+        $batch = tf2.batch_number:@s;
         execute as @n[tag=tf2.new] expand {
             @s::item.components."minecraft:custom_model_data".floats[0] = tf2.team:@s = summon::sentry.team;
             @s::item.components."minecraft:custom_model_data".floats[1] = tf2.sentry.level:@s = summon::sentry.level;
@@ -39,6 +40,7 @@ class building.sentry {
             tf2.attack_delay:@s = 0;
             tf2.player.id:@s > tf2.player.id:@e;
             tf2.player.id:@s++;
+            tf2.batch_number:@s = $batch;
             tf2.hitbox:@s = 1500;
             tf2.health:@s = 150;
             tag @s remove tf2.new;

@@ -487,7 +487,7 @@ class Projectile {
 
         lookup::damages << {};
         lookup::damages[-1].cause = tf2.player.id:@s;
-        lookup::damages[-1].target = tf2.player.id:@p[tag=tf2.hit_by_projectile];
+        lookup::damages[-1].target = tf2.player.id:@n[tag=tf2.hit_by_projectile];
         lookup::damages[-1].amount = $_finalDamage_;
         lookup::damages[-1].kill_verb = "killed";
         lookup::damages[-1].weapon = vars::weapon_name;
@@ -565,12 +565,12 @@ class Projectile {
         tag @a remove tf2.origin;
     }
     function wall_check() {
-        execute at @s run tp ~ ~0.1 ~;
+        execute at @s[type=player] run tp ~ ~0.1 ~;
         tag @s add tf2.self;
         execute summon marker run Raycast.to_self();
         vars::distance = iris:output::Distance;
         tag @s remove tf2.self;
-        execute at @s run tp ~ ~-0.1 ~;
+        execute at @s[type=player] run tp ~ ~-0.1 ~;
 
         // tellraw @a [{"color": "aqua", "text":"My tags are: "}, {'nbt':'Tags', 'entity':'@s'}];
         //  tellraw @a [{"color": "dark_aqua", "text":"My data is: "}, {'nbt':'item.components.minecraft:custom_data.projectile', 'entity':'@s'}];
@@ -579,18 +579,14 @@ class Projectile {
                         item.components.minecraft:custom_data.projectile.explode_alt_fire) return run {
             execute positioned as @n[tag=tf2.origin] run Class.Demoman.unstick_stickybomb();
         }
-        if (entity @s[type=!player]) {
+        if (entity @s[type=!player,predicate=!tf2:is_a_building]) {
             return fail;
         }
 
-        if (entity @s[type=player,tag=tf2.hit_by_projectile]) expand {
+        if (entity @s[tag=tf2.hit_by_projectile]) {
             vars::distance = 0;
-            this.splash_damage();
         }
-        if (entity @s[type=player,tag=!tf2.hit_by_projectile,tag=iris.targeted_entity]) {
-            this.splash_damage();
-        } 
-        if (entity @s[type=item_display,tag=iris.targeted_entity,predicate=tf2:is_a_building]) {
+        if (entity @s[tag=tf2.hit_by_projectile] || entity @s[tag=iris.targeted_entity]) {
             this.splash_damage();
         } 
     }

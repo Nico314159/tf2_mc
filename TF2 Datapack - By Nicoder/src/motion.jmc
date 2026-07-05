@@ -252,6 +252,14 @@ class Motion {
                     unless score @s tf2.team = $current tf2.team
                     at @s 
                     run iris.get_hitbox.item_display();
+
+            execute align xyz
+                    positioned ~-0.001 ~-0.001 ~-0.001
+                    as @e[type=item_display,dx=0.002,dy=0.002,dz=0.002,predicate=tf2:is_a_building]
+                    unless score @s tf2.team = $temp tf2.team
+                    at @s 
+                    run iris.get_hitbox.item_display();
+
         }
 
         // Iterate through the geometry and find the nearest
@@ -315,11 +323,8 @@ class Motion {
                                 $mot.collision_distance_$AXIS = $mot.distance_$AXIS;
                                 $mot.collision_edge_$AXIS = $mot.on_edge;
                                 $mot.collision_entity_$AXIS = $mot.is_entity;
-                                if ($mot.is_entity) expand {
+                                if ($mot.is_entity) {
                                     $id = iris:data::Shape[-1].entity_id; 
-                                    execute as @e
-                                            if score @s iris.id = $id tf2.var
-                                            run tag @s add tf2.hit_by_projectile;
                                 }
                                 if ($mot.sign_$AXIS == 1) {
                                     $mot.collision_surface_$AXIS = $mot.geo_min_$AXIS;
@@ -339,6 +344,9 @@ class Motion {
 
             iris:data::Shape[-1].del();
         }
+        execute as @e
+                if score @s iris.id = $id tf2.var
+                run tag @s add tf2.hit_by_projectile;
     }
 
     // Logic for when the traversal comes to an end

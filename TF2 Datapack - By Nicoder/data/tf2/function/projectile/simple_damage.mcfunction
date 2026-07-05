@@ -10,7 +10,7 @@ scoreboard players add $_finalDamage_ tf2.var 99
 scoreboard players operation $_finalDamage_ tf2.var /= 100 tf2.const
 data modify storage tf2:lookup damages append value {}
 execute store result storage tf2:lookup damages[-1].cause int 1 run scoreboard players get @s tf2.player.id
-execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @p[tag=tf2.hit_by_projectile] tf2.player.id
+execute store result storage tf2:lookup damages[-1].target int 1 run scoreboard players get @n[tag=tf2.hit_by_projectile] tf2.player.id
 execute store result storage tf2:lookup damages[-1].amount int 1 run scoreboard players get $_finalDamage_ tf2.var
 data modify storage tf2:lookup damages[-1].kill_verb set value 'killed'
 data modify storage tf2:lookup damages[-1].weapon set from storage tf2:vars weapon_name
