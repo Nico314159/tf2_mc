@@ -1,4 +1,4 @@
-execute if entity @s[type=item_display,tag=tf2.can_be_shot,tag=iris.targeted_entity] unless entity @s[tag=!tf2.sentry,tag=!tf2.dispenser,tag=!tf2.teleporter] run return run scoreboard players get $_damage_ tf2.var
+execute if entity @s[type=item_display,tag=iris.targeted_entity,predicate=tf2:is_a_building] run return run scoreboard players get $_damage_ tf2.var
 execute store result score $_centerDist_ tf2.var run data get storage tf2:vars distance 52.493
 execute store result score $_splashEdge_ tf2.var run data get storage tf2:vars radius 52.493
 function tf2:projectile/pythagorean_3d

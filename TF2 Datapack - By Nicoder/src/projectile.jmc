@@ -591,8 +591,7 @@ class Projectile {
         if (entity @s[type=player,tag=!tf2.hit_by_projectile,tag=iris.targeted_entity]) {
             this.splash_damage();
         } 
-        if (entity @s[type=item_display,tag=tf2.can_be_shot,tag=iris.targeted_entity]
-        && !entity @s[tag=!tf2.sentry, tag=!tf2.dispenser, tag=!tf2.teleporter]) {
+        if (entity @s[type=item_display,tag=iris.targeted_entity,predicate=tf2:is_a_building]) {
             this.splash_damage();
         } 
     }
@@ -613,8 +612,7 @@ class Projectile {
         this.knockback();
     }
     function calculate_splash() {
-        if (entity @s[type=item_display,tag=tf2.can_be_shot,tag=iris.targeted_entity]
-        && !entity @s[tag=!tf2.sentry, tag=!tf2.dispenser, tag=!tf2.teleporter]) {
+        if (entity @s[type=item_display,tag=iris.targeted_entity,predicate=tf2:is_a_building]) {
             return run $_damage_.get();
         }
 

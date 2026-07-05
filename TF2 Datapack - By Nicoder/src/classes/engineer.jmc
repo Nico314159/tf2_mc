@@ -85,6 +85,20 @@ JMC.python(
     jmc=true
 );
 
+new predicate(is_a_building) {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "minecraft:entity_tags": {
+            "any_of": [
+                "tf2.sentry",
+                "tf2.dispenser",
+                "tf2.teleporter"
+            ]
+        }
+    }
+}
+
 class Class.Engineer {
     function give() {
         tf2.class:@s = Class.ENGINEER;

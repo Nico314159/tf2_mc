@@ -87,8 +87,7 @@ class Damage {
                 = $target tf2.var
                 run this.apply();
 
-        execute as @e[type=item_display]
-                unless entity @s[tag=!tf2.sentry, tag=!tf2.dispenser, tag=!tf2.teleporter]
+        execute as @e[type=item_display,predicate=tf2:is_a_building]
                 if score @s tf2.player.id = $target tf2.var
                 run this.apply();
 
