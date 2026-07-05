@@ -173,7 +173,6 @@ class Projectile {
             this.end_of_life();
         }
        
-        execute as @e[type=#tf2:player_like,tag=tf2.same_batch] run Projectile.remove_tags();
 
         if (entity @s[tag=tf2.delete]) {
             execute on passengers run kill @s;
@@ -564,6 +563,7 @@ class Projectile {
         tag @s remove iris.ignore;
         tag @s remove tf2.damage_source;
         tag @a remove tf2.origin;
+
     }
     function wall_check() {
         execute at @s run tp ~ ~0.1 ~;
