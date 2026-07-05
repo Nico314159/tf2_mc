@@ -496,7 +496,7 @@ class Class.Spy {
         }
 
         $class := tf2.disguise:@s % 10;
-        $team := tf2.disguise:@s / 10;
+        tf2.disguise.team:@s = $team := tf2.disguise:@s / 10;
         if ($team == 1) { disguise::team = "red"; }
         if ($team == 2) { disguise::team = "blu"; }
         if (! $team matches 1..2) { 

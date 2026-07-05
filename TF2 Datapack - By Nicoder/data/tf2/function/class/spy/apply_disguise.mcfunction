@@ -4,7 +4,7 @@ scoreboard players set $remove_disguise tf2.var 0
 execute unless score @s tf2.class matches 1 store result score $remove_disguise tf2.var run tellraw @s {"text":"ERROR: You can't use disguises if you're not playing as the Spy.","color":"yellow","italic":true,"type":"text"}
 scoreboard players operation $class tf2.var = @s tf2.disguise
 scoreboard players operation $class tf2.var %= 10 tf2.const
-scoreboard players operation $team tf2.var = @s tf2.disguise
+execute store result score @s tf2.disguise.team run scoreboard players operation $team tf2.var = @s tf2.disguise
 scoreboard players operation $team tf2.var /= 10 tf2.const
 execute if score $team tf2.var matches 1 run data modify storage tf2:disguise team set value 'red'
 execute if score $team tf2.var matches 2 run data modify storage tf2:disguise team set value 'blu'

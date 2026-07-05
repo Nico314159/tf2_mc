@@ -69,6 +69,7 @@ scoreboard objectives remove tf2.current_air
 scoreboard objectives remove tf2.last_air
 scoreboard objectives remove tf2.is_invisible
 scoreboard objectives remove tf2.cloak
+scoreboard objectives remove tf2.disguise.team
 scoreboard objectives remove tf2.door.wait
 scoreboard objectives remove tf2.door.time_open
 scoreboard objectives remove tf2.door.state
