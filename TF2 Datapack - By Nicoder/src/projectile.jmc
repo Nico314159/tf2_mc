@@ -563,7 +563,6 @@ class Projectile {
         tag @s remove iris.ignore;
         tag @s remove tf2.damage_source;
         tag @a remove tf2.origin;
-
     }
     function wall_check() {
         execute at @s run tp ~ ~0.1 ~;
