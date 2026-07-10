@@ -2,7 +2,7 @@ scoreboard players operation $current tf2.team = @s tf2.team
 scoreboard players operation $current tf2.batch_number = @s tf2.batch_number
 tag @s add self
 execute as @a[tag=!self,distance=..8.572] if score @s tf2.batch_number = $current tf2.batch_number if score @s tf2.team = $current tf2.team run tag @s add tf2.valid_heal_target
-execute as @a[tag=!self,distance=..8.572] if score @s tf2.class matches 1 if score @s tf2.disguise.team = $current tf2.team run tag @s add tf2.valid_heal_target
+execute as @a[tag=!self,distance=..8.572] if score @s[tag=tf2.disguised] tf2.class matches 1 if score @s tf2.disguise.team = $current tf2.team run tag @s add tf2.valid_heal_target
 tag @s remove self
 data remove storage tf2:raycast direction
 execute at @s anchored eyes positioned ^ ^ ^ run function tf2:raycast/informational

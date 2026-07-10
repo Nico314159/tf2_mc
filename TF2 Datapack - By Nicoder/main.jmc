@@ -92,6 +92,7 @@ class Damage {
                 run this.apply();
 
         tag @a remove tf2.cause;
+        tag @e[type=item_display, predicate=tf2:is_a_building] remove tf2.cause;
 
         lookup::damages[-1].del();
     }
@@ -127,15 +128,29 @@ class Damage {
                 if score @s tf2.player.id
                 = $cause tf2.var
                 run tag @s add tf2.cause;
+        execute as @n[predicate=tf2:is_a_building]
+                if score @s tf2.player.id
+                = $cause tf2.var
+                run tag @s add tf2.cause;
 
         if ($instakill) {
             $amount = tf2.health:@s;
         }
         tf2.health:@s -= $amount;
-        damage @s 0.01 tf2:screenshake by @a[tag=tf2.cause, limit=1];
-        if (!entity @a[tag=tf2.cause]) {
+        damage @s 0.01 tf2:screenshake by @n[tag=tf2.cause];
+        if (!entity @e[tag=tf2.cause]) {
             // For afterburn & fall damage
             damage @s 0.01 tf2:screenshake;
+        }
+        execute as @n[tag=tf2.cause,predicate=tf2:is_a_building] run {
+            Building.Sentry.get_owner();
+            tag @p[tag=tf2.owner] add tf2.cause;
+            tag @p[tag=tf2.owner] remove tf2.owner;
+            vars::level = tf2.sentry.level:@s;
+            lookup::damages[-1].weapon = [];
+            lookup::damages[-1].weapon << {text: "Level ", italic: true, color: 'gray'};
+            lookup::damages[-1].weapon << vars::level[0:];
+            lookup::damages[-1].weapon << " Sentry Gun";
         }
         tf2.ticks_since_hurt:@s = 0;
         if (tf2.health:@s < tf2.max_health:@s) {
@@ -165,6 +180,9 @@ class Damage {
         Player.death();
     }
     function death_message() {
+        if (predicate tf2:is_a_building) {
+            return run this.destroyed_building_message();
+        }
         if (lookup::damages[-1].weapon) {
             return run Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s> with &<weapon_name>");
         }
@@ -172,6 +190,16 @@ class Damage {
 		    return run Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<@s>");
         }
         Text.tellraw(@a[tag=tf2.current], "&<@s> &<kill_verb>");
+    }
+    function destroyed_building_message() {
+        Building.sentry.get_owner();
+        if (tf2.team:@s == 1) {
+            Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<red,@s> (&<red,@p[tag=tf2.owner]>) &<reset>with &<weapon_name>");
+        }
+        if (tf2.team:@s == 2) {
+            Text.tellraw(@a[tag=tf2.current], "&<@p[tag=tf2.cause]> &<kill_verb> &<blue,@s> (&<blue,@p[tag=tf2.owner]>) &<reset>with &<weapon_name>");
+        }
+        tag @a remove tf2.owner;
     }
     function try_merge_into_last() {
         if (!lookup::damages[]) {

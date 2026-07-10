@@ -178,6 +178,7 @@ scoreboard objectives add tf2.sentry.z dummy
 scoreboard objectives add tf2.sentry.level dummy
 scoreboard objectives add tf2.sentry.ticks_idle dummy
 scoreboard objectives add tf2.sentry.last_yaw dummy
+scoreboard objectives add tf2.sentry.owner dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger

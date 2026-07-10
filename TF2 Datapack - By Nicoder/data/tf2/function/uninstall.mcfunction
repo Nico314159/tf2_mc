@@ -128,6 +128,7 @@ scoreboard objectives remove tf2.sentry.z
 scoreboard objectives remove tf2.sentry.level
 scoreboard objectives remove tf2.sentry.ticks_idle
 scoreboard objectives remove tf2.sentry.last_yaw
+scoreboard objectives remove tf2.sentry.owner
 scoreboard objectives remove tf2.health
 scoreboard objectives remove tf2.queue_type
 scoreboard objectives remove tf2.disguise

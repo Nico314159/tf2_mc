@@ -1,11 +1,3 @@
-title @s actionbar ["",{"text":"\u2764 Health: ","color":"red","type":"text"},{"score":{"name":"@s","objective":"tf2.health"},"color":"red","type":"score"},{"text":" / ","color":"red"},{"score":{"name":"@s","objective":"tf2.max_health"},"color":"red","type":"score"}]
-item replace entity @s hotbar.0 with air
-item replace entity @s hotbar.1 with air
-item replace entity @s hotbar.2 with air
-item replace entity @s hotbar.3 with air
-item replace entity @s hotbar.4 with air
-item replace entity @s hotbar.5 with air
-item replace entity @s hotbar.6 with air
-item replace entity @s hotbar.7 with air
-item replace entity @s hotbar.8 with air
-tag @a remove tf2.current
+data modify storage tf2:__storage__ currentObject set from storage tf2:check_match UUID
+execute store success score __bool_result__2 tf2.var run data modify storage tf2:__storage__ currentObject set from entity @s Owner
+execute if score __bool_result__2 tf2.var matches 0 run function tf2:__private__/if_else/93

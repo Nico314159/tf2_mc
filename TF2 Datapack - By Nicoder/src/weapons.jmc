@@ -646,7 +646,7 @@ class Weapons {
             vars::kill_verb = "headshot";
         } 
 
-        $cause = tf2.player.id:@a[tag=iris.executing, limit=1];
+        $cause = tf2.player.id:@n[tag=iris.executing];
         $target = tf2.player.id:@s;
         
         if (Damage.try_merge_into_last()) {
@@ -668,7 +668,7 @@ class Weapons {
 
         // @within this.damage()
         if (score @s tf2.team = $current tf2.team) return 0;
-        vars::kill_verb.del();
+        vars::kill_verb = "destroyed";
 
         $cause = tf2.player.id:@a[tag=iris.executing, limit=1];
         $target = tf2.player.id:@s;

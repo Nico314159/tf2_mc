@@ -1,6 +1,6 @@
 execute if entity @s[tag=tf2.base] on passengers run return run function tf2:weapons/damage_building
 execute if score @s tf2.team = $current tf2.team run return 0
-data remove storage tf2:vars kill_verb
+data modify storage tf2:vars kill_verb set value 'destroyed'
 scoreboard players operation $cause tf2.var = @a[tag=iris.executing,limit=1] tf2.player.id
 scoreboard players operation $target tf2.var = @s tf2.player.id
 execute if function tf2:damage/try_merge_into_last run return 1
