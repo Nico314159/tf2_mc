@@ -9,8 +9,8 @@ scoreboard players set $_maxRamp_ tf2.var 120
 execute store result score $_rangeDependent_ tf2.var unless predicate tf2:uniform_damage
 data remove storage tf2:raycast direction
 execute at @s positioned ~ ~.25 ~ facing entity @n[tag=tf2.sentry_target] eyes run function tf2:raycast/damaging
-scoreboard players add @s[scores={tf2.sentry.level=1}] tf2.attack_delay 5000
-scoreboard players add @s[scores={tf2.sentry.level=2..3}] tf2.attack_delay 2500
+scoreboard players add @s[scores={tf2.building.level=1}] tf2.attack_delay 5000
+scoreboard players add @s[scores={tf2.building.level=2..3}] tf2.attack_delay 2500
 scoreboard players remove @s tf2.primary_ammo 1
-execute if score @s tf2.sentry.level matches 2.. store success score $side tf2.var if score $side tf2.var matches 0
+execute if score @s tf2.building.level matches 2.. store success score $side tf2.var if score $side tf2.var matches 0
 return 1

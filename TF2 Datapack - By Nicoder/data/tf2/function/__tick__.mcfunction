@@ -27,6 +27,7 @@ execute as @e[type=item,tag=tf2.pickup] at @s run function tf2:pickup/tick
 execute as @e[type=item_display,tag=tf2.projectile] at @s run function tf2:projectile/tick
 execute as @e[type=item_display,tag=tf2.door] at @s run function tf2:door/tick
 execute as @e[tag=tf2.sentry] at @s run function tf2:building/sentry/tick
+execute as @e[tag=tf2.dispenser] at @s run function tf2:building/dispenser/tick
 execute store result score $flicker tf2.var run scoreboard players operation $trigger_reminder tf2.var = $__global__ xrroou1m8_p_join
 scoreboard players operation $flicker tf2.var %= 20 tf2.const
 scoreboard players operation $trigger_reminder tf2.var %= 2400 tf2.const

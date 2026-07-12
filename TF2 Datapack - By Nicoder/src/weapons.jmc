@@ -543,16 +543,16 @@ class Weapons {
                 positioned ^-0.25 ^-0.25 ^
                 run Weapons.draw_line();
 
-        execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=1}]
+        execute at @s[tag=tf2.sentry,scores={tf2.building.level=1}]
                 positioned ^0.15 ^0.325 ^0.35 
                 run Weapons.draw_line();
 
-        execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=2..3}]
+        execute at @s[tag=tf2.sentry,scores={tf2.building.level=2..3}]
                 if score $side tf2.var matches 0
                 positioned ^-0.45 ^0.425 ^0.8 
                 run Weapons.draw_line();
 
-        execute at @s[tag=tf2.sentry,scores={tf2.sentry.level=2..3}]
+        execute at @s[tag=tf2.sentry,scores={tf2.building.level=2..3}]
                 if score $side tf2.var matches 1
                 positioned ^0.45 ^0.425 ^0.8
                 run Weapons.draw_line();

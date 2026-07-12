@@ -171,14 +171,14 @@ scoreboard objectives add tf2.quaternion_k dummy
 scoreboard objectives add tf2.ang_vel_x dummy
 scoreboard objectives add tf2.ang_vel_y dummy
 scoreboard objectives add tf2.ang_vel_z dummy
-scoreboard objectives add tf2.sentry.target dummy
-scoreboard objectives add tf2.sentry.x dummy
-scoreboard objectives add tf2.sentry.y dummy
-scoreboard objectives add tf2.sentry.z dummy
-scoreboard objectives add tf2.sentry.level dummy
-scoreboard objectives add tf2.sentry.ticks_idle dummy
-scoreboard objectives add tf2.sentry.last_yaw dummy
-scoreboard objectives add tf2.sentry.owner dummy
+scoreboard objectives add tf2.building.target dummy
+scoreboard objectives add tf2.building.x dummy
+scoreboard objectives add tf2.building.y dummy
+scoreboard objectives add tf2.building.z dummy
+scoreboard objectives add tf2.building.level dummy
+scoreboard objectives add tf2.building.ticks_idle dummy
+scoreboard objectives add tf2.building.last_yaw dummy
+scoreboard objectives add tf2.building.owner dummy
 scoreboard objectives add tf2.health dummy "\u2764"
 scoreboard objectives setdisplay below_name tf2.health
 scoreboard objectives add tf2.queue_type trigger

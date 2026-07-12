@@ -1,5 +1,5 @@
-scoreboard players operation $temp tf2.sentry.target = @s tf2.sentry.target
-execute as @e[type=#tf2:player_like] if score @s tf2.player.id = $temp tf2.sentry.target run tag @s add tf2.sentry_target
+scoreboard players operation $temp tf2.building.target = @s tf2.building.target
+execute as @e[type=#tf2:player_like] if score @s tf2.player.id = $temp tf2.building.target run tag @s add tf2.sentry_target
 execute if entity @e[tag=tf2.sentry_target,distance=20.955..] run return run function tf2:building/sentry/clear_target
 execute if entity @e[tag=tf2.sentry_target,tag=tf2.dead] run return run function tf2:building/sentry/clear_target
 execute store result score $x tf2.var run data get entity @s Pos[0] 100
@@ -26,7 +26,7 @@ scoreboard players operation $d_yaw tf2.var %= 36000 tf2.const
 scoreboard players add $d_yaw tf2.var 36000
 scoreboard players operation $d_yaw tf2.var %= 36000 tf2.const
 scoreboard players remove $d_yaw tf2.var 18000
-scoreboard players operation $turn_speed tf2.var = @s tf2.sentry.level
+scoreboard players operation $turn_speed tf2.var = @s tf2.building.level
 scoreboard players add $turn_speed tf2.var 2
 scoreboard players operation $turn_speed tf2.var *= 300 tf2.const
 scoreboard players operation $minus_turn_speed tf2.var = $turn_speed tf2.var

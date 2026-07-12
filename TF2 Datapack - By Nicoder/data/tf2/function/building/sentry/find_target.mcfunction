@@ -3,7 +3,7 @@ execute as @e[type=#tf2:player_like,distance=..20.955,tag=!tf2.dead] unless enti
 execute as @e[tag=tf2.enemy_in_range,tag=tf2.disguised] if score @s tf2.disguise.team = $temp tf2.team run tag @s remove tf2.enemy_in_range
 function tf2:building/sentry/prune_occluded_targets
 execute unless entity @e[tag=tf2.enemy_in_range] run return run function tf2:building/sentry/swivel
-scoreboard players set @s tf2.sentry.ticks_idle 0
-scoreboard players operation @s tf2.sentry.target = @n[tag=tf2.enemy_in_range] tf2.player.id
+scoreboard players set @s tf2.building.ticks_idle 0
+scoreboard players operation @s tf2.building.target = @n[tag=tf2.enemy_in_range] tf2.player.id
 tag @e[type=#tf2:player_like] remove tf2.enemy_in_range
 return 1

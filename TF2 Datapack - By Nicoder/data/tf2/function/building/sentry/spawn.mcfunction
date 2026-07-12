@@ -2,13 +2,13 @@ summon item_display ~ ~1.001 ~ {Tags:["tf2.base","tf2.can_be_shot"],item:{id:"mi
 scoreboard players operation $id tf2.var = @s tf2.player.id
 execute store result score @s tf2.batch_number run scoreboard players operation $batch tf2.var = @s tf2.batch_number
 execute as @n[tag=tf2.new] store result entity @s item.components.minecraft:custom_model_data.floats[0] int 1 run execute store result score @s tf2.team run data get storage tf2:summon sentry.team
-execute as @n[tag=tf2.new] store result entity @s item.components.minecraft:custom_model_data.floats[1] int 1 run execute store result score @s tf2.sentry.level run data get storage tf2:summon sentry.level
+execute as @n[tag=tf2.new] store result entity @s item.components.minecraft:custom_model_data.floats[1] int 1 run execute store result score @s tf2.building.level run data get storage tf2:summon sentry.level
 execute as @n[tag=tf2.new] on vehicle run data modify entity @s item.components.minecraft:custom_model_data.floats[0] set from storage tf2:summon sentry.level
 execute as @n[tag=tf2.new] run scoreboard players set @s tf2.primary_ammo 200
 execute as @n[tag=tf2.new] run scoreboard players set @s tf2.attack_delay 0
 execute as @n[tag=tf2.new] run scoreboard players add $global tf2.player.id 1
 execute as @n[tag=tf2.new] run scoreboard players operation @s tf2.player.id = $global tf2.player.id
-execute as @n[tag=tf2.new] run scoreboard players operation @s tf2.sentry.owner = $id tf2.var
+execute as @n[tag=tf2.new] run scoreboard players operation @s tf2.building.owner = $id tf2.var
 execute as @n[tag=tf2.new] run scoreboard players operation @s tf2.batch_number = $batch tf2.var
 execute as @n[tag=tf2.new] run scoreboard players set @s tf2.hitbox 1500
 execute as @n[tag=tf2.new] run scoreboard players set @s tf2.health 150

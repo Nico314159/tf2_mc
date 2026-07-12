@@ -34,13 +34,13 @@ class building.sentry {
         tf2.batch_number:@s = $batch = tf2.batch_number:@s;
         execute as @n[tag=tf2.new] expand {
             @s::item.components."minecraft:custom_model_data".floats[0] = tf2.team:@s = summon::sentry.team;
-            @s::item.components."minecraft:custom_model_data".floats[1] = tf2.sentry.level:@s = summon::sentry.level;
+            @s::item.components."minecraft:custom_model_data".floats[1] = tf2.building.level:@s = summon::sentry.level;
             execute on vehicle run @s::item.components."minecraft:custom_model_data".floats[0] = summon::sentry.level;
             tf2.primary_ammo:@s = 200;
             tf2.attack_delay:@s = 0;
             tf2.player.id:$global++;
             tf2.player.id:@s = tf2.player.id:$global;
-            tf2.sentry.owner:@s = $id;
+            tf2.building.owner:@s = $id;
             tf2.batch_number:@s = $batch;
             tf2.hitbox:@s = 1500;
             tf2.health:@s = 150;
@@ -53,7 +53,7 @@ class building.sentry {
 
         // execute as @e[type=item_display, tag=tf2.can_be_shot] run tellraw @a {"nbt":"Tags", "entity":"@s", "color": "yellow"};
 
-        if (tf2.sentry.target:@s != tf2.sentry.target:@s) {
+        if (tf2.building.target:@s != tf2.building.target:@s) {
             execute at @s run this.find_target();
         }
         else {
@@ -84,8 +84,8 @@ class building.sentry {
             return run this.swivel();
         }
         
-        tf2.sentry.ticks_idle:@s = 0;
-        tf2.sentry.target:@s = tf2.player.id:@n[tag=tf2.enemy_in_range];
+        tf2.building.ticks_idle:@s = 0;
+        tf2.building.target:@s = tf2.player.id:@n[tag=tf2.enemy_in_range];
         tag @e[type=#tf2:player_like] remove tf2.enemy_in_range;
         return true;
     }
@@ -107,9 +107,9 @@ class building.sentry {
         return run this.prune_occluded_targets();
     }
     function track_target() {
-        tf2.sentry.target:$temp = tf2.sentry.target:@s;
+        tf2.building.target:$temp = tf2.building.target:@s;
         execute as @e[type=#tf2:player_like]
-                if score @s tf2.player.id = $temp tf2.sentry.target
+                if score @s tf2.player.id = $temp tf2.building.target
                 run tag @s add tf2.sentry_target;
         if (entity @e[tag=tf2.sentry_target, distance= SENTRY_RANGE ..]) {
             return run this.clear_target();
@@ -133,7 +133,7 @@ class building.sentry {
         $correct_pitch = $correct_yaw = false;
         // force angle into -180..180 range.
         $d_yaw := ((($d_yaw + 18000) % 36000) + 36000) % 36000 - 18000;
-        $turn_speed := (tf2.sentry.level:@s + 2) * 300;
+        $turn_speed := (tf2.building.level:@s + 2) * 300;
         $minus_turn_speed := -$turn_speed;
         Hardcode.repeatList((i, gimbal) => {
             if ($d_$gimbal < $turn_speed && $d_$gimbal > $minus_turn_speed) {
@@ -155,17 +155,17 @@ class building.sentry {
     }
     function target_has_cover() {
         // say "cover";
-        tf2.sentry.ticks_idle:@s++;
-        if (tf2.sentry.ticks_idle:@s >= 6) {
+        tf2.building.ticks_idle:@s++;
+        if (tf2.building.ticks_idle:@s >= 6) {
             this.clear_target();
         }
         return fail;
     }
     function clear_target() {
-        tf2.sentry.target:@s.reset();
-        tf2.sentry.target:$temp.reset();
-        tf2.sentry.last_yaw:@s = @s::Rotation[0] * 100;
-        tf2.sentry.ticks_idle:@s = 0;
+        tf2.building.target:@s.reset();
+        tf2.building.target:$temp.reset();
+        tf2.building.last_yaw:@s = @s::Rotation[0] * 100;
+        tf2.building.ticks_idle:@s = 0;
         tag @e remove tf2.sentry_target;
     }
 
@@ -191,17 +191,17 @@ class building.sentry {
                 facing entity @n[tag=tf2.sentry_target] eyes 
                 run Raycast.damaging();
 
-        tf2.attack_delay:@s[scores={tf2.sentry.level=1}] += 5000;
-        tf2.attack_delay:@s[scores={tf2.sentry.level=2..3}] += 2500;
+        tf2.attack_delay:@s[scores={tf2.building.level=1}] += 5000;
+        tf2.attack_delay:@s[scores={tf2.building.level=2..3}] += 2500;
         tf2.primary_ammo:@s--;
-        execute if score @s tf2.sentry.level matches 2..
+        execute if score @s tf2.building.level matches 2..
                 store success score $side tf2.var
                 if score $side tf2.var matches 0;
 
         return true;
     }
     function swivel() {
-        $w := (tf2.sentry.ticks_idle:@s + 10) % 40;
+        $w := (tf2.building.ticks_idle:@s + 10) % 40;
         // --- triangle wave -> W in [0,20]
         $p = $w;
         $w := -$w + 40;
@@ -215,10 +215,10 @@ class building.sentry {
         $p *= 9;
         $p /= 4;
 
-        $yaw := $yaw - $p - 4500 + tf2.sentry.last_yaw:@s;
+        $yaw := $yaw - $p - 4500 + tf2.building.last_yaw:@s;
         @s::Rotation[0] = 0.01 * (double) $yaw;
 
-        tf2.sentry.ticks_idle:@s++;
+        tf2.building.ticks_idle:@s++;
         return false;
     }
     function die() {
@@ -228,7 +228,7 @@ class building.sentry {
         // TODO: drop fragments
     }
     function get_owner() {
-        $owner = tf2.sentry.owner:@s;
+        $owner = tf2.building.owner:@s;
         execute as @a[tag=tf2.is_playing]
                 if score @s tf2.player.id
                 = $owner tf2.var
